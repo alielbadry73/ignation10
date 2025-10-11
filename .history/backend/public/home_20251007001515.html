@@ -1,0 +1,3527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - IG Nation Learning Platform</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="style.css?v=5">
+    <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+    <style>
+        /* Reset all margins and padding to eliminate white space */
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Remove any default body margins and ensure no white space */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F8F8F8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Course Card Styles */
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover .course-image img {
+            transform: scale(1.05);
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .featured-badge {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .favorite-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .favorite-button:hover {
+            transform: scale(1.1);
+            background: #dc3545;
+            color: white;
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .course-description {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructor-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructor-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .instructor-info {
+            flex: 1;
+        }
+
+        .instructor-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .instructor-board {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            color: #fbbf24;
+            font-size: 1rem;
+        }
+
+        .rating-text {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .pricing-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .current-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .original-price {
+            font-size: 1rem;
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+
+        .discount-badge {
+            background: #dc2626;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .enroll-button, .cart-button {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .enroll-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .enroll-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .cart-button {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+        }
+
+        .cart-button:hover {
+            background: #1e3d6f;
+            color: white;
+            border-color: #1e3d6f;
+            transform: translateY(-2px);
+        }
+
+        /* Filter Styles */
+        .subject-filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .subject-filter {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-filter:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .subject-filter.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .filter-count {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 8px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .subject-filter.active .filter-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* Sort Option Styles */
+        .sort-option {
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sort-option:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .sort-option.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .subject-filters {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .subject-filter {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+            
+            .sort-section {
+                margin-top: 1rem;
+            }
+            
+            .sort-section .d-flex {
+                justify-content: center !important;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+            }
+        }
+        
+        html {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 1rem;
+            margin-left: 60px; /* Push content to the right to avoid menu icon overlap */
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.5rem;
+        }
+        
+        .welcome-subtext {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .logo-image {
+            height: 35px;
+            width: auto;
+            background: transparent;
+            border: none;
+            padding: 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        .notification-btn, .community-btn, .assignments-btn, .teacher-panel-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .notification-btn:hover, .community-btn:hover, .assignments-btn:hover, .teacher-panel-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification-btn::after, .community-btn::after, .assignments-btn::after, .teacher-panel-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification-btn:hover::after, .community-btn:hover::after, .assignments-btn:hover::after, .teacher-panel-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: white;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .profile-avatar:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-link {
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .profile-link:hover {
+            color: #333;
+        }
+        
+        /* Focus Mode Styling */
+        .focus-mode-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .focus-mode-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .focus-mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .focus-mode-btn.active:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .focus-mode-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .focus-mode-btn:hover::after {
+            opacity: 1;
+        }
+        
+        /* Fix spacing issues */
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        .col-md-6 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        
+        /* Professional Dashboard Component Styling */
+        .card {
+            border: 1px solid #e9ecef;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            background: #ffffff;
+        }
+        
+        .card-header {
+            border-radius: 8px 8px 0 0 !important;
+            border: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.025em;
+            padding: 1rem 1.25rem;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        /* Professional Monthly Calendar Styling */
+        .monthly-calendar {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .calendar-nav {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 1rem;
+            color: #495057;
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            transition: all 0.2s ease;
+        }
+        
+        .calendar-nav:hover {
+            background: #e9ecef;
+            border-color: #adb5bd;
+        }
+        
+        .calendar-title {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: #212529;
+            letter-spacing: 0.025em;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #e9ecef;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #495057;
+            position: relative;
+        }
+        
+        .calendar-day:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .calendar-day.today {
+            background-color: #007bff;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .calendar-day.has-session::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background-color: #28a745;
+            border-radius: 50%;
+        }
+        
+        .calendar-day.has-deadline::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background-color: #dc3545;
+            border-radius: 50%;
+        }
+        
+        .calendar-day.has-both::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(45deg, #28a745 50%, #dc3545 50%);
+            border-radius: 50%;
+        }
+        
+        .day-names {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            margin-bottom: 0;
+            background: #e9ecef;
+            border-radius: 6px 6px 0 0;
+            overflow: hidden;
+        }
+        
+        .day-name {
+            text-align: center;
+            font-weight: 600;
+            color: #6c757d;
+            font-size: 0.75rem;
+            padding: 0.75rem 0.5rem;
+            background: #f8f9fa;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        /* Professional Study Streak Styling */
+        .streak-container {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #34495e;
+        }
+        
+        .streak-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+        
+        .streak-label {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+        
+        .streak-progress {
+            background: rgba(255,255,255,0.15);
+            border-radius: 6px;
+            height: 6px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        
+        .streak-progress-bar {
+            background: linear-gradient(90deg, #3498db 0%, #2ecc71 100%);
+            height: 100%;
+            border-radius: 6px;
+            width: 75%;
+            transition: width 0.3s ease;
+        }
+        
+        /* Professional Video Section Styling */
+        .video-section {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid #2a5298;
+        }
+        
+        .video-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        
+        .video-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.025em;
+        }
+        
+        .video-description {
+            margin-bottom: 1.5rem;
+            opacity: 0.85;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Professional Recent Activity Styling */
+        .activity-item {
+            display: flex;
+            align-items: start;
+            padding: 1.25rem;
+            border-left: 3px solid #e9ecef;
+            margin-bottom: 0.75rem;
+            background: #ffffff;
+            border-radius: 0 6px 6px 0;
+            transition: all 0.2s ease;
+            border: 1px solid #f1f3f4;
+        }
+        
+        .activity-item:hover {
+            transform: translateX(2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left-color: #007bff;
+        }
+        
+        .activity-item.quiz {
+            border-left-color: #007bff;
+        }
+        
+        .activity-item.assignment {
+            border-left-color: #28a745;
+        }
+        
+        .activity-item.lesson {
+            border-left-color: #6c757d;
+        }
+        
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+        
+        .activity-content h6 {
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: #212529;
+        }
+        
+        .activity-content p {
+            margin-bottom: 0.25rem;
+            color: #6c757d;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+        
+        .activity-time {
+            font-size: 0.75rem;
+            color: #adb5bd;
+            font-weight: 500;
+        }
+        
+        /* Professional Course Progress Styling */
+        .course-item {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .course-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: #dee2e6;
+        }
+        
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .course-title {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: #212529;
+            letter-spacing: 0.025em;
+        }
+        
+        .course-subtitle {
+            color: #6c757d;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .course-progress {
+            margin-bottom: 1rem;
+        }
+        
+        .progress {
+            height: 6px;
+            border-radius: 6px;
+            background-color: #f1f3f4;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .course-lessons {
+            color: #6c757d;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        /* Professional To-Do List Styling */
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #ffffff;
+            border: 1px solid #f1f3f4;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .todo-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(2px);
+            border-color: #dee2e6;
+        }
+        
+        .todo-item.completed {
+            opacity: 0.7;
+            background-color: #f8f9fa;
+        }
+        
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        
+        .todo-checkbox {
+            margin-right: 1rem;
+        }
+        
+        .todo-text {
+            flex: 1;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #212529;
+        }
+        
+        .todo-priority {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        .priority-high {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .priority-medium {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .priority-low {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        /* Professional Upcoming Details Styling */
+        .upcoming-item {
+            background: #ffffff;
+            border-left: 3px solid #e9ecef;
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0 6px 6px 0;
+            transition: all 0.2s ease;
+            border: 1px solid #f1f3f4;
+        }
+        
+        .upcoming-item:hover {
+            transform: translateX(2px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        
+        .upcoming-item.urgent {
+            border-left-color: #dc3545;
+        }
+        
+        .upcoming-item.soon {
+            border-left-color: #ffc107;
+        }
+        
+        .upcoming-item.normal {
+            border-left-color: #28a745;
+        }
+        
+        .upcoming-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upcoming-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+            color: #212529;
+        }
+        
+        .upcoming-subtitle {
+            color: #6c757d;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .upcoming-date {
+            font-size: 0.75rem;
+            color: #adb5bd;
+            font-weight: 500;
+        }
+        
+        .upcoming-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        .badge-urgent {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .badge-soon {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .badge-normal {
+            background-color: #28a745;
+            color: white;
+        }
+        
+        /* New Dashboard Structure Styling */
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            height: 100%;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .stat-icon {
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+        
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #f1f3f4;
+            border-radius: 6px;
+            margin-bottom: 0.75rem;
+            transition: all 0.2s ease;
+        }
+        
+        .schedule-item:hover {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+        }
+        
+        .schedule-time {
+            font-weight: 600;
+            color: #007bff;
+            min-width: 80px;
+            font-size: 0.9rem;
+        }
+        
+        .schedule-content {
+            flex: 1;
+            margin: 0 1rem;
+        }
+        
+        .schedule-content h6 {
+            margin-bottom: 0.25rem;
+            font-size: 1rem;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 24px;
+            bottom: -16px;
+            width: 2px;
+            background-color: #e9ecef;
+        }
+        
+        .timeline-marker {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .timeline-content {
+            flex: 1;
+        }
+        
+        .timeline-content h6 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-content p {
+            font-size: 0.85rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .timeline-content small {
+            font-size: 0.75rem;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+        
+        .todo-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        
+        .todo-text {
+            margin-left: 0.75rem;
+            flex: 1;
+        }
+        
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: #495057;
+            font-size: 0.9rem;
+        }
+        
+        .table td {
+            vertical-align: middle;
+            font-size: 0.9rem;
+        }
+        
+        .table-danger {
+            background-color: rgba(220, 53, 69, 0.05);
+        }
+        
+        .table-warning {
+            background-color: rgba(255, 193, 7, 0.05);
+        }
+        
+        
+        /* Left Menu Bar Styling */
+        .left-menu {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            border-right: 1px solid #e9ecef;
+            pointer-events: auto;
+        }
+        
+        .left-menu.open {
+            left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1031;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .menu-icon {
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .menu-content {
+            padding: 2rem 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .menu-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .menu-header h6 {
+            color: #495057;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .menu-courses {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .menu-course-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .menu-course-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .course-icon-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+        }
+        
+        .course-icon-small.math {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        }
+        
+        .course-icon-small.physics {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+        }
+        
+        .course-icon-small.chemistry {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+        }
+        
+        .course-info-small {
+            flex: 1;
+        }
+        
+        .course-name-small {
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tutor-name {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        /* Main content adjustment when menu is open */
+        .main-content-shifted {
+            margin-left: 300px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        
+        /* Monthly Calendar Styling */
+        .calendar-container {
+            background: white;
+        }
+        
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .calendar-day-header {
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #495057;
+            border-right: 1px solid #e9ecef;
+        }
+        
+        .calendar-day-header:last-child {
+            border-right: none;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0;
+        }
+        
+        .calendar-cell {
+            min-height: 80px;
+            padding: 0.5rem;
+            border-right: 1px solid #e9ecef;
+            border-bottom: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            background: white;
+        }
+        
+        .calendar-cell:last-child {
+            border-right: none;
+        }
+        
+        .calendar-cell:hover {
+            background: #f8f9fa;
+        }
+        
+        .calendar-cell.other-month {
+            background: #f8f9fa;
+            color: #adb5bd;
+        }
+        
+        .calendar-cell.today {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+        }
+        
+        .calendar-cell.has-sessions {
+            background: #e3f2fd;
+            border-left: 3px solid #2196f3;
+        }
+        
+        .calendar-date {
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .calendar-session-preview {
+            font-size: 0.7rem;
+            color: #6c757d;
+            line-height: 1.2;
+            max-height: 40px;
+            overflow: hidden;
+        }
+        
+        .session-count {
+            position: absolute;
+            top: 0.25rem;
+            right: 0.25rem;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .calendar-month-year {
+            font-weight: 600;
+            color: #495057;
+            min-width: 120px;
+            text-align: center;
+        }
+        
+        /* Session Detail Modal */
+        .session-detail-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .session-detail-content {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideInUp 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        .session-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .session-detail-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .session-detail-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #6c757d;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+        
+        .session-detail-close:hover {
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .session-item {
+            padding: 1rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .session-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .session-time {
+            font-weight: 600;
+            color: #007bff;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .session-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+        
+        .session-description {
+            color: #6c757d;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .session-instructor {
+            color: #495057;
+            font-size: 0.8rem;
+            font-style: italic;
+        }
+        
+        .session-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        .session-status.live {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .session-status.upcoming {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .session-status.completed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-header .col-md-6 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            
+            .welcome-section {
+                padding-left: 0;
+                margin-left: 50px; /* Reduce margin on mobile */
+            }
+            
+            .d-flex.gap-3 {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.5rem !important;
+            }
+            
+            .calendar-grid {
+                gap: 2px;
+            }
+            
+            .calendar-day {
+                font-size: 0.8rem;
+            }
+            
+            .streak-number {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .welcome-section {
+                margin-left: 40px; /* Further reduce margin on very small screens */
+            }
+            
+            .video-icon {
+                font-size: 3rem;
+            }
+        }
+
+        /* Professional Home Page Styles */
+        .hero-section {
+            padding: 3rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            color: white;
+            margin: 3rem 0;
+        }
+
+        .cta-section h3,
+        .cta-section p {
+            color: white !important;
+        }
+
+        .stats-section {
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+
+        .stat-item {
+            padding: 1rem;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Processing Order Styles */
+        .processing-header {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+        }
+
+        .order-details-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .status-info {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-step {
+            text-align: center;
+        }
+
+        .step-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.2rem;
+        }
+
+        .step-icon.completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-icon.active {
+            background: #f59e0b;
+            color: white;
+            animation: pulse 2s infinite;
+        }
+
+        .step-icon.pending {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Enhanced Order List */
+        .alert-info {
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+        }
+
+        .badge {
+            font-size: 0.8rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .display-4 {
+                font-size: 2.5rem;
+            }
+            
+            .feature-card {
+                margin-bottom: 1.5rem;
+            }
+            
+            .cta-section {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Button Enhancements */
+        .btn {
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-lg {
+            padding: 0.75rem 2rem;
+        }
+
+        /* Loading Animation */
+        .spinner-border {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+<body>
+
+    <!-- Left Menu Bar (hidden if no courses) -->
+    <div class="left-menu" id="leftMenu" style="display: none;">
+        <div class="menu-toggle" onclick="toggleMenu()" id="menuToggleBtn">
+            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+        </div>
+        <div class="menu-content">
+            <div class="menu-header">
+                <h6>My Courses</h6>
+            </div>
+            <div class="menu-courses" id="menuCoursesList">
+                <div class="menu-course-item" onclick="openCourse('mathematics')">
+                    <div class="course-icon-small math">
+                        <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Mathematics IGCSE</div>
+                        <div class="tutor-name">Mr. Johnson</div>
+                    </div>
+                </div>
+                <div class="menu-course-item" onclick="openCourse('physics')">
+                    <div class="course-icon-small physics">
+                        <iconify-icon icon="material-symbols:science"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Physics IGCSE</div>
+                        <div class="tutor-name">Dr. Smith</div>
+                    </div>
+                </div>
+                <div class="menu-course-item" onclick="openCourse('chemistry')">
+                    <div class="course-icon-small chemistry">
+                        <iconify-icon icon="material-symbols:biotech"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Chemistry IGCSE</div>
+                        <div class="tutor-name">Prof. Brown</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Menu Toggle and Welcome Message -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        
+                    <div class="welcome-section">
+                            <h4 class="welcome-text mb-0" id="welcomeMessage">Welcome back, Alex!</h4>
+                            <small class="text-muted" id="welcomeSubtext">Let's start learning mathematics today!</small>
+                        </div>
+                        </div>
+                    </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section" style="margin-right: 2rem;">
+                            <a href="index.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image">
+                            </a>
+                </div>
+                        
+                        <!-- Focus Mode Toggle -->
+                        <div class="focus-mode-section">
+                            <button class="focus-mode-btn" onclick="toggleFocusMode()" id="focusModeToggle" data-tooltip="Focus Mode">
+                                <iconify-icon icon="material-symbols:visibility-off" style="width: 20px; height: 20px;"></iconify-icon>
+                            </button>
+                </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()" data-tooltip="Notifications">
+                                <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
+                                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Mathematics Community Button -->
+                        <div class="community-section">
+                            <button class="btn btn-primary btn-sm community-btn" onclick="openMathematicsCommunity()" data-tooltip="Mathematics Community">
+                                <iconify-icon icon="material-symbols:forum" style="width: 20px; height: 20px; margin-right: 0.25rem;"></iconify-icon>
+                                Math Community
+                            </button>
+                        </div>
+                        
+                        <!-- Profile Section -->
+                        <div class="profile-section">
+                            <div class="dropdown">
+                                <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <div class="profile-avatar" id="headerProfileAvatar" data-tooltip="Profile">
+                                        <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 24px; height: 24px;">
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <!-- Profile Option -->
+                                    <li><a class="dropdown-item" href="student-info.html">
+                                        <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                        Profile
+                                    </a></li>
+                                    
+                                    <!-- How To Option -->
+                                    <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                        <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                        How To
+                                    </a></li>
+                                    
+                                    <li><hr class="dropdown-divider"></li>
+                                    
+                                    <!-- Logout Option -->
+                                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                        <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                        Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- No Courses Section (shown when user has no courses) -->
+    <div class="container py-5" id="noCoursesSection" style="display: none;">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="text-center" style="background: white; padding: 4rem 2rem; border-radius: 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.1);">
+                    <iconify-icon icon="material-symbols:school-outline" style="font-size: 6rem; color: #667eea; margin-bottom: 2rem;"></iconify-icon>
+                    <h2 style="font-weight: 700; color: #333; margin-bottom: 1rem;">No Courses Available</h2>
+                    <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">
+                        You haven't enrolled in any courses yet. Browse our catalog to start your learning journey!
+                    </p>
+                    <a href="courses.html" class="btn btn-lg" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1rem 3rem; border-radius: 50px; font-weight: 600; text-decoration: none;">
+                        <iconify-icon icon="material-symbols:explore" class="me-2"></iconify-icon>
+                        Browse Courses
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <div class="container-fluid py-4" id="mainContent" style="display: none;">
+        <!-- Top Row: Quick Stats & Overview -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <iconify-icon icon="material-symbols:school" class="fs-2"></iconify-icon>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number">3</h3>
+                        <p class="stat-label">Active Courses</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <iconify-icon icon="material-symbols:assignment" class="fs-2"></iconify-icon>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number">7</h3>
+                        <p class="stat-label">Pending Tasks</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <iconify-icon icon="material-symbols:local-fire-department" class="fs-2"></iconify-icon>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number">15</h3>
+                        <p class="stat-label">Study Streak</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <iconify-icon icon="material-symbols:schedule" class="fs-2"></iconify-icon>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-number">2</h3>
+                        <p class="stat-label">Due Today</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="row">
+            <!-- Left Side: Today's Focus -->
+            <div class="col-lg-6">
+                <!-- Monthly Schedule -->
+                <div class="card mb-4">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:calendar-month" class="me-2"></iconify-icon>
+                            Monthly Schedule
+                        </h5>
+                        <div class="calendar-nav">
+                            <button class="btn btn-sm btn-outline-secondary" onclick="previousMonth()">
+                                <iconify-icon icon="material-symbols:chevron-left"></iconify-icon>
+                            </button>
+                            <span class="calendar-month-year" id="currentMonthYear">December 2024</span>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="nextMonth()">
+                                <iconify-icon icon="material-symbols:chevron-right"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <div class="calendar-day-header">Sun</div>
+                                <div class="calendar-day-header">Mon</div>
+                                <div class="calendar-day-header">Tue</div>
+                                <div class="calendar-day-header">Wed</div>
+                                <div class="calendar-day-header">Thu</div>
+                                <div class="calendar-day-header">Fri</div>
+                                <div class="calendar-day-header">Sat</div>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid">
+                                <!-- Calendar cells will be generated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Side: Recent Activity -->
+            <div class="col-lg-6">
+                <!-- Recent Activity -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:history" class="me-2"></iconify-icon>
+                            Recent Activity
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="activity-timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-success"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Quiz Completed</h6>
+                                    <p class="text-muted mb-1">Physics - Mechanics (85%)</p>
+                                    <small class="text-muted">2 hours ago</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-primary"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Assignment Submitted</h6>
+                                    <p class="text-muted mb-1">Mathematics - Algebra (A-)</p>
+                                    <small class="text-muted">1 day ago</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-info"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Lesson Unlocked</h6>
+                                    <p class="text-muted mb-1">Chemistry - Organic Reactions</p>
+                                    <small class="text-muted">2 days ago</small>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-marker bg-warning"></div>
+                                <div class="timeline-content">
+                                    <h6 class="mb-1">Course Started</h6>
+                                    <p class="text-muted mb-1">Biology IGCSE - Introduction</p>
+                                    <small class="text-muted">3 days ago</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Study Streak -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:local-fire-department" class="me-2"></iconify-icon>
+                            Study Streak
+                        </h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="streak-display">
+                            <div class="streak-number">15</div>
+                            <div class="streak-label">Consecutive Days</div>
+                            <div class="streak-progress mt-3">
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar bg-success" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <p class="text-muted mt-2 mb-0">Keep up the great work!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Detailed Views -->
+        <div class="row">
+            <!-- Upcoming Deadlines -->
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:schedule" class="me-2"></iconify-icon>
+                            Upcoming Deadlines
+                        </h5>
+                        <button class="btn btn-sm btn-outline-primary">View All</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Assignment</th>
+                                        <th>Subject</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="table-danger">
+                                        <td>Algebra Chapter 5</td>
+                                        <td>Mathematics</td>
+                                        <td>Dec 15, 2024</td>
+                                        <td><span class="badge bg-danger">Overdue</span></td>
+                                        <td><button class="btn btn-sm btn-outline-danger">Submit</button></td>
+                                    </tr>
+                                    <tr class="table-warning">
+                                        <td>Mechanics Quiz</td>
+                                        <td>Physics</td>
+                                        <td>Dec 18, 2024</td>
+                                        <td><span class="badge bg-warning">Due Soon</span></td>
+                                        <td><button class="btn btn-sm btn-outline-warning">Prepare</button></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lab Report</td>
+                                        <td>Chemistry</td>
+                                        <td>Dec 22, 2024</td>
+                                        <td><span class="badge bg-success">On Track</span></td>
+                                        <td><button class="btn btn-sm btn-outline-success">Continue</button></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Session Detail Modal -->
+    <div class="session-detail-modal" id="sessionDetailModal">
+        <div class="session-detail-content">
+            <div class="session-detail-header">
+                <h3 class="session-detail-title" id="modalDate">December 26, 2024</h3>
+                <button class="session-detail-close" onclick="closeSessionModal()">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                </button>
+            </div>
+            <div id="modalSessions">
+                <!-- Sessions will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <script>
+        // Update user name and welcome message
+        function updateStudentName() {
+            let userName = localStorage.getItem('userName');
+            
+            if (!userName) {
+                const userEmail = localStorage.getItem('userEmail');
+                if (userEmail) {
+                    userName = userEmail.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                } else {
+                    userName = 'User';
+                }
+            }
+            
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const welcomeSubtext = document.getElementById('welcomeSubtext');
+            
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Hello, ${userName}`;
+            }
+            
+            if (welcomeSubtext) {
+                welcomeSubtext.textContent = 'Welcome to your learning dashboard';
+            }
+        }
+
+        // Calendar functionality
+        let currentDate = new Date();
+        
+        function updateCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            
+            document.getElementById('currentMonthYear').textContent = `${monthNames[month]} ${year}`;
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+            
+            const calendarGrid = document.getElementById('calendarGrid');
+            calendarGrid.innerHTML = '';
+            
+            for (let i = 0; i < 42; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = date.getDate();
+                
+                if (date.getMonth() === month) {
+                    if (date.toDateString() === new Date().toDateString()) {
+                        dayElement.classList.add('today');
+                    }
+                    
+                    // Add sample data for demonstration
+                    if (date.getDate() % 7 === 0) {
+                        dayElement.classList.add('has-session');
+                    }
+                    if (date.getDate() % 5 === 0) {
+                        dayElement.classList.add('has-deadline');
+                    }
+                    if (date.getDate() % 7 === 0 && date.getDate() % 5 === 0) {
+                        dayElement.classList.add('has-both');
+                    }
+                } else {
+                    dayElement.style.color = '#adb5bd';
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+        
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            updateCalendar();
+        }
+        
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            updateCalendar();
+        }
+
+
+        
+        // Left Menu Functions
+        function toggleMenu() {
+            const menu = document.getElementById('leftMenu');
+            const mainContent = document.getElementById('mainContent');
+            
+            if (!menu) {
+                console.error('leftMenu element not found');
+                return;
+            }
+            
+            if (!mainContent) {
+                console.error('mainContent element not found');
+                return;
+            }
+            
+            menu.classList.toggle('open');
+            mainContent.classList.toggle('main-content-shifted');
+        }
+        
+        function openCourse(courseType) {
+            const coursePages = {
+                'mathematics': 'course-mathematics.html',
+                'physics': 'course-physics.html',
+                'chemistry': 'course-chemistry.html'
+            };
+            
+            // Redirect to the specific course page
+            window.location.href = coursePages[courseType];
+        }
+        
+        
+        // Make functions globally accessible
+        window.toggleMenu = toggleMenu;
+        
+        // Missing functions for buttons
+        function openNotifications() {
+            window.location.href = 'notifications.html';
+        }
+        
+        function openCommunity() {
+            window.location.href = 'community.html';
+        }
+        
+        function openMathematicsCommunity() {
+            window.location.href = 'community.html';
+        }
+        
+        function openHowToModal() {
+            window.location.href = 'platform-guide.html';
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userEmail');
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Calendar functionality - variables already declared above
+        
+        // Sample session data
+        const sessionData = {
+            '2024-12-26': [
+                {
+                    time: '09:00 AM',
+                    title: 'Mathematics - Algebra Review',
+                    description: 'Advanced algebraic concepts and problem solving',
+                    instructor: 'Mr. Johnson',
+                    status: 'live'
+                },
+                {
+                    time: '11:00 AM',
+                    title: 'Physics - Mechanics Lab',
+                    description: 'Hands-on experiments with motion and forces',
+                    instructor: 'Dr. Smith',
+                    status: 'upcoming'
+                },
+                {
+                    time: '02:00 PM',
+                    title: 'Chemistry - Organic Chemistry',
+                    description: 'Introduction to carbon compounds and reactions',
+                    instructor: 'Prof. Brown',
+                    status: 'upcoming'
+                }
+            ],
+            '2024-12-27': [
+                {
+                    time: '10:00 AM',
+                    title: 'Mathematics - Calculus Basics',
+                    description: 'Introduction to derivatives and limits',
+                    instructor: 'Mr. Johnson',
+                    status: 'upcoming'
+                },
+                {
+                    time: '03:00 PM',
+                    title: 'Physics - Waves and Sound',
+                    description: 'Understanding wave properties and sound phenomena',
+                    instructor: 'Dr. Smith',
+                    status: 'upcoming'
+                }
+            ],
+            '2024-12-28': [
+                {
+                    time: '09:30 AM',
+                    title: 'Chemistry - Chemical Bonding',
+                    description: 'Ionic, covalent, and metallic bonding principles',
+                    instructor: 'Prof. Brown',
+                    status: 'upcoming'
+                }
+            ],
+            '2024-12-30': [
+                {
+                    time: '10:00 AM',
+                    title: 'Mathematics - Trigonometry',
+                    description: 'Trigonometric functions and identities',
+                    instructor: 'Mr. Johnson',
+                    status: 'upcoming'
+                },
+                {
+                    time: '02:30 PM',
+                    title: 'Physics - Electricity and Magnetism',
+                    description: 'Basic principles of electrical circuits',
+                    instructor: 'Dr. Smith',
+                    status: 'upcoming'
+                }
+            ]
+        };
+        
+        
+        function openSessionModal(date, sessions) {
+            const modal = document.getElementById('sessionDetailModal');
+            const modalDate = document.getElementById('modalDate');
+            const modalSessions = document.getElementById('modalSessions');
+            
+            const dateString = date.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            modalDate.textContent = dateString;
+            
+            if (sessions.length === 0) {
+                modalSessions.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <iconify-icon icon="material-symbols:event-available" class="fs-1 mb-3"></iconify-icon>
+                        <p>No sessions scheduled for this day</p>
+                    </div>
+                `;
+            } else {
+                modalSessions.innerHTML = sessions.map(session => `
+                    <div class="session-item">
+                        <div class="session-time">${session.time}</div>
+                        <div class="session-title">${session.title}</div>
+                        <div class="session-description">${session.description}</div>
+                        <div class="session-instructor">${session.instructor}</div>
+                        <span class="session-status ${session.status}">${session.status.charAt(0).toUpperCase() + session.status.slice(1)}</span>
+                    </div>
+                `).join('');
+            }
+            
+            modal.style.display = 'flex';
+        }
+        
+        function closeSessionModal() {
+            const modal = document.getElementById('sessionDetailModal');
+            modal.style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('sessionDetailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSessionModal();
+            }
+        });
+        
+        // Sync enrolled courses from backend
+        async function syncEnrolledCourses() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                console.log('⚠️ No auth token - checking localStorage only');
+                checkEnrolledCourses();
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/my-enrollments', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const enrollments = await response.json();
+                    const courseIds = enrollments.map(e => e.slug || e.title.toLowerCase().replace(/\s+/g, '-'));
+                    localStorage.setItem('enrolledCourses', JSON.stringify(courseIds));
+                    console.log('✅ Synced enrolled courses from backend:', courseIds);
+                    
+                    // Update UI based on enrolled courses
+                    checkEnrolledCourses();
+                } else {
+                    console.log('⚠️ Failed to sync enrollments from backend');
+                    checkEnrolledCourses();
+                }
+            } catch (error) {
+                console.error('Error syncing enrollments:', error);
+                checkEnrolledCourses();
+            }
+        }
+        
+        // Check if user has enrolled courses
+        // Check user state and show appropriate section
+        async function checkEnrolledCourses() {
+            console.log('🔍 Starting checkEnrolledCourses...');
+            
+            // First check localStorage
+            const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
+            console.log('📱 Enrolled courses from localStorage:', enrolledCourses);
+            
+            const leftMenu = document.getElementById('leftMenu');
+            const noCoursesSection = document.getElementById('noCoursesSection');
+            const mainContent = document.getElementById('mainContent');
+            const communitySection = document.getElementById('communitySection');
+            
+            if (enrolledCourses.length > 0) {
+                // User has enrolled courses - redirect to dashboard
+                console.log('✅ User has enrolled courses in localStorage - redirecting to test-dashboard.html');
+                window.location.href = 'test-dashboard.html';
+                return;
+            }
+            
+            // Check backend for fresh data
+            const authToken = localStorage.getItem('authToken');
+            if (authToken) {
+                try {
+                    console.log('🌐 Checking backend for fresh enrollment data...');
+                    const response = await fetch('http://localhost:3000/api/my-enrollments', {
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    });
+                    
+                    if (response.ok) {
+                        const enrollments = await response.json();
+                        console.log('🌐 Fresh enrollments from backend:', enrollments);
+                        
+                        if (enrollments.length > 0) {
+                            // User has courses - update localStorage and redirect
+                            const enrolledCourseIds = enrollments.map(e => e.id);
+                            localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourseIds));
+                            
+                            console.log('✅ Fresh courses found! Redirecting to test-dashboard.html');
+                            window.location.href = 'test-dashboard.html';
+                            return;
+                        }
+                    } else {
+                        console.error('❌ Failed to fetch enrollments:', response.status);
+                    }
+                } catch (error) {
+                    console.error('❌ Error fetching enrollments:', error);
+                }
+            }
+            
+        // Check for pending orders
+        console.log('🔍 Checking for pending orders...');
+        const pendingOrders = await checkPendingOrders();
+        console.log('📋 Pending orders result:', pendingOrders);
+        
+        if (pendingOrders.length > 0) {
+            // User has pending orders - show "working on your order" message
+            console.log('⏳ User has pending orders - showing working message');
+            showPendingOrdersMessage(pendingOrders);
+        } else {
+            // No courses and no pending orders - show "no courses available"
+            console.log('❌ No courses and no pending orders - showing empty state');
+            showNoCoursesMessage();
+        }
+        }
+
+        // Show "No Courses Available" message for new users
+        function showNoCoursesMessage() {
+            const leftMenu = document.getElementById('leftMenu');
+            const noCoursesSection = document.getElementById('noCoursesSection');
+            const mainContent = document.getElementById('mainContent');
+            const communitySection = document.getElementById('communitySection');
+            
+            // Hide other sections
+            if (leftMenu) leftMenu.style.display = 'none';
+            if (mainContent) mainContent.style.display = 'none';
+            if (communitySection) communitySection.style.display = 'none';
+            
+            // Show no courses section
+            if (noCoursesSection) {
+                noCoursesSection.innerHTML = `
+                    <div class="container-fluid py-5">
+                        <!-- Hero Section -->
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 text-center">
+                                <div class="hero-section mb-5">
+                                    <div class="hero-icon mb-4">
+                                        <i class="bi bi-mortarboard-fill" style="font-size: 5rem; color: #4f46e5; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                                    </div>
+                                    <h1 class="display-4 fw-bold mb-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Welcome to IG Nation</h1>
+                                    <p class="lead text-muted mb-4">Your gateway to academic excellence. Start your learning journey with our comprehensive IGCSE courses.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Call to Action -->
+                        <div class="cta-section">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6 text-center">
+                                    <h3 class="mb-4">Ready to Start Learning?</h3>
+                                    <p class="text-muted mb-4">Join thousands of students who have achieved their academic goals with IG Nation.</p>
+                                    
+                                    <div class="d-flex flex-wrap gap-3 justify-content-center">
+                                        <a href="courses.html" class="btn btn-primary btn-lg px-4 py-3">
+                                            <i class="bi bi-search me-2"></i> Browse Courses
+                                        </a>
+                                        <button class="btn btn-outline-success btn-lg px-4 py-3" onclick="checkForApproval()">
+                                            <i class="bi bi-arrow-right-circle me-2"></i> Check My Courses
+                                        </button>
+                                        <button class="btn btn-outline-warning btn-lg px-4 py-3" onclick="debugCheckEnrollments()">
+                                            <i class="bi bi-bug me-2"></i> Debug Check
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+  <!-- Courses Page Content -->
+  <section id="courses-content" class="padding-medium" style="background: #f8fafc; padding: 80px 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">All Courses</h2>
+        <p class="section-subtitle">Explore our comprehensive collection of IGCSE courses designed by expert educators.</p>
+      </div>
+      
+      <!-- Course Filter and Sort Section -->
+      <div class="row mb-5">
+        <div class="col-12">
+          <div class="course-controls" style="background: white; padding: 2.5rem; border-radius: 24px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); margin-bottom: 3rem; border: 1px solid rgba(102, 126, 234, 0.1);">
+            <div class="row align-items-center">
+              <div class="col-lg-8 mb-4 mb-lg-0">
+                <div class="filter-section">
+                  <div class="d-flex align-items-center mb-3">
+                    <iconify-icon icon="material-symbols:filter-list" class="me-2" style="color: #667eea; font-size: 1.5rem;"></iconify-icon>
+                    <h5 class="mb-0" style="color: #1e293b; font-weight: 700;">Filter by Subject</h5>
+                  </div>
+                  <div class="subject-filters">
+                    <button class="subject-filter active" data-filter="*">
+                      <iconify-icon icon="material-symbols:apps" class="me-2"></iconify-icon>
+                      All Courses
+                      <span class="filter-count" id="all-count">3</span>
+                    </button>
+                    <button class="subject-filter" data-filter=".mathematics">
+                      <iconify-icon icon="material-symbols:calculate" class="me-2"></iconify-icon>
+                      Mathematics
+                      <span class="filter-count" id="math-count">1</span>
+                    </button>
+                    <button class="subject-filter" data-filter=".physics">
+                      <iconify-icon icon="material-symbols:science" class="me-2"></iconify-icon>
+                      Physics
+                      <span class="filter-count" id="physics-count">1</span>
+                    </button>
+                    <button class="subject-filter" data-filter=".chemistry">
+                      <iconify-icon icon="material-symbols:biotech" class="me-2"></iconify-icon>
+                      Chemistry
+                      <span class="filter-count" id="chemistry-count">0</span>
+                    </button>
+                    <button class="subject-filter" data-filter=".english">
+                      <iconify-icon icon="material-symbols:menu-book" class="me-2"></iconify-icon>
+                      English
+                      <span class="filter-count" id="english-count">1</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="sort-section">
+                  <div class="d-flex align-items-center justify-content-end mb-3">
+                    <h6 class="mb-0 me-3" style="color: #64748b; font-weight: 600;">Sort:</h6>
+                    <button class="sort-option active" data-sort="featured" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+                      <iconify-icon icon="material-symbols:star" class="me-2"></iconify-icon>
+                      Featured
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4 isotope-container">
+        <div class="col-md-4 item mathematics">
+          <div class="course-card">
+            <div class="course-image">
+              <a href="courses-details.html">
+                <img src="images/teacher1.png" class="img-fluid" alt="IGCSE Mathematics Course">
+              </a>
+              <div class="course-badge featured-badge">
+                <iconify-icon icon="material-symbols:star" class="me-1"></iconify-icon>
+                Featured
+              </div>
+              <button class="favorite-button" data-course="mathematics" onclick="toggleFavorite('mathematics')">
+                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+              </button>
+            </div>
+            <div class="course-content">
+              <a href="courses-details.html" style="text-decoration: none;">
+                <h5 class="course-title">IGCSE Mathematics (Extended)</h5>
+              </a>
+              <p class="course-description">Master advanced mathematical concepts with comprehensive coverage of IGCSE Extended Mathematics curriculum.</p>
+              
+              <div class="instructor-card">
+                <div class="instructor-avatar">SM</div>
+                <div class="instructor-info">
+                  <p class="instructor-name">Dr. Sarah Mitchell</p>
+                  <p class="instructor-board">Cambridge Board</p>
+                </div>
+              </div>
+              
+              <div class="rating-section">
+                <div class="star-rating">
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                </div>
+                <span class="rating-text">4.9 (127 reviews)</span>
+              </div>
+              
+              <div class="pricing-section">
+                <div class="price-container">
+                  <span class="current-price">£299.00</span>
+                  <span class="original-price">£399.00</span>
+                </div>
+                <div class="discount-badge">25% OFF</div>
+              </div>
+              
+              <div class="course-actions">
+                <button onclick="enrollInCourse('mathematics')" class="enroll-button">
+                  <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                  Enroll Now
+                </button>
+                <button class="cart-button" data-course="mathematics" onclick="addToCart('mathematics')">
+                  <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 item physics">
+          <div class="course-card">
+            <div class="course-image">
+              <a href="course-details.html?course=physics">
+                <img src="images/teacher2.png" class="img-fluid" alt="IGCSE Physics Course">
+              </a>
+              <div class="course-badge">
+                <iconify-icon icon="material-symbols:science" class="me-1"></iconify-icon>
+                Popular
+              </div>
+              <button class="favorite-button" data-course="physics" onclick="toggleFavorite('physics')">
+                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+              </button>
+            </div>
+            <div class="course-content">
+              <a href="course-details.html?course=physics" style="text-decoration: none;">
+                <h5 class="course-title">IGCSE Physics (Extended)</h5>
+              </a>
+              <p class="course-description">Master fundamental physics concepts with comprehensive coverage of IGCSE Extended Physics curriculum including mechanics, waves, and electricity.</p>
+              
+              <div class="instructor-card">
+                <div class="instructor-avatar">MC</div>
+                <div class="instructor-info">
+                  <p class="instructor-name">Prof. Michael Chen</p>
+                  <p class="instructor-board">Edexcel Board</p>
+                </div>
+              </div>
+              
+              <div class="rating-section">
+                <div class="star-rating">
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                </div>
+                <span class="rating-text">4.8 (98 reviews)</span>
+              </div>
+              
+              <div class="pricing-section">
+                <div class="price-container">
+                  <span class="current-price">£279.00</span>
+                  <span class="original-price">£349.00</span>
+                </div>
+                <div class="discount-badge">20% OFF</div>
+              </div>
+              
+              <div class="course-actions">
+                <button onclick="enrollInCourse('physics')" class="enroll-button">
+                  <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                  Enroll Now
+                </button>
+                <button class="cart-button" data-course="physics" onclick="addToCart('physics')">
+                  <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 item english">
+          <div class="course-card">
+            <div class="course-image">
+              <a href="course-details.html?course=english">
+                <img src="images/teacher3.png" class="img-fluid" alt="IGCSE English Language Course">
+              </a>
+              <div class="course-badge featured-badge">
+                <iconify-icon icon="material-symbols:star" class="me-1"></iconify-icon>
+                Featured
+              </div>
+              <button class="favorite-button" data-course="english" onclick="toggleFavorite('english')">
+                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+              </button>
+            </div>
+            <div class="course-content">
+              <a href="course-details.html?course=english" style="text-decoration: none;">
+                <h5 class="course-title">IGCSE English Language</h5>
+              </a>
+              <p class="course-description">Master English language skills with comprehensive coverage of reading, writing, speaking, and listening for IGCSE success.</p>
+              
+              <div class="instructor-card">
+                <div class="instructor-avatar">ER</div>
+                <div class="instructor-info">
+                  <p class="instructor-name">Dr. Emily Rodriguez</p>
+                  <p class="instructor-board">Cambridge Board</p>
+                </div>
+              </div>
+              
+              <div class="rating-section">
+                <div class="star-rating">
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                </div>
+                <span class="rating-text">4.9 (156 reviews)</span>
+              </div>
+              
+              <div class="pricing-section">
+                <div class="price-container">
+                  <span class="current-price">£249.00</span>
+                  <span class="original-price">£329.00</span>
+                </div>
+                <div class="discount-badge">24% OFF</div>
+              </div>
+              
+              <div class="course-actions">
+                <button onclick="enrollInCourse('english')" class="enroll-button">
+                  <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                  Enroll Now
+                </button>
+                <button class="cart-button" data-course="english" onclick="addToCart('english')">
+                  <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+                        <!-- Features Grid -->
+                        <div class="row mb-5">
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card h-100">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-book-half"></i>
+                                    </div>
+                                    <h5>Comprehensive Courses</h5>
+                                    <p class="text-muted">Mathematics, Physics, Chemistry - all IGCSE subjects covered with expert instruction.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card h-100">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-people-fill"></i>
+                                    </div>
+                                    <h5>Expert Teachers</h5>
+                                    <p class="text-muted">Learn from experienced educators who understand the IGCSE curriculum inside and out.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="feature-card h-100">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-graph-up-arrow"></i>
+                                    </div>
+                                    <h5>Track Progress</h5>
+                                    <p class="text-muted">Monitor your learning journey with detailed progress tracking and analytics.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats Section -->
+                        <div class="stats-section mt-5">
+                            <div class="row text-center">
+                                <div class="col-md-3 mb-3">
+                                    <div class="stat-item">
+                                        <h3 class="fw-bold text-primary">1000+</h3>
+                                        <p class="text-muted mb-0">Students</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="stat-item">
+                                        <h3 class="fw-bold text-success">95%</h3>
+                                        <p class="text-muted mb-0">Pass Rate</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="stat-item">
+                                        <h3 class="fw-bold text-info">50+</h3>
+                                        <p class="text-muted mb-0">Expert Teachers</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="stat-item">
+                                        <h3 class="fw-bold text-warning">24/7</h3>
+                                        <p class="text-muted mb-0">Support</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                noCoursesSection.style.display = 'block';
+            }
+        }
+
+        // Check for pending orders
+        async function checkPendingOrders() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) return [];
+
+            try {
+                const response = await fetch('http://localhost:3000/api/my-pending-orders', {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                if (response.ok) {
+                    return await response.json();
+                }
+                return [];
+            } catch (error) {
+                console.error('Error checking pending orders:', error);
+                return [];
+            }
+        }
+
+        // Show pending orders message
+        function showPendingOrdersMessage(pendingOrders) {
+            const leftMenu = document.getElementById('leftMenu');
+            const noCoursesSection = document.getElementById('noCoursesSection');
+            const mainContent = document.getElementById('mainContent');
+            const communitySection = document.getElementById('communitySection');
+            
+            // Hide other sections
+            if (leftMenu) leftMenu.style.display = 'none';
+            if (mainContent) mainContent.style.display = 'none';
+            if (communitySection) communitySection.style.display = 'none';
+
+            // Set up auto-refresh to check for approval every 10 seconds
+            if (window.pendingOrderCheckInterval) {
+                clearInterval(window.pendingOrderCheckInterval);
+            }
+            
+            window.pendingOrderCheckInterval = setInterval(async () => {
+                console.log('🔄 Auto-checking for order approval...');
+                await checkForApproval();
+            }, 10000); // Check every 10 seconds
+            
+            // Update noCoursesSection to show pending message
+            if (noCoursesSection) {
+                const orderList = pendingOrders.map(order => 
+                    `<div class="alert alert-info mb-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">Order #${order.id}</h6>
+                                <p class="mb-1">${order.course_titles || 'Course'}</p>
+                                <small class="text-muted">£${order.total_amount} • ${order.payment_method}</small>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-warning">Pending Approval</span>
+                                <br><small class="text-muted">${new Date(order.created_at).toLocaleDateString()}</small>
+                            </div>
+                        </div>
+                    </div>`
+                ).join('');
+
+                noCoursesSection.innerHTML = `
+                    <div class="container-fluid py-5">
+                        <!-- Processing Header -->
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 text-center">
+                                <div class="processing-header mb-5">
+                                    <div class="processing-icon mb-4">
+                                        <div class="spinner-border text-warning" role="status" style="width: 4rem; height: 4rem;">
+                                            <span class="visually-hidden">Processing...</span>
+                                        </div>
+                                    </div>
+                                    <h1 class="display-5 fw-bold mb-3 text-warning">Processing Your Order</h1>
+                                    <p class="lead text-muted mb-4">Thank you for your purchase! Our team is reviewing your order and will grant you access to your courses soon.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Details -->
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="order-details-card">
+                                    <h4 class="mb-4">
+                                        <i class="bi bi-receipt me-2"></i>Your Order Details
+                                    </h4>
+                                    ${orderList}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Status Info -->
+                        <div class="row justify-content-center mt-5">
+                            <div class="col-lg-6 text-center">
+                                <div class="status-info">
+                                    <h5 class="mb-3">What happens next?</h5>
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="status-step">
+                                                <div class="step-icon completed">
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                </div>
+                                                <h6>Order Placed</h6>
+                                                <small class="text-muted">Payment received</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <div class="status-step">
+                                                <div class="step-icon active">
+                                                    <i class="bi bi-clock-fill"></i>
+                                                </div>
+                                                <h6>Under Review</h6>
+                                                <small class="text-muted">Admin approval</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 mb-3">
+                                            <div class="status-step">
+                                                <div class="step-icon pending">
+                                                    <i class="bi bi-unlock-fill"></i>
+                                                </div>
+                                                <h6>Access Granted</h6>
+                                                <small class="text-muted">Start learning</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="row justify-content-center mt-4">
+                            <div class="col-lg-6 text-center">
+                                <p class="text-muted mb-4">You'll be automatically redirected to your dashboard once access is granted.</p>
+                                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                                    <button class="btn btn-outline-primary btn-lg px-4 py-3" onclick="checkForApproval()">
+                                        <i class="bi bi-arrow-clockwise me-2"></i> Check Status
+                                    </button>
+                                    <button class="btn btn-success btn-lg px-4 py-3" onclick="forceRefresh()">
+                                        <i class="bi bi-arrow-right-circle me-2"></i> Force Refresh
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                noCoursesSection.style.display = 'block';
+            }
+        }
+
+        // Check for approval and redirect if courses are available
+        async function checkForApproval() {
+            const authToken = localStorage.getItem('authToken');
+            if (!authToken) {
+                alert('Please login first');
+                return;
+            }
+
+            try {
+                // Check for enrollments first
+                const enrollResponse = await fetch('http://localhost:3000/api/my-enrollments', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                if (enrollResponse.ok) {
+                    const enrollments = await enrollResponse.json();
+                    console.log('🔍 Checking enrollments:', enrollments);
+                    
+                    if (enrollments.length > 0) {
+                        // User has courses - update localStorage and redirect
+                        const enrolledCourseIds = enrollments.map(e => e.id);
+                        localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourseIds));
+                        
+                        // Clear auto-refresh interval
+                        if (window.pendingOrderCheckInterval) {
+                            clearInterval(window.pendingOrderCheckInterval);
+                            window.pendingOrderCheckInterval = null;
+                        }
+                        
+                        console.log('✅ Courses approved! Redirecting to dashboard...');
+                        alert('🎉 Your courses have been approved! Redirecting to your dashboard...');
+                        window.location.href = 'test-dashboard.html';
+                        return;
+                    }
+                }
+
+                // Check for pending orders
+                const pendingResponse = await fetch('http://localhost:3000/api/my-pending-orders', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                if (pendingResponse.ok) {
+                    const pendingOrders = await pendingResponse.json();
+                    console.log('🔍 Checking pending orders:', pendingOrders);
+                    
+                    if (pendingOrders.length > 0) {
+                        // Still pending - refresh the display
+                        showPendingOrdersMessage(pendingOrders);
+                        alert('Your order is still pending approval. Please wait a bit longer.');
+                    } else {
+                        // No pending orders and no enrollments - show empty state
+                        console.log('❌ No pending orders and no enrollments');
+                        showNoCoursesMessage();
+                    }
+                } else {
+                    console.error('Failed to check pending orders:', pendingResponse.status);
+                    alert('Failed to check order status. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error checking approval status:', error);
+                alert('Error checking approval status. Please try again.');
+            }
+        }
+
+        // Force refresh - clears localStorage and checks everything again
+        async function forceRefresh() {
+            console.log('🔄 Force refreshing...');
+            
+            // Clear localStorage
+            localStorage.removeItem('enrolledCourses');
+            
+            // Clear any existing intervals
+            if (window.pendingOrderCheckInterval) {
+                clearInterval(window.pendingOrderCheckInterval);
+                window.pendingOrderCheckInterval = null;
+            }
+            
+            // Force a complete recheck
+            await checkEnrolledCourses();
+        }
+
+        // Debug function to check enrollments directly
+        async function debugCheckEnrollments() {
+            const authToken = localStorage.getItem('authToken');
+            console.log('🔍 Debug: Checking enrollments directly...');
+            console.log('🔑 Auth token:', authToken);
+            
+            if (!authToken) {
+                alert('❌ No auth token found. Please login first.');
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/api/my-enrollments', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                console.log('📡 Response status:', response.status);
+                
+                if (response.ok) {
+                    const enrollments = await response.json();
+                    console.log('📚 Enrollments found:', enrollments);
+                    
+                    if (enrollments.length > 0) {
+                        alert(`✅ Found ${enrollments.length} enrolled courses! Redirecting to dashboard...`);
+                        window.location.href = 'test-dashboard.html';
+                    } else {
+                        alert('❌ No enrolled courses found.');
+                    }
+                } else {
+                    const error = await response.text();
+                    console.error('❌ API Error:', error);
+                    alert('❌ Failed to check enrollments: ' + response.status);
+                }
+            } catch (error) {
+                console.error('❌ Network Error:', error);
+                alert('❌ Network error: ' + error.message);
+            }
+        }
+        
+        function loadEnrolledCoursesMenu(enrolledCourses) {
+            const menuCoursesList = document.getElementById('menuCoursesList');
+            if (!menuCoursesList) return;
+            
+            const courseInfo = {
+                'mathematics': { name: 'Mathematics IGCSE', tutor: 'Mr. Johnson', icon: 'calculate', class: 'math' },
+                'physics': { name: 'Physics IGCSE', tutor: 'Dr. Smith', icon: 'science', class: 'physics' },
+                'chemistry': { name: 'Chemistry IGCSE', tutor: 'Prof. Brown', icon: 'biotech', class: 'chemistry' }
+            };
+            
+            menuCoursesList.innerHTML = enrolledCourses.map(courseId => {
+                const course = courseInfo[courseId];
+                if (!course) return '';
+                
+                return `
+                    <div class="menu-course-item" onclick="openCourse('${courseId}')">
+                        <div class="course-icon-small ${course.class}">
+                            <iconify-icon icon="material-symbols:${course.icon}"></iconify-icon>
+                        </div>
+                        <div class="course-info-small">
+                            <div class="course-name-small">${course.name}</div>
+                            <div class="tutor-name">${course.tutor}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        // Initialize all functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Home page loaded - checking user state...');
+            console.log('🔑 Auth token:', localStorage.getItem('authToken') ? 'Present' : 'Missing');
+            console.log('👤 User logged in:', localStorage.getItem('userLoggedIn'));
+            console.log('📚 Enrolled courses:', localStorage.getItem('enrolledCourses'));
+            
+            syncEnrolledCourses();
+            updateStudentName();
+            updateCalendar();
+        });
+
+        // Course Filtering and Cart Functionality
+        let cart = [];
+
+        function initCourseFiltering() {
+            // Subject filter functionality
+            $('.subject-filter').click(function() {
+                $('.subject-filter').removeClass('active');
+                $(this).addClass('active');
+                
+                var filterValue = $(this).attr('data-filter');
+                filterCourses(filterValue);
+            });
+            
+            // Sort option functionality (only Featured)
+            $('.sort-option').click(function() {
+                $('.sort-option').removeClass('active');
+                $(this).addClass('active');
+                
+                var sortType = $(this).attr('data-sort');
+                if (sortType === 'featured') {
+                    sortCourses(sortType);
+                }
+            });
+            
+            // Initialize counts
+            updateFilterCounts();
+        }
+        
+        function filterCourses(filterValue) {
+            if (filterValue === '*') {
+                $('.item').show();
+            } else {
+                $('.item').hide();
+                $(filterValue).show();
+            }
+        }
+        
+        function updateFilterCounts() {
+            var counts = {
+                'all-count': $('.item').length,
+                'math-count': $('.item.mathematics').length,
+                'physics-count': $('.item.physics').length,
+                'chemistry-count': $('.item.chemistry').length,
+                'english-count': $('.item.english').length
+            };
+            
+            Object.keys(counts).forEach(function(key) {
+                $('#' + key).text(counts[key]);
+            });
+        }
+        
+        function sortCourses(sortType) {
+            var $container = $('.isotope-container');
+            var $items = $container.find('.item:visible').toArray();
+            
+            if (sortType === 'featured') {
+                $items.sort(function(a, b) {
+                    var aFeatured = $(a).find('.featured-badge').length;
+                    var bFeatured = $(b).find('.featured-badge').length;
+                    return bFeatured - aFeatured;
+                });
+                
+                // Re-append sorted items with animation
+                $container.empty();
+                $items.forEach(function(item, index) {
+                    setTimeout(function() {
+                        $container.append(item);
+                    }, index * 100);
+                });
+            }
+        }
+
+        // Cart and Course Functions
+        function addToCart(courseId) {
+            const courses = {
+                mathematics: { name: 'IGCSE Mathematics (Extended)', price: '£299.00', image: 'images/teacher1.png' },
+                physics: { name: 'IGCSE Physics (Extended)', price: '£279.00', image: 'images/teacher2.png' },
+                english: { name: 'IGCSE English Language', price: '£249.00', image: 'images/teacher3.png' }
+            };
+
+            const course = courses[courseId];
+            if (!course) return;
+
+            // Check if course is already in cart
+            const existingItem = cart.find(item => item.courseId === courseId);
+            if (existingItem) {
+                showToast('Course already in cart!', 'warning');
+                return;
+            }
+
+            cart.push({
+                courseId: courseId,
+                name: course.name,
+                price: course.price,
+                image: course.image,
+                quantity: 1
+            });
+
+            showToast(`${course.name} added to cart!`, 'success');
+        }
+
+        function enrollInCourse(courseId) {
+            const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            
+            if (!userLoggedIn) {
+                showToast('Please login to enroll in courses', 'error');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Check if course is already in cart
+            const existingItem = cart.find(item => item.courseId === courseId);
+            if (existingItem) {
+                showToast('Redirecting to checkout...', 'info');
+                setTimeout(() => {
+                    window.location.href = 'checkout.html';
+                }, 1000);
+                return;
+            }
+
+            // Add to cart and redirect
+            addToCart(courseId);
+            setTimeout(() => {
+                showToast('Redirecting to checkout...', 'info');
+                setTimeout(() => {
+                    window.location.href = 'checkout.html';
+                }, 1000);
+            }, 500);
+        }
+
+        function toggleFavorite(courseId) {
+            const favorites = JSON.parse(localStorage.getItem('favoriteCourses') || '[]');
+            const index = favorites.indexOf(courseId);
+            
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast('Removed from favorites', 'info');
+            } else {
+                favorites.push(courseId);
+                showToast('Added to favorites!', 'success');
+            }
+            
+            localStorage.setItem('favoriteCourses', JSON.stringify(favorites));
+            updateFavoriteButton(courseId);
+        }
+
+        function updateFavoriteButton(courseId) {
+            const favorites = JSON.parse(localStorage.getItem('favoriteCourses') || '[]');
+            const button = document.querySelector(`[data-course="${courseId}"]`);
+            const icon = button?.querySelector('iconify-icon');
+            
+            if (button && icon) {
+                if (favorites.includes(courseId)) {
+                    icon.style.color = '#dc3545';
+                    icon.setAttribute('icon', 'mdi:heart');
+                } else {
+                    icon.style.color = '#dc3545';
+                    icon.setAttribute('icon', 'mdi:heart-outline');
+                }
+            }
+        }
+
+        function showToast(message, type = 'info') {
+            // Simple toast notification
+            const toast = document.createElement('div');
+            toast.className = `toast-notification toast-${type}`;
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                font-weight: 600;
+                z-index: 9999;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            toast.textContent = message;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 3000);
+        }
+
+        // Initialize course functionality when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize course filtering
+            initCourseFiltering();
+            
+            // Initialize favorite buttons
+            ['mathematics', 'physics', 'english'].forEach(courseId => {
+                updateFavoriteButton(courseId);
+            });
+        });
+    </script>
+</body>
+</html>

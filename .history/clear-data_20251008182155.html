@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear All Data - IG Nation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 150px;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(107, 114, 128, 0.4);
+        }
+
+        .status {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            display: block;
+        }
+
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            display: block;
+        }
+
+        .info-box {
+            background: #f3f4f6;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-box ul {
+            margin-left: 1.5rem;
+            color: #666;
+        }
+
+        .info-box li {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Clear System Data</h1>
+        <p>Use the buttons below to clear different types of data from localStorage. This action cannot be undone.</p>
+
+        <div class="info-box">
+            <h3>📊 Current Data Status:</h3>
+            <ul id="dataStatus">
+                <li>Loading...</li>
+            </ul>
+        </div>
+
+        <div class="button-group">
+            <button class="btn-warning" onclick="clearAssignments()">
+                Clear Assignments
+            </button>
+            <button class="btn-warning" onclick="clearQuizzes()">
+                Clear Quizzes
+            </button>
+            <button class="btn-warning" onclick="clearExams()">
+                Clear Exams
+            </button>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+            <button class="btn-danger" onclick="clearAllMathematics()">
+                Clear All Mathematics
+            </button>
+            <button class="btn-danger" onclick="clearAllData()">
+                Clear Everything
+            </button>
+        </div>
+
+        <div class="button-group" style="margin-top: 1rem;">
+            <button class="btn-secondary" onclick="window.location.href='index.html'">
+                Back to Home
+            </button>
+            <button class="btn-success" onclick="refreshStatus()">
+                Refresh Status
+            </button>
+        </div>
+
+        <div id="statusMessage" class="status"></div>
+    </div>
+
+    <script>
+        function showStatus(message, type = 'success') {
+            const statusEl = document.getElementById('statusMessage');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+            
+            setTimeout(() => {
+                statusEl.className = 'status';
+            }, 3000);
+        }
+
+        function updateDataStatus() {
+            const assignments = JSON.parse(localStorage.getItem('studentAssignments') || '[]');
+            const quizzes = JSON.parse(localStorage.getItem('studentQuizzes') || '[]');
+            const exams = JSON.parse(localStorage.getItem('studentExams') || '[]');
+            const teacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+            const teacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes') || '[]');
+            const teacherExams = JSON.parse(localStorage.getItem('teacherExams') || '[]');
+
+            const statusHTML = `
+                <li><strong>Student Assignments:</strong> ${assignments.length} items</li>
+                <li><strong>Student Quizzes:</strong> ${quizzes.length} items</li>
+                <li><strong>Student Exams:</strong> ${exams.length} items</li>
+                <li><strong>Teacher Assignments:</strong> ${teacherAssignments.length} items</li>
+                <li><strong>Teacher Quizzes:</strong> ${teacherQuizzes.length} items</li>
+                <li><strong>Teacher Exams:</strong> ${teacherExams.length} items</li>
+            `;
+
+            document.getElementById('dataStatus').innerHTML = statusHTML;
+        }
+
+        function clearAssignments() {
+            if (confirm('Are you sure you want to clear all assignments? This cannot be undone.')) {
+                localStorage.removeItem('studentAssignments');
+                localStorage.removeItem('teacherAssignments');
+                localStorage.removeItem('assignmentsList');
+                updateDataStatus();
+                showStatus('✅ All assignments cleared successfully!');
+            }
+        }
+
+        function clearQuizzes() {
+            if (confirm('Are you sure you want to clear all quizzes? This cannot be undone.')) {
+                localStorage.removeItem('studentQuizzes');
+                localStorage.removeItem('teacherQuizzes');
+                localStorage.removeItem('quizzesList');
+                updateDataStatus();
+                showStatus('✅ All quizzes cleared successfully!');
+            }
+        }
+
+        function clearExams() {
+            if (confirm('Are you sure you want to clear all exams? This cannot be undone.')) {
+                localStorage.removeItem('studentExams');
+                localStorage.removeItem('teacherExams');
+                localStorage.removeItem('examsList');
+                updateDataStatus();
+                showStatus('✅ All exams cleared successfully!');
+            }
+        }
+
+        function clearAllMathematics() {
+            if (confirm('Are you sure you want to clear ALL mathematics content (assignments, quizzes, and exams)? This cannot be undone.')) {
+                // Clear student data
+                localStorage.removeItem('studentAssignments');
+                localStorage.removeItem('studentQuizzes');
+                localStorage.removeItem('studentExams');
+                
+                // Clear teacher data
+                localStorage.removeItem('teacherAssignments');
+                localStorage.removeItem('teacherQuizzes');
+                localStorage.removeItem('teacherExams');
+                
+                // Clear alternative keys
+                localStorage.removeItem('assignmentsList');
+                localStorage.removeItem('quizzesList');
+                localStorage.removeItem('examsList');
+                
+                updateDataStatus();
+                showStatus('✅ All mathematics content cleared successfully!');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ WARNING: This will clear ALL data from localStorage including todos, deadlines, and all course content. Are you absolutely sure?')) {
+                if (confirm('This is your last chance. Click OK to permanently delete everything.')) {
+                    localStorage.clear();
+                    updateDataStatus();
+                    showStatus('✅ All data cleared successfully! localStorage is now empty.');
+                }
+            }
+        }
+
+        function refreshStatus() {
+            updateDataStatus();
+            showStatus('✅ Status refreshed!');
+        }
+
+        // Update status on page load
+        document.addEventListener('DOMContentLoaded', updateDataStatus);
+    </script>
+</body>
+</html>

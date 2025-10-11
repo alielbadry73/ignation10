@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Community - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .menu-logo-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .hamburger-menu-btn {
+            width: 45px;
+            height: 45px;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .hamburger-menu-btn:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .ig-logo {
+            height: 45px;
+            cursor: pointer;
+        }
+
+        .utility-buttons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .utility-btn {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .utility-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            background: white;
+        }
+
+        .utility-btn iconify-icon {
+            font-size: 1.4rem;
+            color: #667eea;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 10px;
+            min-width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+        }
+
+        .greeting-section {
+            padding-top: 1rem;
+            color: white;
+        }
+
+        .greeting-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .greeting-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Community Tabs */
+        .community-tabs {
+            background: white;
+            border-radius: 16px 16px 0 0;
+            padding: 1.5rem 2rem 0 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 2rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #666;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+        }
+
+        .tab-btn:hover {
+            color: #667eea;
+        }
+
+        .tab-btn.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        /* Content Area */
+        .content-area {
+            background: white;
+            border-radius: 0 0 16px 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            min-height: 600px;
+        }
+
+        /* Discussion Feed */
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .new-post-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .new-post-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Post Card */
+        .post-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .post-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .post-header {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .post-info {
+            flex: 1;
+        }
+
+        .post-author {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .post-meta {
+            font-size: 0.85rem;
+            color: #999;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .post-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .post-content {
+            margin-bottom: 1rem;
+        }
+
+        .post-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-text {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: #e7f0ff;
+            color: #667eea;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: #666;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+        }
+
+        .action-btn:hover {
+            background: #e9ecef;
+            color: #667eea;
+        }
+
+        .action-btn.liked {
+            color: #ef4444;
+        }
+
+        /* Study Groups */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .group-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            color: white;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .group-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+        }
+
+        .group-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .group-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .group-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .group-stats {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .group-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Leaderboard */
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .leaderboard-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .leaderboard-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .rank-badge {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        .rank-badge.gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+        }
+
+        .rank-badge.silver {
+            background: linear-gradient(135deg, #e5e7eb 0%, #9ca3af 100%);
+        }
+
+        .rank-badge.bronze {
+            background: linear-gradient(135deg, #fb923c 0%, #ea580c 100%);
+        }
+
+        .student-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .student-achievements {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .points-display {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.5rem;
+        }
+
+        /* Events Calendar */
+        .events-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .event-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.5rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .event-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .event-date {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .event-day {
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-month {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .event-details {
+            flex: 1;
+        }
+
+        .event-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-description {
+            color: #666;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .event-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .event-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-join-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .event-join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Resources */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .resource-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .resource-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            transform: translateY(-4px);
+        }
+
+        .resource-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .resource-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .resource-count {
+            font-size: 0.85rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 0 1rem;
+            }
+
+            .community-tabs {
+                overflow-x: auto;
+                padding: 1rem 1rem 0 1rem;
+            }
+
+            .content-area {
+                padding: 1rem;
+            }
+
+            .groups-grid,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .event-card {
+                flex-direction: column;
+            }
+
+            .greeting-text {
+                font-size: 1.3rem;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="header-content">
+            <div class="top-bar">
+                <div class="menu-logo-group">
+                    <button class="hamburger-menu-btn" onclick="window.history.back()">
+                        <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                    </button>
+                    <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" class="ig-logo" onclick="window.location.href='mathematics-dashboard.html'">
+                </div>
+                
+                <div class="utility-buttons">
+                    <button class="utility-btn" onclick="navigateToFocusMode()" title="Focus Mode">
+                        <iconify-icon icon="material-symbols:psychology"></iconify-icon>
+                    </button>
+                    <button class="utility-btn" onclick="navigateToNotifications()" title="Notifications">
+                        <iconify-icon icon="material-symbols:notifications"></iconify-icon>
+                        <span class="notification-badge" id="notificationBadge">3</span>
+                    </button>
+                    <button class="utility-btn" onclick="navigateToCommunity()" title="Community">
+                        <iconify-icon icon="material-symbols:groups"></iconify-icon>
+                    </button>
+                    <button class="utility-btn" onclick="navigateToProfile()" title="Profile">
+                        <iconify-icon icon="material-symbols:person"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="greeting-section">
+                <h1 class="greeting-text">🌟 Community Hub</h1>
+                <p class="greeting-subtitle">Connect, collaborate, and grow together with your peers</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Tabs -->
+        <div class="community-tabs">
+            <button class="tab-btn active" onclick="switchTab('discussions')">
+                <iconify-icon icon="material-symbols:forum"></iconify-icon>
+                Discussions
+            </button>
+            <button class="tab-btn" onclick="switchTab('study-groups')">
+                <iconify-icon icon="material-symbols:groups"></iconify-icon>
+                Study Groups
+            </button>
+            <button class="tab-btn" onclick="switchTab('leaderboard')">
+                <iconify-icon icon="material-symbols:leaderboard"></iconify-icon>
+                Leaderboard
+            </button>
+            <button class="tab-btn" onclick="switchTab('events')">
+                <iconify-icon icon="material-symbols:event"></iconify-icon>
+                Events
+            </button>
+            <button class="tab-btn" onclick="switchTab('resources')">
+                <iconify-icon icon="material-symbols:folder-shared"></iconify-icon>
+                Resources
+            </button>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Discussions Tab -->
+            <div id="discussions-content" class="tab-content fade-in">
+                <div class="discussion-header">
+                    <h2 style="margin: 0; color: #333;">💬 Recent Discussions</h2>
+                    <button class="new-post-btn" onclick="createNewPost()">
+                        <iconify-icon icon="material-symbols:add-circle"></iconify-icon>
+                        New Post
+                    </button>
+                </div>
+
+                <div id="postsContainer">
+                    <!-- Posts will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Study Groups Tab -->
+            <div id="study-groups-content" class="tab-content" style="display: none;">
+                <h2 style="margin-bottom: 2rem; color: #333;">👥 Study Groups</h2>
+                <div class="groups-grid" id="groupsContainer">
+                    <!-- Groups will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Leaderboard Tab -->
+            <div id="leaderboard-content" class="tab-content" style="display: none;">
+                <h2 style="margin-bottom: 2rem; color: #333;">🏆 Community Leaderboard</h2>
+                <div class="leaderboard-list" id="leaderboardContainer">
+                    <!-- Leaderboard will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Events Tab -->
+            <div id="events-content" class="tab-content" style="display: none;">
+                <div class="discussion-header">
+                    <h2 style="margin: 0; color: #333;">📅 Upcoming Events</h2>
+                    <button class="new-post-btn" onclick="alert('Event creation coming soon!')">
+                        <iconify-icon icon="material-symbols:add-circle"></iconify-icon>
+                        Create Event
+                    </button>
+                </div>
+                <div class="events-list" id="eventsContainer">
+                    <!-- Events will be rendered here -->
+                </div>
+            </div>
+
+            <!-- Resources Tab -->
+            <div id="resources-content" class="tab-content" style="display: none;">
+                <h2 style="margin-bottom: 2rem; color: #333;">📚 Shared Resources</h2>
+                <div class="resources-grid" id="resourcesContainer">
+                    <!-- Resources will be rendered here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        // Sample Data
+        const posts = [
+            {
+                id: 1,
+                author: 'Sarah Johnson',
+                avatar: 'SJ',
+                role: 'Top Contributor',
+                time: '2 hours ago',
+                title: 'Need help with Calculus derivatives?',
+                content: 'I\'m struggling with understanding the chain rule in derivatives. Can someone explain it in simple terms? I\'ve watched the lecture twice but still confused about when to apply it.',
+                tags: ['Calculus', 'Help Needed', 'Mathematics'],
+                likes: 12,
+                comments: 8,
+                liked: false
+            },
+            {
+                id: 2,
+                author: 'Michael Chen',
+                avatar: 'MC',
+                role: 'Study Partner',
+                time: '5 hours ago',
+                title: 'Study group meeting this Saturday!',
+                content: 'Hey everyone! We\'re organizing a study session this Saturday at 3 PM to go over Chapter 5. Join our Discord server if you\'re interested. We\'ll be covering quadratic equations and practice problems.',
+                tags: ['Study Group', 'Algebra', 'Weekend'],
+                likes: 24,
+                comments: 15,
+                liked: true
+            },
+            {
+                id: 3,
+                author: 'Emma Wilson',
+                avatar: 'EW',
+                role: 'Math Wizard',
+                time: '1 day ago',
+                title: 'Amazing resource for geometry proofs',
+                content: 'Found this incredible website that explains geometry proofs step by step. It really helped me understand the logic behind each proof. Link in the resources section!',
+                tags: ['Geometry', 'Resources', 'Tips'],
+                likes: 45,
+                comments: 22,
+                liked: false
+            }
+        ];
+
+        const studyGroups = [
+            {
+                id: 1,
+                name: 'Calculus Warriors',
+                icon: '🔢',
+                description: 'Advanced calculus problem-solving and exam preparation',
+                members: 24,
+                active: 'Daily'
+            },
+            {
+                id: 2,
+                name: 'Algebra Alliance',
+                icon: '➗',
+                description: 'Master algebraic concepts together through practice',
+                members: 18,
+                active: 'Weekly'
+            },
+            {
+                id: 3,
+                name: 'Geometry Geniuses',
+                icon: '📐',
+                description: 'Explore shapes, angles, and spatial reasoning',
+                members: 15,
+                active: 'Bi-weekly'
+            },
+            {
+                id: 4,
+                name: 'Statistics Squad',
+                icon: '📊',
+                description: 'Data analysis, probability, and statistical methods',
+                members: 20,
+                active: 'Daily'
+            }
+        ];
+
+        const leaderboard = [
+            { rank: 1, name: 'Sarah Johnson', avatar: 'https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff', badges: '🏆 Math Master', points: 2840 },
+            { rank: 2, name: 'Ali Elbadry', avatar: 'https://ui-avatars.com/api/?name=Ali+Elbadry&background=667eea&color=fff', badges: '⭐ Rising Star', points: 2650 },
+            { rank: 3, name: 'Michael Chen', avatar: 'https://ui-avatars.com/api/?name=Michael+Chen&background=667eea&color=fff', badges: '🎯 Consistent', points: 2420 },
+            { rank: 4, name: 'Emma Wilson', avatar: 'https://ui-avatars.com/api/?name=Emma+Wilson&background=667eea&color=fff', badges: '💡 Helper', points: 2180 },
+            { rank: 5, name: 'James Brown', avatar: 'https://ui-avatars.com/api/?name=James+Brown&background=667eea&color=fff', badges: '📚 Bookworm', points: 1950 }
+        ];
+
+        const events = [
+            {
+                id: 1,
+                day: '15',
+                month: 'Oct',
+                title: 'Mathematics Competition Prep',
+                description: 'Join us for an intensive prep session for the upcoming international mathematics competition',
+                time: '4:00 PM - 6:00 PM',
+                location: 'Virtual (Zoom)',
+                attendees: 32
+            },
+            {
+                id: 2,
+                day: '18',
+                month: 'Oct',
+                title: 'Guest Lecture: Advanced Calculus',
+                description: 'Special guest lecture by Dr. Smith on applications of calculus in real-world scenarios',
+                time: '2:00 PM - 3:30 PM',
+                location: 'Main Hall',
+                attendees: 48
+            },
+            {
+                id: 3,
+                day: '22',
+                month: 'Oct',
+                title: 'Study Marathon Weekend',
+                description: '48-hour study marathon with live support, Q&A sessions, and group challenges',
+                time: 'Sat 9:00 AM - Sun 9:00 PM',
+                location: 'Virtual & Campus',
+                attendees: 67
+            }
+        ];
+
+        const resources = [
+            { icon: '📝', title: 'Practice Problems', description: 'Hundreds of practice problems with solutions', count: '500+ Problems' },
+            { icon: '🎥', title: 'Video Tutorials', description: 'Step-by-step video explanations', count: '150+ Videos' },
+            { icon: '📚', title: 'Study Guides', description: 'Comprehensive study guides and notes', count: '75+ Guides' },
+            { icon: '🧮', title: 'Calculators & Tools', description: 'Interactive math tools and calculators', count: '25+ Tools' },
+            { icon: '📄', title: 'Past Papers', description: 'Previous years exam papers', count: '100+ Papers' },
+            { icon: '💡', title: 'Cheat Sheets', description: 'Quick reference formulas and concepts', count: '40+ Sheets' }
+        ];
+
+        // Render Functions
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = posts.map(post => `
+                <div class="post-card fade-in">
+                    <div class="post-header">
+                        <div class="post-avatar">${post.avatar}</div>
+                        <div class="post-info">
+                            <div class="post-author">${post.author}</div>
+                            <div class="post-meta">
+                                <span class="post-badge">${post.role}</span>
+                                <span>${post.time}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <div class="post-title">${post.title}</div>
+                        <div class="post-text">${post.content}</div>
+                    </div>
+                    <div class="post-tags">
+                        ${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="post-actions">
+                        <button class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleLike(${post.id})">
+                            <iconify-icon icon="material-symbols:favorite${post.liked ? '' : '-outline'}"></iconify-icon>
+                            ${post.likes} Likes
+                        </button>
+                        <button class="action-btn" onclick="viewComments(${post.id})">
+                            <iconify-icon icon="material-symbols:comment"></iconify-icon>
+                            ${post.comments} Comments
+                        </button>
+                        <button class="action-btn">
+                            <iconify-icon icon="material-symbols:share"></iconify-icon>
+                            Share
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderGroups() {
+            const container = document.getElementById('groupsContainer');
+            container.innerHTML = studyGroups.map(group => `
+                <div class="group-card fade-in" onclick="joinGroup(${group.id})">
+                    <div class="group-icon">${group.icon}</div>
+                    <div class="group-name">${group.name}</div>
+                    <div class="group-description">${group.description}</div>
+                    <div class="group-stats">
+                        <div class="group-stat">
+                            <iconify-icon icon="material-symbols:people"></iconify-icon>
+                            ${group.members} members
+                        </div>
+                        <div class="group-stat">
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            ${group.active}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderLeaderboard() {
+            const container = document.getElementById('leaderboardContainer');
+            container.innerHTML = leaderboard.map(student => {
+                let rankClass = '';
+                if (student.rank === 1) rankClass = 'gold';
+                else if (student.rank === 2) rankClass = 'silver';
+                else if (student.rank === 3) rankClass = 'bronze';
+
+                return `
+                    <div class="leaderboard-item fade-in">
+                        <div class="rank-badge ${rankClass}">#${student.rank}</div>
+                        <img src="${student.avatar}" alt="${student.name}" class="student-avatar">
+                        <div class="student-info">
+                            <div class="student-name">${student.name}</div>
+                            <div class="student-achievements">${student.badges}</div>
+                        </div>
+                        <div class="points-display">${student.points.toLocaleString()}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderEvents() {
+            const container = document.getElementById('eventsContainer');
+            container.innerHTML = events.map(event => `
+                <div class="event-card fade-in">
+                    <div class="event-date">
+                        <div class="event-day">${event.day}</div>
+                        <div class="event-month">${event.month}</div>
+                    </div>
+                    <div class="event-details">
+                        <div class="event-title">${event.title}</div>
+                        <div class="event-description">${event.description}</div>
+                        <div class="event-meta">
+                            <div class="event-meta-item">
+                                <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                                ${event.time}
+                            </div>
+                            <div class="event-meta-item">
+                                <iconify-icon icon="material-symbols:location-on"></iconify-icon>
+                                ${event.location}
+                            </div>
+                            <div class="event-meta-item">
+                                <iconify-icon icon="material-symbols:people"></iconify-icon>
+                                ${event.attendees} attending
+                            </div>
+                        </div>
+                    </div>
+                    <button class="event-join-btn" onclick="joinEvent(${event.id})">Join Event</button>
+                </div>
+            `).join('');
+        }
+
+        function renderResources() {
+            const container = document.getElementById('resourcesContainer');
+            container.innerHTML = resources.map(resource => `
+                <div class="resource-card fade-in" onclick="openResource('${resource.title}')">
+                    <div class="resource-icon">${resource.icon}</div>
+                    <div class="resource-title">${resource.title}</div>
+                    <div class="resource-description">${resource.description}</div>
+                    <div class="resource-count">${resource.count}</div>
+                </div>
+            `).join('');
+        }
+
+        // Tab Switching
+        function switchTab(tabName) {
+            // Hide all content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected content
+            document.getElementById(`${tabName}-content`).style.display = 'block';
+
+            // Add active class to selected tab
+            event.target.classList.add('active');
+        }
+
+        // Interactive Functions
+        function toggleLike(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.liked = !post.liked;
+                post.likes += post.liked ? 1 : -1;
+                renderPosts();
+            }
+        }
+
+        function viewComments(postId) {
+            alert('Comments feature coming soon!');
+        }
+
+        function createNewPost() {
+            alert('Create post feature coming soon!');
+        }
+
+        function joinGroup(groupId) {
+            alert('Join group feature coming soon!');
+        }
+
+        function joinEvent(eventId) {
+            alert('Event registration coming soon!');
+        }
+
+        function openResource(resourceName) {
+            alert(`Opening ${resourceName}...`);
+        }
+
+        // Navigation Functions
+        function navigateToFocusMode() {
+            showFocusModeModal();
+        }
+
+        function showFocusModeModal() {
+            const modalHtml = `
+                <div id="focusModeModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 99999; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease;">
+                    <iframe src="focus-mode.html" style="width: 95vw; height: 95vh; border: none; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);"></iframe>
+                    <button onclick="closeFocusMode()" style="position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.9); border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s;" onmouseover="this.style.background='white'; this.style.transform='scale(1.1)'" onmouseout="this.style.background='rgba(255,255,255,0.9)'; this.style.transform='scale(1)'">
+                        ×
+                    </button>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeFocusMode() {
+            const modal = document.getElementById('focusModeModal');
+            if (modal) modal.remove();
+            document.body.style.overflow = 'auto';
+        }
+
+        function navigateToNotifications() {
+            showNotificationsModal();
+        }
+
+        function navigateToCommunity() {
+            // Already on community page
+        }
+
+        function navigateToProfile() {
+            window.location.href = 'student-profile.html';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPosts();
+            renderGroups();
+            renderLeaderboard();
+            renderEvents();
+            renderResources();
+        });
+    </script>
+</body>
+</html>

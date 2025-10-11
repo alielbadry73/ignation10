@@ -1,0 +1,15 @@
+﻿STATUS 200
+{
+  success: true,
+  message: 'Login successful',
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzU5NjU0NDY2LCJleHAiOjE3NjAyNTkyNjZ9.w70eZ8Ofy6Aut1G-AJAWGHoo0_AfgNZS_3-7IB1MaUs',
+  user: {
+    id: 1,
+    username: 'admin@ignation.com',
+    email: 'admin@ignation.com',
+    first_name: 'Admin',
+    last_name: 'User',
+    full_name: 'Admin User',
+    userType: 'admin'
+  }
+}

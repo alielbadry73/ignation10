@@ -1,0 +1,2663 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Courses - IG Way IGCSE Tutoring</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+</head>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+<link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="css/vendor.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap"
+  rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background-color: #F8F8F8;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Professional Course Card Button Styles */
+    .enroll-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(30,61,111,0.4);
+        background: linear-gradient(135deg, #2c5aa0, #1e3d6f) !important;
+    }
+
+    .add-to-cart-btn:hover {
+        transform: translateY(-2px);
+        background: #1e3d6f !important;
+        color: white !important;
+        box-shadow: 0 8px 25px rgba(30,61,111,0.3);
+    }
+
+    .favorite-btn:hover {
+        transform: translateY(-2px);
+        background: #dc3545 !important;
+        color: white !important;
+        box-shadow: 0 8px 25px rgba(220,53,69,0.3);
+    }
+
+    /* Button focus states for accessibility */
+    .enroll-btn:focus,
+    .add-to-cart-btn:focus,
+    .favorite-btn:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(30,61,111,0.2);
+    }
+
+    /* Smooth transitions for all buttons */
+    .enroll-btn,
+    .add-to-cart-btn,
+    .favorite-btn {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Ripple effect on click */
+    .enroll-btn:active,
+    .add-to-cart-btn:active,
+    .favorite-btn:active {
+        transform: translateY(0);
+    }
+
+    /* Filter Button Styles */
+    .filter-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(30,61,111,0.2);
+    }
+
+    .filter-button.active {
+        background: #1e3d6f !important;
+        color: white !important;
+        border-color: #1e3d6f !important;
+    }
+
+    /* Professional Course Card Styles */
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+    }
+
+    .card img:hover {
+        transform: scale(1.05);
+    }
+
+    /* Professional Header Stats */
+    .stat-card {
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        background: rgba(255,255,255,0.2) !important;
+    }
+
+    /* Enhanced Filter Buttons */
+    .filter-button {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .filter-button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+    }
+
+    .filter-button:hover::before {
+        left: 100%;
+    }
+
+    .filter-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(30,61,111,0.2);
+    }
+
+    /* Course Card Hover Effects */
+    .card {
+        transition: all 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+    }
+
+    .card img {
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Professional Button Styles */
+    .enroll-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(30,61,111,0.4);
+        background: linear-gradient(135deg, #2c5aa0, #1e3d6f) !important;
+    }
+
+    .add-to-cart-btn:hover {
+        transform: translateY(-2px);
+        background: #1e3d6f !important;
+        color: white !important;
+        box-shadow: 0 8px 25px rgba(30,61,111,0.3);
+    }
+
+    .favorite-btn:hover {
+        transform: translateY(-2px) scale(1.1);
+        background: #dc3545 !important;
+        color: white !important;
+        box-shadow: 0 8px 25px rgba(220,53,69,0.3);
+    }
+
+    /* Simple Hero Styles */
+    .simple-hero {
+      font-family: 'Inter', sans-serif;
+      position: relative;
+    }
+    
+    .simple-hero .btn-light:hover {
+      background: white !important;
+      color: #1e3d6f !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    @media (max-width: 768px) {
+      .simple-hero .hero-title {
+        font-size: 2.2rem !important;
+      }
+      
+      .simple-hero .hero-description {
+        font-size: 1.1rem !important;
+      }
+      
+      .simple-hero .trust-indicators {
+        gap: 1rem !important;
+        flex-direction: column;
+      }
+    }
+    
+    /* Categories Section Styles */
+    .filter-tabs {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .filter-tab {
+      background: white;
+      border: 2px solid #e2e8f0;
+      padding: 1.5rem 2rem;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      min-width: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .filter-tab::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(102,126,234,0.1), transparent);
+      transition: left 0.5s;
+    }
+    
+    .filter-tab:hover::before {
+      left: 100%;
+    }
+    
+    .filter-tab:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      border-color: #667eea;
+    }
+    
+    .filter-tab.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
+    }
+    
+    .tab-icon {
+      width: 50px;
+      height: 50px;
+      background: #f7fafc;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #667eea;
+      flex-shrink: 0;
+    }
+    
+    .filter-tab.active .tab-icon {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    .tab-content {
+      text-align: left;
+    }
+    
+    .tab-title {
+      display: block;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .tab-subtitle {
+      display: block;
+      font-size: 0.85rem;
+      opacity: 0.7;
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    /* Enhanced Course Cards */
+    .course-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .course-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .course-card:hover::before {
+      opacity: 1;
+    }
+    
+    .course-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+    
+    .course-image {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px 20px 0 0;
+    }
+    
+    .course-image img {
+      transition: transform 0.4s ease;
+    }
+    
+    .course-card:hover .course-image img {
+      transform: scale(1.08);
+    }
+    
+    .course-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+      z-index: 2;
+    }
+    
+    .featured-badge {
+      background: linear-gradient(135deg, #f093fb, #f5576c) !important;
+      box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3) !important;
+    }
+    
+    .favorite-button {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.95);
+      border: none;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+    
+    .favorite-button:hover {
+      background: #dc3545;
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .course-content {
+      padding: 2rem;
+    }
+    
+    .course-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+    }
+    
+    .course-description {
+      color: #64748b;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    
+    .instructor-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      padding: 12px;
+      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      border-radius: 12px;
+    }
+    
+    .instructor-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    
+    .instructor-info {
+      flex: 1;
+    }
+    
+    .instructor-name {
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 0.95rem;
+      margin: 0;
+    }
+    
+    .instructor-board {
+      color: #64748b;
+      font-size: 0.8rem;
+      margin: 0;
+    }
+    
+    .rating-section {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .star-rating {
+      display: flex;
+      gap: 2px;
+    }
+    
+    .star {
+      color: #ffc107;
+      font-size: 1.1rem;
+    }
+    
+    .rating-text {
+      color: #64748b;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .pricing-section {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+    }
+    
+    .price-container {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    
+    .current-price {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #667eea;
+    }
+    
+    .original-price {
+      font-size: 1rem;
+      color: #94a3b8;
+      text-decoration: line-through;
+    }
+    
+    .discount-badge {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+    
+    .course-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .enroll-button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .enroll-button:hover {
+      background: linear-gradient(135deg, #764ba2, #667eea);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    }
+    
+    .cart-button {
+      background: transparent;
+      border: 2px solid #667eea;
+      color: #667eea;
+      padding: 14px 24px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .cart-button:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    /* Section Header Enhancements */
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .section-title {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 2px;
+    }
+    
+    .section-subtitle {
+      font-size: 1.2rem;
+      color: #64748b;
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    /* Course Controls Styles */
+    .course-controls {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+    }
+    
+    .course-controls:hover {
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+    }
+    
+    .subject-filters {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    
+    .subject-filter {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      color: #64748b;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .subject-filter:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .subject-filter.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .sort-option {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      color: #64748b;
+      padding: 10px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .sort-option:hover {
+      background: #667eea;
+      color: white;
+      border-color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .sort-option.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .filter-section h5, .sort-section h5 {
+      color: #1e293b;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    /* Enhanced Filter Styles */
+    .subject-filter {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .filter-count {
+      background: rgba(102, 126, 234, 0.1);
+      color: #667eea;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: 8px;
+      min-width: 20px;
+      text-align: center;
+    }
+    
+    .subject-filter.active .filter-count {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+    
+    
+    
+    /* Enhanced Sort Options */
+    .sort-option {
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .sort-option::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      transition: left 0.5s;
+    }
+    
+    .sort-option:hover::before {
+      left: 100%;
+    }
+    
+    /* Animation for filter counts */
+    .filter-count {
+      transition: all 0.3s ease;
+    }
+
+    .subject-filter:hover .filter-count {
+      transform: scale(1.1);
+    }
+
+    /* Amazon-style Sidebar Filter Styles */
+    .filter-sidebar {
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .filter-sidebar:hover {
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .filter-group-title {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .filter-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 4px;
+      margin-bottom: 0.25rem;
+    }
+
+    .filter-option:hover {
+      background-color: #f8fafc;
+      padding-left: 0.5rem;
+    }
+
+    .filter-option input[type="radio"] {
+      margin-right: 0.75rem;
+      accent-color: #667eea;
+    }
+
+    .filter-label {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #374151;
+      font-weight: 500;
+    }
+
+    .filter-option input[type="radio"]:checked + .filter-label {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .filter-option .filter-count {
+      background-color: #f1f5f9;
+      color: #64748b;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      min-width: 24px;
+      text-align: center;
+    }
+
+    .filter-option input[type="radio"]:checked ~ .filter-count {
+      background-color: #667eea;
+      color: white;
+    }
+
+    /* Sort Bar Styles */
+    .sort-bar {
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+
+    .sort-bar:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .sort-bar .form-select {
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .sort-bar .form-select:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    /* Responsive Sidebar */
+    @media (max-width: 991px) {
+      .filter-sidebar {
+        position: relative !important;
+        top: auto !important;
+        margin-bottom: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sort-bar .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+      }
+
+      .sort-bar .d-flex > div:first-child {
+        width: 100%;
+      }
+
+      .sort-bar .form-select {
+        width: 100% !important;
+      }
+    }
+    
+    /* Improved responsive design */
+    @media (max-width: 992px) {
+      .course-controls {
+        padding: 2rem !important;
+      }
+      
+      .subject-filters {
+        justify-content: center;
+      }
+      
+      .d-flex.align-items-center.gap-3.flex-wrap {
+        justify-content: center;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .course-controls {
+        padding: 1.5rem !important;
+      }
+      
+      .subject-filters {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      .subject-filter {
+        width: 100%;
+        max-width: 200px;
+        justify-content: center;
+      }
+      
+      .sort-section {
+        margin-top: 1rem;
+      }
+      
+      .sort-section .d-flex {
+        justify-content: center !important;
+      }
+      
+      .sort-option {
+        font-size: 0.85rem !important;
+        padding: 6px 12px !important;
+      }
+    }
+    
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .stats-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .filter-tabs {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .filter-tab {
+        width: 100%;
+        max-width: 300px;
+      }
+      
+      .feature-pills {
+        justify-content: center;
+      }
+      
+      .hero-actions {
+        justify-content: center;
+      }
+      
+      .section-title {
+        font-size: 2.2rem;
+      }
+      
+      .course-content {
+        padding: 1.5rem;
+      }
+      
+      .current-price {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* WhatsApp Chat Button Styles */
+    .nav-link[onclick="openWhatsAppChat()"] {
+      transition: all 0.3s ease !important;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+    }
+
+    .nav-link[onclick="openWhatsAppChat()"]:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4) !important;
+      background: linear-gradient(135deg, #128c7e, #25d366) !important;
+    }
+
+    .nav-link[onclick="openWhatsAppChat()"]:active {
+      transform: translateY(0) !important;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+    }
+
+    @media (max-width: 768px) {
+      .nav-link[onclick="openWhatsAppChat()"] {
+        padding: 6px 12px !important;
+        font-size: 0.85rem !important;
+      }
+    }
+
+    /* Premium Hero Section Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes morph {
+      0%, 100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+      25% { border-radius: 58% 42% 75% 25% / 76% 46% 54% 24%; }
+      50% { border-radius: 50% 50% 33% 67% / 55% 27% 73% 45%; }
+      75% { border-radius: 33% 67% 58% 42% / 63% 68% 32% 37%; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 0.4; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
+    }
+
+    @keyframes shimmer {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    /* Premium Button Styles */
+    .btn-premium {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-premium:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(251, 191, 36, 0.6) !important;
+    }
+
+    .btn-premium:hover .btn-shine {
+      left: 100%;
+    }
+
+    .btn-outline-premium:hover {
+      background: rgba(255,255,255,0.2) !important;
+      border-color: rgba(255,255,255,0.5) !important;
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(255,255,255,0.2) !important;
+    }
+
+    /* Gradient Text Animation */
+    .gradient-text {
+      background-size: 200% 200%;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Trust Items Hover Effects */
+    .trust-item {
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .trust-item:hover {
+      transform: translateY(-10px);
+    }
+
+    .trust-item:hover .trust-icon {
+      background: rgba(251, 191, 36, 0.2) !important;
+      border-color: rgba(251, 191, 36, 0.4) !important;
+    }
+
+    .trust-item:hover .trust-number {
+      transform: scale(1.1);
+      color: #fbbf24 !important;
+    }
+
+    /* Hero Badge Animation */
+    .hero-badge {
+      animation: slideInDown 1s ease-out 0.5s both;
+    }
+
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design for Premium Hero */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 3rem !important;
+      }
+      
+      .hero-description {
+        font-size: 1.2rem !important;
+      }
+      
+      .trust-indicators {
+        gap: 2rem !important;
+      }
+      
+      .hero-actions {
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem !important;
+      }
+      
+      .hero-description {
+        font-size: 1.1rem !important;
+      }
+      
+      .trust-indicators {
+        gap: 1.5rem !important;
+      }
+      
+      .trust-item {
+        flex: 0 0 calc(50% - 1rem);
+      }
+      
+      .btn-premium, .btn-outline-premium {
+        width: 100%;
+        max-width: 280px;
+      }
+      
+      .particles-container .particle {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-title {
+        font-size: 2rem !important;
+      }
+      
+      .trust-indicators {
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+      
+      .trust-item {
+        flex: none;
+      }
+    }
+
+</style>
+
+</head>
+
+<body>
+
+  <!-- Top Utility Bar -->
+  <div class="top-utility-bar" style="position:relative; height:70px;">
+    <div class="container-fluid" style="position:relative; height:100%;">
+      
+      <!-- Centered Logo -->
+      <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);">
+        <a href="index.html">
+          <img src="images/ig-nation-logo-graduation.png" alt="IG Nation IGCSE Tutoring" style="height:55px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: all 0.3s ease;" onerror="this.src='images/igway-logo.png'; this.alt='IG Way IGCSE Tutoring';">
+        </a>
+      </div>
+
+      <!-- Right-aligned Utility Links -->
+      <div style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:20px; font-size:14px;">
+
+        <!-- User Name Display -->
+        <div id="userNameDisplay" style="display:none;">
+          <span class="text-primary fw-bold" id="displayUserName">User</span>
+        </div>
+
+        <!-- Cart Button -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#cartModal" style="text-decoration:none; color:#000; display:flex; align-items:center; position:relative;">
+          <iconify-icon icon="material-symbols:shopping-cart" style="margin-right:5px;"></iconify-icon>
+          Cart <span class="badge bg-primary ms-1" id="cartCount">0</span>
+        </a>
+
+        <!-- Favorites -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#favoritesModal" style="text-decoration:none; color:#000; display:flex; align-items:center;">
+          <iconify-icon icon="material-symbols:favorite" style="margin-right:5px;"></iconify-icon>
+          Favorites
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-navigation">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-7">
+          <ul class="nav-menu d-flex list-unstyled mb-0">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="courses.html" class="nav-link active">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a href="about.html" class="nav-link">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.html" class="nav-link">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <!-- FAQ removed -->
+            </li>
+            <li class="nav-item">
+              <a href="community.html" class="nav-link">Community</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="openWhatsAppChat()" style="background: linear-gradient(135deg, #25d366, #128c7e); color: white; border-radius: 20px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                <iconify-icon icon="logos:whatsapp-icon" style="font-size: 1.1rem;"></iconify-icon>
+                Chat with Staff
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-5">
+          <div class="d-flex justify-content-end align-items-center gap-2">
+            <a href="#" class="btn btn-outline-secondary login-btn" data-bs-toggle="modal" data-bs-target="#loginModal" style="font-size: 14px; padding: 8px 16px;">
+              <iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>
+              Login
+            </a>
+            <a href="#" class="btn btn-primary register-btn" data-bs-toggle="modal" data-bs-target="#registerModal" style="font-size: 14px; padding: 8px 16px;">
+              <iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>
+              Register Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Premium Hero Section with Advanced Animations -->
+  <section class="premium-hero" style="position: relative; overflow: hidden; margin-top: 130px; min-height: 100vh; display: flex; align-items: center;">
+    <!-- Animated Background -->
+    <div class="hero-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0f172a 0%, #1e3d6f 25%, #2c5aa0 50%, #3b82f6 75%, #60a5fa 100%); z-index: 1;">
+      <!-- Animated Particles -->
+      <div class="particles-container" style="position: absolute; width: 100%; height: 100%; overflow: hidden;">
+        <div class="particle" style="position: absolute; width: 4px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
+        <div class="particle" style="position: absolute; width: 6px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 50%; animation: float 8s ease-in-out infinite reverse; top: 20%; left: 10%;"></div>
+        <div class="particle" style="position: absolute; width: 3px; height: 3px; background: rgba(255,255,255,0.4); border-radius: 50%; animation: float 7s ease-in-out infinite; top: 60%; left: 80%;"></div>
+        <div class="particle" style="position: absolute; width: 5px; height: 5px; background: rgba(255,255,255,0.25); border-radius: 50%; animation: float 9s ease-in-out infinite reverse; top: 80%; left: 20%;"></div>
+        <div class="particle" style="position: absolute; width: 4px; height: 4px; background: rgba(255,255,255,0.35); border-radius: 50%; animation: float 5s ease-in-out infinite; top: 30%; left: 70%;"></div>
+        <div class="particle" style="position: absolute; width: 7px; height: 7px; background: rgba(255,255,255,0.15); border-radius: 50%; animation: float 10s ease-in-out infinite reverse; top: 70%; left: 90%;"></div>
+      </div>
+      
+      <!-- Geometric Shapes -->
+      <div class="geometric-shapes" style="position: absolute; width: 100%; height: 100%; overflow: hidden;">
+        <div class="shape shape-1" style="position: absolute; width: 200px; height: 200px; background: rgba(255,255,255,0.05); border-radius: 50%; top: 10%; right: 10%; animation: rotate 20s linear infinite;"></div>
+        <div class="shape shape-2" style="position: absolute; width: 150px; height: 150px; background: rgba(255,255,255,0.03); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; top: 60%; left: 5%; animation: morph 15s ease-in-out infinite;"></div>
+        <div class="shape shape-3" style="position: absolute; width: 100px; height: 100px; background: rgba(255,255,255,0.08); border-radius: 20px; top: 20%; left: 20%; animation: pulse 4s ease-in-out infinite;"></div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="row justify-content-center text-center">
+        <div class="col-lg-10">
+          <div class="hero-content" style="animation: fadeInUp 1s ease-out;">
+            <!-- Badge -->
+            <div class="hero-badge mb-4" style="display: inline-block; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 12px 24px; color: white; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
+              <iconify-icon icon="material-symbols:star" class="me-2" style="color: #fbbf24;"></iconify-icon>
+              #1 IGCSE Learning Platform
+            </div>
+            
+            <!-- Main Title with Gradient Text -->
+            <h1 class="hero-title mb-4" style="color: white; font-size: 4rem; font-weight: 800; line-height: 1.1; text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+              Master Your
+              <span class="gradient-text" style="background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; display: inline-block;">IGCSE Journey</span>
+              <br>With Expert Guidance
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="hero-description mb-5" style="color: rgba(255,255,255,0.9); font-size: 1.4rem; line-height: 1.7; max-width: 800px; margin: 0 auto; font-weight: 400;">
+              Join thousands of successful students who've transformed their academic performance with our 
+              <strong style="color: #fbbf24;">world-class IGCSE courses</strong>, 
+              expert instructors, and proven learning methodologies.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="hero-actions mb-5" style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap;">
+              <a href="#courses-content" class="btn btn-premium btn-lg" style="background: linear-gradient(135deg, #fbbf24, #f59e0b); border: none; border-radius: 50px; padding: 18px 40px; font-weight: 700; font-size: 1.1rem; color: white; text-decoration: none; box-shadow: 0 8px 25px rgba(251, 191, 36, 0.4); transition: all 0.3s ease; position: relative; overflow: hidden;">
+                <span style="position: relative; z-index: 2;">
+                  <iconify-icon icon="material-symbols:rocket-launch" class="me-2"></iconify-icon>
+                  Start Learning Now
+                </span>
+                <div class="btn-shine" style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s;"></div>
+              </a>
+              
+              <a href="#courses-content" class="btn btn-outline-premium btn-lg" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.3); border-radius: 50px; padding: 18px 40px; font-weight: 600; font-size: 1.1rem; color: white; text-decoration: none; transition: all 0.3s ease;">
+                <iconify-icon icon="material-symbols:play-circle" class="me-2"></iconify-icon>
+                Watch Demo
+              </a>
+            </div>
+            
+            <!-- Trust Indicators with Icons -->
+            <div class="trust-indicators" style="display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; margin-top: 4rem;">
+              <div class="trust-item" style="text-align: center; color: white;">
+                <div class="trust-icon" style="width: 60px; height: 60px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; border: 1px solid rgba(255,255,255,0.2);">
+                  <iconify-icon icon="material-symbols:school" style="font-size: 1.8rem; color: #fbbf24;"></iconify-icon>
+                </div>
+                <div class="trust-number" style="font-size: 2rem; font-weight: 800; color: #fbbf24; line-height: 1;">2,500+</div>
+                <div class="trust-label" style="font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.8);">Successful Students</div>
+              </div>
+              
+              <div class="trust-item" style="text-align: center; color: white;">
+                <div class="trust-icon" style="width: 60px; height: 60px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; border: 1px solid rgba(255,255,255,0.2);">
+                  <iconify-icon icon="material-symbols:star-rate" style="font-size: 1.8rem; color: #fbbf24;"></iconify-icon>
+                </div>
+                <div class="trust-number" style="font-size: 2rem; font-weight: 800; color: #fbbf24; line-height: 1;">4.9/5</div>
+                <div class="trust-label" style="font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.8);">Average Rating</div>
+              </div>
+              
+              <div class="trust-item" style="text-align: center; color: white;">
+                <div class="trust-icon" style="width: 60px; height: 60px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; border: 1px solid rgba(255,255,255,0.2);">
+                  <iconify-icon icon="material-symbols:emoji-events" style="font-size: 1.8rem; color: #fbbf24;"></iconify-icon>
+                </div>
+                <div class="trust-number" style="font-size: 2rem; font-weight: 800; color: #fbbf24; line-height: 1;">98%</div>
+                <div class="trust-label" style="font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.8);">Success Rate</div>
+              </div>
+              
+              <div class="trust-item" style="text-align: center; color: white;">
+                <div class="trust-icon" style="width: 60px; height: 60px; background: rgba(255,255,255,0.15); backdrop-filter: blur(10px); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; border: 1px solid rgba(255,255,255,0.2);">
+                  <iconify-icon icon="material-symbols:verified" style="font-size: 1.8rem; color: #fbbf24;"></iconify-icon>
+                </div>
+                <div class="trust-number" style="font-size: 2rem; font-weight: 800; color: #fbbf24; line-height: 1;">50+</div>
+                <div class="trust-label" style="font-size: 0.9rem; font-weight: 500; color: rgba(255,255,255,0.8);">Expert Teachers</div>
+              </div>
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div class="scroll-indicator" style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); color: rgba(255,255,255,0.6); animation: bounce 2s infinite;">
+              <iconify-icon icon="material-symbols:keyboard-arrow-down" style="font-size: 2rem;"></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Courses Page Content -->
+  <section id="courses-content" class="padding-medium" style="background: #f8fafc; padding: 80px 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">All Courses</h2>
+        <p class="section-subtitle">Explore our comprehensive collection of IGCSE courses designed by expert educators.</p>
+      </div>
+      
+      <!-- Amazon-style Layout with Sidebar Filters -->
+      <div class="row">
+        <!-- Left Sidebar - Filters -->
+        <div class="col-lg-3 col-md-4 mb-4">
+          <div class="filter-sidebar" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); position: sticky; top: 100px;">
+            <!-- Filter Header -->
+            <div class="d-flex align-items-center justify-content-between mb-4">
+              <h5 class="mb-0" style="color: #1e293b; font-weight: 700;">
+                <iconify-icon icon="material-symbols:filter-list" class="me-2" style="color: #667eea;"></iconify-icon>
+                Filters
+              </h5>
+              <button class="btn btn-sm btn-outline-secondary" onclick="clearAllFilters()" style="font-size: 0.8rem; padding: 4px 12px;">
+                Clear All
+              </button>
+            </div>
+
+            <!-- Subject Filter -->
+            <div class="filter-group mb-4">
+              <h6 class="filter-group-title" style="color: #374151; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                Subject
+              </h6>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="radio" name="subject" value="*" checked onchange="filterCourses()">
+                  <span class="filter-label">All Courses</span>
+                  <span class="filter-count" id="all-count">3</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="subject" value=".mathematics" onchange="filterCourses()">
+                  <span class="filter-label">Mathematics</span>
+                  <span class="filter-count" id="math-count">1</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="subject" value=".physics" onchange="filterCourses()">
+                  <span class="filter-label">Physics</span>
+                  <span class="filter-count" id="physics-count">1</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="subject" value=".chemistry" onchange="filterCourses()">
+                  <span class="filter-label">Chemistry</span>
+                  <span class="filter-count" id="chemistry-count">0</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="subject" value=".english" onchange="filterCourses()">
+                  <span class="filter-label">English</span>
+                  <span class="filter-count" id="english-count">1</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Price Filter -->
+            <div class="filter-group mb-4">
+              <h6 class="filter-group-title" style="color: #374151; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                Price Range
+              </h6>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="radio" name="price" value="all" checked onchange="filterCourses()">
+                  <span class="filter-label">All Prices</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="price" value="0-200" onchange="filterCourses()">
+                  <span class="filter-label">Under £200</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="price" value="200-300" onchange="filterCourses()">
+                  <span class="filter-label">£200 - £300</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="price" value="300+" onchange="filterCourses()">
+                  <span class="filter-label">Over £300</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Level Filter -->
+            <div class="filter-group mb-4">
+              <h6 class="filter-group-title" style="color: #374151; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                Level
+              </h6>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="radio" name="level" value="all" checked onchange="filterCourses()">
+                  <span class="filter-label">All Levels</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="level" value="igcse" onchange="filterCourses()">
+                  <span class="filter-label">IGCSE</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="level" value="a-level" onchange="filterCourses()">
+                  <span class="filter-label">A-Level</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="level" value="beginner" onchange="filterCourses()">
+                  <span class="filter-label">Beginner</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Duration Filter -->
+            <div class="filter-group mb-4">
+              <h6 class="filter-group-title" style="color: #374151; font-weight: 600; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid #e5e7eb;">
+                Duration
+              </h6>
+              <div class="filter-options">
+                <label class="filter-option">
+                  <input type="radio" name="duration" value="all" checked onchange="filterCourses()">
+                  <span class="filter-label">Any Duration</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="duration" value="short" onchange="filterCourses()">
+                  <span class="filter-label">Short (1-4 weeks)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="duration" value="medium" onchange="filterCourses()">
+                  <span class="filter-label">Medium (5-12 weeks)</span>
+                </label>
+                <label class="filter-option">
+                  <input type="radio" name="duration" value="long" onchange="filterCourses()">
+                  <span class="filter-label">Long (12+ weeks)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content Area - Courses and Sort -->
+        <div class="col-lg-9 col-md-8">
+          <!-- Sort Bar -->
+          <div class="sort-bar mb-4" style="background: white; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);">
+            <div class="d-flex align-items-center justify-content-between flex-wrap">
+              <div class="d-flex align-items-center">
+                <span class="me-3" style="color: #64748b; font-weight: 500;">Sort by:</span>
+                <select class="form-select" id="sortSelect" style="width: auto; min-width: 150px;" onchange="sortCourses()">
+                  <option value="featured">Featured</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="name">Name: A to Z</option>
+                  <option value="rating">Rating</option>
+                </select>
+              </div>
+              <div class="d-flex align-items-center">
+                <span class="me-2" style="color: #64748b; font-size: 0.9rem;">Results:</span>
+                <span id="resultsCount" class="fw-bold" style="color: #1e293b;">3 courses</span>
+              </div>
+            </div>
+          </div>
+
+      <div class="row g-4 isotope-container">
+        <div class="col-md-4 item mathematics">
+          <div class="course-card">
+            <div class="course-image">
+              <a href="courses-details.html">
+                <img src="images/teacher1.png" class="img-fluid" alt="IGCSE Mathematics Course">
+              </a>
+              <div class="course-badge featured-badge">
+                <iconify-icon icon="material-symbols:star" class="me-1"></iconify-icon>
+                Featured
+                </div>
+              <button class="favorite-button" data-course="mathematics" onclick="toggleFavorite('mathematics')">
+                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+              </button>
+                </div>
+            <div class="course-content">
+              <a href="courses-details.html" style="text-decoration: none;">
+                <h5 class="course-title">IGCSE Mathematics (Extended)</h5>
+              </a>
+              <p class="course-description">Master advanced mathematical concepts with comprehensive coverage of IGCSE Extended Mathematics curriculum.</p>
+              
+              <div class="instructor-card">
+                <div class="instructor-avatar">SM</div>
+                <div class="instructor-info">
+                  <p class="instructor-name">Dr. Sarah Mitchell</p>
+                  <p class="instructor-board">Cambridge Board</p>
+                </div>
+              </div>
+              
+              <div class="rating-section">
+                <div class="star-rating">
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                </div>
+                <span class="rating-text">4.9 (127 reviews)</span>
+              </div>
+              
+              <div class="pricing-section">
+                <div class="price-container">
+                  <span class="current-price">£299.00</span>
+                  <span class="original-price">£399.00</span>
+                </div>
+                <div class="discount-badge">25% OFF</div>
+              </div>
+              
+              <div class="course-actions">
+                <button onclick="enrollInCourse('mathematics')" class="enroll-button">
+                  <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                  Enroll Now
+                </button>
+                <button class="cart-button" data-course="mathematics" onclick="addToCart('mathematics')">
+                  <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                    Add to Cart
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 item physics">
+          <div class="course-card">
+            <div class="course-image">
+              <a href="course-details.html?course=physics">
+                <img src="images/teacher2.png" class="img-fluid" alt="IGCSE Physics Course">
+              </a>
+              <div class="course-badge">
+                <iconify-icon icon="material-symbols:science" class="me-1"></iconify-icon>
+                Popular
+                </div>
+              <button class="favorite-button" data-course="physics" onclick="toggleFavorite('physics')">
+                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+              </button>
+                </div>
+            <div class="course-content">
+              <a href="course-details.html?course=physics" style="text-decoration: none;">
+                <h5 class="course-title">IGCSE Physics (Extended)</h5>
+              </a>
+              <p class="course-description">Master fundamental physics concepts with comprehensive coverage of IGCSE Extended Physics curriculum including mechanics, waves, and electricity.</p>
+              
+              <div class="instructor-card">
+                <div class="instructor-avatar">MC</div>
+                <div class="instructor-info">
+                  <p class="instructor-name">Prof. Michael Chen</p>
+                  <p class="instructor-board">Edexcel Board</p>
+                </div>
+              </div>
+              
+              <div class="rating-section">
+                <div class="star-rating">
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                </div>
+                <span class="rating-text">4.8 (98 reviews)</span>
+              </div>
+              
+              <div class="pricing-section">
+                <div class="price-container">
+                  <span class="current-price">£279.00</span>
+                  <span class="original-price">£349.00</span>
+                </div>
+                <div class="discount-badge">20% OFF</div>
+              </div>
+              
+              <div class="course-actions">
+                <button onclick="enrollInCourse('physics')" class="enroll-button">
+                  <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                  Enroll Now
+                </button>
+                <button class="cart-button" data-course="physics" onclick="addToCart('physics')">
+                  <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                    Add to Cart
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4 item english">
+          <div class="course-card">
+            <div class="course-image">
+              <a href="course-details.html?course=english">
+                <img src="images/teacher3.png" class="img-fluid" alt="IGCSE English Language Course">
+              </a>
+              <div class="course-badge featured-badge">
+                <iconify-icon icon="material-symbols:star" class="me-1"></iconify-icon>
+                Featured
+                </div>
+              <button class="favorite-button" data-course="english" onclick="toggleFavorite('english')">
+                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+              </button>
+                </div>
+            <div class="course-content">
+              <a href="course-details.html?course=english" style="text-decoration: none;">
+                <h5 class="course-title">IGCSE English Language</h5>
+              </a>
+              <p class="course-description">Master English language skills with comprehensive coverage of reading, writing, speaking, and listening for IGCSE success.</p>
+              
+              <div class="instructor-card">
+                <div class="instructor-avatar">ER</div>
+                <div class="instructor-info">
+                  <p class="instructor-name">Dr. Emily Rodriguez</p>
+                  <p class="instructor-board">Cambridge Board</p>
+                </div>
+              </div>
+              
+              <div class="rating-section">
+                <div class="star-rating">
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                  <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                </div>
+                <span class="rating-text">4.9 (156 reviews)</span>
+              </div>
+              
+              <div class="pricing-section">
+                <div class="price-container">
+                  <span class="current-price">£249.00</span>
+                  <span class="original-price">£329.00</span>
+                </div>
+                <div class="discount-badge">24% OFF</div>
+              </div>
+              
+              <div class="course-actions">
+                <button onclick="enrollInCourse('english')" class="enroll-button">
+                  <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                  Enroll Now
+                </button>
+                <button class="cart-button" data-course="english" onclick="addToCart('english')">
+                  <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                    Add to Cart
+                  </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container padding-medium">
+      <div class="row">
+        <div class="col-md-4 my-3">
+          <h5 class="text-uppercase fw-bold mb-4">Contact us</h5>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="mdi:location"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Address: </span> New Cairo,
+            Egypt</p>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="solar:phone-bold"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Phone: </span> 01027500835</p>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Email: </span>
+            info@igway.com
+          </p>
+        </div>
+        <div class="col-md-2 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">Links</h5>
+            <ul class="menu-list list-unstyled">
+              <li class="menu-item mb-2">
+                <a href="index.html" class="footer-link">Home</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="about.html" class="footer-link">About us</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="courses.html" class="footer-link">Courses</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="contact.html" class="footer-link">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">support</h5>
+            <ul class="menu-list list-unstyled">
+              <li class="menu-item mb-2">
+                <!-- FAQ removed -->
+              </li>
+              <li class="menu-item mb-2">
+                <a href="https://wa.me/201027500835" target="_blank" class="footer-link">Support</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">Follow us</h5>
+            <div class="social-links mt-4">
+              <ul class="d-flex list-unstyled gap-3">
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:facebook-fill"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="simple-icons:tiktok"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:instagram-fill"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:youtube-fill"></iconify-icon>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="footer-bottom">
+    <hr class="m-0 text-black-50">
+    <div class="container py-3">
+      <div class="row mt-3">
+        <div class="col-md-6 copyright">
+          <p>Copyright © 2025</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+  <script src="js/plugins.js"></script>
+  <!-- Cart Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">
+            <iconify-icon icon="material-symbols:shopping-cart" class="me-2 text-primary"></iconify-icon>
+            Your Cart
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="cartList">
+            <div class="text-center text-muted py-4">
+              <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+              <p>Your cart is empty. Start adding courses to your cart!</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+          <button type="button" class="btn btn-primary" id="checkoutBtn" disabled onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Cart Modal -->
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="loginForm">
+            <div class="mb-3">
+              <label for="loginEmail" class="form-label">Email</label>
+              <input type="email" id="loginEmail" class="form-control" autocapitalize="off" autocorrect="off" spellcheck="false" required style="text-transform: lowercase;" oninput="this.value = this.value.toLowerCase()" onkeyup="this.value = this.value.toLowerCase()" onblur="this.value = this.value.toLowerCase()">
+            </div>
+            <div class="mb-3">
+              <label for="loginPassword" class="form-label">Password</label>
+              <input type="password" id="loginPassword" class="form-control" required autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="handleLoginClick()">Log In</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Register</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="registerForm">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="text" id="firstName" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="text" id="lastName" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" class="form-control" autocapitalize="off" autocorrect="off" spellcheck="false" required style="text-transform: lowercase;" oninput="this.value = this.value.toLowerCase()" onkeyup="this.value = this.value.toLowerCase()" onblur="this.value = this.value.toLowerCase()">
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" id="password" class="form-control" required>
+            </div>
+            <button type="button" class="btn btn-success" onclick="handleRegisterClick()">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Cart functionality
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Check login state and update UI
+    function checkLoginState() {
+        const isLoggedIn = localStorage.getItem('userLoggedIn');
+        const userName = localStorage.getItem('userName');
+        
+        if (isLoggedIn) {
+            // Show user name in utility bar
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            const displayUserName = document.getElementById('displayUserName');
+            if (userNameDisplay && displayUserName) {
+                userNameDisplay.style.display = 'block';
+                displayUserName.textContent = userName || 'User';
+            }
+            
+            // Hide both login and register buttons when logged in
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+            
+            if (loginBtn) {
+                loginBtn.style.display = 'none';
+            }
+            
+            if (registerBtn) {
+                registerBtn.style.display = 'none';
+            }
+            
+            console.log('✅ User logged in - Login and Register buttons hidden');
+        } else {
+            // Hide user name in utility bar
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            if (userNameDisplay) {
+                userNameDisplay.style.display = 'none';
+            }
+            
+            // Show login and register buttons
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+            
+            if (loginBtn) {
+                loginBtn.style.display = 'inline-block';
+                loginBtn.innerHTML = `<iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>Login`;
+                loginBtn.classList.remove('btn-success');
+                loginBtn.classList.add('btn-outline-secondary');
+                loginBtn.setAttribute('data-bs-target', '#loginModal');
+                loginBtn.removeAttribute('onclick');
+            }
+            
+            if (registerBtn) {
+                registerBtn.style.display = 'inline-block';
+                registerBtn.innerHTML = `<iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>Register Now`;
+                registerBtn.classList.remove('btn-outline-danger');
+                registerBtn.classList.add('btn-primary');
+                registerBtn.setAttribute('data-bs-target', '#registerModal');
+                registerBtn.removeAttribute('onclick');
+            }
+        }
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('userLoggedIn');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('enrolledCourses');
+        showToast('Logged out successfully', 'info');
+        checkLoginState();
+        console.log('👋 User logged out - Login and Register buttons shown');
+    }
+    
+    // Course data
+    const courses = {
+      mathematics: {
+        title: 'IGCSE Mathematics (Extended)',
+        instructor: 'Dr. Sarah Mitchell',
+        board: 'Cambridge Board',
+        price: '£299.00',
+        originalPrice: '£399.00',
+        image: 'images/teacher1.png'
+      },
+      physics: {
+        title: 'IGCSE Physics (Extended)',
+        instructor: 'Prof. Michael Chen',
+        board: 'Edexcel Board',
+        price: '£279.00',
+        originalPrice: '£349.00',
+        image: 'images/teacher2.png'
+      },
+      english: {
+        title: 'IGCSE English Language',
+        instructor: 'Dr. Emily Rodriguez',
+        board: 'Cambridge Board',
+        price: '£249.00',
+        originalPrice: '£329.00',
+        image: 'images/teacher3.png'
+      }
+    };
+
+    // Add to cart function
+    function addToCart(courseId, silent = false) {
+      console.log('🛒 addToCart called with courseId:', courseId, 'silent:', silent);
+      
+      const course = courses[courseId];
+      if (!course) {
+        if (!silent) showToast('Course not found!', 'error');
+        return false;
+      }
+      
+      const existingItem = cart.find(item => item.courseId === courseId);
+      
+      if (existingItem) {
+        // Course already in cart - don't add again
+        if (!silent) showToast('This course is already in your cart!', 'info');
+        return false;
+      } else {
+        // Add course to cart (quantity is always 1 for courses)
+        cart.push({
+          courseId: courseId,
+          id: courseId, // For checkout compatibility
+          title: course.title,
+          price: parseFloat(course.price.replace('£', '')), // Convert to number
+          instructor: course.instructor,
+          board: course.board,
+          image: course.image,
+          quantity: 1, // Always 1 - courses can't be purchased multiple times
+          addedAt: new Date().toISOString()
+        });
+        if (!silent) showToast('Course added to cart!', 'success');
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      addCartAnimations(courseId);
+      updateCartCount();
+      updateCartModal();
+      return true;
+    }
+
+    // Enroll in course function - redirects to checkout
+    function enrollInCourse(courseId) {
+      console.log('🚀 enrollInCourse called with courseId:', courseId);
+      
+      const isLoggedIn = localStorage.getItem('userLoggedIn');
+      const userName = localStorage.getItem('userName');
+      const authToken = localStorage.getItem('authToken');
+      
+      console.log('🔍 Enroll button clicked - Checking login state:', {
+        userLoggedIn: isLoggedIn,
+        userName: userName,
+        authToken: authToken ? 'Set' : 'Not Set',
+        courseId: courseId
+      });
+      
+      if (!isLoggedIn || !authToken) {
+        console.log('❌ User not logged in - showing login modal');
+        showToast('Please log in to enroll in courses', 'warning');
+        // Open login modal
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        return;
+      }
+      
+      console.log('✅ User is logged in - proceeding with enrollment');
+      
+      // Check if already enrolled
+      const isPurchased = await checkCoursePurchaseStatus(courseId);
+      if (isPurchased) {
+        showToast('You have already purchased this course!', 'info');
+        return;
+      }
+      
+      // Check if course is already in cart
+      const existingItem = cart.find(item => item.courseId === courseId);
+      if (existingItem) {
+        showToast('This course is already in your cart!', 'info');
+        // Still redirect to checkout so user can complete the purchase
+        setTimeout(() => {
+          window.location.href = 'checkout.html';
+        }, 1500);
+        return;
+      }
+      
+      // Add course to cart silently (without showing toast)
+      const added = addToCart(courseId, true);
+      
+      if (added) {
+        // Show single toast about redirecting
+      showToast('Course added to cart! Redirecting to checkout...', 'success');
+      
+      // Redirect to checkout page after a short delay
+      setTimeout(() => {
+        window.location.href = 'checkout.html';
+      }, 1000);
+      }
+    }
+
+    // Add cart animations
+    function addCartAnimations(courseId) {
+      const addBtn = document.querySelector(`[data-course="${courseId}"].add-to-cart-btn`);
+      if (addBtn) {
+        addBtn.classList.add('added');
+        setTimeout(() => {
+          addBtn.classList.remove('added');
+        }, 800);
+      }
+      
+      const cartBtn = document.querySelector('.cart-btn');
+      if (cartBtn) {
+        cartBtn.classList.add('added');
+        setTimeout(() => {
+          cartBtn.classList.remove('added');
+        }, 600);
+      }
+      
+      const cartBadge = document.getElementById('cartCount');
+      if (cartBadge) {
+        cartBadge.classList.add('updated');
+        setTimeout(() => {
+          cartBadge.classList.remove('updated');
+        }, 500);
+      }
+    }
+
+    // Update cart count
+    function updateCartCount() {
+      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartBadge = document.getElementById('cartCount');
+      if (cartBadge) {
+        cartBadge.textContent = cartCount;
+        console.log('Cart count updated:', cartCount, 'Cart items:', cart);
+      } else {
+        console.log('Cart badge not found');
+      }
+    }
+
+    // Update cart modal
+    function updateCartModal() {
+      const cartList = document.getElementById('cartList');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      
+      if (cart.length === 0) {
+        cartList.innerHTML = `
+          <div class="text-center text-muted py-4">
+            <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+            <p>Your cart is empty. Start adding courses to your cart!</p>
+          </div>
+        `;
+        if (checkoutBtn) checkoutBtn.disabled = true;
+      } else {
+        cartList.innerHTML = cart.map(item => {
+          const course = courses[item.courseId];
+          return `
+            <div class="cart-item d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                <div>
+                  <div class="course-title">${course.title}</div>
+                  <div class="course-instructor">${course.instructor} - ${course.board}</div>
+                  <div class="course-price">${course.price} <span class="text-muted">x${item.quantity}</span></div>
+                </div>
+              </div>
+              <button class="remove-cart" onclick="removeFromCart('${item.courseId}')">
+                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+              </button>
+            </div>
+          `;
+        }).join('');
+        if (checkoutBtn) checkoutBtn.disabled = false;
+      }
+    }
+
+    // Remove from cart function
+    function removeFromCart(courseId) {
+      cart = cart.filter(item => item.courseId !== courseId);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      updateCartModal();
+      showToast('Course removed from cart');
+    }
+
+    // Toggle favorite function
+    function toggleFavorite(courseId) {
+      console.log('❤️ toggleFavorite called with courseId:', courseId);
+      
+      const course = courses[courseId];
+      if (!course) {
+        showToast('Course not found!', 'error');
+        return;
+      }
+      
+      // Get current favorites from localStorage
+      let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+      
+      // Check if course is already in favorites
+      const existingIndex = favorites.findIndex(fav => fav.courseId === courseId);
+      
+      if (existingIndex > -1) {
+        // Remove from favorites
+        favorites.splice(existingIndex, 1);
+        showToast('Course removed from favorites', 'info');
+      } else {
+        // Add to favorites
+        favorites.push({
+          courseId: courseId,
+          title: course.title,
+          instructor: course.instructor,
+          price: course.price,
+          image: course.image,
+          addedAt: new Date().toISOString()
+        });
+        showToast('Course added to favorites', 'success');
+      }
+      
+      // Save back to localStorage
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      
+      // Update button appearance
+      const button = document.querySelector(`[data-course="${courseId}"].favorite-btn`);
+      if (button) {
+        const icon = button.querySelector('iconify-icon');
+        if (existingIndex > -1) {
+          // Was in favorites, now removed
+          icon.setAttribute('icon', 'mdi:heart-outline');
+          button.classList.remove('btn-danger');
+          button.classList.add('btn-outline-danger');
+        } else {
+          // Was not in favorites, now added
+          icon.setAttribute('icon', 'mdi:heart');
+          button.classList.remove('btn-outline-danger');
+          button.classList.add('btn-danger');
+        }
+      }
+    }
+
+    // Proceed to checkout function
+    function proceedToCheckout() {
+      if (cart.length === 0) {
+        showToast('Your cart is empty!', 'warning');
+        return;
+      }
+      
+      // Check if user is logged in
+      const isLoggedIn = localStorage.getItem('userLoggedIn');
+      if (!isLoggedIn) {
+        showToast('Please log in to proceed to checkout', 'warning');
+        // Open login modal
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        return;
+      }
+      
+      // Redirect to checkout page
+      window.location.href = 'checkout.html';
+    }
+
+    // Show toast notification
+    function showToast(message, type = 'info') {
+      const toastContainer = document.getElementById('toastContainer');
+      const toastId = 'toast-' + Date.now();
+      
+      // Determine icon and title based on message content
+      let icon = 'material-symbols:info';
+      let title = 'Notification';
+      
+      if (message.includes('favorite') || message.includes('Favorite')) {
+        icon = 'material-symbols:favorite';
+        title = 'Favorite Updated!';
+      } else if (message.includes('cart') || message.includes('Cart')) {
+        icon = 'material-symbols:shopping-cart';
+        title = 'Cart Updated!';
+      }
+      
+      const toastHTML = `
+        <div class="toast" id="${toastId}" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <iconify-icon icon="${icon}" class="me-2"></iconify-icon>
+            <strong class="me-auto">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            ${message}
+          </div>
+        </div>
+      `;
+      
+      toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+      
+      const toastElement = document.getElementById(toastId);
+      const toast = new bootstrap.Toast(toastElement, {
+        autohide: true,
+        delay: 3000
+      });
+      
+      toast.show();
+      
+      toastElement.addEventListener('hidden.bs.toast', function() {
+        toastElement.remove();
+      });
+    }
+
+    // Login function - now uses API
+    async function handleLoginClick() {
+      const email = document.getElementById('loginEmail').value.toLowerCase().trim();
+      const password = document.getElementById('loginPassword').value;
+      
+      if (!email || !password) {
+        showToast('Please fill in all fields', 'warning');
+        return;
+      }
+      
+      try {
+        const data = await api.login({ email, password });
+        showToast('Login successful!', 'success');
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+        if (modal) modal.hide();
+        
+        // Clear form
+        document.getElementById('loginEmail').value = '';
+        document.getElementById('loginPassword').value = '';
+        
+        // Update UI
+        checkLoginState();
+        
+        // Update course buttons to reflect purchase status
+        updateCourseButtons();
+      } catch (error) {
+        showToast('Login failed: ' + error.message, 'error');
+      }
+    }
+
+    // Register function - now uses API
+    async function handleRegisterClick() {
+      const firstName = document.getElementById('firstName').value;
+      const lastName = document.getElementById('lastName').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      if (!firstName || !lastName || !email || !password) {
+        showToast('Please fill in all fields', 'warning');
+        return;
+      }
+      
+      try {
+        const data = await api.register({ 
+          first_name: firstName, 
+          last_name: lastName, 
+          email, 
+          password 
+        });
+        showToast('Registration successful!', 'success');
+        
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+        if (modal) modal.hide();
+        
+        // Clear form
+        document.getElementById('firstName').value = '';
+        document.getElementById('lastName').value = '';
+        document.getElementById('email').value = '';
+        document.getElementById('password').value = '';
+        
+        // Update UI
+        checkLoginState();
+        
+        // Redirect to test-dashboard after a short delay
+        setTimeout(() => {
+          window.location.href = 'home.html';
+        }, 1500);
+      } catch (error) {
+        showToast('Registration failed: ' + error.message, 'error');
+      }
+    }
+
+    // Immediately hide buttons if logged in (before DOM loads)
+    if (localStorage.getItem('userLoggedIn')) {
+      const style = document.createElement('style');
+      style.textContent = '.login-btn, .register-btn { display: none !important; }';
+      document.head.appendChild(style);
+      console.log('🔒 User already logged in - hiding auth buttons immediately');
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Don't force logout - keep user logged in across pages
+      // User login state is preserved in localStorage
+      
+      // Debug: Check localStorage values
+      console.log('🔍 Courses page - localStorage values:', {
+        userLoggedIn: localStorage.getItem('userLoggedIn'),
+        userName: localStorage.getItem('userName'),
+        userEmail: localStorage.getItem('userEmail'),
+        authToken: localStorage.getItem('authToken') ? 'Set' : 'Not Set',
+        userId: localStorage.getItem('userId')
+      });
+      
+      // Check login state and update UI accordingly
+      checkLoginState();
+      updateCartCount();
+      updateCartModal();
+      
+      console.log('📄 Courses page loaded - User login state:', localStorage.getItem('userLoggedIn') ? 'Logged In' : 'Not Logged In');
+    });
+
+    // Enhanced Course Filtering and Sorting
+    function initCourseFiltering() {
+      // Subject filter functionality
+      $('.subject-filter').click(function() {
+        $('.subject-filter').removeClass('active');
+        $(this).addClass('active');
+        
+        var filterValue = $(this).attr('data-filter');
+        filterCourses(filterValue);
+      });
+      
+      // Sort option functionality (only Featured)
+      $('.sort-option').click(function() {
+        $('.sort-option').removeClass('active');
+        $(this).addClass('active');
+        
+        var sortType = $(this).attr('data-sort');
+        if (sortType === 'featured') {
+          sortCourses(sortType);
+        }
+      });
+      
+      // Initialize counts
+      updateFilterCounts();
+    }
+    
+    function filterCourses() {
+      // Get all filter values
+      const subjectFilter = document.querySelector('input[name="subject"]:checked').value;
+      const priceFilter = document.querySelector('input[name="price"]:checked').value;
+      const levelFilter = document.querySelector('input[name="level"]:checked').value;
+      const durationFilter = document.querySelector('input[name="duration"]:checked').value;
+      
+      const items = document.querySelectorAll('.item');
+      let visibleCount = 0;
+      
+      items.forEach(item => {
+        let showItem = true;
+        
+        // Subject filter
+        if (subjectFilter !== '*' && !item.classList.contains(subjectFilter.replace('.', ''))) {
+          showItem = false;
+        }
+        
+        // Price filter
+        if (priceFilter !== 'all' && showItem) {
+          const priceElement = item.querySelector('.course-price');
+          if (priceElement) {
+            const price = parseFloat(priceElement.textContent.replace(/[£,]/g, ''));
+            if (priceFilter === '0-200' && price >= 200) showItem = false;
+            if (priceFilter === '200-300' && (price < 200 || price > 300)) showItem = false;
+            if (priceFilter === '300+' && price <= 300) showItem = false;
+          }
+        }
+        
+        // Level filter (based on course content)
+        if (levelFilter !== 'all' && showItem) {
+          const title = item.querySelector('.course-title').textContent.toLowerCase();
+          if (levelFilter === 'igcse' && !title.includes('igcse')) showItem = false;
+          if (levelFilter === 'a-level' && !title.includes('a-level') && !title.includes('advanced')) showItem = false;
+          if (levelFilter === 'beginner' && !title.includes('beginner') && !title.includes('basic')) showItem = false;
+        }
+        
+        // Duration filter (based on course content)
+        if (durationFilter !== 'all' && showItem) {
+          const description = item.querySelector('.course-description').textContent.toLowerCase();
+          if (durationFilter === 'short' && !description.includes('short') && !description.includes('quick')) showItem = false;
+          if (durationFilter === 'medium' && !description.includes('medium') && !description.includes('standard')) showItem = false;
+          if (durationFilter === 'long' && !description.includes('long') && !description.includes('comprehensive')) showItem = false;
+        }
+        
+        // Show/hide item
+        if (showItem) {
+          item.style.display = 'block';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // Update results count
+      document.getElementById('resultsCount').textContent = `${visibleCount} course${visibleCount !== 1 ? 's' : ''}`;
+    }
+    
+    function updateFilterCounts() {
+      var counts = {
+        'all-count': $('.item').length,
+        'math-count': $('.item.mathematics').length,
+        'physics-count': $('.item.physics').length,
+        'chemistry-count': $('.item.chemistry').length,
+        'english-count': $('.item.english').length
+      };
+      
+      Object.keys(counts).forEach(function(key) {
+        $('#' + key).text(counts[key]);
+      });
+    }
+    
+    function sortCourses() {
+      const sortType = document.getElementById('sortSelect').value;
+      const container = document.querySelector('.isotope-container');
+      const items = Array.from(container.querySelectorAll('.item:not([style*="display: none"])'));
+      
+      items.sort((a, b) => {
+        switch(sortType) {
+          case 'featured':
+            const aFeatured = a.querySelector('.featured-badge') ? 1 : 0;
+            const bFeatured = b.querySelector('.featured-badge') ? 1 : 0;
+            return bFeatured - aFeatured;
+            
+          case 'price-low':
+            const aPrice = parseFloat(a.querySelector('.course-price')?.textContent.replace(/[£,]/g, '') || 0);
+            const bPrice = parseFloat(b.querySelector('.course-price')?.textContent.replace(/[£,]/g, '') || 0);
+            return aPrice - bPrice;
+            
+          case 'price-high':
+            const aPriceHigh = parseFloat(a.querySelector('.course-price')?.textContent.replace(/[£,]/g, '') || 0);
+            const bPriceHigh = parseFloat(b.querySelector('.course-price')?.textContent.replace(/[£,]/g, '') || 0);
+            return bPriceHigh - aPriceHigh;
+            
+          case 'name':
+            const aName = a.querySelector('.course-title')?.textContent.toLowerCase() || '';
+            const bName = b.querySelector('.course-title')?.textContent.toLowerCase() || '';
+            return aName.localeCompare(bName);
+            
+          case 'rating':
+            const aRating = parseFloat(a.querySelector('.rating-number')?.textContent || 0);
+            const bRating = parseFloat(b.querySelector('.rating-number')?.textContent || 0);
+            return bRating - aRating;
+            
+          default:
+            return 0;
+        }
+      });
+      
+      // Re-append sorted items
+      items.forEach(item => container.appendChild(item));
+    }
+
+    function clearAllFilters() {
+      // Reset all radio buttons to default
+      document.querySelector('input[name="subject"][value="*"]').checked = true;
+      document.querySelector('input[name="price"][value="all"]').checked = true;
+      document.querySelector('input[name="level"][value="all"]').checked = true;
+      document.querySelector('input[name="duration"][value="all"]').checked = true;
+      
+      // Reset sort to featured
+      document.getElementById('sortSelect').value = 'featured';
+      
+      // Apply filters
+      filterCourses();
+      sortCourses();
+    }
+    
+
+    // Initialize course filtering when page loads
+    $(document).ready(function() {
+      initCourseFiltering();
+      
+      // Check if user is logged in and update course buttons
+      const isLoggedIn = localStorage.getItem('userLoggedIn');
+      if (isLoggedIn) {
+        updateCourseButtons();
+      }
+    });
+
+    // WhatsApp Chat Function
+    function openWhatsAppChat() {
+      const phoneNumber = '+201027500835';
+      const message = encodeURIComponent('Hello! I need assistance with my IGCSE courses. Can you help me?');
+      const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${message}`;
+      
+      // Open WhatsApp in a new tab
+      window.open(whatsappUrl, '_blank');
+      
+      // Show a toast notification
+      showToast('Opening WhatsApp to chat with our staff...', 'success');
+    }
+
+    // Check if user has purchased a course
+    async function checkCoursePurchaseStatus(courseId) {
+      const isLoggedIn = localStorage.getItem('userLoggedIn');
+      const authToken = localStorage.getItem('authToken');
+      
+      if (!isLoggedIn || !authToken) {
+        return false;
+      }
+      
+      try {
+        // Check localStorage first (faster)
+        const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
+        if (enrolledCourses.includes(courseId)) {
+          return true;
+        }
+        
+        // Check backend for active enrollments
+        const response = await fetch('/api/my-enrollments', {
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const enrollments = await response.json();
+          const hasActiveEnrollment = enrollments.some(enrollment => 
+            enrollment.course_id && 
+            enrollment.status === 'active' && 
+            getCourseIdFromCourseId(courseId) === enrollment.course_id
+          );
+          
+          if (hasActiveEnrollment) {
+            // Update localStorage to reflect the backend state
+            if (!enrolledCourses.includes(courseId)) {
+              enrolledCourses.push(courseId);
+              localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourses));
+            }
+            return true;
+          }
+        }
+      } catch (error) {
+        console.error('Error checking course purchase status:', error);
+      }
+      
+      return false;
+    }
+
+    // Helper function to map course string IDs to numeric IDs
+    function getCourseIdFromCourseId(courseId) {
+      const courseMapping = {
+        'mathematics': 1,
+        'physics': 2,
+        'chemistry': 3,
+        'english': 4
+      };
+      return courseMapping[courseId] || null;
+    }
+
+    // Update course buttons based on purchase status
+    async function updateCourseButtons() {
+      const courseIds = ['mathematics', 'physics', 'chemistry', 'english'];
+      
+      for (const courseId of courseIds) {
+        const isPurchased = await checkCoursePurchaseStatus(courseId);
+        const enrollButton = document.querySelector(`button[onclick="enrollInCourse('${courseId}')"]`);
+        const cartButton = document.querySelector(`button[onclick="addToCart('${courseId}')"]`);
+        
+        if (isPurchased) {
+          // User has purchased this course
+          if (enrollButton) {
+            enrollButton.innerHTML = '<iconify-icon icon="material-symbols:check-circle" class="me-2"></iconify-icon>Already Purchased';
+            enrollButton.classList.remove('enroll-button');
+            enrollButton.classList.add('btn-success');
+            enrollButton.disabled = true;
+            enrollButton.onclick = null;
+          }
+          
+          if (cartButton) {
+            cartButton.innerHTML = '<iconify-icon icon="material-symbols:check-circle" class="me-2"></iconify-icon>Owned';
+            cartButton.classList.remove('cart-button');
+            cartButton.classList.add('btn-success');
+            cartButton.disabled = true;
+            cartButton.onclick = null;
+          }
+        }
+      }
+    }
+  </script>
+
+  <script src="js/script.js"></script>
+  <script src="js/api.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,17 @@
+﻿Copied backend_root_live.html to public
+Copied index.html to public
+Copied home.html to public
+Copied frontend_index.html to public
+Copied about.html to public
+Copied courses.html to public
+Copied contact.html to public
+Copied community.html to public
+Copied course-details.html to public
+Copied checkout.html to public
+Copied style.css to public
+Copied css to public
+Copied js to public
+Copied images to public
+Copied icomoon to public
+Copied favicon.ico to public
+Frontend assets moved to backend/public

@@ -1,0 +1,41 @@
+{
+  "name": "ignation-learning-platform",
+  "version": "1.0.0",
+  "description": "IG Nation Learning Platform - Complete Educational Website",
+  "main": "start-backend.js",
+  "scripts": {
+    "start": "node start-backend.js",
+    "backend": "cd backend && node server.js",
+    "install-deps": "cd backend && npm install",
+    "dev": "cd backend && nodemon server.js"
+  },
+  "keywords": [
+    "education",
+    "learning",
+    "platform",
+    "igcse",
+    "mathematics",
+    "physics",
+    "chemistry",
+    "admin-panel"
+  ],
+  "author": "IG Nation",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ignation/learning-platform"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "sqlite3": "^5.1.7"
+  }
+}
+
+
+
+
+
+

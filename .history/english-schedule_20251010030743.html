@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Schedule - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+
+        .utility-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-utility {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-utility:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .calendar-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .month-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .month-nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .month-btn {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .month-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .day-header {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 0.9rem;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .calendar-day:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .calendar-day.today {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .calendar-day.has-session {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .day-number {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .session-indicator {
+            width: 6px;
+            height: 6px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sessions-list {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .session-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+
+        .session-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .session-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .session-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background: #ffeaa7;
+            color: #d63031;
+        }
+
+        .status-live {
+            background: #55efc4;
+            color: #00b894;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .session-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .join-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .join-btn:disabled {
+            background: #ddd;
+            color: #999;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="english-dashboard.html" class="logo">
+                <img src="https://ui-avatars.com/api/?name=IG+Nation&background=667eea&color=fff&size=40" alt="IG Nation">
+                IG Nation
+            </a>
+            <div class="utility-buttons">
+                <a href="english-dashboard.html" class="btn-utility">
+                    <iconify-icon icon="material-symbols:dashboard"></iconify-icon>
+                    Dashboard
+                </a>
+                <a href="student-profile.html" class="btn-utility">
+                    <iconify-icon icon="material-symbols:person"></iconify-icon>
+                    Profile
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-title">
+            <h1>📅 English Schedule</h1>
+            <p>View your monthly schedule and upcoming live sessions</p>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar-container">
+            <div class="calendar-header">
+                <h2 class="month-title" id="monthTitle">October 2025</h2>
+                <div class="month-nav">
+                    <button class="month-btn" onclick="previousMonth()">
+                        <iconify-icon icon="material-symbols:chevron-left"></iconify-icon>
+                    </button>
+                    <button class="month-btn" onclick="nextMonth()">
+                        <iconify-icon icon="material-symbols:chevron-right"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div class="calendar-grid">
+                <!-- Day Headers -->
+                <div class="day-header">Sun</div>
+                <div class="day-header">Mon</div>
+                <div class="day-header">Tue</div>
+                <div class="day-header">Wed</div>
+                <div class="day-header">Thu</div>
+                <div class="day-header">Fri</div>
+                <div class="day-header">Sat</div>
+
+                <!-- Calendar Days (will be generated by JavaScript) -->
+                <div id="calendarDays"></div>
+            </div>
+        </div>
+
+        <!-- Upcoming Sessions -->
+        <div class="sessions-list">
+            <h2 class="section-title">
+                <iconify-icon icon="material-symbols:video-call"></iconify-icon>
+                Upcoming Physics Sessions
+            </h2>
+            <div id="sessionsList">
+                <!-- Sessions will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentMonth = 9; // October (0-indexed)
+        let currentYear = 2025;
+
+        // Sample sessions data (would come from teacher panel in production)
+        const englishSessions = [
+            {
+                id: 1,
+                title: "Mechanics Review Session",
+                date: "2025-10-15",
+                time: "14:00",
+                duration: "60 minutes",
+                instructor: "Dr. Smith",
+                status: "upcoming",
+                joinLink: "#"
+            },
+            {
+                id: 2,
+                title: "Electricity & Magnetism Workshop",
+                date: "2025-10-20",
+                time: "15:30",
+                duration: "90 minutes",
+                instructor: "Prof. Johnson",
+                status: "upcoming",
+                joinLink: "#"
+            },
+            {
+                id: 3,
+                title: "Wave Properties Live Q&A",
+                date: "2025-10-25",
+                time: "16:00",
+                duration: "45 minutes",
+                instructor: "Dr. Smith",
+                status: "upcoming",
+                joinLink: "#"
+            }
+        ];
+
+        function renderCalendar() {
+            const calendarDays = document.getElementById('calendarDays');
+            const monthTitle = document.getElementById('monthTitle');
+
+            // Get first day of month and number of days
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const today = new Date();
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+
+            monthTitle.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+            let daysHTML = '';
+
+            // Add empty cells for days before first day of month
+            for (let i = 0; i < firstDay; i++) {
+                daysHTML += '<div></div>';
+            }
+
+            // Add days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const hasSession = englishSessions.some(s => s.date === dateStr);
+                const isToday = (today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear);
+
+                let classNames = 'calendar-day';
+                if (isToday) classNames += ' today';
+                if (hasSession) classNames += ' has-session';
+
+                daysHTML += `
+                    <div class="${classNames}" onclick="viewDay('${dateStr}')">
+                        <div class="day-number">${day}</div>
+                        ${hasSession ? '<div class="session-indicator"></div>' : ''}
+                    </div>
+                `;
+            }
+
+            calendarDays.innerHTML = daysHTML;
+        }
+
+        function renderSessions() {
+            const sessionsList = document.getElementById('sessionsList');
+
+            if (englishSessions.length === 0) {
+                sessionsList.innerHTML = `
+                    <div style="text-align: center; padding: 3rem; color: #666;">
+                        <iconify-icon icon="material-symbols:event-busy" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></iconify-icon>
+                        <p style="font-weight: 600;">No upcoming sessions</p>
+                        <p style="font-size: 0.9rem; opacity: 0.8;">Check back later for scheduled live sessions.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            sessionsList.innerHTML = englishSessions.map(session => `
+                <div class="session-card">
+                    <div class="session-header">
+                        <h3 class="session-title">${session.title}</h3>
+                        <span class="session-status status-${session.status}">
+                            ${session.status === 'live' ? '🔴 Live Now' : 'Upcoming'}
+                        </span>
+                    </div>
+                    <div class="session-meta">
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:event"></iconify-icon>
+                            ${new Date(session.date).toLocaleDateString()}
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            ${session.time}
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:timer"></iconify-icon>
+                            ${session.duration}
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:person"></iconify-icon>
+                            ${session.instructor}
+                        </div>
+                    </div>
+                    <button class="join-btn" onclick="joinSession('${session.joinLink}')" ${session.status !== 'live' ? 'disabled' : ''}>
+                        ${session.status === 'live' ? 'Join Now' : 'Not Started Yet'}
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function previousMonth() {
+            if (currentMonth === 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else {
+                currentMonth--;
+            }
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            if (currentMonth === 11) {
+                currentMonth = 0;
+                currentYear++;
+            } else {
+                currentMonth++;
+            }
+            renderCalendar();
+        }
+
+        function viewDay(dateStr) {
+            const sessionsOnDay = englishSessions.filter(s => s.date === dateStr);
+            if (sessionsOnDay.length > 0) {
+                alert(`Sessions on ${dateStr}:\n${sessionsOnDay.map(s => `• ${s.title} at ${s.time}`).join('\n')}`);
+            }
+        }
+
+        function joinSession(link) {
+            window.open(link, '_blank');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCalendar();
+            renderSessions();
+        });
+    </script>
+</body>
+</html>

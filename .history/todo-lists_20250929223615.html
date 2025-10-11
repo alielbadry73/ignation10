@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todo Lists - Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F8F8F8;
+            min-height: 100vh;
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1rem 0;
+            margin-bottom: 0 !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .welcome-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .welcome-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .welcome-subtext {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin: 0;
+        }
+        
+        .notification-btn, .community-btn {
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+        }
+        
+        .notification-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        .notification-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        .community-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+        
+        .community-btn:hover {
+            background: rgba(255,255,255,0.3);
+            color: white;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .page-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .todo-lists-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .todo-lists-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Todo Card Styling to match the image */
+        .todo-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #f0f0f0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .todo-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        
+        .todo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.25rem 0.5rem 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .todo-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .todo-title iconify-icon {
+            margin-right: 0.5rem;
+            color: #666;
+        }
+        
+        .todo-nav-arrow {
+            color: #999;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .todo-nav-arrow:hover {
+            color: #007bff;
+        }
+        
+        .todo-list-name {
+            padding: 0 1.25rem 1rem 1.25rem;
+        }
+        
+        .todo-list-name input {
+            width: 100%;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 0.6rem 0.8rem;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .todo-list-name input:focus {
+            outline: none;
+            border-color: #007bff;
+            background: white;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.1);
+        }
+        
+        .todo-input {
+            padding: 0 1.25rem 1rem 1.25rem;
+        }
+        
+        .todo-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .todo-input-group input {
+            flex: 1;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 0.6rem 0.8rem;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .todo-input-group input:focus {
+            outline: none;
+            border-color: #007bff;
+            background: white;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.1);
+        }
+        
+        .add-task-btn {
+            background: #ffc107;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 0.6rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+        }
+        
+        .add-task-btn:hover {
+            background: #e0a800;
+            transform: scale(1.05);
+        }
+        
+        .todo-list {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 0 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+        
+        .todo-item:last-child {
+            border-bottom: none;
+        }
+        
+        .todo-item:hover {
+            background-color: #f8f9fa;
+            margin: 0 -1.25rem;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+        }
+        
+        .todo-item.completed {
+            opacity: 0.6;
+        }
+        
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        .todo-checkbox {
+            margin-right: 0.75rem;
+            transform: scale(1.1);
+        }
+        
+        .todo-text {
+            flex: 1;
+            font-size: 0.9rem;
+            color: #333;
+        }
+        
+        .todo-delete {
+            color: #dc3545;
+            cursor: pointer;
+            margin-left: 0.5rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .todo-item:hover .todo-delete {
+            opacity: 1;
+        }
+        
+        .todo-empty-state {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #999;
+        }
+        
+        .empty-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.6;
+            color: #ccc;
+        }
+        
+        .empty-text {
+            font-size: 0.9rem;
+            color: #999;
+        }
+        
+        .todo-actions-bottom {
+            padding: 0 1.25rem 1.25rem 1.25rem;
+            text-align: center;
+        }
+        
+        .save-btn {
+            background: white;
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            color: #28a745;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .save-btn:hover {
+            background: #28a745;
+            color: white;
+            transform: translateY(-1px);
+        }
+        
+        .create-new-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #007bff;
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .create-new-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+        }
+        
+        
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .todo-lists-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .todo-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+            }
+            
+            .create-new-btn {
+                bottom: 1rem;
+                right: 1rem;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <div class="welcome-section">
+                        <div>
+                            <h2 class="welcome-text" id="welcomeMessage">Hello, User</h2>
+                            <p class="welcome-subtext">Manage your todo lists</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="d-flex gap-3 justify-content-end">
+                        <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()">
+                            <iconify-icon icon="material-symbols:notifications" class="me-1"></iconify-icon>
+                            Notifications
+                        </button>
+                        <button class="btn btn-primary btn-sm community-btn" onclick="openCommunity()">
+                            <iconify-icon icon="material-symbols:group" class="me-1"></iconify-icon>
+                            Community
+                        </button>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <iconify-icon icon="material-symbols:account-circle" class="me-1"></iconify-icon>
+                                Profile
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                    <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                    How to Use
+                                </a></li>
+                                <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                    <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                    Logout
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="page-title">
+            <h1>My Todo Lists</h1>
+            <p>All your saved todo lists in one place</p>
+        </div>
+
+        <div class="todo-lists-container">
+            <div id="savedTodoLists" class="todo-lists-grid">
+                <!-- Saved todo lists will be loaded here -->
+            </div>
+            
+            <div id="noTodoListsMessage" class="text-center py-5" style="display: none;">
+                <div class="card" style="max-width: 500px; margin: 0 auto;">
+                    <div class="card-body text-center">
+                        <iconify-icon icon="material-symbols:checklist" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></iconify-icon>
+                        <h3>No Todo Lists Yet</h3>
+                        <p class="text-muted mb-4">Create and save todo lists from your course pages to see them here.</p>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <a href="course-mathematics.html" class="btn btn-outline-primary w-100">
+                                    <iconify-icon icon="material-symbols:calculate" class="me-2"></iconify-icon>
+                                    Mathematics Tasks
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="course-physics.html" class="btn btn-outline-primary w-100">
+                                    <iconify-icon icon="material-symbols:science" class="me-2"></iconify-icon>
+                                    Physics Tasks
+                                </a>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <a href="course-chemistry.html" class="btn btn-outline-primary w-100">
+                                    <iconify-icon icon="material-symbols:biotech" class="me-2"></iconify-icon>
+                                    Chemistry Tasks
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+
+    <script>
+        // Load user name from localStorage
+        function updateStudentName() {
+            const userName = localStorage.getItem('userName') || 'User';
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Hello, ${userName}`;
+            }
+        }
+
+        // Load saved todo lists
+        function loadSavedTodoLists() {
+            const savedTodoLists = JSON.parse(localStorage.getItem('savedTodoLists')) || [];
+            const container = document.getElementById('savedTodoLists');
+            const noListsMessage = document.getElementById('noTodoListsMessage');
+            
+            if (savedTodoLists.length === 0) {
+                container.innerHTML = '';
+                noListsMessage.style.display = 'block';
+                return;
+            }
+            
+            noListsMessage.style.display = 'none';
+            container.innerHTML = '';
+            
+            savedTodoLists.forEach(todoList => {
+                const todoCard = createTodoListCard(todoList);
+                container.appendChild(todoCard);
+            });
+        }
+        
+        // Create todo list card with same appearance as course-mathematics.html
+        function createTodoListCard(todoList) {
+            const card = document.createElement('div');
+            card.className = 'todo-card';
+            card.style.cssText = `
+                background: white;
+                border-radius: 12px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                border: 1px solid #e9ecef;
+                transition: all 0.3s ease;
+                cursor: pointer;
+            `;
+            
+            // Calculate progress
+            const totalTasks = todoList.tasks.length;
+            const completedTasks = todoList.tasks.filter(task => task.completed).length;
+            const progressPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+            
+            card.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex align-items-center">
+                        <iconify-icon icon="material-symbols:checklist" style="color: #667eea; font-size: 1.5rem; margin-right: 0.5rem;"></iconify-icon>
+                        <h5 class="mb-0" style="font-weight: 700; color: #333;">${todoList.name}</h5>
+                    </div>
+                    <div class="text-muted" style="font-size: 0.8rem;">
+                        ${new Date(todoList.lastModified).toLocaleDateString()}
+                    </div>
+                </div>
+                
+                <!-- Progress Summary -->
+                <div class="progress-summary" style="background: #f8f9ff; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                    <div class="d-flex align-items-center">
+                        <div class="progress-circle" style="width: 50px; height: 50px; margin-right: 1rem; position: relative;">
+                            <svg width="50" height="50" style="transform: rotate(-90deg);">
+                                <circle cx="25" cy="25" r="20" stroke="#e0e0e0" stroke-width="3" fill="none"></circle>
+                                <circle cx="25" cy="25" r="20" stroke="#667eea" stroke-width="3" fill="none" 
+                                        stroke-dasharray="126" stroke-dashoffset="${126 - (126 * progressPercentage / 100)}" 
+                                        style="transition: stroke-dashoffset 0.3s ease;"></circle>
+                            </svg>
+                            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 700; font-size: 0.8rem; color: #333;">${progressPercentage}%</div>
+                        </div>
+                        <div>
+                            <h6 class="mb-1" style="font-weight: 700; color: #333; font-size: 0.9rem;">${todoList.name}</h6>
+                            <p class="mb-0" style="color: #666; font-size: 0.8rem;">Complete your daily tasks</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="quick-stats" style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <div class="stat-item" style="text-align: center;">
+                        <div class="stat-number" style="font-weight: 700; color: #667eea; font-size: 1.2rem;">${totalTasks}</div>
+                        <div class="stat-label" style="color: #666; font-size: 0.8rem;">Total Tasks</div>
+                    </div>
+                    <div class="stat-item" style="text-align: center;">
+                        <div class="stat-number" style="font-weight: 700; color: #28a745; font-size: 1.2rem;">${completedTasks}</div>
+                        <div class="stat-label" style="color: #666; font-size: 0.8rem;">Completed</div>
+                    </div>
+                    <div class="stat-item" style="text-align: center;">
+                        <div class="stat-number" style="font-weight: 700; color: #ffc107; font-size: 1.2rem;">${totalTasks - completedTasks}</div>
+                        <div class="stat-label" style="color: #666; font-size: 0.8rem;">Pending</div>
+                    </div>
+                </div>
+                
+                <!-- Todo List Items -->
+                <div class="todo-list-items" style="max-height: 200px; overflow-y: auto;">
+                    ${todoList.tasks.length === 0 ? `
+                        <div class="text-center text-muted py-4">
+                            <iconify-icon icon="material-symbols:checklist" class="fs-1 mb-3"></iconify-icon>
+                            <p>No tasks yet. Add one above!</p>
+                        </div>
+                    ` : todoList.tasks.map((task, index) => `
+                        <div class="todo-item ${task.completed ? 'completed' : ''}" style="display: flex; align-items: center; padding: 0.75rem; background: white; border-radius: 12px; margin-bottom: 0.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.2s ease;">
+                            <input type="checkbox" class="todo-checkbox" ${task.completed ? 'checked' : ''} disabled style="margin-right: 0.75rem; width: 20px; height: 20px; border: 2px solid #ddd; border-radius: 6px; background: #f5f5f5; cursor: pointer; position: relative;">
+                            <span class="todo-text" style="flex: 1; font-weight: 500; font-size: 0.9rem; color: #333; margin-right: 0.5rem;">${task.text}</span>
+                            <span class="todo-priority priority-${task.priority || 'medium'}" style="padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.7rem; font-weight: 500; text-transform: uppercase; background-color: ${getPriorityColor(task.priority || 'medium')}; color: white;">${(task.priority || 'medium').toUpperCase()}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <!-- Actions -->
+                <div class="d-flex justify-content-end mt-3">
+                    <button class="btn btn-outline-primary btn-sm" onclick="openTodoList('${todoList.id}')" style="border-radius: 20px; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:open-in-new" style="margin-right: 0.25rem;"></iconify-icon>
+                        Open
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm ms-2" onclick="deleteTodoList('${todoList.id}')" style="border-radius: 20px; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:delete" style="margin-right: 0.25rem;"></iconify-icon>
+                        Delete
+                    </button>
+                </div>
+            `;
+            
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '0 2px 8px rgba(0,0,0,0.1)';
+            });
+            
+            return card;
+        }
+        
+        // Get priority color
+        function getPriorityColor(priority) {
+            switch(priority) {
+                case 'high': return '#dc3545';
+                case 'medium': return '#ffc107';
+                case 'low': return '#28a745';
+                default: return '#6c757d';
+            }
+        }
+        
+        // Open todo list in course page
+        function openTodoList(listId) {
+            // For now, just redirect to mathematics course
+            // In a real implementation, you'd determine which course this belongs to
+            window.location.href = 'course-mathematics.html';
+        }
+        
+        // Delete todo list
+        function deleteTodoList(listId) {
+            if (confirm('Are you sure you want to delete this todo list?')) {
+                let savedTodoLists = JSON.parse(localStorage.getItem('savedTodoLists')) || [];
+                savedTodoLists = savedTodoLists.filter(list => list.id !== listId);
+                localStorage.setItem('savedTodoLists', JSON.stringify(savedTodoLists));
+                loadSavedTodoLists();
+            }
+        }
+
+        // Missing functions for header buttons
+        function openNotifications() {
+            alert('Notifications feature coming soon!');
+        }
+        
+        function openCommunity() {
+            alert('Community feature coming soon!');
+        }
+        
+        function openHowToModal() {
+            alert('How to use the platform guide coming soon!');
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userEmail');
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStudentName();
+            loadSavedTodoLists();
+        });
+    </script>
+</body>
+</html>
+

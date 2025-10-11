@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset & Setup All Courses - Admin Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .action-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .action-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-danger-custom {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger-custom:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-success-custom {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success-custom:hover {
+            background: #229954;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .info-box {
+            background: #d1ecf1;
+            border-left: 4px solid #0c5460;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            color: #0c5460;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #856404;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🔧 Reset & Setup All Courses</h1>
+
+            <div class="info-box">
+                <strong>ℹ️ Information:</strong> This tool will help you reset and properly configure all three courses (Mathematics, Physics, English).
+            </div>
+
+            <!-- Clear All Data -->
+            <div class="action-section">
+                <h3>🗑️ Step 1: Clear All Mock Data</h3>
+                <div class="warning-box">
+                    <strong>⚠️ Warning:</strong> This will remove ALL sample/mock assignments, quizzes, exams, todolists, and student data from all courses.
+                </div>
+                <button class="btn-action btn-danger-custom" onclick="clearAllMockData()">
+                    Clear All Mock Data
+                </button>
+                <div class="success-message" id="clearMessage">✅ All mock data cleared!</div>
+            </div>
+
+            <!-- Reset Points -->
+            <div class="action-section">
+                <h3>🎯 Step 2: Reset All Points</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Reset points to 0 for all students in all courses.</p>
+                <button class="btn-action btn-primary-custom" onclick="resetAllPoints()">
+                    Reset All Points
+                </button>
+                <div class="success-message" id="pointsMessage">✅ All points reset!</div>
+            </div>
+
+            <!-- Separate TodoLists -->
+            <div class="action-section">
+                <h3>📝 Step 3: Separate TodoLists</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Create separate todolist storage for each course.</p>
+                <button class="btn-action btn-primary-custom" onclick="separateTodoLists()">
+                    Initialize Separate TodoLists
+                </button>
+                <div class="success-message" id="todoMessage">✅ TodoLists separated!</div>
+            </div>
+
+            <!-- Reset Notifications -->
+            <div class="action-section">
+                <h3>🔔 Step 4: Reset Notifications</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Clear and separate notifications for each course.</p>
+                <button class="btn-action btn-primary-custom" onclick="separateNotifications()">
+                    Setup Course-Specific Notifications
+                </button>
+                <div class="success-message" id="notifMessage">✅ Notifications separated!</div>
+            </div>
+
+            <!-- Final Setup -->
+            <div class="action-section">
+                <h3>✅ Step 5: Complete Setup</h3>
+                <p style="color: #666; margin-bottom: 1rem;">Run all steps at once for a fresh start.</p>
+                <button class="btn-action btn-success-custom" onclick="completeSetup()">
+                    🚀 Complete Full Setup
+                </button>
+                <div class="success-message" id="completeMessage">✅ All courses setup complete!</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSuccess(messageId) {
+            const msg = document.getElementById(messageId);
+            msg.style.display = 'block';
+            setTimeout(() => {
+                msg.style.display = 'none';
+            }, 3000);
+        }
+
+        function clearAllMockData() {
+            if (confirm('⚠️ This will delete ALL mock/sample data including any existing quizzes and exams. Continue?')) {
+                // Clear Mathematics mock data
+                localStorage.removeItem('studentAssignments');
+                localStorage.removeItem('teacherAssignments');
+                localStorage.removeItem('assignmentsList');
+                localStorage.removeItem('studentQuizzes');
+                localStorage.removeItem('teacherQuizzes');
+                localStorage.removeItem('quizzesList');
+                localStorage.removeItem('studentExams');
+                localStorage.removeItem('teacherExams');
+                localStorage.removeItem('examsList');
+                localStorage.removeItem('mathematicsStudents');
+                localStorage.removeItem('dashboardTodos');
+                localStorage.removeItem('savedTodoList');
+
+                // Clear Physics mock data
+                localStorage.removeItem('physicsAssignments');
+                localStorage.removeItem('physicsTeacherAssignments');
+                localStorage.removeItem('physicsAssignmentsList');
+                localStorage.removeItem('physicsQuizzes');
+                localStorage.removeItem('physicsTeacherQuizzes');
+                localStorage.removeItem('physicsQuizzesList');
+                localStorage.removeItem('physicsExams');
+                localStorage.removeItem('physicsTeacherExams');
+                localStorage.removeItem('physicsExamsList');
+                localStorage.removeItem('physicsStudents');
+
+                // Clear English mock data
+                localStorage.removeItem('englishAssignments');
+                localStorage.removeItem('englishTeacherAssignments');
+                localStorage.removeItem('englishAssignmentsList');
+                localStorage.removeItem('englishQuizzes');
+                localStorage.removeItem('englishTeacherQuizzes');
+                localStorage.removeItem('englishQuizzesList');
+                localStorage.removeItem('englishExams');
+                localStorage.removeItem('englishTeacherExams');
+                localStorage.removeItem('englishExamsList');
+                localStorage.removeItem('englishStudents');
+
+                alert('✅ All mock data cleared! Please refresh your dashboard pages.');
+                showSuccess('clearMessage');
+            }
+        }
+
+        function resetAllPoints() {
+            // Reset points in all course dashboards
+            const courses = ['mathematics', 'physics', 'english'];
+            
+            courses.forEach(course => {
+                const students = JSON.parse(localStorage.getItem(`${course}Students`) || '[]');
+                const resetStudents = students.map(student => ({
+                    ...student,
+                    totalPoints: 0,
+                    completedQuizzes: 0,
+                    completedAssignments: 0,
+                    completedExams: 0
+                }));
+                localStorage.setItem(`${course}Students`, JSON.stringify(resetStudents));
+            });
+
+            showSuccess('pointsMessage');
+        }
+
+        function separateTodoLists() {
+            // Clear shared todolist
+            localStorage.removeItem('todoList');
+            localStorage.removeItem('todos');
+            
+            // Initialize separate todolists for each course
+            const defaultTodos = [];
+            
+            localStorage.setItem('physicsTodoList', JSON.stringify(defaultTodos));
+            localStorage.setItem('englishTodoList', JSON.stringify(defaultTodos));
+            localStorage.setItem('mathematicsTodoList', JSON.stringify(defaultTodos));
+
+            showSuccess('todoMessage');
+        }
+
+        function separateNotifications() {
+            // Clear shared notifications
+            localStorage.removeItem('notifications');
+            
+            // Initialize separate notifications for each course
+            const defaultNotifications = [];
+            
+            localStorage.setItem('physicsNotifications', JSON.stringify(defaultNotifications));
+            localStorage.setItem('englishNotifications', JSON.stringify(defaultNotifications));
+            localStorage.setItem('mathematicsNotifications', JSON.stringify(defaultNotifications));
+
+            showSuccess('notifMessage');
+        }
+
+        function completeSetup() {
+            if (confirm('🚀 This will run all setup steps. Continue?')) {
+                clearAllMockData();
+                setTimeout(() => {
+                    resetAllPoints();
+                    setTimeout(() => {
+                        separateTodoLists();
+                        setTimeout(() => {
+                            separateNotifications();
+                            setTimeout(() => {
+                                showSuccess('completeMessage');
+                                alert('✅ Complete! All courses are now properly separated and configured.');
+                            }, 300);
+                        }, 300);
+                    }, 300);
+                }, 300);
+            }
+        }
+    </script>
+</body>
+</html>

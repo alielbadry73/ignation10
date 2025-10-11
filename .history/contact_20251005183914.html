@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Contact Us - IG Way IGCSE Tutoring</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+</head>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+<link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="css/vendor.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap"
+  rel="stylesheet">
+
+<style>
+    body {
+        background-color: #F8F8F8;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* WhatsApp Chat Button Styles */
+    .nav-link[onclick="openWhatsAppChat()"] {
+      transition: all 0.3s ease !important;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+    }
+
+    .nav-link[onclick="openWhatsAppChat()"]:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4) !important;
+      background: linear-gradient(135deg, #128c7e, #25d366) !important;
+    }
+
+    .nav-link[onclick="openWhatsAppChat()"]:active {
+      transform: translateY(0) !important;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+    }
+
+    @media (max-width: 768px) {
+      .nav-link[onclick="openWhatsAppChat()"] {
+        padding: 6px 12px !important;
+        font-size: 0.85rem !important;
+      }
+    }
+</style>
+
+</head>
+
+<body>
+
+  <!-- Top Utility Bar -->
+  <div class="top-utility-bar" style="position:relative; height:70px;">
+    <div class="container-fluid" style="position:relative; height:100%;">
+      
+      <!-- Centered Logo -->
+      <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);">
+        <a href="index.html">
+          <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height:55px; width:auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: all 0.3s ease;">
+        </a>
+      </div>
+
+      <!-- Right-aligned Utility Links -->
+      <div style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:20px; font-size:14px;">
+        
+        <!-- User Name Display -->
+        <div id="userNameDisplay" style="display:none;">
+          <span class="text-primary fw-bold" id="displayUserName">User</span>
+        </div>
+
+        <!-- Cart Button -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#cartModal" style="text-decoration:none; color:#000; display:flex; align-items:center; position:relative;">
+          <iconify-icon icon="material-symbols:shopping-cart" style="margin-right:5px;"></iconify-icon>
+          Cart <span class="badge bg-primary ms-1" id="cartCount">0</span>
+        </a>
+
+        <!-- Favorites -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#favoritesModal" style="text-decoration:none; color:#000; display:flex; align-items:center;">
+          <iconify-icon icon="material-symbols:favorite" style="margin-right:5px;"></iconify-icon>
+          Favorites
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-navigation">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-7">
+          <ul class="nav-menu d-flex list-unstyled mb-0">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="courses.html" class="nav-link">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a href="about.html" class="nav-link">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.html" class="nav-link active">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <!-- FAQ removed -->
+            </li>
+            <li class="nav-item">
+              <a href="community.html" class="nav-link">Community</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="openWhatsAppChat()" style="background: linear-gradient(135deg, #25d366, #128c7e); color: white; border-radius: 20px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                <iconify-icon icon="logos:whatsapp-icon" style="font-size: 1.1rem;"></iconify-icon>
+                Chat with Staff
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-5">
+          <div class="d-flex justify-content-end align-items-center gap-2">
+            <a href="#" class="btn btn-outline-secondary login-btn" data-bs-toggle="modal" data-bs-target="#loginModal" style="font-size: 14px; padding: 8px 16px;">
+              <iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>
+              Login
+            </a>
+            <a href="#" class="btn btn-primary register-btn" data-bs-toggle="modal" data-bs-target="#registerModal" style="font-size: 14px; padding: 8px 16px;">
+              <iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>
+              Register Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Contact Us Page Content -->
+  <section id="contact-content" class="padding-medium">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h1 class="display-4 fw-semibold mb-4">Contact <span class="text-primary">Us</span></h1>
+        <p class="lead">Get in touch with us for any questions or support</p>
+      </div>
+      
+      <div class="row">
+        <!-- Contact Information -->
+        <div class="col-lg-4 mb-5">
+          <div class="contact-info">
+            <h3 class="text-primary mb-4">Get In Touch</h3>
+            <div class="contact-item mb-4">
+              <div class="d-flex align-items-start">
+                <iconify-icon icon="solar:phone-bold" class="text-primary fs-4 me-3 mt-1"></iconify-icon>
+                <div>
+                  <h5 class="mb-1">Phone</h5>
+                  <p class="mb-0">01027500835</p>
+                </div>
+              </div>
+            </div>
+            <div class="contact-item mb-4">
+              <div class="d-flex align-items-start">
+                <iconify-icon icon="ic:baseline-email" class="text-primary fs-4 me-3 mt-1"></iconify-icon>
+                <div>
+                  <h5 class="mb-1">Email</h5>
+                  <p class="mb-0">info@igway.com</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="col-lg-8">
+          <div class="contact-form-container">
+            <h3 class="text-primary mb-4">Send us a Message</h3>
+            <form id="contactForm" class="contact-form">
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="firstName" class="form-label">First Name *</label>
+                  <input type="text" class="form-control" id="firstName" name="firstName" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="lastName" class="form-label">Last Name *</label>
+                  <input type="text" class="form-control" id="lastName" name="lastName" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="email" class="form-label">Email Address *</label>
+                  <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone" name="phone">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="subject" class="form-label">Subject *</label>
+                <select class="form-select" id="subject" name="subject" required>
+                  <option value="">Select a subject</option>
+                  <option value="general">General Inquiry</option>
+                  <option value="courses">Course Information</option>
+                  <option value="support">Technical Support</option>
+                  <option value="billing">Billing Question</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="message" class="form-label">Message *</label>
+                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Please describe your inquiry in detail..." required></textarea>
+              </div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="privacy" name="privacy" required>
+                  <label class="form-check-label" for="privacy">
+                    I agree to the <a href="#" class="text-primary">Privacy Policy</a> and consent to being contacted.
+                  </label>
+                </div>
+              </div>
+              <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  <iconify-icon icon="material-symbols:send" class="me-2"></iconify-icon>
+                  Send Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container padding-medium">
+      <div class="row">
+        <div class="col-md-4 my-3">
+          <h5 class="text-uppercase fw-bold mb-4">Contact us</h5>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="mdi:location"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Address: </span> New Cairo,
+            Egypt</p>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="solar:phone-bold"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Phone: </span> 01027500835</p>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Email: </span>
+            info@igway.com
+          </p>
+        </div>
+        <div class="col-md-2 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">Links</h5>
+            <ul class="menu-list list-unstyled">
+              <li class="menu-item mb-2">
+                <a href="index.html" class="footer-link">Home</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="about.html" class="footer-link">About us</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="courses.html" class="footer-link">Courses</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="contact.html" class="footer-link">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">support</h5>
+            <ul class="menu-list list-unstyled">
+              <li class="menu-item mb-2">
+                <!-- FAQ removed -->
+              </li>
+              <li class="menu-item mb-2">
+                <a href="https://wa.me/201027500835" target="_blank" class="footer-link">Support</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">Follow us</h5>
+            <div class="social-links mt-4">
+              <ul class="d-flex list-unstyled gap-3">
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:facebook-fill"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="simple-icons:tiktok"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:instagram-fill"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:youtube-fill"></iconify-icon>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="footer-bottom">
+    <hr class="m-0 text-black-50">
+    <div class="container py-3">
+      <div class="row mt-3">
+        <div class="col-md-6 copyright">
+          <p>Copyright © 2025</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+  <script src="js/plugins.js"></script>
+  <!-- Cart Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">
+            <iconify-icon icon="material-symbols:shopping-cart" class="me-2 text-primary"></iconify-icon>
+            Your Cart
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="cartList">
+            <div class="text-center text-muted py-4">
+              <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+              <p>Your cart is empty. Start adding courses to your cart!</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+          <button type="button" class="btn btn-primary" id="checkoutBtn" disabled>Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Cart Modal -->
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Cart functionality
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Check login state and update UI
+    function checkLoginState() {
+        const isLoggedIn = localStorage.getItem('userLoggedIn');
+        const userName = localStorage.getItem('userName');
+        
+        if (isLoggedIn) {
+            // Show user name in utility bar
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            const displayUserName = document.getElementById('displayUserName');
+            if (userNameDisplay && displayUserName) {
+                userNameDisplay.style.display = 'block';
+                displayUserName.textContent = userName || 'User';
+            }
+            
+            // Hide login and register buttons, show logout
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+            
+            if (loginBtn) {
+                loginBtn.style.display = 'none';
+            }
+            
+            if (registerBtn) {
+                registerBtn.innerHTML = `<iconify-icon icon="material-symbols:logout" class="me-1"></iconify-icon>Logout`;
+                registerBtn.classList.remove('btn-primary');
+                registerBtn.classList.add('btn-outline-danger');
+                registerBtn.setAttribute('onclick', 'logout()');
+                registerBtn.removeAttribute('data-bs-target');
+            }
+        } else {
+            // Hide user name in utility bar
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            if (userNameDisplay) {
+                userNameDisplay.style.display = 'none';
+            }
+            
+            // Show login and register buttons
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+            
+            if (loginBtn) {
+                loginBtn.style.display = 'inline-block';
+                loginBtn.innerHTML = `<iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>Login`;
+                loginBtn.classList.remove('btn-success');
+                loginBtn.classList.add('btn-outline-secondary');
+                loginBtn.setAttribute('data-bs-target', '#loginModal');
+                loginBtn.removeAttribute('onclick');
+            }
+            
+            if (registerBtn) {
+                registerBtn.style.display = 'inline-block';
+                registerBtn.innerHTML = `<iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>Register Now`;
+                registerBtn.classList.remove('btn-outline-danger');
+                registerBtn.classList.add('btn-primary');
+                registerBtn.setAttribute('data-bs-target', '#registerModal');
+                registerBtn.removeAttribute('onclick');
+            }
+        }
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('userLoggedIn');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        showToast('Logged out successfully', 'info');
+        checkLoginState();
+    }
+    
+    // Course data
+    const courses = {
+      mathematics: {
+        title: 'IGCSE Mathematics (Extended)',
+        instructor: 'Dr. Sarah Mitchell',
+        board: 'Cambridge Board',
+        price: '£299.00',
+        originalPrice: '£399.00',
+        image: 'images/teacher1.png'
+      },
+      physics: {
+        title: 'IGCSE Physics (Extended)',
+        instructor: 'Prof. Michael Chen',
+        board: 'Edexcel Board',
+        price: '£279.00',
+        originalPrice: '£349.00',
+        image: 'images/teacher2.png'
+      },
+      english: {
+        title: 'IGCSE English Language',
+        instructor: 'Dr. Emily Rodriguez',
+        board: 'Cambridge Board',
+        price: '£249.00',
+        originalPrice: '£329.00',
+        image: 'images/teacher3.png'
+      }
+    };
+
+    // Update cart count
+    function updateCartCount() {
+      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartBadge = document.getElementById('cartCount');
+      if (cartBadge) {
+        cartBadge.textContent = cartCount;
+      }
+    }
+
+    // Update cart modal
+    function updateCartModal() {
+      const cartList = document.getElementById('cartList');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      
+      if (cart.length === 0) {
+        cartList.innerHTML = `
+          <div class="text-center text-muted py-4">
+            <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+            <p>Your cart is empty. Start adding courses to your cart!</p>
+          </div>
+        `;
+        if (checkoutBtn) checkoutBtn.disabled = true;
+      } else {
+        cartList.innerHTML = cart.map(item => {
+          const course = courses[item.courseId];
+          return `
+            <div class="cart-item d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                <div>
+                  <div class="course-title">${course.title}</div>
+                  <div class="course-instructor">${course.instructor} - ${course.board}</div>
+                  <div class="course-price">${course.price} <span class="text-muted">x${item.quantity}</span></div>
+                </div>
+              </div>
+              <button class="remove-cart" onclick="removeFromCart('${item.courseId}')">
+                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+              </button>
+            </div>
+          `;
+        }).join('');
+        if (checkoutBtn) checkoutBtn.disabled = false;
+      }
+    }
+
+    // Remove from cart function
+    function removeFromCart(courseId) {
+      cart = cart.filter(item => item.courseId !== courseId);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      updateCartModal();
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      checkLoginState();
+      updateCartCount();
+      updateCartModal();
+    });
+
+    // WhatsApp Chat Function
+    function openWhatsAppChat() {
+      const phoneNumber = '+201027500835';
+      const message = encodeURIComponent('Hello! I need assistance with my IGCSE courses. Can you help me?');
+      const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${message}`;
+      
+      // Open WhatsApp in a new tab
+      window.open(whatsappUrl, '_blank');
+      
+      // Show a toast notification
+      showToast('Opening WhatsApp to chat with our staff...', 'success');
+    }
+  </script>
+
+  <script src="js/script.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</body>
+
+</html>

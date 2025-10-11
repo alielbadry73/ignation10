@@ -1,0 +1,50 @@
+﻿--- users (role=admin) ---
+[
+  {
+    "id": 1,
+    "first_name": "Admin",
+    "last_name": "User",
+    "email": "admin@ignation.com",
+    "role": "admin",
+    "password": "$2a$10$zi9dVt9Yi7n33XbF8Ek4COrQsHhN2xVPxaPqQhLOBvSSmH7KdPbsy"
+  }
+]
+--- students (sample) ---
+[
+  {
+    "id": 1,
+    "username": "test@example.com",
+    "email": "test@example.com",
+    "password": "password123",
+    "full_name": "Test Student"
+  }
+]
+--- teachers (sample) ---
+[]
+--- users (sample) ---
+[
+  {
+    "id": 1,
+    "first_name": "Admin",
+    "last_name": "User",
+    "email": "admin@ignation.com",
+    "role": "admin",
+    "password": "$2a$10$zi9dVt9Yi7n33XbF8Ek4COrQsHhN2xVPxaPqQhLOBvSSmH7KdPbsy"
+  },
+  {
+    "id": 7,
+    "first_name": "ahmed",
+    "last_name": "zaher",
+    "email": "salmaahmed76@icloud.com",
+    "role": "student",
+    "password": "$2a$10$eS3IgSNmMCZBIJglLJRJkuGuBL6YbTWPkgedHCvEsgnA65VD..yoy"
+  },
+  {
+    "id": 8,
+    "first_name": "saad",
+    "last_name": "samir",
+    "email": "saadsamir2006@gmail.com",
+    "role": "student",
+    "password": "$2a$10$VvTk0N4jRyOpZXjYWHPqA.HuUP5QIf4qfoZhNPW.BESTMLHevnN7e"
+  }
+]

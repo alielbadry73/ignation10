@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Flashcards - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+
+        .utility-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-utility {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-utility:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .main-content {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 3rem;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: white;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .flashcard-container {
+            perspective: 1000px;
+            margin-bottom: 3rem;
+        }
+
+        .flashcard {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .card-label {
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            opacity: 0.7;
+        }
+
+        .card-content {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .flip-hint {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-btn {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: #667eea;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .card-counter {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .confidence-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .confidence-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .btn-hard {
+            background: #e74c3c;
+        }
+
+        .btn-good {
+            background: #f39c12;
+        }
+
+        .btn-easy {
+            background: #27ae60;
+        }
+
+        .confidence-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .flashcard {
+                height: 400px;
+            }
+
+            .card-content {
+                font-size: 1.5rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="physics-dashboard.html" class="logo">
+                <img src="https://ui-avatars.com/api/?name=IG+Nation&background=667eea&color=fff&size=40" alt="IG Nation">
+                IG Nation
+            </a>
+            <div class="utility-buttons">
+                <a href="physics-dashboard.html" class="btn-utility">
+                    <iconify-icon icon="material-symbols:dashboard"></iconify-icon>
+                    Dashboard
+                </a>
+                <a href="student-profile.html" class="btn-utility">
+                    <iconify-icon icon="material-symbols:person"></iconify-icon>
+                    Profile
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-title">
+            <h1>🃏 Physics Flashcards</h1>
+            <p>Study smart with interactive flashcards</p>
+        </div>
+
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-btn" id="prevBtn" onclick="previousCard()">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                Previous
+            </button>
+            <div class="card-counter" id="cardCounter">1 / 10</div>
+            <button class="nav-btn" id="nextBtn" onclick="nextCard()">
+                Next
+                <iconify-icon icon="material-symbols:arrow-forward"></iconify-icon>
+            </button>
+        </div>
+
+        <div class="flashcard-container">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="flashcard-face flashcard-front">
+                    <div class="card-label">Question</div>
+                    <div class="card-content" id="frontContent">
+                        What is Newton's First Law of Motion?
+                    </div>
+                    <div class="flip-hint">Click to reveal answer</div>
+                </div>
+                <div class="flashcard-face flashcard-back">
+                    <div class="card-label">Answer</div>
+                    <div class="card-content" id="backContent">
+                        An object at rest stays at rest, and an object in motion stays in motion unless acted upon by an external force.
+                    </div>
+                    <div class="flip-hint">Click to see question</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="confidence-buttons">
+            <button class="confidence-btn btn-hard" onclick="rateCard('hard')">
+                ❌ Hard
+            </button>
+            <button class="confidence-btn btn-good" onclick="rateCard('good')">
+                👍 Good
+            </button>
+            <button class="confidence-btn btn-easy" onclick="rateCard('easy')">
+                ✅ Easy
+            </button>
+        </div>
+    </main>
+
+    <script>
+        let currentCardIndex = 0;
+        const flashcards = [
+            {
+                question: "What is Newton's First Law of Motion?",
+                answer: "An object at rest stays at rest, and an object in motion stays in motion unless acted upon by an external force."
+            },
+            {
+                question: "Define velocity.",
+                answer: "Velocity is the rate of change of displacement with respect to time. It is a vector quantity with both magnitude and direction."
+            },
+            {
+                question: "What is the formula for kinetic energy?",
+                answer: "KE = ½mv² where m is mass and v is velocity."
+            },
+            {
+                question: "State Ohm's Law.",
+                answer: "V = IR, where V is voltage, I is current, and R is resistance."
+            },
+            {
+                question: "What is the speed of light in vacuum?",
+                answer: "Approximately 3 × 10⁸ m/s (299,792,458 meters per second)."
+            },
+            {
+                question: "Define power in physics.",
+                answer: "Power is the rate at which work is done or energy is transferred. P = W/t or P = E/t."
+            },
+            {
+                question: "What is the First Law of Thermodynamics?",
+                answer: "Energy cannot be created or destroyed, only converted from one form to another. ΔU = Q - W"
+            },
+            {
+                question: "What causes waves?",
+                answer: "Waves are caused by disturbances that transfer energy through a medium or space."
+            },
+            {
+                question: "Define frequency.",
+                answer: "Frequency is the number of complete wave cycles passing a point per unit time, measured in Hertz (Hz)."
+            },
+            {
+                question: "What is gravitational acceleration on Earth?",
+                answer: "Approximately 9.8 m/s² (or 9.81 m/s² for more precision)."
+            }
+        ];
+
+        function flipCard() {
+            document.getElementById('flashcard').classList.toggle('flipped');
+        }
+
+        function updateCard() {
+            const card = flashcards[currentCardIndex];
+            document.getElementById('frontContent').textContent = card.question;
+            document.getElementById('backContent').textContent = card.answer;
+            document.getElementById('cardCounter').textContent = `${currentCardIndex + 1} / ${flashcards.length}`;
+            
+            // Update progress bar
+            const progress = ((currentCardIndex + 1) / flashcards.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentCardIndex === 0;
+            document.getElementById('nextBtn').disabled = currentCardIndex === flashcards.length - 1;
+
+            // Reset flip state
+            document.getElementById('flashcard').classList.remove('flipped');
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+            }
+        }
+
+        function nextCard() {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                updateCard();
+            }
+        }
+
+        function rateCard(confidence) {
+            // Save confidence rating
+            console.log(`Card rated as: ${confidence}`);
+            
+            // Auto-advance to next card
+            if (currentCardIndex < flashcards.length - 1) {
+                setTimeout(() => {
+                    nextCard();
+                }, 300);
+            } else {
+                alert('🎉 You\'ve completed all flashcards! Great work!');
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') previousCard();
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === ' ' || e.key === 'Enter') flipCard();
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', updateCard);
+    </script>
+</body>
+</html>

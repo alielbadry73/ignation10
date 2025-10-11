@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout Test - Force Cart Load</title>
+</head>
+<body>
+    <h1>Testing Order Submission</h1>
+    <button onclick="testSubmit()">Test Submit Order</button>
+    <div id="result"></div>
+
+    <script>
+        async function testSubmit() {
+            console.log('Testing order submission...');
+            
+            // FORCE load from enrollCourse
+            const enrollCourse = JSON.parse(localStorage.getItem('enrollCourse') || 'null');
+            console.log('enrollCourse:', enrollCourse);
+            
+            if (!enrollCourse) {
+                alert('No enrollCourse found in localStorage!');
+                return;
+            }
+            
+            const courses = [enrollCourse];
+            console.log('Courses to send:', courses);
+            
+            const orderData = {
+                customer_name: 'Test User',
+                customer_email: 'test@test.com',
+                customer_phone: '1234567890',
+                courses: JSON.stringify(courses),
+                total_amount: 299,
+                payment_method: 'instapay',
+                payment_screenshot: 'test.jpg'
+            };
+            
+            console.log('Order data:', orderData);
+            console.log('Courses JSON:', orderData.courses);
+            
+            try {
+                const response = await fetch('http://localhost:3000/api/orders', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    },
+                    body: JSON.stringify(orderData)
+                });
+                
+                const result = await response.json();
+                console.log('Response:', result);
+                
+                if (response.ok) {
+                    document.getElementById('result').innerHTML = `
+                        <h2 style="color: green;">✅ SUCCESS!</h2>
+                        <p>Order ID: ${result.orderId}</p>
+                        <p>Courses were saved correctly!</p>
+                    `;
+                    alert('SUCCESS! Order saved with courses. Check admin panel!');
+                } else {
+                    document.getElementById('result').innerHTML = `
+                        <h2 style="color: red;">❌ ERROR</h2>
+                        <p>${result.message || result.error}</p>
+                    `;
+                    alert('ERROR: ' + (result.message || result.error));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('ERROR: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,8 @@
+﻿Copied backend_root_live.html to public
+Copied style.css to public
+Copied css to public
+Copied js to public
+Copied images to public
+Copied icomoon to public
+Copied favicon.ico to public
+Frontend assets moved to backend/public

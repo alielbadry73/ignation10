@@ -1,0 +1,2448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Lectures - IG Nation</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1031;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .menu-icon {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        .focus-mode-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .focus-mode-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .focus-mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .focus-mode-btn.active:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .focus-mode-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .focus-mode-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .notification-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .notification-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .community-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .community-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .notification-btn::after, .community-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .notification-btn:hover::after, .community-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        
+        
+        /* Left Menu Bar Styling */
+        .left-menu {
+            position: fixed;
+            left: -300px;
+            top: 80px;
+            width: 300px;
+            height: calc(100vh - 80px);
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            border-right: 1px solid #e9ecef;
+            overflow-y: auto;
+        }
+        
+        .left-menu.open {
+            left: 0;
+        }
+        
+        .menu-content {
+            padding: 2rem 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .menu-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .menu-header h6 {
+            color: #333;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .menu-courses {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .menu-course-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        .menu-course-item:hover {
+            background: #e3f2fd;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .course-icon-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .course-icon-small.math {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .course-icon-small.physics {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .course-icon-small.chemistry {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .course-info-small {
+            flex: 1;
+        }
+        
+        .course-name-small {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tutor-name {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .submenu-arrow {
+            color: #667eea;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .submenu-arrow.rotated {
+            transform: rotate(90deg);
+        }
+        
+        .mathematics-submenu {
+            margin-left: 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 2px solid #e9ecef;
+            padding-left: 1rem;
+        }
+        
+        .mathematics-submenu .submenu-item {
+            padding: 0.75rem;
+            margin-bottom: 0.25rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .mathematics-submenu .submenu-item:hover {
+            background: #e3f2fd;
+        }
+        
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: white;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .profile-avatar:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-link {
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .profile-link:hover {
+            color: #333;
+        }
+        
+        .profile-dropdown {
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+        
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-dropdown .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #1976d2;
+        }
+        
+        .profile-dropdown .dropdown-item.text-danger:hover {
+            background: #fff5f5;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <!-- Top Header with Navigation Buttons -->
+            <div class="row align-items-center" style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Button -->
+                        <button class="hamburger-menu-btn" id="menuToggle" onclick="toggleMenu()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:menu" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="student-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
+                        </a>
+                        
+                        <!-- Focus Mode Button -->
+                        <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Notifications Button -->
+                        <button class="nav-icon-btn" onclick="navigateToNotifications()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:notifications" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                            <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</span>
+                        </button>
+                        
+                        <!-- Community Button -->
+                        <button class="nav-icon-btn" onclick="navigateToCommunity()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Profile Button -->
+                        <button class="nav-icon-btn" onclick="navigateToProfile()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <!-- Left Menu Bar -->
+    <div class="left-menu" id="leftMenu">
+        <div class="menu-content">
+            <div class="menu-header">
+                <h6>My Courses</h6>
+                                </div>
+            <div class="menu-courses">
+                <div class="menu-course-item" onclick="toggleMathematicsSubmenu()">
+                    <div class="course-icon-small math">
+                        <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+                            </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Mathematics IGCSE</div>
+                        <div class="tutor-name">Mr. Johnson</div>
+                            </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-down" id="mathematicsArrow" style="font-size: 1.2rem; color: #667eea; transition: transform 0.3s ease; margin-left: auto;"></iconify-icon>
+                        </div>
+                        
+                <!-- Mathematics Submenu -->
+                <div class="mathematics-submenu" id="mathematicsSubmenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">
+                    <div class="submenu-item" onclick="openBooks()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Books</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Textbooks & Study Materials</small>
+                            </div>
+                                </div>
+                            </div>
+                    <div class="submenu-item" onclick="openLectures()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Lectures</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Video Lessons & Tutorials</small>
+                            </div>
+                            </div>
+                        </div>
+                    <div class="submenu-item" onclick="openProgress()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:trending-up" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Track Progress</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Monitor Learning Journey</small>
+                                </div>
+                            </div>
+                            </div>
+                    <div class="submenu-item" onclick="openPracticeTopic()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:exercise" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Practice on Topic</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Topic-based Practice</small>
+                            </div>
+                        </div>
+                                </div>
+                    <div class="submenu-item" onclick="openBadges()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:workspace-premium" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Badges</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Achievements & Rewards</small>
+                            </div>
+                        </div>
+                                </div>
+                            </div>
+                <div class="menu-course-item" onclick="openCourse('physics')">
+                    <div class="course-icon-small physics">
+                        <iconify-icon icon="material-symbols:science"></iconify-icon>
+                            </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Physics IGCSE</div>
+                        <div class="tutor-name">Dr. Smith</div>
+                            </div>
+                        </div>
+                <div class="menu-course-item" onclick="openCourse('chemistry')">
+                    <div class="course-icon-small chemistry">
+                        <iconify-icon icon="material-symbols:biotech"></iconify-icon>
+                                </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Chemistry IGCSE</div>
+                        <div class="tutor-name">Prof. Brown</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+    <script>
+        function toggleMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const leftMenu = document.getElementById('leftMenu');
+            
+            menuToggle.classList.toggle('active');
+            leftMenu.classList.toggle('open');
+        }
+        
+        // Close menu when clicking outside
+        function closeMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const leftMenu = document.getElementById('leftMenu');
+            
+            menuToggle.classList.remove('active');
+            leftMenu.classList.remove('open');
+        }
+        
+        // Add click outside listener
+        document.addEventListener('click', function(event) {
+            const leftMenu = document.getElementById('leftMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            
+            if (leftMenu && leftMenu.classList.contains('open')) {
+                // Check if click is outside the menu and toggle button
+                if (!leftMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+                    closeMenu();
+                }
+            }
+        });
+        
+        function toggleFocusMode() {
+            const toggle = document.getElementById('focusModeToggle');
+            toggle.classList.toggle('active');
+            console.log('Focus mode toggled');
+        }
+        
+        function openNotifications() {
+            window.location.href = 'notifications.html';
+        }
+        
+        function openCommunity() {
+            window.open('community.html', '_blank');
+        }
+        
+        function openCourse(course) {
+            if (course === 'mathematics') {
+                window.location.href = 'course-mathematics.html';
+            } else if (course === 'physics') {
+                window.location.href = 'course-physics.html';
+            } else if (course === 'chemistry') {
+                window.location.href = 'course-chemistry.html';
+            }
+        }
+        
+        function openHowToModal() {
+            window.location.href = 'platform-guide.html';
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userEmail');
+                window.location.href = 'index.html';
+            }
+        }
+        
+        function toggleMathematicsSubmenu() {
+            const submenu = document.getElementById('mathematicsSubmenu');
+            const arrow = document.getElementById('mathematicsArrow');
+            if (submenu) {
+                if (submenu.style.display === 'none' || submenu.style.display === '') {
+                    submenu.style.display = 'block';
+                    if (arrow) arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    submenu.style.display = 'none';
+                    if (arrow) arrow.style.transform = 'rotate(0deg)';
+                }
+            }
+        }
+        
+        function openBooks() {
+            window.location.href = 'mathematics-books.html';
+        }
+        
+        function openLectures() {
+            window.location.href = 'mathematics-lectures.html';
+        }
+        
+        function openProgress() {
+            window.location.href = 'mathematics-progress.html';
+        }
+        
+        function openPracticeTopic() {
+            window.location.href = 'mathematics-practice-topic.html';
+        }
+        
+        function openBadges() {
+            window.location.href = 'mathematics-badges.html';
+        }
+    </script>
+
+    <!-- Main Content -->
+    <div class="main-content" style="padding: 2rem; margin-top: 80px;">
+        <div class="container-fluid">
+
+            <!-- Windows-Style Folder Structure -->
+            <div class="folder-structure" style="
+                background: white;
+                border-radius: 16px;
+                padding: 2rem;
+                margin-bottom: 2rem;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                border: 1px solid #e9ecef;
+                max-width: 1200px;
+                margin-left: auto;
+                margin-right: auto;
+            ">
+                <!-- Header Section -->
+                <div class="folder-header" style="
+                    text-align: center;
+                    margin-bottom: 2rem;
+                    padding: 1.5rem;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    border-radius: 12px;
+                    color: white;
+                    position: relative;
+                    overflow: hidden;
+                ">
+                    <div style="
+                        position: absolute;
+                        top: -20px;
+                        right: -20px;
+                        width: 100px;
+                        height: 100px;
+                        background: rgba(255,255,255,0.1);
+                        border-radius: 50%;
+                        animation: float 3s ease-in-out infinite;
+                    "></div>
+                    <div style="position: relative; z-index: 2;">
+                        <h2 style="
+                            margin: 0 0 0.5rem 0;
+                            font-size: 2rem;
+                            font-weight: 800;
+                            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                        ">Physics Library</h2>
+                        <p style="
+                            margin: 0;
+                            font-size: 1rem;
+                            opacity: 0.9;
+                            font-weight: 300;
+                        ">Choose your learning source</p>
+                    </div>
+                </div>
+
+                <!-- Category Selection -->
+                <div class="category-selection" id="categorySelection" style="
+                    display: block;
+                    margin-bottom: 2rem;
+                ">
+                    <h3 style="
+                        text-align: center;
+                        color: #333;
+                        font-weight: 700;
+                        margin-bottom: 1.5rem;
+                        font-size: 1.4rem;
+                    ">Choose a Physics Topic</h3>
+                    
+                    <div class="category-tabs" style="
+                        display: flex;
+                        gap: 0.5rem;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        margin-bottom: 1rem;
+                    ">
+
+                        <button class="category-tab" data-category="mechanics" onclick="selectCategory('mechanics')" style="
+                            background: #f8f9fa;
+                            color: #495057;
+                            border: 2px solid #e9ecef;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 25px;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                        " onmouseover="this.style.background='#e3f2fd'; this.style.borderColor='#2196f3'; this.style.color='#1976d2'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(33, 150, 243, 0.2)'" onmouseout="this.style.background='#f8f9fa'; this.style.borderColor='#e9ecef'; this.style.color='#495057'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <iconify-icon icon="material-symbols:speed" style="font-size: 1.1rem;"></iconify-icon>
+                            Mechanics
+                        </button>
+
+                        <button class="category-tab" data-category="electricity" onclick="selectCategory('electricity')" style="
+                            background: #f8f9fa;
+                            color: #495057;
+                            border: 2px solid #e9ecef;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 25px;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                        " onmouseover="this.style.background='#f3e5f5'; this.style.borderColor='#9c27b0'; this.style.color='#7b1fa2'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(156, 39, 176, 0.2)'" onmouseout="this.style.background='#f8f9fa'; this.style.borderColor='#e9ecef'; this.style.color='#495057'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <iconify-icon icon="material-symbols:electric-bolt" style="font-size: 1.1rem;"></iconify-icon>
+                            Electricity
+                        </button>
+
+                        <button class="category-tab" data-category="waves" onclick="selectCategory('waves')" style="
+                            background: #f8f9fa;
+                            color: #495057;
+                            border: 2px solid #e9ecef;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 25px;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                        " onmouseover="this.style.background='#e8f5e8'; this.style.borderColor='#4caf50'; this.style.color='#388e3c'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(76, 175, 80, 0.2)'" onmouseout="this.style.background='#f8f9fa'; this.style.borderColor='#e9ecef'; this.style.color='#495057'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <iconify-icon icon="material-symbols:calculate" style="font-size: 1.1rem;"></iconify-icon>
+                            Trigonometry
+                        </button>
+
+                        <button class="category-tab" data-category="calculus" onclick="selectCategory('calculus')" style="
+                            background: #f8f9fa;
+                            color: #495057;
+                            border: 2px solid #e9ecef;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 25px;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                        " onmouseover="this.style.background='#fff3e0'; this.style.borderColor='#ff9800'; this.style.color='#f57c00'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(255, 152, 0, 0.2)'" onmouseout="this.style.background='#f8f9fa'; this.style.borderColor='#e9ecef'; this.style.color='#495057'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <iconify-icon icon="material-symbols:trending-up" style="font-size: 1.1rem;"></iconify-icon>
+                            Calculus
+                        </button>
+
+                        <button class="category-tab" data-category="statistics" onclick="selectCategory('statistics')" style="
+                            background: #f8f9fa;
+                            color: #495057;
+                            border: 2px solid #e9ecef;
+                            padding: 0.8rem 1.5rem;
+                            border-radius: 25px;
+                            font-weight: 600;
+                            font-size: 0.9rem;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                        " onmouseover="this.style.background='#fce4ec'; this.style.borderColor='#e91e63'; this.style.color='#c2185b'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(233, 30, 99, 0.2)'" onmouseout="this.style.background='#f8f9fa'; this.style.borderColor='#e9ecef'; this.style.color='#495057'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                            <iconify-icon icon="material-symbols:bar-chart" style="font-size: 1.1rem;"></iconify-icon>
+                            Statistics
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Debug Tools -->
+                <div style="margin-bottom: 2rem; padding: 1rem; background: #e3f2fd; border-radius: 8px; display: none;" id="debugTools">
+                    <h6>Debug Tools:</h6>
+                    <button onclick="refreshFolders()" style="
+                        background: #4caf50;
+                        color: white;
+                        border: none;
+                        padding: 0.5rem 1rem;
+                        border-radius: 4px;
+                        margin-right: 0.5rem;
+                        cursor: pointer;
+                    ">Refresh Folders</button>
+                    <button onclick="console.log('mathematicsFolders:', JSON.parse(localStorage.getItem('mathematicsFolders') || '[]'))" style="
+                        background: #ff9800;
+                            color: white;
+                        border: none;
+                        padding: 0.5rem 1rem;
+                        border-radius: 4px;
+                        cursor: pointer;
+                    ">Check localStorage</button>
+                    <button onclick="document.getElementById('debugTools').style.display = 'none'" style="
+                        background: #f44336;
+                        color: white;
+                        border: none;
+                        padding: 0.5rem 1rem;
+                        border-radius: 4px;
+                        cursor: pointer;
+                    ">Hide Debug</button>
+                        </div>
+                        
+                <!-- Search Bar -->
+                <div class="search-container" style="
+                    position: relative;
+                    max-width: 600px;
+                    margin: 2rem auto;
+                ">
+                    <div class="search-box" style="
+                        position: relative;
+                        background: #f8f9fa;
+                        border: 2px solid #e9ecef;
+                        border-radius: 25px;
+                        padding: 0.5rem;
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.borderColor='#667eea'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.1)'" onmouseout="this.style.borderColor='#e9ecef'; this.style.boxShadow='none'">
+                        <input type="text" class="form-control" id="lectureSearch" placeholder="Search lectures by title, instructor, or description..." style="
+                            border: none;
+                            background: transparent;
+                            padding: 0.6rem 1rem 0.6rem 2.5rem;
+                            font-size: 0.9rem;
+                            outline: none;
+                            box-shadow: none;
+                        " onfocus="this.parentElement.style.borderColor='#667eea'; this.parentElement.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.15)'" onblur="this.parentElement.style.borderColor='#e9ecef'; this.parentElement.style.boxShadow='none'" onkeyup="filterLectures()">
+                        
+                        <iconify-icon icon="material-symbols:search" style="
+                            position: absolute;
+                            left: 1rem;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            color: #667eea;
+                            font-size: 1.1rem;
+                        "></iconify-icon>
+                        
+                        <button class="btn btn-sm" onclick="clearSearch()" style="
+                            position: absolute;
+                            right: 0.5rem;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            background: #667eea;
+                            border: none;
+                            border-radius: 20px;
+                            padding: 0.3rem 0.6rem;
+                            color: white;
+                            font-size: 0.8rem;
+                            display: none;
+                        " id="clearBtn" onmouseover="this.style.background='#5a6fd8'" onmouseout="this.style.background='#667eea'">
+                            <iconify-icon icon="material-symbols:close" style="font-size: 0.9rem;"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Folder Grid (Hidden Initially) -->
+                <div id="folderGrid" class="folders-container" style="display: none;">
+                    <!-- Folders will be dynamically generated here -->
+                </div>
+            </div>
+
+            <!-- Lectures Grid -->
+            <div class="lectures-grid" id="lecturesGrid">
+                <!-- Lectures will be dynamically loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none; text-align: center; padding: 4rem 2rem;">
+                <iconify-icon icon="material-symbols:video-library" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></iconify-icon>
+                <h3 style="color: #666; margin-bottom: 1rem;">No lectures found</h3>
+                <p style="color: #999; margin-bottom: 2rem;">Start by adding your first video lecture or adjust your search criteria.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Lecture Player Modal -->
+    <div class="modal fade" id="lecturePlayerModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
+                <div class="modal-header" style="border: none; padding: 1rem 2rem;">
+                    <h5 class="modal-title" id="playerTitle" style="font-weight: 700; color: #333;"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" style="padding: 0 2rem 2rem 2rem;">
+                    <div class="video-container" style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; background: #000; border-radius: 12px; overflow: hidden;">
+                        <iframe id="videoPlayer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                    </div>
+                    <div class="lecture-details" style="margin-top: 1.5rem;">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h6 style="font-weight: 600; color: #333; margin-bottom: 0.5rem;">Description</h6>
+                                <p id="playerDescription" style="color: #666; margin-bottom: 1rem;"></p>
+                                <div class="lecture-meta" style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                                    <div>
+                                        <span style="font-weight: 600; color: #333;">Instructor:</span>
+                                        <span id="playerInstructor" style="color: #666; margin-left: 0.5rem;"></span>
+                                    </div>
+                                    <div>
+                                        <span style="font-weight: 600; color: #333;">Duration:</span>
+                                        <span id="playerDuration" style="color: #666; margin-left: 0.5rem;"></span>
+                                    </div>
+                                    <div>
+                                        <span style="font-weight: 600; color: #333;">Topic:</span>
+                                        <span id="playerTopic" style="color: #666; margin-left: 0.5rem;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                    <button class="btn btn-outline-primary" onclick="markAsWatched()" id="watchBtn" style="
+                                        border-radius: 8px;
+                                        padding: 0.5rem 1rem;
+                                        font-weight: 600;
+                                        margin-bottom: 0.5rem;
+                                        width: 100%;
+                                    ">
+                                        <iconify-icon icon="material-symbols:check-circle" style="margin-right: 0.5rem;"></iconify-icon>
+                                        Mark as Watched
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Lecture Card Styling */
+        .lecture-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e8ecf0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .lecture-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .lecture-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .lecture-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .lecture-thumbnail .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .lecture-card:hover .play-icon {
+            background: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* Category Bar Styling */
+        .category-bar {
+            scrollbar-width: thin;
+            scrollbar-color: #667eea #f1f1f1;
+        }
+
+        .category-bar::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .category-bar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .category-bar::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        .category-bar::-webkit-scrollbar-thumb:hover {
+            background: #5a6fd8;
+        }
+
+        .category-btn {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .category-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .category-btn.active {
+            transform: translateY(-2px);
+        }
+
+        /* Compact Search Bar Styles */
+        .search-container {
+            transition: all 0.3s ease;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-container:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12) !important;
+            border-color: rgba(102, 126, 234, 0.2) !important;
+        }
+
+        .search-container:focus-within {
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15) !important;
+            border-color: rgba(102, 126, 234, 0.2) !important;
+        }
+
+        #lectureSearch::placeholder {
+            color: #999;
+            font-weight: 400;
+            transition: all 0.3s ease;
+        }
+
+        #lectureSearch:focus::placeholder {
+            color: #ccc;
+        }
+
+        .search-actions button {
+            transition: all 0.3s ease;
+        }
+
+        .search-actions button:hover {
+            transform: scale(1.05);
+        }
+
+        .search-stats {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Science-themed Animations */
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+            }
+            50% { 
+                transform: translateY(-10px) rotate(2deg); 
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { 
+                transform: translateY(0) scale(1); 
+            }
+            40% { 
+                transform: translateY(-8px) scale(1.05); 
+            }
+            60% { 
+                transform: translateY(-4px) scale(1.02); 
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                opacity: 0.7; 
+            }
+            50% { 
+                transform: scale(1.1); 
+                opacity: 0.3; 
+            }
+        }
+
+        @keyframes shimmer {
+            0% { 
+                transform: translateX(-100%); 
+            }
+            100% { 
+                transform: translateX(100%); 
+            }
+        }
+
+        /* Folder Item Enhancements */
+        .folder-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .folder-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .folder-item:hover::before {
+            left: 100%;
+        }
+
+        /* Folder Cards Container */
+        .folders-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding: 2rem;
+            align-items: start;
+        }
+
+        /* Folder Card */
+        .folder-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            width: 100%;
+            height: 245px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .folder-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .folder-image-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 1.5rem auto;
+            border-radius: 50%;
+            overflow: hidden;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .folder-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .folder-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        /* Responsive Design for Folders */
+        @media (max-width: 1600px) {
+            .folders-container {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .folders-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 800px) {
+            .folders-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+            
+            .folder-card {
+                width: 100%;
+                height: 245px;
+                padding: 1.5rem;
+            }
+            
+            .folder-image-container {
+                width: 150px;
+                height: 150px;
+                margin: 0 auto 1rem auto;
+            }
+            
+            .folder-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Responsive search bar */
+        @media (max-width: 768px) {
+            .search-container {
+                max-width: 100%;
+                margin: 0 1rem;
+            }
+        }
+
+        /* Category Navigation Responsive Styles */
+        @media (max-width: 768px) {
+            .category-navigation {
+                margin: 0 1rem 2rem 1rem;
+                padding: 1rem;
+            }
+            
+            .category-tabs {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .category-tab {
+                width: 100%;
+                justify-content: center;
+                padding: 1rem 1.5rem !important;
+                font-size: 1rem !important;
+            }
+            
+            .nav-header h3 {
+                font-size: 1.2rem !important;
+            }
+            
+            .nav-header p {
+                font-size: 0.85rem !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .category-navigation {
+                margin: 0 0.5rem 2rem 0.5rem;
+                padding: 0.75rem;
+            }
+            
+            .category-tab {
+                padding: 0.8rem 1rem !important;
+                font-size: 0.9rem !important;
+            }
+            
+            .lecture-count {
+                font-size: 0.75rem !important;
+                padding: 0.15rem 0.4rem !important;
+            }
+        }
+
+        /* Subfolder Button Styles */
+        .subfolder-btn {
+            transition: all 0.3s ease;
+        }
+
+        .subfolder-btn:hover {
+            transform: translateY(-2px) !important;
+        }
+
+        .subfolder-btn.active {
+            opacity: 1 !important;
+            transform: scale(1.05);
+        }
+
+        .subfolder-btn:not(.active) {
+            opacity: 0.7;
+        }
+
+        /* Responsive subfolder buttons */
+        @media (max-width: 768px) {
+            .subfolder-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .subfolder-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+
+        /* Windows Explorer-like Folder Styles */
+        .folder-tree {
+            user-select: none;
+        }
+
+        .folder-item {
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .folder-item:hover {
+            background: rgba(102, 126, 234, 0.05) !important;
+        }
+
+        .folder-header {
+            transition: all 0.2s ease;
+        }
+
+        .folder-arrow {
+            transition: transform 0.2s ease;
+        }
+
+        .folder-content {
+            transition: all 0.3s ease;
+        }
+
+        .subfolder {
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .subfolder:hover {
+            background: rgba(102, 126, 234, 0.05) !important;
+        }
+
+        .lecture-count {
+            font-style: italic;
+        }
+
+        /* Responsive folder structure */
+        @media (max-width: 768px) {
+            .folder-container {
+                padding: 1rem !important;
+            }
+            
+            .folder-tree {
+                font-size: 0.85rem;
+            }
+            
+            .folder-content {
+                margin-left: 1.5rem !important;
+            }
+        }
+
+        /* Enhanced Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.1); opacity: 0.3; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Category Card Enhancements */
+        .category-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
+        }
+
+        /* Horizontal Navigation Responsive Styles */
+        @media (max-width: 768px) {
+            .horizontal-nav {
+                padding: 1rem !important;
+                margin: 0 1rem 2rem 1rem !important;
+            }
+            
+            .nav-container {
+                flex-direction: column !important;
+                gap: 1rem !important;
+            }
+            
+            .nav-links {
+                justify-content: center !important;
+                width: 100% !important;
+                flex-wrap: wrap !important;
+            }
+            
+            .nav-actions {
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            
+            .nav-link {
+                font-size: 0.75rem !important;
+                padding: 0.5rem 0.8rem !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-links {
+                flex-direction: column !important;
+                width: 100% !important;
+            }
+            
+            .nav-link {
+                text-align: center !important;
+                width: 100% !important;
+                margin-bottom: 0.5rem !important;
+            }
+        }
+
+        .lecture-content {
+            padding: 1.5rem;
+        }
+
+        .lecture-title {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .lecture-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .lecture-topic {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .lecture-duration {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .lecture-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .lecture-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lecture-instructor {
+            color: #333;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+
+        .watched-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #28a745;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Responsive Grid */
+        .lectures-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .lectures-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .lecture-card {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Lecture data storage
+        let lectures = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+        let currentLectureId = null;
+        let currentCategory = 'all';
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if we're on an old URL pattern and redirect immediately
+            if (window.location.href.includes('mathematics-') && 
+                window.location.href.includes('-teacher.html')) {
+                console.log('Detected old URL pattern, redirecting...');
+                // Extract parameters from old URL and redirect to new format
+                const urlParts = window.location.href.split('/').pop();
+                const match = urlParts.match(/mathematics-([^-]+)-([^-]+)-([^-]+)\.html/);
+                if (match) {
+                    const [, category, folder, type] = match;
+                    const newUrl = `mathematics-content.html?category=${category}&folder=${encodeURIComponent(folder)}&type=${type}`;
+                    console.log('Redirecting to:', newUrl);
+                    window.location.replace(newUrl);
+                    return;
+                }
+            }
+            
+            // Clear any old cached URLs that might cause 404 errors
+            console.log('Clearing any cached problematic URLs...');
+            
+            // Clear any localStorage entries that might contain old URLs
+            try {
+                const keysToCheck = ['mathematicsLectures', 'mathematicsFolders', 'lectures', 'folders'];
+                keysToCheck.forEach(key => {
+                    const data = localStorage.getItem(key);
+                    if (data) {
+                        const parsed = JSON.parse(data);
+                        if (Array.isArray(parsed)) {
+                            // Check if any item contains old URL pattern
+                            const updated = parsed.map(item => {
+                                if (item && typeof item === 'object') {
+                                    // Remove any properties that might contain old URLs
+                                    const cleanItem = { ...item };
+                                    Object.keys(cleanItem).forEach(prop => {
+                                        if (typeof cleanItem[prop] === 'string' && 
+                                            cleanItem[prop].includes('mathematics-') && 
+                                            cleanItem[prop].includes('-teacher.html')) {
+                                            console.log('Removing old URL:', cleanItem[prop]);
+                                            delete cleanItem[prop];
+                                        }
+                                    });
+                                    return cleanItem;
+                                }
+                                return item;
+                            });
+                            localStorage.setItem(key, JSON.stringify(updated));
+                        }
+                    }
+                });
+            } catch (error) {
+                console.log('Error clearing cached URLs:', error);
+            }
+            
+            // Load existing lectures from localStorage
+            lectures = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            
+            // Only add sample lectures if none exist
+            if (lectures.length === 0) {
+                lectures = [
+                    {
+                        id: "1",
+                        title: "Introduction to Algebra",
+                        topic: "Algebra",
+                        instructor: "Dr. Smith",
+                        duration: 45,
+                        description: "Learn the basics of algebraic expressions and equations.",
+                        videoUrl: "https://www.youtube.com/watch?v=NybHckSEQBI",
+                        videoSource: "youtube",
+                        thumbnail: "",
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: "2",
+                        title: "Quadratic Equations",
+                        topic: "Algebra",
+                        instructor: "Dr. Smith",
+                        duration: 60,
+                        description: "Master solving quadratic equations using different methods.",
+                        videoUrl: "https://www.youtube.com/watch?v=ZJ-Ah7u6q2I",
+                        videoSource: "youtube",
+                        thumbnail: "",
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: "3",
+                        title: "Trigonometry Basics",
+                        topic: "Trigonometry",
+                        instructor: "Dr. Johnson",
+                        duration: 50,
+                        description: "Introduction to trigonometric functions and identities.",
+                        videoUrl: "https://www.youtube.com/watch?v=PJ0H8j7xq3U",
+                        videoSource: "youtube",
+                        thumbnail: "",
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: "4",
+                        title: "Calculus Derivatives",
+                        topic: "Calculus",
+                        instructor: "Dr. Smith",
+                        duration: 55,
+                        description: "Understanding derivatives and their applications.",
+                        videoUrl: "https://www.youtube.com/watch?v=9vKqVkMQHKk",
+                        videoSource: "youtube",
+                        thumbnail: "",
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: "5",
+                        title: "Geometry Fundamentals",
+                        topic: "Geometry",
+                        instructor: "Dr. Wilson",
+                        duration: 40,
+                        description: "Basic geometric shapes and properties.",
+                        videoUrl: "https://www.youtube.com/watch?v=3Zz9aGpSl4w",
+                        videoSource: "youtube",
+                        thumbnail: "",
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: "6",
+                        title: "Statistics Overview",
+                        topic: "Statistics",
+                        instructor: "Dr. Smith",
+                        duration: 35,
+                        description: "Introduction to statistical concepts and data analysis.",
+                        videoUrl: "https://www.youtube.com/watch?v=xxpc-HPKN28",
+                        videoSource: "youtube",
+                        thumbnail: "",
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('mathematicsLectures', JSON.stringify(lectures));
+            }
+            loadLectures();
+            
+            // Auto-select the first category to display its content
+            selectCategory('algebra');
+            
+            // Add keyboard shortcut to show debug tools (Ctrl+D)
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'd') {
+                    e.preventDefault();
+                    const debugTools = document.getElementById('debugTools');
+                    debugTools.style.display = debugTools.style.display === 'none' ? 'block' : 'none';
+                }
+            });
+        });
+
+        // Function to refresh folders from teacher panel
+        function refreshTeacherFolders() {
+            if (currentCategory) {
+                generateFoldersForCategory(currentCategory);
+            }
+        }
+
+        // Listen for storage changes to update folders when teacher creates new ones
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'mathematicsFolders') {
+                refreshTeacherFolders();
+            }
+        });
+
+        // Prevent any old URL redirects
+        window.addEventListener('beforeunload', function(e) {
+            // Check if we're about to navigate to an old URL pattern
+            if (window.location.href.includes('mathematics-') && 
+                window.location.href.includes('-teacher.html')) {
+                e.preventDefault();
+                console.error('Blocked navigation to old URL:', window.location.href);
+                alert('Old URL pattern detected and blocked. Please use the correct navigation.');
+                return false;
+            }
+        });
+
+        // Override any potential window.location assignments
+        const originalLocationAssign = window.location.assign;
+        const originalLocationHref = Object.getOwnPropertyDescriptor(window.location, 'href');
+        
+        window.location.assign = function(url) {
+            if (typeof url === 'string' && url.includes('mathematics-') && url.includes('-teacher.html')) {
+                console.error('Blocked assignment to old URL:', url);
+                // Redirect to the correct content page instead
+                const correctUrl = url.replace(/mathematics-([^-]+)-([^-]+)-([^-]+)\.html/, 'mathematics-content.html?category=$1&folder=$2&type=$3');
+                console.log('Redirecting to correct URL:', correctUrl);
+                return originalLocationAssign.call(window.location, correctUrl);
+            }
+            return originalLocationAssign.call(window.location, url);
+        };
+
+        // Override href setter to catch direct assignments
+        Object.defineProperty(window.location, 'href', {
+            get: originalLocationHref.get,
+            set: function(url) {
+                if (typeof url === 'string' && url.includes('mathematics-') && url.includes('-teacher.html')) {
+                    console.error('Blocked href assignment to old URL:', url);
+                    const correctUrl = url.replace(/mathematics-([^-]+)-([^-]+)-([^-]+)\.html/, 'mathematics-content.html?category=$1&folder=$2&type=$3');
+                    console.log('Redirecting to correct URL:', correctUrl);
+                    return originalLocationHref.set.call(this, correctUrl);
+                }
+                return originalLocationHref.set.call(this, url);
+            }
+        });
+
+        // Load and display lectures
+        function loadLectures() {
+            // Reload lectures from localStorage to get any new additions
+            lectures = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            
+            // Set default category to algebra
+            currentCategory = 'algebra';
+            
+            // Show category selection and folder grid
+            document.getElementById('categorySelection').style.display = 'block';
+            document.getElementById('folderGrid').style.display = 'grid';
+            
+            // Reset folder selections
+            document.querySelectorAll('.folder-item').forEach(folder => {
+                folder.style.borderColor = 'transparent';
+                folder.style.transform = 'translateY(0) scale(1)';
+            });
+            
+            // Reset category tab styles
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.style.background = '#f8f9fa';
+                tab.style.color = '#495057';
+                tab.style.border = '2px solid #e9ecef';
+                tab.style.boxShadow = 'none';
+            });
+            
+            // Highlight "Algebra" tab as default
+            const algebraTab = document.querySelector('[data-category="algebra"]');
+            if (algebraTab) {
+                algebraTab.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                algebraTab.style.color = 'white';
+                algebraTab.style.border = 'none';
+                algebraTab.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+            }
+            
+            filterLectures();
+        }
+
+        // Refresh lectures from localStorage
+        function refreshLectures() {
+            console.log('Refreshing lectures...');
+            loadLectures();
+            console.log('Total lectures loaded:', lectures.length);
+        }
+
+        // Clear search function
+        function clearSearch() {
+            document.getElementById('lectureSearch').value = '';
+            document.getElementById('clearBtn').style.display = 'none';
+            filterLectures();
+        }
+
+        // Enhanced category filtering with visual feedback
+        function filterByCategory(category) {
+            // Update current category
+            currentCategory = category;
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+                // Reset to default styling
+                tab.style.background = '#f8f9fa';
+                tab.style.color = '#495057';
+                tab.style.border = '2px solid #e9ecef';
+                tab.style.boxShadow = 'none';
+            });
+            
+            // Add active class to selected tab
+            const activeTab = document.querySelector(`[data-category="${category}"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+                // Apply active styling
+                activeTab.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                activeTab.style.color = 'white';
+                activeTab.style.border = 'none';
+                activeTab.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+                
+                // Update lecture count styling for active tab
+                const lectureCount = activeTab.querySelector('.lecture-count');
+                if (lectureCount) {
+                    lectureCount.style.background = 'rgba(255,255,255,0.2)';
+                    lectureCount.style.color = 'white';
+                }
+            }
+            
+            // Apply filters
+            filterLectures();
+        }
+
+        // Enhanced filter lectures function with stats
+        function filterLectures() {
+            const searchTerm = document.getElementById('lectureSearch').value.toLowerCase();
+            const clearBtn = document.getElementById('clearBtn');
+            const searchStats = document.getElementById('searchStats');
+            const resultCount = document.getElementById('resultCount');
+            
+            // Show/hide clear button
+            if (searchTerm.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+            
+            const filteredLectures = lectures.filter(lecture => {
+                // Category filter - check both topic and subject fields
+                const lectureTopic = lecture.topic ? lecture.topic.toLowerCase() : '';
+                const lectureSubject = lecture.subject ? lecture.subject.toLowerCase() : '';
+                const matchesCategory = currentCategory === 'all' || 
+                    lectureTopic === currentCategory || 
+                    lectureSubject === currentCategory;
+                
+                
+                // Search filter
+                const matchesSearch = searchTerm === '' || 
+                    lecture.title.toLowerCase().includes(searchTerm) ||
+                    lecture.description.toLowerCase().includes(searchTerm) ||
+                    lecture.instructor.toLowerCase().includes(searchTerm);
+                
+                return matchesCategory && matchesSearch;
+            });
+            
+            // Update search stats
+            if (searchTerm.length > 0) {
+                resultCount.textContent = filteredLectures.length;
+                searchStats.style.display = 'block';
+            } else {
+                searchStats.style.display = 'none';
+            }
+            
+            displayFilteredLectures(filteredLectures);
+        }
+
+        // Create lecture card HTML
+        function createLectureCard(lecture) {
+            const isWatched = localStorage.getItem(`lecture_${lecture.id}_watched`) === 'true';
+            const thumbnail = lecture.thumbnail || `https://img.youtube.com/vi/${extractVideoId(lecture.videoUrl)}/maxresdefault.jpg`;
+            
+            return `
+                <div class="lecture-card" onclick="openLecture('${lecture.id}')">
+                    <div class="lecture-thumbnail">
+                        <img src="${thumbnail}" alt="${lecture.title}" onerror="this.style.display='none'">
+                        <div class="play-icon">
+                            <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                        </div>
+                        ${isWatched ? '<div class="watched-badge">Watched</div>' : ''}
+                    </div>
+                    <div class="lecture-content">
+                        <h5 class="lecture-title">${lecture.title}</h5>
+                        <div class="lecture-meta">
+                            <span class="lecture-topic">${lecture.topic}</span>
+                            <span class="lecture-duration">${formatDuration(lecture.duration)}</span>
+                        </div>
+                        <p class="lecture-description">${lecture.description}</p>
+                        <div class="lecture-footer">
+                            <span class="lecture-instructor">${lecture.instructor}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+
+        // Open lecture player
+        function openLecture(lectureId) {
+            const lecture = lectures.find(l => l.id === lectureId);
+            if (!lecture) {
+                console.error('Lecture not found:', lectureId);
+                return;
+            }
+
+            currentLectureId = lectureId;
+            
+            // Update modal content
+            document.getElementById('playerTitle').textContent = lecture.title;
+            document.getElementById('playerDescription').textContent = lecture.description;
+            document.getElementById('playerInstructor').textContent = lecture.instructor;
+            document.getElementById('playerDuration').textContent = formatDuration(lecture.duration);
+            document.getElementById('playerTopic').textContent = lecture.topic;
+            
+            // Set video URL based on source
+            let embedUrl = '';
+            const videoPlayer = document.getElementById('videoPlayer');
+            
+            if (lecture.videoSource === 'youtube') {
+                const videoId = extractVideoId(lecture.videoUrl);
+                console.log('YouTube video ID:', videoId);
+                embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+            } else if (lecture.videoSource === 'vimeo') {
+                const videoId = extractVimeoId(lecture.videoUrl);
+                console.log('Vimeo video ID:', videoId);
+                embedUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1`;
+            } else if (lecture.videoSource === 'googledrive') {
+                // Convert Google Drive link to embeddable format
+                embedUrl = convertGoogleDriveToEmbed(lecture.videoUrl);
+            } else if (lecture.videoSource === 'upload' || lecture.videoSource === 'direct') {
+                // For uploaded files or direct URLs, use the video URL directly
+                embedUrl = lecture.videoUrl;
+                // For direct video files, we'll use the iframe with the video URL
+                // This works for some video formats that can be embedded
+                embedUrl = lecture.videoUrl;
+            }
+            
+            console.log('Embed URL:', embedUrl);
+            
+            // Set the iframe source
+            videoPlayer.src = embedUrl;
+            
+            // Add error handling for iframe
+            videoPlayer.onerror = function() {
+                console.error('Video failed to load');
+                // Show a fallback message or redirect to original video
+                const container = videoPlayer.parentElement;
+                container.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f8f9fa; color: #666;">
+                        <iconify-icon icon="material-symbols:error" style="font-size: 3rem; margin-bottom: 1rem; color: #dc3545;"></iconify-icon>
+                        <h5>Video cannot be played in this player</h5>
+                        <p>Click the button below to watch on the original platform:</p>
+                        <a href="${lecture.videoUrl}" target="_blank" class="btn btn-primary">
+                            <iconify-icon icon="material-symbols:open-in-new" style="margin-right: 0.5rem;"></iconify-icon>
+                            Watch on ${lecture.videoSource === 'youtube' ? 'YouTube' : 'Original Platform'}
+                        </a>
+                    </div>
+                `;
+            };
+            
+            // Update watch button
+            const isWatched = localStorage.getItem(`lecture_${lectureId}_watched`) === 'true';
+            const watchBtn = document.getElementById('watchBtn');
+            if (isWatched) {
+                watchBtn.innerHTML = '<iconify-icon icon="material-symbols:check-circle" style="margin-right: 0.5rem;"></iconify-icon>Mark as Unwatched';
+                watchBtn.classList.remove('btn-outline-primary');
+                watchBtn.classList.add('btn-success');
+            } else {
+                watchBtn.innerHTML = '<iconify-icon icon="material-symbols:check-circle" style="margin-right: 0.5rem;"></iconify-icon>Mark as Watched';
+                watchBtn.classList.remove('btn-success');
+                watchBtn.classList.add('btn-outline-primary');
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('lecturePlayerModal'));
+            modal.show();
+        }
+
+        // Mark lecture as watched/unwatched
+        function markAsWatched() {
+            if (!currentLectureId) return;
+            
+            const isWatched = localStorage.getItem(`lecture_${currentLectureId}_watched`) === 'true';
+            localStorage.setItem(`lecture_${currentLectureId}_watched`, (!isWatched).toString());
+            
+            // Update button
+            const watchBtn = document.getElementById('watchBtn');
+            if (!isWatched) {
+                watchBtn.innerHTML = '<iconify-icon icon="material-symbols:check-circle" style="margin-right: 0.5rem;"></iconify-icon>Mark as Unwatched';
+                watchBtn.classList.remove('btn-outline-primary');
+                watchBtn.classList.add('btn-success');
+            } else {
+                watchBtn.innerHTML = '<iconify-icon icon="material-symbols:check-circle" style="margin-right: 0.5rem;"></iconify-icon>Mark as Watched';
+                watchBtn.classList.remove('btn-success');
+                watchBtn.classList.add('btn-outline-primary');
+            }
+            
+            // Reload lectures to update watched status
+            loadLectures();
+        }
+
+        // Edit lecture
+
+        // Filter lectures by category
+        function filterByCategory(category) {
+            // Update current category
+            currentCategory = category;
+            
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.style.background = 'white';
+                btn.style.color = '#667eea';
+                btn.style.border = '2px solid #e9ecef';
+                btn.style.boxShadow = 'none';
+            });
+            
+            const activeBtn = document.querySelector(`[data-category="${category}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+                activeBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                activeBtn.style.color = 'white';
+                activeBtn.style.border = 'none';
+                activeBtn.style.boxShadow = '0 4px 12px rgba(102, 126, 234, 0.3)';
+            }
+            
+            // Apply both category and search filters
+            filterLectures();
+        }
+
+
+        // Select category (shows folder options)
+        function selectCategory(category) {
+            // Update current category
+            currentCategory = category;
+            
+            // Reset all category tab styles
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.style.background = '#f8f9fa';
+                tab.style.color = '#495057';
+                tab.style.border = '2px solid #e9ecef';
+                tab.style.boxShadow = 'none';
+            });
+            
+            // Highlight selected category tab
+            const selectedTab = document.querySelector(`[data-category="${category}"]`);
+            if (selectedTab) {
+                selectedTab.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                selectedTab.style.color = 'white';
+                selectedTab.style.border = 'none';
+                selectedTab.style.boxShadow = '0 4px 15px rgba(102, 126, 234, 0.3)';
+            }
+            
+            // Show folder grid for the selected category
+            const folderGrid = document.getElementById('folderGrid');
+            folderGrid.style.display = 'grid';
+            
+            // Generate folders for the selected category
+            generateFoldersForCategory(category);
+            
+            // Reset folder selections
+            document.querySelectorAll('.folder-item').forEach(folder => {
+                folder.style.borderColor = 'transparent';
+                folder.style.transform = 'translateY(0) scale(1)';
+            });
+        }
+
+        function generateFoldersForCategory(category) {
+            const folderGrid = document.getElementById('folderGrid');
+            
+            // Load teacher-created folders from localStorage
+            const teacherFolders = JSON.parse(localStorage.getItem('mathematicsFolders')) || [];
+            
+            // Debug: Log folder data
+            console.log('All teacher folders:', teacherFolders);
+            console.log('Looking for category:', category);
+            
+            // Filter teacher folders by category
+            const categoryTeacherFolders = teacherFolders.filter(folder => 
+                folder.category && folder.category.toLowerCase() === category.toLowerCase()
+            );
+            
+            console.log('Category teacher folders:', categoryTeacherFolders);
+            
+            // Define default chapters for each category
+            const categoryData = {
+                algebra: [
+                    { name: 'Chapter 1: Linear Equations', id: 'chapter1' },
+                    { name: 'Chapter 2: Quadratic Functions', id: 'chapter2' },
+                    { name: 'Chapter 3: Polynomials', id: 'chapter3' },
+                    { name: 'Chapter 4: Systems of Equations', id: 'chapter4' }
+                ],
+                geometry: [
+                    { name: 'Chapter 1: Basic Shapes', id: 'chapter1' },
+                    { name: 'Chapter 2: Angles & Lines', id: 'chapter2' },
+                    { name: 'Chapter 3: Triangles', id: 'chapter3' },
+                    { name: 'Chapter 4: Circles', id: 'chapter4' }
+                ],
+                trigonometry: [
+                    { name: 'Chapter 1: Trigonometric Ratios', id: 'chapter1' },
+                    { name: 'Chapter 2: Unit Circle', id: 'chapter2' },
+                    { name: 'Chapter 3: Trigonometric Identities', id: 'chapter3' },
+                    { name: 'Chapter 4: Graphs of Trig Functions', id: 'chapter4' }
+                ],
+                calculus: [
+                    { name: 'Chapter 1: Limits', id: 'chapter1' },
+                    { name: 'Chapter 2: Derivatives', id: 'chapter2' },
+                    { name: 'Chapter 3: Integrals', id: 'chapter3' },
+                    { name: 'Chapter 4: Applications', id: 'chapter4' }
+                ],
+                statistics: [
+                    { name: 'Chapter 1: Data Collection', id: 'chapter1' },
+                    { name: 'Chapter 2: Descriptive Statistics', id: 'chapter2' },
+                    { name: 'Chapter 3: Probability', id: 'chapter3' },
+                    { name: 'Chapter 4: Inferential Statistics', id: 'chapter4' }
+                ]
+            };
+            
+            const defaultChapters = categoryData[category] || [];
+            
+            // Generate folder cards for teacher-created folders
+            const teacherFolderCards = categoryTeacherFolders.map(folder => `
+                <div class="folder-card" onclick="openContentModal('${folder.category}', '${folder.name}')">
+                    <div class="folder-image-container">
+                        <img src="images/subjects-BXHXAGyl.webp" alt="Learning Content" class="folder-image">
+                    </div>
+                    <h3 class="folder-title">${folder.name}</h3>
+                </div>
+            `).join('');
+            
+            // Generate folder cards for default chapters
+            const defaultFolderCards = defaultChapters.map(chapter => `
+                <div class="folder-card" onclick="openContentModal('${category}', '${chapter.name}')">
+                    <div class="folder-image-container">
+                        <img src="images/subjects-BXHXAGyl.webp" alt="Learning Content" class="folder-image">
+                    </div>
+                    <h3 class="folder-title">${chapter.name}</h3>
+                </div>
+            `).join('');
+            
+            // Combine teacher folders and default folders
+            folderGrid.innerHTML = teacherFolderCards + defaultFolderCards;
+            
+            // Debug: Show what was rendered
+            console.log('Teacher folder cards:', teacherFolderCards);
+            console.log('Default folder cards:', defaultFolderCards);
+            console.log('Total folders rendered:', (teacherFolderCards + defaultFolderCards).split('folder-card').length - 1);
+        }
+        
+        // Function to manually refresh folders (for debugging)
+        function refreshFolders() {
+            const currentCategory = document.querySelector('.category-item.active')?.getAttribute('onclick')?.match(/'([^']+)'/)?.[1] || 'algebra';
+            console.log('Manually refreshing folders for category:', currentCategory);
+            generateFoldersForCategory(currentCategory);
+        }
+
+        function openContentModal(topic, chapter) {
+            // Redirect to content selection page instead of showing modal
+            console.log('Opening content selection for:', topic, chapter);
+            window.location.href = `content-selection.html?category=${encodeURIComponent(topic)}&folder=${encodeURIComponent(chapter)}`;
+        }
+
+
+
+        // Display filtered lectures
+        function displayFilteredLectures(filteredLectures) {
+            const lecturesGrid = document.getElementById('lecturesGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (filteredLectures.length === 0) {
+                lecturesGrid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            lecturesGrid.innerHTML = filteredLectures.map(lecture => createLectureCard(lecture)).join('');
+        }
+
+        // Utility functions
+        function extractVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function extractVimeoId(url) {
+            const regExp = /vimeo\.com\/(\d+)/;
+            const match = url.match(regExp);
+            return match ? match[1] : null;
+        }
+
+        function convertGoogleDriveToEmbed(url) {
+            // Convert Google Drive shareable link to embeddable format
+            const fileIdMatch = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
+            if (fileIdMatch) {
+                return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
+            }
+            return url; // Return original URL if conversion fails
+        }
+
+        function formatDuration(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+        }
+        
+        // Navigation functions for header buttons
+        function navigateToFocusMode() {
+            showFocusModeModal();
+        }
+        
+        function showFocusModeModal() {
+            const modalHtml = `
+                <div id="focusModeModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 99999; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease;">
+                    <iframe src="focus-mode.html" style="width: 95vw; height: 95vh; border: none; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);"></iframe>
+                    <button onclick="closeFocusMode()" style="position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.9); border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s;" onmouseover="this.style.background='white'; this.style.transform='scale(1.1)'" onmouseout="this.style.background='rgba(255,255,255,0.9)'; this.style.transform='scale(1)'">
+                        ×
+                    </button>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeFocusMode() {
+            const modal = document.getElementById('focusModeModal');
+            if (modal) modal.remove();
+            document.body.style.overflow = 'auto';
+        }
+        
+        function navigateToNotifications() {
+            showNotificationsModal();
+        }
+        
+        function navigateToCommunity() {
+            window.location.href = 'community.html';
+        }
+        
+        function navigateToProfile() {
+            const userName = localStorage.getItem('userName') || 'Student';
+            const userEmail = localStorage.getItem('userEmail') || 'student@example.com';
+            
+            const dropdownHtml = `
+                <div id="profileDropdown" style="position: fixed; top: 70px; right: 20px; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 1rem; z-index: 9999; min-width: 250px;">
+                    <div style="border-bottom: 1px solid #e9ecef; padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                        <div style="font-weight: 600; color: #333; font-size: 1.1rem;">${userName}</div>
+                        <div style="font-size: 0.85rem; color: #666;">${userEmail}</div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <button onclick="event.stopPropagation(); window.location.href='student-profile.html'" style="width: 100%; text-align: left; padding: 0.75rem; background: transparent; border: none; cursor: pointer; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='transparent'">
+                            <iconify-icon icon="material-symbols:person" style="font-size: 1.2rem; color: #667eea;"></iconify-icon>
+                            <span>My Profile</span>
+                        </button>
+                        <button onclick="event.stopPropagation(); handleLogout()" style="width: 100%; text-align: left; padding: 0.75rem; background: transparent; border: none; cursor: pointer; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; color: #ef4444;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='transparent'">
+                            <iconify-icon icon="material-symbols:logout" style="font-size: 1.2rem;"></iconify-icon>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            const existing = document.getElementById('profileDropdown');
+            if (existing) {
+                existing.remove();
+                return;
+            }
+            
+            document.body.insertAdjacentHTML('beforeend', dropdownHtml);
+            
+            setTimeout(() => {
+                document.addEventListener('click', function closeDropdown(e) {
+                    const dropdown = document.getElementById('profileDropdown');
+                    if (dropdown && !dropdown.contains(e.target)) {
+                        dropdown.remove();
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                }, {once: false});
+            }, 100);
+        }
+        
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userLoggedIn');
+                window.location.href = 'index.html';
+            }
+        }
+
+    </script>
+</body>
+</html>

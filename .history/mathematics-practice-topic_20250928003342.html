@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice on Topic - Mathematics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1031;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .menu-icon {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        .main-container {
+            padding: 2rem;
+        }
+        
+        .page-header {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .topic-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .topic-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .topic-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .topic-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .difficulty-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Menu Toggle and Welcome Message -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        
+                        <div class="welcome-section">
+                            <h4 class="welcome-text mb-0" id="welcomeMessage">Practice on Topic</h4>
+                            <small class="text-muted" id="welcomeSubtext">Mathematics Topic-based Practice</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section" style="margin-right: 2rem;">
+                            <a href="course-mathematics.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 style="font-weight: 700; color: #333; margin-bottom: 0.5rem;">
+                        <iconify-icon icon="material-symbols:exercise" class="me-2" style="color: #667eea;"></iconify-icon>
+                        Practice on Topic
+                    </h2>
+                    <p class="text-muted mb-0">Choose a mathematics topic to practice with focused exercises</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topics Grid -->
+        <div class="row">
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="topic-card" onclick="openTopic('algebra')">
+                    <div class="topic-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <iconify-icon icon="material-symbols:functions"></iconify-icon>
+                    </div>
+                    <div class="topic-title">Algebra</div>
+                    <div class="topic-description">Practice solving equations, inequalities, and algebraic expressions</div>
+                    <div class="topic-stats">
+                        <span class="difficulty-badge difficulty-easy">Easy</span>
+                        <span>15 exercises</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="topic-card" onclick="openTopic('geometry')">
+                    <div class="topic-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <iconify-icon icon="material-symbols:straighten"></iconify-icon>
+                    </div>
+                    <div class="topic-title">Geometry</div>
+                    <div class="topic-description">Work with shapes, angles, areas, and geometric proofs</div>
+                    <div class="topic-stats">
+                        <span class="difficulty-badge difficulty-medium">Medium</span>
+                        <span>20 exercises</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="topic-card" onclick="openTopic('trigonometry')">
+                    <div class="topic-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+                    </div>
+                    <div class="topic-title">Trigonometry</div>
+                    <div class="topic-description">Master sine, cosine, tangent and their applications</div>
+                    <div class="topic-stats">
+                        <span class="difficulty-badge difficulty-hard">Hard</span>
+                        <span>18 exercises</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="topic-card" onclick="openTopic('calculus')">
+                    <div class="topic-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <iconify-icon icon="material-symbols:trending-up"></iconify-icon>
+                    </div>
+                    <div class="topic-title">Calculus</div>
+                    <div class="topic-description">Learn derivatives, integrals, and limits</div>
+                    <div class="topic-stats">
+                        <span class="difficulty-badge difficulty-hard">Hard</span>
+                        <span>25 exercises</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="topic-card" onclick="openTopic('statistics')">
+                    <div class="topic-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <iconify-icon icon="material-symbols:bar-chart"></iconify-icon>
+                    </div>
+                    <div class="topic-title">Statistics</div>
+                    <div class="topic-description">Analyze data, probability, and statistical distributions</div>
+                    <div class="topic-stats">
+                        <span class="difficulty-badge difficulty-medium">Medium</span>
+                        <span>12 exercises</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="topic-card" onclick="openTopic('number-theory')">
+                    <div class="topic-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                        <iconify-icon icon="material-symbols:numbers"></iconify-icon>
+                    </div>
+                    <div class="topic-title">Number Theory</div>
+                    <div class="topic-description">Explore prime numbers, divisibility, and modular arithmetic</div>
+                    <div class="topic-stats">
+                        <span class="difficulty-badge difficulty-easy">Easy</span>
+                        <span>10 exercises</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script>
+        function toggleMenu() {
+            // Menu toggle functionality
+            console.log('Menu toggled');
+        }
+        
+        function openTopic(topic) {
+            alert(`Opening practice exercises for ${topic}. This feature will be implemented in the next update.`);
+        }
+    </script>
+</body>
+</html>

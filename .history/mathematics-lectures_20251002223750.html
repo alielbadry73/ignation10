@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Lectures - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1060;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.4);
+        }
+        
+        .menu-toggle.active {
+            background: #dc3545;
+            transform: rotate(180deg);
+        }
+        
+        .menu-icon {
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .logo-image {
+            height: 35px;
+            width: auto;
+            background: transparent;
+            border: none;
+            padding: 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        .notification-btn, .community-btn, .assignments-btn, .teacher-panel-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            min-height: 48px;
+        }
+        
+        .notification-btn:hover, .community-btn:hover, .assignments-btn:hover, .teacher-panel-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: white;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-link {
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .profile-link:hover {
+            color: #333;
+        }
+        
+        .focus-mode-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+                background: white;
+                            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 48px;
+        }
+        
+        .focus-mode-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .focus-mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Main Layout */
+        .main-layout {
+            display: flex;
+            min-height: calc(100vh - 100px);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        /* Sidebar Styling */
+        .categories-sidebar {
+            width: 280px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+            padding: 2rem 0;
+            position: sticky;
+            top: 100px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+        
+        .sidebar-header {
+            padding: 0 2rem 2rem 2rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .category-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .category-item {
+            margin: 0;
+        }
+        
+        .category-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 2rem;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .category-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            text-decoration: none;
+            border-left-color: #667eea;
+        }
+        
+        .category-link.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.1) 100%);
+            color: #667eea;
+            border-left-color: #667eea;
+            font-weight: 600;
+        }
+        
+        .category-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .category-icon {
+            font-size: 1.2rem;
+            margin-right: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            padding: 3rem 2rem;
+            overflow-y: auto;
+        }
+        
+        .page-title {
+            font-size: 3.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .page-subtitle {
+            color: #555;
+            text-align: center;
+            margin-bottom: 4rem;
+            font-size: 1.2rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        /* Content Display Area */
+        .content-display {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-height: 600px;
+        }
+        
+        .content-header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+        }
+        
+        .content-title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .content-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+        
+        .no-selection {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+        
+        .no-selection-icon {
+            font-size: 4rem;
+            color: #ccc;
+            margin-bottom: 1.5rem;
+        }
+        
+        .no-selection-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+        
+        .no-selection-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        /* Folders Grid */
+        .folders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .folder-item {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 30px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+            overflow: hidden;
+            min-height: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .folder-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+            border-radius: 30px;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .folder-item::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.8s ease;
+            opacity: 0;
+        }
+        
+        .folder-item:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+            border-color: rgba(102, 126, 234, 0.3);
+            background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+        }
+        
+        .folder-item:hover::before {
+            opacity: 1;
+        }
+        
+        .folder-item:hover::after {
+            opacity: 1;
+            animation: shimmer 2s ease-in-out;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        /* Educational Image Container */
+        .folder-image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .folder-educational-image {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            position: relative;
+        }
+        
+        .folder-educational-image::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: -1;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        
+        .folder-item:hover .folder-educational-image {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+            border-color: rgba(255, 255, 255, 1);
+        }
+        
+        .folder-item:hover .folder-educational-image::before {
+            opacity: 1;
+        }
+        
+        /* Folder Title Only */
+        .folder-name {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+        
+        /* Content Selection Modal */
+        .content-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .content-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .content-modal-content {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 25px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+            transform: scale(0.7) translateY(50px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .content-modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .content-modal.active .content-modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .modal-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .modal-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        
+        .content-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .content-option {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 3px solid #e9ecef;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            text-decoration: none;
+            color: inherit;
+            position: relative;
+            overflow: hidden;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .content-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .content-option:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .content-option:hover::before {
+            opacity: 1;
+        }
+        
+        .content-option.teacher {
+            background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c9 100%);
+            border-color: #28a745;
+        }
+        
+        .content-option.teacher:hover {
+            background: linear-gradient(135deg, #d4edda 0%, #b8dacc 100%);
+            border-color: #20c997;
+            box-shadow: 0 15px 35px rgba(40, 167, 69, 0.3);
+        }
+        
+        .content-option.assistant {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border-color: #ffc107;
+        }
+        
+        .content-option.assistant:hover {
+            background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+            border-color: #fd7e14;
+            box-shadow: 0 15px 35px rgba(255, 193, 7, 0.3);
+        }
+        
+        .option-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+            transition: all 0.3s ease;
+        }
+        
+        .content-option:hover .option-icon {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
+        }
+        
+        .option-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+            letter-spacing: 0.5px;
+        }
+        
+        .option-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            font-size: 1.8rem;
+            color: #666;
+            cursor: pointer;
+            padding: 0.8rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .modal-close:hover {
+            background: #f8f9fa;
+            color: #333;
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            
+            .categories-sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            }
+            
+            .main-content {
+                padding: 2rem 1rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .folders-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .content-options {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .content-modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .content-display {
+                padding: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .folders-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .folder-item {
+                min-height: 280px;
+                padding: 1.5rem 1rem;
+            }
+            
+            .folder-image-container {
+                margin-bottom: 1rem;
+            }
+            
+            .folder-educational-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .folder-name {
+                font-size: 1.1rem;
+            }
+            
+            .categories-sidebar {
+                padding: 1rem 0;
+            }
+            
+            .category-link {
+                padding: 0.8rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Menu Toggle and Welcome Message -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        
+                        <div class="welcome-section">
+                            <h4 class="welcome-text mb-0" id="welcomeMessage">Welcome back, Alex!</h4>
+                            <small class="text-muted" id="welcomeSubtext">Let's start learning mathematics today!</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section" style="margin-right: 2rem;">
+                            <a href="home.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image">
+                            </a>
+                        </div>
+                        
+                        <!-- Focus Mode Toggle -->
+                        <div class="focus-mode-section">
+                            <button class="focus-mode-btn" onclick="toggleFocusMode()" id="focusModeToggle" data-tooltip="Focus Mode">
+                                <iconify-icon icon="material-symbols:visibility-off" style="width: 20px; height: 20px;"></iconify-icon>
+                            </button>
+                        </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()" data-tooltip="Notifications">
+                                <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
+                                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Mathematics Community Button -->
+                        <div class="community-section">
+                            <button class="btn btn-primary btn-sm community-btn" onclick="openMathematicsCommunity()" data-tooltip="Mathematics Community">
+                                <iconify-icon icon="material-symbols:forum" style="width: 20px; height: 20px; margin-right: 0.25rem;"></iconify-icon>
+                                Math Community
+                            </button>
+                        </div>
+                        
+                        <!-- Profile Section -->
+                        <div class="profile-section">
+                            <div class="dropdown">
+                                <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <div class="profile-avatar" id="headerProfileAvatar" data-tooltip="Profile">
+                                        <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 24px; height: 24px;">
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <!-- Profile Option -->
+                                    <li><a class="dropdown-item" href="student-info.html">
+                                        <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                        Profile
+                                    </a></li>
+                                    
+                                    <!-- How To Option -->
+                                    <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                        <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                        How To
+                                    </a></li>
+                                    
+                                    <li><hr class="dropdown-divider"></li>
+                                    
+                                    <!-- Logout Option -->
+                                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                        <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                        Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="main-layout">
+        <!-- Categories Sidebar -->
+        <div class="categories-sidebar">
+            <div class="sidebar-header">
+                <h2 class="sidebar-title">Mathematics Topics</h2>
+            </div>
+            <ul class="category-list">
+                <li class="category-item">
+                    <a href="#" class="category-link" onclick="selectCategory('algebra')" data-category="algebra">
+                        <iconify-icon icon="material-symbols:functions" class="category-icon"></iconify-icon>
+                        Algebra
+                    </a>
+                </li>
+                <li class="category-item">
+                    <a href="#" class="category-link" onclick="selectCategory('statistics')" data-category="statistics">
+                        <iconify-icon icon="material-symbols:analytics" class="category-icon"></iconify-icon>
+                        Statistics
+                    </a>
+                </li>
+                <li class="category-item">
+                    <a href="#" class="category-link" onclick="selectCategory('geometry')" data-category="geometry">
+                        <iconify-icon icon="material-symbols:shapes" class="category-icon"></iconify-icon>
+                        Geometry
+                    </a>
+                </li>
+                <li class="category-item">
+                    <a href="#" class="category-link" onclick="selectCategory('calculus')" data-category="calculus">
+                        <iconify-icon icon="material-symbols:calculate" class="category-icon"></iconify-icon>
+                        Calculus
+                    </a>
+                </li>
+                <li class="category-item">
+                    <a href="#" class="category-link" onclick="selectCategory('trigonometry')" data-category="trigonometry">
+                        <iconify-icon icon="material-symbols:show-chart" class="category-icon"></iconify-icon>
+                        Trigonometry
+                    </a>
+                </li>
+                <li class="category-item">
+                    <a href="#" class="category-link" onclick="selectCategory('probability')" data-category="probability">
+                        <iconify-icon icon="material-symbols:casino" class="category-icon"></iconify-icon>
+                        Probability
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <h1 class="page-title">Mathematics Lectures</h1>
+            <p class="page-subtitle">Master mathematics through structured learning paths with expert guidance and AI-powered assistance</p>
+            
+            <!-- Content Display -->
+            <div class="content-display" id="contentDisplay">
+                <div class="no-selection" id="noSelection">
+                    <iconify-icon icon="material-symbols:folder-open" class="no-selection-icon"></iconify-icon>
+                    <h3 class="no-selection-title">Select a Mathematics Topic</h3>
+                    <p class="no-selection-text">Choose a category from the sidebar to explore chapters and learning materials.</p>
+                </div>
+                
+                <!-- Dynamic content will be inserted here -->
+                <div id="categoryContent" style="display: none;">
+                    <div class="content-header">
+                        <h2 class="content-title" id="categoryTitle"></h2>
+                        <p class="content-subtitle" id="categorySubtitle"></p>
+                    </div>
+                    <div class="folders-grid" id="foldersGrid">
+                        <!-- Folders will be dynamically generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Selection Modal -->
+    <div class="content-modal" id="contentModal">
+        <div class="content-modal-content">
+            <button class="modal-close" onclick="closeContentModal()">&times;</button>
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Choose Content Type</h3>
+                <p class="modal-subtitle" id="modalSubtitle">Select how you'd like to learn this topic</p>
+            </div>
+            <div class="content-options">
+                <a href="#" class="content-option teacher" onclick="selectContent('teacher')">
+                    <iconify-icon icon="material-symbols:school" class="option-icon"></iconify-icon>
+                    <h4 class="option-title">Teacher Content</h4>
+                    <p class="option-description">Expert-led lessons, video tutorials, and comprehensive study materials from qualified mathematics educators</p>
+                </a>
+                <a href="#" class="content-option assistant" onclick="selectContent('assistant')">
+                    <iconify-icon icon="material-symbols:psychology" class="option-icon"></iconify-icon>
+                    <h4 class="option-title">AI Assistant</h4>
+                    <p class="option-description">Personalized AI tutoring, interactive problem-solving, and adaptive learning experiences tailored to your pace</p>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Basic JavaScript functions for header functionality
+        function toggleMenu() {
+            console.log('Menu toggle clicked');
+            // Add menu functionality here
+        }
+        
+        function toggleFocusMode() {
+            console.log('Focus mode toggle clicked');
+            // Add focus mode functionality here
+        }
+        
+        function openNotifications() {
+            console.log('Notifications clicked');
+            // Add notifications functionality here
+        }
+        
+        function openMathematicsCommunity() {
+            console.log('Math community clicked');
+            // Add community functionality here
+        }
+        
+        function openHowToModal() {
+            console.log('How to modal clicked');
+            // Add how to modal functionality here
+        }
+        
+        function logout() {
+            console.log('Logout clicked');
+            // Add logout functionality here
+        }
+        
+        // Category and Content Management
+        let currentTopic = '';
+        let currentChapter = '';
+        let currentCategory = '';
+        
+        // Category data
+        const categoryData = {
+            algebra: {
+                title: 'Algebra',
+                subtitle: 'Master algebraic expressions, equations, and problem-solving techniques',
+                chapters: [
+                    { id: 'chapter1', name: 'Chapter 1', description: 'Basic Algebraic Expressions' },
+                    { id: 'chapter2', name: 'Chapter 2', description: 'Linear Equations' },
+                    { id: 'chapter3', name: 'Chapter 3', description: 'Quadratic Equations' },
+                    { id: 'chapter4', name: 'Chapter 4', description: 'Polynomials' }
+                ]
+            },
+            statistics: {
+                title: 'Statistics',
+                subtitle: 'Learn data analysis, probability, and statistical methods',
+                chapters: [
+                    { id: 'chapter1', name: 'Chapter 1', description: 'Data Collection' },
+                    { id: 'chapter2', name: 'Chapter 2', description: 'Measures of Central Tendency' },
+                    { id: 'chapter3', name: 'Chapter 3', description: 'Probability' },
+                    { id: 'chapter4', name: 'Chapter 4', description: 'Statistical Distributions' }
+                ]
+            },
+            geometry: {
+                title: 'Geometry',
+                subtitle: 'Explore shapes, angles, and spatial relationships',
+                chapters: [
+                    { id: 'chapter1', name: 'Chapter 1', description: 'Basic Shapes' },
+                    { id: 'chapter2', name: 'Chapter 2', description: 'Angles and Triangles' },
+                    { id: 'chapter3', name: 'Chapter 3', description: 'Circles and Conic Sections' },
+                    { id: 'chapter4', name: 'Chapter 4', description: '3D Geometry' }
+                ]
+            },
+            calculus: {
+                title: 'Calculus',
+                subtitle: 'Master derivatives, integrals, and mathematical analysis',
+                chapters: [
+                    { id: 'chapter1', name: 'Chapter 1', description: 'Limits and Continuity' },
+                    { id: 'chapter2', name: 'Chapter 2', description: 'Derivatives' },
+                    { id: 'chapter3', name: 'Chapter 3', description: 'Integration' },
+                    { id: 'chapter4', name: 'Chapter 4', description: 'Applications of Calculus' }
+                ]
+            },
+            trigonometry: {
+                title: 'Trigonometry',
+                subtitle: 'Understand trigonometric functions and their applications',
+                chapters: [
+                    { id: 'chapter1', name: 'Chapter 1', description: 'Basic Trigonometric Functions' },
+                    { id: 'chapter2', name: 'Chapter 2', description: 'Trigonometric Identities' },
+                    { id: 'chapter3', name: 'Chapter 3', description: 'Inverse Functions' },
+                    { id: 'chapter4', name: 'Chapter 4', description: 'Applications in Physics' }
+                ]
+            },
+            probability: {
+                title: 'Probability',
+                subtitle: 'Learn probability theory and statistical inference',
+                chapters: [
+                    { id: 'chapter1', name: 'Chapter 1', description: 'Basic Probability' },
+                    { id: 'chapter2', name: 'Chapter 2', description: 'Conditional Probability' },
+                    { id: 'chapter3', name: 'Chapter 3', description: 'Random Variables' },
+                    { id: 'chapter4', name: 'Chapter 4', description: 'Probability Distributions' }
+                ]
+            }
+        };
+        
+        function selectCategory(category) {
+            currentCategory = category;
+            
+            // Update active state in sidebar
+            document.querySelectorAll('.category-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`[data-category="${category}"]`).classList.add('active');
+            
+            // Show category content
+            const categoryInfo = categoryData[category];
+            document.getElementById('noSelection').style.display = 'none';
+            document.getElementById('categoryContent').style.display = 'block';
+            
+            // Update title and subtitle
+            document.getElementById('categoryTitle').textContent = categoryInfo.title;
+            document.getElementById('categorySubtitle').textContent = categoryInfo.subtitle;
+            
+            // Generate folders
+            const foldersGrid = document.getElementById('foldersGrid');
+            foldersGrid.innerHTML = '';
+            
+            categoryInfo.chapters.forEach(chapter => {
+                const folderElement = document.createElement('div');
+                folderElement.className = 'folder-item';
+                folderElement.onclick = () => openContentModal(category, chapter.id);
+                folderElement.innerHTML = `
+                    <div class="folder-image-container">
+                        <img src="images/OIP (1).webp" 
+                             alt="Educational Learning" 
+                             class="folder-educational-image">
+                    </div>
+                    <h3 class="folder-name">${chapter.name}</h3>
+                `;
+                foldersGrid.appendChild(folderElement);
+            });
+        }
+        
+        function openContentModal(topic, chapter) {
+            currentTopic = topic;
+            currentChapter = chapter;
+            
+            const modal = document.getElementById('contentModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            
+            // Update modal content based on selection
+            modalTitle.textContent = `${topic.charAt(0).toUpperCase() + topic.slice(1)} - ${chapter.charAt(0).toUpperCase() + chapter.slice(1)}`;
+            modalSubtitle.textContent = 'Choose how you\'d like to learn this topic';
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeContentModal() {
+            const modal = document.getElementById('contentModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function selectContent(contentType) {
+            // Create the redirect URL based on topic, chapter, and content type
+            const redirectUrl = `mathematics-${currentTopic}-${currentChapter}-${contentType}.html`;
+            
+            // For now, redirect to a placeholder page
+            // In a real implementation, these pages would contain the actual content
+            window.location.href = redirectUrl;
+        }
+        
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('contentModal');
+            if (event.target === modal) {
+                closeContentModal();
+            }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeContentModal();
+            }
+        });
+    </script>
+</body>
+</html>

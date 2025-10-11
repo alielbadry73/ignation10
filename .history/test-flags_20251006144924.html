@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flag Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .flag-test {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        select {
+            font-size: 16px;
+            padding: 10px;
+            font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Android Emoji', 'EmojiSymbols', sans-serif;
+        }
+        .flag-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .flag-item {
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🌍 Flag Display Test</h1>
+    
+    <div class="flag-test">
+        <h3>Dropdown Test:</h3>
+        <select>
+            <option value="EG">🇪🇬 Egypt (+20)</option>
+            <option value="SA">🇸🇦 Saudi Arabia (+966)</option>
+            <option value="AE">🇦🇪 United Arab Emirates (+971)</option>
+            <option value="KW">🇰🇼 Kuwait (+965)</option>
+            <option value="QA">🇶🇦 Qatar (+974)</option>
+            <option value="BH">🇧🇭 Bahrain (+973)</option>
+            <option value="OM">🇴🇲 Oman (+968)</option>
+            <option value="JO">🇯🇴 Jordan (+962)</option>
+            <option value="LB">🇱🇧 Lebanon (+961)</option>
+            <option value="IQ">🇮🇶 Iraq (+964)</option>
+            <option value="SY">🇸🇾 Syria (+963)</option>
+            <option value="YE">🇾🇪 Yemen (+967)</option>
+            <option value="PS">🇵🇸 Palestine (+970)</option>
+        </select>
+    </div>
+    
+    <div class="flag-test">
+        <h3>Individual Flag Test:</h3>
+        <div class="flag-list">
+            <div class="flag-item">🇪🇬 Egypt</div>
+            <div class="flag-item">🇸🇦 Saudi Arabia</div>
+            <div class="flag-item">🇦🇪 United Arab Emirates</div>
+            <div class="flag-item">🇰🇼 Kuwait</div>
+            <div class="flag-item">🇶🇦 Qatar</div>
+            <div class="flag-item">🇧🇭 Bahrain</div>
+            <div class="flag-item">🇴🇲 Oman</div>
+            <div class="flag-item">🇯🇴 Jordan</div>
+            <div class="flag-item">🇱🇧 Lebanon</div>
+            <div class="flag-item">🇮🇶 Iraq</div>
+            <div class="flag-item">🇸🇾 Syria</div>
+            <div class="flag-item">🇾🇪 Yemen</div>
+            <div class="flag-item">🇵🇸 Palestine</div>
+        </div>
+    </div>
+    
+    <div class="flag-test">
+        <h3>Browser Information:</h3>
+        <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+        <p><strong>Platform:</strong> <span id="platform"></span></p>
+    </div>
+
+    <script>
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('platform').textContent = navigator.platform;
+    </script>
+</body>
+</html>

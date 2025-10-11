@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo Lists Debugger - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #4ec9b0;
+            margin-bottom: 2rem;
+        }
+        .debug-section {
+            background: #252526;
+            border: 1px solid #3e3e42;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .debug-section h2 {
+            color: #569cd6;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .key {
+            color: #9cdcfe;
+        }
+        .value {
+            color: #ce9178;
+        }
+        .number {
+            color: #b5cea8;
+        }
+        pre {
+            background: #1e1e1e;
+            border: 1px solid #3e3e42;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .btn-custom {
+            margin: 0.25rem;
+        }
+        .success {
+            color: #4ec9b0;
+        }
+        .error {
+            color: #f48771;
+        }
+        .warning {
+            color: #dcdcaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🐛 Todo Lists Storage Debugger</h1>
+        
+        <div class="debug-section">
+            <h2>Quick Actions</h2>
+            <button class="btn btn-primary btn-custom" onclick="refreshDebug()">🔄 Refresh Data</button>
+            <button class="btn btn-success btn-custom" onclick="checkAllCourses()">✅ Check All Courses</button>
+            <button class="btn btn-warning btn-custom" onclick="viewRawStorage()">📦 View Raw Storage</button>
+            <button class="btn btn-danger btn-custom" onclick="clearAllTodoLists()">🗑️ Clear All Lists</button>
+        </div>
+
+        <div class="debug-section">
+            <h2>Current Course Detection</h2>
+            <div id="courseDetection"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>Mathematics Todo Lists</h2>
+            <div id="mathematicsLists"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>Physics Todo Lists</h2>
+            <div id="physicsLists"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>English Todo Lists</h2>
+            <div id="englishLists"></div>
+        </div>
+
+        <div class="debug-section">
+            <h2>Raw Storage Keys</h2>
+            <div id="rawStorage"></div>
+        </div>
+    </div>
+
+    <script>
+        function refreshDebug() {
+            checkCourseDetection();
+            checkCourseLists('mathematics', 'mathematicsLists', 'mathematicsSavedTodoLists');
+            checkCourseLists('physics', 'physicsLists', 'physicsSavedTodoLists');
+            checkCourseLists('english', 'englishLists', 'englishSavedTodoLists');
+        }
+
+        function checkCourseDetection() {
+            const lastCourse = localStorage.getItem('lastViewedCourse');
+            const html = `
+                <p><span class="key">Last Viewed Course:</span> <span class="value">${lastCourse || 'Not Set'}</span></p>
+                <p><span class="key">Referrer:</span> <span class="value">${document.referrer || 'None'}</span></p>
+                <p><span class="key">Current URL:</span> <span class="value">${window.location.href}</span></p>
+            `;
+            document.getElementById('courseDetection').innerHTML = html;
+        }
+
+        function checkCourseLists(courseName, elementId, storageKey) {
+            const lists = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            const count = lists.length;
+            
+            let html = `<p><span class="key">Storage Key:</span> <span class="value">${storageKey}</span></p>`;
+            html += `<p><span class="key">Total Lists:</span> <span class="number">${count}</span></p>`;
+            
+            if (count === 0) {
+                html += `<p class="warning">⚠️ No saved todo lists found for ${courseName}</p>`;
+            } else {
+                html += `<p class="success">✅ Found ${count} saved list(s)</p>`;
+                lists.forEach((list, index) => {
+                    html += `
+                        <div style="margin: 1rem 0; padding: 1rem; background: #1e1e1e; border-radius: 4px;">
+                            <p><strong>List ${index + 1}:</strong> ${list.name}</p>
+                            <p><span class="key">ID:</span> ${list.id}</p>
+                            <p><span class="key">Created:</span> ${new Date(list.createdAt).toLocaleString()}</p>
+                            <p><span class="key">Tasks:</span> ${list.tasks.length}</p>
+                            <details style="margin-top: 0.5rem;">
+                                <summary style="cursor: pointer; color: #569cd6;">View Tasks</summary>
+                                <pre>${JSON.stringify(list.tasks, null, 2)}</pre>
+                            </details>
+                        </div>
+                    `;
+                });
+            }
+            
+            document.getElementById(elementId).innerHTML = html;
+        }
+
+        function checkAllCourses() {
+            console.log('🔍 Checking all courses...');
+            
+            const courses = [
+                { name: 'Mathematics', key: 'mathematicsSavedTodoLists' },
+                { name: 'Physics', key: 'physicsSavedTodoLists' },
+                { name: 'English', key: 'englishSavedTodoLists' }
+            ];
+            
+            courses.forEach(course => {
+                const lists = JSON.parse(localStorage.getItem(course.key) || '[]');
+                console.log(`\n📚 ${course.name}:`);
+                console.log(`   Storage key: ${course.key}`);
+                console.log(`   Total lists: ${lists.length}`);
+                if (lists.length > 0) {
+                    lists.forEach((list, index) => {
+                        console.log(`   List ${index + 1}: "${list.name}" (${list.tasks.length} tasks)`);
+                    });
+                }
+            });
+            
+            refreshDebug();
+        }
+
+        function viewRawStorage() {
+            const relevantKeys = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.includes('Todo') || key.includes('todo') || key.includes('lastViewedCourse')) {
+                    relevantKeys.push(key);
+                }
+            }
+            
+            let html = '<p class="success">Relevant localStorage keys:</p>';
+            if (relevantKeys.length === 0) {
+                html += '<p class="warning">⚠️ No todo-related keys found</p>';
+            } else {
+                relevantKeys.forEach(key => {
+                    const value = localStorage.getItem(key);
+                    html += `
+                        <div style="margin: 1rem 0; padding: 1rem; background: #1e1e1e; border-radius: 4px;">
+                            <p><span class="key">${key}:</span></p>
+                            <pre>${value.substring(0, 500)}${value.length > 500 ? '...' : ''}</pre>
+                        </div>
+                    `;
+                });
+            }
+            
+            document.getElementById('rawStorage').innerHTML = html;
+            console.log('📦 Raw Storage Data:');
+            relevantKeys.forEach(key => {
+                console.log(`\n${key}:`, localStorage.getItem(key));
+            });
+        }
+
+        function clearAllTodoLists() {
+            if (!confirm('⚠️ Are you sure you want to clear ALL todo lists for ALL courses?\n\nThis will permanently delete all saved todo lists. This action cannot be undone!')) {
+                return;
+            }
+            
+            const keys = [
+                'mathematicsSavedTodoLists',
+                'physicsSavedTodoLists',
+                'englishSavedTodoLists',
+                'mathematicsTodoList',
+                'physicsTodoList',
+                'englishTodoList',
+                'lastViewedCourse'
+            ];
+            
+            keys.forEach(key => {
+                localStorage.removeItem(key);
+                console.log(`🗑️ Cleared: ${key}`);
+            });
+            
+            alert('✅ All todo lists have been cleared!');
+            refreshDebug();
+        }
+
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('🐛 Todo Lists Debugger loaded');
+            console.log('Use the buttons above or call functions directly:');
+            console.log('  - refreshDebug()');
+            console.log('  - checkAllCourses()');
+            console.log('  - viewRawStorage()');
+            console.log('  - clearAllTodoLists()');
+            refreshDebug();
+        });
+    </script>
+</body>
+</html>
+

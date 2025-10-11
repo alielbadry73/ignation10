@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Button Test Page</h1>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Test Buttons</h3>
+                <button class="btn btn-primary" onclick="testFunction()">Test Button</button>
+                <button class="btn btn-success" onclick="alert('Alert works!')">Alert Test</button>
+                <button class="btn btn-info" onclick="console.log('Console works!')">Console Test</button>
+            </div>
+            
+            <div class="col-md-6">
+                <h3>Lecture Test</h3>
+                <div class="card" onclick="openLecture('1')" style="cursor: pointer;">
+                    <div class="card-body">
+                        <h5>Test Lecture</h5>
+                        <p>Click to test video player</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="result" class="mt-3"></div>
+    </div>
+
+    <!-- Test Modal -->
+    <div class="modal fade" id="testModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Test Modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This is a test modal!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function testFunction() {
+            document.getElementById('result').innerHTML = '<div class="alert alert-success">Button clicked successfully!</div>';
+        }
+        
+        function openLecture(lectureId) {
+            console.log('Opening lecture:', lectureId);
+            const modal = new bootstrap.Modal(document.getElementById('testModal'));
+            modal.show();
+        }
+        
+        // Test on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded successfully');
+            document.getElementById('result').innerHTML = '<div class="alert alert-info">Page loaded - JavaScript is working!</div>';
+        });
+    </script>
+</body>
+</html>
+

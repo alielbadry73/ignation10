@@ -1,0 +1,3067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mathematics Teacher Panel - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+        }
+        .teacher-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .teacher-logo { display:flex; align-items:center; text-decoration:none; color:#333; }
+        .teacher-logo img { height:35px; width:auto; margin-right:.75rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition:all .3s ease; }
+        .teacher-logo:hover img { transform:scale(1.05); }
+        .course-badge { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; padding:.25rem .75rem; border-radius:20px; font-size:.8rem; font-weight:600; margin-left:1rem; }
+        .teacher-nav { display:flex; gap:1rem; align-items:center; }
+        .nav-btn {
+            background:white; border:1px solid #e9ecef; border-radius:8px; padding:.5rem 1rem;
+            color:#333; text-decoration:none; font-weight:500; transition:all .3s ease;
+            display:flex; align-items:center; gap:.5rem;
+        }
+        .nav-btn:hover { background:#667eea; color:white; transform:translateY(-2px); box-shadow:0 4px 12px rgba(102,126,234,0.3); }
+        .main-content { margin-top:100px; padding:2rem; }
+        .course-header { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; padding:2rem; border-radius:12px; margin-bottom:2rem; text-align:center; }
+        .course-title { font-size:2.5rem; font-weight:700; margin-bottom:.5rem; }
+        .course-subtitle { font-size:1.1rem; opacity:.9; }
+        .dashboard-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:2rem; margin-bottom:2rem; }
+        .dashboard-card { background:white; border-radius:12px; padding:2rem; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:all .3s ease; }
+        .dashboard-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+        .card-title { font-size:1.25rem; font-weight:700; color:#333; margin-bottom:1rem; display:flex; align-items:center; gap:.75rem; }
+        .card-icon { font-size:1.5rem; color:#667eea; }
+        .form-group { margin-bottom:1.5rem; }
+        .form-label { font-weight:600; color:#333; margin-bottom:.5rem; display:block; }
+        .form-control { border:1px solid #e9ecef; border-radius:8px; padding:.75rem; font-size:1rem; transition:all .3s ease; }
+        .form-control:focus { border-color:#667eea; box-shadow:0 0 0 3px rgba(102,126,234,0.1); outline:none; }
+        .btn-primary { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); border:none; border-radius:8px; padding:.75rem 1.5rem; color:white; font-weight:600; transition:all .3s ease; }
+        .btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(102,126,234,0.3); }
+        .btn-success { background:linear-gradient(135deg,#28a745 0%,#20c997 100%); border:none; border-radius:8px; padding:.75rem 1.5rem; color:white; font-weight:600; transition:all .3s ease; }
+        .btn-success:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(40,167,69,0.3); }
+        .question-item { background:#f8f9fa; border:1px solid #e9ecef; border-radius:8px; padding:1rem; margin-bottom:1rem; }
+        .question-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:.5rem; }
+        .question-number { font-weight:600; color:#667eea; }
+        .question-actions { display:flex; gap:.5rem; }
+        .btn-sm { padding:.25rem .5rem; font-size:.875rem; }
+        .btn-danger { background:#dc3545; border:none; color:white; }
+        .btn-warning { background:#ffc107; border:none; color:#333; }
+        .assignment-list { max-height:400px; overflow-y:auto; }
+        .assignment-item { background:white; border:1px solid #e9ecef; border-radius:8px; padding:1rem; margin-bottom:1rem; transition:all .3s ease; }
+        .assignment-item:hover { border-color:#667eea; box-shadow:0 2px 8px rgba(102,126,234,0.1); }
+        .assignment-title { font-weight:600; color:#333; margin-bottom:.5rem; }
+        .assignment-meta { font-size:.875rem; color:#666; margin-bottom:.5rem; }
+        .assignment-actions { display:flex; gap:.5rem; margin-top:.5rem; }
+        .stats-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:1rem; margin-bottom:2rem; }
+        .stat-card { background:white; border-radius:8px; padding:1.5rem; text-align:center; box-shadow:0 2px 8px rgba(0,0,0,0.08); transition:all .3s ease; position:relative; }
+        .stat-card.clickable { cursor:pointer; }
+        .stat-card.clickable:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,0.12); background:linear-gradient(135deg,#f8f9ff 0%,#e8f0ff 100%); }
+        .stat-number { font-size:2rem; font-weight:700; color:#667eea; margin-bottom:.5rem; }
+        .stat-label { color:#666; font-size:.875rem; margin-bottom:.5rem; }
+        .stat-action { color:#667eea; font-size:.75rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:.25rem; opacity:0; transition:opacity .3s ease; }
+        .stat-card.clickable:hover .stat-action { opacity:1; }
+        .stat-view-all { color:#28a745; font-size:.75rem; font-weight:600; display:flex; align-items:center; justify-content:center; gap:.25rem; opacity:0; transition:opacity .3s ease; cursor:pointer; margin-top:.25rem; }
+        .stat-card.clickable:hover .stat-view-all { opacity:1; }
+        .stat-view-all:hover { color:#218838; text-decoration:underline; }
+        .list-container { max-height:500px; overflow-y:auto; }
+        .item-card { background:white; border:1px solid #e9ecef; border-radius:8px; padding:1rem; margin-bottom:1rem; transition:all .3s ease; }
+        .item-card:hover { border-color:#667eea; box-shadow:0 2px 8px rgba(102,126,234,0.1); }
+        .item-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:.5rem; }
+        .item-title { font-weight:600; color:#333; font-size:1.1rem; }
+        .item-status { padding:.25rem .5rem; border-radius:12px; font-size:.75rem; font-weight:600; }
+        .status-published { background:#d4edda; color:#155724; }
+        .status-draft { background:#fff3cd; color:#856404; }
+        .item-details { color:#666; font-size:.875rem; margin-bottom:.5rem; }
+        .item-actions { display:flex; gap:.5rem; }
+        .btn-sm { padding:.25rem .5rem; font-size:.75rem; }
+        .modal-content { border-radius:12px; border:none; }
+        .modal-header { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; border-radius:12px 12px 0 0; }
+        .modal-title { font-weight:600; }
+        .btn-close { filter:invert(1); }
+        .file-upload-area { border:2px dashed #e9ecef; border-radius:8px; padding:2rem; text-align:center; transition:all .3s ease; cursor:pointer; }
+        .file-upload-area:hover { border-color:#667eea; background:rgba(102,126,234,0.05); }
+        .file-upload-area.dragover { border-color:#667eea; background:rgba(102,126,234,0.1); }
+        .question-card { border:1px solid #e9ecef; border-radius:8px; padding:1rem; margin-bottom:1rem; background:#f8f9fa; }
+        .question-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+        .question-type-selector { display:flex; gap:0.5rem; margin-bottom:1rem; }
+        .question-type-btn { padding:0.5rem 1rem; border:1px solid #dee2e6; background:white; border-radius:4px; cursor:pointer; transition:all .3s ease; }
+        .question-type-btn.active { background:#667eea; color:white; border-color:#667eea; }
+        .answer-option { display:flex; align-items:center; margin-bottom:0.5rem; padding:0.5rem; border:1px solid #e9ecef; border-radius:6px; background:white; transition:all .3s ease; }
+        .answer-option:hover { border-color:#667eea; background:#f8f9ff; }
+        .answer-option input[type="radio"] { margin-right:0.75rem; transform:scale(1.2); }
+        .answer-option input[type="text"] { flex:1; margin-right:0.5rem; }
+        .answer-option .btn { margin-left:0.5rem; }
+        .answer-option input[type="radio"]:checked + input[type="text"] { background:#e8f5e8; border-color:#28a745; }
+        .correct-answer-label { font-size:0.8rem; color:#28a745; font-weight:600; margin-left:0.5rem; display:none; }
+        .answer-option input[type="radio"]:checked ~ .correct-answer-label { display:inline; }
+        .questions-container { max-height:400px; overflow-y:auto; }
+        .submission-item { background:#f8f9fa; border:1px solid #e9ecef; transition:all .3s ease; }
+        .submission-item:hover { background:#e9ecef; border-color:#667eea; }
+        .submission-item .badge { font-size:0.75rem; }
+        .submission-grading-card { background:white; border:1px solid #e9ecef; transition:all .3s ease; }
+        .submission-grading-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+        .question-grading-item { background:#f8f9fa; border:1px solid #dee2e6; }
+        .answer-content { font-family:monospace; white-space:pre-wrap; }
+        .grading-controls .form-control { border:1px solid #ced4da; }
+        .grading-controls .form-control:focus { border-color:#667eea; box-shadow:0 0 0 2px rgba(102,126,234,0.25); }
+        .submission-summary { background:linear-gradient(135deg,#f8f9fa 0%,#e9ecef 100%); }
+        .subject-tabs { display:flex; gap:1rem; margin-bottom:2rem; background:white; padding:1rem; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+        .subject-tab { padding:.5rem 1rem; border:none; background:transparent; color:#666; font-weight:500; border-radius:6px; cursor:pointer; transition:all .3s ease; }
+        .subject-tab.active { background:#667eea; color:white; }
+        .subject-tab:hover { background:#f8f9fa; }
+        .subject-tab.active:hover { background:#5a6fd8; }
+        /* small responsive tweak for modal inputs */
+        @media (max-width:576px) {
+            .dashboard-card { padding:1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Teacher Header -->
+    <div class="teacher-header">
+        <a href="course-mathematics.html" class="teacher-logo">
+            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
+            <span style="font-weight:700;font-size:1.25rem;">Mathematics Teacher Panel</span>
+            <span class="course-badge">Mathematics IGCSE</span>
+        </a>
+
+        <div class="teacher-nav">
+            <a href="course-mathematics.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                Back to Course
+            </a>
+            <button class="nav-btn" onclick="openAddAssistantModal()">
+                <iconify-icon icon="material-symbols:person-add"></iconify-icon>
+                Add Assistant
+            </button>
+            <a href="teacher-panel.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:dashboard"></iconify-icon>
+                All Courses
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Course Header -->
+        <div class="course-header">
+            <div class="course-title">Mathematics IGCSE</div>
+            <div class="course-subtitle">Teacher Panel - Create Exams & Assignments</div>
+        </div>
+
+        <!-- Subject Tabs -->
+        <div class="subject-tabs">
+            <button class="subject-tab active" onclick="showSubject('mathematics', event)">Mathematics</button>
+            <button class="subject-tab" onclick="showSubject('physics', event)">Physics</button>
+            <button class="subject-tab" onclick="showSubject('chemistry', event)">Chemistry</button>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="mathematics-section" class="content-section">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 style="font-weight:700;color:#333;margin:0;">Mathematics Course Management</h2>
+                <button class="btn btn-outline-primary btn-sm" onclick="updateDashboard()">
+                    <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                    Refresh
+                </button>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card clickable" onclick="openExamModal()">
+                    <div class="stat-number" id="mathExams">0</div>
+                    <div class="stat-label">Mathematics Exams</div>
+                    <div class="stat-action">
+                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                        Create Exam
+                    </div>
+                    <div class="stat-view-all" onclick="viewAllExams(event)">
+                        <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                        View All
+                    </div>
+                </div>
+                <div class="stat-card clickable" onclick="openAssignmentModal()">
+                    <div class="stat-number" id="mathAssignments">0</div>
+                    <div class="stat-label">Mathematics Assignments</div>
+                    <div class="stat-action">
+                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                        Create Assignment
+                    </div>
+                    <div class="stat-view-all" onclick="viewAllAssignments(event)">
+                        <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                        View All
+                    </div>
+                </div>
+                <div class="stat-card clickable" onclick="openQuizModal()">
+                    <div class="stat-number" id="mathQuizzes">0</div>
+                    <div class="stat-label">Mathematics Quizzes</div>
+                    <div class="stat-action">
+                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                        Create Quiz
+                    </div>
+                    <div class="stat-view-all" onclick="viewAllQuizzes(event)">
+                        <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                        View All
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="mathStudents">0</div>
+                    <div class="stat-label">Mathematics Students</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="mathPending">0</div>
+                    <div class="stat-label">Pending Grading</div>
+                </div>
+                <div class="stat-card clickable" onclick="openLectureModal()">
+                    <div class="stat-number" id="mathLectures">0</div>
+                    <div class="stat-label">Video Lectures</div>
+                    <div class="stat-action">
+                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                        Add Lecture
+                    </div>
+                    <div class="stat-view-all" onclick="viewAllLectures(event)">
+                        <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                        View All
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Video Lectures Management Section -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="dashboard-card">
+                        <div class="card-title">
+                            <iconify-icon icon="material-symbols:play-circle" class="card-icon"></iconify-icon>
+                            Video Lectures Management
+                        </div>
+                        <p class="text-muted mb-3">Create and manage video lectures for your students</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="me-3">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 style="margin: 0; color: #333;">Quick Actions</h6>
+                                        <div class="d-flex gap-2 mt-2">
+                                            <button class="btn btn-primary btn-sm" onclick="openLectureModal()">
+                                                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                                Add New Lecture
+                                            </button>
+                                            <button class="btn btn-outline-primary btn-sm" onclick="viewAllLectures()">
+                                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                                View All Lectures
+                                            </button>
+                                            <button class="btn btn-outline-success btn-sm" onclick="window.open('mathematics-lectures.html', '_blank')">
+                                                <iconify-icon icon="material-symbols:open-in-new"></iconify-icon>
+                                                Student View
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="recent-lectures">
+                                    <h6 style="color: #333; margin-bottom: 1rem;">Recent Lectures</h6>
+                                    <div id="recentLecturesList">
+                                        <p class="text-muted">No lectures added yet. Create your first lecture!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF Materials Management Section -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="dashboard-card">
+                        <div class="card-title">
+                            <iconify-icon icon="material-symbols:picture-as-pdf" class="card-icon"></iconify-icon>
+                            PDF Materials Management
+                        </div>
+                        <p class="text-muted mb-3">Upload and manage PDF study materials for your students</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center mb-3">
+                                    <div class="flex-grow-1">
+                                        <h6 style="margin: 0; color: #333;">Quick Actions</h6>
+                                        <div class="d-flex gap-2 mt-2">
+                                            <button class="btn btn-danger btn-sm" onclick="openPdfModal()">
+                                                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                                Add PDF Material
+                                            </button>
+                                            <button class="btn btn-outline-danger btn-sm" onclick="viewAllPdfs()">
+                                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                                View All PDFs
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="recent-pdfs">
+                                    <h6 style="color: #333; margin-bottom: 1rem;">Recent PDF Materials</h6>
+                                    <div id="recentPdfsList">
+                                        <p class="text-muted">No PDF materials added yet. Upload your first material!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Grading Sections -->
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="dashboard-card">
+                        <div class="card-title">
+                            <iconify-icon icon="material-symbols:assignment" class="card-icon"></iconify-icon>
+                            Pending Assignment Grading
+                        </div>
+                        <p class="text-muted mb-3">Review and grade submitted assignments</p>
+                        <div id="pendingAssignmentsList" class="mb-3">
+                            <!-- Pending assignments will be loaded here -->
+                        </div>
+                        <button class="btn btn-warning" onclick="viewPendingAssignments()">
+                            <iconify-icon icon="material-symbols:grading"></iconify-icon>
+                            Grade Assignments
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="dashboard-card">
+                        <div class="card-title">
+                            <iconify-icon icon="material-symbols:quiz" class="card-icon"></iconify-icon>
+                            Pending Quiz Grading
+                        </div>
+                        <p class="text-muted mb-3">Review and grade submitted quizzes</p>
+                        <div id="pendingQuizzesList" class="mb-3">
+                            <!-- Pending quizzes will be loaded here -->
+                        </div>
+                        <button class="btn btn-warning" onclick="viewPendingQuizzes()">
+                            <iconify-icon icon="material-symbols:grading"></iconify-icon>
+                            Grade Quizzes
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="dashboard-card">
+                        <div class="card-title">
+                            <iconify-icon icon="material-symbols:assignment" class="card-icon"></iconify-icon>
+                            Pending Exam Grading
+                        </div>
+                        <p class="text-muted mb-3">Review and grade submitted exams</p>
+                        <div id="pendingExamsList" class="mb-3">
+                            <!-- Pending exams will be loaded here -->
+                        </div>
+                        <button class="btn btn-warning" onclick="viewPendingExams()">
+                            <iconify-icon icon="material-symbols:grading"></iconify-icon>
+                            Grade Exams
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Physics Section -->
+        <div id="physics-section" class="content-section" style="display:none;">
+            <h2 class="mb-4" style="font-weight:700;color:#333;">Physics Course Management</h2>
+            <div class="alert alert-info"><iconify-icon icon="material-symbols:info"></iconify-icon>Physics teacher panel coming soon! For now, use the main teacher panel.</div>
+            <a href="physics-teacher-panel.html" class="btn btn-primary">Go to Physics Teacher Panel</a>
+        </div>
+
+        <!-- Chemistry Section -->
+        <div id="chemistry-section" class="content-section" style="display:none;">
+            <h2 class="mb-4" style="font-weight:700;color:#333;">Chemistry Course Management</h2>
+            <div class="alert alert-info"><iconify-icon icon="material-symbols:info"></iconify-icon>Chemistry teacher panel coming soon! For now, use the main teacher panel.</div>
+            <a href="chemistry-teacher-panel.html" class="btn btn-primary">Go to Chemistry Teacher Panel</a>
+        </div>
+    </div>
+
+    <!-- Create Exam Modal -->
+    <div class="modal fade" id="examModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Mathematics Exam</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="examForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Exam Title</label>
+                                    <input type="text" class="form-control" id="examTitle" placeholder="e.g., Algebra Midterm Exam" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Duration (minutes)</label>
+                                    <input type="number" class="form-control" id="examDuration" placeholder="60" min="1" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Time Limit (minutes)</label>
+                                    <input type="number" class="form-control" id="examTimeLimit" placeholder="60" min="1" value="60">
+                                    <small class="text-muted">Leave empty for no time limit</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Instructions</label>
+                            <textarea class="form-control" id="examInstructions" rows="3" placeholder="Enter exam instructions..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Questions</label>
+                            <div id="questionsContainer">
+                                <!-- Questions will be added here dynamically -->
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="addQuestion()">
+                                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                Add Question
+                            </button>
+                        </div>
+
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="publishExamNow">
+                            <label class="form-check-label" for="publishExamNow">Publish immediately</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="saveExam()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Save Exam
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Quiz Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Mathematics Quiz</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="quizForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Quiz Title</label>
+                                    <input type="text" class="form-control" id="quizTitle" placeholder="e.g., Algebra Basics Quiz" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Duration (minutes)</label>
+                                    <input type="number" class="form-control" id="quizDuration" placeholder="20" min="1" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Time Limit (minutes)</label>
+                                    <input type="number" class="form-control" id="quizTimeLimit" placeholder="20" min="1" value="20">
+                                    <small class="text-muted">Leave empty for no time limit</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Quiz Instructions</label>
+                            <textarea class="form-control" id="quizInstructions" rows="3" placeholder="Enter quiz instructions..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Quiz Category</label>
+                            <select class="form-select" id="quizCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="algebra">Algebra</option>
+                                <option value="geometry">Geometry</option>
+                                <option value="calculus">Calculus</option>
+                                <option value="statistics">Statistics</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Difficulty Level</label>
+                            <select class="form-select" id="quizDifficulty" required>
+                                <option value="">Select Difficulty</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+
+                        <!-- Questions Section -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <label class="form-label mb-0">Quiz Questions</label>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="addQuestion('quiz')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Question
+                                </button>
+                            </div>
+                            <div id="quizQuestions" class="questions-container">
+                                <!-- Questions will be added here dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="publishQuizNow">
+                            <label class="form-check-label" for="publishQuizNow">Publish immediately</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="saveQuiz()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Save Quiz
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Assignment Modal -->
+    <div class="modal fade" id="assignmentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Mathematics Assignment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="assignmentForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Assignment Title</label>
+                                    <input type="text" class="form-control" id="assignmentTitle" placeholder="e.g., Quadratic Equations Practice" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Max Points</label>
+                                    <input type="number" class="form-control" id="assignmentPoints" placeholder="100" min="1" required>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label">Time Limit (minutes)</label>
+                                    <input type="number" class="form-control" id="assignmentTimeLimit" placeholder="60" min="1" value="60">
+                                    <small class="text-muted">Leave empty for no time limit</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Due Date</label>
+                            <input type="datetime-local" class="form-control" id="assignmentDueDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="assignmentDescription" rows="4" placeholder="Describe the assignment requirements..."></textarea>
+                        </div>
+
+                        <!-- Questions Section -->
+                        <div class="form-group">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <label class="form-label mb-0">Assignment Questions</label>
+                                <button type="button" class="btn btn-sm btn-primary" onclick="addQuestion('assignment')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Question
+                                </button>
+                            </div>
+                            <div id="assignmentQuestions" class="questions-container">
+                                <!-- Questions will be added here dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Attach Files (Optional)</label>
+                            <div class="file-upload-area" onclick="document.getElementById('assignmentFiles').click()">
+                                <iconify-icon icon="material-symbols:cloud-upload" style="font-size:2rem;color:#667eea;margin-bottom:1rem;"></iconify-icon>
+                                <p>Click to upload files or drag and drop</p>
+                                <small class="text-muted">PDF, DOC, DOCX, images supported</small>
+                                <input type="file" id="assignmentFiles" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display:none;">
+                            </div>
+                            <div id="fileList" class="mt-2"></div>
+                        </div>
+
+                        <div class="form-check mt-2">
+                            <input class="form-check-input" type="checkbox" id="publishNow">
+                            <label class="form-check-label" for="publishNow">Publish immediately</label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="saveAssignment()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Save Assignment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Assignment Modal (unchanged) -->
+    <div class="modal fade" id="editAssignmentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Assignment</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editAssignmentForm">
+                        <input type="hidden" id="editAssignmentId">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Assignment Title</label>
+                                    <input type="text" class="form-control" id="editAssignmentTitle" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Max Points</label>
+                                    <input type="number" class="form-control" id="editAssignmentPoints" min="1" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Due Date</label>
+                            <input type="datetime-local" class="form-control" id="editAssignmentDueDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="editAssignmentDescription" rows="4"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" id="editAssignmentCategory" required>
+                                        <option value="algebra">Algebra</option>
+                                        <option value="geometry">Geometry</option>
+                                        <option value="calculus">Calculus</option>
+                                        <option value="statistics">Statistics</option>
+                                        <option value="trigonometry">Trigonometry</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Difficulty</label>
+                                    <select class="form-select" id="editAssignmentDifficulty" required>
+                                        <option value="easy">Easy</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="hard">Hard</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="updateAssignment()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon> Update Assignment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View All Modals -->
+    <!-- View All Exams Modal -->
+    <div class="modal fade" id="viewAllExamsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">All Mathematics Exams</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="allExamsList" class="list-container">
+                        <!-- Exams will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View All Assignments Modal -->
+    <div class="modal fade" id="viewAllAssignmentsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">All Mathematics Assignments</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="allAssignmentsList" class="list-container">
+                        <!-- Assignments will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View All Quizzes Modal -->
+    <div class="modal fade" id="viewAllQuizzesModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">All Mathematics Quizzes</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="allQuizzesList" class="list-container">
+                        <!-- Quizzes will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Assistant Modal -->
+    <div class="modal fade" id="addAssistantModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Assistant</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAssistantForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Assistant Name</label>
+                                    <input type="text" class="form-control" id="assistantName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Role/Title</label>
+                                    <input type="text" class="form-control" id="assistantRole" placeholder="e.g., Mathematics Teacher" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">WhatsApp Number</label>
+                                    <input type="tel" class="form-control" id="assistantWhatsApp" placeholder="+1234567890" required>
+                                    <small class="text-muted">Include country code (e.g., +1 for US)</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Subject Specialization</label>
+                                    <select class="form-control" id="assistantSubject" required>
+                                        <option value="">Select Subject</option>
+                                        <option value="mathematics">Mathematics</option>
+                                        <option value="physics">Physics</option>
+                                        <option value="chemistry">Chemistry</option>
+                                        <option value="general">General Academic</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="assistantDescription" rows="3" placeholder="Brief description of the assistant's expertise and experience"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Specialties (comma-separated)</label>
+                            <input type="text" class="form-control" id="assistantSpecialties" placeholder="e.g., Algebra, Calculus, Statistics">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select class="form-control" id="assistantStatus">
+                                <option value="online">Online</option>
+                                <option value="away">Away</option>
+                                <option value="offline">Offline</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="saveAssistant()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Add Assistant
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lecture Modal -->
+    <div class="modal fade" id="lectureModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Video Lecture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="lectureForm">
+                        <!-- Content Source Selection -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Content Source</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="contentSource" id="sourceTeacher" value="teacher" checked>
+                                    <label class="btn btn-outline-primary" for="sourceTeacher">
+                                        <iconify-icon icon="material-symbols:person" class="me-1"></iconify-icon>
+                                        Teacher Content
+                                    </label>
+                                    <input type="radio" class="btn-check" name="contentSource" id="sourceAssistant" value="assistant">
+                                    <label class="btn btn-outline-primary" for="sourceAssistant">
+                                        <iconify-icon icon="material-symbols:smart-toy" class="me-1"></iconify-icon>
+                                        AI Assistant Content
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Folder/Category Selection -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="lectureFolder" class="form-label">Folder/Category</label>
+                                <select class="form-control" id="lectureTopic" required>
+                                    <option value="">Select Folder</option>
+                                    <option value="algebra">Algebra</option>
+                                    <option value="geometry">Geometry</option>
+                                    <option value="trigonometry">Trigonometry</option>
+                                    <option value="statistics">Statistics</option>
+                                    <option value="calculus">Calculus</option>
+                                    <option value="functions">Functions</option>
+                                </select>
+                                <div class="form-text">Or create a new folder below</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="newFolderName" class="form-label">Create New Folder</label>
+                                <input type="text" class="form-control" id="newFolderName" placeholder="Enter new folder name">
+                                <div class="form-text">Leave empty to use existing folder</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="lectureTitle" class="form-label">Lecture Title</label>
+                                <input type="text" class="form-control" id="lectureTitle" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="lectureInstructor" class="form-label">Instructor</label>
+                                <input type="text" class="form-control" id="lectureInstructor" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lectureDuration" class="form-label">Duration (minutes)</label>
+                                <input type="number" class="form-control" id="lectureDuration" required min="1">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lectureDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="lectureDescription" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lectureVideoSource" class="form-label">Video Source</label>
+                            <select class="form-control" id="lectureVideoSource" onchange="toggleVideoInput()" required>
+                                <option value="">Select Video Source</option>
+                                <option value="youtube">YouTube URL</option>
+                                <option value="vimeo">Vimeo URL</option>
+                                <option value="googledrive">Google Drive Link</option>
+                                <option value="upload">Upload Local File</option>
+                                <option value="direct">Direct Video URL</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="videoUrlContainer">
+                            <label for="lectureVideoUrl" class="form-label">Video URL</label>
+                            <input type="url" class="form-control" id="lectureVideoUrl" placeholder="https://youtube.com/watch?v=...">
+                            <div class="form-text" id="videoUrlHelp">Supported platforms: YouTube, Vimeo, or direct video links</div>
+                        </div>
+                        <div class="mb-3" id="videoUploadContainer" style="display: none;">
+                            <label for="lectureVideoFile" class="form-label">Upload Video File</label>
+                            <input type="file" class="form-control" id="lectureVideoFile" accept="video/*">
+                            <div class="form-text">Supported formats: MP4, AVI, MOV, WMV, FLV (Max 500MB)</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lectureThumbnail" class="form-label">Thumbnail URL (Optional)</label>
+                            <input type="url" class="form-control" id="lectureThumbnail" placeholder="https://example.com/thumbnail.jpg">
+                        </div>
+                        
+                        <!-- PDF Upload Section -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Lecture PDF Material (Optional)</label>
+                            <select class="form-control mb-2" id="pdfSourceType" onchange="togglePdfInput()">
+                                <option value="">No PDF</option>
+                                <option value="url">PDF URL</option>
+                                <option value="upload">Upload PDF File</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="pdfUrlContainer" style="display: none;">
+                            <label for="lecturePdfUrl" class="form-label">PDF URL</label>
+                            <input type="url" class="form-control" id="lecturePdfUrl" placeholder="https://example.com/lecture.pdf">
+                            <div class="form-text">Enter a direct link to the PDF file</div>
+                        </div>
+                        <div class="mb-3" id="pdfUploadContainer" style="display: none;">
+                            <label for="lecturePdfFile" class="form-label">Upload PDF File</label>
+                            <input type="file" class="form-control" id="lecturePdfFile" accept=".pdf">
+                            <div class="form-text">Maximum file size: 50MB</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="addLecture()">Add Lecture</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View All Lectures Modal -->
+    <div class="modal fade" id="viewAllLecturesModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">All Mathematics Lectures</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="allLecturesList">
+                        <!-- Lectures will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add PDF Material Modal -->
+    <div class="modal fade" id="pdfModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add PDF Material</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="pdfForm">
+                        <!-- Content Source Selection -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Content Source</label>
+                                <div class="btn-group w-100" role="group">
+                                    <input type="radio" class="btn-check" name="pdfContentSource" id="pdfSourceTeacher" value="teacher" checked>
+                                    <label class="btn btn-outline-primary" for="pdfSourceTeacher">
+                                        <iconify-icon icon="material-symbols:person" class="me-1"></iconify-icon>
+                                        Teacher Content
+                                    </label>
+                                    <input type="radio" class="btn-check" name="pdfContentSource" id="pdfSourceAssistant" value="assistant">
+                                    <label class="btn btn-outline-primary" for="pdfSourceAssistant">
+                                        <iconify-icon icon="material-symbols:smart-toy" class="me-1"></iconify-icon>
+                                        AI Assistant Content
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Folder/Category Selection -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="pdfFolderSelect" class="form-label">Folder/Category</label>
+                                <select class="form-control" id="pdfFolderSelect" required>
+                                    <option value="">Select Folder</option>
+                                    <option value="algebra">Algebra</option>
+                                    <option value="geometry">Geometry</option>
+                                    <option value="trigonometry">Trigonometry</option>
+                                    <option value="statistics">Statistics</option>
+                                    <option value="calculus">Calculus</option>
+                                    <option value="functions">Functions</option>
+                                </select>
+                                <div class="form-text">Or create a new folder below</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pdfNewFolderName" class="form-label">Create New Folder</label>
+                                <input type="text" class="form-control" id="pdfNewFolderName" placeholder="Enter new folder name">
+                                <div class="form-text">Leave empty to use existing folder</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Material Title -->
+                        <div class="mb-3">
+                            <label for="pdfTitle" class="form-label">Material Title</label>
+                            <input type="text" class="form-control" id="pdfTitle" required placeholder="e.g., Chapter 1: Equations and Inequalities">
+                        </div>
+                        
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="pdfDescription" class="form-label">Description</label>
+                            <textarea class="form-control" id="pdfDescription" rows="3" placeholder="Brief description of the material"></textarea>
+                        </div>
+                        
+                        <!-- PDF Upload/URL -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">PDF Source</label>
+                            <select class="form-control mb-2" id="pdfMaterialSource" onchange="togglePdfMaterialInput()" required>
+                                <option value="">Select PDF Source</option>
+                                <option value="url">PDF URL</option>
+                                <option value="upload">Upload PDF File</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3" id="pdfMaterialUrlContainer" style="display: none;">
+                            <label for="pdfMaterialUrl" class="form-label">PDF URL</label>
+                            <input type="url" class="form-control" id="pdfMaterialUrl" placeholder="https://example.com/material.pdf">
+                            <div class="form-text">Enter a direct link to the PDF file</div>
+                        </div>
+                        
+                        <div class="mb-3" id="pdfMaterialUploadContainer" style="display: none;">
+                            <label for="pdfMaterialFile" class="form-label">Upload PDF File</label>
+                            <input type="file" class="form-control" id="pdfMaterialFile" accept=".pdf">
+                            <div class="form-text">Maximum file size: 50MB</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="addPdfMaterial()">
+                        <iconify-icon icon="material-symbols:upload"></iconify-icon>
+                        Add PDF Material
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View All PDFs Modal -->
+    <div class="modal fade" id="viewAllPdfsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">All PDF Materials</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="allPdfsList">
+                        <!-- PDFs will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="js/teacher-api.js"></script>
+    <script>
+        // Keep current subject and data in memory, load from API
+        let currentSubject = 'mathematics';
+        let questionCounter = 0;
+        let exams = [];
+        let assignments = [];
+        let lectures = [];
+        let quizzes = [];
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                // Load data from API
+                await loadAllData();
+                updateDashboard();
+                
+                // Load pending grading
+                loadPendingGrading();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                showNotification('Error loading data. Please refresh the page.', 'error');
+            }
+        });
+
+        // Load all data from API
+        async function loadAllData() {
+            try {
+                const [lecturesData, assignmentsData, examsData, quizzesData] = await Promise.all([
+                    teacherAPI.getLectures('mathematics'),
+                    teacherAPI.getAssignments('mathematics'),
+                    teacherAPI.getExams('mathematics'),
+                    teacherAPI.getQuizzes('mathematics')
+                ]);
+                
+                lectures = lecturesData || [];
+                assignments = assignmentsData || [];
+                exams = examsData || [];
+                quizzes = quizzesData || [];
+            } catch (error) {
+                console.error('Error loading data from API:', error);
+                // Fallback to empty arrays
+                lectures = [];
+                assignments = [];
+                exams = [];
+                quizzes = [];
+            }
+        }
+
+        function showSubject(subject, ev) {
+            currentSubject = subject;
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            const section = document.getElementById(subject + '-section');
+            if (section) section.style.display = 'block';
+            document.querySelectorAll('.subject-tab').forEach(tab => tab.classList.remove('active'));
+            if (ev && ev.target) ev.target.classList.add('active');
+            if (subject === 'mathematics') {
+                // nothing else required
+            }
+        }
+
+        function updateDashboard() {
+            // Use the data loaded from API
+            const mathExams = exams.length;
+            const mathAssignments = assignments.length;
+            const mathQuizzes = quizzes.length;
+            const mathLectures = lectures.length;
+            
+            document.getElementById('mathExams').textContent = mathExams;
+            document.getElementById('mathAssignments').textContent = mathAssignments;
+            document.getElementById('mathQuizzes').textContent = mathQuizzes;
+            document.getElementById('mathLectures').textContent = mathLectures;
+            document.getElementById('mathStudents').textContent = 0;
+            document.getElementById('mathPending').textContent = 0;
+            
+            // Update the video lectures management section
+            updateVideoLecturesSection();
+            updatePdfSection();
+        }
+
+        function updateVideoLecturesSection() {
+            const recentLectures = lectures.slice(0, 3); // Show last 3 lectures
+            
+            // Update total count in the management section
+            const totalCountElement = document.querySelector('.recent-lectures').previousElementSibling.querySelector('.stat-number');
+            if (totalCountElement) {
+                totalCountElement.textContent = lectures.length;
+            }
+            
+            // Update recent lectures list
+            const recentList = document.getElementById('recentLecturesList');
+            if (recentList) {
+                if (recentLectures.length === 0) {
+                    recentList.innerHTML = '<p class="text-muted">No lectures added yet. Create your first lecture!</p>';
+                } else {
+                    recentList.innerHTML = recentLectures.map(lecture => `
+                        <div class="d-flex align-items-center justify-content-between mb-2 p-2" style="background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                            <div class="flex-grow-1">
+                                <div style="font-weight: 600; color: #333; font-size: 0.9rem;">${lecture.title}</div>
+                                <div style="font-size: 0.8rem; color: #666;">${lecture.topic} • ${formatDuration(lecture.duration)}</div>
+                            </div>
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-outline-primary btn-sm" onclick="editLecture('${lecture.id}')" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                                    <iconify-icon icon="material-symbols:edit" style="font-size: 0.8rem;"></iconify-icon>
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="deleteLecture('${lecture.id}')" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">
+                                    <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+        
+        function loadMathematicsContent() {
+            try {
+                // Reload assignments from localStorage to ensure we have the latest data
+                assignments = JSON.parse(localStorage.getItem('teacherAssignments')) || assignments;
+                
+                const mathExams = exams.filter(e => e.subject === 'mathematics');
+                const mathAssignments = assignments.filter(a => a.subject === 'mathematics');
+                
+                // Update dashboard stats
+                updateDashboard();
+                
+                console.log('Mathematics content loaded. Total assignments:', mathAssignments.length);
+            } catch (error) {
+                console.error('Error in loadMathematicsContent:', error);
+            }
+        }
+
+        function createQuiz(subject) {
+            document.getElementById('quizForm').reset();
+            const modal = new bootstrap.Modal(document.getElementById('quizModal'));
+            modal.show();
+        }
+
+        function createExam(subject) {
+            document.getElementById('examForm').reset();
+            document.getElementById('questionsContainer').innerHTML = '';
+            questionCounter = 0;
+            const modal = new bootstrap.Modal(document.getElementById('examModal'));
+            modal.show();
+        }
+
+        function createAssignment(subject) {
+            document.getElementById('assignmentForm').reset();
+            document.getElementById('fileList').innerHTML = '';
+            const modal = new bootstrap.Modal(document.getElementById('assignmentModal'));
+            modal.show();
+        }
+
+        function manageContent(subject) {
+            alert('Content management for ' + subject + ' coming soon!');
+        }
+
+        function openExamModal() {
+            const modal = new bootstrap.Modal(document.getElementById('examModal'));
+            modal.show();
+        }
+
+        function openAssignmentModal() {
+            const modal = new bootstrap.Modal(document.getElementById('assignmentModal'));
+            modal.show();
+        }
+
+        function openQuizModal() {
+            const modal = new bootstrap.Modal(document.getElementById('quizModal'));
+            modal.show();
+        }
+
+        function openAddAssistantModal() {
+            document.getElementById('addAssistantForm').reset();
+            const modal = new bootstrap.Modal(document.getElementById('addAssistantModal'));
+            modal.show();
+        }
+
+        function viewAllExams(event) {
+            event.stopPropagation();
+            loadAllExams();
+            const modal = new bootstrap.Modal(document.getElementById('viewAllExamsModal'));
+            modal.show();
+        }
+
+        function viewAllAssignments(event) {
+            event.stopPropagation();
+            loadAllAssignments();
+            const modal = new bootstrap.Modal(document.getElementById('viewAllAssignmentsModal'));
+            modal.show();
+        }
+
+        function viewAllQuizzes(event) {
+            event.stopPropagation();
+            loadAllQuizzes();
+            const modal = new bootstrap.Modal(document.getElementById('viewAllQuizzesModal'));
+            modal.show();
+        }
+
+        function openLectureModal() {
+            document.getElementById('lectureForm').reset();
+            const modal = new bootstrap.Modal(document.getElementById('lectureModal'));
+            modal.show();
+        }
+
+        function viewAllLectures(event) {
+            event.stopPropagation();
+            loadAllLectures();
+            const modal = new bootstrap.Modal(document.getElementById('viewAllLecturesModal'));
+            modal.show();
+        }
+
+        async function addLecture() {
+            const form = document.getElementById('lectureForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const videoSource = document.getElementById('lectureVideoSource').value;
+            let videoUrl = '';
+            let videoType = 'url';
+
+            if (videoSource === 'upload') {
+                const fileInput = document.getElementById('lectureVideoFile');
+                if (fileInput.files.length === 0) {
+                    showNotification('Please select a video file to upload!', 'error');
+                    return;
+                }
+                
+                const file = fileInput.files[0];
+                // Check file size (500MB limit)
+                if (file.size > 500 * 1024 * 1024) {
+                    showNotification('File size too large! Maximum size is 500MB.', 'error');
+                    return;
+                }
+                
+                // For demo purposes, we'll create a local URL
+                // In a real application, you'd upload to a server
+                videoUrl = URL.createObjectURL(file);
+                videoType = 'upload';
+            } else {
+                videoUrl = document.getElementById('lectureVideoUrl').value;
+                if (!videoUrl) {
+                    showNotification('Please enter a video URL!', 'error');
+                    return;
+                }
+            }
+
+            // Get content source (teacher or assistant)
+            const contentSource = document.querySelector('input[name="contentSource"]:checked').value;
+            
+            // Get folder/category - use new folder name if provided, otherwise use selected topic
+            const newFolderName = document.getElementById('newFolderName').value.trim();
+            const selectedTopic = document.getElementById('lectureTopic').value;
+            const folderName = newFolderName || selectedTopic;
+            
+            if (!folderName) {
+                showNotification('Please select or create a folder!', 'error');
+                return;
+            }
+
+            // Handle PDF upload/URL
+            const pdfSourceType = document.getElementById('pdfSourceType').value;
+            let pdfUrl = '';
+            
+            if (pdfSourceType === 'url') {
+                pdfUrl = document.getElementById('lecturePdfUrl').value;
+            } else if (pdfSourceType === 'upload') {
+                const pdfFileInput = document.getElementById('lecturePdfFile');
+                if (pdfFileInput.files.length > 0) {
+                    const file = pdfFileInput.files[0];
+                    // Check file size (50MB limit)
+                    if (file.size > 50 * 1024 * 1024) {
+                        showNotification('PDF file size too large! Maximum size is 50MB.', 'error');
+                        return;
+                    }
+                    // Create local URL for demo purposes
+                    pdfUrl = URL.createObjectURL(file);
+                }
+            }
+
+            const lecture = {
+                id: Date.now().toString(),
+                title: document.getElementById('lectureTitle').value,
+                topic: folderName, // This is now the folder name
+                folder: folderName, // Store folder explicitly
+                contentSource: contentSource, // 'teacher' or 'assistant'
+                instructor: document.getElementById('lectureInstructor').value,
+                duration: parseInt(document.getElementById('lectureDuration').value),
+                description: document.getElementById('lectureDescription').value,
+                videoUrl: videoUrl,
+                videoSource: videoSource,
+                videoType: videoType,
+                thumbnail: document.getElementById('lectureThumbnail').value || '',
+                pdfUrl: pdfUrl, // Store PDF URL
+                hasPdf: pdfUrl !== '', // Flag to indicate PDF availability
+                createdAt: new Date().toISOString(),
+                subject: 'mathematics'
+            };
+
+            // Save to API
+            const lectureData = {
+                subject: 'mathematics',
+                title: lecture.title,
+                description: lecture.description,
+                video_url: lecture.videoUrl,
+                pdf_url: lecture.pdfUrl,
+                duration: lecture.duration,
+                type: 'video'
+            };
+
+            try {
+                const response = await teacherAPI.createLecture(lectureData);
+                
+                // Close modal and show success message
+                const modal = bootstrap.Modal.getInstance(document.getElementById('lectureModal'));
+                modal.hide();
+                
+                // Clear form
+                document.getElementById('lectureForm').reset();
+                document.getElementById('newFolderName').value = '';
+                document.getElementById('pdfSourceType').value = '';
+                togglePdfInput(); // Reset PDF input visibility
+                
+                const sourceLabel = contentSource === 'teacher' ? 'Teacher' : 'AI Assistant';
+                const pdfMessage = pdfUrl ? ' (with PDF)' : '';
+                showNotification(`Lecture added successfully to ${sourceLabel} > ${folderName}${pdfMessage}!`, 'success');
+                
+                // Reload data and refresh UI
+                await loadAllData();
+                updateDashboard();
+                updateVideoLecturesSection();
+            } catch (error) {
+                console.error('Error adding lecture:', error);
+                showNotification('Error adding lecture. Please try again.', 'error');
+            }
+        }
+
+        function loadAllLectures() {
+            const container = document.getElementById('allLecturesList');
+            
+            if (lectures.length === 0) {
+                container.innerHTML = '<div class="text-center py-4"><p class="text-muted">No lectures found. Add your first lecture!</p></div>';
+                return;
+            }
+
+            container.innerHTML = lectures.map(lecture => {
+                const sourceIcon = lecture.contentSource === 'assistant' ? 'material-symbols:smart-toy' : 'material-symbols:person';
+                const sourceLabel = lecture.contentSource === 'assistant' ? 'AI Assistant' : 'Teacher';
+                const sourceBadgeClass = lecture.contentSource === 'assistant' ? 'bg-info' : 'bg-primary';
+                
+                return `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="item-title">${lecture.title}</div>
+                            <span class="badge ${sourceBadgeClass}">
+                                <iconify-icon icon="${sourceIcon}" style="font-size: 14px;"></iconify-icon>
+                                ${sourceLabel}
+                            </span>
+                        </div>
+                        <div class="item-status status-published">Published</div>
+                    </div>
+                    <div class="item-details">
+                        <strong>Folder:</strong> ${lecture.folder || lecture.topic} | 
+                        <strong>Instructor:</strong> ${lecture.instructor} | 
+                        <strong>Duration:</strong> ${formatDuration(lecture.duration)}
+                        ${lecture.pdfUrl ? ' | <span style="color: #f5576c;"><strong>📄 PDF Available</strong></span>' : ''}
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-primary btn-sm" onclick="editLecture('${lecture.id}')">
+                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            Edit
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteLecture('${lecture.id}')">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            Delete
+                        </button>
+                        <button class="btn btn-success btn-sm" onclick="viewLecture('${lecture.id}')">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            View
+                        </button>
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function editLecture(lectureId) {
+            const lectures = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            const lecture = lectures.find(l => l.id === lectureId);
+            
+            if (lecture) {
+                // Populate form with lecture data
+                document.getElementById('lectureTitle').value = lecture.title;
+                document.getElementById('lectureTopic').value = lecture.topic;
+                document.getElementById('lectureInstructor').value = lecture.instructor;
+                document.getElementById('lectureDuration').value = lecture.duration;
+                document.getElementById('lectureDescription').value = lecture.description;
+                document.getElementById('lectureVideoUrl').value = lecture.videoUrl;
+                document.getElementById('lectureThumbnail').value = lecture.thumbnail;
+
+                // Open modal
+                const modal = new bootstrap.Modal(document.getElementById('lectureModal'));
+                modal.show();
+
+                // Update form submission to edit instead of add
+                const form = document.getElementById('lectureForm');
+                form.onsubmit = function(e) {
+                    e.preventDefault();
+                    updateLecture(lectureId);
+                };
+            }
+        }
+
+        function updateLecture(lectureId) {
+            const form = document.getElementById('lectureForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            let lectures = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            const lectureIndex = lectures.findIndex(l => l.id === lectureId);
+            
+            if (lectureIndex !== -1) {
+                lectures[lectureIndex] = {
+                    ...lectures[lectureIndex],
+                    title: document.getElementById('lectureTitle').value,
+                    topic: document.getElementById('lectureTopic').value,
+                    instructor: document.getElementById('lectureInstructor').value,
+                    duration: parseInt(document.getElementById('lectureDuration').value),
+                    description: document.getElementById('lectureDescription').value,
+                    videoUrl: document.getElementById('lectureVideoUrl').value,
+                    thumbnail: document.getElementById('lectureThumbnail').value || '',
+                    updatedAt: new Date().toISOString()
+                };
+
+                localStorage.setItem('mathematicsLectures', JSON.stringify(lectures));
+                
+                const modal = bootstrap.Modal.getInstance(document.getElementById('lectureModal'));
+                modal.hide();
+                
+                showNotification('Lecture updated successfully!', 'success');
+                updateDashboard();
+                updateVideoLecturesSection();
+                loadAllLectures();
+            }
+        }
+
+        async function deleteLecture(lectureId) {
+            if (!confirm('Are you sure you want to delete this lecture?')) return;
+
+            try {
+                await teacherAPI.deleteLecture(lectureId);
+                showNotification('Lecture deleted successfully!', 'success');
+                
+                // Reload data and refresh UI
+                await loadAllData();
+                updateDashboard();
+                updateVideoLecturesSection();
+                loadAllLectures();
+            } catch (error) {
+                console.error('Error deleting lecture:', error);
+                showNotification('Error deleting lecture. Please try again.', 'error');
+            }
+        }
+
+        // ==================== PDF MATERIALS FUNCTIONS ====================
+
+        function openPdfModal() {
+            const modal = new bootstrap.Modal(document.getElementById('pdfModal'));
+            modal.show();
+        }
+
+        function togglePdfMaterialInput() {
+            const source = document.getElementById('pdfMaterialSource').value;
+            const urlContainer = document.getElementById('pdfMaterialUrlContainer');
+            const uploadContainer = document.getElementById('pdfMaterialUploadContainer');
+            
+            if (source === 'url') {
+                urlContainer.style.display = 'block';
+                uploadContainer.style.display = 'none';
+            } else if (source === 'upload') {
+                urlContainer.style.display = 'none';
+                uploadContainer.style.display = 'block';
+            } else {
+                urlContainer.style.display = 'none';
+                uploadContainer.style.display = 'none';
+            }
+        }
+
+        function addPdfMaterial() {
+            const form = document.getElementById('pdfForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const contentSource = document.querySelector('input[name="pdfContentSource"]:checked').value;
+            const newFolderName = document.getElementById('pdfNewFolderName').value.trim();
+            const selectedFolder = document.getElementById('pdfFolderSelect').value;
+            const folderName = newFolderName || selectedFolder;
+            
+            if (!folderName) {
+                showNotification('Please select or create a folder!', 'error');
+                return;
+            }
+
+            const pdfSource = document.getElementById('pdfMaterialSource').value;
+            let pdfUrl = '';
+            
+            if (pdfSource === 'url') {
+                pdfUrl = document.getElementById('pdfMaterialUrl').value;
+                if (!pdfUrl) {
+                    showNotification('Please enter a PDF URL!', 'error');
+                    return;
+                }
+            } else if (pdfSource === 'upload') {
+                const fileInput = document.getElementById('pdfMaterialFile');
+                if (fileInput.files.length === 0) {
+                    showNotification('Please select a PDF file!', 'error');
+                    return;
+                }
+                
+                const file = fileInput.files[0];
+                if (file.size > 50 * 1024 * 1024) {
+                    showNotification('File size too large! Maximum size is 50MB.', 'error');
+                    return;
+                }
+                
+                pdfUrl = URL.createObjectURL(file);
+            }
+
+            const pdfMaterial = {
+                id: Date.now().toString(),
+                title: document.getElementById('pdfTitle').value,
+                description: document.getElementById('pdfDescription').value,
+                folder: folderName,
+                topic: folderName,
+                contentSource: contentSource,
+                pdfUrl: pdfUrl,
+                type: 'pdf-only',
+                createdAt: new Date().toISOString(),
+                subject: 'mathematics'
+            };
+
+            let materials = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            materials.unshift(pdfMaterial);
+            localStorage.setItem('mathematicsLectures', JSON.stringify(materials));
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('pdfModal'));
+            modal.hide();
+            
+            document.getElementById('pdfForm').reset();
+            document.getElementById('pdfNewFolderName').value = '';
+            togglePdfMaterialInput();
+            
+            const sourceLabel = contentSource === 'teacher' ? 'Teacher' : 'AI Assistant';
+            showNotification(`PDF material added to ${sourceLabel} > ${folderName}!`, 'success');
+            updateDashboard();
+            updatePdfSection();
+        }
+
+        function updatePdfSection() {
+            const materials = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            const pdfMaterials = materials.filter(m => m.type === 'pdf-only');
+            const recentPdfs = pdfMaterials.slice(0, 3);
+            
+            const recentList = document.getElementById('recentPdfsList');
+            if (recentList) {
+                if (recentPdfs.length === 0) {
+                    recentList.innerHTML = '<p class="text-muted">No PDF materials added yet. Upload your first material!</p>';
+                } else {
+                    recentList.innerHTML = recentPdfs.map(pdf => `
+                        <div class="d-flex align-items-center justify-content-between mb-2 p-2" style="background: #f8f9fa; border-radius: 6px; border: 1px solid #e9ecef;">
+                            <div class="flex-grow-1">
+                                <div style="font-weight: 600; color: #333; font-size: 0.9rem;">${pdf.title}</div>
+                                <div style="font-size: 0.8rem; color: #666;">${pdf.folder}</div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deletePdfMaterial('${pdf.id}')">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    `).join('');
+                }
+            }
+        }
+
+        function viewAllPdfs() {
+            const modal = new bootstrap.Modal(document.getElementById('viewAllPdfsModal'));
+            modal.show();
+            loadAllPdfs();
+        }
+
+        function loadAllPdfs() {
+            const materials = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            const pdfMaterials = materials.filter(m => m.type === 'pdf-only');
+            const container = document.getElementById('allPdfsList');
+            
+            if (pdfMaterials.length === 0) {
+                container.innerHTML = '<div class="text-center py-4"><p class="text-muted">No PDF materials found. Upload your first material!</p></div>';
+                return;
+            }
+
+            container.innerHTML = pdfMaterials.map(pdf => {
+                const sourceIcon = pdf.contentSource === 'assistant' ? 'material-symbols:smart-toy' : 'material-symbols:person';
+                const sourceLabel = pdf.contentSource === 'assistant' ? 'AI Assistant' : 'Teacher';
+                const sourceBadgeClass = pdf.contentSource === 'assistant' ? 'bg-info' : 'bg-primary';
+                
+                return `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="d-flex align-items-center gap-2">
+                            <iconify-icon icon="material-symbols:picture-as-pdf" style="color: #f5576c; font-size: 1.5rem;"></iconify-icon>
+                            <div class="item-title">${pdf.title}</div>
+                            <span class="badge ${sourceBadgeClass}">
+                                <iconify-icon icon="${sourceIcon}" style="font-size: 14px;"></iconify-icon>
+                                ${sourceLabel}
+                            </span>
+                        </div>
+                        <div class="item-status status-published">Published</div>
+                    </div>
+                    <div class="item-details">
+                        <strong>Folder:</strong> ${pdf.folder}
+                        ${pdf.description ? ` | <strong>Description:</strong> ${pdf.description}` : ''}
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-danger btn-sm" onclick="downloadPdfMaterial('${pdf.id}')">
+                            <iconify-icon icon="material-symbols:download"></iconify-icon>
+                            Download
+                        </button>
+                        <button class="btn btn-danger btn-sm" onclick="deletePdfMaterial('${pdf.id}')">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function downloadPdfMaterial(pdfId) {
+            const materials = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            const pdf = materials.find(m => m.id === pdfId);
+            
+            if (pdf && pdf.pdfUrl) {
+                const link = document.createElement('a');
+                link.href = pdf.pdfUrl;
+                link.download = `${pdf.title}.pdf`;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showNotification('PDF download started!', 'success');
+            }
+        }
+
+        function deletePdfMaterial(pdfId) {
+            if (!confirm('Are you sure you want to delete this PDF material?')) return;
+            
+            let materials = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            materials = materials.filter(m => m.id !== pdfId);
+            localStorage.setItem('mathematicsLectures', JSON.stringify(materials));
+            
+            showNotification('PDF material deleted successfully!', 'success');
+            loadAllPdfs();
+            updateDashboard();
+            updatePdfSection();
+            loadAllLectures();
+        }
+
+        function viewLecture(lectureId) {
+            // Open the mathematics lectures page
+            window.open('mathematics-lectures.html', '_blank');
+        }
+
+        function formatDuration(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+        }
+
+        function togglePdfInput() {
+            const pdfSource = document.getElementById('pdfSourceType').value;
+            const urlContainer = document.getElementById('pdfUrlContainer');
+            const uploadContainer = document.getElementById('pdfUploadContainer');
+            
+            if (pdfSource === 'url') {
+                urlContainer.style.display = 'block';
+                uploadContainer.style.display = 'none';
+            } else if (pdfSource === 'upload') {
+                urlContainer.style.display = 'none';
+                uploadContainer.style.display = 'block';
+            } else {
+                urlContainer.style.display = 'none';
+                uploadContainer.style.display = 'none';
+            }
+        }
+
+        function toggleVideoInput() {
+            const videoSource = document.getElementById('lectureVideoSource').value;
+            const urlContainer = document.getElementById('videoUrlContainer');
+            const uploadContainer = document.getElementById('videoUploadContainer');
+            const videoUrlInput = document.getElementById('lectureVideoUrl');
+            const videoFileInput = document.getElementById('lectureVideoFile');
+            const helpText = document.getElementById('videoUrlHelp');
+
+            // Reset both containers
+            urlContainer.style.display = 'block';
+            uploadContainer.style.display = 'none';
+            videoUrlInput.required = true;
+            videoFileInput.required = false;
+
+            switch(videoSource) {
+                case 'youtube':
+                    videoUrlInput.placeholder = 'https://youtube.com/watch?v=... or https://youtu.be/...';
+                    helpText.textContent = 'Enter YouTube video URL';
+                    break;
+                case 'vimeo':
+                    videoUrlInput.placeholder = 'https://vimeo.com/...';
+                    helpText.textContent = 'Enter Vimeo video URL';
+                    break;
+                case 'googledrive':
+                    videoUrlInput.placeholder = 'https://drive.google.com/file/d/.../view';
+                    helpText.textContent = 'Enter Google Drive shareable link (make sure it\'s set to "Anyone with the link can view")';
+                    break;
+                case 'upload':
+                    urlContainer.style.display = 'none';
+                    uploadContainer.style.display = 'block';
+                    videoUrlInput.required = false;
+                    videoFileInput.required = true;
+                    break;
+                case 'direct':
+                    videoUrlInput.placeholder = 'https://example.com/video.mp4';
+                    helpText.textContent = 'Enter direct video file URL (MP4, AVI, MOV, etc.)';
+                    break;
+                default:
+                    videoUrlInput.placeholder = 'https://youtube.com/watch?v=...';
+                    helpText.textContent = 'Supported platforms: YouTube, Vimeo, or direct video links';
+            }
+        }
+
+        function loadAllExams() {
+            const exams = JSON.parse(localStorage.getItem('teacherExams')) || [];
+            const mathExams = exams.filter(e => e.subject === 'mathematics');
+            
+            const container = document.getElementById('allExamsList');
+            
+            if (mathExams.length === 0) {
+                container.innerHTML = '<div class="text-center py-4"><p class="text-muted">No exams found. Create your first exam!</p></div>';
+                return;
+            }
+
+            container.innerHTML = mathExams.map(exam => `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-title">${exam.title}</div>
+                        <div class="item-status ${exam.published ? 'status-published' : 'status-draft'}">
+                            ${exam.published ? 'Published' : 'Draft'}
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <div><strong>Duration:</strong> ${exam.duration} minutes</div>
+                        <div><strong>Time Limit:</strong> ${exam.timeLimit ? exam.timeLimit + ' minutes' : 'No limit'}</div>
+                        <div><strong>Questions:</strong> ${exam.questions ? exam.questions.length : 0}</div>
+                        <div><strong>Created:</strong> ${new Date(exam.createdAt).toLocaleDateString()}</div>
+                        <div><strong>Instructions:</strong> ${exam.instructions || 'No instructions provided'}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-sm btn-outline-primary" onclick="editExam('${exam.id}')">
+                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            Edit
+                        </button>
+                        ${!exam.published ? `
+                            <button class="btn btn-sm btn-success" onclick="publishExam('${exam.id}')">
+                                <iconify-icon icon="material-symbols:publish"></iconify-icon>
+                                Publish
+                            </button>
+                        ` : `
+                            <button class="btn btn-sm btn-outline-success" onclick="unpublishExam('${exam.id}')">
+                                <iconify-icon icon="material-symbols:unpublish"></iconify-icon>
+                                Unpublish
+                            </button>
+                        `}
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteExam('${exam.id}')">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadAllAssignments() {
+            const assignments = JSON.parse(localStorage.getItem('teacherAssignments')) || [];
+            const mathAssignments = assignments.filter(a => a.subject === 'mathematics');
+            
+            const container = document.getElementById('allAssignmentsList');
+            
+            if (mathAssignments.length === 0) {
+                container.innerHTML = '<div class="text-center py-4"><p class="text-muted">No assignments found. Create your first assignment!</p></div>';
+                return;
+            }
+
+            container.innerHTML = mathAssignments.map(assignment => `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-title">${assignment.title}</div>
+                        <div class="item-status ${assignment.published ? 'status-published' : 'status-draft'}">
+                            ${assignment.published ? 'Published' : 'Draft'}
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <div><strong>Points:</strong> ${assignment.points}</div>
+                        <div><strong>Time Limit:</strong> ${assignment.timeLimit ? assignment.timeLimit + ' minutes' : 'No limit'}</div>
+                        <div><strong>Questions:</strong> ${assignment.questions ? assignment.questions.length : 0}</div>
+                        <div><strong>Due Date:</strong> ${new Date(assignment.dueDate).toLocaleDateString()}</div>
+                        <div><strong>Description:</strong> ${assignment.description || 'No description provided'}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-sm btn-outline-primary" onclick="editAssignment('${assignment.id}')">
+                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            Edit
+                        </button>
+                        ${!assignment.published ? `
+                            <button class="btn btn-sm btn-success" onclick="publishAssignment('${assignment.id}')">
+                                <iconify-icon icon="material-symbols:publish"></iconify-icon>
+                                Publish
+                            </button>
+                        ` : `
+                            <button class="btn btn-sm btn-outline-success" onclick="unpublishAssignment('${assignment.id}')">
+                                <iconify-icon icon="material-symbols:unpublish"></iconify-icon>
+                                Unpublish
+                            </button>
+                        `}
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteAssignment('${assignment.id}')">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadAllQuizzes() {
+            const quizzes = JSON.parse(localStorage.getItem('teacherQuizzes')) || [];
+            const mathQuizzes = quizzes.filter(q => q.subject === 'mathematics');
+            
+            const container = document.getElementById('allQuizzesList');
+            
+            if (mathQuizzes.length === 0) {
+                container.innerHTML = '<div class="text-center py-4"><p class="text-muted">No quizzes found. Create your first quiz!</p></div>';
+                return;
+            }
+
+            container.innerHTML = mathQuizzes.map(quiz => `
+                <div class="item-card">
+                    <div class="item-header">
+                        <div class="item-title">${quiz.title}</div>
+                        <div class="item-status ${quiz.published ? 'status-published' : 'status-draft'}">
+                            ${quiz.published ? 'Published' : 'Draft'}
+                        </div>
+                    </div>
+                    <div class="item-details">
+                        <div><strong>Duration:</strong> ${quiz.duration} minutes</div>
+                        <div><strong>Time Limit:</strong> ${quiz.timeLimit ? quiz.timeLimit + ' minutes' : 'No limit'}</div>
+                        <div><strong>Questions:</strong> ${quiz.questions ? quiz.questions.length : 0}</div>
+                        <div><strong>Category:</strong> ${quiz.category}</div>
+                        <div><strong>Difficulty:</strong> ${quiz.difficulty}</div>
+                        <div><strong>Created:</strong> ${new Date(quiz.createdDate).toLocaleDateString()}</div>
+                        <div><strong>Instructions:</strong> ${quiz.instructions || 'No instructions provided'}</div>
+                    </div>
+                    <div class="item-actions">
+                        <button class="btn btn-sm btn-outline-primary" onclick="editQuiz('${quiz.id}')">
+                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            Edit
+                        </button>
+                        ${!quiz.published ? `
+                            <button class="btn btn-sm btn-success" onclick="publishQuiz('${quiz.id}')">
+                                <iconify-icon icon="material-symbols:publish"></iconify-icon>
+                                Publish
+                            </button>
+                        ` : `
+                            <button class="btn btn-sm btn-outline-success" onclick="unpublishQuiz('${quiz.id}')">
+                                <iconify-icon icon="material-symbols:unpublish"></iconify-icon>
+                                Unpublish
+                            </button>
+                        `}
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteQuiz('${quiz.id}')">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Delete functions
+        function deleteAssignment(assignmentId) {
+            if (confirm('Are you sure you want to delete this assignment?')) {
+                let assignments = JSON.parse(localStorage.getItem('teacherAssignments')) || [];
+                assignments = assignments.filter(a => a.id !== assignmentId);
+                localStorage.setItem('teacherAssignments', JSON.stringify(assignments));
+                
+                // Also remove from studentAssignments if it exists there
+                let studentAssignments = JSON.parse(localStorage.getItem('studentAssignments')) || [];
+                studentAssignments = studentAssignments.filter(a => a.id !== assignmentId);
+                localStorage.setItem('studentAssignments', JSON.stringify(studentAssignments));
+                
+                loadAllAssignments(); // Refresh the view all modal
+                updateDashboard(); // Refresh the dashboard numbers
+                showNotification('Assignment deleted successfully!');
+            }
+        }
+
+        function deleteExam(examId) {
+            if (confirm('Are you sure you want to delete this exam?')) {
+                let exams = JSON.parse(localStorage.getItem('teacherExams')) || [];
+                exams = exams.filter(e => e.id !== examId);
+                localStorage.setItem('teacherExams', JSON.stringify(exams));
+                
+                // Also remove from studentExams if it exists there
+                let studentExams = JSON.parse(localStorage.getItem('studentExams')) || [];
+                studentExams = studentExams.filter(e => e.id !== examId);
+                localStorage.setItem('studentExams', JSON.stringify(studentExams));
+                
+                loadAllExams(); // Refresh the view all modal
+                updateDashboard(); // Refresh the dashboard numbers
+                showNotification('Exam deleted successfully!');
+            }
+        }
+
+        function deleteQuiz(quizId) {
+            if (confirm('Are you sure you want to delete this quiz?')) {
+                let quizzes = JSON.parse(localStorage.getItem('teacherQuizzes')) || [];
+                quizzes = quizzes.filter(q => q.id !== quizId);
+                localStorage.setItem('teacherQuizzes', JSON.stringify(quizzes));
+                
+                // Also remove from studentQuizzes if it exists there
+                let studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes')) || [];
+                studentQuizzes = studentQuizzes.filter(q => q.id !== quizId);
+                localStorage.setItem('studentQuizzes', JSON.stringify(studentQuizzes));
+                
+                loadAllQuizzes(); // Refresh the view all modal
+                updateDashboard(); // Refresh the dashboard numbers
+                showNotification('Quiz deleted successfully!');
+            }
+        }
+
+        // Clear all functions for debugging
+        function clearAllAssignments() {
+            if (confirm('Are you sure you want to delete ALL assignments? This cannot be undone!')) {
+                localStorage.removeItem('teacherAssignments');
+                localStorage.removeItem('studentAssignments');
+                assignments = [];
+                updateDashboard();
+                showNotification('All assignments cleared!');
+            }
+        }
+
+        function clearAllExams() {
+            if (confirm('Are you sure you want to delete ALL exams? This cannot be undone!')) {
+                localStorage.removeItem('teacherExams');
+                localStorage.removeItem('studentExams');
+                exams = [];
+                updateDashboard();
+                showNotification('All exams cleared!');
+            }
+        }
+
+        function clearAllQuizzes() {
+            if (confirm('Are you sure you want to delete ALL quizzes? This cannot be undone!')) {
+                localStorage.removeItem('teacherQuizzes');
+                localStorage.removeItem('studentQuizzes');
+                updateDashboard();
+                showNotification('All quizzes cleared!');
+            }
+        }
+
+        function saveAssistant() {
+            const name = document.getElementById('assistantName').value.trim();
+            const role = document.getElementById('assistantRole').value.trim();
+            const whatsapp = document.getElementById('assistantWhatsApp').value.trim();
+            const subject = document.getElementById('assistantSubject').value;
+            const description = document.getElementById('assistantDescription').value.trim();
+            const specialties = document.getElementById('assistantSpecialties').value.trim();
+            const status = document.getElementById('assistantStatus').value;
+
+            if (!name || !role || !whatsapp || !subject) {
+                showNotification('Please fill in all required fields!', 'error');
+                return;
+            }
+
+            // Create assistant object
+            const assistant = {
+                id: 'assistant_' + Date.now(),
+                name: name,
+                role: role,
+                whatsapp: whatsapp,
+                subject: subject,
+                description: description,
+                specialties: specialties ? specialties.split(',').map(s => s.trim()) : [],
+                status: status,
+                initials: name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase(),
+                createdAt: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            let assistants = JSON.parse(localStorage.getItem('customAssistants')) || [];
+            assistants.push(assistant);
+            localStorage.setItem('customAssistants', JSON.stringify(assistants));
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addAssistantModal'));
+            modal.hide();
+
+            // Show success notification
+            showNotification('Assistant added successfully!', 'success');
+        }
+
+        // Pending Grading Functions
+        function loadPendingGrading() {
+            loadPendingAssignments();
+            loadPendingQuizzes();
+            loadPendingExams();
+        }
+
+        function loadPendingAssignments() {
+            const submissions = JSON.parse(localStorage.getItem('assignmentSubmissions')) || [];
+            const pendingList = document.getElementById('pendingAssignmentsList');
+            
+            if (submissions.length === 0) {
+                pendingList.innerHTML = '<p class="text-muted">No pending assignments to grade</p>';
+                return;
+            }
+
+            pendingList.innerHTML = submissions.map(submission => `
+                <div class="submission-item mb-2 p-2 border rounded">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${submission.assignmentTitle}</strong><br>
+                            <small class="text-muted">Student: ${submission.studentName}</small>
+                        </div>
+                        <div>
+                            <span class="badge bg-warning">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadPendingQuizzes() {
+            const submissions = JSON.parse(localStorage.getItem('quizSubmissions')) || [];
+            const pendingList = document.getElementById('pendingQuizzesList');
+            
+            if (submissions.length === 0) {
+                pendingList.innerHTML = '<p class="text-muted">No pending quizzes to grade</p>';
+                return;
+            }
+
+            pendingList.innerHTML = submissions.map(submission => `
+                <div class="submission-item mb-2 p-2 border rounded">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${submission.quizTitle}</strong><br>
+                            <small class="text-muted">Student: ${submission.studentName}</small>
+                        </div>
+                        <div>
+                            <span class="badge bg-warning">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadPendingExams() {
+            const submissions = JSON.parse(localStorage.getItem('examSubmissions')) || [];
+            const pendingList = document.getElementById('pendingExamsList');
+            
+            if (submissions.length === 0) {
+                pendingList.innerHTML = '<p class="text-muted">No pending exams to grade</p>';
+                return;
+            }
+
+            pendingList.innerHTML = submissions.map(submission => `
+                <div class="submission-item mb-2 p-2 border rounded">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>${submission.examTitle}</strong><br>
+                            <small class="text-muted">Student: ${submission.studentName}</small>
+                        </div>
+                        <div>
+                            <span class="badge bg-warning">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewPendingAssignments() {
+            const submissions = JSON.parse(localStorage.getItem('assignmentSubmissions')) || [];
+            if (submissions.length === 0) {
+                showNotification('No pending assignments to grade!', 'info');
+                return;
+            }
+            openGradingModal('assignment', submissions);
+        }
+
+        function viewPendingQuizzes() {
+            const submissions = JSON.parse(localStorage.getItem('quizSubmissions')) || [];
+            if (submissions.length === 0) {
+                showNotification('No pending quizzes to grade!', 'info');
+                return;
+            }
+            openGradingModal('quiz', submissions);
+        }
+
+        function viewPendingExams() {
+            const submissions = JSON.parse(localStorage.getItem('examSubmissions')) || [];
+            if (submissions.length === 0) {
+                showNotification('No pending exams to grade!', 'info');
+                return;
+            }
+            openGradingModal('exam', submissions);
+        }
+
+        function openGradingModal(type, submissions) {
+            const modalId = type + 'GradingModal';
+            const modalTitle = type.charAt(0).toUpperCase() + type.slice(1) + ' Grading';
+            
+            // Create modal if it doesn't exist
+            if (!document.getElementById(modalId)) {
+                createGradingModal(type, modalId, modalTitle);
+            }
+            
+            // Load submissions into modal
+            loadSubmissionsIntoModal(type, submissions);
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById(modalId));
+            modal.show();
+        }
+
+        function createGradingModal(type, modalId, modalTitle) {
+            const modalHtml = `
+                <div class="modal fade" id="${modalId}" tabindex="-1">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">${modalTitle}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="${type}SubmissionsList">
+                                    <!-- Submissions will be loaded here -->
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function loadSubmissionsIntoModal(type, submissions) {
+            const container = document.getElementById(type + 'SubmissionsList');
+            
+            if (submissions.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">No submissions to grade</p>';
+                return;
+            }
+            
+            container.innerHTML = submissions.map((submission, index) => `
+                <div class="submission-grading-card mb-4 p-3 border rounded">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h6 class="mb-1">${submission[type + 'Title']}</h6>
+                            <small class="text-muted">Student: ${submission.studentName} | Submitted: ${new Date(submission.submittedAt).toLocaleString()}</small>
+                        </div>
+                        <div>
+                            <span class="badge bg-warning">Pending</span>
+                        </div>
+                    </div>
+                    
+                    <div class="questions-grading">
+                        ${submission.questions.map((question, qIndex) => `
+                            <div class="question-grading-item mb-3 p-3 border rounded">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h6 class="mb-0">Question ${qIndex + 1} (${question.points} points)</h6>
+                                    <span class="badge bg-info">${question.type}</span>
+                                </div>
+                                <p class="question-text mb-2">${question.text}</p>
+                                
+                                <div class="student-answer mb-2">
+                                    <strong>Student Answer:</strong>
+                                    <div class="answer-content p-2 bg-light rounded mt-1">
+                                        ${question.type === 'file' ? 
+                                            `<p><strong>File:</strong> ${question.fileName || 'No file uploaded'}</p>
+                                             <p><strong>Size:</strong> ${question.fileSize ? (question.fileSize / 1024).toFixed(2) + ' KB' : 'N/A'}</p>
+                                             <p><strong>Type:</strong> ${question.fileType || 'N/A'}</p>` :
+                                            `<p>${question.userAnswer || 'No answer provided'}</p>`
+                                        }
+                                    </div>
+                                </div>
+                                
+                                ${question.sampleAnswer ? `
+                                    <div class="sample-answer mb-2">
+                                        <strong>Sample Answer:</strong>
+                                        <div class="answer-content p-2 bg-success bg-opacity-10 rounded mt-1">
+                                            <p>${question.sampleAnswer}</p>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                
+                                ${question.gradingNotes ? `
+                                    <div class="grading-notes mb-2">
+                                        <strong>Grading Notes:</strong>
+                                        <div class="answer-content p-2 bg-info bg-opacity-10 rounded mt-1">
+                                            <p>${question.gradingNotes}</p>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                                
+                                <div class="grading-controls">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Points Awarded (0-${question.points})</label>
+                                            <input type="number" class="form-control" id="points_${submission.id}_${qIndex}" 
+                                                   min="0" max="${question.points}" value="${question.points}" 
+                                                   onchange="updateTotalScore('${submission.id}')">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Comments</label>
+                                            <textarea class="form-control" id="comments_${submission.id}_${qIndex}" 
+                                                      rows="2" placeholder="Add grading comments..."></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="submission-summary p-3 bg-light rounded">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Total Points: <span id="totalScore_${submission.id}">${submission.totalPoints}</span>/${submission.totalPoints}</strong>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <button class="btn btn-success me-2" onclick="gradeSubmission('${type}', '${submission.id}')">
+                                    <iconify-icon icon="material-symbols:check"></iconify-icon>
+                                    Grade & Save
+                                </button>
+                                <button class="btn btn-danger" onclick="rejectSubmission('${type}', '${submission.id}')">
+                                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                                    Reject
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function updateTotalScore(submissionId) {
+            const submissionCard = document.querySelector(`[id*="${submissionId}"]`).closest('.submission-grading-card');
+            const pointInputs = submissionCard.querySelectorAll('input[type="number"]');
+            const totalScoreElement = document.getElementById(`totalScore_${submissionId}`);
+            
+            let totalScore = 0;
+            pointInputs.forEach(input => {
+                totalScore += parseInt(input.value) || 0;
+            });
+            
+            totalScoreElement.textContent = totalScore;
+        }
+
+        function gradeSubmission(type, submissionId) {
+            console.log('Grading submission:', type, submissionId);
+            
+            const submissionCard = document.querySelector(`[id*="${submissionId}"]`).closest('.submission-grading-card');
+            if (!submissionCard) {
+                console.error('Submission card not found');
+                showNotification('Error: Submission card not found!', 'error');
+                return;
+            }
+            
+            const pointInputs = submissionCard.querySelectorAll('input[type="number"]');
+            const commentInputs = submissionCard.querySelectorAll('textarea');
+            
+            console.log('Found point inputs:', pointInputs.length);
+            console.log('Found comment inputs:', commentInputs.length);
+            
+            let totalScore = 0;
+            const grading = [];
+            
+            pointInputs.forEach((input, index) => {
+                const points = parseInt(input.value) || 0;
+                totalScore += points;
+                grading.push({
+                    questionIndex: index,
+                    pointsAwarded: points,
+                    comments: commentInputs[index] ? commentInputs[index].value : ''
+                });
+            });
+            
+            console.log('Total score:', totalScore);
+            console.log('Grading data:', grading);
+            
+            // Update submission in localStorage
+            const submissions = JSON.parse(localStorage.getItem(type + 'Submissions')) || [];
+            const submissionIndex = submissions.findIndex(s => s.id === submissionId);
+            
+            if (submissionIndex !== -1) {
+                const submission = submissions[submissionIndex];
+                submission.status = 'graded';
+                submission.gradedAt = new Date().toISOString();
+                submission.totalScore = totalScore;
+                submission.grading = grading;
+                
+                localStorage.setItem(type + 'Submissions', JSON.stringify(submissions));
+                console.log('Updated submission in localStorage:', submission);
+                
+                // Update student's assignment/quiz/exam with grades
+                const updateSuccess = updateStudentSubmission(type, submission);
+                console.log('Student update success:', updateSuccess);
+                
+                showNotification('Submission graded successfully!', 'success');
+                
+                // Close the current assignment being graded
+                submissionCard.style.display = 'none';
+                
+                // Reload the modal to show remaining submissions
+                const remainingSubmissions = JSON.parse(localStorage.getItem(type + 'Submissions')) || [];
+                loadSubmissionsIntoModal(type, remainingSubmissions);
+            } else {
+                console.error('Submission not found in localStorage');
+                showNotification('Error: Submission not found!', 'error');
+            }
+        }
+
+        function updateStudentSubmission(type, submission) {
+            // Update the student's assignment/quiz/exam with the graded results
+            const studentDataKey = type === 'assignment' ? 'studentAssignments' : 
+                                  type === 'quiz' ? 'studentQuizzes' : 'studentExams';
+            
+            console.log('Updating student data for key:', studentDataKey);
+            console.log('Looking for item with ID:', submission[type + 'Id']);
+            
+            const studentItems = JSON.parse(localStorage.getItem(studentDataKey)) || [];
+            console.log('Current student items:', studentItems);
+            
+            const itemIndex = studentItems.findIndex(item => item.id === submission[type + 'Id']);
+            console.log('Found item at index:', itemIndex);
+            
+            if (itemIndex !== -1) {
+                studentItems[itemIndex].status = 'graded';
+                studentItems[itemIndex].gradedAt = submission.gradedAt;
+                studentItems[itemIndex].finalScore = submission.totalScore;
+                studentItems[itemIndex].grading = submission.grading;
+                studentItems[itemIndex].teacherComments = submission.grading.map(g => g.comments).filter(c => c.trim());
+                
+                // Also update the score percentage for display
+                const totalPoints = studentItems[itemIndex].questions ? 
+                    studentItems[itemIndex].questions.reduce((sum, q) => sum + (q.points || 1), 0) : 
+                    submission.totalPoints;
+                studentItems[itemIndex].score = Math.round((submission.totalScore / totalPoints) * 100);
+                
+                localStorage.setItem(studentDataKey, JSON.stringify(studentItems));
+                console.log('Updated student item:', studentItems[itemIndex]);
+                return true;
+            } else {
+                console.error('Student item not found with ID:', submission[type + 'Id']);
+                console.log('Available student items:', studentItems.map(item => ({ id: item.id, title: item.title })));
+                return false;
+            }
+        }
+
+        function rejectSubmission(type, submissionId) {
+            if (confirm('Are you sure you want to reject this submission?')) {
+                const submissions = JSON.parse(localStorage.getItem(type + 'Submissions')) || [];
+                const submissionIndex = submissions.findIndex(s => s.id === submissionId);
+                
+                if (submissionIndex !== -1) {
+                    submissions[submissionIndex].status = 'rejected';
+                    submissions[submissionIndex].rejectedAt = new Date().toISOString();
+                    
+                    localStorage.setItem(type + 'Submissions', JSON.stringify(submissions));
+                    
+                    showNotification('Submission rejected!', 'warning');
+                    
+                    // Close the current assignment being graded
+                    const submissionCard = document.querySelector(`[id*="${submissionId}"]`).closest('.submission-grading-card');
+                    if (submissionCard) {
+                        submissionCard.style.display = 'none';
+                    }
+                    
+                    // Reload the modal to show remaining submissions
+                    const remainingSubmissions = JSON.parse(localStorage.getItem(type + 'Submissions')) || [];
+                    loadSubmissionsIntoModal(type, remainingSubmissions);
+                }
+            }
+        }
+
+        function addQuestion(type = 'exam') {
+            questionCounter++;
+            let containerId;
+            if (type === 'assignment') {
+                containerId = 'assignmentQuestions';
+            } else if (type === 'quiz') {
+                containerId = 'quizQuestions';
+            } else {
+                containerId = 'questionsContainer';
+            }
+            const questionsContainer = document.getElementById(containerId);
+            
+            const questionHtml = `
+                <div class="question-card" id="question-${questionCounter}">
+                    <div class="question-header">
+                        <h6 class="mb-0">Question ${questionCounter}</h6>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary" onclick="askCommunity(${questionCounter})">
+                                <iconify-icon icon="material-symbols:forum"></iconify-icon>
+                                Community
+                            </button>
+                            <button class="btn btn-sm btn-outline-success" onclick="askAssistant(${questionCounter})">
+                                <iconify-icon icon="material-symbols:smart-toy"></iconify-icon>
+                                Assistant
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="removeQuestion(${questionCounter})">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                Remove
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Question Text</label>
+                        <textarea class="form-control" name="questionText" rows="3" placeholder="Enter your question..." required></textarea>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Question Type</label>
+                            <div class="question-type-selector">
+                                <button type="button" class="question-type-btn active" data-type="multiple-choice" onclick="setQuestionType(${questionCounter}, 'multiple-choice')">
+                                    <iconify-icon icon="material-symbols:radio-button-checked"></iconify-icon>
+                                    Multiple Choice
+                                </button>
+                                <button type="button" class="question-type-btn" data-type="text" onclick="setQuestionType(${questionCounter}, 'text')">
+                                    <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                    Text Answer
+                                </button>
+                                <button type="button" class="question-type-btn" data-type="file" onclick="setQuestionType(${questionCounter}, 'file')">
+                                    <iconify-icon icon="material-symbols:upload-file"></iconify-icon>
+                                    File Upload
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Points</label>
+                            <input type="number" class="form-control" name="questionPoints" min="1" value="5" required>
+                        </div>
+                    </div>
+                    
+                    <div id="questionContent-${questionCounter}">
+                        <!-- Question content will be generated based on type -->
+                    </div>
+                </div>
+            `;
+            
+            questionsContainer.insertAdjacentHTML('beforeend', questionHtml);
+            setQuestionType(questionCounter, 'multiple-choice');
+        }
+
+        function removeQuestion(questionId) {
+            const el = document.getElementById(`question-${questionId}`);
+            if (el) el.remove();
+        }
+        
+        function setQuestionType(questionId, type) {
+            const questionCard = document.getElementById(`question-${questionId}`);
+            const buttons = questionCard.querySelectorAll('.question-type-btn');
+            const contentDiv = document.getElementById(`questionContent-${questionId}`);
+            
+            // Update button states
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.type === type) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Generate content based on type
+            let content = '';
+            if (type === 'multiple-choice') {
+                content = `
+                    <div class="mb-3">
+                        <label class="form-label">Answer Options</label>
+                        <small class="text-muted d-block mb-2">Select which option is the correct answer by clicking the radio button next to it.</small>
+                        <div id="answerOptions-${questionId}">
+                            <div class="answer-option">
+                                <input type="radio" name="correctAnswer-${questionId}" value="0" required>
+                                <input type="text" class="form-control" placeholder="Option 1" required>
+                                <span class="correct-answer-label">✓ Correct Answer</span>
+                            </div>
+                            <div class="answer-option">
+                                <input type="radio" name="correctAnswer-${questionId}" value="1" required>
+                                <input type="text" class="form-control" placeholder="Option 2" required>
+                                <span class="correct-answer-label">✓ Correct Answer</span>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="addAnswerOption(${questionId})">
+                            <iconify-icon icon="material-symbols:add"></iconify-icon>
+                            Add Option
+                        </button>
+                    </div>
+                `;
+            } else if (type === 'text') {
+                content = `
+                    <div class="mb-3">
+                        <label class="form-label">Sample Answer (Optional)</label>
+                        <textarea class="form-control" name="sampleAnswer" rows="2" placeholder="Enter a sample answer to help with manual grading..."></textarea>
+                        <small class="text-muted">This is for reference only - text questions will be manually graded</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Grading Notes (Optional)</label>
+                        <textarea class="form-control" name="gradingNotes" rows="2" placeholder="Add any specific grading criteria or notes..."></textarea>
+                        <small class="text-muted">Helpful notes for manual grading</small>
+                    </div>
+                `;
+            } else if (type === 'file') {
+                content = `
+                    <div class="mb-3">
+                        <label class="form-label">File Requirements</label>
+                        <input type="text" class="form-control" name="fileRequirements" placeholder="e.g., PDF only, max 10MB, specific format..." />
+                        <small class="text-muted">Specify what type of files students should upload</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Expected File Content (Optional)</label>
+                        <textarea class="form-control" name="expectedContent" rows="2" placeholder="Describe what the file should contain..."></textarea>
+                        <small class="text-muted">This is for reference only - file questions will be manually graded</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Grading Criteria (Optional)</label>
+                        <textarea class="form-control" name="gradingCriteria" rows="2" placeholder="Add specific grading criteria for the file submission..."></textarea>
+                        <small class="text-muted">Helpful notes for manual grading</small>
+                    </div>
+                `;
+            }
+            
+            contentDiv.innerHTML = content;
+        }
+        
+        function addAnswerOption(questionId) {
+            const container = document.getElementById(`answerOptions-${questionId}`);
+            const optionCount = container.children.length;
+            const optionHtml = `
+                <div class="answer-option">
+                    <input type="radio" name="correctAnswer-${questionId}" value="${optionCount}" required>
+                    <input type="text" class="form-control" placeholder="Option ${optionCount + 1}" required>
+                    <span class="correct-answer-label">✓ Correct Answer</span>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeAnswerOption(this)">
+                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', optionHtml);
+        }
+        
+        function removeAnswerOption(button) {
+            button.parentElement.remove();
+        }
+        
+        function askCommunity(questionId) {
+            const questionText = document.querySelector(`#question-${questionId} textarea[name="questionText"]`).value;
+            if (!questionText.trim()) {
+                alert('Please enter a question text first!');
+                return;
+            }
+            
+            // Open community page with question
+            const encodedQuestion = encodeURIComponent(questionText);
+            window.open(`community.html?question=${encodedQuestion}`, '_blank');
+        }
+        
+        function askAssistant(questionId) {
+            const questionText = document.querySelector(`#question-${questionId} textarea[name="questionText"]`).value;
+            if (!questionText.trim()) {
+                alert('Please enter a question text first!');
+                return;
+            }
+            
+            // Simulate AI assistant help
+            alert(`AI Assistant: I can help you improve this question. Here are some suggestions:\n\n1. Make sure the question is clear and specific\n2. Ensure answer options are plausible\n3. Consider the difficulty level\n4. Check for any ambiguity\n\nWould you like me to help refine this question?`);
+        }
+        
+        function collectQuestions(type) {
+            let containerId;
+            if (type === 'assignment') {
+                containerId = 'assignmentQuestions';
+            } else if (type === 'quiz') {
+                containerId = 'quizQuestions';
+            } else {
+                containerId = 'questionsContainer';
+            }
+            const questionsContainer = document.getElementById(containerId);
+            const questionCards = questionsContainer.querySelectorAll('.question-card');
+            const questions = [];
+            
+            questionCards.forEach((card, index) => {
+                const questionText = card.querySelector('textarea[name="questionText"]').value;
+                const points = parseInt(card.querySelector('input[name="questionPoints"]').value);
+                const activeTypeBtn = card.querySelector('.question-type-btn.active');
+                const questionType = activeTypeBtn ? activeTypeBtn.dataset.type : 'multiple-choice';
+                
+                if (questionText.trim()) {
+                    const question = {
+                        id: `q${Date.now()}_${index}`,
+                        text: questionText,
+                        type: questionType,
+                        points: points
+                    };
+                    
+                    if (questionType === 'multiple-choice') {
+                        const answerOptions = card.querySelectorAll('#answerOptions-' + card.id.split('-')[1] + ' .answer-option');
+                        question.options = [];
+                        question.correctAnswer = null;
+                        
+                        answerOptions.forEach((option, optIndex) => {
+                            const radio = option.querySelector('input[type="radio"]');
+                            const text = option.querySelector('input[type="text"]').value;
+                            if (text.trim()) {
+                                question.options.push(text);
+                                if (radio.checked) {
+                                    question.correctAnswer = optIndex;
+                                }
+                            }
+                        });
+                    } else if (questionType === 'text') {
+                        const sampleAnswer = card.querySelector('textarea[name="sampleAnswer"]').value;
+                        const gradingNotes = card.querySelector('textarea[name="gradingNotes"]').value;
+                        if (sampleAnswer.trim()) {
+                            question.sampleAnswer = sampleAnswer;
+                        }
+                        if (gradingNotes.trim()) {
+                            question.gradingNotes = gradingNotes;
+                        }
+                        // No correctAnswer for text questions - manual grading only
+                    } else if (questionType === 'file') {
+                        const fileRequirements = card.querySelector('input[name="fileRequirements"]').value;
+                        const expectedContent = card.querySelector('textarea[name="expectedContent"]').value;
+                        const gradingCriteria = card.querySelector('textarea[name="gradingCriteria"]').value;
+                        question.fileRequirements = fileRequirements;
+                        if (expectedContent.trim()) {
+                            question.expectedContent = expectedContent;
+                        }
+                        if (gradingCriteria.trim()) {
+                            question.gradingCriteria = gradingCriteria;
+                        }
+                        // No correctAnswer for file questions - manual grading only
+                    }
+                    
+                    questions.push(question);
+                }
+            });
+            
+            return questions;
+        }
+
+        // ========== SAVE QUIZ / EXAM / ASSIGNMENT (with publishNow checkbox) ==========
+        function saveQuiz() {
+            const title = document.getElementById('quizTitle').value.trim();
+            const duration = parseInt(document.getElementById('quizDuration').value);
+            const instructions = document.getElementById('quizInstructions').value.trim();
+            const category = document.getElementById('quizCategory').value;
+            const difficulty = document.getElementById('quizDifficulty').value;
+            const timeLimit = parseInt(document.getElementById('quizTimeLimit').value) || null;
+
+            if (!title || !duration || !category || !difficulty) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            // Collect questions data
+            const questions = collectQuestions('quiz');
+
+            const quiz = {
+                id: Date.now().toString(),
+                title,
+                duration,
+                instructions,
+                category,
+                difficulty,
+                subject: 'mathematics',
+                questions: questions,
+                questionCount: questions.length,
+                timeLimit: timeLimit, // in minutes
+                createdDate: new Date().toISOString(),
+                published: false
+            };
+
+            // Save to teacherQuizzes
+            let quizzes = JSON.parse(localStorage.getItem('teacherQuizzes')) || [];
+            quizzes.push(quiz);
+            localStorage.setItem('teacherQuizzes', JSON.stringify(quizzes));
+
+            // If publishNow checked, also copy to studentQuizzes
+            const publishNow = document.getElementById('publishQuizNow') && document.getElementById('publishQuizNow').checked;
+            if (publishNow) {
+                quiz.published = true;
+                quiz.publishedDate = new Date().toISOString();
+                let studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes')) || [];
+                studentQuizzes.push(quiz);
+                localStorage.setItem('studentQuizzes', JSON.stringify(studentQuizzes));
+            }
+
+            // Reset & close
+            document.getElementById('quizForm').reset();
+            bootstrap.Modal.getInstance(document.getElementById('quizModal')).hide();
+            updateDashboard();
+            showNotification('Mathematics quiz saved successfully!' + (publishNow ? ' and published.' : ''));
+        }
+
+        function saveExam() {
+            const title = document.getElementById('examTitle').value.trim();
+            const duration = parseInt(document.getElementById('examDuration').value);
+            const instructions = document.getElementById('examInstructions').value.trim();
+            const timeLimit = parseInt(document.getElementById('examTimeLimit').value) || null;
+
+            if (!title || !duration) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Collect questions data
+            const questions = collectQuestions('exam');
+
+            const exam = {
+                id: Date.now().toString(),
+                title,
+                subject: 'mathematics',
+                duration,
+                instructions,
+                timeLimit: timeLimit, // in minutes
+                questions: questions,
+                published: false,
+                createdAt: new Date().toISOString()
+            };
+
+            let storedExams = JSON.parse(localStorage.getItem('teacherExams')) || [];
+            storedExams.push(exam);
+            localStorage.setItem('teacherExams', JSON.stringify(storedExams));
+
+            const publishNow = document.getElementById('publishExamNow') && document.getElementById('publishExamNow').checked;
+            if (publishNow) {
+                exam.published = true;
+                exam.publishedDate = new Date().toISOString();
+                let studentExams = JSON.parse(localStorage.getItem('studentExams')) || [];
+                studentExams.push(exam);
+                localStorage.setItem('studentExams', JSON.stringify(studentExams));
+            }
+
+            document.getElementById('examForm').reset();
+            document.getElementById('questionsContainer').innerHTML = '';
+            questionCounter = 0;
+
+            bootstrap.Modal.getInstance(document.getElementById('examModal')).hide();
+            updateDashboard();
+            showNotification('Mathematics exam saved successfully!' + (publishNow ? ' and published.' : ''));
+        }
+
+        function saveAssignment() {
+            const title = document.getElementById('assignmentTitle').value.trim();
+            const points = parseInt(document.getElementById('assignmentPoints').value);
+            const dueDate = document.getElementById('assignmentDueDate').value;
+            const description = document.getElementById('assignmentDescription').value.trim();
+            const timeLimit = parseInt(document.getElementById('assignmentTimeLimit').value) || null;
+
+            if (!title || !points || !dueDate) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            // Collect questions data
+            const questions = collectQuestions('assignment');
+
+            const assignment = {
+                id: Date.now().toString(),
+                title,
+                subject: 'mathematics',
+                points,
+                dueDate,
+                description,
+                timeLimit: timeLimit, // in minutes
+                questions: questions,
+                published: false,
+                createdAt: new Date().toISOString(),
+                status: 'draft'
+            };
+
+            // Save to API
+            const assignmentData = {
+                subject: 'mathematics',
+                title: assignment.title,
+                description: assignment.description,
+                instructions: assignment.description, // Using description as instructions
+                due_date: assignment.dueDate,
+                points: assignment.points
+            };
+
+            try {
+                const response = await teacherAPI.createAssignment(assignmentData);
+                console.log('Assignment created successfully:', response);
+
+            // Publish immediately if checkbox checked
+            const publishNow = document.getElementById('publishNow') && document.getElementById('publishNow').checked;
+            console.log('Publish now checkbox checked:', publishNow);
+            
+            if (publishNow) {
+                assignment.published = true;
+                assignment.publishedDate = new Date().toISOString();
+                assignment.status = 'pending'; // Set status for students
+
+                let studentAssignments = JSON.parse(localStorage.getItem('studentAssignments')) || [];
+                studentAssignments.push(assignment);
+                localStorage.setItem('studentAssignments', JSON.stringify(studentAssignments));
+                
+                console.log('Assignment published to studentAssignments:', assignment);
+                console.log('All studentAssignments:', studentAssignments);
+            }
+
+            // Reset & close
+            document.getElementById('assignmentForm').reset();
+            document.getElementById('fileList').innerHTML = '';
+            bootstrap.Modal.getInstance(document.getElementById('assignmentModal')).hide();
+
+            updateDashboard();
+            loadMathematicsContent(); // Refresh the assignments display
+            showNotification('Mathematics assignment saved successfully!' + (publishNow ? ' and published.' : ''));
+        }
+
+        // ========== PUBLISH functions (for separate Publish buttons if you have them elsewhere) ==========
+        function publishQuiz(id) {
+            let quizzes = JSON.parse(localStorage.getItem('teacherQuizzes')) || [];
+            const quiz = quizzes.find(q => q.id == id);
+            if (quiz) {
+                quiz.published = true;
+                quiz.publishedDate = new Date().toISOString();
+                localStorage.setItem('teacherQuizzes', JSON.stringify(quizzes));
+
+                let studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes')) || [];
+                const existing = studentQuizzes.findIndex(sq => sq.id == id);
+                if (existing >= 0) studentQuizzes[existing] = quiz; else studentQuizzes.push(quiz);
+                localStorage.setItem('studentQuizzes', JSON.stringify(studentQuizzes));
+
+                showNotification('Quiz published successfully!', 'success');
+                updateDashboard();
+            } else showNotification('Quiz not found!', 'error');
+        }
+
+        function publishExam(id) {
+            let examsLocal = JSON.parse(localStorage.getItem('teacherExams')) || [];
+            const exam = examsLocal.find(e => e.id == id);
+            if (exam) {
+                exam.published = true;
+                exam.publishedDate = new Date().toISOString();
+                localStorage.setItem('teacherExams', JSON.stringify(examsLocal));
+
+                let studentExams = JSON.parse(localStorage.getItem('studentExams')) || [];
+                const existing = studentExams.findIndex(se => se.id == id);
+                if (existing >= 0) studentExams[existing] = exam; else studentExams.push(exam);
+                localStorage.setItem('studentExams', JSON.stringify(studentExams));
+
+                showNotification('Exam published successfully!', 'success');
+                updateDashboard();
+            } else showNotification('Exam not found!', 'error');
+        }
+
+        function publishAssignment(id) {
+            // reload teacher assignments
+            let teacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments')) || [];
+            const assignment = teacherAssignments.find(a => a.id == id);
+            if (assignment) {
+                assignment.published = true;
+                assignment.publishedDate = new Date().toISOString();
+                localStorage.setItem('teacherAssignments', JSON.stringify(teacherAssignments));
+
+                let studentAssignments = JSON.parse(localStorage.getItem('studentAssignments')) || [];
+                const existing = studentAssignments.findIndex(sa => sa.id == id);
+                if (existing >= 0) studentAssignments[existing] = assignment; else studentAssignments.push(assignment);
+                localStorage.setItem('studentAssignments', JSON.stringify(studentAssignments));
+
+                showNotification('Assignment published successfully!', 'success');
+                updateDashboard();
+            } else {
+                showNotification('Assignment not found!', 'error');
+            }
+        }
+
+        // ========== EDIT / UPDATE ASSIGNMENT ==========
+        function editAssignment(id) {
+            assignments = JSON.parse(localStorage.getItem('teacherAssignments')) || [];
+            const assignment = assignments.find(a => a.id == id);
+            if (assignment) {
+                document.getElementById('editAssignmentId').value = assignment.id;
+                document.getElementById('editAssignmentTitle').value = assignment.title || '';
+                document.getElementById('editAssignmentPoints').value = assignment.points || '';
+                const dueDate = assignment.dueDate ? new Date(assignment.dueDate) : new Date();
+                document.getElementById('editAssignmentDueDate').value = dueDate.toISOString().slice(0,16);
+                document.getElementById('editAssignmentDescription').value = assignment.description || '';
+                document.getElementById('editAssignmentCategory').value = assignment.category || 'algebra';
+                document.getElementById('editAssignmentDifficulty').value = assignment.difficulty || 'easy';
+                const modal = new bootstrap.Modal(document.getElementById('editAssignmentModal'));
+                modal.show();
+            } else {
+                showNotification('Assignment not found!', 'error');
+            }
+        }
+
+        function updateAssignment() {
+            const id = document.getElementById('editAssignmentId').value;
+            const title = document.getElementById('editAssignmentTitle').value.trim();
+            const points = parseInt(document.getElementById('editAssignmentPoints').value);
+            const dueDate = document.getElementById('editAssignmentDueDate').value;
+            const description = document.getElementById('editAssignmentDescription').value.trim();
+            const category = document.getElementById('editAssignmentCategory').value;
+            const difficulty = document.getElementById('editAssignmentDifficulty').value;
+
+            if (!title || !points || !dueDate) { showNotification('Please fill in all required fields', 'error'); return; }
+
+            let teacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments')) || [];
+            const assignment = teacherAssignments.find(a => a.id == id);
+            if (assignment) {
+                assignment.title = title; assignment.points = points; assignment.dueDate = dueDate;
+                assignment.description = description; assignment.category = category; assignment.difficulty = difficulty;
+                localStorage.setItem('teacherAssignments', JSON.stringify(teacherAssignments));
+
+                // also update studentAssignments if published
+                if (assignment.published) {
+                    let studentAssignments = JSON.parse(localStorage.getItem('studentAssignments')) || [];
+                    const idx = studentAssignments.findIndex(a => a.id == id);
+                    if (idx >= 0) { studentAssignments[idx] = assignment; localStorage.setItem('studentAssignments', JSON.stringify(studentAssignments)); }
+                }
+
+                bootstrap.Modal.getInstance(document.getElementById('editAssignmentModal')).hide();
+                updateDashboard();
+                showNotification('Assignment updated successfully!', 'success');
+            } else {
+                showNotification('Assignment not found!', 'error');
+            }
+        }
+
+        // ========== Utilities ==========
+        function showNotification(message, type='success') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = 'top:20px; right:20px; z-index:9999; min-width:300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => { if (notification.parentNode) notification.parentNode.removeChild(notification); }, 5000);
+        }
+    </script>
+</body>
+</html>
+wh

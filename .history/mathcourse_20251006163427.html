@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Course - New Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1060;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.4);
+        }
+        
+        .menu-toggle.active {
+            background: #dc3545;
+            transform: rotate(180deg);
+        }
+        
+        .menu-icon {
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .welcome-text {
+            color: #333;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .focus-mode-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .focus-mode-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .focus-mode-btn.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+        }
+        
+        .focus-mode-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+        }
+        
+        .focus-mode-btn:hover::after {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .notification-btn {
+            position: relative;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .community-btn {
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 123, 255, 0.2);
+        }
+        
+        .community-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+        }
+        
+        .empty-content {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin: 2rem 0;
+        }
+        
+        .empty-content h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-content p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        /* Educational Cards */
+        .edu-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .edu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .quiz-card {
+            background: #f5f5dc;
+        }
+
+        .exam-card {
+            background: white;
+        }
+
+        .homework-card {
+            background: #e0f7fa;
+        }
+
+        .grades-card {
+            background: white;
+        }
+
+        .card-illustration {
+            flex: 1;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .illustration-content {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .card-label {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #333;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        /* Quiz Card Elements */
+        .person {
+            position: absolute;
+            width: 20px;
+            height: 25px;
+            background: #333;
+            border-radius: 10px 10px 5px 5px;
+        }
+
+        .person-1 {
+            top: 30px;
+            left: 10px;
+            background: #4a90e2;
+        }
+
+        .person-2 {
+            top: 25px;
+            right: 15px;
+            background: #7b68ee;
+        }
+
+        .person-3 {
+            bottom: 40px;
+            left: 20px;
+            background: #ff6b6b;
+        }
+
+        .question-mark {
+            position: absolute;
+            font-weight: bold;
+            color: #ff8c00;
+        }
+
+        .question-mark.large {
+            font-size: 3rem;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+
+        .question-mark.small {
+            font-size: 1rem;
+        }
+
+        .question-mark.purple {
+            color: #9370db;
+            top: 20px;
+            right: 20px;
+        }
+
+        .question-mark.orange {
+            color: #ffa500;
+            bottom: 20px;
+            right: 10px;
+        }
+
+        .branch {
+            position: absolute;
+            background: #90ee90;
+            border-radius: 10px;
+        }
+
+        .branch-1 {
+            width: 15px;
+            height: 40px;
+            top: 5px;
+            left: 5px;
+            transform: rotate(-20deg);
+        }
+
+        .branch-2 {
+            width: 12px;
+            height: 35px;
+            bottom: 10px;
+            right: 25px;
+            transform: rotate(30deg);
+        }
+
+        .phone {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background: #333;
+            border-radius: 2px;
+            top: 35px;
+            right: 35px;
+        }
+
+        /* Exam Card Elements */
+        .person-writing {
+            position: absolute;
+            width: 25px;
+            height: 30px;
+            background: #ff69b4;
+            border-radius: 12px 12px 6px 6px;
+            bottom: 20px;
+            left: 15px;
+        }
+
+        .exam-paper {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            background: white;
+            border: 2px solid #333;
+            top: 10px;
+            right: 10px;
+            padding: 5px;
+        }
+
+        .exam-title {
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .exam-options {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .option {
+            width: 8px;
+            height: 8px;
+            background: #333;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+
+        .book {
+            position: absolute;
+            width: 12px;
+            height: 15px;
+            background: #4169e1;
+            border-radius: 2px;
+        }
+
+        .book-1 {
+            top: 30px;
+            right: 20px;
+        }
+
+        .book-2 {
+            top: 35px;
+            right: 15px;
+        }
+
+        .globe {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #4169e1;
+            border-radius: 50%;
+            top: 55px;
+            right: 25px;
+        }
+
+        .ruler {
+            position: absolute;
+            width: 20px;
+            height: 3px;
+            background: #333;
+            top: 70px;
+            right: 15px;
+            transform: rotate(45deg);
+        }
+
+        .clock {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #333;
+            border-radius: 50%;
+            top: 15px;
+            left: 20px;
+        }
+
+        .open-book {
+            position: absolute;
+            width: 15px;
+            height: 10px;
+            background: #4169e1;
+            border-radius: 5px;
+            top: 45px;
+            left: 10px;
+        }
+
+        .speech-bubble {
+            position: absolute;
+            background: #fff;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 2px 4px;
+            font-size: 0.6rem;
+        }
+
+        .bubble-1 {
+            top: 10px;
+            left: 35px;
+        }
+
+        .bubble-2 {
+            top: 20px;
+            left: 45px;
+        }
+
+        /* Homework Card Elements */
+        .person-headphones {
+            position: absolute;
+            width: 25px;
+            height: 30px;
+            background: #4a90e2;
+            border-radius: 12px 12px 6px 6px;
+            bottom: 30px;
+            left: 20px;
+        }
+
+        .person-headphones::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 8px;
+            background: #333;
+            border-radius: 10px;
+            top: -5px;
+            left: -2px;
+        }
+
+        .abstract-circle {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 3px solid #4a90e2;
+            border-radius: 50%;
+            top: 10px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        .plant {
+            position: absolute;
+            width: 8px;
+            height: 20px;
+            background: #90ee90;
+            border-radius: 4px;
+            bottom: 10px;
+            right: 20px;
+        }
+
+        .cat {
+            position: absolute;
+            width: 15px;
+            height: 10px;
+            background: #a9a9a9;
+            border-radius: 8px;
+            bottom: 15px;
+            left: 10px;
+        }
+
+        .lightbulb {
+            position: absolute;
+            top: 20px;
+            right: 15px;
+            font-size: 1.5rem;
+        }
+
+        .homework-paper {
+            position: absolute;
+            width: 20px;
+            height: 25px;
+            background: white;
+            border: 1px solid #333;
+            top: 50px;
+            left: 45px;
+        }
+
+        /* Grades Card Elements */
+        .person-jumping {
+            position: absolute;
+            width: 25px;
+            height: 30px;
+            background: #ff6b6b;
+            border-radius: 12px 12px 6px 6px;
+            bottom: 25px;
+            left: 25px;
+            animation: jump 2s infinite;
+        }
+
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .grade-paper {
+            position: absolute;
+            width: 25px;
+            height: 30px;
+            background: white;
+            border: 2px solid #333;
+            top: 20px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .grade-circle {
+            width: 18px;
+            height: 18px;
+            background: #ff0000;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: bold;
+        }
+
+        .floating-paper {
+            position: absolute;
+            width: 15px;
+            height: 20px;
+            background: white;
+            border: 1px solid #333;
+            top: 60px;
+            left: 10px;
+            animation: float 3s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-3px) rotate(2deg); }
+        }
+
+        .red-plant {
+            background: #ff6b6b;
+            bottom: 15px;
+            right: 30px;
+        }
+
+        .grey-plant {
+            background: #a9a9a9;
+            bottom: 20px;
+            right: 15px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-header .container-fluid {
+                padding: 0 1rem;
+            }
+            
+            .welcome-text {
+                font-size: 1rem;
+            }
+            
+            .community-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+
+            .edu-card {
+                height: 200px;
+                padding: 1rem;
+            }
+
+            .illustration-content {
+                width: 100px;
+                height: 100px;
+            }
+
+            .question-mark.large {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Menu Toggle and Welcome Message -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        
+                        <div class="welcome-section">
+                            <h4 class="welcome-text mb-0" id="welcomeMessage">Welcome back, Alex!</h4>
+                            <small class="text-muted" id="welcomeSubtext">Let's start learning mathematics today!</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section" style="margin-right: 2rem;">
+                            <a href="home.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image">
+                            </a>
+                        </div>
+                        
+                        <!-- Focus Mode Toggle -->
+                        <div class="focus-mode-section">
+                            <button class="focus-mode-btn" onclick="toggleFocusMode()" id="focusModeToggle" data-tooltip="Focus Mode">
+                                <iconify-icon icon="material-symbols:visibility-off" style="width: 20px; height: 20px;"></iconify-icon>
+                            </button>
+                        </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()" data-tooltip="Notifications">
+                                <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
+                                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Mathematics Community Button -->
+                        <div class="community-section">
+                            <button class="btn btn-primary btn-sm community-btn" onclick="openMathematicsCommunity()" data-tooltip="Mathematics Community">
+                                <iconify-icon icon="material-symbols:forum" style="width: 20px; height: 20px; margin-right: 0.25rem;"></iconify-icon>
+                                Math Community
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <!-- Quiz Card -->
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="edu-card quiz-card">
+                                <div class="card-illustration">
+                                    <div class="illustration-content">
+                                        <!-- People figures -->
+                                        <div class="person person-1"></div>
+                                        <div class="person person-2"></div>
+                                        <div class="person person-3"></div>
+                                        <!-- Large question mark -->
+                                        <div class="question-mark large">?</div>
+                                        <!-- Small question marks -->
+                                        <div class="question-mark small purple">?</div>
+                                        <div class="question-mark small orange">?</div>
+                                        <!-- Branches -->
+                                        <div class="branch branch-1"></div>
+                                        <div class="branch branch-2"></div>
+                                        <!-- Phone -->
+                                        <div class="phone"></div>
+                                    </div>
+                                </div>
+                                <div class="card-label">Quiz</div>
+                                <div class="card-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-number">0</span>
+                                        <span class="stat-label">Available</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-number">0</span>
+                                        <span class="stat-label">Pending</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-number">0</span>
+                                        <span class="stat-label">Completed</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Exam Card -->
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="edu-card exam-card">
+                                <div class="card-illustration">
+                                    <div class="illustration-content">
+                                        <!-- Person writing -->
+                                        <div class="person-writing"></div>
+                                        <!-- Exam paper -->
+                                        <div class="exam-paper">
+                                            <div class="exam-title">EXAM</div>
+                                            <div class="exam-options">
+                                                <div class="option">A</div>
+                                                <div class="option">B</div>
+                                                <div class="option">C</div>
+                                                <div class="option">D</div>
+                                            </div>
+                                        </div>
+                                        <!-- Books -->
+                                        <div class="book book-1"></div>
+                                        <div class="book book-2"></div>
+                                        <!-- Globe -->
+                                        <div class="globe"></div>
+                                        <!-- Ruler -->
+                                        <div class="ruler"></div>
+                                        <!-- Clock -->
+                                        <div class="clock"></div>
+                                        <!-- Open book -->
+                                        <div class="open-book"></div>
+                                        <!-- Speech bubbles -->
+                                        <div class="speech-bubble bubble-1">...</div>
+                                        <div class="speech-bubble bubble-2">...</div>
+                                    </div>
+                                </div>
+                                <div class="card-label">Exam</div>
+                            </div>
+                        </div>
+
+                        <!-- Homework Card -->
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="edu-card homework-card">
+                                <div class="card-illustration">
+                                    <div class="illustration-content">
+                                        <!-- Person with headphones -->
+                                        <div class="person-headphones"></div>
+                                        <!-- Abstract circular element -->
+                                        <div class="abstract-circle"></div>
+                                        <!-- Plant -->
+                                        <div class="plant"></div>
+                                        <!-- Cat -->
+                                        <div class="cat"></div>
+                                        <!-- Lightbulb -->
+                                        <div class="lightbulb">💡</div>
+                                        <!-- Paper -->
+                                        <div class="homework-paper"></div>
+                                    </div>
+                                </div>
+                                <div class="card-label">Assignments</div>
+                            </div>
+                        </div>
+
+                        <!-- Grades Card -->
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="edu-card grades-card">
+                                <div class="card-illustration">
+                                    <div class="illustration-content">
+                                        <!-- Person jumping -->
+                                        <div class="person-jumping"></div>
+                                        <!-- A+ paper -->
+                                        <div class="grade-paper">
+                                            <div class="grade-circle">A+</div>
+                                        </div>
+                                        <!-- Floating paper -->
+                                        <div class="floating-paper"></div>
+                                        <!-- Plants -->
+                                        <div class="plant red-plant"></div>
+                                        <div class="plant grey-plant"></div>
+                                    </div>
+                                </div>
+                                <div class="card-label">Track Your Progress</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    
+    <script>
+        // Basic functionality for the header
+        function toggleMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            menuToggle.classList.toggle('active');
+            // Add menu functionality here if needed
+        }
+        
+        function toggleFocusMode() {
+            const focusToggle = document.getElementById('focusModeToggle');
+            focusToggle.classList.toggle('active');
+            
+            if (focusToggle.classList.contains('active')) {
+                // Focus mode is on
+                document.body.style.filter = 'blur(5px)';
+                focusToggle.querySelector('iconify-icon').setAttribute('icon', 'material-symbols:visibility');
+            } else {
+                // Focus mode is off
+                document.body.style.filter = 'none';
+                focusToggle.querySelector('iconify-icon').setAttribute('icon', 'material-symbols:visibility-off');
+            }
+        }
+        
+        function openNotifications() {
+            // Add notifications functionality here
+            alert('Notifications panel would open here');
+        }
+        
+        function openMathematicsCommunity() {
+            // Add community functionality here
+            alert('Mathematics community would open here');
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Any initialization code can go here
+        });
+    </script>
+</body>
+</html>

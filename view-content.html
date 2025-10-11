@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Content | IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Main Container */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            padding: 2rem 1rem;
+            margin-top: 60px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header Section */
+        .content-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .course-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .header-info h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .breadcrumb-text {
+            color: #64748b;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .teacher-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .assistant-badge {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        /* File Card */
+        .file-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .file-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .file-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .file-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.25);
+            border-color: #667eea;
+        }
+
+        .file-icon-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e9f0ff 100%);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .file-card:hover .file-icon-container {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .file-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .file-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .file-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .meta-item iconify-icon {
+            font-size: 1.1rem;
+            color: #667eea;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .file-card:hover .play-button {
+            transform: scale(1.15);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        /* Empty State */
+        .empty-state {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 5rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .empty-state-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e9f0ff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            color: #64748b;
+            font-size: 1.05rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-details {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .content-header {
+                padding: 1.5rem;
+            }
+
+            .header-info h1 {
+                font-size: 1.5rem;
+            }
+
+            .file-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Video & PDF Type Styles */
+        .video-card .file-icon-container {
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe9f0 100%);
+        }
+
+        .pdf-card .file-icon-container {
+            background: linear-gradient(135deg, #f0fff4 0%, #e9f9f0 100%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Back Button -->
+    <button class="back-button" onclick="history.back()" title="Back">
+        <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1.5rem; color: #667eea;"></iconify-icon>
+    </button>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Header -->
+            <div class="content-header">
+                <div class="header-top">
+                    <div class="course-icon" id="courseIcon">
+                        📚
+                    </div>
+                    <div class="header-info">
+                        <h1 id="pageTitle">Loading...</h1>
+                        <div class="breadcrumb-text" id="breadcrumb">
+                            <iconify-icon icon="material-symbols:folder"></iconify-icon>
+                            <span>...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="type-badge" id="typeBadge"></div>
+            </div>
+
+            <!-- Content Container -->
+            <div id="contentContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const folderName = urlParams.get('folder');
+        const folderId = urlParams.get('folderId');
+        const type = urlParams.get('type');
+
+        // Determine course from URL parameter or referrer
+        const courseParam = urlParams.get('course');
+        let courseName = courseParam || 'mathematics';
+        
+        // Detect from referrer if not in URL
+        if (document.referrer.includes('physics-lectures')) {
+            courseName = 'physics';
+        } else if (document.referrer.includes('english-lectures')) {
+            courseName = 'english';
+        } else if (document.referrer.includes('mathematics-lectures')) {
+            courseName = 'mathematics';
+        }
+        
+        // Also check the category - certain categories belong to specific courses
+        if (category) {
+            const physicsCategories = ['mechanics', 'electricity', 'waves', 'thermodynamics', 'optics'];
+            const englishCategories = ['literature', 'grammar', 'writing', 'reading', 'speaking'];
+            
+            if (physicsCategories.includes(category.toLowerCase())) {
+                courseName = 'physics';
+            } else if (englishCategories.includes(category.toLowerCase())) {
+                courseName = 'english';
+            }
+        }
+
+        // Set course icon
+        const courseIcons = {
+            'physics': '⚛️',
+            'english': '📖',
+            'mathematics': '📐'
+        };
+        document.getElementById('courseIcon').textContent = courseIcons[courseName] || '📚';
+
+        console.log('Course detected:', courseName);
+        console.log('Parameters:', { category, folderName, folderId, type });
+
+        // Load and display content
+        function loadContent() {
+            // Load content data
+            const contentData = JSON.parse(localStorage.getItem(`${courseName}ContentData`) || '{}');
+            
+            console.log('Content data:', contentData);
+
+            // Find the main folder
+            const mainFolder = contentData.folders?.find(f => 
+                (f.name === folderName || f.id == folderId) && f.category === category
+            );
+
+            console.log('Main folder found:', mainFolder);
+
+            if (!mainFolder) {
+                showEmptyState('Folder not found', 'The requested folder could not be found.');
+                return;
+            }
+
+            // Find the teacher or assistant subfolder
+            const subfolderName = type === 'teacher' ? 'Teacher Content' : 'Assistant Content';
+            const subfolder = mainFolder.folders?.find(f => f.name === subfolderName);
+
+            console.log('Subfolder found:', subfolder);
+
+            // Update header
+            document.getElementById('pageTitle').textContent = mainFolder.name;
+            
+            const breadcrumbText = `${category.charAt(0).toUpperCase() + category.slice(1)} › ${mainFolder.name} › ${subfolderName}`;
+            document.getElementById('breadcrumb').innerHTML = `
+                <iconify-icon icon="material-symbols:folder"></iconify-icon>
+                <span>${breadcrumbText}</span>
+            `;
+            
+            const typeBadge = document.getElementById('typeBadge');
+            typeBadge.className = `type-badge ${type}-badge`;
+            typeBadge.innerHTML = type === 'teacher' 
+                ? '<iconify-icon icon="material-symbols:school"></iconify-icon><span>Teacher Content</span>'
+                : '<iconify-icon icon="material-symbols:smart-toy"></iconify-icon><span>Assistant Content</span>';
+
+            // Get files
+            const files = subfolder?.files || [];
+
+            console.log('Files:', files);
+
+            if (files.length === 0) {
+                showEmptyState('No Content Available', 'The admin hasn\'t uploaded any files to this section yet. Check back soon!');
+                return;
+            }
+
+            // Display files
+            displayFiles(files);
+        }
+
+        function displayFiles(files) {
+            const container = document.getElementById('contentContainer');
+            
+            const html = `
+                <div class="content-grid">
+                    ${files.map((file, index) => {
+                        const isVideo = file.type === 'video' || file.url?.includes('youtube') || file.url?.includes('youtu.be');
+                        const icon = isVideo ? '🎥' : '📄';
+                        const fileSize = file.size ? formatFileSize(file.size) : 'Unknown size';
+                        const cardClass = isVideo ? 'video-card' : 'pdf-card';
+                        
+                        return `
+                            <div class="file-card ${cardClass}" onclick="openFile('${file.url}')" style="animation-delay: ${index * 0.1}s">
+                                <div class="file-icon-container">
+                                    <span>${icon}</span>
+                                </div>
+                                ${isVideo ? '<div class="play-button"><iconify-icon icon="material-symbols:play-arrow"></iconify-icon></div>' : ''}
+                                <div class="file-name">${file.name}</div>
+                                <div class="file-description">${isVideo ? 'Video Lecture' : 'PDF Document'}</div>
+                                <div class="file-meta">
+                                    <div class="meta-item">
+                                        <iconify-icon icon="${isVideo ? 'material-symbols:video-library' : 'material-symbols:picture-as-pdf'}"></iconify-icon>
+                                        <span>${isVideo ? 'Video' : 'PDF'}</span>
+                                    </div>
+                                    <div class="meta-item">
+                                        <iconify-icon icon="material-symbols:folder-data"></iconify-icon>
+                                        <span>${fileSize}</span>
+                                    </div>
+                                    ${file.duration ? `
+                                    <div class="meta-item">
+                                        <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                                        <span>${file.duration}</span>
+                                    </div>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        function openFile(url) {
+            window.open(url, '_blank');
+        }
+
+        function showEmptyState(title, message) {
+            const container = document.getElementById('contentContainer');
+            const icon = type === 'teacher' ? 'material-symbols:school' : 'material-symbols:smart-toy';
+            
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <iconify-icon icon="${icon}" style="color: #667eea;"></iconify-icon>
+                    </div>
+                    <h3>${title}</h3>
+                    <p>${message}</p>
+                    <div class="empty-details">
+                        <strong>Looking for:</strong><br>
+                        ${category?.charAt(0).toUpperCase() + category?.slice(1)} › ${folderName} › ${type === 'teacher' ? 'Teacher Content' : 'Assistant Content'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatFileSize(sizeStr) {
+            // If it's already formatted (e.g., "25 MB"), return as is
+            if (typeof sizeStr === 'string' && sizeStr.includes(' ')) {
+                return sizeStr;
+            }
+            
+            // If it's a number, format it
+            const bytes = typeof sizeStr === 'string' ? parseFloat(sizeStr) : sizeStr;
+            
+            if (isNaN(bytes) || bytes === 0) return 'Unknown size';
+            
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Initialize
+        loadContent();
+    </script>
+</body>
+</html>

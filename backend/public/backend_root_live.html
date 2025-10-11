@@ -1,0 +1,2354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG Nation</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="style.css?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        body {
+            background-color: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Course Card Styles */
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-image {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .course-card:hover .course-image img {
+            transform: scale(1.05);
+        }
+
+        .course-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .featured-badge {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .favorite-button {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .favorite-button:hover {
+            transform: scale(1.1);
+            background: #dc3545;
+            color: white;
+        }
+
+        .course-content {
+            padding: 2rem;
+        }
+
+        .course-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .course-description {
+            color: #64748b;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructor-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructor-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .instructor-info {
+            flex: 1;
+        }
+
+        .instructor-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        .instructor-board {
+            color: #64748b;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+
+        .rating-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 2px;
+        }
+
+        .star {
+            color: #fbbf24;
+            font-size: 1rem;
+        }
+
+        .rating-text {
+            color: #64748b;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .pricing-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .current-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .original-price {
+            font-size: 1rem;
+            color: #94a3b8;
+            text-decoration: line-through;
+        }
+
+        .discount-badge {
+            background: #dc2626;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .enroll-button, .cart-button {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .enroll-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .enroll-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .cart-button {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+        }
+
+        .cart-button:hover {
+            background: #1e3d6f;
+            color: white;
+            border-color: #1e3d6f;
+            transform: translateY(-2px);
+        }
+
+        /* Filter Styles */
+        .subject-filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .subject-filter {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-filter:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .subject-filter.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .filter-count {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 8px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .subject-filter.active .filter-count {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        /* Sort Option Styles */
+        .sort-option {
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #64748b;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sort-option:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .sort-option.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* WhatsApp Chat Button Styles */
+        .nav-link[onclick="openWhatsAppChat()"] {
+            transition: all 0.3s ease !important;
+            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+        }
+
+        .nav-link[onclick="openWhatsAppChat()"]:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4) !important;
+            background: linear-gradient(135deg, #128c7e, #25d366) !important;
+        }
+
+        .nav-link[onclick="openWhatsAppChat()"]:active {
+            transform: translateY(0) !important;
+            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .subject-filters {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .subject-filter {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+            
+            .sort-section {
+                margin-top: 1rem;
+            }
+            
+            .sort-section .d-flex {
+                justify-content: center !important;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+            }
+
+            /* WhatsApp button responsive */
+            .nav-link[onclick="openWhatsAppChat()"] {
+                padding: 6px 12px !important;
+                font-size: 0.85rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Top Utility Bar -->
+<div class="top-utility-bar" style="position:relative; height:60px;">
+  <div class="container-fluid" style="position:relative; height:100%;">
+    
+    <!-- Centered Logo -->
+    <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);">
+      <a href="index.html">
+        <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height:45px; width:auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: all 0.3s ease;">
+      </a>
+    </div>
+
+      <!-- Right-aligned Utility Links -->
+      <div style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:15px; font-size:13px;">
+        
+        <!-- User Name Display -->
+        <div id="userNameDisplay" style="display:none;">
+          <span class="text-primary fw-bold" id="displayUserName">User</span>
+        </div>
+
+        <!-- Cart Button -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#cartModal" style="text-decoration:none; color:#000; display:flex; align-items:center; position:relative;">
+          <iconify-icon icon="material-symbols:shopping-cart" style="margin-right:5px;"></iconify-icon>
+          Cart <span class="badge bg-primary ms-1" id="cartCount">0</span>
+        </a>
+
+        <!-- Favorites -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#favoritesModal" style="text-decoration:none; color:#000; display:flex; align-items:center;">
+          <iconify-icon icon="material-symbols:favorite" style="margin-right:5px;"></iconify-icon>
+          Favorites
+        </a>
+      </div>
+  </div>
+</div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="main-navigation">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-7">
+                    <ul class="nav-menu d-flex list-unstyled mb-0">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link active">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="courses.html" class="nav-link">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="about.html" class="nav-link">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contact.html" class="nav-link">Contact Us</a>
+                        </li>
+                        <!-- FAQ removed -->
+                        <li class="nav-item">
+                            <a href="community.html" class="nav-link">Community</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" onclick="openWhatsAppChat()" style="background: linear-gradient(135deg, #25d366, #128c7e); color: white; border-radius: 20px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                                <iconify-icon icon="logos:whatsapp-icon" style="font-size: 1.1rem;"></iconify-icon>
+                                Chat with Staff
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-5">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <a href="#" class="btn btn-outline-secondary login-btn" data-bs-toggle="modal" data-bs-target="#loginModal" style="font-size: 14px; padding: 8px 16px;">
+                            <iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>
+                            Login
+                        </a>
+                        <a href="#" class="btn btn-primary register-btn" data-bs-toggle="modal" data-bs-target="#registerModal" style="font-size: 14px; padding: 8px 16px;">
+                            <iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>
+                            Register Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 text-center">
+                    <div class="hero-image-container">
+                        <img src="images/online-learning-hero-new.jpg" alt="Online Learning Platform - Students and Instructor" class="img-fluid hero-main-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Selling Courses Section -->
+    <section id="top-selling" class="padding-medium" style="background: #f8fafc; padding: 80px 0;">
+        <div class="container">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title" style="font-size: 2.5rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">Check our <span class="text-primary">Top Selling Courses</span></h2>
+                <p class="section-subtitle" style="font-size: 1.1rem; color: #64748b; max-width: 600px; margin: 0 auto;">Explore our comprehensive collection of IGCSE courses designed by expert educators.</p>
+            </div>
+            
+            <!-- Course Filter and Sort Section -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="course-controls" style="background: white; padding: 2.5rem; border-radius: 24px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1); margin-bottom: 3rem; border: 1px solid rgba(102, 126, 234, 0.1);">
+                        <div class="row align-items-center">
+                            <div class="col-lg-8 mb-4 mb-lg-0">
+                                <div class="filter-section">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <iconify-icon icon="material-symbols:filter-list" class="me-2" style="color: #667eea; font-size: 1.5rem;"></iconify-icon>
+                                        <h5 class="mb-0" style="color: #1e293b; font-weight: 700;">Filter by Subject</h5>
+                                    </div>
+                                    <div class="subject-filters">
+                                        <button class="subject-filter active" data-filter="*">
+                                            <iconify-icon icon="material-symbols:apps" class="me-2"></iconify-icon>
+                                            All Courses
+                                            <span class="filter-count" id="all-count">3</span>
+                                        </button>
+                                        <button class="subject-filter" data-filter=".mathematics">
+                                            <iconify-icon icon="material-symbols:calculate" class="me-2"></iconify-icon>
+                                            Mathematics
+                                            <span class="filter-count" id="math-count">1</span>
+                                        </button>
+                                        <button class="subject-filter" data-filter=".physics">
+                                            <iconify-icon icon="material-symbols:science" class="me-2"></iconify-icon>
+                                            Physics
+                                            <span class="filter-count" id="physics-count">1</span>
+                                        </button>
+                                        <button class="subject-filter" data-filter=".chemistry">
+                                            <iconify-icon icon="material-symbols:biotech" class="me-2"></iconify-icon>
+                                            Chemistry
+                                            <span class="filter-count" id="chemistry-count">0</span>
+                                        </button>
+                                        <button class="subject-filter" data-filter=".english">
+                                            <iconify-icon icon="material-symbols:menu-book" class="me-2"></iconify-icon>
+                                            English
+                                            <span class="filter-count" id="english-count">1</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="sort-section">
+                                    <div class="d-flex align-items-center justify-content-end mb-3">
+                                        <h6 class="mb-0 me-3" style="color: #64748b; font-weight: 600;">Sort:</h6>
+                                        <button class="sort-option active" data-sort="featured" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: 600; font-size: 0.9rem;">
+                                            <iconify-icon icon="material-symbols:star" class="me-2"></iconify-icon>
+                                            Featured
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4 isotope-container">
+                <div class="col-md-4 item mathematics">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <a href="course-details.html?course=mathematics">
+                                <img src="images/teacher1.png" class="img-fluid" alt="IGCSE Mathematics Course">
+                            </a>
+                            <div class="course-badge featured-badge">
+                                <iconify-icon icon="material-symbols:star" class="me-1"></iconify-icon>
+                                Featured
+                            </div>
+                            <button class="favorite-button" data-course="mathematics" onclick="toggleFavorite('mathematics')">
+                                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+                            </button>
+                        </div>
+                        <div class="course-content">
+                            <a href="course-details.html?course=mathematics" style="text-decoration: none;">
+                                <h5 class="course-title">IGCSE Mathematics (Extended)</h5>
+                            </a>
+                            <p class="course-description">Master advanced mathematical concepts with comprehensive coverage of IGCSE Extended Mathematics curriculum.</p>
+                            
+                            <div class="instructor-card">
+                                <div class="instructor-avatar">SM</div>
+                                <div class="instructor-info">
+                                    <p class="instructor-name">Dr. Sarah Mitchell</p>
+                                    <p class="instructor-board">Cambridge Board</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rating-section">
+                                <div class="star-rating">
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                </div>
+                                <span class="rating-text">4.9 (127 reviews)</span>
+                            </div>
+                            
+                            <div class="pricing-section">
+                                <div class="price-container">
+                                    <span class="current-price">£299.00</span>
+                                    <span class="original-price">£399.00</span>
+                                </div>
+                                <div class="discount-badge">25% OFF</div>
+                            </div>
+                            
+                            <div class="course-actions">
+                                <button onclick="enrollInCourse('mathematics')" class="enroll-button">
+                                    <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                                    Enroll Now
+                                </button>
+                                <button class="cart-button" data-course="mathematics" onclick="addToCart('mathematics')">
+                                    <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 item physics">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <a href="course-details.html?course=physics">
+                                <img src="images/teacher2.png" class="img-fluid" alt="IGCSE Physics Course">
+                            </a>
+                            <div class="course-badge">
+                                <iconify-icon icon="material-symbols:science" class="me-1"></iconify-icon>
+                                Popular
+                            </div>
+                            <button class="favorite-button" data-course="physics" onclick="toggleFavorite('physics')">
+                                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+                            </button>
+                        </div>
+                        <div class="course-content">
+                            <a href="course-details.html?course=physics" style="text-decoration: none;">
+                                <h5 class="course-title">IGCSE Physics (Extended)</h5>
+                            </a>
+                            <p class="course-description">Master fundamental physics concepts with comprehensive coverage of IGCSE Extended Physics curriculum including mechanics, waves, and electricity.</p>
+                            
+                            <div class="instructor-card">
+                                <div class="instructor-avatar">MC</div>
+                                <div class="instructor-info">
+                                    <p class="instructor-name">Prof. Michael Chen</p>
+                                    <p class="instructor-board">Edexcel Board</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rating-section">
+                                <div class="star-rating">
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                </div>
+                                <span class="rating-text">4.8 (98 reviews)</span>
+                            </div>
+                            
+                            <div class="pricing-section">
+                                <div class="price-container">
+                                    <span class="current-price">£279.00</span>
+                                    <span class="original-price">£349.00</span>
+                                </div>
+                                <div class="discount-badge">20% OFF</div>
+                            </div>
+                            
+                            <div class="course-actions">
+                                <button onclick="enrollInCourse('physics')" class="enroll-button">
+                                    <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                                    Enroll Now
+                                </button>
+                                <button class="cart-button" data-course="physics" onclick="addToCart('physics')">
+                                    <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 item english">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <a href="course-details.html?course=english">
+                                <img src="images/teacher3.png" class="img-fluid" alt="IGCSE English Language Course">
+                            </a>
+                            <div class="course-badge featured-badge">
+                                <iconify-icon icon="material-symbols:star" class="me-1"></iconify-icon>
+                                Featured
+                            </div>
+                            <button class="favorite-button" data-course="english" onclick="toggleFavorite('english')">
+                                <iconify-icon icon="mdi:heart-outline" style="font-size: 1.2rem; color: #dc3545;"></iconify-icon>
+                            </button>
+                        </div>
+                        <div class="course-content">
+                            <a href="course-details.html?course=english" style="text-decoration: none;">
+                                <h5 class="course-title">IGCSE English Language</h5>
+                            </a>
+                            <p class="course-description">Master English language skills with comprehensive coverage of reading, writing, speaking, and listening for IGCSE success.</p>
+                            
+                            <div class="instructor-card">
+                                <div class="instructor-avatar">ER</div>
+                                <div class="instructor-info">
+                                    <p class="instructor-name">Dr. Emily Rodriguez</p>
+                                    <p class="instructor-board">Cambridge Board</p>
+                                </div>
+                            </div>
+                            
+                            <div class="rating-section">
+                                <div class="star-rating">
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                    <iconify-icon icon="clarity:star-solid" class="star"></iconify-icon>
+                                </div>
+                                <span class="rating-text">4.9 (156 reviews)</span>
+                            </div>
+                            
+                            <div class="pricing-section">
+                                <div class="price-container">
+                                    <span class="current-price">£249.00</span>
+                                    <span class="original-price">£329.00</span>
+                                </div>
+                                <div class="discount-badge">24% OFF</div>
+                            </div>
+                            
+                            <div class="course-actions">
+                                <button onclick="enrollInCourse('english')" class="enroll-button">
+                                    <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                                    Enroll Now
+                                </button>
+                                <button class="cart-button" data-course="english" onclick="addToCart('english')">
+                                    <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="service" class="padding-medium">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="display-5 fw-semibold">Why to <span class="text-primary"> choose us</span></h2>
+                <p class="secondary-font">We provide the best online learning experience</p>
+            </div>
+            
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="service-item text-center">
+                        <iconify-icon icon="material-symbols:school" class="fs-1 text-primary mb-3"></iconify-icon>
+                        <h5>Expert Teachers</h5>
+                        <p>Learn from experienced and qualified instructors</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item text-center">
+                        <iconify-icon icon="material-symbols:schedule" class="fs-1 text-primary mb-3"></iconify-icon>
+                        <h5>Flexible Schedule</h5>
+                        <p>Study at your own pace and time</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item text-center">
+                        <iconify-icon icon="material-symbols:support" class="fs-1 text-primary mb-3"></iconify-icon>
+                        <h5>24/7 Support</h5>
+                        <p>Get help whenever you need it</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievement Section -->
+    <section id="achivement" style="background-color: #f5f5f5;">
+        <div class="container padding-medium">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="images/topic.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">300+ Topics</h4>
+                        <p class="text-uppercase">choose your choice</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="images/student.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">1000+ Students</h4>
+                        <p class="text-uppercase">bright future</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="images/instruction.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">300+ Instructors</h4>
+                        <p class="text-uppercase">trained professionals</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="images/award.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">120+ Awards</h4>
+                        <p class="text-uppercase">hard process</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section id="testimonial" style="background-image:url(images/background-img.jpg); background-repeat: no-repeat;">
+        <div class="container padding-medium">
+            <div class="text-center">
+                <h2 class="display-5 fw-semibold">see what our <span class="text-primary"> learners say</span></h2>
+                <p class="secondary-font">Here we got the real proof to express our work. Our learners expressed our work.</p>
+            </div>
+            <div class="row">
+                <div class="offset-md-1 col-md-10">
+                    <div class="swiper testimonial-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">أحمد محمد علي</h5>
+                                    <p class="text-muted">IGCSE Mathematics Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"IG Way completely transformed my understanding of mathematics. The teachers are incredibly patient and explain complex concepts in simple terms. I went from struggling with basic algebra to scoring A* in my IGCSE exams. The interactive lessons and practice materials made learning enjoyable!"</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">فاطمة السيد</h5>
+                                    <p class="text-muted">IGCSE Physics Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"The physics course at IG Way is outstanding! Dr. Michael's teaching methods helped me understand difficult concepts like electricity and magnetism. The practical examples and real-world applications made everything click. I highly recommend this platform to anyone serious about IGCSE success."</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">محمد حسن</h5>
+                                    <p class="text-muted">IGCSE English Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"English was always my weakest subject, but IG Way changed everything. The structured approach to essay writing and comprehension skills really helped me improve. The feedback from teachers was detailed and constructive. I achieved a grade I never thought possible!"</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">نور الدين أحمد</h5>
+                                    <p class="text-muted">IGCSE Chemistry Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"The chemistry course exceeded my expectations. The step-by-step explanations of chemical reactions and equations made everything clear. The practice tests and past paper solutions were invaluable for my exam preparation. Thank you IG Way for helping me achieve my goals!"</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">ياسمين محمود</h5>
+                                    <p class="text-muted">IGCSE Biology Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"Biology became my favorite subject thanks to IG Way! The visual diagrams and interactive content made learning about cells and human anatomy so much easier. The teachers are always available to answer questions and provide extra help when needed."</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">عبد الرحمن خالد</h5>
+                                    <p class="text-muted">IGCSE Computer Science Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"The computer science course at IG Way is top-notch! The programming concepts were explained clearly with practical examples. The coding exercises and projects helped me develop strong programming skills. I'm now confident about pursuing computer science at university level."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container padding-medium">
+            <div class="row">
+                <div class="col-md-4 my-3">
+                    <h5 class="text-uppercase fw-bold mb-4">Contact us</h5>
+                    <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="mdi:location" style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Address: </span> New Cairo, Egypt</p>
+                    <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="solar:phone-bold" style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Phone: </span> 01027500835</p>
+                    <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email" style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Email: </span> info@igway.com</p>
+                </div>
+                <div class="col-md-2 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">Links</h5>
+                        <ul class="menu-list list-unstyled">
+                            <li class="menu-item mb-2">
+                                <a href="#top" class="footer-link" onclick="scrollToTop()">Home</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="about.html" class="footer-link">About us</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="courses.html" class="footer-link">Courses</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="contact.html" class="footer-link">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">support</h5>
+                        <ul class="menu-list list-unstyled">
+                                <!-- FAQ removed -->
+                            <li class="menu-item mb-2">
+                                <a href="https://wa.me/201027500835" target="_blank" class="footer-link">Support</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">Follow us</h5>
+                        <div class="social-links mt-4">
+                            <ul class="d-flex list-unstyled gap-3">
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2" icon="ri:facebook-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2" icon="ri:instagram-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2" icon="ri:youtube-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Footer Bottom -->
+    <div id="footer-bottom">
+        <hr class="m-0 text-black-50">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0 text-muted" style="font-size: 0.9rem; letter-spacing: 0.5px;">
+                        <span style="color: #667eea; font-weight: 600;">IG Nation</span> 
+                        <span class="mx-2">•</span> 
+                        Copyright © 2025 All Rights Reserved
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" id="loginEmail" class="form-control" autocapitalize="off" autocorrect="off" spellcheck="false" required style="text-transform: lowercase;" oninput="this.value = this.value.toLowerCase()" onkeyup="this.value = this.value.toLowerCase()" onblur="this.value = this.value.toLowerCase()">
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" id="loginPassword" class="form-control" required autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')" oninput="togglePasswordIconVisibility()">
+                                <button class="btn btn-outline-secondary" type="button" id="loginPasswordToggleBtn" onclick="togglePasswordVisibility('loginPassword', 'loginPasswordToggle')" style="display:none;">
+                                    <iconify-icon id="loginPasswordToggle" icon="material-symbols:visibility-off"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 text-end">
+                            <a href="#" class="text-primary" onclick="showForgotPassword()">Forgot Password?</a>
+                        </div>
+                        <button type="button" class="btn btn-primary w-100" onclick="handleLoginClick()">
+                            <iconify-icon icon="material-symbols:login" class="me-2"></iconify-icon>
+                            Log In
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Register Now</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">First Name *</label>
+                                <input type="text" id="firstName" class="form-control" autocapitalize="none" autocorrect="off" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Last Name *</label>
+                                <input type="text" id="lastName" class="form-control" autocapitalize="none" autocorrect="off" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email Address *</label>
+                            <input type="email" id="email" class="form-control" autocapitalize="off" autocorrect="off" spellcheck="false" required style="text-transform: lowercase;" oninput="this.value = this.value.toLowerCase()" onkeyup="this.value = this.value.toLowerCase()" onblur="this.value = this.value.toLowerCase()">
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Student Phone Number</label>
+                            <input type="tel" id="phone" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="parentPhone" class="form-label">Parent/Guardian Phone Number *</label>
+                            <input type="tel" id="parentPhone" class="form-control" required>
+                            <div class="form-text">Required for student registration and communication</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password *</label>
+                            <div class="input-group">
+                                <input type="password" id="password" class="form-control" required minlength="6">
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('password', 'passwordToggle')">
+                                    <iconify-icon id="passwordToggle" icon="material-symbols:visibility-off"></iconify-icon>
+                                </button>
+                            </div>
+                            <div class="form-text">Password must be at least 6 characters long</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm Password *</label>
+                            <div class="input-group">
+                                <input type="password" id="confirmPassword" class="form-control" required>
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('confirmPassword', 'confirmPasswordToggle')">
+                                    <iconify-icon id="confirmPasswordToggle" icon="material-symbols:visibility-off"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                I agree to the <a href="#" class="text-primary">Terms and Conditions</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                            </label>
+                        </div>
+                        <button type="button" class="btn btn-primary w-100" onclick="handleRegisterClick()">
+                            <iconify-icon icon="material-symbols:person-add" class="me-2"></iconify-icon>
+                            Register Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reset Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Step 1: Enter Email -->
+                    <div id="forgotPasswordStep1">
+                        <p class="text-muted mb-4">Enter your email address and we'll send you a verification code to reset your password.</p>
+                        <div class="mb-3">
+                            <label for="forgotEmail" class="form-label">Email Address</label>
+                            <input type="email" id="forgotEmail" class="form-control" required>
+                        </div>
+                        <button type="button" class="btn btn-primary w-100 mb-2" onclick="sendVerificationCode()">
+                            <iconify-icon icon="material-symbols:send" class="me-2"></iconify-icon>
+                            Send Verification Code
+                        </button>
+                        <div class="text-center">
+                            <p class="text-muted mb-0">Don't have an account?</p>
+                            <a href="#" class="text-primary" onclick="switchToRegister()">Register Now</a>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Enter Verification Code -->
+                    <div id="forgotPasswordStep2" style="display: none;">
+                        <p class="text-muted mb-4">We've sent a 6-digit verification code to <strong id="verificationEmail"></strong>. Please enter it below.</p>
+                        <div class="mb-3">
+                            <label for="verificationCode" class="form-label">Verification Code</label>
+                            <input type="text" id="verificationCode" class="form-control text-center" maxlength="6" required>
+                        </div>
+                        <div class="mb-3 text-center">
+                            <a href="#" class="text-primary" onclick="resendVerificationCode()">Resend Code</a>
+                        </div>
+                        <button type="button" class="btn btn-primary w-100" onclick="verifyCode()">
+                            <iconify-icon icon="material-symbols:verified" class="me-2"></iconify-icon>
+                            Verify Code
+                        </button>
+                    </div>
+
+                    <!-- Step 3: Enter New Password -->
+                    <div id="forgotPasswordStep3" style="display: none;">
+                        <p class="text-muted mb-4">Enter your new password below.</p>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" id="newPassword" class="form-control" required minlength="6">
+                            <div class="form-text">Password must be at least 6 characters long</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                            <input type="password" id="confirmNewPassword" class="form-control" required>
+                        </div>
+                        <button type="button" class="btn btn-success w-100" onclick="resetPassword()">
+                            <iconify-icon icon="material-symbols:lock-reset" class="me-2"></iconify-icon>
+                            Reset Password
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:shopping-cart" class="me-2 text-primary"></iconify-icon>
+                        Your Cart <span class="badge bg-primary ms-2" id="cartModalCount">0</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartList">
+                        <div class="text-center text-muted py-4">
+                            <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+                            <p>Your cart is empty. Start adding courses to your cart!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary" id="checkoutBtn" disabled onclick="proceedToCheckout()">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div class="modal fade" id="favoritesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:favorite" class="me-2 text-danger"></iconify-icon>
+                        Your Favorites
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="favoritesList">
+                        <div class="text-center text-muted py-4">
+                            <iconify-icon icon="material-symbols:favorite-outline" class="fs-1 mb-3"></iconify-icon>
+                            <p>No favorite courses yet. Start adding courses to your favorites!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/script.js?v=4"></script>
+    <script src="js/api.js"></script>
+    
+    <script>
+        // Global variables
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Check login state and update UI
+        function checkLoginState() {
+            const isLoggedIn = localStorage.getItem('userLoggedIn');
+            const userName = localStorage.getItem('userName');
+            
+            if (isLoggedIn) {
+                // Show user name in utility bar
+                const userNameDisplay = document.getElementById('userNameDisplay');
+                const displayUserName = document.getElementById('displayUserName');
+                if (userNameDisplay && displayUserName) {
+                    userNameDisplay.style.display = 'block';
+                    displayUserName.textContent = userName || 'User';
+                }
+                
+                // Hide login and register buttons, show logout
+                const loginBtn = document.querySelector('.login-btn');
+                const registerBtn = document.querySelector('.register-btn');
+                
+                if (loginBtn) {
+                    loginBtn.style.display = 'none';
+                }
+                
+                if (registerBtn) {
+                    registerBtn.innerHTML = `<iconify-icon icon="material-symbols:logout" class="me-1"></iconify-icon>Logout`;
+                    registerBtn.classList.remove('btn-primary');
+                    registerBtn.classList.add('btn-outline-danger');
+                    registerBtn.setAttribute('onclick', 'logout()');
+                    registerBtn.removeAttribute('data-bs-target');
+                }
+            } else {
+                // Hide user name in utility bar
+                const userNameDisplay = document.getElementById('userNameDisplay');
+                if (userNameDisplay) {
+                    userNameDisplay.style.display = 'none';
+                }
+                
+                // Show login and register buttons
+                const loginBtn = document.querySelector('.login-btn');
+                const registerBtn = document.querySelector('.register-btn');
+                
+                if (loginBtn) {
+                    loginBtn.style.display = 'inline-block';
+                    loginBtn.innerHTML = `<iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>Login`;
+                    loginBtn.classList.remove('btn-success');
+                    loginBtn.classList.add('btn-outline-secondary');
+                    loginBtn.setAttribute('data-bs-target', '#loginModal');
+                    loginBtn.removeAttribute('onclick');
+                }
+                
+                if (registerBtn) {
+                    registerBtn.style.display = 'inline-block';
+                    registerBtn.innerHTML = `<iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>Register Now`;
+                    registerBtn.classList.remove('btn-outline-danger');
+                    registerBtn.classList.add('btn-primary');
+                    registerBtn.setAttribute('data-bs-target', '#registerModal');
+                    registerBtn.removeAttribute('onclick');
+                }
+            }
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            showToast('Logged out successfully', 'info');
+            checkLoginState();
+        }
+
+        // Add activity function (shared with dashboard)
+        function addActivity(title, description, type, icon) {
+            const activities = JSON.parse(localStorage.getItem('recentActivities')) || [];
+            const newActivity = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                type: type,
+                icon: icon,
+                timestamp: new Date().toISOString()
+            };
+            
+            activities.unshift(newActivity);
+            
+            // Keep only last 10 activities
+            if (activities.length > 10) {
+                activities.splice(10);
+            }
+            
+            localStorage.setItem('recentActivities', JSON.stringify(activities));
+        }
+
+        // Toggle password visibility
+        function togglePasswordVisibility(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('icon', 'material-symbols:visibility');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('icon', 'material-symbols:visibility-off');
+            }
+        }
+
+        function togglePasswordIconVisibility() {
+            const passwordInput = document.getElementById('loginPassword');
+            const toggleBtn = document.getElementById('loginPasswordToggleBtn');
+            
+            if (passwordInput.value.length > 0) {
+                toggleBtn.style.display = 'block';
+            } else {
+                toggleBtn.style.display = 'none';
+            }
+        }
+
+        // Clear registration form data
+        function clearRegistrationData() {
+            const formFields = ['firstName', 'lastName', 'email', 'phone', 'parentPhone', 'password', 'confirmPassword'];
+            const checkboxFields = ['agreeTerms'];
+            
+            // Clear text inputs
+            formFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.value = '';
+                }
+            });
+            
+            // Clear checkboxes
+            checkboxFields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.checked = false;
+                }
+            });
+        }
+
+        // Course data
+        const courses = {
+            mathematics: {
+                title: 'IGCSE Mathematics (Extended)',
+                instructor: 'Dr. Sarah Mitchell',
+                board: 'Cambridge Board',
+                price: '£299.00',
+                originalPrice: '£399.00',
+                rating: 4.9,
+                image: 'images/teacher1.png'
+            },
+            physics: {
+                title: 'IGCSE Physics (Extended)',
+                instructor: 'Prof. Michael Chen',
+                board: 'Edexcel Board',
+                price: '£279.00',
+                originalPrice: '£349.00',
+                rating: 4.8,
+                image: 'images/teacher2.png'
+            },
+            english: {
+                title: 'IGCSE English Language',
+                instructor: 'Dr. Emily Rodriguez',
+                board: 'Cambridge Board',
+                price: '£249.00',
+                originalPrice: '£329.00',
+                rating: 4.9,
+                image: 'images/teacher3.png'
+            }
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded successfully!');
+            
+            // Force logout on every visit - only clear authentication data
+            localStorage.removeItem('userLoggedIn');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userPhone');
+            localStorage.removeItem('authToken');
+            
+            // Clear password field when login modal opens
+            document.getElementById('loginModal').addEventListener('show.bs.modal', function () {
+                setTimeout(() => {
+                    document.getElementById('loginPassword').value = '';
+                }, 50);
+            });
+            
+            // Keep user preferences and data
+            // localStorage.removeItem('cart'); // Keep cart for checkout
+            // localStorage.removeItem('favorites'); // Keep favorites
+            // localStorage.removeItem('enrolledCourses'); // Keep enrollments
+            // localStorage.removeItem('recentActivities'); // Keep activities
+            // localStorage.removeItem('previousEnrollments'); // Keep previous enrollments
+            
+            // Clear any registration form data
+            clearRegistrationData();
+            
+            checkLoginState();
+            updateCartCount();
+            updateCartModal();
+            updateFavoritesModal();
+            
+            // Reset password visibility when modals are shown
+            document.getElementById('loginModal').addEventListener('show.bs.modal', function() {
+                const loginPasswordInput = document.getElementById('loginPassword');
+                const loginPasswordToggle = document.getElementById('loginPasswordToggle');
+                if (loginPasswordInput && loginPasswordToggle) {
+                    loginPasswordInput.type = 'password';
+                    loginPasswordToggle.setAttribute('icon', 'material-symbols:visibility-off');
+                }
+            });
+            
+            document.getElementById('registerModal').addEventListener('show.bs.modal', function() {
+                const passwordInput = document.getElementById('password');
+                const passwordToggle = document.getElementById('passwordToggle');
+                const confirmPasswordInput = document.getElementById('confirmPassword');
+                const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+                
+                if (passwordInput && passwordToggle) {
+                    passwordInput.type = 'password';
+                    passwordToggle.setAttribute('icon', 'material-symbols:visibility-off');
+                }
+                
+                if (confirmPasswordInput && confirmPasswordToggle) {
+                    confirmPasswordInput.type = 'password';
+                    confirmPasswordToggle.setAttribute('icon', 'material-symbols:visibility-off');
+                }
+            });
+            
+            // Initialize Swiper for testimonials
+            if (typeof Swiper !== 'undefined') {
+                const testimonialSwiper = new Swiper('.testimonial-swiper', {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 1,
+                        },
+                        1024: {
+                            slidesPerView: 1,
+                        },
+                    },
+                });
+            }
+        });
+
+        // Cart functions
+        function addToCart(courseId) {
+            console.log('Adding to cart:', courseId);
+            
+            // Check if already in cart
+            const existingItem = cart.find(item => item.courseId === courseId);
+            if (existingItem) {
+                showToast('This course is already in your cart!', 'warning');
+                return;
+            }
+            
+            // Add to cart
+            cart.push({
+                courseId: courseId,
+                quantity: 1,
+                addedAt: new Date().toISOString()
+            });
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartModal();
+            showToast('Course added to cart!', 'success');
+        }
+
+        // Enroll in course function - redirects to checkout
+        function enrollInCourse(courseId) {
+            const isLoggedIn = localStorage.getItem('userLoggedIn');
+            if (!isLoggedIn) {
+                showToast('Please log in to purchase courses', 'warning');
+                // Open login modal
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+                
+                // Clear password field when modal opens
+                setTimeout(() => {
+                    document.getElementById('loginPassword').value = '';
+                }, 100);
+                return;
+            }
+            
+            // Check if already enrolled
+            let enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
+            if (enrolledCourses.includes(courseId)) {
+                showToast('You are already enrolled in this course!', 'info');
+                return;
+            }
+            
+            // Add course to cart with full details
+            const course = courses[courseId];
+            if (!course) {
+                showToast('Course not found!', 'error');
+                return;
+            }
+            
+            const courseData = {
+                courseId: courseId,
+                id: courseId, // For checkout compatibility
+                title: course.title,
+                price: parseFloat(course.price.replace('£', '')), // Convert to number
+                instructor: course.instructor,
+                board: course.board,
+                image: course.image,
+                quantity: 1,
+                addedAt: new Date().toISOString()
+            };
+            
+            // Clear existing cart and add only this course
+            cart = [courseData];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count immediately
+            updateCartCount();
+            
+            showToast(`Preparing ${course.title} for checkout...`, 'success');
+            
+            // Redirect to checkout page with course parameter
+            setTimeout(() => {
+                window.location.href = `checkout.html?course=${courseId}`;
+            }, 1500);
+        }
+
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            const cartBadge = document.getElementById('cartCount');
+            const cartModalCount = document.getElementById('cartModalCount');
+            
+            if (cartBadge) cartBadge.textContent = cartCount;
+            if (cartModalCount) cartModalCount.textContent = cartCount;
+        }
+
+        function updateCartModal() {
+            const cartList = document.getElementById('cartList');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            
+            if (cart.length === 0) {
+                cartList.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+                        <p>Your cart is empty. Start adding courses to your cart!</p>
+                    </div>
+                `;
+                if (checkoutBtn) checkoutBtn.disabled = true;
+            } else {
+                cartList.innerHTML = cart.map(item => {
+                    const course = courses[item.courseId];
+                    if (!course) return '';
+                    
+                    return `
+                        <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+                            <div class="d-flex align-items-center">
+                                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                <div>
+                                    <div class="course-title fw-bold">${course.title}</div>
+                                    <div class="course-instructor text-muted small">${course.instructor} - ${course.board}</div>
+                                    <div class="course-price text-primary fw-bold">${course.price} <span class="text-muted">x${item.quantity}</span></div>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-danger btn-sm" onclick="removeFromCart('${item.courseId}')">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+                if (checkoutBtn) checkoutBtn.disabled = false;
+            }
+        }
+
+        function removeFromCart(courseId) {
+            cart = cart.filter(item => item.courseId !== courseId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            updateCartModal();
+            showToast('Course removed from cart', 'info');
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty!', 'warning');
+                return;
+            }
+            
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('userLoggedIn');
+            if (!isLoggedIn) {
+                showToast('Please log in to proceed to checkout', 'warning');
+                // Open login modal
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+                
+                // Clear password field when modal opens
+                setTimeout(() => {
+                    document.getElementById('loginPassword').value = '';
+                }, 100);
+                return;
+            }
+            
+            // Redirect to checkout page
+            window.location.href = 'checkout.html';
+        }
+
+        // Favorites functions
+        function toggleFavorite(courseId) {
+            const index = favorites.indexOf(courseId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast('Course removed from favorites', 'info');
+            } else {
+                favorites.push(courseId);
+                showToast('Course added to favorites!', 'success');
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoritesModal();
+        }
+
+        function updateFavoritesModal() {
+            const favoritesList = document.getElementById('favoritesList');
+            if (!favoritesList) return;
+            
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <iconify-icon icon="material-symbols:favorite-outline" class="fs-1 mb-3"></iconify-icon>
+                        <p>No favorite courses yet. Start adding courses to your favorites!</p>
+                    </div>
+                `;
+            } else {
+                favoritesList.innerHTML = favorites.map(courseId => {
+                    const course = courses[courseId];
+                    if (!course) return '';
+                    
+                    return `
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+                            <div class="d-flex align-items-center">
+                                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                <div>
+                                    <div class="fw-bold">${course.title}</div>
+                                    <div class="text-muted small">${course.instructor}</div>
+                                    <div class="text-primary fw-bold">${course.price}</div>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-success btn-sm" onclick="purchaseCourseFromFavorites('${courseId}')" title="Purchase Course">
+                                    <iconify-icon icon="material-symbols:payment" class="me-1"></iconify-icon>
+                                    Purchase
+                                </button>
+                                <button class="btn btn-primary btn-sm" onclick="addToCartFromFavorites('${courseId}')" title="Add to Cart">
+                                    <iconify-icon icon="material-symbols:add-shopping-cart" class="me-1"></iconify-icon>
+                                    Add to Cart
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="toggleFavorite('${courseId}')" title="Remove from Favorites">
+                                    <iconify-icon icon="mdi:heart"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Purchase course from favorites
+        function purchaseCourseFromFavorites(courseId) {
+            const isLoggedIn = localStorage.getItem('userLoggedIn');
+            if (!isLoggedIn) {
+                showToast('Please log in to purchase courses', 'warning');
+                // Close favorites modal and open login modal
+                const favoritesModal = bootstrap.Modal.getInstance(document.getElementById('favoritesModal'));
+                if (favoritesModal) favoritesModal.hide();
+                
+                setTimeout(() => {
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                    
+                    // Clear password field when modal opens
+                    setTimeout(() => {
+                        document.getElementById('loginPassword').value = '';
+                    }, 100);
+                }, 300);
+                return;
+            }
+            
+            // Check if already enrolled
+            let enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
+            if (enrolledCourses.includes(courseId)) {
+                showToast('You are already enrolled in this course!', 'info');
+                return;
+            }
+            
+            // Add course to cart with full details
+            const course = courses[courseId];
+            if (!course) {
+                showToast('Course not found!', 'error');
+                return;
+            }
+            
+            const courseData = {
+                courseId: courseId,
+                id: courseId, // For checkout compatibility
+                title: course.title,
+                price: parseFloat(course.price.replace('£', '')), // Convert to number
+                instructor: course.instructor,
+                board: course.board,
+                image: course.image,
+                quantity: 1,
+                addedAt: new Date().toISOString()
+            };
+            
+            // Clear existing cart and add only this course
+            cart = [courseData];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count immediately
+            updateCartCount();
+            
+            showToast(`Preparing ${course.title} for checkout...`, 'success');
+            
+            // Close favorites modal
+            const favoritesModal = bootstrap.Modal.getInstance(document.getElementById('favoritesModal'));
+            if (favoritesModal) favoritesModal.hide();
+            
+            // Redirect to checkout page with course parameter
+            setTimeout(() => {
+                window.location.href = `checkout.html?course=${courseId}`;
+            }, 1500);
+        }
+
+        // Add to cart from favorites
+        function addToCartFromFavorites(courseId) {
+            const course = courses[courseId];
+            if (!course) {
+                showToast('Course not found!', 'error');
+                return;
+            }
+            
+            // Check if already in cart
+            const existingItem = cart.find(item => item.courseId === courseId);
+            if (existingItem) {
+                showToast('This course is already in your cart!', 'warning');
+                return;
+            }
+            
+            // Add to cart with full details
+            const courseData = {
+                courseId: courseId,
+                id: courseId, // For checkout compatibility
+                title: course.title,
+                price: parseFloat(course.price.replace('£', '')), // Convert to number
+                instructor: course.instructor,
+                board: course.board,
+                image: course.image,
+                quantity: 1,
+                addedAt: new Date().toISOString()
+            };
+            
+            cart.push(courseData);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count and modal
+            updateCartCount();
+            updateCartModal();
+            
+            showToast(`${course.title} added to cart!`, 'success');
+        }
+
+        // Function to reset todo lists after login
+        function resetTodoLists() {
+            // Clear all existing todo lists from localStorage
+            localStorage.removeItem('todoLists');
+            console.log('Todo lists reset after login');
+        }
+
+        // Login function - now uses API
+        async function handleLoginClick() {
+            const email = document.getElementById('loginEmail').value.toLowerCase().trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showToast('Please fill in all fields', 'warning');
+                return;
+            }
+            
+            try {
+                console.log('Logging in user:', { email });
+                
+                const response = await fetch('http://localhost:3001/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: email, password, userType: 'student' })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'Login failed');
+                }
+                
+                console.log('Login successful:', data);
+                
+                // Store login state
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userName', data.user.first_name + ' ' + data.user.last_name);
+                localStorage.setItem('userEmail', data.user.email);
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('userId', data.user.id);
+                
+                // Debug: Verify localStorage was set
+                console.log('✅ Login data stored in localStorage:', {
+                    userLoggedIn: localStorage.getItem('userLoggedIn'),
+                    userName: localStorage.getItem('userName'),
+                    userEmail: localStorage.getItem('userEmail'),
+                    authToken: localStorage.getItem('authToken') ? 'Set' : 'Not Set',
+                    userId: localStorage.getItem('userId')
+                });
+                
+                // Reset todo lists after successful login
+                resetTodoLists();
+                
+                // Add login activity
+                addActivity('Welcome Back!', `You've successfully logged in to your account.`, 'primary', 'material-symbols:login');
+                
+                showToast('Login successful!', 'success');
+                
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                if (modal) modal.hide();
+                
+                // Clear form
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                
+                // Reset password visibility to hidden
+                const loginPasswordInput = document.getElementById('loginPassword');
+                const loginPasswordToggle = document.getElementById('loginPasswordToggle');
+                if (loginPasswordInput.type === 'text') {
+                    loginPasswordInput.type = 'password';
+                    loginPasswordToggle.setAttribute('icon', 'material-symbols:visibility-off');
+                }
+                
+                // Update UI
+                checkLoginState();
+                
+                // Sync enrollments from backend and redirect
+                try {
+                    const enrollResponse = await fetch('http://localhost:3001/api/my-enrollments', {
+                        headers: { 'Authorization': `Bearer ${data.token}` }
+                    });
+                    
+                    if (enrollResponse.ok) {
+                        const enrollments = await enrollResponse.json();
+                        const enrolledCourseIds = enrollments.map(e => e.id);
+                        localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourseIds));
+                        
+                        console.log('✅ Synced enrollments:', enrolledCourseIds);
+                        
+                        // Redirect based on enrollments
+                        setTimeout(() => {
+                            if (enrolledCourseIds.length > 0) {
+                                // User has courses - redirect to dashboard
+                                window.location.href = 'test-dashboard.html';
+                            } else {
+                                // No courses yet - redirect to home
+                                window.location.href = 'home.html';
+                            }
+                        }, 1000);
+                    } else {
+                        // If sync fails, just redirect to home
+                        setTimeout(() => {
+                            window.location.href = 'home.html';
+                        }, 1000);
+                    }
+                } catch (error) {
+                    console.error('Error syncing enrollments:', error);
+                    // If sync fails, just redirect to home
+                    setTimeout(() => {
+                        window.location.href = 'home.html';
+                    }, 1000);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showToast('Login failed: ' + error.message, 'error');
+            }
+        }
+
+        // Register function - now uses API
+        async function handleRegisterClick() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.toLowerCase().trim();
+            const phone = document.getElementById('phone').value.trim();
+            const parentPhone = document.getElementById('parentPhone').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const agreeTerms = document.getElementById('agreeTerms').checked;
+            
+            if (!firstName || !lastName || !email || !password || !parentPhone) {
+                showToast('Please fill in all required fields including parent phone number', 'warning');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showToast('Passwords do not match', 'warning');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showToast('Password must be at least 6 characters long', 'warning');
+                return;
+            }
+            
+            if (!agreeTerms) {
+                showToast('Please agree to the Terms and Conditions', 'warning');
+                return;
+            }
+            
+            try {
+                console.log('Registering user:', { firstName, lastName, email, phone, parentPhone });
+                
+                const response = await fetch('http://localhost:3001/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        username: email,
+                        email, 
+                        password,
+                        fullName: `${firstName} ${lastName}`,
+                        userType: 'student'
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Registration failed');
+                }
+                
+                console.log('Registration successful:', data);
+                
+                // Store login state
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userName', data.user.first_name + ' ' + data.user.last_name);
+                localStorage.setItem('userEmail', data.user.email);
+                localStorage.setItem('authToken', data.token);
+                localStorage.setItem('userId', data.user.id);
+                
+                // Add registration activity
+                addActivity('Account Created!', `Welcome to IG Way! Your account has been created successfully.`, 'success', 'material-symbols:person-add');
+                
+                showToast('Registration successful!', 'success');
+                
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+                if (modal) modal.hide();
+                
+                // Clear form
+                document.getElementById('firstName').value = '';
+                document.getElementById('lastName').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('parentPhone').value = '';
+                document.getElementById('password').value = '';
+                document.getElementById('confirmPassword').value = '';
+                document.getElementById('agreeTerms').checked = false;
+                
+                // Reset password visibility to hidden
+                const passwordInput = document.getElementById('password');
+                const passwordToggle = document.getElementById('passwordToggle');
+                const confirmPasswordInput = document.getElementById('confirmPassword');
+                const confirmPasswordToggle = document.getElementById('confirmPasswordToggle');
+                
+                if (passwordInput.type === 'text') {
+                    passwordInput.type = 'password';
+                    passwordToggle.setAttribute('icon', 'material-symbols:visibility-off');
+                }
+                
+                if (confirmPasswordInput.type === 'text') {
+                    confirmPasswordInput.type = 'password';
+                    confirmPasswordToggle.setAttribute('icon', 'material-symbols:visibility-off');
+                }
+                
+                // Update UI
+                checkLoginState();
+                
+                // New users don't have courses yet - always redirect to home
+                setTimeout(() => {
+                    window.location.href = 'home.html';
+                }, 1500);
+            } catch (error) {
+                console.error('Registration error:', error);
+                showToast('Registration failed: ' + error.message, 'error');
+            }
+        }
+
+        // Forgot Password Functions
+        function showForgotPassword() {
+            // Close login modal
+            const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            if (loginModal) loginModal.hide();
+            
+            // Open forgot password modal
+            const forgotModal = new bootstrap.Modal(document.getElementById('forgotPasswordModal'));
+            forgotModal.show();
+            
+            // Reset to step 1
+            resetForgotPasswordSteps();
+        }
+
+        function resetForgotPasswordSteps() {
+            document.getElementById('forgotPasswordStep1').style.display = 'block';
+            document.getElementById('forgotPasswordStep2').style.display = 'none';
+            document.getElementById('forgotPasswordStep3').style.display = 'none';
+            
+            // Clear all inputs
+            document.getElementById('forgotEmail').value = '';
+            document.getElementById('verificationCode').value = '';
+            document.getElementById('newPassword').value = '';
+            document.getElementById('confirmNewPassword').value = '';
+        }
+
+        async function sendVerificationCode() {
+            const email = document.getElementById('forgotEmail').value;
+            
+            if (!email) {
+                showToast('Please enter your email address', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3001/api/forgot-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    // Check if account doesn't exist
+                    if (data.redirectToRegister) {
+                        showToast(data.message, 'warning');
+                        
+                        // Close forgot password modal
+                        const forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+                        if (forgotModal) forgotModal.hide();
+                        
+                        // Show register modal after a short delay
+                        setTimeout(() => {
+                            const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+                            registerModal.show();
+                            
+                            // Pre-fill email in registration form
+                            document.getElementById('email').value = email;
+                        }, 2000);
+                        
+                        return;
+                    }
+                    
+                    throw new Error(data.error || 'Failed to send verification code');
+                }
+                
+                showToast('Verification code sent to your email', 'success');
+                
+                // Move to step 2
+                document.getElementById('forgotPasswordStep1').style.display = 'none';
+                document.getElementById('forgotPasswordStep2').style.display = 'block';
+                document.getElementById('verificationEmail').textContent = email;
+                
+            } catch (error) {
+                console.error('Send verification code error:', error);
+                showToast('Failed to send verification code: ' + error.message, 'error');
+            }
+        }
+
+        async function verifyCode() {
+            const email = document.getElementById('forgotEmail').value;
+            const verificationCode = document.getElementById('verificationCode').value;
+            
+            if (!verificationCode || verificationCode.length !== 6) {
+                showToast('Please enter a valid 6-digit verification code', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3001/api/verify-reset-code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, verificationCode })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Invalid verification code');
+                }
+                
+                showToast('Verification code is valid', 'success');
+                
+                // Move to step 3
+                document.getElementById('forgotPasswordStep2').style.display = 'none';
+                document.getElementById('forgotPasswordStep3').style.display = 'block';
+                
+            } catch (error) {
+                console.error('Verify code error:', error);
+                showToast('Invalid verification code: ' + error.message, 'error');
+            }
+        }
+
+        async function resetPassword() {
+            const email = document.getElementById('forgotEmail').value;
+            const verificationCode = document.getElementById('verificationCode').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewPassword').value;
+            
+            if (!newPassword || !confirmNewPassword) {
+                showToast('Please fill in all fields', 'warning');
+                return;
+            }
+            
+            if (newPassword !== confirmNewPassword) {
+                showToast('Passwords do not match', 'warning');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showToast('Password must be at least 6 characters long', 'warning');
+                return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:3001/api/reset-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, verificationCode, newPassword })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to reset password');
+                }
+                
+                showToast('Password reset successfully! You can now login with your new password.', 'success');
+                
+                // Close modal and open login modal
+                const forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+                if (forgotModal) forgotModal.hide();
+                
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+                
+                // Clear password field when modal opens
+                setTimeout(() => {
+                    document.getElementById('loginPassword').value = '';
+                }, 100);
+                
+                // Reset forgot password form
+                resetForgotPasswordSteps();
+                
+            } catch (error) {
+                console.error('Reset password error:', error);
+                showToast('Failed to reset password: ' + error.message, 'error');
+            }
+        }
+
+        function resendVerificationCode() {
+            sendVerificationCode();
+        }
+
+        function switchToRegister() {
+            // Close forgot password modal
+            const forgotModal = bootstrap.Modal.getInstance(document.getElementById('forgotPasswordModal'));
+            if (forgotModal) forgotModal.hide();
+            
+            // Open register modal
+            const registerModal = new bootstrap.Modal(document.getElementById('registerModal'));
+            registerModal.show();
+            
+            // Pre-fill email if available
+            const email = document.getElementById('forgotEmail').value;
+            if (email) {
+                document.getElementById('email').value = email;
+            }
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toastId = 'toast-' + Date.now();
+            
+            let icon = 'material-symbols:info';
+            let bgClass = 'bg-primary';
+            
+            if (type === 'warning') {
+                icon = 'material-symbols:warning';
+                bgClass = 'bg-warning';
+            } else if (type === 'success') {
+                icon = 'material-symbols:check_circle';
+                bgClass = 'bg-success';
+            }
+            
+            const toastHTML = `
+                <div class="toast" id="${toastId}" role="alert">
+                    <div class="toast-header ${bgClass} text-white">
+                        <iconify-icon icon="${icon}" class="me-2"></iconify-icon>
+                        <strong class="me-auto">Notification</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                    </div>
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                </div>
+            `;
+            
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement, {
+                autohide: true,
+                delay: 3000
+            });
+            
+            toast.show();
+            
+            toastElement.addEventListener('hidden.bs.toast', function() {
+                toastElement.remove();
+            });
+        }
+
+        // Course filtering and functionality
+        function initCourseFiltering() {
+            // Subject filter functionality
+            $('.subject-filter').click(function() {
+                $('.subject-filter').removeClass('active');
+                $(this).addClass('active');
+                
+                var filterValue = $(this).attr('data-filter');
+                filterCourses(filterValue);
+            });
+            
+            // Sort option functionality (only Featured)
+            $('.sort-option').click(function() {
+                $('.sort-option').removeClass('active');
+                $(this).addClass('active');
+                
+                var sortType = $(this).attr('data-sort');
+                if (sortType === 'featured') {
+                    sortCourses(sortType);
+                }
+            });
+            
+            // Initialize counts
+            updateFilterCounts();
+        }
+        
+        function filterCourses(filterValue) {
+            if (filterValue === '*') {
+                $('.item').show();
+            } else {
+                $('.item').hide();
+                $(filterValue).show();
+            }
+        }
+        
+        function updateFilterCounts() {
+            var counts = {
+                'all-count': $('.item').length,
+                'math-count': $('.item.mathematics').length,
+                'physics-count': $('.item.physics').length,
+                'chemistry-count': $('.item.chemistry').length,
+                'english-count': $('.item.english').length
+            };
+            
+            Object.keys(counts).forEach(function(key) {
+                $('#' + key).text(counts[key]);
+            });
+        }
+        
+        function sortCourses(sortType) {
+            var $container = $('.isotope-container');
+            var $items = $container.find('.item:visible').toArray();
+            
+            if (sortType === 'featured') {
+                $items.sort(function(a, b) {
+                    var aFeatured = $(a).find('.featured-badge').length;
+                    var bFeatured = $(b).find('.featured-badge').length;
+                    return bFeatured - aFeatured;
+                });
+                
+                // Re-append sorted items with animation
+                $container.empty();
+                $items.forEach(function(item, index) {
+                    setTimeout(function() {
+                        $container.append(item);
+                    }, index * 100);
+                });
+            }
+        }
+
+        // Initialize course filtering when page loads
+        $(document).ready(function() {
+            initCourseFiltering();
+        });
+
+        // WhatsApp Chat Function
+        function openWhatsAppChat() {
+            const phoneNumber = '+201027500835';
+            const message = encodeURIComponent('Hello! I need assistance with my IGCSE courses. Can you help me?');
+            const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${message}`;
+            
+            // Open WhatsApp in a new tab
+            window.open(whatsappUrl, '_blank');
+            
+            // Show a toast notification
+            showToast('Opening WhatsApp to chat with our staff...', 'success');
+        }
+
+        // Scroll to top function for Home link
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>

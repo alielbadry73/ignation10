@@ -1,0 +1,291 @@
+<!-- COPY THIS SECTION INTO PHYSICS AND ENGLISH DASHBOARDS -->
+<!-- Insert after the progress cards section (after the 4 cards: Quizzes, Exams, Assignments, Track Progress) -->
+
+<!-- NEW: Comprehensive Progress Tracking Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h3 class="mb-4 animate-on-scroll" style="color: #1e293b; font-weight: 700;">
+            <iconify-icon icon="material-symbols:analytics" class="me-2" style="color: #667eea;"></iconify-icon>
+            Detailed Progress Tracking
+        </h3>
+    </div>
+    
+    <!-- Homework Tracking -->
+    <div class="col-md-4 mb-4">
+        <div class="modern-card animate-on-scroll" style="border-left: 4px solid #f59e0b;">
+            <div class="d-flex align-items-center mb-3">
+                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                    <iconify-icon icon="material-symbols:assignment" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                </div>
+                <div>
+                    <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Homeworks</h5>
+                    <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Track your assignments</p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span style="font-size: 2rem; font-weight: 700; color: #f59e0b;" id="homeworkScore">0/0</span>
+                    <span style="font-size: 0.9rem; color: #64748b;">Completed</span>
+                </div>
+                <div class="progress" style="height: 8px; background: #e2e8f0;">
+                    <div class="progress-bar" id="homeworkProgress" style="background: linear-gradient(135deg, #f59e0b, #d97706); width: 0%;"></div>
+                </div>
+            </div>
+            <div class="row text-center" style="font-size: 0.85rem;">
+                <div class="col-4">
+                    <div style="color: #10b981; font-weight: 700;" id="homeworkDone">0</div>
+                    <div style="color: #64748b;">Done</div>
+                </div>
+                <div class="col-4">
+                    <div style="color: #3b82f6; font-weight: 700;" id="homeworkPending">0</div>
+                    <div style="color: #64748b;">Pending</div>
+                </div>
+                <div class="col-4">
+                    <div style="color: #ef4444; font-weight: 700;" id="homeworkLate">0</div>
+                    <div style="color: #64748b;">Late</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quiz Tracking -->
+    <div class="col-md-4 mb-4">
+        <div class="modern-card animate-on-scroll animate-delay-1" style="border-left: 4px solid #3b82f6;">
+            <div class="d-flex align-items-center mb-3">
+                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                    <iconify-icon icon="material-symbols:quiz" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                </div>
+                <div>
+                    <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Quizzes</h5>
+                    <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Test your knowledge</p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span style="font-size: 2rem; font-weight: 700; color: #3b82f6;" id="quizScore">0/0</span>
+                    <span style="font-size: 0.9rem; color: #64748b;">Completed</span>
+                </div>
+                <div class="progress" style="height: 8px; background: #e2e8f0;">
+                    <div class="progress-bar" id="quizProgress" style="background: linear-gradient(135deg, #3b82f6, #2563eb); width: 0%;"></div>
+                </div>
+            </div>
+            <div class="row text-center" style="font-size: 0.85rem;">
+                <div class="col-4">
+                    <div style="color: #10b981; font-weight: 700;" id="quizDone">0</div>
+                    <div style="color: #64748b;">Done</div>
+                </div>
+                <div class="col-4">
+                    <div style="color: #3b82f6; font-weight: 700;" id="quizPending">0</div>
+                    <div style="color: #64748b;">Pending</div>
+                </div>
+                <div class="col-4">
+                    <div style="color: #ef4444; font-weight: 700;" id="quizLate">0</div>
+                    <div style="color: #64748b;">Late</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Exam Tracking -->
+    <div class="col-md-4 mb-4">
+        <div class="modern-card animate-on-scroll animate-delay-2" style="border-left: 4px solid #8b5cf6;">
+            <div class="d-flex align-items-center mb-3">
+                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                    <iconify-icon icon="material-symbols:school" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                </div>
+                <div>
+                    <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Exams</h5>
+                    <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Major assessments</p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span style="font-size: 2rem; font-weight: 700; color: #8b5cf6;" id="examScore">0/0</span>
+                    <span style="font-size: 0.9rem; color: #64748b;">Completed</span>
+                </div>
+                <div class="progress" style="height: 8px; background: #e2e8f0;">
+                    <div class="progress-bar" id="examProgress" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); width: 0%;"></div>
+                </div>
+            </div>
+            <div class="row text-center" style="font-size: 0.85rem;">
+                <div class="col-4">
+                    <div style="color: #10b981; font-weight: 700;" id="examDone">0</div>
+                    <div style="color: #64748b;">Done</div>
+                </div>
+                <div class="col-4">
+                    <div style="color: #3b82f6; font-weight: 700;" id="examPending">0</div>
+                    <div style="color: #64748b;">Pending</div>
+                </div>
+                <div class="col-4">
+                    <div style="color: #ef4444; font-weight: 700;" id="examLate">0</div>
+                    <div style="color: #64748b;">Late</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Performance Analytics Section -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h3 class="mb-4 animate-on-scroll" style="color: #1e293b; font-weight: 700;">
+            <iconify-icon icon="material-symbols:bar-chart" class="me-2" style="color: #667eea;"></iconify-icon>
+            Performance Analytics
+        </h3>
+    </div>
+    
+    <!-- Average Grades Section -->
+    <div class="col-md-6 mb-4">
+        <div class="modern-card animate-on-scroll">
+            <h5 style="color: #1e293b; font-weight: 700; margin-bottom: 1.5rem;">
+                <iconify-icon icon="material-symbols:calculate" class="me-2"></iconify-icon>
+                Average Grades
+            </h5>
+            <div class="row">
+                <div class="col-6 mb-3">
+                    <div style="text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 12px; color: white;">
+                        <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">Quiz Average</div>
+                        <div style="font-size: 2.5rem; font-weight: 700;" id="avgQuizGrade">--</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">out of 100</div>
+                    </div>
+                </div>
+                <div class="col-6 mb-3">
+                    <div style="text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 12px; color: white;">
+                        <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">Exam Average</div>
+                        <div style="font-size: 2.5rem; font-weight: 700;" id="avgExamGrade">--</div>
+                        <div style="font-size: 0.8rem; opacity: 0.8;">out of 100</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Grades Section -->
+    <div class="col-md-6 mb-4">
+        <div class="modern-card animate-on-scroll animate-delay-1">
+            <h5 style="color: #1e293b; font-weight: 700; margin-bottom: 1.5rem;">
+                <iconify-icon icon="material-symbols:calendar-month" class="me-2"></iconify-icon>
+                Recent Month Performance
+            </h5>
+            <div class="mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span style="color: #64748b; font-weight: 600;">Recent Quizzes</span>
+                    <button class="btn btn-sm btn-outline-primary" onclick="showAllQuizGrades()">View All</button>
+                </div>
+                <div id="recentQuizGrades" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <!-- Recent quiz grades will be loaded here -->
+                </div>
+            </div>
+            <div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span style="color: #64748b; font-weight: 600;">Recent Exams</span>
+                    <button class="btn btn-sm btn-outline-primary" onclick="showAllExamGrades()">View All</button>
+                </div>
+                <div id="recentExamGrades" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <!-- Recent exam grades will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Daily Practice Section -->
+<!-- NOTE: Change the href to match the course (physics-daily-practice.html or english-daily-practice.html) -->
+<div class="row mb-5">
+    <div class="col-12">
+        <div class="modern-card animate-on-scroll" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 style="margin: 0; margin-bottom: 0.5rem; color: white; font-weight: 700;">
+                        <iconify-icon icon="material-symbols:edit-note" class="me-2"></iconify-icon>
+                        Daily Practice Questions
+                    </h4>
+                    <p style="margin: 0; opacity: 0.9;">Solve a new challenge every day!</p>
+                </div>
+                <button class="btn btn-light" onclick="window.location.href='COURSE-daily-practice.html'" style="font-weight: 600;">
+                    <iconify-icon icon="material-symbols:arrow-forward" class="me-1"></iconify-icon>
+                    Start Practice
+                </button>
+            </div>
+            <div class="row mt-3" style="font-size: 0.9rem;">
+                <div class="col-4 text-center">
+                    <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeStreak">0</div>
+                    <div style="opacity: 0.8;">Day Streak</div>
+                </div>
+                <div class="col-4 text-center">
+                    <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeSolved">0</div>
+                    <div style="opacity: 0.8;">Solved</div>
+                </div>
+                <div class="col-4 text-center">
+                    <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeAccuracy">0%</div>
+                    <div style="opacity: 0.8;">Accuracy</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODALS - Add before </body> tag -->
+<!-- Quiz Grades Modal -->
+<div class="modal fade" id="quizGradesModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;">
+                <h5 class="modal-title">
+                    <iconify-icon icon="material-symbols:quiz" class="me-2"></iconify-icon>
+                    All Quiz Grades
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="quizGradesChart" style="max-height: 400px;"></canvas>
+                <div id="quizGradesDetails" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Exam Grades Modal -->
+<div class="modal fade" id="examGradesModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white;">
+                <h5 class="modal-title">
+                    <iconify-icon icon="material-symbols:school" class="me-2"></iconify-icon>
+                    All Exam Grades
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="examGradesChart" style="max-height: 400px;"></canvas>
+                <div id="examGradesDetails" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPTS - Add before </body> tag -->
+<!-- Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+<!-- Progress Tracking Module -->
+<script src="js/progress-tracking.js"></script>
+
+<!-- Course-Specific Progress Loading -->
+<!-- NOTE: Replace 'COURSENAME' with 'physics' or 'english' -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        loadCourseProgressData('COURSENAME');
+        loadDailyPracticeStats('COURSENAME');
+    });
+    
+    // Course-specific wrapper functions
+    function showAllQuizGrades() {
+        window.showAllQuizGrades('COURSENAME');
+    }
+    
+    function showAllExamGrades() {
+        window.showAllExamGrades('COURSENAME');
+    }
+</script>
+

@@ -1,0 +1,4695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Course - New Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+            background: #F8F8F8 !important;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8 !important;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1060;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 4px 15px rgba(0,123,255,0.4);
+        }
+        
+        .menu-toggle.active {
+            background: #dc3545;
+            transform: rotate(180deg);
+        }
+        
+        .menu-icon {
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .welcome-text {
+            color: #333;
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.05);
+        }
+        
+        .notification-btn, .community-btn, .assignments-btn, .teacher-panel-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .notification-btn:hover, .community-btn:hover, .assignments-btn:hover, .teacher-panel-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification-btn::after, .community-btn::after, .assignments-btn::after, .teacher-panel-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification-btn:hover::after, .community-btn:hover::after, .assignments-btn:hover::after, .teacher-panel-btn:hover::after {
+            opacity: 1;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* Focus Mode Styling */
+        .focus-mode-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .focus-mode-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .focus-mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .focus-mode-btn.active:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .focus-mode-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .focus-mode-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* Profile Avatar and Dropdown */
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            background: transparent;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .profile-avatar:hover {
+            background: #f8f9fa;
+            border-color: #667eea;
+        }
+
+        .profile-avatar iconify-icon {
+            color: #333;
+        }
+
+        .profile-link {
+            color: #333;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .profile-link:hover {
+            color: #333;
+        }
+
+        .profile-dropdown {
+            min-width: 200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border: none;
+            border-radius: 12px;
+            padding: 0.5rem 0;
+        }
+
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .profile-dropdown .dropdown-item:hover {
+            background: #f8f9fa;
+        }
+
+        .profile-dropdown .dropdown-item iconify-icon {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+        }
+        
+        .empty-content {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin: 2rem 0;
+        }
+        
+        .empty-content h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-content p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+
+        /* Custom Card Sizing */
+        .custom-card {
+            width: 247.861px !important; /* Content width */
+            height: 187.986px !important; /* Content height */
+            min-width: 247.861px;
+            min-height: 187.986px;
+            max-width: 247.861px;
+            max-height: 187.986px;
+            padding: 16px !important; /* 16px padding on all sides */
+            margin: 0 !important; /* No margin */
+            border: 0 !important; /* No border */
+            box-sizing: border-box;
+        }
+        
+        .custom-card img {
+            width: 4rem !important; /* 64px on mobile */
+            height: 4rem !important; /* 64px on mobile */
+            border-radius: 0.5rem;
+            object-fit: cover;
+            display: block;
+            vertical-align: middle;
+        }
+
+        @media (min-width: 640px) {
+            .custom-card img {
+                width: 8rem !important; /* 128px on desktop */
+                height: auto !important; /* Maintain aspect ratio */
+            }
+        }
+        
+        .custom-card p {
+            margin: 0 !important;
+            padding: 8px 0 !important;
+        }
+
+        /* Leaderboard Styles */
+        .leaderboard-section {
+            padding: 2rem 0;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+
+        .leaderboard-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .leaderboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .leaderboard-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .trophy-icon {
+            font-size: 2rem;
+            color: #ffd700;
+        }
+
+        .leaderboard-subtitle {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .leaderboard-content {
+            padding: 1.5rem;
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .leaderboard-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .rank-first {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-color: #ffc107;
+        }
+
+        .rank-second {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+            border-color: #6c757d;
+        }
+
+        .rank-third {
+            background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+            border-color: #cd7f32;
+        }
+
+        .rank-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            min-width: 40px;
+            text-align: center;
+            margin-right: 1rem;
+        }
+
+        .student-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            gap: 1rem;
+        }
+
+        .student-avatar {
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar-icon {
+            font-size: 1.8rem;
+            color: white;
+        }
+
+        .student-details h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .student-details p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .rank-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rank-badge.gold {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+        }
+
+        .rank-badge.silver {
+            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+        }
+
+        .rank-badge.bronze {
+            background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+        }
+
+        .star-icon {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        /* Figma Mathematics Tasks Styles */
+        .todolist-section {
+            padding: 2rem 0;
+            background: transparent;
+        }
+
+        .figma-tasks-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .figma-tasks-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .figma-bg-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, 0.2);
+            filter: blur(32px);
+            animation: float 5s ease-in-out infinite;
+        }
+
+        .particle-1 {
+            width: 128px;
+            height: 128px;
+            top: 0;
+            right: 0;
+            animation-delay: 0s;
+        }
+
+        .particle-2 {
+            width: 160px;
+            height: 160px;
+            bottom: 0;
+            left: 0;
+            background: rgba(59, 130, 246, 0.2);
+            animation-delay: 2.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: scale(1) translate(0, 0); }
+            50% { transform: scale(1.2) translate(20px, -20px); }
+        }
+
+        .figma-tasks-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .figma-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .figma-icon-container {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7, #6366f1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .figma-icon-container:hover {
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.6);
+        }
+
+        .figma-main-icon {
+            font-size: 20px;
+            color: white;
+        }
+
+        .figma-main-title {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin: 0;
+            background: linear-gradient(135deg, #8b5cf6, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .figma-subtitle {
+            margin: 0;
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .figma-add-task-form {
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .figma-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .figma-task-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid rgba(224, 224, 224, 0.6);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+        }
+
+        .figma-task-input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            background: white;
+            transform: scale(1.01);
+        }
+
+        .figma-add-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4, #3b82f6);
+            background-size: 200% 100%;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: gradient-shift 2s ease infinite;
+        }
+
+        .figma-add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+            background-position: right center;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .figma-filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 10;
+        }
+
+        .figma-filter-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.7);
+            color: #6b7280;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .figma-filter-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: scale(1.08) translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .figma-filter-btn.active {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4, #3b82f6);
+            background-size: 200% 100%;
+            color: white;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.4);
+            animation: gradient-shift 2s ease infinite;
+        }
+
+        .figma-tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+            position: relative;
+            z-index: 10;
+        }
+
+        .figma-task-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.5));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            border-left: 4px solid;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .figma-task-item[data-priority="high"] {
+            border-left-color: #ef4444;
+            background: linear-gradient(135deg, rgba(254, 242, 242, 0.5), rgba(255, 241, 242, 0.3));
+        }
+
+        .figma-task-item[data-priority="medium"] {
+            border-left-color: #f59e0b;
+            background: linear-gradient(135deg, rgba(255, 251, 235, 0.5), rgba(255, 243, 224, 0.3));
+        }
+
+        .figma-task-item[data-priority="low"] {
+            border-left-color: #10b981;
+            background: linear-gradient(135deg, rgba(240, 253, 244, 0.5), rgba(236, 253, 245, 0.3));
+        }
+
+        .figma-task-item.completed {
+            opacity: 0.7;
+            background: linear-gradient(135deg, rgba(240, 249, 255, 0.5), rgba(224, 242, 254, 0.3));
+            border-left-color: #10b981;
+        }
+
+        .figma-task-item:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .figma-task-item.completed:hover {
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.25);
+        }
+
+        .figma-task-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 1.5s ease;
+        }
+
+        .figma-task-item:hover::before {
+            left: 100%;
+        }
+
+        .figma-task-checkbox {
+            margin-top: 0.25rem;
+        }
+
+        .figma-checkbox-label {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #d1d5db;
+            border-radius: 6px;
+            display: block;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .figma-checkbox-label:hover {
+            transform: scale(1.2) rotate(360deg);
+        }
+
+        .figma-checkbox-label::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 2px;
+            width: 4px;
+            height: 8px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .figma-task-checkbox input[type="checkbox"]:checked + .figma-checkbox-label {
+            background: #10b981;
+            border-color: #10b981;
+        }
+
+        .figma-task-checkbox input[type="checkbox"]:checked + .figma-checkbox-label::after {
+            opacity: 1;
+        }
+
+        .figma-task-content {
+            flex: 1;
+        }
+
+        .figma-task-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem 0;
+            color: #1f2937;
+            transition: color 0.3s ease;
+        }
+
+        .figma-task-item.completed .figma-task-title {
+            text-decoration: line-through;
+            color: #6b7280;
+        }
+
+        .figma-task-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        .figma-task-meta {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .figma-priority-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .figma-priority-badge.high {
+            background: linear-gradient(135deg, #fef2f2, #fee2e2);
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .figma-priority-badge.medium {
+            background: linear-gradient(135deg, #fffbeb, #fef3c7);
+            color: #d97706;
+            border: 1px solid #fed7aa;
+        }
+
+        .figma-priority-badge.low {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .figma-priority-badge.completed {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .figma-date-badge {
+            padding: 0.25rem 0.5rem;
+            background: rgba(255, 255, 255, 0.6);
+            color: #6b7280;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .figma-task-actions {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .figma-action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .figma-action-btn.edit {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        .figma-action-btn.edit:hover {
+            background: #e5e7eb;
+            color: #374151;
+            transform: scale(1.15) rotate(15deg);
+            box-shadow: 0 4px 15px rgba(107, 114, 128, 0.3);
+        }
+
+        .figma-action-btn.delete {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .figma-action-btn.delete:hover {
+            background: #fee2e2;
+            color: #dc2626;
+            transform: scale(1.15) rotate(-15deg);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .figma-stats-container {
+            background: linear-gradient(135deg, rgba(248, 250, 252, 0.9), rgba(241, 245, 249, 0.6));
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            position: relative;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .figma-stats-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.05), transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .figma-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .figma-stat-item {
+            transition: transform 0.3s ease;
+        }
+
+        .figma-stat-item:hover {
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        .figma-stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .figma-stat-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            margin-top: 0.25rem;
+        }
+
+        .figma-save-buttons {
+            display: flex;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .figma-save-btn, .figma-load-btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .figma-save-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .figma-save-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .figma-load-btn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .figma-load-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .save-icon, .load-icon {
+            animation: rotate 2s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Flashcard System Styling */
+        .flashcard-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .flashcard-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .flashcard-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .flashcard-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        
+        .flashcard-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .flashcard-navigation {
+            margin-top: 1.5rem;
+        }
+        
+        .flashcard-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .study-stats .stat-item {
+            padding: 0.5rem;
+        }
+        
+        .study-stats .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .study-stats .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+
+        /* Modal Enhancements */
+        .modal-content {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px 16px 0 0;
+            border-bottom: none;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        /* Button Enhancements */
+        .flashcard-actions .btn {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .flashcard-actions .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .flashcard-navigation .btn {
+            transition: all 0.3s ease;
+        }
+
+        .flashcard-navigation .btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .flashcard-navigation .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Stats Animation */
+        .study-stats .stat-number {
+            transition: all 0.3s ease;
+        }
+
+        .study-stats .stat-item:hover .stat-number {
+            transform: scale(1.1);
+            color: #5a6fd8;
+        }
+
+        /* Modern Tailwind-Inspired Upcoming Deadlines Styles */
+        .modern-deadlines-section {
+            padding: 2rem 0;
+            background: transparent;
+        }
+
+        .modern-deadlines-container {
+            width: 50%;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .modern-deadlines-header {
+            margin-bottom: 2rem;
+        }
+
+        .modern-header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .modern-title-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .modern-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .modern-schedule-icon {
+            font-size: 24px;
+            color: white;
+        }
+
+        .modern-deadlines-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin: 0;
+            letter-spacing: -0.025em;
+        }
+
+        .modern-view-all-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .modern-view-all-btn:hover {
+            background: #f9fafb;
+            border-color: #3b82f6;
+            color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.15);
+        }
+
+        .modern-arrow-icon {
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .modern-view-all-btn:hover .modern-arrow-icon {
+            transform: translateX(4px);
+        }
+
+        .modern-deadlines-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .modern-deadline-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f3f4f6;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .modern-deadline-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .modern-deadline-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #e5e7eb, #d1d5db);
+        }
+
+        .modern-deadline-card.medium-priority::before {
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+        }
+
+        .modern-deadline-card.normal-priority::before {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+
+        .modern-deadline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .modern-date-badge {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.75rem;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .modern-day {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            line-height: 1;
+        }
+
+        .modern-month {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.25rem;
+        }
+
+        .modern-priority-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+        }
+
+        .modern-priority-indicator.medium {
+            background: #fbbf24;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
+        }
+
+        .modern-priority-indicator.normal {
+            background: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+        }
+
+        .modern-deadline-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .modern-deadline-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.3;
+        }
+
+        .modern-deadline-description {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0 0 1rem 0;
+            line-height: 1.5;
+        }
+
+        .modern-deadline-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .modern-due-time {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .modern-urgency-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modern-urgency-badge.medium {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .modern-urgency-badge.normal {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .modern-deadline-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modern-start-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .modern-start-btn.medium {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+        }
+
+        .modern-start-btn.medium:hover {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(245, 158, 11, 0.3);
+        }
+
+        .modern-start-btn.normal {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .modern-start-btn.normal:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
+        }
+
+        .modern-start-icon {
+            font-size: 18px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .modern-deadlines-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .modern-header-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modern-deadlines-title {
+                font-size: 1.5rem;
+            }
+
+            .modern-deadline-card {
+                padding: 1rem;
+            }
+
+            .modern-deadline-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .modern-date-badge {
+                min-width: 70px;
+                padding: 0.5rem;
+            }
+
+            .modern-day {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Recent Activities Styles */
+        .activities-section {
+            padding: 2rem 0;
+            background: transparent;
+        }
+
+        .activities-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            min-height: 300px;
+            padding: 0;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .activities-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #ef4444, #8b5cf6);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .activities-header {
+            background: transparent;
+            color: #0f172a;
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
+            text-align: left;
+        }
+
+        .activities-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .activities-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0f172a;
+            letter-spacing: -0.025em;
+        }
+
+        .history-icon {
+            font-size: 1.1rem;
+            color: #f59e0b;
+            background: #fffbeb;
+            padding: 0.375rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .view-all-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: #64748b;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .view-all-btn:hover {
+            background: #f8f9fa;
+            border-color: #d1d5db;
+            color: #374151;
+        }
+
+        .activities-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+        }
+
+        .activity-item:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .activity-icon.completed {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .activity-icon.progress {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .activity-icon.milestone {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem 0;
+            color: #0f172a;
+        }
+
+        .activity-description {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        .activity-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .activity-score, .activity-progress, .activity-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .activity-score {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .activity-progress {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .activity-badge {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        /* Upcoming Deadlines Styles */
+        .deadlines-section {
+            padding: 2rem 0;
+            background: transparent;
+        }
+
+        .deadlines-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            min-height: 300px;
+            padding: 0;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .deadlines-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .deadlines-header {
+            background: transparent;
+            color: #0f172a;
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
+            text-align: left;
+        }
+
+        .deadlines-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .deadlines-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0f172a;
+            letter-spacing: -0.025em;
+        }
+
+        .schedule-icon {
+            font-size: 1.1rem;
+            color: #ef4444;
+            background: #fef2f2;
+            padding: 0.375rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .deadlines-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+
+        .deadline-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .deadline-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .deadline-item.urgent {
+            border-left: 4px solid #ef4444;
+            background: #fef2f2;
+        }
+
+        .deadline-item.medium {
+            border-left: 4px solid #f59e0b;
+            background: #fffbeb;
+        }
+
+        .deadline-item.normal {
+            border-left: 4px solid #10b981;
+            background: #f0fdf4;
+        }
+
+        .deadline-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .deadline-date {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .deadline-date .day {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1;
+        }
+
+        .deadline-date .month {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .deadline-content {
+            flex: 1;
+        }
+
+        .deadline-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0 0 0.25rem 0;
+            color: #0f172a;
+        }
+
+        .deadline-description {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin: 0 0 0.5rem 0;
+            line-height: 1.4;
+        }
+
+        .deadline-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .deadline-time {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .deadline-urgency {
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+
+        .deadline-urgency.urgent {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .deadline-urgency.medium {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .deadline-urgency.normal {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .deadline-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .start-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            white-space: nowrap;
+        }
+
+        .start-btn.urgent {
+            background: #ef4444;
+            color: white;
+        }
+
+        .start-btn.urgent:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .start-btn.medium {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .start-btn.medium:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+        }
+
+        .start-btn.normal {
+            background: #10b981;
+            color: white;
+        }
+
+        .start-btn.normal:hover {
+            background: #059669;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .start-icon {
+            font-size: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .activities-section, .deadlines-section {
+                padding: 1rem 0;
+            }
+
+            .activities-title-container, .deadlines-title-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .activity-item, .deadline-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .deadline-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .start-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        // View All Functions
+        function viewAllActivities() {
+            alert('View All Activities would open here - showing complete activity history');
+        }
+
+        function viewAllDeadlines() {
+            alert('View All Deadlines would open here - showing complete deadline calendar');
+        }
+
+        .task-checkbox input[type="checkbox"] {
+            display: none;
+        }
+
+        .checkbox-label {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #2196f3;
+            border-radius: 4px;
+            display: block;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-label::after {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 2px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .task-checkbox input[type="checkbox"]:checked + .checkbox-label {
+            background: #2196f3;
+        }
+
+        .task-checkbox input[type="checkbox"]:checked + .checkbox-label::after {
+            opacity: 1;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem 0;
+            color: #333;
+        }
+
+        .task-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .task-priority {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .task-priority.high {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .task-priority.medium {
+            background: #fff3e0;
+            color: #ef6c00;
+        }
+
+        .task-priority.low {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+
+        .task-date {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .task-date.completed {
+            color: #4caf50;
+            font-weight: 600;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .edit-btn:hover {
+            background: #1976d2;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+
+        .delete-btn:hover {
+            background: #d32f2f;
+            color: white;
+        }
+
+        .task-summary {
+            display: flex;
+            justify-content: space-around;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .summary-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2196f3;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Save/Load Tasks Buttons */
+        .save-tasks-section {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .save-tasks-btn, .load-tasks-btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .save-tasks-btn {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+        }
+
+        .save-tasks-btn:hover {
+            background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .load-tasks-btn {
+            background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+            color: white;
+        }
+
+        .load-tasks-btn:hover {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+        }
+
+        .save-icon, .load-icon {
+            font-size: 1rem;
+        }
+
+        /* Combined Sections Layout */
+        .combined-sections {
+            padding: 0;
+            background: transparent;
+        }
+
+        .combined-sections .row {
+            gap: 1rem;
+        }
+
+        .combined-sections .col-md-6 {
+            padding: 0;
+        }
+
+        /* Upcoming Deadlines Styles - Cool Minimalist Design */
+        .deadlines-section {
+            padding: 0;
+            background: transparent;
+            height: 100%;
+        }
+
+        .deadlines-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            min-height: 220px;
+            padding: 0;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .deadlines-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b, #ef4444, #10b981);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .deadlines-header {
+            background: transparent;
+            color: #0f172a;
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
+            text-align: left;
+        }
+
+        .deadlines-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0f172a;
+            letter-spacing: -0.025em;
+        }
+
+        .calendar-icon {
+            font-size: 1.1rem;
+            color: #f59e0b;
+            background: #fef3c7;
+            padding: 0.375rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .deadlines-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+
+        .deadlines-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .deadline-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.2s ease;
+            gap: 1rem;
+        }
+
+        .deadline-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Urgency Color Coding */
+        .deadline-item.urgent {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+        }
+
+        .deadline-item.medium {
+            background: #fffbeb;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .deadline-item.normal {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+        }
+
+        .deadline-date {
+            font-size: 0.875rem;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+            margin-right: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .deadline-item.urgent .deadline-date {
+            background: #fee2e2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .deadline-item.medium .deadline-date {
+            background: #fef3c7;
+            color: #d97706;
+            border-color: #fed7aa;
+        }
+
+        .deadline-item.normal .deadline-date {
+            background: #dcfce7;
+            color: #16a34a;
+            border-color: #bbf7d0;
+        }
+
+        .deadline-info {
+            flex: 1;
+        }
+
+        .deadline-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .deadline-info p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        .deadline-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .start-btn {
+            padding: 0.5rem 1rem;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            white-space: nowrap;
+        }
+
+        .start-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .start-btn:active {
+            transform: translateY(0);
+        }
+
+        .start-icon {
+            font-size: 1rem;
+        }
+
+        .deadlines-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease;
+        }
+
+        /* Upcoming Activities Styles - Cool Minimalist Design */
+        .activities-section {
+            padding: 0;
+            background: transparent;
+            height: 100%;
+        }
+
+        .activities-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            min-height: 220px;
+            padding: 0;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .activities-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .activities-header {
+            background: transparent;
+            color: #0f172a;
+            padding: 1.5rem 1.5rem 1rem 1.5rem;
+            text-align: left;
+        }
+
+        .activities-title-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .activities-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #0f172a;
+            letter-spacing: -0.025em;
+        }
+
+        .activity-icon {
+            font-size: 1.1rem;
+            color: #3b82f6;
+            background: #eff6ff;
+            padding: 0.375rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .view-all-btn {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            color: #495057;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .view-all-btn:hover {
+            background: #e9ecef;
+            color: #212529;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .activities-content {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+
+        .no-activities-message {
+            text-align: center;
+            color: #64748b;
+        }
+
+        .no-activities-text {
+            font-size: 1rem;
+            font-weight: 400;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            line-height: 1.5;
+        }
+
+        .no-activities-emoji {
+            font-size: 1.25rem;
+            opacity: 0.8;
+        }
+
+        .activities-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.2s ease;
+        }
+
+        .activities-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+            gap: 1rem;
+        }
+
+        .activity-item:hover {
+            background: #e9ecef;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-time {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #6c757d;
+            min-width: 60px;
+            text-align: center;
+            margin-right: 1rem;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-info h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .activity-info p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+
+        /* Main Content Container */
+        .main-content-container {
+            padding: 0 16px 32px 16px;
+        }
+
+        /* Floating Action Buttons */
+        .floating-btn {
+            position: fixed;
+            bottom: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1000;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .floating-btn:hover {
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Focus Mode Menu */
+        .focus-mode-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .focus-mode-menu.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .focus-mode-content {
+            background: white;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .focus-mode-menu.show .focus-mode-content {
+            transform: scale(1);
+        }
+
+        .focus-mode-header {
+            padding: 2rem 2rem 1rem 2rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .focus-mode-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .focus-mode-subtitle {
+            color: #666;
+            margin: 0.5rem 0 0 0;
+            font-size: 0.9rem;
+        }
+
+        .focus-mode-body {
+            padding: 2rem;
+        }
+
+        .study-stats h4, .timer-section h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .timer-circle {
+            width: 120px;
+            height: 120px;
+            border: 4px solid #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .timer-text {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #666;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .floating-btn:active {
+            transform: translateY(-1px) scale(1.05);
+        }
+
+        /* Flashcards Button - Bottom Right */
+        .flashcards-btn {
+            right: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .flashcards-btn:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+
+        /* Daily Practice Button - Bottom Left */
+        .daily-practice-btn {
+            left: 2rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .daily-practice-btn:hover {
+            background: linear-gradient(135deg, #ed7ce8 0%, #f3455a 100%);
+        }
+
+        /* Button Tooltips */
+        .floating-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1001;
+        }
+
+        .daily-practice-btn::after {
+            right: auto;
+            left: 70px;
+        }
+
+        .floating-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .floating-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 1.5rem;
+                font-size: 1.2rem;
+            }
+
+            .flashcards-btn {
+                right: 1.5rem;
+            }
+
+            .daily-practice-btn {
+                left: 1.5rem;
+            }
+
+            .floating-btn::after {
+                right: 60px;
+                font-size: 0.7rem;
+            }
+
+            .daily-practice-btn::after {
+                right: auto;
+                left: 60px;
+            }
+        }
+
+
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-header .container-fluid {
+                padding: 0 1rem;
+            }
+            
+            .welcome-text {
+                font-size: 1rem;
+            }
+            
+            .notification-btn, .community-btn, .assignments-btn, .teacher-panel-btn, .focus-mode-btn {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+                min-width: 40px;
+                min-height: 40px;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .custom-card {
+                width: 180px !important; /* Scaled down proportionally */
+                height: 136px !important; /* Scaled down proportionally */
+                min-width: 180px;
+                min-height: 136px;
+                max-width: 180px;
+                max-height: 136px;
+                padding: 12px !important; /* Slightly reduced padding for mobile */
+                margin: 0 !important; /* No margin */
+                border: 0 !important; /* No border */
+            }
+            
+            /* Mobile image sizing is now handled by the base .custom-card img styles above */
+
+            /* Leaderboard Responsive */
+            .leaderboard-section {
+                padding: 1rem 0;
+            }
+
+            .leaderboard-header {
+                padding: 1.5rem;
+            }
+
+            .leaderboard-title {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .leaderboard-content {
+                padding: 1rem;
+            }
+
+            .leaderboard-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .student-info {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .student-avatar {
+                width: 40px;
+                height: 40px;
+            }
+
+            .avatar-icon {
+                font-size: 1.5rem;
+            }
+
+            .rank-badge {
+                width: 30px;
+                height: 30px;
+            }
+
+            .star-icon {
+                font-size: 1rem;
+            }
+
+            /* TodoList Responsive */
+            .todolist-content {
+                padding: 1rem;
+            }
+
+            .todolist-header {
+                padding: 1.5rem;
+            }
+
+            .todolist-title {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .task-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .task-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .task-actions {
+                justify-content: center;
+            }
+
+            .task-summary {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            /* Combined Sections Responsive */
+            .combined-sections .row {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .combined-sections .col-md-6 {
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            /* Deadlines & Activities Responsive */
+            .deadlines-section,
+            .activities-section {
+                padding: 1rem 0;
+            }
+
+            .deadlines-header,
+            .activities-header {
+                padding: 1.5rem;
+            }
+
+            .deadlines-title,
+            .activities-title {
+                font-size: 1.5rem;
+                flex-direction: column;
+                gap: 0.25rem;
+            }
+
+            .deadlines-content,
+            .activities-content {
+                padding: 1rem;
+            }
+
+            .deadline-item,
+            .activity-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .deadline-date,
+            .activity-time {
+                min-width: auto;
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+
+            .deadline-actions {
+                margin-left: 0;
+                margin-top: 0.5rem;
+                justify-content: center;
+                width: 100%;
+            }
+
+            .start-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main Content Container -->
+    <div class="main-content-container">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Menu Toggle and Welcome Message -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        
+                        <div class="welcome-section">
+                            <h4 class="welcome-text mb-0" id="welcomeMessage">Welcome back, Alex!</h4>
+                            <small class="text-muted" id="welcomeSubtext">Let's start learning mathematics today!</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section" style="margin-right: 2rem;">
+                            <a href="home.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image">
+                            </a>
+                        </div>
+                        
+                        <!-- Focus Mode Toggle -->
+                        <div class="focus-mode-section">
+                            <button class="focus-mode-btn" onclick="toggleFocusMode()" id="focusModeToggle" data-tooltip="Focus Mode">
+                                <iconify-icon icon="material-symbols:visibility-off" style="width: 20px; height: 20px;"></iconify-icon>
+                            </button>
+                        </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()" data-tooltip="Notifications">
+                                <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
+                                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Mathematics Community Button -->
+                        <div class="community-section">
+                            <button class="btn btn-primary btn-sm community-btn" onclick="openMathematicsCommunity()" data-tooltip="Mathematics Community">
+                                <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px;">
+                            </button>
+                        </div>
+
+                        <!-- Profile Section -->
+                        <div class="profile-section">
+                            <div class="dropdown">
+                                <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <div class="profile-avatar" id="headerProfileAvatar" data-tooltip="Profile">
+                                        <iconify-icon icon="heroicons:user" style="width: 24px; height: 24px; color: #333;"></iconify-icon>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <!-- Profile Option -->
+                                    <li><a class="dropdown-item" href="student-info.html">
+                                        <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                        Profile
+                                    </a></li>
+                                    
+                                    <!-- Settings Option -->
+                                    <li><a class="dropdown-item" href="settings.html">
+                                        <iconify-icon icon="material-symbols:settings" class="me-2"></iconify-icon>
+                                        Settings
+                                    </a></li>
+                                    
+                                    <!-- Divider -->
+                                    <li><hr class="dropdown-divider"></li>
+                                    
+                                    <!-- Logout Option -->
+                                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                        <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                        Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                <div class="cards-section" style="opacity: 1; transform: none;">
+                    <div class="grid grid-cols-4 items-center sm:gap-4 gap-2">
+                        <!-- Quiz Card -->
+                        <a class="custom-card col-span-2 sm:col-span-1 rounded-lg bg-[#f3f1ed] sm:px-4 px-2 flex sm:flex-col justify-between sm:items-start items-center w-full shadow-md transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-[1.02]" href="mathematics-quiz.html">
+                            <div class="sm:flex items-center justify-center w-full sm:py-2 py-1">
+                                <img src="images/New folder/quiz.webp" alt="quiz" class="rounded-lg">
+                            </div>
+                            <p class="font-semibold sm:text-xl text-base">Quiz</p>
+                        </a>
+                        
+                        <!-- Exam Card -->
+                        <a class="custom-card col-span-2 sm:col-span-1 rounded-lg sm:px-4 px-2 bg-white flex sm:flex-col justify-between sm:items-start items-center w-full shadow-md transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-[1.02]" href="mathematics-quiz.html">
+                            <div class="sm:flex items-center justify-center w-full sm:py-2 py-1">
+                                <img src="images/New folder/exam.webp" alt="exam" class="rounded-lg">
+                            </div>
+                            <p class="font-semibold sm:text-xl text-base">Exam</p>
+                        </a>
+                        
+                        <!-- Assignments Card -->
+                        <a class="custom-card col-span-2 sm:col-span-1 rounded-lg md:px-4 px-2 bg-[#b3cec5] flex sm:flex-col justify-between sm:items-start items-center w-full shadow-md transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-[1.02]" href="mathematics-homework.html">
+                            <div class="sm:flex items-center justify-center w-full md:py-2 py-1">
+                                <img src="images/New folder/homework.webp" alt="homework" class="rounded-lg">
+                            </div>
+                            <p class="font-semibold sm:text-lg text-sm">Assignments</p>
+                        </a>
+                        
+                        <!-- Track Your Progress Card -->
+                        <a class="custom-card col-span-2 sm:col-span-1 rounded-lg sm:px-4 px-2 bg-white flex sm:flex-col justify-between sm:items-start items-center w-full shadow-md transition-all duration-300 ease-in-out hover:shadow-xl hover:scale-[1.02]" href="mathematics-progress.html">
+                            <div class="sm:flex items-center justify-center w-full sm:py-2 py-1">
+                                <img src="images/New folder/tracj.webp" alt="progress" class="rounded-lg">
+                            </div>
+                            <p class="font-semibold sm:text-xl text-sm">Track Your Progress</p>
+                        </a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaderboard Section -->
+    <div class="leaderboard-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="leaderboard-card">
+                        <div class="leaderboard-header">
+                            <h3 class="leaderboard-title">
+                                <iconify-icon icon="material-symbols:trophy" class="trophy-icon"></iconify-icon>
+                                Mathematics Leaderboard
+                            </h3>
+                            <p class="leaderboard-subtitle">Top performers in mathematics course</p>
+                        </div>
+                        
+                        <div class="leaderboard-content">
+                            <div class="leaderboard-list">
+                                <!-- 1st Place -->
+                                <div class="leaderboard-item rank-first">
+                                    <div class="rank-number">1</div>
+                                    <div class="student-info">
+                                        <div class="student-avatar">
+                                            <iconify-icon icon="heroicons:user-circle" class="avatar-icon"></iconify-icon>
+                                        </div>
+                                        <div class="student-details">
+                                            <h4 class="student-name">Ahmed Hassan</h4>
+                                            <p class="student-points">2,850 points</p>
+                                        </div>
+                                    </div>
+                                    <div class="rank-badge gold">
+                                        <iconify-icon icon="material-symbols:star" class="star-icon"></iconify-icon>
+                                    </div>
+                                </div>
+
+                                <!-- 2nd Place -->
+                                <div class="leaderboard-item rank-second">
+                                    <div class="rank-number">2</div>
+                                    <div class="student-info">
+                                        <div class="student-avatar">
+                                            <iconify-icon icon="heroicons:user-circle" class="avatar-icon"></iconify-icon>
+                                        </div>
+                                        <div class="student-details">
+                                            <h4 class="student-name">Fatima Ali</h4>
+                                            <p class="student-points">2,640 points</p>
+                                        </div>
+                                    </div>
+                                    <div class="rank-badge silver">
+                                        <iconify-icon icon="material-symbols:star" class="star-icon"></iconify-icon>
+                                    </div>
+                                </div>
+
+                                <!-- 3rd Place -->
+                                <div class="leaderboard-item rank-third">
+                                    <div class="rank-number">3</div>
+                                    <div class="student-info">
+                                        <div class="student-avatar">
+                                            <iconify-icon icon="heroicons:user-circle" class="avatar-icon"></iconify-icon>
+                                        </div>
+                                        <div class="student-details">
+                                            <h4 class="student-name">Omar Mohamed</h4>
+                                            <p class="student-points">2,420 points</p>
+                                        </div>
+                                    </div>
+                                    <div class="rank-badge bronze">
+                                        <iconify-icon icon="material-symbols:star" class="star-icon"></iconify-icon>
+                                    </div>
+                                </div>
+
+                                <!-- 4th Place -->
+                                <div class="leaderboard-item">
+                                    <div class="rank-number">4</div>
+                                    <div class="student-info">
+                                        <div class="student-avatar">
+                                            <iconify-icon icon="heroicons:user-circle" class="avatar-icon"></iconify-icon>
+                                        </div>
+                                        <div class="student-details">
+                                            <h4 class="student-name">Nour Ibrahim</h4>
+                                            <p class="student-points">2,180 points</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 5th Place -->
+                                <div class="leaderboard-item">
+                                    <div class="rank-number">5</div>
+                                    <div class="student-info">
+                                        <div class="student-avatar">
+                                            <iconify-icon icon="heroicons:user-circle" class="avatar-icon"></iconify-icon>
+                                        </div>
+                                        <div class="student-details">
+                                            <h4 class="student-name">Youssef Ahmed</h4>
+                                            <p class="student-points">2,050 points</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Combined Row Layout -->
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Mathematics Tasks Section - 50% width -->
+            <div class="col-md-6">
+                <div class="todolist-section">
+                    <div class="figma-tasks-card">
+                        <!-- Animated background particles -->
+                        <div class="figma-bg-particles">
+                            <div class="particle particle-1"></div>
+                            <div class="particle particle-2"></div>
+                        </div>
+
+                        <!-- Header -->
+                        <div class="figma-tasks-header">
+                            <div class="figma-title-container">
+                                <div class="figma-icon-container">
+                                    <iconify-icon icon="material-symbols:checklist" class="figma-main-icon"></iconify-icon>
+                                </div>
+                                <h2 class="figma-main-title">Mathematics Tasks</h2>
+                            </div>
+                            <p class="figma-subtitle">Track your daily mathematics assignments and goals</p>
+                        </div>
+
+                        <!-- Add Task Input -->
+                        <div class="figma-add-task-form">
+                            <div class="figma-input-group">
+                                <input type="text" id="newTaskInput" class="figma-task-input" placeholder="Add a new mathematics task...">
+                                <button class="figma-add-btn" onclick="addTask()">
+                                    <iconify-icon icon="material-symbols:add" class="add-icon"></iconify-icon>
+                                    Add
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Filter Buttons -->
+                        <div class="figma-filter-buttons">
+                            <button class="figma-filter-btn active" onclick="filterTasks('all')" data-filter="all">
+                                ⚡ All Tasks
+                            </button>
+                            <button class="figma-filter-btn" onclick="filterTasks('pending')" data-filter="pending">
+                                ⏱️ Pending
+                            </button>
+                            <button class="figma-filter-btn" onclick="filterTasks('completed')" data-filter="completed">
+                                ✓ Completed
+                            </button>
+                        </div>
+
+                        <!-- Tasks List -->
+                        <div class="figma-tasks-list" id="taskList">
+                            <!-- Sample Tasks -->
+                            <div class="figma-task-item" data-status="pending" data-priority="high">
+                                <div class="figma-task-checkbox">
+                                    <input type="checkbox" id="task1" onchange="toggleTask(this)">
+                                    <label for="task1" class="figma-checkbox-label"></label>
+                                </div>
+                                <div class="figma-task-content">
+                                    <div class="figma-task-title">Complete Algebra Practice Problems</div>
+                                    <div class="figma-task-description">Solve 20 quadratic equations from Chapter 5</div>
+                                    <div class="figma-task-meta">
+                                        <span class="figma-priority-badge high">High Priority</span>
+                                        <span class="figma-date-badge">Due: Tomorrow</span>
+                                    </div>
+                                </div>
+                                <div class="figma-task-actions">
+                                    <button class="figma-action-btn edit" onclick="editTask(this)" title="Edit">
+                                        <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                    </button>
+                                    <button class="figma-action-btn delete" onclick="deleteTask(this)" title="Delete">
+                                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="figma-task-item" data-status="pending" data-priority="medium">
+                                <div class="figma-task-checkbox">
+                                    <input type="checkbox" id="task2" onchange="toggleTask(this)">
+                                    <label for="task2" class="figma-checkbox-label"></label>
+                                </div>
+                                <div class="figma-task-content">
+                                    <div class="figma-task-title">Review Calculus Formulas</div>
+                                    <div class="figma-task-description">Memorize derivative and integral formulas</div>
+                                    <div class="figma-task-meta">
+                                        <span class="figma-priority-badge medium">Medium Priority</span>
+                                        <span class="figma-date-badge">Due: Friday</span>
+                                    </div>
+                                </div>
+                                <div class="figma-task-actions">
+                                    <button class="figma-action-btn edit" onclick="editTask(this)" title="Edit">
+                                        <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                    </button>
+                                    <button class="figma-action-btn delete" onclick="deleteTask(this)" title="Delete">
+                                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="figma-task-item completed" data-status="completed" data-priority="low">
+                                <div class="figma-task-checkbox">
+                                    <input type="checkbox" id="task3" checked onchange="toggleTask(this)">
+                                    <label for="task3" class="figma-checkbox-label"></label>
+                                </div>
+                                <div class="figma-task-content">
+                                    <div class="figma-task-title">Complete Geometry Homework</div>
+                                    <div class="figma-task-description">Finish triangle congruence problems</div>
+                                    <div class="figma-task-meta">
+                                        <span class="figma-priority-badge completed">Completed</span>
+                                        <span class="figma-date-badge">Completed Today</span>
+                                    </div>
+                                </div>
+                                <div class="figma-task-actions">
+                                    <button class="figma-action-btn edit" onclick="editTask(this)" title="Edit">
+                                        <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                    </button>
+                                    <button class="figma-action-btn delete" onclick="deleteTask(this)" title="Delete">
+                                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="figma-stats-container">
+                            <div class="figma-stats-grid">
+                                <div class="figma-stat-item">
+                                    <div class="figma-stat-number" id="totalTasks">3</div>
+                                    <div class="figma-stat-label">Total Tasks</div>
+                                </div>
+                                <div class="figma-stat-item">
+                                    <div class="figma-stat-number" id="pendingTasks">2</div>
+                                    <div class="figma-stat-label">Pending</div>
+                                </div>
+                                <div class="figma-stat-item">
+                                    <div class="figma-stat-number" id="completedTasks">1</div>
+                                    <div class="figma-stat-label">Completed</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Save/Load Buttons -->
+                        <div class="figma-save-buttons">
+                            <button class="figma-save-btn" onclick="saveTasks()">
+                                <iconify-icon icon="material-symbols:save" class="save-icon"></iconify-icon>
+                                Save Tasks
+                            </button>
+                            <button class="figma-load-btn" onclick="loadTasks()">
+                                <iconify-icon icon="material-symbols:upload" class="load-icon"></iconify-icon>
+                                Load Tasks
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activities Section - 50% width -->
+    <div class="col-md-6">
+        <div class="activities-section">
+            <div class="activities-card">
+                <div class="activities-header">
+                    <div class="activities-title-container">
+                        <h3 class="activities-title">
+                            <iconify-icon icon="material-symbols:history" class="history-icon"></iconify-icon>
+                            Recent Activities
+                        </h3>
+                        <button class="view-all-btn" onclick="viewAllActivities()">
+                            <span>View All</span>
+                            <iconify-icon icon="material-symbols:arrow-forward"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="activities-content">
+                    <div class="activity-list">
+
+                        <!-- Activity Item 2 -->
+                        <div class="activity-item">
+                            <div class="activity-icon progress">
+                                <iconify-icon icon="material-symbols:play-circle"></iconify-icon>
+                            </div>
+                            <div class="activity-content">
+                                <h4 class="activity-title">Started Calculus Assignment</h4>
+                                <p class="activity-description">Working on derivative problems - Chapter 3</p>
+                                <div class="activity-meta">
+                                    <span class="activity-time">4 hours ago</span>
+                                    <span class="activity-progress">60%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Item 3 -->
+                        <div class="activity-item">
+                            <div class="activity-icon milestone">
+                                <iconify-icon icon="material-symbols:star"></iconify-icon>
+                            </div>
+                            <div class="activity-content">
+                                <h4 class="activity-title">Achievement Unlocked</h4>
+                                <p class="activity-description">"Problem Solver" - Solved 50+ math problems</p>
+                                <div class="activity-meta">
+                                    <span class="activity-time">Yesterday</span>
+                                    <span class="activity-badge">Achievement</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+    <!-- Floating Action Buttons -->
+    <!-- Daily Practice Button - Bottom Left -->
+    <button class="floating-btn daily-practice-btn" onclick="openDailyPractice()" data-tooltip="Daily Practice Questions">
+        <iconify-icon icon="material-symbols:quiz" style="font-size: 1.5rem;"></iconify-icon>
+    </button>
+    
+    <!-- Flashcards Button - Bottom Right -->
+    <button class="floating-btn flashcards-btn" onclick="openFlashcards()" data-tooltip="Mathematics Flashcards">
+        <iconify-icon icon="material-symbols:style" style="font-size: 1.5rem;"></iconify-icon>
+    </button>
+
+    <!-- Focus Mode Menu -->
+    <div class="focus-mode-menu" id="focusModeMenu">
+        <div class="focus-mode-content">
+            <div class="focus-mode-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="focus-mode-title">
+                            <iconify-icon icon="material-symbols:visibility-off" class="me-2"></iconify-icon>
+                            Focus Mode
+                        </h2>
+                        <p class="focus-mode-subtitle">Block distracting websites and stay focused on your studies</p>
+                    </div>
+                    <button class="btn-close" onclick="closeFocusMode()"></button>
+                </div>
+            </div>
+            
+            <div class="focus-mode-body">
+                <!-- Study Stats -->
+                <div class="study-stats">
+                    <h4>Your Study Stats</h4>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number" id="sessionsCompleted">0</div>
+                            <div class="stat-label">Sessions</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="totalTimeStudied">0h 0m</div>
+                            <div class="stat-label">Time Studied</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" id="focusScore">0%</div>
+                            <div class="stat-label">Focus Score</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timer Section -->
+                <div class="timer-section">
+                    <h4>Study Timer</h4>
+                    <div class="timer-display">
+                        <div class="timer-circle">
+                            <div class="timer-text" id="timerDisplay">25:00</div>
+                        </div>
+                    </div>
+                    <div class="timer-controls">
+                        <button class="btn btn-primary" id="startTimerBtn" onclick="startTimer()">Start Focus Session</button>
+                        <button class="btn btn-secondary" id="stopTimerBtn" onclick="stopTimer()" style="display: none;">Stop Session</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Upcoming Deadlines Section - Modern Tailwind Style -->
+    <div class="modern-deadlines-section">
+        <div class="modern-deadlines-container">
+            <!-- Header -->
+            <div class="modern-deadlines-header">
+                <div class="modern-header-content">
+                    <div class="modern-title-wrapper">
+                        <div class="modern-icon-wrapper">
+                            <iconify-icon icon="material-symbols:schedule" class="modern-schedule-icon"></iconify-icon>
+                        </div>
+                        <h3 class="modern-deadlines-title">Upcoming Deadlines</h3>
+                    </div>
+                    <button class="modern-view-all-btn" onclick="viewAllDeadlines()">
+                        <span>View All</span>
+                        <iconify-icon icon="material-symbols:arrow-forward" class="modern-arrow-icon"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Deadlines Grid -->
+            <div class="modern-deadlines-grid">
+                <!-- Deadline Card 1 - Medium Priority -->
+                <div class="modern-deadline-card medium-priority">
+                    <div class="modern-deadline-header">
+                        <div class="modern-date-badge">
+                            <span class="modern-day">18</span>
+                            <span class="modern-month">Dec</span>
+                        </div>
+                        <div class="modern-priority-indicator medium"></div>
+                    </div>
+                    <div class="modern-deadline-content">
+                        <h4 class="modern-deadline-title">Calculus Assignment</h4>
+                        <p class="modern-deadline-description">Derivatives and Chain Rule - Problem Set 3</p>
+                        <div class="modern-deadline-meta">
+                            <span class="modern-due-time">Due in 5 days</span>
+                            <span class="modern-urgency-badge medium">Medium Priority</span>
+                        </div>
+                    </div>
+                    <div class="modern-deadline-actions">
+                        <button class="modern-start-btn medium" onclick="startAssignment('Calculus Assignment', 'Derivatives and Chain Rule')">
+                            <iconify-icon icon="material-symbols:play-arrow" class="modern-start-icon"></iconify-icon>
+                            <span>Start Assignment</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Deadline Card 2 - Normal Priority -->
+                <div class="modern-deadline-card normal-priority">
+                    <div class="modern-deadline-header">
+                        <div class="modern-date-badge">
+                            <span class="modern-day">22</span>
+                            <span class="modern-month">Dec</span>
+                        </div>
+                        <div class="modern-priority-indicator normal"></div>
+                    </div>
+                    <div class="modern-deadline-content">
+                        <h4 class="modern-deadline-title">Geometry Project</h4>
+                        <p class="modern-deadline-description">Triangle Congruence Proofs - Research Paper</p>
+                        <div class="modern-deadline-meta">
+                            <span class="modern-due-time">Due in 9 days</span>
+                            <span class="modern-urgency-badge normal">Normal Priority</span>
+                        </div>
+                    </div>
+                    <div class="modern-deadline-actions">
+                        <button class="modern-start-btn normal" onclick="startProject('Geometry Project', 'Triangle Congruence Proofs')">
+                            <iconify-icon icon="material-symbols:play-arrow" class="modern-start-icon"></iconify-icon>
+                            <span>Start Project</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Flashcard Popup Modal -->
+    <div class="modal fade" id="flashcardModal" tabindex="-1" aria-labelledby="flashcardModalLabel" aria-hidden="true" data-bs-backdrop="false">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="flashcardModalLabel">
+                        <iconify-icon icon="material-symbols:quiz" class="me-2"></iconify-icon>
+                        Mathematics Flashcards
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Progress Bar -->
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <span style="font-size: 0.9rem; color: #666;">Progress</span>
+                            <span style="font-size: 0.9rem; color: #667eea; font-weight: 600;" id="flashcardProgress">0 / 10</span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar" id="flashcardProgressBar" style="width: 0%; background: #667eea;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Flashcard -->
+                    <div class="flashcard-container" style="display: flex; justify-content: center; margin: 2rem 0;">
+                        <div class="flashcard" id="flashcard" onclick="flipCard()" style="width: 300px; height: 200px; perspective: 1000px; cursor: pointer;">
+                            <div class="flashcard-inner" id="flashcardInner" style="position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d;">
+                                <div class="flashcard-front" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                                    <div class="flashcard-content" style="padding: 1.5rem; text-align: center;">
+                                        <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; opacity: 0.9;">Question</div>
+                                        <div style="font-size: 1.1rem; line-height: 1.5;" id="questionText">Click to start!</div>
+                                    </div>
+                                </div>
+                                <div class="flashcard-back" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; transform: rotateY(180deg);">
+                                    <div class="flashcard-content" style="padding: 1.5rem; text-align: center;">
+                                        <div style="font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; opacity: 0.9;">Answer</div>
+                                        <div style="font-size: 1.1rem; line-height: 1.5;" id="answerText">See answer</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="flashcard-actions" style="display: flex; gap: 1rem; margin-bottom: 1.5rem; justify-content: center;">
+                        <button class="btn btn-success" id="correctBtn" onclick="markCorrect()" style="padding: 0.75rem 2rem; display: none;">
+                            <iconify-icon icon="material-symbols:check" class="me-1"></iconify-icon>
+                            Correct
+                        </button>
+                        <button class="btn btn-danger" id="incorrectBtn" onclick="markIncorrect()" style="padding: 0.75rem 2rem; display: none;">
+                            <iconify-icon icon="material-symbols:close" class="me-1"></iconify-icon>
+                            Incorrect
+                        </button>
+                        <button class="btn btn-warning" id="forgottenBtn" onclick="addToForgotten()" style="padding: 0.75rem 2rem; display: none;">
+                            <iconify-icon icon="material-symbols:bookmark-add" class="me-1"></iconify-icon>
+                            Forgotten
+                        </button>
+                    </div>
+                    
+                    <!-- Navigation -->
+                    <div class="flashcard-navigation" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <button class="btn btn-outline-secondary" id="prevBtn" onclick="prevCard()" style="padding: 0.5rem 1rem;">
+                            <iconify-icon icon="material-symbols:arrow-back" class="me-1"></iconify-icon>
+                            Previous
+                        </button>
+                        <span style="font-size: 1rem; color: #666; font-weight: 600;" id="cardCounter">1 / 10</span>
+                        <button class="btn btn-outline-secondary" id="nextBtn" onclick="nextCard()" style="padding: 0.5rem 1rem;">
+                            Next
+                            <iconify-icon icon="material-symbols:arrow-forward" class="ms-1"></iconify-icon>
+                        </button>
+                    </div>
+                    
+                    <!-- Study Stats -->
+                    <div class="study-stats" style="background: #f8f9fa; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="correctStat">0</div>
+                                    <div class="stat-label">Correct</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="incorrectStat">0</div>
+                                    <div class="stat-label">Incorrect</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="forgottenStat">0</div>
+                                    <div class="stat-label">Forgotten</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Control Buttons -->
+                    <div class="text-center">
+                        <button class="btn btn-outline-primary me-2" onclick="shuffleCards()">
+                            <iconify-icon icon="material-symbols:shuffle" class="me-1"></iconify-icon>
+                            Shuffle
+                        </button>
+                        <button class="btn btn-outline-warning me-2" onclick="resetFlashcards()">
+                            <iconify-icon icon="material-symbols:refresh" class="me-1"></iconify-icon>
+                            Reset
+                        </button>
+                        <button class="btn btn-outline-success" onclick="viewIncorrectCards()">
+                            <iconify-icon icon="material-symbols:visibility" class="me-1"></iconify-icon>
+                            Review Incorrect
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    
+    <script>
+        // Basic functionality for the header
+        function toggleMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            menuToggle.classList.toggle('active');
+            
+            // Create or toggle sidebar menu
+            let sidebar = document.getElementById('sidebarMenu');
+            if (!sidebar) {
+                // Create sidebar if it doesn't exist
+                sidebar = document.createElement('div');
+                sidebar.id = 'sidebarMenu';
+                sidebar.className = 'sidebar-menu';
+                sidebar.innerHTML = `
+                    <div class="sidebar-content">
+                        <div class="sidebar-header">
+                            <h5>Menu</h5>
+                            <button class="btn-close" onclick="toggleMenu()">&times;</button>
+                        </div>
+                        <div class="sidebar-body">
+                            <ul class="sidebar-nav">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="course-mathematics.html">Mathematics Course</a></li>
+                                <li><a href="homenocourses.html">No Courses Home</a></li>
+                                <li><a href="test-dashboard.html">Dashboard</a></li>
+                                <li><a href="#" onclick="toggleMenu()">Close Menu</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(sidebar);
+                
+                // Add sidebar styles
+                const sidebarStyles = document.createElement('style');
+                sidebarStyles.textContent = `
+                    .sidebar-menu {
+                        position: fixed;
+                        top: 0;
+                        left: -300px;
+                        width: 300px;
+                        height: 100vh;
+                        background: white;
+                        box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+                        z-index: 1000;
+                        transition: left 0.3s ease;
+                    }
+                    .sidebar-menu.active {
+                        left: 0;
+                    }
+                    .sidebar-content {
+                        padding: 2rem;
+                    }
+                    .sidebar-header {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 2rem;
+                        padding-bottom: 1rem;
+                        border-bottom: 1px solid #eee;
+                    }
+                    .btn-close {
+                        background: none;
+                        border: none;
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                    }
+                    .sidebar-nav {
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                    }
+                    .sidebar-nav li {
+                        margin-bottom: 1rem;
+                    }
+                    .sidebar-nav a {
+                        text-decoration: none;
+                        color: #333;
+                        font-weight: 500;
+                        padding: 0.5rem 0;
+                        display: block;
+                        border-radius: 5px;
+                        padding: 0.75rem;
+                        transition: all 0.3s ease;
+                    }
+                    .sidebar-nav a:hover {
+                        background: #f8f9fa;
+                        color: #667eea;
+                    }
+                    .sidebar-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0,0,0,0.5);
+                        z-index: 999;
+                        display: none;
+                    }
+                `;
+                document.head.appendChild(sidebarStyles);
+            }
+            
+            // Toggle sidebar visibility
+            sidebar.classList.toggle('active');
+            
+            // Add/remove overlay
+            let overlay = document.getElementById('sidebarOverlay');
+            if (sidebar.classList.contains('active')) {
+                if (!overlay) {
+                    overlay = document.createElement('div');
+                    overlay.id = 'sidebarOverlay';
+                    overlay.className = 'sidebar-overlay';
+                    overlay.onclick = toggleMenu;
+                    document.body.appendChild(overlay);
+                }
+                overlay.style.display = 'block';
+            } else {
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
+            }
+        }
+        
+        function toggleFocusMode() {
+            const focusToggle = document.getElementById('focusModeToggle');
+            focusToggle.classList.toggle('active');
+            
+            if (focusToggle.classList.contains('active')) {
+                // Focus mode is on
+                document.body.style.filter = 'blur(5px)';
+                focusToggle.querySelector('iconify-icon').setAttribute('icon', 'material-symbols:visibility');
+            } else {
+                // Focus mode is off
+                document.body.style.filter = 'none';
+                focusToggle.querySelector('iconify-icon').setAttribute('icon', 'material-symbols:visibility-off');
+            }
+        }
+        
+        function openNotifications() {
+            // Add notifications functionality here
+            alert('Notifications panel would open here');
+        }
+        
+        function openMathematicsCommunity() {
+            // Open Mathematics-specific community
+            window.open('community.html?subject=mathematics', '_blank');
+        }
+
+        function openProfile() {
+            // Profile dropdown functionality is handled by Bootstrap
+            // The dropdown menu will show/hide automatically
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                // Clear localStorage
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+                localStorage.removeItem('enrolledCourses');
+                
+                // Redirect to login page
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Floating Action Button Functions
+        function openDailyPractice() {
+            // Add daily practice questions functionality here
+            alert('Daily Practice Questions would open here');
+            // You can redirect to a practice questions page or open a modal
+            // window.location.href = 'daily-practice.html';
+        }
+
+        // Flashcard System
+        let flashcards = [
+            {
+                question: "What is the derivative of x²?",
+                answer: "2x"
+            },
+            {
+                question: "What is the integral of 2x?",
+                answer: "x² + C"
+            },
+            {
+                question: "What is the limit of (x² - 4)/(x - 2) as x approaches 2?",
+                answer: "4"
+            },
+            {
+                question: "What is the derivative of sin(x)?",
+                answer: "cos(x)"
+            },
+            {
+                question: "What is the integral of cos(x)?",
+                answer: "sin(x) + C"
+            },
+            {
+                question: "What is the derivative of ln(x)?",
+                answer: "1/x"
+            },
+            {
+                question: "What is the derivative of e^x?",
+                answer: "e^x"
+            },
+            {
+                question: "What is the chain rule formula?",
+                answer: "d/dx[f(g(x))] = f'(g(x)) × g'(x)"
+            },
+            {
+                question: "What is the product rule formula?",
+                answer: "d/dx[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)"
+            },
+            {
+                question: "What is the quotient rule formula?",
+                answer: "d/dx[f(x)/g(x)] = [f'(x)g(x) - f(x)g'(x)]/[g(x)]²"
+            }
+        ];
+        
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let forgottenCards = 0;
+        let answeredCards = new Set();
+        let forgottenCardsSet = new Set();
+
+        function openFlashcards() {
+            const modal = new bootstrap.Modal(document.getElementById('flashcardModal'));
+            modal.show();
+            initializeFlashcards();
+        }
+
+        function initializeFlashcards() {
+            loadFlashcardData();
+            displayCurrentCard();
+            updateProgress();
+            updateStats();
+        }
+        
+        function resetFlashcards() {
+            currentCardIndex = 0;
+            answeredCards.clear();
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            forgottenCards = 0;
+            forgottenCardsSet.clear();
+            displayCurrentCard();
+            updateProgress();
+            updateStats();
+        }
+        
+        function addToForgotten() {
+            const currentCard = flashcards[currentCardIndex];
+            if (currentCard) {
+                // Get existing forgotten cards from localStorage
+                let forgottenCards = JSON.parse(localStorage.getItem('forgottenFlashcards')) || [];
+                
+                // Check if card is already in forgotten list
+                const exists = forgottenCards.some(card => card.question === currentCard.question);
+                if (!exists) {
+                    forgottenCards.push({
+                        question: currentCard.question,
+                        answer: currentCard.answer,
+                        timestamp: new Date().toISOString()
+                    });
+                    localStorage.setItem('forgottenFlashcards', JSON.stringify(forgottenCards));
+                }
+            }
+            
+            if (!answeredCards.has(currentCardIndex) && !forgottenCardsSet.has(currentCardIndex)) {
+                forgottenCards++;
+                forgottenCardsSet.add(currentCardIndex);
+                answeredCards.add(currentCardIndex);
+                updateStats();
+                updateProgress();
+                
+                // Hide action buttons
+                document.getElementById('correctBtn').style.display = 'none';
+                document.getElementById('incorrectBtn').style.display = 'none';
+                document.getElementById('forgottenBtn').style.display = 'none';
+                
+                // Auto-advance to next card after a short delay
+                setTimeout(() => {
+                    if (currentCardIndex < flashcards.length - 1) {
+                        nextCard();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function addToIncorrect() {
+            const currentCard = flashcards[currentCardIndex];
+            if (currentCard) {
+                // Get existing incorrect cards from localStorage
+                let incorrectCards = JSON.parse(localStorage.getItem('incorrectFlashcards')) || [];
+                
+                // Check if card is already in incorrect list
+                const exists = incorrectCards.some(card => card.question === currentCard.question);
+                if (!exists) {
+                    incorrectCards.push({
+                        question: currentCard.question,
+                        answer: currentCard.answer,
+                        timestamp: new Date().toISOString()
+                    });
+                    localStorage.setItem('incorrectFlashcards', JSON.stringify(incorrectCards));
+                }
+            }
+        }
+        
+        function displayCurrentCard() {
+            const card = flashcards[currentCardIndex];
+            document.getElementById('questionText').textContent = card.question;
+            document.getElementById('answerText').textContent = card.answer;
+            
+            // Reset card to front
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.remove('flipped');
+            isFlipped = false;
+            
+            // Show/hide action buttons based on whether card is answered
+            const correctBtn = document.getElementById('correctBtn');
+            const incorrectBtn = document.getElementById('incorrectBtn');
+            const forgottenBtn = document.getElementById('forgottenBtn');
+            
+            if (answeredCards.has(currentCardIndex)) {
+                correctBtn.style.display = 'none';
+                incorrectBtn.style.display = 'none';
+                forgottenBtn.style.display = 'none';
+            } else {
+                correctBtn.style.display = 'inline-block';
+                incorrectBtn.style.display = 'inline-block';
+                forgottenBtn.style.display = 'inline-block';
+            }
+            
+            // Update card counter
+            document.getElementById('cardCounter').textContent = `${currentCardIndex + 1} / ${flashcards.length}`;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentCardIndex === 0;
+            document.getElementById('nextBtn').disabled = currentCardIndex === flashcards.length - 1;
+        }
+        
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            isFlipped = !isFlipped;
+            flashcard.classList.toggle('flipped');
+        }
+        
+        function nextCard() {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                displayCurrentCard();
+                updateProgress();
+            }
+        }
+        
+        function prevCard() {
+            previousCard();
+        }
+        
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                displayCurrentCard();
+                updateProgress();
+            }
+        }
+        
+        function markCorrect() {
+            if (!answeredCards.has(currentCardIndex)) {
+                correctAnswers++;
+                answeredCards.add(currentCardIndex);
+                updateStats();
+                updateProgress();
+                
+                // Hide action buttons
+                document.getElementById('correctBtn').style.display = 'none';
+                document.getElementById('incorrectBtn').style.display = 'none';
+                document.getElementById('forgottenBtn').style.display = 'none';
+                
+                // Auto-advance to next card after a short delay
+                setTimeout(() => {
+                    if (currentCardIndex < flashcards.length - 1) {
+                        nextCard();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function markIncorrect() {
+            if (!answeredCards.has(currentCardIndex)) {
+                incorrectAnswers++;
+                answeredCards.add(currentCardIndex);
+                updateStats();
+                updateProgress();
+                
+                // Add to incorrect flashcards
+                addToIncorrect();
+                
+                // Hide action buttons
+                document.getElementById('correctBtn').style.display = 'none';
+                document.getElementById('incorrectBtn').style.display = 'none';
+                document.getElementById('forgottenBtn').style.display = 'none';
+                
+                // Auto-advance to next card after a short delay
+                setTimeout(() => {
+                    if (currentCardIndex < flashcards.length - 1) {
+                        nextCard();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function shuffleCards() {
+            // Fisher-Yates shuffle algorithm
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            
+            // Reset progress
+            currentCardIndex = 0;
+            answeredCards.clear();
+            displayCurrentCard();
+            updateProgress();
+        }
+        
+        function resetProgress() {
+            currentCardIndex = 0;
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            forgottenCards = 0;
+            answeredCards.clear();
+            forgottenCardsSet.clear();
+            displayCurrentCard();
+            updateProgress();
+            updateStats();
+        }
+        
+        function updateProgress() {
+            const progress = Math.round((answeredCards.size / flashcards.length) * 100);
+            document.getElementById('flashcardProgress').textContent = `${answeredCards.size} / ${flashcards.length}`;
+            document.getElementById('flashcardProgressBar').style.width = `${progress}%`;
+        }
+        
+        function updateStats() {
+            const total = correctAnswers + incorrectAnswers;
+            document.getElementById('correctStat').textContent = correctAnswers;
+            document.getElementById('incorrectStat').textContent = incorrectAnswers;
+            document.getElementById('forgottenStat').textContent = forgottenCards;
+            
+            // Save progress to localStorage
+            saveFlashcardData();
+        }
+
+        function viewIncorrectCards() {
+            // Redirect to incorrect flashcards page
+            window.open('incorrect-flashcards.html', '_blank');
+        }
+        
+        function loadFlashcardData() {
+            const data = JSON.parse(localStorage.getItem('flashcardProgress'));
+            if (data) {
+                currentCardIndex = data.currentCardIndex || 0;
+                correctAnswers = data.correctAnswers || 0;
+                incorrectAnswers = data.incorrectAnswers || 0;
+                forgottenCards = data.forgottenCards || 0;
+                answeredCards = new Set(data.answeredCards || []);
+                forgottenCardsSet = new Set(data.forgottenCardsSet || []);
+            }
+        }
+        
+        function saveFlashcardData() {
+            const data = {
+                currentCardIndex,
+                correctAnswers,
+                incorrectAnswers,
+                forgottenCards,
+                answeredCards: Array.from(answeredCards),
+                forgottenCardsSet: Array.from(forgottenCardsSet)
+            };
+            localStorage.setItem('flashcardProgress', JSON.stringify(data));
+        }
+
+        function viewAllActivities() {
+            // Add view all activities functionality here
+            alert('View All Activities - This would open a detailed activities page');
+        }
+
+        // Auto-save function (silent save without alerts)
+        function autoSaveTasks() {
+            const tasks = [];
+            const taskItems = document.querySelectorAll('.figma-task-item');
+            
+            taskItems.forEach((item, index) => {
+                const title = item.querySelector('.figma-task-title').textContent;
+                const status = item.getAttribute('data-status');
+                const priority = item.querySelector('.figma-priority-badge') ? item.querySelector('.figma-priority-badge').textContent : 'Medium Priority';
+                const date = item.querySelector('.figma-date-badge').textContent;
+                const description = item.querySelector('.figma-task-description') ? item.querySelector('.figma-task-description').textContent : 'Mathematics task';
+                
+                tasks.push({
+                    id: index + 1,
+                    title: title,
+                    status: status,
+                    priority: priority,
+                    date: date,
+                    description: description
+                });
+            });
+            
+            // Save to localStorage silently
+            localStorage.setItem('mathcourse_tasks', JSON.stringify(tasks));
+        }
+
+        // TodoList Save/Load Functions
+        function saveTasks() {
+            autoSaveTasks(); // Use the same logic but with user feedback
+            
+            // Show success message
+            alert('Tasks saved successfully! You can access them from the todolist page.');
+            
+            // Optional: Open todolist page in new tab
+            // window.open('todolist.html', '_blank');
+        }
+
+        function loadTasks() {
+            const savedTasks = localStorage.getItem('mathcourse_tasks');
+            
+            if (savedTasks) {
+                const tasks = JSON.parse(savedTasks);
+                
+                // Clear existing tasks
+                const taskList = document.getElementById('taskList');
+                taskList.innerHTML = '';
+                
+                // Load saved tasks
+                tasks.forEach((task, index) => {
+                    const taskId = `task${index + 1}`;
+                    const taskItem = document.createElement('div');
+                    taskItem.className = 'task-item';
+                    taskItem.setAttribute('data-status', task.status);
+                    
+                    if (task.status === 'completed') {
+                        taskItem.classList.add('completed');
+                    }
+                    
+                    taskItem.innerHTML = `
+                        <div class="task-checkbox">
+                            <input type="checkbox" id="${taskId}" ${task.status === 'completed' ? 'checked' : ''} onchange="toggleTask(this)">
+                            <label for="${taskId}" class="checkbox-label"></label>
+                        </div>
+                        <div class="task-content">
+                            <h4 class="task-title">${task.title}</h4>
+                            <p class="task-description">Loaded mathematics task</p>
+                            <div class="task-meta">
+                                <span class="task-priority ${task.priority.toLowerCase().includes('high') ? 'high' : task.priority.toLowerCase().includes('low') ? 'low' : 'medium'}">${task.priority}</span>
+                                <span class="task-date ${task.status === 'completed' ? 'completed' : ''}">${task.date}</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="action-btn edit-btn" onclick="editTask(this)">
+                                <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteTask(this)">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    `;
+                    
+                    taskList.appendChild(taskItem);
+                });
+                
+                updateTaskSummary();
+                alert('Tasks loaded successfully!');
+            } else {
+                alert('No saved tasks found. Save some tasks first!');
+            }
+        }
+
+        // Deadline Click Handlers
+        function startQuiz(quizName, description) {
+            alert(`Starting ${quizName}!\n\n${description}\n\nQuiz will open in a new window.`);
+            // You can redirect to quiz page or open modal
+            // window.open(`quiz.html?name=${encodeURIComponent(quizName)}`, '_blank');
+        }
+
+        function startAssignment(assignmentName, description) {
+            alert(`Starting ${assignmentName}!\n\n${description}\n\nAssignment will open in a new window.`);
+            // You can redirect to assignment page or open modal
+            // window.open(`assignment.html?name=${encodeURIComponent(assignmentName)}`, '_blank');
+        }
+
+        function startProject(projectName, description) {
+            alert(`Starting ${projectName}!\n\n${description}\n\nProject workspace will open in a new window.`);
+            // You can redirect to project page or open modal
+            // window.open(`project.html?name=${encodeURIComponent(projectName)}`, '_blank');
+        }
+
+        function startExam(examName, description) {
+            alert(`Starting ${examName}!\n\n${description}\n\nExam will open in a new window.`);
+            // You can redirect to exam page or open modal
+            // window.open(`exam.html?name=${encodeURIComponent(examName)}`, '_blank');
+        }
+        
+
+        // Focus Mode Variables
+        let focusModeActive = false;
+        let blockedPlatforms = [];
+        let selectedTimerDuration = 25; // Default Pomodoro
+        let timerInterval = null;
+        let currentTime = 0;
+        let timerRunning = false;
+        let studyStats = {
+            sessionsCompleted: 0,
+            totalTimeStudied: 0,
+            focusScore: 0
+        };
+
+        // TodoList functionality
+        let taskCounter = 4; // Start from 4 since we have 3 sample tasks
+
+        function addTask() {
+            const input = document.getElementById('newTaskInput');
+            const taskText = input.value.trim();
+            
+            if (taskText === '') {
+                alert('Please enter a task description!');
+                return;
+            }
+
+            const taskList = document.getElementById('taskList');
+            const newTaskId = `task${taskCounter}`;
+            
+            const taskItem = document.createElement('div');
+            taskItem.className = 'figma-task-item';
+            taskItem.setAttribute('data-status', 'pending');
+            taskItem.setAttribute('data-priority', 'medium');
+            taskItem.innerHTML = `
+                <div class="figma-task-checkbox">
+                    <input type="checkbox" id="${newTaskId}" onchange="toggleTask(this)">
+                    <label for="${newTaskId}" class="figma-checkbox-label"></label>
+                </div>
+                <div class="figma-task-content">
+                    <div class="figma-task-title">${taskText}</div>
+                    <div class="figma-task-description">New mathematics task</div>
+                    <div class="figma-task-meta">
+                        <span class="figma-priority-badge medium">Medium Priority</span>
+                        <span class="figma-date-badge">Due: Soon</span>
+                    </div>
+                </div>
+                <div class="figma-task-actions">
+                    <button class="figma-action-btn edit" onclick="editTask(this)">
+                        <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                    </button>
+                    <button class="figma-action-btn delete" onclick="deleteTask(this)">
+                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                    </button>
+                </div>
+            `;
+            
+            // Insert new task at the top of the list
+            if (taskList.firstChild) {
+                taskList.insertBefore(taskItem, taskList.firstChild);
+            } else {
+                taskList.appendChild(taskItem);
+            }
+            
+            input.value = '';
+            taskCounter++;
+            updateTaskSummary();
+            
+            // Auto-save after adding task
+            autoSaveTasks();
+        }
+
+        function toggleTask(checkbox) {
+            const taskItem = checkbox.closest('.figma-task-item');
+            const isCompleted = checkbox.checked;
+            
+            if (isCompleted) {
+                taskItem.classList.add('completed');
+                taskItem.setAttribute('data-status', 'completed');
+                const dateBadge = taskItem.querySelector('.figma-date-badge');
+                if (dateBadge) {
+                    dateBadge.textContent = 'Completed Now';
+                }
+            } else {
+                taskItem.classList.remove('completed');
+                taskItem.setAttribute('data-status', 'pending');
+                const dateBadge = taskItem.querySelector('.figma-date-badge');
+                if (dateBadge) {
+                    dateBadge.textContent = 'Due: Soon';
+                }
+            }
+            
+            updateTaskSummary();
+            
+            // Auto-save after toggling task
+            autoSaveTasks();
+        }
+
+        function deleteTask(button) {
+            if (confirm('Are you sure you want to delete this task?')) {
+                const taskItem = button.closest('.task-item');
+                taskItem.remove();
+                updateTaskSummary();
+                
+                // Auto-save after deleting task
+                autoSaveTasks();
+            }
+        }
+
+        function editTask(button) {
+            const taskItem = button.closest('.figma-task-item');
+            const taskTitle = taskItem.querySelector('.figma-task-title');
+            const newTitle = prompt('Edit task:', taskTitle.textContent);
+            
+            if (newTitle && newTitle.trim() !== '') {
+                taskTitle.textContent = newTitle.trim();
+                
+                // Auto-save after editing task
+                autoSaveTasks();
+            }
+        }
+
+
+        function updateTaskSummary() {
+            const allTasks = document.querySelectorAll('.figma-task-item');
+            const pendingTasks = document.querySelectorAll('.figma-task-item[data-status="pending"]');
+            const completedTasks = document.querySelectorAll('.figma-task-item[data-status="completed"]');
+            
+            document.getElementById('totalTasks').textContent = allTasks.length;
+            document.getElementById('pendingTasks').textContent = pendingTasks.length;
+            document.getElementById('completedTasks').textContent = completedTasks.length;
+        }
+
+        function filterTasks(filter) {
+            const taskItems = document.querySelectorAll('.figma-task-item');
+            const filterButtons = document.querySelectorAll('.figma-filter-btn');
+            
+            // Update active filter button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+            
+            // Show/hide tasks based on filter
+            taskItems.forEach(item => {
+                const status = item.getAttribute('data-status');
+                if (filter === 'all' || status === filter) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Focus Mode Functions
+        function toggleFocusMode() {
+            const menu = document.getElementById('focusModeMenu');
+            const toggle = document.getElementById('focusModeToggle');
+            
+            if (focusModeActive) {
+                closeFocusMode();
+            } else {
+                menu.classList.add('show');
+                toggle.classList.add('active');
+                focusModeActive = true;
+                loadStudyStats();
+            }
+        }
+        
+        function closeFocusMode() {
+            const menu = document.getElementById('focusModeMenu');
+            const toggle = document.getElementById('focusModeToggle');
+            
+            menu.classList.remove('show');
+            toggle.classList.remove('active');
+            focusModeActive = false;
+        }
+
+        function loadStudyStats() {
+            const saved = localStorage.getItem('studyStats');
+            if (saved) {
+                studyStats = JSON.parse(saved);
+                updateStatsDisplay();
+            }
+        }
+
+        function updateStatsDisplay() {
+            // Update focus mode stats display if elements exist
+            const sessionsElement = document.getElementById('sessionsCompleted');
+            const timeElement = document.getElementById('totalTimeStudied');
+            const scoreElement = document.getElementById('focusScore');
+            
+            if (sessionsElement) sessionsElement.textContent = studyStats.sessionsCompleted;
+            if (timeElement) timeElement.textContent = formatTime(studyStats.totalTimeStudied);
+            if (scoreElement) scoreElement.textContent = studyStats.focusScore + '%';
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            return `${hours}h ${minutes}m`;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved tasks first
+            loadTasksOnStartup();
+            
+            // Initialize task summary
+            updateTaskSummary();
+            
+            // Initialize focus mode
+            initializeFocusMode();
+            
+            // Add Enter key support for adding tasks
+            document.getElementById('newTaskInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+        });
+
+        function initializeFocusMode() {
+            // Load saved blocked platforms
+            const saved = localStorage.getItem('blockedPlatforms');
+            if (saved) {
+                blockedPlatforms = JSON.parse(saved);
+            }
+        }
+
+        function startTimer() {
+            if (!timerRunning) {
+                timerRunning = true;
+                currentTime = selectedTimerDuration * 60; // Convert to seconds
+                
+                document.getElementById('startTimerBtn').style.display = 'none';
+                document.getElementById('stopTimerBtn').style.display = 'inline-block';
+                
+                timerInterval = setInterval(() => {
+                    currentTime--;
+                    updateTimerDisplay();
+                    
+                    if (currentTime <= 0) {
+                        stopTimer();
+                        // Timer completed - could add notification here
+                        alert('Focus session completed! Great job!');
+                    }
+                }, 1000);
+            }
+        }
+
+        function stopTimer() {
+            if (timerRunning) {
+                timerRunning = false;
+                clearInterval(timerInterval);
+                
+                document.getElementById('startTimerBtn').style.display = 'inline-block';
+                document.getElementById('stopTimerBtn').style.display = 'none';
+                
+                // Update stats
+                studyStats.sessionsCompleted++;
+                studyStats.totalTimeStudied += (selectedTimerDuration * 60) - currentTime;
+                studyStats.focusScore = Math.min(100, studyStats.focusScore + 5);
+                
+                // Save stats
+                localStorage.setItem('studyStats', JSON.stringify(studyStats));
+                updateStatsDisplay();
+            }
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(currentTime / 60);
+            const seconds = currentTime % 60;
+            const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timerDisplay').textContent = display;
+        }
+
+        // Auto-load tasks when page loads
+        function loadTasksOnStartup() {
+            const savedTasks = localStorage.getItem('mathcourse_tasks');
+            
+            if (savedTasks) {
+                const tasks = JSON.parse(savedTasks);
+                
+                // Clear existing static tasks
+                const taskList = document.getElementById('taskList');
+                taskList.innerHTML = '';
+                
+                // Load saved tasks
+                tasks.forEach((task, index) => {
+                    const taskId = `task${index + 1}`;
+                    const taskItem = document.createElement('div');
+                    taskItem.className = 'task-item';
+                    taskItem.setAttribute('data-status', task.status);
+                    
+                    if (task.status === 'completed') {
+                        taskItem.classList.add('completed');
+                    }
+                    
+                    taskItem.innerHTML = `
+                        <div class="task-checkbox">
+                            <input type="checkbox" id="${taskId}" ${task.status === 'completed' ? 'checked' : ''} onchange="toggleTask(this)">
+                            <label for="${taskId}" class="checkbox-label"></label>
+                        </div>
+                        <div class="task-content">
+                            <h4 class="task-title">${task.title}</h4>
+                            <p class="task-description">${task.description || 'Mathematics task'}</p>
+                            <div class="task-meta">
+                                <span class="task-priority ${task.priority.toLowerCase().includes('high') ? 'high' : task.priority.toLowerCase().includes('low') ? 'low' : 'medium'}">${task.priority}</span>
+                                <span class="task-date ${task.status === 'completed' ? 'completed' : ''}">${task.date}</span>
+                            </div>
+                        </div>
+                        <div class="task-actions">
+                            <button class="action-btn edit-btn" onclick="editTask(this)">
+                                <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            </button>
+                            <button class="action-btn delete-btn" onclick="deleteTask(this)">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    `;
+                    
+                    taskList.appendChild(taskItem);
+                });
+                
+                // Update task counter to continue from where we left off
+                taskCounter = tasks.length + 1;
+            }
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ask Assistants - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .logo span {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem 2rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+        
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        /* WhatsApp-like Design */
+        .assistant-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            margin-bottom: 1rem;
+        }
+        
+        .assistant-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .assistants-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .assistants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .assistant-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .assistant-avatar {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 18px;
+        }
+        
+        .avatar-initials {
+            z-index: 2;
+        }
+        
+        .online-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .assistant-avatar.online {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+        }
+        
+        .assistant-avatar.online .online-indicator {
+            background: #25D366;
+        }
+        
+        .assistant-avatar.away {
+            background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%);
+        }
+        
+        .assistant-avatar.away .online-indicator {
+            background: #FFA500;
+        }
+        
+        .assistant-avatar.offline {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+        
+        .assistant-avatar.offline .online-indicator {
+            background: #6c757d;
+        }
+        
+        .assistant-info {
+            flex: 1;
+        }
+        
+        .assistant-info h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .assistant-role {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0.25rem 0;
+        }
+        
+        .last-seen {
+            color: #25D366;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .assistant-actions-header {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .chat-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: #25D366;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+        
+        .chat-btn:hover {
+            background: #128C7E;
+            transform: scale(1.1);
+        }
+        
+        .assistant-description {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .assistant-specialties {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .specialty-tag {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .assistant-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .assistant-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: 700;
+        }
+        
+        .assistant-info h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .assistant-role {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        
+        .assistant-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .assistant-features {
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #555;
+            font-size: 0.9rem;
+        }
+        
+        .feature-icon {
+            color: #28a745;
+            font-size: 16px;
+        }
+        
+        .assistant-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: #e8f5e8;
+            border-radius: 20px;
+            color: #155724;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #28a745;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .assistant-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-assistant {
+            flex: 1;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .question-context {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+        
+        .context-title {
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .context-question {
+            color: #666;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .context-meta {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #888;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .assistants-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .assistant-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <a href="course-mathematics.html" class="logo">
+                <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
+                <span>Ask Assistants</span>
+            </a>
+            <div class="nav-buttons">
+                <a href="course-mathematics.html" class="nav-btn">
+                    <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                    Back to Course
+                </a>
+                <a href="mathematics-homework.html" class="nav-btn">
+                    <iconify-icon icon="material-symbols:assignment"></iconify-icon>
+                    Homework
+                </a>
+                <a href="mathematics-quiz.html" class="nav-btn">
+                    <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                    Quizzes
+                </a>
+                <a href="mathematics-exam.html" class="nav-btn">
+                    <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                    Exams
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1 class="page-title">Ask Assistants</h1>
+        <p class="page-subtitle">Get personalized help from our expert tutors and teachers</p>
+        
+        <!-- Question Context (if coming from a question) -->
+        <div id="questionContext" class="question-context" style="display: none;">
+            <div class="context-title">
+                <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                Question Context
+            </div>
+            <div class="context-question" id="contextQuestionText"></div>
+            <div class="context-meta" id="contextMeta"></div>
+        </div>
+        
+        <!-- Assistants Section -->
+        <div class="assistants-section">
+            <div class="assistants-grid">
+                <!-- Math Teacher -->
+                <div class="assistant-card">
+                    <div class="assistant-header">
+                        <div class="assistant-avatar online">
+                            <div class="avatar-initials">Dr. S</div>
+                            <div class="online-indicator"></div>
+                        </div>
+                        <div class="assistant-info">
+                            <h3>Dr. Sarah Johnson</h3>
+                            <div class="assistant-role">Mathematics Teacher</div>
+                            <div class="last-seen">Online now</div>
+                        </div>
+                        <div class="assistant-actions-header">
+                            <button class="chat-btn" onclick="startPrivateChat('dr-sarah')" title="Start private chat">
+                                <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="assistant-description">
+                        Experienced mathematics teacher with 15+ years of teaching experience. Specializes in IGCSE and A-Level mathematics.
+                    </div>
+                    
+                    <div class="assistant-specialties">
+                        <span class="specialty-tag">Algebra</span>
+                        <span class="specialty-tag">Geometry</span>
+                        <span class="specialty-tag">Calculus</span>
+                        <span class="specialty-tag">Statistics</span>
+                    </div>
+                </div>
+                
+                <!-- General Tutor -->
+                <div class="assistant-card">
+                    <div class="assistant-header">
+                        <div class="assistant-avatar away">
+                            <div class="avatar-initials">Mr. A</div>
+                            <div class="online-indicator"></div>
+                        </div>
+                        <div class="assistant-info">
+                            <h3>Mr. Ahmed Hassan</h3>
+                            <div class="assistant-role">General Academic Tutor</div>
+                            <div class="last-seen">Away - back in 15 min</div>
+                        </div>
+                        <div class="assistant-actions-header">
+                            <button class="chat-btn" onclick="startPrivateChat('mr-ahmed')" title="Start private chat">
+                                <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="assistant-description">
+                        Multi-subject tutor with expertise in mathematics, physics, and chemistry. Helps with study techniques, exam strategies, and academic planning.
+                    </div>
+                    
+                    <div class="assistant-specialties">
+                        <span class="specialty-tag">Mathematics</span>
+                        <span class="specialty-tag">Physics</span>
+                        <span class="specialty-tag">Chemistry</span>
+                        <span class="specialty-tag">Study Planning</span>
+                    </div>
+                </div>
+                
+                <!-- Physics Teacher -->
+                <div class="assistant-card">
+                    <div class="assistant-header">
+                        <div class="assistant-avatar online">
+                            <div class="avatar-initials">Prof. M</div>
+                            <div class="online-indicator"></div>
+                        </div>
+                        <div class="assistant-info">
+                            <h3>Prof. Michael Chen</h3>
+                            <div class="assistant-role">Physics Teacher</div>
+                            <div class="last-seen">Online now</div>
+                        </div>
+                        <div class="assistant-actions-header">
+                            <button class="chat-btn" onclick="startPrivateChat('prof-michael')" title="Start private chat">
+                                <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="assistant-description">
+                        Physics professor with 20+ years of experience. Expert in mechanics, thermodynamics, and quantum physics. Available for complex problem solving.
+                    </div>
+                    
+                    <div class="assistant-specialties">
+                        <span class="specialty-tag">Mechanics</span>
+                        <span class="specialty-tag">Thermodynamics</span>
+                        <span class="specialty-tag">Quantum Physics</span>
+                        <span class="specialty-tag">Lab Work</span>
+                    </div>
+                </div>
+                
+                <!-- Chemistry Teacher -->
+                <div class="assistant-card">
+                    <div class="assistant-header">
+                        <div class="assistant-avatar offline">
+                            <div class="avatar-initials">Dr. L</div>
+                            <div class="online-indicator"></div>
+                        </div>
+                        <div class="assistant-info">
+                            <h3>Dr. Lisa Rodriguez</h3>
+                            <div class="assistant-role">Chemistry Teacher</div>
+                            <div class="last-seen">Last seen 2 hours ago</div>
+                        </div>
+                        <div class="assistant-actions-header">
+                            <button class="chat-btn" onclick="startPrivateChat('dr-lisa')" title="Start private chat">
+                                <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="assistant-description">
+                        Chemistry specialist with expertise in organic, inorganic, and physical chemistry. Helps with lab reports and chemical problem solving.
+                    </div>
+                    
+                    <div class="assistant-specialties">
+                        <span class="specialty-tag">Organic Chemistry</span>
+                        <span class="specialty-tag">Inorganic Chemistry</span>
+                        <span class="specialty-tag">Physical Chemistry</span>
+                        <span class="specialty-tag">Lab Reports</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check for question context from URL parameters
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const question = urlParams.get('question');
+            const assignment = urlParams.get('assignment');
+            const subject = urlParams.get('subject');
+            
+            if (question) {
+                showQuestionContext(question, assignment, subject);
+            }
+        });
+        
+        function showQuestionContext(question, assignment, subject) {
+            const contextDiv = document.getElementById('questionContext');
+            const questionText = document.getElementById('contextQuestionText');
+            const meta = document.getElementById('contextMeta');
+            
+            questionText.textContent = question;
+            meta.textContent = `From: ${assignment || 'Assignment'} • Subject: ${subject || 'Mathematics'}`;
+            
+            contextDiv.style.display = 'block';
+        }
+        
+        function switchTab(tabType) {
+            const aiTab = document.getElementById('aiTab');
+            const humanTab = document.getElementById('humanTab');
+            const aiSection = document.getElementById('aiAssistants');
+            const humanSection = document.getElementById('humanAssistants');
+            
+            if (tabType === 'ai') {
+                aiTab.classList.add('active');
+                humanTab.classList.remove('active');
+                aiSection.style.display = 'block';
+                humanSection.style.display = 'none';
+            } else {
+                humanTab.classList.add('active');
+                aiTab.classList.remove('active');
+                humanSection.style.display = 'block';
+                aiSection.style.display = 'none';
+            }
+        }
+        
+        function startChat(assistantType) {
+            const urlParams = new URLSearchParams(window.location.search);
+            const question = urlParams.get('question');
+            const assignment = urlParams.get('assignment');
+            const subject = urlParams.get('subject');
+            
+            let chatUrl = 'community.html?assistant=' + assistantType;
+            
+            if (question) {
+                chatUrl += '&question=' + encodeURIComponent(question);
+            }
+            if (assignment) {
+                chatUrl += '&assignment=' + encodeURIComponent(assignment);
+            }
+            if (subject) {
+                chatUrl += '&subject=' + encodeURIComponent(subject);
+            }
+            
+            // Different actions based on assistant type
+            if (assistantType.includes('human')) {
+                if (assistantType === 'math-human') {
+                    alert('Connecting to Dr. Sarah Johnson...\n\nVideo call will start in a moment. Please ensure your camera and microphone are ready.');
+                } else {
+                    alert('Scheduling session with Mr. Ahmed Hassan...\n\nYou will receive a confirmation email with the session details.');
+                }
+            }
+            
+            window.open(chatUrl, '_blank');
+        }
+        
+        function viewProfile(assistantType) {
+            let profileInfo = '';
+            
+            switch(assistantType) {
+                case 'math-ai':
+                    profileInfo = 'Math Mentor AI\n\n• Specializes in mathematics\n• Available 24/7\n• Instant responses\n• Step-by-step solutions';
+                    break;
+                case 'general-ai':
+                    profileInfo = 'Academic Assistant AI\n\n• Multi-subject support\n• Available 24/7\n• Study strategies\n• Exam preparation';
+                    break;
+                case 'math-human':
+                    profileInfo = 'Dr. Sarah Johnson\n\n• 15+ years experience\n• IGCSE & A-Level specialist\n• Live video tutoring\n• Personalized approach';
+                    break;
+                case 'general-human':
+                    profileInfo = 'Mr. Ahmed Hassan\n\n• Multi-subject tutor\n• Study planning expert\n• Flexible scheduling\n• Progress tracking';
+                    break;
+                default:
+                    profileInfo = 'Assistant Profile\n\nThis assistant is designed to help you with your studies.';
+            }
+            
+            alert(profileInfo);
+        }
+    </script>
+</body>
+</html>

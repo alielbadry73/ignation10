@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Community - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #e8edf5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Chat Container */
+        .chat-container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: #e8edf5;
+        }
+
+        /* Header */
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 100;
+        }
+
+        .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .back-btn iconify-icon {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .group-info {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+        }
+
+        .group-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .group-details h3 {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .group-details p {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .header-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .header-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .header-btn iconify-icon {
+            color: white;
+            font-size: 1.3rem;
+        }
+
+        /* Chat Background */
+        .chat-background {
+            flex: 1;
+            background: #e8edf5;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(102, 126, 234, 0.03) 35px, rgba(102, 126, 234, 0.03) 70px);
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        /* Messages Container */
+        .messages-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        /* Date Separator */
+        .date-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .date-badge {
+            background: rgba(102, 126, 234, 0.15);
+            color: #667eea;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Message Bubble */
+        .message {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.sent {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .message.sent .message-avatar {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .message-content {
+            max-width: 65%;
+        }
+
+        .sender-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.25rem;
+            padding-left: 0.75rem;
+        }
+
+        .message.sent .sender-name {
+            text-align: right;
+            padding-right: 0.75rem;
+            padding-left: 0;
+            color: #4facfe;
+        }
+
+        .message-bubble {
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: relative;
+        }
+
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Message tail */
+        .message-bubble::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -8px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 12px 12px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .message.sent .message-bubble::before {
+            left: auto;
+            right: -8px;
+            border-width: 0 0 12px 12px;
+            border-color: transparent transparent transparent #667eea;
+        }
+
+        .message-text {
+            margin: 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            word-wrap: break-word;
+        }
+
+        .message-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .message.sent .message-meta {
+            justify-content: flex-end;
+        }
+
+        .message-time {
+            color: #64748b;
+        }
+
+        .message.sent .message-time {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .read-status iconify-icon {
+            font-size: 1rem;
+            color: #4facfe;
+        }
+
+        /* Input Area */
+        .chat-input-area {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-top: 1px solid #e2e8f0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+        }
+
+        .input-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: flex-end;
+            gap: 0.75rem;
+        }
+
+        .input-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .input-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .input-btn:hover {
+            background: #f8f9fa;
+            border-color: #667eea;
+        }
+
+        .input-btn iconify-icon {
+            font-size: 1.3rem;
+            color: #667eea;
+        }
+
+        .message-input-wrapper {
+            flex: 1;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 0.5rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .message-input-wrapper:focus-within {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .emoji-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            transition: transform 0.2s ease;
+        }
+
+        .emoji-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .message-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+            resize: none;
+            max-height: 100px;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .send-btn iconify-icon {
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #667eea;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: #f1f5f9;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: #e2e8f0;
+            transform: rotate(90deg);
+        }
+
+        .close-modal iconify-icon {
+            font-size: 1.5rem;
+            color: #64748b;
+        }
+
+        /* Group Info Modal */
+        .group-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 1rem;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .group-name-large {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .group-description {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .info-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .info-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: #f1f5f9;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .info-text {
+            flex: 1;
+        }
+
+        .info-text strong {
+            display: block;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .info-text span {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        /* Search Modal */
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-result {
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-result:hover {
+            background: #f1f5f9;
+            transform: translateX(5px);
+        }
+
+        .search-result-sender {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 0.25rem;
+        }
+
+        .search-result-text {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .search-result-time {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Menu Modal */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .menu-item:hover {
+            background: #f1f5f9;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .menu-item iconify-icon {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .menu-item-text {
+            flex: 1;
+        }
+
+        .menu-item-text strong {
+            display: block;
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .menu-item-text span {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .menu-item.danger iconify-icon {
+            color: #ef4444;
+        }
+
+        .menu-item.danger:hover {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .message-content {
+                max-width: 80%;
+            }
+
+            .group-details h3 {
+                font-size: 1rem;
+            }
+
+            .input-actions {
+                display: none;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+            }
+        }
+
+        /* System Message */
+        .system-message {
+            text-align: center;
+            margin: 1.5rem 0;
+        }
+
+        .system-message-text {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 0.5rem 1.25rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Chat Header -->
+        <div class="chat-header">
+            <button class="back-btn" onclick="goBack()">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+            </button>
+            
+            <div class="group-info" onclick="showGroupInfo()">
+                <div class="group-avatar">
+                    📚
+                </div>
+                <div class="group-details">
+                    <h3 id="groupName">Physics IGCSE</h3>
+                    <p id="groupMembers">142 members</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="header-btn" onclick="searchMessages()">
+                    <iconify-icon icon="material-symbols:search"></iconify-icon>
+                </button>
+                <button class="header-btn" onclick="showMenu()">
+                    <iconify-icon icon="material-symbols:more-vert"></iconify-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Background -->
+        <div class="chat-background" id="chatBackground">
+            <div class="messages-container" id="messagesContainer">
+                <!-- Messages will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input-area">
+            <div class="input-container">
+                <div class="input-actions">
+                    <button class="input-btn" title="Attach file">
+                        <iconify-icon icon="material-symbols:attach-file"></iconify-icon>
+                    </button>
+                    <button class="input-btn" title="Take photo">
+                        <iconify-icon icon="material-symbols:photo-camera"></iconify-icon>
+                    </button>
+                </div>
+
+                <div class="message-input-wrapper">
+                    <button class="emoji-btn">😊</button>
+                    <textarea 
+                        class="message-input" 
+                        id="messageInput" 
+                        placeholder="Type a message..."
+                        rows="1"
+                        onkeydown="handleKeyPress(event)"
+                    ></textarea>
+                </div>
+
+                <button class="send-btn" onclick="sendMessage()">
+                    <iconify-icon icon="material-symbols:send"></iconify-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Group Info Modal -->
+    <div class="modal-overlay" id="groupInfoModal" onclick="closeModalOnOverlay(event, 'groupInfoModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Group Info</h2>
+                <button class="close-modal" onclick="closeModal('groupInfoModal')">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                </button>
+            </div>
+
+            <div class="group-avatar-large">⚛️</div>
+            <div class="group-name-large" id="modalGroupName">Physics IGCSE</div>
+            <div class="group-description">A community for students studying Physics IGCSE. Share resources, ask questions, and collaborate!</div>
+
+            <div class="info-section">
+                <h3>Group Details</h3>
+                <div class="info-item">
+                    <div class="info-icon">
+                        <iconify-icon icon="material-symbols:group"></iconify-icon>
+                    </div>
+                    <div class="info-text">
+                        <strong id="modalGroupMembers">142 members</strong>
+                        <span>Active participants</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">
+                        <iconify-icon icon="material-symbols:calendar-month"></iconify-icon>
+                    </div>
+                    <div class="info-text">
+                        <strong>Created Oct 2024</strong>
+                        <span>Group started</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-icon">
+                        <iconify-icon icon="material-symbols:school"></iconify-icon>
+                    </div>
+                    <div class="info-text">
+                        <strong>Dr. Sarah Ahmed</strong>
+                        <span>Course instructor</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h3>Quick Actions</h3>
+                <div class="info-item" style="cursor: pointer;" onclick="alert('Mute notifications feature coming soon!')">
+                    <div class="info-icon">
+                        <iconify-icon icon="material-symbols:notifications-off"></iconify-icon>
+                    </div>
+                    <div class="info-text">
+                        <strong>Mute Notifications</strong>
+                        <span>Turn off group alerts</span>
+                    </div>
+                </div>
+                <div class="info-item" style="cursor: pointer;" onclick="alert('Media gallery feature coming soon!')">
+                    <div class="info-icon">
+                        <iconify-icon icon="material-symbols:photo-library"></iconify-icon>
+                    </div>
+                    <div class="info-text">
+                        <strong>Media & Files</strong>
+                        <span>View shared resources</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal-overlay" id="searchModal" onclick="closeModalOnOverlay(event, 'searchModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Search Messages</h2>
+                <button class="close-modal" onclick="closeModal('searchModal')">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                </button>
+            </div>
+
+            <input type="text" class="search-input" id="searchInput" placeholder="Search for messages..." oninput="searchMessagesLive()">
+            
+            <div id="searchResults">
+                <!-- Search results will appear here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Modal -->
+    <div class="modal-overlay" id="menuModal" onclick="closeModalOnOverlay(event, 'menuModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h2>Group Options</h2>
+                <button class="close-modal" onclick="closeModal('menuModal')">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                </button>
+            </div>
+
+            <div class="menu-item" onclick="alert('Export chat feature coming soon!')">
+                <iconify-icon icon="material-symbols:download"></iconify-icon>
+                <div class="menu-item-text">
+                    <strong>Export Chat</strong>
+                    <span>Download conversation history</span>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="alert('Wallpaper feature coming soon!')">
+                <iconify-icon icon="material-symbols:wallpaper"></iconify-icon>
+                <div class="menu-item-text">
+                    <strong>Change Wallpaper</strong>
+                    <span>Customize chat background</span>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="alert('Clear chat feature coming soon!')">
+                <iconify-icon icon="material-symbols:delete-sweep"></iconify-icon>
+                <div class="menu-item-text">
+                    <strong>Clear Chat</strong>
+                    <span>Delete all messages locally</span>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="showGroupInfo()">
+                <iconify-icon icon="material-symbols:info"></iconify-icon>
+                <div class="menu-item-text">
+                    <strong>Group Info</strong>
+                    <span>View group details</span>
+                </div>
+            </div>
+
+            <div class="menu-item danger" onclick="confirmLeaveGroup()">
+                <iconify-icon icon="material-symbols:exit-to-app"></iconify-icon>
+                <div class="menu-item-text">
+                    <strong>Leave Group</strong>
+                    <span>Exit this community</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample messages data
+        const sampleMessages = [
+            {
+                id: 1,
+                sender: 'Dr. Sarah Ahmed',
+                avatar: 'SA',
+                text: 'Good morning everyone! Today we will be covering quadratic equations. Make sure you have your notes ready.',
+                time: '09:15 AM',
+                isSent: false,
+                isRead: true
+            },
+            {
+                id: 2,
+                sender: 'You',
+                avatar: 'ME',
+                text: 'Good morning Dr. Sarah! I have a question about yesterday\'s homework.',
+                time: '09:17 AM',
+                isSent: true,
+                isRead: true
+            },
+            {
+                id: 3,
+                sender: 'Ahmed Hassan',
+                avatar: 'AH',
+                text: 'Can we review the factorization method again?',
+                time: '09:18 AM',
+                isSent: false,
+                isRead: true
+            },
+            {
+                id: 4,
+                sender: 'Dr. Sarah Ahmed',
+                avatar: 'SA',
+                text: 'Of course! Let me share a video explanation in the lecture section. Also, I\'ll post some practice problems.',
+                time: '09:20 AM',
+                isSent: false,
+                isRead: true
+            },
+            {
+                id: 5,
+                sender: 'Layla Mohammed',
+                avatar: 'LM',
+                text: 'Thank you Dr. Sarah! The explanations are very helpful 🙏',
+                time: '09:22 AM',
+                isSent: false,
+                isRead: true
+            },
+            {
+                id: 6,
+                sender: 'You',
+                avatar: 'ME',
+                text: 'I finished the assignment. Where should I submit it?',
+                time: '09:25 AM',
+                isSent: true,
+                isRead: true
+            },
+            {
+                id: 7,
+                sender: 'Dr. Sarah Ahmed',
+                avatar: 'SA',
+                text: 'Great! You can submit it through the assignments section in your dashboard. The deadline is tomorrow at 11:59 PM.',
+                time: '09:27 AM',
+                isSent: false,
+                isRead: true
+            }
+        ];
+
+        // Initialize chat
+        function initializeChat() {
+            renderMessages();
+            scrollToBottom();
+        }
+
+        function renderMessages() {
+            const container = document.getElementById('messagesContainer');
+            
+            // Add date separator
+            container.innerHTML = `
+                <div class="date-separator">
+                    <div class="date-badge">Today</div>
+                </div>
+            `;
+
+            // Render messages
+            sampleMessages.forEach((msg, index) => {
+                const messageEl = createMessageElement(msg);
+                container.appendChild(messageEl);
+            });
+
+            // Add typing indicator
+            // addTypingIndicator();
+        }
+
+        function createMessageElement(msg) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${msg.isSent ? 'sent' : ''}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${msg.avatar}</div>
+                <div class="message-content">
+                    ${!msg.isSent ? `<div class="sender-name">${msg.sender}</div>` : ''}
+                    <div class="message-bubble">
+                        <p class="message-text">${msg.text}</p>
+                        <div class="message-meta">
+                            <span class="message-time">${msg.time}</span>
+                            ${msg.isSent && msg.isRead ? '<span class="read-status"><iconify-icon icon="material-symbols:done-all"></iconify-icon></span>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return messageDiv;
+        }
+
+        function addTypingIndicator() {
+            const container = document.getElementById('messagesContainer');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">SA</div>
+                <div class="message-content">
+                    <div class="sender-name">Dr. Sarah Ahmed</div>
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                const newMessage = {
+                    id: sampleMessages.length + 1,
+                    sender: 'You',
+                    avatar: 'ME',
+                    text: text,
+                    time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }),
+                    isSent: true,
+                    isRead: false
+                };
+                
+                sampleMessages.push(newMessage);
+                
+                const container = document.getElementById('messagesContainer');
+                const messageEl = createMessageElement(newMessage);
+                container.appendChild(messageEl);
+                
+                input.value = '';
+                input.style.height = 'auto';
+                scrollToBottom();
+                
+                // Simulate message being read
+                setTimeout(() => {
+                    newMessage.isRead = true;
+                    renderMessages();
+                    scrollToBottom();
+                }, 2000);
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        }
+
+        function scrollToBottom() {
+            const chatBackground = document.getElementById('chatBackground');
+            setTimeout(() => {
+                chatBackground.scrollTop = chatBackground.scrollHeight;
+            }, 100);
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function showGroupInfo() {
+            closeModal('menuModal'); // Close menu if open
+            document.getElementById('groupInfoModal').classList.add('active');
+        }
+
+        function searchMessages() {
+            document.getElementById('searchModal').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('searchInput').focus();
+            }, 100);
+        }
+
+        function showMenu() {
+            document.getElementById('menuModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function closeModalOnOverlay(event, modalId) {
+            if (event.target.id === modalId) {
+                closeModal(modalId);
+            }
+        }
+
+        function searchMessagesLive() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+            
+            if (!searchTerm) {
+                resultsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #94a3b8;">Start typing to search messages...</div>';
+                return;
+            }
+            
+            const results = sampleMessages.filter(msg => 
+                msg.text.toLowerCase().includes(searchTerm) || 
+                msg.sender.toLowerCase().includes(searchTerm)
+            );
+            
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<div style="text-align: center; padding: 2rem; color: #94a3b8;">No messages found</div>';
+                return;
+            }
+            
+            resultsContainer.innerHTML = results.map(msg => `
+                <div class="search-result" onclick="closeModal('searchModal')">
+                    <div class="search-result-sender">${msg.sender}</div>
+                    <div class="search-result-text">${highlightText(msg.text, searchTerm)}</div>
+                    <div class="search-result-time">${msg.time}</div>
+                </div>
+            `).join('');
+        }
+
+        function highlightText(text, searchTerm) {
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<mark style="background: #fef3c7; padding: 2px 4px; border-radius: 3px;">$1</mark>');
+        }
+
+        function confirmLeaveGroup() {
+            if (confirm('Are you sure you want to leave this group? You will no longer receive messages.')) {
+                alert('You have left the group. Redirecting to dashboard...');
+                setTimeout(() => {
+                    window.history.back();
+                }, 1000);
+            }
+        }
+
+        // Auto-resize textarea
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+        // Initialize
+        initializeChat();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - IG Nation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="style.css?v=5">
+    <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+    <style>
+        /* Reset all margins and padding to eliminate white space */
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+        }
+        
+        /* Remove any default body margins and ensure no white space */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F8F8F8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 1rem;
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .welcome-subtext {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+        }
+        
+        .notification-btn, .community-btn {
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+        }
+        
+        .notification-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+        
+        .notification-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+        }
+        
+        .community-btn {
+            background: rgba(255,255,255,0.9);
+            color: #667eea;
+            border: none;
+        }
+        
+        .community-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .profile-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .profile-link {
+            text-decoration: none;
+            color: white;
+        }
+        
+        .profile-link:hover {
+            color: white;
+        }
+        
+        /* Fix spacing issues */
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        .col-md-6 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        
+        /* Dashboard Component Styling */
+        .card {
+            border: none;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+        
+        .card-header {
+            border-radius: 12px 12px 0 0 !important;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .day-item {
+            cursor: pointer;
+            padding: 8px 4px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .day-item:hover {
+            background-color: rgba(0,123,255,0.1);
+        }
+        
+        .day-item.active {
+            background-color: rgba(0,123,255,0.2);
+        }
+        
+        .session-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .session-item:hover {
+            background-color: rgba(0,123,255,0.05);
+            transform: translateY(-1px);
+        }
+        
+        .deadline-item {
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .deadline-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .deadline-item .fw-bold {
+            font-size: 0.9rem;
+        }
+        
+        .deadline-item small {
+            font-size: 0.8rem;
+        }
+        
+        .deadline-item .small {
+            font-size: 0.75rem;
+        }
+        
+        .todo-item {
+            transition: all 0.3s ease;
+        }
+        
+        .todo-item:hover {
+            background-color: rgba(0,123,255,0.05);
+            border-radius: 6px;
+            padding: 4px 8px;
+            margin: 4px -8px;
+        }
+        
+        .activity-item {
+            transition: all 0.3s ease;
+        }
+        
+        .activity-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .course-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        
+        .video-placeholder {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .video-placeholder:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        
+        .course-progress-item {
+            transition: all 0.3s ease;
+        }
+        
+        .course-progress-item:hover {
+            transform: translateY(-1px);
+        }
+        
+        .progress {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            border-radius: 10px;
+        }
+        
+        .badge {
+            font-size: 0.75rem;
+            padding: 0.4em 0.6em;
+        }
+        
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+        }
+        
+        .nav-tabs .nav-link {
+            border-radius: 8px 8px 0 0;
+            border: none;
+            color: #6c757d;
+            font-weight: 500;
+        }
+        
+        .nav-tabs .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            border-color: transparent;
+            color: #007bff;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+        }
+        
+        .form-check-input:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .dashboard-header .col-md-6 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            
+            .welcome-section {
+                padding-left: 0;
+            }
+            
+            .d-flex.gap-3 {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.5rem !important;
+            }
+            
+            .col-lg-8, .col-lg-4 {
+                margin-bottom: 1rem;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+            
+            .week-days {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .day-item {
+                flex: 1;
+                min-width: 40px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .container-fluid {
+                padding: 1rem;
+            }
+            
+            .card-header h5 {
+                font-size: 1rem;
+            }
+            
+            .btn-sm {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Welcome Message -->
+                <div class="col-md-6">
+                    <div class="welcome-section">
+                        <h4 class="welcome-text mb-0" id="welcomeMessage">Hello, User</h4>
+                        <small class="text-muted" id="welcomeSubtext">Welcome to your learning dashboard</small>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                <!-- Logo -->
+                <div class="logo-section">
+                    <a href="index.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo.png" alt="IG Nation" class="logo-image">
+                    </a>
+                </div>
+                
+                <!-- Notifications Button -->
+                <div class="notifications-section">
+                    <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()">
+                        <iconify-icon icon="material-symbols:notifications" class="fs-6"></iconify-icon>
+                        <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                    </button>
+                </div>
+                
+                <!-- Community Button -->
+                <div class="community-section">
+                    <button class="btn btn-primary btn-sm community-btn" onclick="openCommunity()">
+                        <iconify-icon icon="material-symbols:forum" class="me-1"></iconify-icon>
+                        Community
+                    </button>
+                </div>
+                
+                <!-- Profile Section -->
+                <div class="profile-section">
+                    <div class="dropdown">
+                        <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                            <div class="profile-avatar" id="headerProfileAvatar">
+                                <iconify-icon icon="material-symbols:person" class="fs-6"></iconify-icon>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                            <!-- Profile Option -->
+                            <li><a class="dropdown-item" href="student-info.html">
+                                <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                Profile
+                            </a></li>
+                            
+                            <!-- How To Option -->
+                            <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                How To
+                            </a></li>
+                            
+                            <li><hr class="dropdown-divider"></li>
+                            
+                            <!-- Logout Option -->
+                            <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                Logout
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                </div>
+    </div>
+
+    <!-- Main Dashboard Content -->
+    <div class="container-fluid py-4">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-lg-8">
+                <div class="row">
+                    <!-- Today's Schedule -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">
+                                    <iconify-icon icon="material-symbols:calendar-today" class="me-2"></iconify-icon>
+                                    Today's Schedule
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Mini Calendar -->
+                                <div class="mini-calendar mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <small class="text-muted">This Week</small>
+                                        <small class="text-primary fw-bold" id="currentDate"></small>
+                                    </div>
+                                    <div class="week-days d-flex justify-content-between">
+                                        <div class="day-item text-center" data-day="mon">
+                                            <small class="d-block text-muted">Mon</small>
+                                            <span class="badge bg-light text-dark">15</span>
+                                        </div>
+                                        <div class="day-item text-center" data-day="tue">
+                                            <small class="d-block text-muted">Tue</small>
+                                            <span class="badge bg-light text-dark">16</span>
+                                        </div>
+                                        <div class="day-item text-center active" data-day="wed">
+                                            <small class="d-block text-muted">Wed</small>
+                                            <span class="badge bg-primary">17</span>
+                                        </div>
+                                        <div class="day-item text-center" data-day="thu">
+                                            <small class="d-block text-muted">Thu</small>
+                                            <span class="badge bg-light text-dark">18</span>
+                                        </div>
+                                        <div class="day-item text-center" data-day="fri">
+                                            <small class="d-block text-muted">Fri</small>
+                                            <span class="badge bg-light text-dark">19</span>
+                                        </div>
+                                        <div class="day-item text-center" data-day="sat">
+                                            <small class="d-block text-muted">Sat</small>
+                                            <span class="badge bg-light text-dark">20</span>
+                                        </div>
+                                        <div class="day-item text-center" data-day="sun">
+                                            <small class="d-block text-muted">Sun</small>
+                                            <span class="badge bg-light text-dark">21</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Today's Sessions -->
+                                <div class="today-sessions">
+                                    <div class="session-item mb-2 p-2 border rounded">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <small class="text-muted">Mathematics</small>
+                                                <div class="fw-bold">Algebra Review</div>
+                                                <small class="text-muted">Mr. Johnson • 10:00 AM</small>
+                                            </div>
+                                            <button class="btn btn-success btn-sm">
+                                                <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                                                Join
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="session-item mb-2 p-2 border rounded">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <small class="text-muted">Physics</small>
+                                                <div class="fw-bold">Mechanics</div>
+                                                <small class="text-muted">Dr. Smith • 2:00 PM</small>
+                                            </div>
+                                            <button class="btn btn-outline-primary btn-sm">
+                                                <iconify-icon icon="material-symbols:schedule" class="me-1"></iconify-icon>
+                                                Upcoming
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Deadlines -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-warning text-dark">
+                                <h5 class="card-title mb-0">
+                                    <iconify-icon icon="material-symbols:assignment" class="me-2"></iconify-icon>
+                                    Upcoming Deadlines
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="deadline-item mb-2 p-1 border-start border-danger border-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="fw-bold text-danger">Math Assignment</div>
+                                            <small class="text-muted">Algebra Chapter 5</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-danger">Overdue</span>
+                                            <div class="small text-muted">Due: Dec 15</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="deadline-item mb-2 p-1 border-start border-warning border-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="fw-bold text-warning">Physics Quiz</div>
+                                            <small class="text-muted">Mechanics Unit 3</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-warning text-dark">Soon</span>
+                                            <div class="small text-muted">Due: Dec 18</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="deadline-item mb-2 p-1 border-start border-success border-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <div class="fw-bold text-success">Chemistry Lab</div>
+                                            <small class="text-muted">Organic Reactions</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="badge bg-success">On Track</span>
+                                            <div class="small text-muted">Due: Dec 22</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-outline-primary btn-sm">
+                                        <iconify-icon icon="material-symbols:list" class="me-1"></iconify-icon>
+                                        View All Deadlines
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- To-Do List -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-info text-white">
+                                <h5 class="card-title mb-0">
+                                    <iconify-icon icon="material-symbols:checklist" class="me-2"></iconify-icon>
+                                    To-Do List
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="todo-input mb-3">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Add new task..." id="newTaskInput">
+                                        <button class="btn btn-primary" onclick="addTask()">
+                                            <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
+                                            Add
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="todo-list" id="todoList">
+                                    <div class="todo-item d-flex align-items-center mb-2">
+                                        <input type="checkbox" class="form-check-input me-2" checked>
+                                        <span class="text-decoration-line-through text-muted">Complete Math homework</span>
+                                    </div>
+                                    <div class="todo-item d-flex align-items-center mb-2">
+                                        <input type="checkbox" class="form-check-input me-2">
+                                        <span>Review Physics notes</span>
+                                    </div>
+                                    <div class="todo-item d-flex align-items-center mb-2">
+                                        <input type="checkbox" class="form-check-input me-2">
+                                        <span>Prepare for Chemistry quiz</span>
+                                    </div>
+                                    <div class="todo-item d-flex align-items-center mb-2">
+                                        <input type="checkbox" class="form-check-input me-2">
+                                        <span>Read Biology chapter 8</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-outline-info btn-sm">
+                                        <iconify-icon icon="material-symbols:filter-list" class="me-1"></iconify-icon>
+                                        View All Tasks
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="card-title mb-0">
+                                    <iconify-icon icon="material-symbols:history" class="me-2"></iconify-icon>
+                                    Recent Activity
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-timeline">
+                                    <div class="activity-item d-flex align-items-start mb-3">
+                                        <div class="activity-icon bg-success text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                            <iconify-icon icon="material-symbols:assignment-turned-in" class="fs-6"></iconify-icon>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="fw-bold">Assignment Submitted</div>
+                                            <small class="text-muted">Math - Algebra Chapter 4</small>
+                                            <div class="small text-muted">2 hours ago</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="activity-item d-flex align-items-start mb-3">
+                                        <div class="activity-icon bg-primary text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                            <iconify-icon icon="material-symbols:quiz" class="fs-6"></iconify-icon>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="fw-bold">Quiz Completed</div>
+                                            <small class="text-muted">Physics - Mechanics (Score: 85%)</small>
+                                            <div class="small text-muted">1 day ago</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="activity-item d-flex align-items-start mb-3">
+                                        <div class="activity-icon bg-info text-white rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                            <iconify-icon icon="material-symbols:lock-open" class="fs-6"></iconify-icon>
+                                        </div>
+                                        <div class="activity-content">
+                                            <div class="fw-bold">New Lesson Unlocked</div>
+                                            <small class="text-muted">Chemistry - Organic Reactions</small>
+                                            <div class="small text-muted">2 days ago</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-center mt-3">
+                                    <button class="btn btn-outline-success btn-sm">
+                                        <iconify-icon icon="material-symbols:list" class="me-1"></iconify-icon>
+                                        View All Activity
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-lg-4">
+                <!-- Course Navigation -->
+                <div class="card mb-4">
+                    <div class="card-header bg-dark text-white">
+                        <h5 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:school" class="me-2"></iconify-icon>
+                            Course Navigation
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Course Tabs -->
+                        <ul class="nav nav-tabs mb-3" id="courseTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="purchased-tab" data-bs-toggle="tab" data-bs-target="#purchased" type="button" role="tab">
+                                    Purchased
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">
+                                    All Courses
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="premade-tab" data-bs-toggle="tab" data-bs-target="#premade" type="button" role="tab">
+                                    Pre-made
+                                </button>
+                            </li>
+                        </ul>
+                        
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="courseTabContent">
+                            <!-- Purchased Courses -->
+                            <div class="tab-pane fade show active" id="purchased" role="tabpanel">
+                                <div class="course-card mb-3 p-3 border rounded">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 class="mb-0">Mathematics IGCSE</h6>
+                                        <span class="badge bg-success">75% Complete</span>
+                                    </div>
+                                    <div class="progress mb-2" style="height: 6px;">
+                                        <div class="progress-bar bg-success" style="width: 75%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">12/16 lessons</small>
+                                        <button class="btn btn-primary btn-sm">
+                                            <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                                            Continue
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="course-card mb-3 p-3 border rounded">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h6 class="mb-0">Physics IGCSE</h6>
+                                        <span class="badge bg-warning">45% Complete</span>
+                                    </div>
+                                    <div class="progress mb-2" style="height: 6px;">
+                                        <div class="progress-bar bg-warning" style="width: 45%"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">7/16 lessons</small>
+                                        <button class="btn btn-primary btn-sm">
+                                            <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                                            Continue
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- All Courses -->
+                            <div class="tab-pane fade" id="all" role="tabpanel">
+                                <div class="text-center py-4">
+                                    <iconify-icon icon="material-symbols:school" class="fs-1 text-muted mb-3"></iconify-icon>
+                                    <p class="text-muted">Browse all available courses</p>
+                                    <button class="btn btn-primary">View Course Catalog</button>
+                                </div>
+                            </div>
+                            
+                            <!-- Pre-made Courses -->
+                            <div class="tab-pane fade" id="premade" role="tabpanel">
+                                <div class="text-center py-4">
+                                    <iconify-icon icon="material-symbols:construction" class="fs-1 text-muted mb-3"></iconify-icon>
+                                    <p class="text-muted">Pre-made courses coming soon!</p>
+                                    <small class="text-muted">Stay tuned for exciting new content</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Guide -->
+                <div class="card mb-4">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:play-circle" class="me-2"></iconify-icon>
+                            How to Use the Platform
+                        </h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <div class="video-placeholder bg-light rounded p-4 mb-3">
+                            <iconify-icon icon="material-symbols:play-circle-outline" class="fs-1 text-muted mb-3"></iconify-icon>
+                            <h6>Video Guide</h6>
+                            <p class="text-muted small">Learn how to navigate and use all platform features</p>
+                            <button class="btn btn-primary">
+                                <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                                Watch Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Progress -->
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:trending-up" class="me-2"></iconify-icon>
+                            Complete Your Courses
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="course-progress-item mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0">Mathematics IGCSE</h6>
+                                <span class="badge bg-success">Ongoing</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 75%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">12/16 lessons completed</small>
+                                <button class="btn btn-success btn-sm">
+                                    <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                                    Continue Learning
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="course-progress-item mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0">Physics IGCSE</h6>
+                                <span class="badge bg-warning">In Progress</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-warning" style="width: 45%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">7/16 lessons completed</small>
+                                <button class="btn btn-warning btn-sm">
+                                    <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                                    Continue Learning
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="course-progress-item">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0">Chemistry IGCSE</h6>
+                                <span class="badge bg-success">Completed</span>
+                            </div>
+                            <div class="progress mb-2" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 100%"></div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">16/16 lessons completed</small>
+                                <button class="btn btn-outline-success btn-sm">
+                                    <iconify-icon icon="material-symbols:verified" class="me-1"></iconify-icon>
+                                    View Certificate
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <script>
+        // Update user name and welcome message
+        function openCommunity() {
+            window.location.href = 'community.html';
+        }
+        
+        function updateStudentName() {
+            // Try to get name from localStorage first
+            let userName = localStorage.getItem('userName');
+            
+            // If not in localStorage, try to get from registration data or use a default
+            if (!userName) {
+                // Check if we have any user data
+                const userEmail = localStorage.getItem('userEmail');
+                if (userEmail) {
+                    // Extract name from email (before @)
+                    userName = userEmail.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                } else {
+                    userName = 'User';
+                }
+            }
+            
+            // Update welcome message with proper greeting
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const welcomeSubtext = document.getElementById('welcomeSubtext');
+            
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Hello, ${userName}`;
+            }
+            
+            if (welcomeSubtext) {
+                welcomeSubtext.textContent = 'Welcome to your learning dashboard';
+            }
+            
+            console.log('Welcome message updated to:', `Hello, ${userName}`);
+        }
+
+        // To-Do List functionality
+        function addTask() {
+            const input = document.getElementById('newTaskInput');
+            const taskText = input.value.trim();
+            
+            if (taskText) {
+                const todoList = document.getElementById('todoList');
+                const newTask = document.createElement('div');
+                newTask.className = 'todo-item d-flex align-items-center mb-2';
+                newTask.innerHTML = `
+                    <input type="checkbox" class="form-check-input me-2" onchange="toggleTask(this)">
+                    <span>${taskText}</span>
+                `;
+                todoList.appendChild(newTask);
+                input.value = '';
+            }
+        }
+
+        function toggleTask(checkbox) {
+            const span = checkbox.nextElementSibling;
+            if (checkbox.checked) {
+                span.classList.add('text-decoration-line-through', 'text-muted');
+            } else {
+                span.classList.remove('text-decoration-line-through', 'text-muted');
+            }
+        }
+
+        // Calendar functionality
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('en-US', options);
+            document.getElementById('currentDate').textContent = dateString;
+        }
+
+        // Course tab functionality
+        function initializeCourseTabs() {
+            const tabButtons = document.querySelectorAll('#courseTabs button[data-bs-toggle="tab"]');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                });
+            });
+        }
+
+        // Session join functionality
+        function joinSession(sessionId) {
+            // Simulate joining a session
+            alert('Joining session... This would redirect to the live session.');
+        }
+
+        // Deadline urgency calculation
+        function calculateDeadlineUrgency(dueDate) {
+            const today = new Date();
+            const due = new Date(dueDate);
+            const diffTime = due - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays < 0) return 'overdue';
+            if (diffDays <= 2) return 'soon';
+            return 'on-track';
+        }
+
+        // Initialize all dashboard functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Dashboard loaded successfully!');
+            updateStudentName();
+            updateCurrentDate();
+            initializeCourseTabs();
+            
+            // Add event listeners for interactive elements
+            document.getElementById('newTaskInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    addTask();
+                }
+            });
+            
+            // Add click handlers for session buttons
+            document.querySelectorAll('.session-item button').forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.textContent.includes('Join')) {
+                        joinSession('session-1');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

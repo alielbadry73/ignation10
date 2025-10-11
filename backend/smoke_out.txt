@@ -1,0 +1,7 @@
+﻿Checking /health
+/health 200 {"status":"ok","db":true}
+Fetching /
+/ 200 length= 112030
+Fetching /style.css
+/style.css 200 len= 39157
+Smoke tests passed

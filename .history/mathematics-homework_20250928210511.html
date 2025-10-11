@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Homework - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+        }
+        
+        .homework-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .homework-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .homework-logo img {
+            height: 35px;
+            width: auto;
+            margin-right: 0.75rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .homework-logo:hover img {
+            transform: scale(1.05);
+        }
+        
+        .subject-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+        
+        .homework-nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .nav-btn {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+        }
+        
+        .homework-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .homework-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .homework-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .homework-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .homework-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .homework-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+        
+        .homework-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .homework-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .homework-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+        }
+        
+        .homework-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .homework-card-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .homework-details {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .detail-value {
+            color: #666;
+        }
+        
+        .homework-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #27ae60;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: #27ae60;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-outline:hover {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-overdue {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .homework-filters {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tab.active {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .filter-tab:hover {
+            background: #f8f9fa;
+        }
+        
+        .filter-tab.active:hover {
+            background: #2ecc71;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Homework Header -->
+    <div class="homework-header">
+        <a href="course-mathematics.html" class="homework-logo">
+            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
+            <span style="font-weight: 700; font-size: 1.25rem;">Mathematics Homework</span>
+            <span class="subject-badge">Mathematics IGCSE</span>
+        </a>
+        
+        <div class="homework-nav">
+            <a href="course-mathematics.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                Back to Course
+            </a>
+            <a href="mathematics-quiz.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                Quizzes
+            </a>
+            <a href="mathematics-exam.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                Exams
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Homework Hero Section -->
+        <div class="homework-hero">
+            <div class="homework-title">Mathematics Homework</div>
+            <div class="homework-subtitle">Mathematics practice exercises and assignments</div>
+            
+            <div class="homework-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalHomework">15</div>
+                    <div class="stat-label">Available Assignments</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="completedHomework">11</div>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="averageScore">89%</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Homework Filters -->
+        <div class="homework-filters">
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterHomework('all')">All Assignments</button>
+                <button class="filter-tab" onclick="filterHomework('algebra')">Algebra</button>
+                <button class="filter-tab" onclick="filterHomework('geometry')">Geometry</button>
+                <button class="filter-tab" onclick="filterHomework('calculus')">Calculus</button>
+                <button class="filter-tab" onclick="filterHomework('statistics')">Statistics</button>
+            </div>
+            
+            <div class="search-box">
+                <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
+                <input type="text" class="search-input" placeholder="Search assignments..." id="homeworkSearch">
+            </div>
+        </div>
+        
+        <!-- Homework Grid -->
+        <div class="homework-grid" id="homeworkGrid">
+            <!-- Homework cards will be loaded here -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script>
+        // Load assignments from localStorage or use default data
+        let homework = JSON.parse(localStorage.getItem('studentAssignments')) || [
+            {
+                id: 1,
+                title: "Quadratic Equations Practice",
+                description: "Solve various quadratic equations using different methods including factoring, completing the square, and the quadratic formula.",
+                category: "algebra",
+                difficulty: "medium",
+                points: 25,
+                dueDate: "2024-02-15",
+                status: "completed",
+                score: 92,
+                timeSpent: 45,
+                subject: "mathematics",
+                published: true
+            },
+            {
+                id: 2,
+                title: "Triangle Properties and Theorems",
+                description: "Apply triangle properties, angle relationships, and geometric theorems to solve complex problems.",
+                category: "geometry",
+                difficulty: "hard",
+                points: 30,
+                dueDate: "2024-02-20",
+                status: "completed",
+                score: 88,
+                timeSpent: 60
+            },
+            {
+                id: 3,
+                title: "Derivative Applications",
+                description: "Practice finding derivatives and applying them to solve optimization and related rates problems.",
+                category: "calculus",
+                difficulty: "hard",
+                points: 35,
+                dueDate: "2024-02-25",
+                status: "completed",
+                score: 85,
+                timeSpent: 75
+            },
+            {
+                id: 4,
+                title: "Linear Functions and Graphs",
+                description: "Work with linear functions, find slopes, write equations, and graph straight lines.",
+                category: "algebra",
+                difficulty: "easy",
+                points: 20,
+                dueDate: "2024-03-01",
+                status: "pending",
+                score: 0,
+                timeSpent: 0
+            },
+            {
+                id: 5,
+                title: "Circle Theorems and Properties",
+                description: "Apply circle theorems including chord properties, tangent properties, and angle relationships.",
+                category: "geometry",
+                difficulty: "medium",
+                points: 28,
+                dueDate: "2024-03-05",
+                status: "completed",
+                score: 90,
+                timeSpent: 50
+            },
+            {
+                id: 6,
+                title: "Integration Techniques",
+                description: "Practice various integration methods including substitution, integration by parts, and partial fractions.",
+                category: "calculus",
+                difficulty: "hard",
+                points: 40,
+                dueDate: "2024-03-10",
+                status: "pending",
+                score: 0,
+                timeSpent: 0
+            },
+            {
+                id: 7,
+                title: "Polynomial Functions",
+                description: "Analyze polynomial functions, find zeros, sketch graphs, and solve polynomial equations.",
+                category: "algebra",
+                difficulty: "medium",
+                points: 32,
+                dueDate: "2024-03-15",
+                status: "completed",
+                score: 87,
+                timeSpent: 55
+            },
+            {
+                id: 8,
+                title: "Coordinate Geometry",
+                description: "Work with coordinate geometry including distance formula, midpoint, and equation of lines.",
+                category: "geometry",
+                difficulty: "medium",
+                points: 26,
+                dueDate: "2024-03-20",
+                status: "completed",
+                score: 93,
+                timeSpent: 40
+            },
+            {
+                id: 9,
+                title: "Statistical Analysis",
+                description: "Analyze data sets, calculate measures of central tendency, and create statistical graphs.",
+                category: "statistics",
+                difficulty: "medium",
+                points: 24,
+                dueDate: "2024-03-25",
+                status: "completed",
+                score: 89,
+                timeSpent: 35
+            },
+            {
+                id: 10,
+                title: "Probability Problems",
+                description: "Solve probability problems including combinations, permutations, and conditional probability.",
+                category: "statistics",
+                difficulty: "hard",
+                points: 33,
+                dueDate: "2024-03-30",
+                status: "pending",
+                score: 0,
+                timeSpent: 0
+            },
+            {
+                id: 11,
+                title: "Exponential and Logarithmic Functions",
+                description: "Work with exponential and logarithmic functions, solve equations, and graph these functions.",
+                category: "algebra",
+                difficulty: "hard",
+                points: 38,
+                dueDate: "2024-04-05",
+                status: "completed",
+                score: 84,
+                timeSpent: 65
+            },
+            {
+                id: 12,
+                title: "Trigonometric Identities",
+                description: "Prove trigonometric identities and solve trigonometric equations using various identities.",
+                category: "geometry",
+                difficulty: "hard",
+                points: 36,
+                dueDate: "2024-04-10",
+                status: "completed",
+                score: 91,
+                timeSpent: 70
+            },
+            {
+                id: 13,
+                title: "Sequences and Series",
+                description: "Work with arithmetic and geometric sequences, find sums, and solve series problems.",
+                category: "algebra",
+                difficulty: "medium",
+                points: 29,
+                dueDate: "2024-04-15",
+                status: "completed",
+                score: 86,
+                timeSpent: 45
+            },
+            {
+                id: 14,
+                title: "Differential Equations",
+                description: "Solve first-order differential equations using separation of variables and other methods.",
+                category: "calculus",
+                difficulty: "hard",
+                points: 42,
+                dueDate: "2024-04-20",
+                status: "pending",
+                score: 0,
+                timeSpent: 0
+            },
+            {
+                id: 15,
+                title: "Data Interpretation",
+                description: "Interpret statistical data, create appropriate graphs, and draw conclusions from data sets.",
+                category: "statistics",
+                difficulty: "medium",
+                points: 27,
+                dueDate: "2024-04-25",
+                status: "completed",
+                score: 88,
+                timeSpent: 38
+            }
+        ];
+
+        let currentFilter = 'all';
+        let filteredHomework = [...homework];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadHomework();
+            updateStats();
+        });
+
+        function loadHomework() {
+            const homeworkGrid = document.getElementById('homeworkGrid');
+            
+            if (filteredHomework.length === 0) {
+                homeworkGrid.innerHTML = '<div class="col-12 text-center py-5"><h4>No assignments found</h4><p class="text-muted">Try adjusting your filters or search terms.</p></div>';
+                return;
+            }
+            
+            const homeworkHtml = filteredHomework.map(assignment => `
+                <div class="homework-card">
+                    <div class="homework-card-header">
+                        <div class="homework-icon">
+                            <iconify-icon icon="material-symbols:assignment"></iconify-icon>
+                        </div>
+                        <div>
+                            <div class="homework-card-title">${assignment.title}</div>
+                            <span class="status-badge status-${assignment.status}">${assignment.status.toUpperCase()}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="homework-card-description">
+                        ${assignment.description}
+                    </div>
+                    
+                    <div class="homework-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Points:</span>
+                            <span class="detail-value">${assignment.points}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Difficulty:</span>
+                            <span class="detail-value">${assignment.difficulty.toUpperCase()}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Due Date:</span>
+                            <span class="detail-value">${new Date(assignment.dueDate).toLocaleDateString()}</span>
+                        </div>
+                        ${assignment.status === 'completed' ? `
+                        <div class="detail-row">
+                            <span class="detail-label">Your Score:</span>
+                            <span class="detail-value" style="color: #28a745; font-weight: 600;">${assignment.score}%</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Time Spent:</span>
+                            <span class="detail-value">${assignment.timeSpent} minutes</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="homework-actions">
+                        ${assignment.status === 'completed' ? `
+                            <button class="btn btn-outline" onclick="reviewHomework(${assignment.id})">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                Review
+                            </button>
+                            <button class="btn btn-primary" onclick="retakeHomework(${assignment.id})">
+                                <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                                Retake
+                            </button>
+                        ` : `
+                            <button class="btn btn-primary" onclick="startHomework(${assignment.id})">
+                                <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                                Start Assignment
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+            
+            homeworkGrid.innerHTML = homeworkHtml;
+        }
+
+        function filterHomework(category) {
+            currentFilter = category;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            if (category === 'all') {
+                filteredHomework = [...homework];
+            } else {
+                filteredHomework = homework.filter(assignment => assignment.category === category);
+            }
+            
+            loadHomework();
+        }
+
+        function updateStats() {
+            const totalHomework = homework.length;
+            const completedHomework = homework.filter(h => h.status === 'completed').length;
+            const averageScore = completedHomework > 0 ? 
+                Math.round(homework.filter(h => h.status === 'completed').reduce((sum, h) => sum + h.score, 0) / completedHomework) : 0;
+            
+            document.getElementById('totalHomework').textContent = totalHomework;
+            document.getElementById('completedHomework').textContent = completedHomework;
+            document.getElementById('averageScore').textContent = averageScore + '%';
+        }
+
+        function startHomework(assignmentId) {
+            const assignment = homework.find(h => h.id === assignmentId);
+            if (assignment) {
+                alert(`Starting assignment: ${assignment.title}\n\nPoints: ${assignment.points}\nDifficulty: ${assignment.difficulty.toUpperCase()}\nDue: ${new Date(assignment.dueDate).toLocaleDateString()}\n\nAssignment functionality will be implemented soon!`);
+            }
+        }
+
+        function reviewHomework(assignmentId) {
+            const assignment = homework.find(h => h.id === assignmentId);
+            if (assignment) {
+                alert(`Reviewing assignment: ${assignment.title}\n\nYour Score: ${assignment.score}%\nPoints: ${assignment.points}\nTime Spent: ${assignment.timeSpent} minutes\n\nReview functionality will be implemented soon!`);
+            }
+        }
+
+        function retakeHomework(assignmentId) {
+            const assignment = homework.find(h => h.id === assignmentId);
+            if (assignment) {
+                if (confirm(`Are you sure you want to retake "${assignment.title}"? Your previous score will be replaced.`)) {
+                    startHomework(assignmentId);
+                }
+            }
+        }
+
+        // Search functionality
+        document.getElementById('homeworkSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            filteredHomework = homework.filter(assignment => 
+                assignment.title.toLowerCase().includes(searchTerm) ||
+                assignment.description.toLowerCase().includes(searchTerm) ||
+                assignment.category.toLowerCase().includes(searchTerm) ||
+                assignment.difficulty.toLowerCase().includes(searchTerm)
+            );
+            loadHomework();
+        });
+    </script>
+</body>
+</html>

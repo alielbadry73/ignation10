@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG Nation Admin Panel</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #1e3d6f 0%, #2c5aa0 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .sidebar h2 {
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+        }
+        
+        .nav-link {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 12px 16px;
+            margin: 4px 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
+        
+        .header {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            margin: 2px;
+        }
+        
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 400px;
+            max-width: 90%;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            text-align: center;
+            padding: 40px;
+            color: #dc3545;
+        }
+        
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2>Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="adminEmail">Email:</label>
+                    <input type="email" id="adminEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">Password:</label>
+                    <input type="password" id="adminPassword" required>
+                </div>
+                <div id="loginError" class="alert alert-danger" style="display: none;"></div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container" id="mainContent" style="display: none;">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>IG Nation Admin</h2>
+            <nav>
+                <a href="#" class="nav-link active" onclick="showSection('dashboard')">📊 Dashboard</a>
+                <a href="#" class="nav-link" onclick="showSection('students')">👥 Students</a>
+                <a href="#" class="nav-link" onclick="showSection('courses')">📚 Courses</a>
+                <a href="#" class="nav-link" onclick="showSection('orders')">🛒 Orders</a>
+                <a href="#" class="nav-link" onclick="showSection('teachers')">👨‍🏫 Teachers</a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3 id="totalStudents">0</h3>
+                        <p>Total Students</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalCourses">0</h3>
+                        <p>Active Courses</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalEnrollments">0</h3>
+                        <p>Enrollments</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalRevenue">£0</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Students Section -->
+            <div id="students-section" class="section">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentsTable">
+                            <tr><td colspan="6" class="loading">Loading students...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Courses Section -->
+            <div id="courses-section" class="section">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Instructor</th>
+                                <th>Price</th>
+                                <th>Level</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="coursesTable">
+                            <tr><td colspan="6" class="loading">Loading courses...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="orders-section" class="section">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Student</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTable">
+                            <tr><td colspan="6" class="loading">Loading orders...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Teachers Section -->
+            <div id="teachers-section" class="section">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Experience</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teachersTable">
+                            <tr><td colspan="6" class="loading">Loading teachers...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let authToken = null;
+
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedToken = localStorage.getItem('adminToken');
+            if (savedToken) {
+                authToken = savedToken;
+                document.getElementById('mainContent').style.display = 'flex';
+                loadDashboard();
+            } else {
+                document.getElementById('loginModal').style.display = 'block';
+            }
+        });
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    authToken = data.token;
+                    localStorage.setItem('adminToken', authToken);
+                    
+                    document.getElementById('loginModal').style.display = 'none';
+                    document.getElementById('mainContent').style.display = 'flex';
+                    loadDashboard();
+                } else {
+                    showError('Login failed: ' + data.error);
+                }
+            } catch (error) {
+                showError('Login error: ' + error.message);
+            }
+        });
+
+        function showError(message) {
+            const errorDiv = document.getElementById('loginError');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function logout() {
+            authToken = null;
+            localStorage.removeItem('adminToken');
+            document.getElementById('mainContent').style.display = 'none';
+            document.getElementById('loginModal').style.display = 'block';
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+            document.getElementById('loginError').style.display = 'none';
+        }
+
+        async function apiCall(endpoint, options = {}) {
+            const defaultOptions = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                }
+            };
+
+            const response = await fetch(endpoint, { ...defaultOptions, ...options });
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            return response.json();
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').classList.add('active');
+            
+            // Add active class to clicked nav link
+            event.target.classList.add('active');
+            
+            // Update page title
+            document.getElementById('pageTitle').textContent = sectionName.charAt(0).toUpperCase() + sectionName.slice(1);
+            
+            // Load section data
+            switch(sectionName) {
+                case 'dashboard':
+                    loadDashboard();
+                    break;
+                case 'students':
+                    loadStudents();
+                    break;
+                case 'courses':
+                    loadCourses();
+                    break;
+                case 'orders':
+                    loadOrders();
+                    break;
+                case 'teachers':
+                    loadTeachers();
+                    break;
+            }
+        }
+
+        async function loadDashboard() {
+            try {
+                const [students, courses, enrollments, orders] = await Promise.all([
+                    apiCall('/api/admin/students'),
+                    apiCall('/api/courses'),
+                    apiCall('/api/admin/enrollments').catch(() => []),
+                    apiCall('/api/admin/orders').catch(() => [])
+                ]);
+
+                document.getElementById('totalStudents').textContent = students.length;
+                document.getElementById('totalCourses').textContent = courses.length;
+                document.getElementById('totalEnrollments').textContent = enrollments.length;
+                
+                const revenue = orders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
+                document.getElementById('totalRevenue').textContent = '£' + revenue.toFixed(2);
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                document.getElementById('totalStudents').textContent = '0';
+                document.getElementById('totalCourses').textContent = '0';
+                document.getElementById('totalEnrollments').textContent = '0';
+                document.getElementById('totalRevenue').textContent = '£0';
+            }
+        }
+
+        async function loadStudents() {
+            try {
+                const students = await apiCall('/api/admin/students');
+                const tbody = document.getElementById('studentsTable');
+                
+                if (students.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="loading">No students found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = students.map(student => `
+                    <tr>
+                        <td>${student.id}</td>
+                        <td>${student.first_name} ${student.last_name}</td>
+                        <td>${student.email}</td>
+                        <td>${student.phone || 'N/A'}</td>
+                        <td>${new Date(student.created_at).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="viewStudent(${student.id})">View</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                document.getElementById('studentsTable').innerHTML = '<tr><td colspan="6" class="error">Error loading students</td></tr>';
+            }
+        }
+
+        async function loadCourses() {
+            try {
+                const courses = await apiCall('/api/courses');
+                const tbody = document.getElementById('coursesTable');
+                
+                if (courses.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="loading">No courses found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = courses.map(course => `
+                    <tr>
+                        <td>${course.id}</td>
+                        <td>${course.title}</td>
+                        <td>${course.instructor}</td>
+                        <td>£${course.price}</td>
+                        <td>${course.level}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="editCourse(${course.id})">Edit</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                document.getElementById('coursesTable').innerHTML = '<tr><td colspan="6" class="error">Error loading courses</td></tr>';
+            }
+        }
+
+        async function loadOrders() {
+            try {
+                const orders = await apiCall('/api/admin/orders');
+                const tbody = document.getElementById('ordersTable');
+                
+                if (orders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="loading">No orders found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = orders.map(order => `
+                    <tr>
+                        <td>#${order.id}</td>
+                        <td>${order.first_name} ${order.last_name}</td>
+                        <td>£${order.total_amount}</td>
+                        <td><span style="padding: 4px 8px; border-radius: 4px; background: ${order.status === 'completed' ? '#d4edda' : '#fff3cd'}; color: ${order.status === 'completed' ? '#155724' : '#856404'};">${order.status}</span></td>
+                        <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                        <td>
+                            ${order.status === 'pending' ? 
+                                `<button class="btn btn-success" onclick="approveOrder(${order.id})">Approve</button>` : 
+                                `<span style="color: #666;">Approved</span>`
+                            }
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                document.getElementById('ordersTable').innerHTML = '<tr><td colspan="6" class="error">Error loading orders</td></tr>';
+            }
+        }
+
+        async function loadTeachers() {
+            try {
+                const teachers = await apiCall('/api/admin/teachers');
+                const tbody = document.getElementById('teachersTable');
+                
+                if (teachers.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="loading">No teachers found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = teachers.map(teacher => `
+                    <tr>
+                        <td>${teacher.id}</td>
+                        <td>${teacher.first_name} ${teacher.last_name}</td>
+                        <td>${teacher.email}</td>
+                        <td>${teacher.subject}</td>
+                        <td>${teacher.experience_years} years</td>
+                        <td><span style="padding: 4px 8px; border-radius: 4px; background: ${teacher.is_active ? '#d4edda' : '#f8d7da'}; color: ${teacher.is_active ? '#155724' : '#721c24'};">${teacher.is_active ? 'Active' : 'Inactive'}</span></td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                document.getElementById('teachersTable').innerHTML = '<tr><td colspan="6" class="error">Error loading teachers</td></tr>';
+            }
+        }
+
+        async function approveOrder(orderId) {
+            if (confirm('Are you sure you want to approve this order and grant course access?')) {
+                try {
+                    await apiCall('/api/admin/approve-order', {
+                        method: 'POST',
+                        body: JSON.stringify({ orderId })
+                    });
+                    
+                    alert('Order approved successfully!');
+                    loadOrders();
+                    loadDashboard();
+                } catch (error) {
+                    alert('Error approving order: ' + error.message);
+                }
+            }
+        }
+
+        function viewStudent(studentId) {
+            alert('View student details functionality coming soon!');
+        }
+
+        function editCourse(courseId) {
+            alert('Edit course functionality coming soon!');
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

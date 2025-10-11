@@ -1,0 +1,1 @@
+﻿Updated admin (admin@ignation.com) password to 'admin1234' (bcrypt-hashed). Rows affected: 1

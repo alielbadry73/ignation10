@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Progress - IG Nation (v2.0)</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+
+        .utility-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-utility {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .btn-utility:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .progress-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .progress-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .progress-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .progress-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .topic-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 10px;
+        }
+
+        .topic-name {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .topic-progress-bar {
+            width: 200px;
+            height: 8px;
+            background: rgba(102, 126, 234, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .topic-progress-fill {
+            height: 100%;
+            background: #667eea;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .topic-percentage {
+            font-weight: 600;
+            color: #667eea;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .achievement-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #f39c12;
+        }
+
+        .achievement-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .achievement-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .achievement-earned {
+            border: 2px solid #f39c12;
+            background: rgba(243, 156, 18, 0.1);
+        }
+
+        .achievement-earned .achievement-icon {
+            color: #e67e22;
+        }
+
+        .recent-activity {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .activity-time {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+            
+            .main-content {
+                padding: 0 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .progress-overview {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .progress-card {
+                padding: 1.5rem;
+            }
+            
+            .progress-section {
+                padding: 1.5rem;
+            }
+            
+            .topic-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .topic-progress-bar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="physics-dashboard.html" class="logo">
+                <img src="https://ui-avatars.com/api/?name=IG+Nation&background=667eea&color=fff&size=40" alt="IG Nation">
+                IG Nation
+            </a>
+            <div class="utility-buttons">
+                <a href="#" class="btn-utility" onclick="navigateToNotifications()">
+                    <iconify-icon icon="material-symbols:notifications"></iconify-icon>
+                    Notifications
+                    <span class="notification-badge" id="notificationBadge">3</span>
+                </a>
+                <a href="#" class="btn-utility" onclick="navigateToProfile()">
+                    <iconify-icon icon="material-symbols:person"></iconify-icon>
+                    Profile
+                </a>
+                <a href="#" class="btn-utility" onclick="logout()">
+                    <iconify-icon icon="material-symbols:logout"></iconify-icon>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-title">
+            <h1>📊 Physics Progress</h1>
+            <p>Track your learning journey and achievements</p>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="progress-overview">
+            <div class="progress-card">
+                <iconify-icon icon="material-symbols:school" class="progress-icon"></iconify-icon>
+                <div class="progress-number">75%</div>
+                <div class="progress-label">Overall Progress</div>
+            </div>
+            <div class="progress-card">
+                <iconify-icon icon="material-symbols:star" class="progress-icon"></iconify-icon>
+                <div class="progress-number">285</div>
+                <div class="progress-label">Total Points</div>
+            </div>
+            <div class="progress-card">
+                <iconify-icon icon="material-symbols:trophy" class="progress-icon"></iconify-icon>
+                <div class="progress-number">8</div>
+                <div class="progress-label">Achievements</div>
+            </div>
+            <div class="progress-card">
+                <iconify-icon icon="material-symbols:schedule" class="progress-icon"></iconify-icon>
+                <div class="progress-number">24h</div>
+                <div class="progress-label">Study Time</div>
+            </div>
+        </div>
+
+        <!-- Topic Progress -->
+        <div class="progress-section">
+            <h2 class="section-title">
+                <iconify-icon icon="material-symbols:psychology"></iconify-icon>
+                Topic Progress
+            </h2>
+            <div class="topic-progress">
+                <div class="topic-item">
+                    <span class="topic-name">Mechanics</span>
+                    <div class="topic-progress-bar">
+                        <div class="topic-progress-fill" style="width: 85%"></div>
+                    </div>
+                    <span class="topic-percentage">85%</span>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Electricity & Magnetism</span>
+                    <div class="topic-progress-bar">
+                        <div class="topic-progress-fill" style="width: 70%"></div>
+                    </div>
+                    <span class="topic-percentage">70%</span>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Waves & Optics</span>
+                    <div class="topic-progress-bar">
+                        <div class="topic-progress-fill" style="width: 60%"></div>
+                    </div>
+                    <span class="topic-percentage">60%</span>
+                </div>
+                <div class="topic-item">
+                    <span class="topic-name">Thermodynamics</span>
+                    <div class="topic-progress-bar">
+                        <div class="topic-progress-fill" style="width: 45%"></div>
+                    </div>
+                    <span class="topic-percentage">45%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW: Detailed Progress Tracking -->
+        <div class="progress-section">
+            <h2 class="section-title">
+                <iconify-icon icon="material-symbols:analytics"></iconify-icon>
+                Detailed Progress Tracking
+            </h2>
+            
+            <div class="row">
+                <!-- Homework Tracking -->
+                <div class="col-md-4 mb-4">
+                    <div style="border-left: 4px solid #f59e0b; padding: 1.5rem; background: rgba(255,255,255,0.95); border-radius: 12px;">
+                        <div class="d-flex align-items-center mb-3">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 12px; display: flex; align-items-center; justify-content: center; margin-right: 1rem;">
+                                <iconify-icon icon="material-symbols:assignment" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                            </div>
+                            <div>
+                                <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Homeworks</h5>
+                                <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Track assignments</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span style="font-size: 2rem; font-weight: 700; color: #f59e0b;" id="homeworkScore">0/0</span>
+                                <span style="font-size: 0.9rem; color: #64748b;">Completed</span>
+                            </div>
+                            <div class="progress" style="height: 8px; background: #e2e8f0;">
+                                <div class="progress-bar" id="homeworkProgress" style="background: linear-gradient(135deg, #f59e0b, #d97706); width: 0%;"></div>
+                            </div>
+                        </div>
+                        <div class="row text-center" style="font-size: 0.85rem;">
+                            <div class="col-4">
+                                <div style="color: #10b981; font-weight: 700;" id="homeworkDone">0</div>
+                                <div style="color: #64748b;">Done</div>
+                            </div>
+                            <div class="col-4">
+                                <div style="color: #3b82f6; font-weight: 700;" id="homeworkPending">0</div>
+                                <div style="color: #64748b;">Pending</div>
+                            </div>
+                            <div class="col-4">
+                                <div style="color: #ef4444; font-weight: 700;" id="homeworkLate">0</div>
+                                <div style="color: #64748b;">Late</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quiz Tracking -->
+                <div class="col-md-4 mb-4">
+                    <div style="border-left: 4px solid #3b82f6; padding: 1.5rem; background: rgba(255,255,255,0.95); border-radius: 12px;">
+                        <div class="d-flex align-items-center mb-3">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <iconify-icon icon="material-symbols:quiz" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                            </div>
+                            <div>
+                                <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Quizzes</h5>
+                                <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Test knowledge</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span style="font-size: 2rem; font-weight: 700; color: #3b82f6;" id="quizScore">0/0</span>
+                                <span style="font-size: 0.9rem; color: #64748b;">Completed</span>
+                            </div>
+                            <div class="progress" style="height: 8px; background: #e2e8f0;">
+                                <div class="progress-bar" id="quizProgress" style="background: linear-gradient(135deg, #3b82f6, #2563eb); width: 0%;"></div>
+                            </div>
+                        </div>
+                        <div class="row text-center" style="font-size: 0.85rem;">
+                            <div class="col-4">
+                                <div style="color: #10b981; font-weight: 700;" id="quizDone">0</div>
+                                <div style="color: #64748b;">Done</div>
+                            </div>
+                            <div class="col-4">
+                                <div style="color: #3b82f6; font-weight: 700;" id="quizPending">0</div>
+                                <div style="color: #64748b;">Pending</div>
+                            </div>
+                            <div class="col-4">
+                                <div style="color: #ef4444; font-weight: 700;" id="quizLate">0</div>
+                                <div style="color: #64748b;">Late</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Exam Tracking -->
+                <div class="col-md-4 mb-4">
+                    <div style="border-left: 4px solid #8b5cf6; padding: 1.5rem; background: rgba(255,255,255,0.95); border-radius: 12px;">
+                        <div class="d-flex align-items-center mb-3">
+                            <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                <iconify-icon icon="material-symbols:school" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                            </div>
+                            <div>
+                                <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Exams</h5>
+                                <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Major assessments</p>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span style="font-size: 2rem; font-weight: 700; color: #8b5cf6;" id="examScore">0/0</span>
+                                <span style="font-size: 0.9rem; color: #64748b;">Completed</span>
+                            </div>
+                            <div class="progress" style="height: 8px; background: #e2e8f0;">
+                                <div class="progress-bar" id="examProgress" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); width: 0%;"></div>
+                            </div>
+                        </div>
+                        <div class="row text-center" style="font-size: 0.85rem;">
+                            <div class="col-4">
+                                <div style="color: #10b981; font-weight: 700;" id="examDone">0</div>
+                                <div style="color: #64748b;">Done</div>
+                            </div>
+                            <div class="col-4">
+                                <div style="color: #3b82f6; font-weight: 700;" id="examPending">0</div>
+                                <div style="color: #64748b;">Pending</div>
+                            </div>
+                            <div class="col-4">
+                                <div style="color: #ef4444; font-weight: 700;" id="examLate">0</div>
+                                <div style="color: #64748b;">Late</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Analytics -->
+        <div class="progress-section">
+            <h2 class="section-title">
+                <iconify-icon icon="material-symbols:bar-chart"></iconify-icon>
+                Performance Analytics
+            </h2>
+            
+            <!-- Average Grades -->
+            <div class="row mb-4">
+                <div class="col-6">
+                    <div style="text-align: center; padding: 2rem; background: rgba(59, 130, 246, 0.95); border-radius: 15px; color: white; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">
+                        <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Quiz Average</div>
+                        <div style="font-size: 3rem; font-weight: 700;" id="avgQuizGrade">--</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8;">out of 100</div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div style="text-align: center; padding: 2rem; background: rgba(139, 92, 246, 0.95); border-radius: 15px; color: white; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);">
+                        <div style="font-size: 1rem; opacity: 0.9; margin-bottom: 0.5rem;">Exam Average</div>
+                        <div style="font-size: 3rem; font-weight: 700;" id="avgExamGrade">--</div>
+                        <div style="font-size: 0.9rem; opacity: 0.8;">out of 100</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Month Performance -->
+            <div class="mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 style="color: #333; font-weight: 600; margin: 0;">Recent Quizzes (Last 30 Days)</h5>
+                    <button class="btn btn-primary btn-sm" onclick="showAllQuizGrades()">
+                        <iconify-icon icon="material-symbols:bar-chart" class="me-1"></iconify-icon>
+                        View All
+                    </button>
+                </div>
+                <div id="recentQuizGrades" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <!-- Recent quiz grades will be loaded here -->
+                </div>
+            </div>
+            <div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 style="color: #333; font-weight: 600; margin: 0;">Recent Exams (Last 30 Days)</h5>
+                    <button class="btn btn-primary btn-sm" onclick="showAllExamGrades()">
+                        <iconify-icon icon="material-symbols:bar-chart" class="me-1"></iconify-icon>
+                        View All
+                    </button>
+                </div>
+                <div id="recentExamGrades" style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+                    <!-- Recent exam grades will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Practice Section -->
+        <div class="progress-section" style="background: linear-gradient(135deg, #10b981, #059669); color: white; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <h2 class="section-title" style="color: white; margin: 0;">
+                        <iconify-icon icon="material-symbols:edit-note"></iconify-icon>
+                        Daily Practice Questions
+                    </h2>
+                    <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">Solve a new challenge every day!</p>
+                </div>
+                <button class="btn btn-light" onclick="window.location.href='physics-daily-practice.html'" style="font-weight: 600;">
+                    <iconify-icon icon="material-symbols:arrow-forward" class="me-1"></iconify-icon>
+                    Start Practice
+                </button>
+            </div>
+            <div class="row mt-4">
+                <div class="col-4 text-center">
+                    <div style="font-size: 2.5rem; font-weight: 700;" id="dailyPracticeStreak">0</div>
+                    <div style="opacity: 0.85; font-size: 0.9rem;">Day Streak 🔥</div>
+                </div>
+                <div class="col-4 text-center">
+                    <div style="font-size: 2.5rem; font-weight: 700;" id="dailyPracticeSolved">0</div>
+                    <div style="opacity: 0.85; font-size: 0.9rem;">Questions Solved ✅</div>
+                </div>
+                <div class="col-4 text-center">
+                    <div style="font-size: 2.5rem; font-weight: 700;" id="dailyPracticeAccuracy">0%</div>
+                    <div style="opacity: 0.85; font-size: 0.9rem;">Accuracy 🎯</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="progress-section">
+            <h2 class="section-title">
+                <iconify-icon icon="material-symbols:emoji-events"></iconify-icon>
+                Achievements
+            </h2>
+            <div class="achievements-grid">
+                <div class="achievement-card achievement-earned">
+                    <iconify-icon icon="material-symbols:star" class="achievement-icon"></iconify-icon>
+                    <div class="achievement-title">First Quiz</div>
+                    <div class="achievement-desc">Completed your first quiz</div>
+                </div>
+                <div class="achievement-card achievement-earned">
+                    <iconify-icon icon="material-symbols:assignment" class="achievement-icon"></iconify-icon>
+                    <div class="achievement-title">Assignment Master</div>
+                    <div class="achievement-desc">Completed 5 assignments</div>
+                </div>
+                <div class="achievement-card achievement-earned">
+                    <iconify-icon icon="material-symbols:psychology" class="achievement-icon"></iconify-icon>
+                    <div class="achievement-title">Mechanics Expert</div>
+                    <div class="achievement-desc">Mastered mechanics topic</div>
+                </div>
+                <div class="achievement-card">
+                    <iconify-icon icon="material-symbols:flash" class="achievement-icon"></iconify-icon>
+                    <div class="achievement-title">Electricity Master</div>
+                    <div class="achievement-desc">Complete electricity topics</div>
+                </div>
+                <div class="achievement-card">
+                    <iconify-icon icon="material-symbols:schedule" class="achievement-icon"></iconify-icon>
+                    <div class="achievement-title">Study Streak</div>
+                    <div class="achievement-desc">Study for 7 days straight</div>
+                </div>
+                <div class="achievement-card">
+                    <iconify-icon icon="material-symbols:trophy" class="achievement-icon"></iconify-icon>
+                    <div class="achievement-title">Perfect Score</div>
+                    <div class="achievement-desc">Get 100% on any exam</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="progress-section">
+            <h2 class="section-title">
+                <iconify-icon icon="material-symbols:history"></iconify-icon>
+                Recent Activity
+            </h2>
+            <div class="recent-activity">
+                <div class="activity-item">
+                    <iconify-icon icon="material-symbols:assignment" class="activity-icon"></iconify-icon>
+                    <div class="activity-content">
+                        <div class="activity-title">Completed "Mechanics Fundamentals" assignment</div>
+                        <div class="activity-time">2 hours ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <iconify-icon icon="material-symbols:quiz" class="activity-icon"></iconify-icon>
+                    <div class="activity-content">
+                        <div class="activity-title">Scored 85% on "Electric Field Analysis" quiz</div>
+                        <div class="activity-time">1 day ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <iconify-icon icon="material-symbols:school" class="activity-icon"></iconify-icon>
+                    <div class="activity-content">
+                        <div class="activity-title">Watched "Wave Properties" lecture</div>
+                        <div class="activity-time">2 days ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <iconify-icon icon="material-symbols:emoji-events" class="activity-icon"></iconify-icon>
+                    <div class="activity-content">
+                        <div class="activity-title">Earned "Assignment Master" achievement</div>
+                        <div class="activity-time">3 days ago</div>
+                    </div>
+                </div>
+                <div class="activity-item">
+                    <iconify-icon icon="material-symbols:assignment" class="activity-icon"></iconify-icon>
+                    <div class="activity-content">
+                        <div class="activity-title">Completed "Thermodynamics Problems" assignment</div>
+                        <div class="activity-time">4 days ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        function navigateToNotifications() {
+            showNotificationsModal();
+        }
+
+        function navigateToProfile() {
+            window.location.href = 'student-profile.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userLoggedIn');
+            window.location.href = 'index.html';
+        }
+
+        // Load progress data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateNotificationBadge();
+            loadCourseProgressData('physics');
+            loadDailyPracticeStats('physics');
+        });
+        
+        function showAllQuizGrades() {
+            window.showAllQuizGrades('physics');
+        }
+        
+        function showAllExamGrades() {
+            window.showAllExamGrades('physics');
+        }
+    </script>
+
+    <!-- Modals for Grade Charts -->
+    <div class="modal fade" id="quizGradesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #3b82f6, #2563eb); color: white;">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:quiz" class="me-2"></iconify-icon>
+                        All Quiz Grades
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="quizGradesChart" style="max-height: 400px;"></canvas>
+                    <div id="quizGradesDetails" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="examGradesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white;">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:school" class="me-2"></iconify-icon>
+                        All Exam Grades
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <canvas id="examGradesChart" style="max-height: 400px;"></canvas>
+                    <div id="examGradesDetails" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="js/progress-tracking.js"></script>
+</body>
+</html>
+

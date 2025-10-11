@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Cart</title>
+</head>
+<body>
+    <h1>Resetting Cart...</h1>
+    <script>
+        // Clear cart and favorites from localStorage
+        localStorage.removeItem('cart');
+        localStorage.removeItem('favorites');
+        
+        // Show confirmation
+        document.body.innerHTML = '<h1>Cart has been reset to zero!</h1><p>You can close this window now.</p>';
+        
+        console.log('Cart reset complete');
+        console.log('Cart:', localStorage.getItem('cart'));
+        console.log('Favorites:', localStorage.getItem('favorites'));
+    </script>
+</body>
+</html>
+

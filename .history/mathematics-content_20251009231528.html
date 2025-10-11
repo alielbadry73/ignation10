@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Content - WorldCourse</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <script>
+        // Redirect to new content viewer page
+        const currentUrl = new URL(window.location.href);
+        const newUrl = currentUrl.href.replace('mathematics-content.html', 'view-content.html');
+        window.location.replace(newUrl);
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1031;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .menu-icon {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        .focus-mode-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .focus-mode-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .focus-mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .focus-mode-btn.active:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .focus-mode-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .focus-mode-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .notification-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .notification-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .community-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .community-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .notification-btn::after, .community-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .notification-btn:hover::after, .community-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-link {
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .profile-link:hover {
+            color: #333;
+        }
+        
+        .profile-dropdown {
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+        
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-dropdown .dropdown-item:hover {
+            background: #f8f9fa;
+            color: #1976d2;
+        }
+        
+        .profile-dropdown .dropdown-item.text-danger:hover {
+            background: #fff5f5;
+            color: #dc3545;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .content-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .content-type-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .teacher-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .assistant-badge {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .video-container {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 56.25%;
+            background: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .content-placeholder {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .content-placeholder h3 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .content-placeholder p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Menu Toggle and Welcome Message -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section" style="margin-right: 2rem;">
+                        <a href="test-dashboard.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image">
+                            </a>
+                        </div>
+                        
+                        <!-- Focus Mode Toggle -->
+                        <div class="focus-mode-section">
+                            <button class="focus-mode-btn" onclick="toggleFocusMode()" id="focusModeToggle" data-tooltip="Focus Mode">
+                                <iconify-icon icon="material-symbols:visibility-off" style="width: 20px; height: 20px;"></iconify-icon>
+                        </button>
+                        </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="notification-btn" onclick="openNotifications()" data-tooltip="Notifications">
+                            <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
+                            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                        </button>
+                        </div>
+                        
+                        <!-- Community Button -->
+                        <div class="community-section">
+                            <button class="community-btn" onclick="openCommunity()" data-tooltip="Community">
+                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px;">
+                        </button>
+                        </div>
+                        
+                        <!-- Profile Section -->
+                        <div class="profile-section">
+                            <div class="dropdown">
+                                <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <div class="profile-avatar" id="headerProfileAvatar" data-tooltip="Profile">
+                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 24px; height: 24px;">
+                        </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <!-- Profile Option -->
+                                    <li><a class="dropdown-item" href="student-info.html">
+                                        <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                        Profile
+                                    </a></li>
+                                    
+                                    <!-- How To Option -->
+                                    <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                        <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                        How To
+                                    </a></li>
+                                    
+                                    <li><hr class="dropdown-divider"></li>
+                                    
+                                    <!-- Logout Option -->
+                                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                        <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                        Logout
+                                    </a></li>
+                                </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-container">
+        <div class="content-card">
+            <div class="content-type-badge" id="contentTypeBadge">
+                <iconify-icon icon="material-symbols:school" class="me-2"></iconify-icon>
+                Teacher Content
+            </div>
+            
+            <div id="contentArea">
+                <div class="content-placeholder">
+                    <iconify-icon icon="material-symbols:video-library" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></iconify-icon>
+                    <h3>Content Coming Soon</h3>
+                    <p>This folder is being prepared with educational content. Check back soon for lectures, videos, and learning materials.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('category');
+        const folder = urlParams.get('folder');
+        const type = urlParams.get('type');
+        
+        // Update page content based on URL parameters
+        function updatePageContent() {
+            const titleElement = document.getElementById('contentTitle');
+            const subtitleElement = document.getElementById('contentSubtitle');
+            const badgeElement = document.getElementById('contentTypeBadge');
+            
+            if (category && folder && type) {
+                // Update title
+                titleElement.textContent = folder;
+                
+                // Update subtitle
+                subtitleElement.textContent = `${category.charAt(0).toUpperCase() + category.slice(1)} - ${type.charAt(0).toUpperCase() + type.slice(1)} Content`;
+                
+                // Update badge
+                if (type === 'teacher') {
+                    badgeElement.className = 'content-type-badge teacher-badge';
+                    badgeElement.innerHTML = '<iconify-icon icon="material-symbols:school" class="me-2"></iconify-icon>Teacher Content';
+                } else if (type === 'assistant') {
+                    badgeElement.className = 'content-type-badge assistant-badge';
+                    badgeElement.innerHTML = '<iconify-icon icon="material-symbols:smart-toy" class="me-2"></iconify-icon>Assistant Content';
+                }
+                
+                // Load content based on type and folder
+                loadContent(category, folder, type);
+            } else {
+                titleElement.textContent = 'Content Not Found';
+                subtitleElement.textContent = 'The requested content could not be found.';
+            }
+        }
+        
+        // Load content based on parameters
+        function loadContent(category, folder, type) {
+            const contentArea = document.getElementById('contentArea');
+            
+            // Determine which course based on URL
+            let courseName = 'mathematics';
+            if (window.location.href.includes('physics')) courseName = 'physics';
+            if (window.location.href.includes('english')) courseName = 'english';
+            
+            // Load content from the content manager
+            const contentData = JSON.parse(localStorage.getItem(`${courseName}ContentData`) || '{}');
+            
+            console.log('Course:', courseName);
+            console.log('Content Data:', contentData);
+            console.log('Looking for:', { category, folder, type });
+            
+            // Find the main folder by name and category
+            const mainFolder = contentData.folders?.find(f => 
+                f.name === folder && f.category === category
+            );
+            
+            console.log('Found main folder:', mainFolder);
+            
+            if (!mainFolder) {
+                console.log('Main folder not found');
+                return;
+            }
+            
+            // Find the teacher or assistant subfolder
+            const subfolderName = type === 'teacher' ? 'Teacher Content' : 'Assistant Content';
+            const subfolder = mainFolder.folders?.find(f => f.name === subfolderName);
+            
+            console.log('Looking for subfolder:', subfolderName);
+            console.log('Found subfolder:', subfolder);
+            
+            // Get files from the subfolder
+            const files = subfolder?.files || [];
+            
+            console.log('Files found:', files);
+            console.log('Total files:', files.length);
+            
+            if (files.length > 0) {
+                // Display the files
+                const fileCards = files.map(file => {
+                    const isVideo = file.type === 'video' || file.url?.includes('youtube') || file.url?.includes('vimeo');
+                    const isPDF = file.type === 'pdf' || file.url?.includes('.pdf');
+                    
+                    return `
+                        <div class="lecture-card" onclick="window.open('${file.url}', '_blank')" style="
+                                    background: white;
+                                    border-radius: 12px;
+                                    padding: 1.5rem;
+                                    margin-bottom: 1rem;
+                                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                                    border: 1px solid #e9ecef;
+                                    transition: all 0.3s ease;
+                                " onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.1)'">
+                                    <div class="lecture-header" style="display: flex; justify-content: between; align-items: start; margin-bottom: 1rem;">
+                                        <div style="flex: 1;">
+                                            <h5 style="margin: 0 0 0.5rem 0; color: #333; font-weight: 600;">${lecture.title}</h5>
+                                            <p style="margin: 0; color: #666; font-size: 0.9rem; line-height: 1.4;">${lecture.description || 'No description available'}</p>
+                                        </div>
+                                        <div class="lecture-type-badge" style="
+                                            background: ${type === 'teacher' ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'};
+                                            color: white;
+                                            padding: 0.25rem 0.75rem;
+                                            border-radius: 12px;
+                                            font-size: 0.8rem;
+                                            font-weight: 600;
+                                            margin-left: 1rem;
+                                        ">
+                                            ${type === 'teacher' ? '🎓 Teacher' : '🤖 Assistant'}
+                                        </div>
+                                    </div>
+                                    
+                                    ${lecture.videoUrl ? `
+                                        <div class="video-preview" style="margin-bottom: 1rem;">
+                                            <div class="video-thumbnail" style="
+                                                width: 100%;
+                                                height: 200px;
+                                                background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+                                                border-radius: 8px;
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                                cursor: pointer;
+                                                transition: all 0.3s ease;
+                                            " onclick="playVideo('${lecture.videoUrl}', '${lecture.title}')">
+                                                <iconify-icon icon="material-symbols:play-circle" style="font-size: 3rem; color: #667eea;"></iconify-icon>
+                                                <div style="position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,0.7); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
+                                                    ${lecture.videoSource === 'youtube' ? 'YouTube' : lecture.videoSource === 'vimeo' ? 'Vimeo' : 'Local Video'}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ` : ''}
+                                    
+                                    ${lecture.pdfUrl ? `
+                                        <div class="pdf-attachment" style="
+                                            background: #f8f9fa;
+                                            border-radius: 8px;
+                                            padding: 0.75rem;
+                                            margin-bottom: 1rem;
+                                            display: flex;
+                                            align-items: center;
+                                            gap: 0.5rem;
+                                        ">
+                                            <iconify-icon icon="material-symbols:description" style="color: #dc3545; font-size: 1.5rem;"></iconify-icon>
+                                            <span style="color: #333; font-weight: 500;">PDF Material Available</span>
+                                            <a href="${lecture.pdfUrl}" target="_blank" style="
+                                                background: #dc3545;
+                                                color: white;
+                                                padding: 0.25rem 0.75rem;
+                                                border-radius: 4px;
+                                                text-decoration: none;
+                                                font-size: 0.8rem;
+                                                margin-left: auto;
+                                            ">View PDF</a>
+                                        </div>
+                                    ` : ''}
+                                    
+                                    <div class="lecture-meta" style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        padding-top: 1rem;
+                                        border-top: 1px solid #e9ecef;
+                                        font-size: 0.8rem;
+                                        color: #666;
+                                    ">
+                                        <span>Created: ${new Date(lecture.createdAt).toLocaleDateString()}</span>
+                                        <span>ID: ${lecture.id}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Check if there are any lectures in this folder at all (regardless of type)
+                const folderLectures = lectures.filter(lecture => 
+                    lecture.category === category && lecture.folder === folder
+                );
+                
+                console.log('Lectures in this folder (any type):', folderLectures);
+                
+                // Check if there are any lectures with actual content (video or PDF)
+                const lecturesWithContent = folderLectures.filter(lecture => 
+                    lecture.videoUrl || lecture.pdfUrl
+                );
+                
+                console.log('Lectures with content in this folder:', lecturesWithContent);
+                
+                if (lecturesWithContent.length > 0) {
+                    // There are lectures with content, but they don't match the current type
+                    contentArea.innerHTML = `
+                        <div class="content-placeholder">
+                            <iconify-icon icon="material-symbols:info" style="font-size: 4rem; color: #ffc107; margin-bottom: 1rem;"></iconify-icon>
+                            <h3>Content Available in Different Type</h3>
+                            <p><strong>Category:</strong> ${category.charAt(0).toUpperCase() + category.slice(1)}<br>
+                            <strong>Folder:</strong> ${folder}<br>
+                            <strong>Requested Type:</strong> ${type.charAt(0).toUpperCase() + type.slice(1)} Content</p>
+                            <p>There are ${lecturesWithContent.length} lecture(s) with content in this folder, but they are marked as "${folderLectures[0]?.contentSource || 'unknown'} content".</p>
+                            <p>Available content types in this folder:</p>
+                            <ul style="text-align: left; display: inline-block;">
+                                ${[...new Set(folderLectures.map(l => l.contentSource))].map(contentType => 
+                                    `<li><strong>${contentType || 'Unknown'}</strong> content (${folderLectures.filter(l => l.contentSource === contentType).length} lectures)</li>`
+                                ).join('')}
+                            </ul>
+                            <div style="margin-top: 1rem;">
+                                <a href="mathematics-lectures.html" class="btn btn-primary">
+                                    <iconify-icon icon="material-symbols:arrow-back" class="me-2"></iconify-icon>
+                                    Back to Lectures
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                } else if (folderLectures.length > 0) {
+                    // There are lectures in the folder but no content
+                    contentArea.innerHTML = `
+                        <div class="content-placeholder">
+                            <iconify-icon icon="material-symbols:video-library-off" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></iconify-icon>
+                            <h3>Lectures Found But No Content</h3>
+                            <p><strong>Category:</strong> ${category.charAt(0).toUpperCase() + category.slice(1)}<br>
+                            <strong>Folder:</strong> ${folder}<br>
+                            <strong>Type:</strong> ${type.charAt(0).toUpperCase() + type.slice(1)} Content</p>
+                            <p>Found ${folderLectures.length} lecture(s) in this folder, but they don't have video or PDF content yet.</p>
+                            <p>Lecture titles: ${folderLectures.map(l => l.title).join(', ')}</p>
+                        </div>
+                    `;
+                } else {
+                    // No lectures found at all in this folder
+                    contentArea.innerHTML = `
+                        <div class="content-placeholder">
+                            <iconify-icon icon="material-symbols:video-library-off" style="font-size: 4rem; color: #ddd; margin-bottom: 1rem;"></iconify-icon>
+                            <h3>No content Right Now</h3>
+                            <p><strong>Category:</strong> ${category.charAt(0).toUpperCase() + category.slice(1)}<br>
+                            <strong>Folder:</strong> ${folder}<br>
+                            <strong>Type:</strong> ${type.charAt(0).toUpperCase() + type.slice(1)} Content</p>
+                            <p>No lectures have been added to this folder yet. Check back later or contact your teacher for content.</p>
+                            
+                            <div class="debug-actions" style="margin-top: 2rem; padding: 1rem; background: #e3f2fd; border-radius: 8px;">
+                                <h6>Debug Actions:</h6>
+                                <button onclick="clearOldData()" style="
+                                    background: #ff9800;
+                                    color: white;
+                                    border: none;
+                                    padding: 0.5rem 1rem;
+                                    border-radius: 4px;
+                                    margin-right: 0.5rem;
+                                    cursor: pointer;
+                                ">Clear Old Data</button>
+                                <button onclick="checkLectures()" style="
+                                    background: #2196f3;
+                                    color: white;
+                                    border: none;
+                                    padding: 0.5rem 1rem;
+                                    border-radius: 4px;
+                                    margin-right: 0.5rem;
+                                    cursor: pointer;
+                                ">Check Lectures</button>
+                                <button onclick="location.reload()" style="
+                                    background: #4caf50;
+                                    color: white;
+                                    border: none;
+                                    padding: 0.5rem 1rem;
+                                    border-radius: 4px;
+                                    cursor: pointer;
+                                ">Refresh Page</button>
+                            </div>
+                            
+                            ${lectures.length > 0 ? `
+                                <div class="available-lectures" style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                                    <h6>Other Available Lectures:</h6>
+                                    <ul style="font-size: 0.9rem; color: #666;">
+                                        ${lectures.slice(0, 5).map(lecture => `
+                                            <li><strong>${lecture.title}</strong> - ${lecture.category || 'No category'} > ${lecture.folder || 'No folder'} (${lecture.contentSource || 'No type'})</li>
+                                        `).join('')}
+                                        ${lectures.length > 5 ? `<li>... and ${lectures.length - 5} more lectures</li>` : ''}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+            }
+        }
+        
+        // Function to play video
+        function playVideo(videoUrl, title) {
+            // Create a simple modal for video playback
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+            
+            modal.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 12px;
+                    padding: 2rem;
+                    max-width: 90%;
+                    max-height: 90%;
+                    position: relative;
+                ">
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        position: absolute;
+                        top: 1rem;
+                        right: 1rem;
+                        background: #dc3545;
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        width: 30px;
+                        height: 30px;
+                        cursor: pointer;
+                    ">×</button>
+                    <h4 style="margin-bottom: 1rem; color: #333;">${title}</h4>
+                    <div style="width: 100%; max-width: 800px;">
+                        ${videoUrl.includes('youtube') ? `
+                            <iframe src="${videoUrl.replace('watch?v=', 'embed/')}" 
+                                    style="width: 100%; height: 400px; border: none; border-radius: 8px;"
+                                    allowfullscreen></iframe>
+                        ` : videoUrl.includes('vimeo') ? `
+                            <iframe src="${videoUrl.replace('vimeo.com/', 'player.vimeo.com/video/')}" 
+                                    style="width: 100%; height: 400px; border: none; border-radius: 8px;"
+                                    allowfullscreen></iframe>
+                        ` : `
+                            <video controls style="width: 100%; height: 400px; border-radius: 8px;">
+                                <source src="${videoUrl}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        `}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+        
+        // Function to clear old localStorage data
+        function clearOldData() {
+            localStorage.removeItem('mathematicsLectures');
+            localStorage.removeItem('mathematicsFolders');
+            alert('Old data cleared! Please go to the teacher panel and add a new lecture to test.');
+            location.reload();
+        }
+        
+        // Function to check lectures in localStorage
+        function checkLectures() {
+            const lectures = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+            console.log('=== LECTURE DEBUG INFO ===');
+            console.log('Total lectures in localStorage:', lectures.length);
+            console.log('All lectures:', lectures);
+            
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category');
+            const folder = urlParams.get('folder');
+            const type = urlParams.get('type');
+            
+            console.log('URL parameters:', { category, folder, type });
+            
+            // Check for exact matches
+            lectures.forEach((lecture, index) => {
+                const categoryMatch = lecture.category === category;
+                const folderMatch = lecture.folder === folder;
+                const typeMatch = lecture.contentSource === type;
+                
+                console.log(`Lecture ${index} (${lecture.title}):`, {
+                    category: lecture.category,
+                    folder: lecture.folder,
+                    contentSource: lecture.contentSource,
+                    categoryMatch,
+                    folderMatch,
+                    typeMatch,
+                    allMatch: categoryMatch && folderMatch && typeMatch
+                });
+            });
+            
+            alert(`Found ${lectures.length} lectures in localStorage. Check console for details.`);
+        }
+
+        // Header functions (required for header buttons)
+        function toggleMenu() {
+            // Menu toggle functionality - can be implemented later if needed
+            console.log('Menu toggle clicked');
+        }
+        
+        function toggleFocusMode() {
+            // Focus mode toggle functionality
+            const btn = document.getElementById('focusModeToggle');
+            btn.classList.toggle('active');
+            console.log('Focus mode toggled');
+        }
+        
+        function openNotifications() {
+            // Notifications functionality
+            console.log('Notifications opened');
+        }
+        
+        function openCommunity() {
+            // Community functionality
+            console.log('Community opened');
+        }
+        
+        function openHowToModal() {
+            // How to modal functionality
+            console.log('How to modal opened');
+        }
+        
+        function logout() {
+            // Logout functionality
+            if (confirm('Are you sure you want to logout?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Initialize page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePageContent();
+        });
+    </script>
+</body>
+</html>

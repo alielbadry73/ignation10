@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG Way IGCSE Tutoring</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="style.css?v=3">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+<body>
+    <!-- Top Utility Bar -->
+    <div class="top-utility-bar">
+        <div class="container-fluid">
+            <div class="row align-items-center position-relative">
+                <!-- Centered Logo -->
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="main-logo text-center">
+                        <a href="index.html">
+                            <img src="images/igway-logo.png" alt="IG Way IGCSE Tutoring" class="img-fluid">
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Right-aligned Utility Links -->
+                <div class="utility-links position-absolute top-0 end-0 d-flex align-items-center gap-3 h-100 pe-3">
+                    <div class="language-dropdown">
+                        <a href="#" class="utility-link" data-bs-toggle="dropdown">
+                            Language <iconify-icon icon="material-symbols:keyboard-arrow-down" class="ms-1"></iconify-icon>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">English</a></li>
+                            <li><a class="dropdown-item" href="#">العربية</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#favoritesModal">
+                        <iconify-icon icon="material-symbols:favorite" class="me-1"></iconify-icon>
+                        Favorites
+                    </a>
+                    <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>
+                        Login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="main-navigation">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <ul class="nav-menu d-flex list-unstyled mb-0">
+                        <li class="nav-item">
+                            <a href="index.html" class="nav-link active">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="courses.html" class="nav-link">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="about.html" class="nav-link">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="contact.html" class="nav-link">Contact Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- FAQ removed -->
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-4">
+                    <div class="d-flex justify-content-end align-items-center gap-3">
+                        <a href="#" class="btn btn-outline-primary cart-btn" data-bs-toggle="modal" data-bs-target="#cartModal">
+                            <iconify-icon icon="material-symbols:shopping-cart" class="me-2"></iconify-icon>
+                            Cart <span class="badge bg-primary ms-2" id="cartCount">0</span>
+                        </a>
+                        <a href="#" class="btn btn-outline-secondary login-btn" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <iconify-icon icon="material-symbols:login" class="me-2"></iconify-icon>
+                            Login
+                        </a>
+                        <a href="#" class="btn btn-primary register-btn" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            Register Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-center">
+                <div class="col-12 text-center">
+                    <div class="hero-image-container">
+                        <img src="images/online-learning-hero.jpg" alt="Online Learning Platform - Students and Instructor" class="img-fluid hero-main-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Selling Courses Section -->
+    <section id="top-selling" class="padding-medium">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-semibold">Check our <span class="text-primary">top selling courses</span></h2>
+                <p class="secondary-font">Peoples are not only searching but buying these products.</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- Course 1 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="images/teacher1.png" alt="Mathematics Course" class="img-fluid">
+                        </div>
+                        <div class="course-content">
+                            <h5 class="course-title">Mathematics</h5>
+                            <p class="course-instructor">Dr. Sarah Johnson</p>
+                            <p class="course-price">£99.99</p>
+                            <div class="course-actions">
+                                <button class="btn btn-primary add-to-cart-btn" onclick="addToCart('mathematics')">
+                                    Add to Cart
+                                </button>
+                                <button class="btn btn-outline-danger favorite-btn" onclick="toggleFavorite('mathematics')">
+                                    <iconify-icon icon="mdi:heart-outline"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 2 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="images/teacher2.png" alt="Physics Course" class="img-fluid">
+                        </div>
+                        <div class="course-content">
+                            <h5 class="course-title">Physics</h5>
+                            <p class="course-instructor">Prof. Michael Brown</p>
+                            <p class="course-price">£89.99</p>
+                            <div class="course-actions">
+                                <button class="btn btn-primary add-to-cart-btn" onclick="addToCart('physics')">
+                                    Add to Cart
+                                </button>
+                                <button class="btn btn-outline-danger favorite-btn" onclick="toggleFavorite('physics')">
+                                    <iconify-icon icon="mdi:heart-outline"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course 3 -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="course-card">
+                        <div class="course-image">
+                            <img src="images/teacher3.png" alt="English Course" class="img-fluid">
+                        </div>
+                        <div class="course-content">
+                            <h5 class="course-title">English</h5>
+                            <p class="course-instructor">Ms. Emily Davis</p>
+                            <p class="course-price">£79.99</p>
+                            <div class="course-actions">
+                                <button class="btn btn-primary add-to-cart-btn" onclick="addToCart('english')">
+                                    Add to Cart
+                                </button>
+                                <button class="btn btn-outline-danger favorite-btn" onclick="toggleFavorite('english')">
+                                    <iconify-icon icon="mdi:heart-outline"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section id="service" class="padding-medium">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="display-5 fw-semibold">Why to <span class="text-primary"> choose us</span></h2>
+                <p class="secondary-font">We provide the best online learning experience</p>
+            </div>
+            
+            <div class="row g-4 mt-4">
+                <div class="col-md-4">
+                    <div class="service-item text-center">
+                        <iconify-icon icon="material-symbols:school" class="fs-1 text-primary mb-3"></iconify-icon>
+                        <h5>Expert Teachers</h5>
+                        <p>Learn from experienced and qualified instructors</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item text-center">
+                        <iconify-icon icon="material-symbols:schedule" class="fs-1 text-primary mb-3"></iconify-icon>
+                        <h5>Flexible Schedule</h5>
+                        <p>Study at your own pace and time</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="service-item text-center">
+                        <iconify-icon icon="material-symbols:support" class="fs-1 text-primary mb-3"></iconify-icon>
+                        <h5>24/7 Support</h5>
+                        <p>Get help whenever you need it</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievement Section -->
+    <section id="achivement" style="background-color: #f5f5f5;">
+        <div class="container padding-medium">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="images/topic.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">300+ Topics</h4>
+                        <p class="text-uppercase">choose your choice</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="images/student.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">1000+ Students</h4>
+                        <p class="text-uppercase">bright future</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="images/instruction.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">300+ Instructors</h4>
+                        <p class="text-uppercase">trained professionals</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="text-center">
+                        <img src="images/award.png" alt="img" class="img-fluid">
+                        <h4 class="py-2 mt-3 m-0">120+ Awards</h4>
+                        <p class="text-uppercase">hard process</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Section -->
+    <section id="testimonial" style="background-image:url(images/background-img.jpg); background-repeat: no-repeat;">
+        <div class="container padding-medium">
+            <div class="text-center">
+                <h2 class="display-5 fw-semibold">see what our <span class="text-primary"> learners say</span></h2>
+                <p class="secondary-font">Here we got the real proof to express our work. Our learners expressed our work.</p>
+            </div>
+            <div class="row">
+                <div class="offset-md-1 col-md-10">
+                    <div class="swiper testimonial-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">أحمد محمد علي</h5>
+                                    <p class="text-muted">IGCSE Mathematics Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"IG Way completely transformed my understanding of mathematics. The teachers are incredibly patient and explain complex concepts in simple terms. I went from struggling with basic algebra to scoring A* in my IGCSE exams. The interactive lessons and practice materials made learning enjoyable!"</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">فاطمة السيد</h5>
+                                    <p class="text-muted">IGCSE Physics Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"The physics course at IG Way is outstanding! Dr. Michael's teaching methods helped me understand difficult concepts like electricity and magnetism. The practical examples and real-world applications made everything click. I highly recommend this platform to anyone serious about IGCSE success."</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">محمد حسن</h5>
+                                    <p class="text-muted">IGCSE English Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"English was always my weakest subject, but IG Way changed everything. The structured approach to essay writing and comprehension skills really helped me improve. The feedback from teachers was detailed and constructive. I achieved a grade I never thought possible!"</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">نور الدين أحمد</h5>
+                                    <p class="text-muted">IGCSE Chemistry Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"The chemistry course exceeded my expectations. The step-by-step explanations of chemical reactions and equations made everything clear. The practice tests and past paper solutions were invaluable for my exam preparation. Thank you IG Way for helping me achieve my goals!"</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">ياسمين محمود</h5>
+                                    <p class="text-muted">IGCSE Biology Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"Biology became my favorite subject thanks to IG Way! The visual diagrams and interactive content made learning about cells and human anatomy so much easier. The teachers are always available to answer questions and provide extra help when needed."</p>
+                                </div>
+                            </div>
+                            <div class="swiper-slide">
+                                <div class="text-center my-4">
+                                    <div class="reviewer-avatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-1 text-primary"></iconify-icon>
+                                    </div>
+                                    <h5 class="m-0 mt-2">عبد الرحمن خالد</h5>
+                                    <p class="text-muted">IGCSE Computer Science Student</p>
+                                    <p class="lh-lg fw-bold text-black-50">"The computer science course at IG Way is top-notch! The programming concepts were explained clearly with practical examples. The coding exercises and projects helped me develop strong programming skills. I'm now confident about pursuing computer science at university level."</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <div class="container padding-medium">
+            <div class="row">
+                <div class="col-md-4 my-3">
+                    <h5 class="text-uppercase fw-bold mb-4">Contact us</h5>
+                    <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="mdi:location" style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Address: </span> New Cairo, Egypt</p>
+                    <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="solar:phone-bold" style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Phone: </span> 01027500835</p>
+                    <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email" style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Email: </span> info@igway.com</p>
+                </div>
+                <div class="col-md-2 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">Links</h5>
+                        <ul class="menu-list list-unstyled">
+                            <li class="menu-item mb-2">
+                                <a href="index.html" class="footer-link">Home</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="about.html" class="footer-link">About us</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="courses.html" class="footer-link">Courses</a>
+                            </li>
+                            <li class="menu-item mb-2">
+                            </li>
+                            <li class="menu-item mb-2">
+                                <a href="contact.html" class="footer-link">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">support</h5>
+                        <ul class="menu-list list-unstyled">
+                                <!-- FAQ removed -->
+                            <li class="menu-item mb-2">
+                                <a href="https://wa.me/201027500835" target="_blank" class="footer-link">Support</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-3 my-3">
+                    <div class="footer-menu">
+                        <h5 class="text-uppercase fw-bold mb-4">Follow us</h5>
+                        <div class="social-links mt-4">
+                            <ul class="d-flex list-unstyled gap-3">
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2" icon="ri:facebook-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2" icon="ri:twitter-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2" icon="ri:pinterest-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2" icon="ri:instagram-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                                <li class="social">
+                                    <a href="#">
+                                        <iconify-icon class="social-icon fs-4 me-2" icon="ri:youtube-fill"></iconify-icon>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Footer Bottom -->
+    <div id="footer-bottom">
+        <hr class="m-0 text-black-50">
+        <div class="container py-3">
+            <div class="row mt-3">
+                <div class="col-md-6 copyright">
+                    <p>Copyright © 2025</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email</label>
+                            <input type="email" id="loginEmail" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" id="loginPassword" class="form-control" required autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly')">
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="handleLoginClick()">Log In</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Register</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="registerForm">
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" id="firstName" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" id="lastName" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" id="password" class="form-control" required>
+                        </div>
+                        <button type="button" class="btn btn-success" onclick="handleRegisterClick()">Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div class="modal fade" id="cartModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:shopping-cart" class="me-2 text-primary"></iconify-icon>
+                        Your Cart <span class="badge bg-primary ms-2" id="cartModalCount">0</span>
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartList">
+                        <div class="text-center text-muted py-4">
+                            <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+                            <p>Your cart is empty. Start adding courses to your cart!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-primary" id="checkoutBtn" disabled onclick="window.location.href='checkout.html'">Proceed to Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div class="modal fade" id="favoritesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:favorite" class="me-2 text-danger"></iconify-icon>
+                        Your Favorites
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="favoritesList">
+                        <div class="text-center text-muted py-4">
+                            <iconify-icon icon="material-symbols:favorite-outline" class="fs-1 mb-3"></iconify-icon>
+                            <p>No favorite courses yet. Start adding courses to your favorites!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/script.js"></script>
+    
+    <script>
+        // Global variables
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Course data
+        const courses = {
+            mathematics: {
+                title: 'Mathematics',
+                instructor: 'Dr. Sarah Johnson',
+                price: '£99.99',
+                image: 'images/teacher1.png'
+            },
+            physics: {
+                title: 'Physics',
+                instructor: 'Prof. Michael Brown',
+                price: '£89.99',
+                image: 'images/teacher2.png'
+            },
+            english: {
+                title: 'English',
+                instructor: 'Ms. Emily Davis',
+                price: '£79.99',
+                image: 'images/teacher3.png'
+            }
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded successfully!');
+            updateCartCount();
+            updateFavoritesModal();
+            
+            // Initialize Swiper for testimonials
+            if (typeof Swiper !== 'undefined') {
+                const testimonialSwiper = new Swiper('.testimonial-swiper', {
+                    slidesPerView: 1,
+                    spaceBetween: 30,
+                    loop: true,
+                    autoplay: {
+                        delay: 5000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        768: {
+                            slidesPerView: 1,
+                        },
+                        1024: {
+                            slidesPerView: 1,
+                        },
+                    },
+                });
+            }
+        });
+
+        // Cart functions
+        function addToCart(courseId) {
+            console.log('Adding to cart:', courseId);
+            
+            // Check if already in cart
+            const existingItem = cart.find(item => item.courseId === courseId);
+            if (existingItem) {
+                showToast('This course is already in your cart!', 'warning');
+                return;
+            }
+            
+            // Add to cart
+            cart.push({
+                courseId: courseId,
+                quantity: 1,
+                addedAt: new Date().toISOString()
+            });
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            showToast('Course added to cart!', 'success');
+        }
+
+        function updateCartCount() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            const cartBadge = document.getElementById('cartCount');
+            const cartModalCount = document.getElementById('cartModalCount');
+            
+            if (cartBadge) cartBadge.textContent = cartCount;
+            if (cartModalCount) cartModalCount.textContent = cartCount;
+        }
+
+        // Favorites functions
+        function toggleFavorite(courseId) {
+            const index = favorites.indexOf(courseId);
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showToast('Course removed from favorites', 'info');
+            } else {
+                favorites.push(courseId);
+                showToast('Course added to favorites!', 'success');
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            updateFavoritesModal();
+        }
+
+        function updateFavoritesModal() {
+            const favoritesList = document.getElementById('favoritesList');
+            if (!favoritesList) return;
+            
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <iconify-icon icon="material-symbols:favorite-outline" class="fs-1 mb-3"></iconify-icon>
+                        <p>No favorite courses yet. Start adding courses to your favorites!</p>
+                    </div>
+                `;
+            } else {
+                favoritesList.innerHTML = favorites.map(courseId => {
+                    const course = courses[courseId];
+                    if (!course) return '';
+                    
+                    return `
+                        <div class="d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+                            <div class="d-flex align-items-center">
+                                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                <div>
+                                    <div class="fw-bold">${course.title}</div>
+                                    <div class="text-muted small">${course.instructor}</div>
+                                    <div class="text-primary fw-bold">${course.price}</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-danger btn-sm" onclick="toggleFavorite('${courseId}')">
+                                <iconify-icon icon="mdi:heart"></iconify-icon>
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+        }
+
+        // Function to reset todo lists after login
+        function resetTodoLists() {
+            // Clear all existing todo lists from localStorage
+            localStorage.removeItem('todoLists');
+            console.log('Todo lists reset after login');
+        }
+
+        // Login function
+        function handleLoginClick() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showToast('Please fill in all fields', 'warning');
+                return;
+            }
+            
+            // Reset todo lists after successful login
+            resetTodoLists();
+            
+            showToast('Login successful! Redirecting to dashboard...', 'success');
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+            if (modal) modal.hide();
+            
+            // Clear form
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            
+            // Redirect to test-dashboard
+            setTimeout(() => {
+                window.location.href = 'test-dashboard.html';
+            }, 1500);
+        }
+
+        // Register function
+        function handleRegisterClick() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            if (!firstName || !lastName || !email || !password) {
+                showToast('Please fill in all fields', 'warning');
+                return;
+            }
+            
+            showToast('Registration successful! Redirecting to dashboard...', 'success');
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('registerModal'));
+            if (modal) modal.hide();
+            
+            // Clear form
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            
+            // Redirect to test-dashboard
+            setTimeout(() => {
+                window.location.href = 'test-dashboard.html';
+            }, 1500);
+        }
+
+        // Toast notification function
+        function showToast(message, type = 'info') {
+            const toastContainer = document.getElementById('toastContainer');
+            const toastId = 'toast-' + Date.now();
+            
+            let icon = 'material-symbols:info';
+            let bgClass = 'bg-primary';
+            
+            if (type === 'warning') {
+                icon = 'material-symbols:warning';
+                bgClass = 'bg-warning';
+            } else if (type === 'success') {
+                icon = 'material-symbols:check_circle';
+                bgClass = 'bg-success';
+            }
+            
+            const toastHTML = `
+                <div class="toast" id="${toastId}" role="alert">
+                    <div class="toast-header ${bgClass} text-white">
+                        <iconify-icon icon="${icon}" class="me-2"></iconify-icon>
+                        <strong class="me-auto">Notification</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                    </div>
+                    <div class="toast-body">
+                        ${message}
+                    </div>
+                </div>
+            `;
+            
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            
+            const toastElement = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastElement, {
+                autohide: true,
+                delay: 3000
+            });
+            
+            toast.show();
+            
+            toastElement.addEventListener('hidden.bs.toast', function() {
+                toastElement.remove();
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub - IG Way IGCSE Tutoring</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="style.css?v=5">
+    <link rel="stylesheet" type="text/css" href="css/dashboard.css">
+    <style>
+        /* Reset all margins and padding to eliminate white space */
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+        }
+        
+        /* Remove any default body margins and ensure no white space */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F8F8F8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        html {
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 1rem;
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .welcome-subtext {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+        }
+        
+        .notification-btn, .community-btn {
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+        }
+        
+        .notification-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+        }
+        
+        .notification-btn:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.5);
+            color: white;
+        }
+        
+        .community-btn {
+            background: rgba(255,255,255,0.9);
+            color: #667eea;
+            border: none;
+        }
+        
+        .community-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+        
+        .profile-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+        }
+        
+        .profile-link {
+            text-decoration: none;
+            color: white;
+        }
+        
+        .profile-link:hover {
+            color: white;
+        }
+        
+        /* Fix spacing issues */
+        .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        
+        .col-md-6 {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+        
+        /* Learning Hub Component Styling */
+        .card {
+            border: 1px solid #e9ecef;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            background: #ffffff;
+        }
+        
+        .card-header {
+            border-radius: 8px 8px 0 0 !important;
+            border: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.025em;
+            padding: 1rem 1.25rem;
+        }
+        
+        .card-body {
+            padding: 1.25rem;
+        }
+        
+        /* Quick Actions Styling */
+        .action-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: #007bff;
+        }
+        
+        .action-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .action-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #212529;
+        }
+        
+        .action-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .action-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-weight: 500;
+            border-radius: 6px;
+        }
+        
+        /* Course Progress Styling */
+        .course-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: #dee2e6;
+        }
+        
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .course-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: #212529;
+        }
+        
+        .course-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .course-progress {
+            margin-bottom: 1rem;
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 6px;
+            background-color: #f1f3f4;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            border-radius: 6px;
+            transition: width 0.3s ease;
+        }
+        
+        .course-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .course-lessons {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .course-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Quiz Section Styling */
+        .quiz-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+        }
+        
+        .quiz-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #212529;
+        }
+        
+        .quiz-subject {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .quiz-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quiz-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .quiz-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard-header .col-md-6 {
+                text-align: center;
+                margin-bottom: 1rem;
+            }
+            
+            .welcome-section {
+                padding-left: 0;
+            }
+            
+            .d-flex.gap-3 {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 0.5rem !important;
+            }
+            
+            .action-card {
+                margin-bottom: 1rem;
+            }
+            
+            .course-actions {
+                flex-direction: column;
+            }
+            
+            .quiz-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Welcome Message -->
+                <div class="col-md-6">
+                    <div class="welcome-section">
+                        <h4 class="welcome-text mb-0" id="welcomeMessage">Hello, User</h4>
+                        <small class="text-muted" id="welcomeSubtext">Welcome to your learning hub</small>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section">
+                            <a href="index.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/igway-logo.png" alt="IG Way IGCSE Tutoring" class="logo-image">
+                            </a>
+                        </div>
+                        
+                        <!-- Back to Dashboard Button -->
+                        <div class="back-section">
+                            <a href="test-dashboard.html" class="btn btn-outline-light btn-sm">
+                                <iconify-icon icon="material-symbols:arrow-back" class="me-1"></iconify-icon>
+                                Dashboard
+                            </a>
+                        </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()">
+                                <iconify-icon icon="material-symbols:notifications" class="fs-6"></iconify-icon>
+                                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Community Button -->
+                        <div class="community-section">
+                            <button class="btn btn-primary btn-sm community-btn" onclick="openCommunity()">
+                                <iconify-icon icon="material-symbols:groups" class="me-1"></iconify-icon>
+                                Community
+                            </button>
+                        </div>
+                        
+                        <!-- Profile Section -->
+                        <div class="profile-section">
+                            <div class="dropdown">
+                                <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <div class="profile-avatar" id="headerProfileAvatar">
+                                        <iconify-icon icon="material-symbols:person" class="fs-6"></iconify-icon>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <!-- Profile Option -->
+                                    <li><a class="dropdown-item" href="student-info.html">
+                                        <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                        Profile
+                                    </a></li>
+                                    
+                                    <!-- How To Option -->
+                                    <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                        <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                        How To
+                                    </a></li>
+                                    
+                                    <li><hr class="dropdown-divider"></li>
+                                    
+                                    <!-- Logout Option -->
+                                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                        <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                        Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Learning Hub Content -->
+    <div class="container-fluid py-4">
+        <!-- Page Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="mb-1">Learning Hub</h2>
+                        <p class="text-muted mb-0">Continue your learning journey and track your progress</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-primary">
+                            <iconify-icon icon="material-symbols:refresh" class="me-1"></iconify-icon>
+                            Refresh
+                        </button>
+                        <button class="btn btn-primary">
+                            <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
+                            New Course
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h4 class="mb-3">Quick Actions</h4>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="action-card" onclick="continueLearning()">
+                    <div class="action-icon text-primary">
+                        <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                    </div>
+                    <h5 class="action-title">Continue Learning</h5>
+                    <p class="action-description">Resume your current lessons and pick up where you left off</p>
+                    <button class="btn btn-primary action-button">
+                        <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                        Start Learning
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="action-card" onclick="takeQuiz()">
+                    <div class="action-icon text-success">
+                        <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                    </div>
+                    <h5 class="action-title">Take Quiz</h5>
+                    <p class="action-description">Test your knowledge with practice quizzes and assessments</p>
+                    <button class="btn btn-success action-button">
+                        <iconify-icon icon="material-symbols:quiz" class="me-1"></iconify-icon>
+                        Start Quiz
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="action-card" onclick="submitWork()">
+                    <div class="action-icon text-warning">
+                        <iconify-icon icon="material-symbols:assignment"></iconify-icon>
+                    </div>
+                    <h5 class="action-title">Submit Work</h5>
+                    <p class="action-description">Upload assignments and submit your completed work</p>
+                    <button class="btn btn-warning action-button">
+                        <iconify-icon icon="material-symbols:upload" class="me-1"></iconify-icon>
+                        Upload Work
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-3">
+                <div class="action-card" onclick="getHelp()">
+                    <div class="action-icon text-info">
+                        <iconify-icon icon="material-symbols:help"></iconify-icon>
+                    </div>
+                    <h5 class="action-title">Get Help</h5>
+                    <p class="action-description">Access support resources and connect with tutors</p>
+                    <button class="btn btn-info action-button">
+                        <iconify-icon icon="material-symbols:help" class="me-1"></iconify-icon>
+                        Get Support
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course Progress -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h4 class="mb-3">Course Progress</h4>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="course-card">
+                    <div class="course-header">
+                        <div>
+                            <h5 class="course-title">Mathematics IGCSE</h5>
+                            <p class="course-subtitle">Advanced Algebra & Geometry</p>
+                        </div>
+                        <span class="badge bg-success">75% Complete</span>
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span class="course-lessons">12/16 lessons completed</span>
+                        <div class="course-actions">
+                            <button class="btn btn-success btn-sm">
+                                <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="course-card">
+                    <div class="course-header">
+                        <div>
+                            <h5 class="course-title">Physics IGCSE</h5>
+                            <p class="course-subtitle">Mechanics & Thermodynamics</p>
+                        </div>
+                        <span class="badge bg-warning">45% Complete</span>
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress">
+                            <div class="progress-bar bg-warning" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span class="course-lessons">7/16 lessons completed</span>
+                        <div class="course-actions">
+                            <button class="btn btn-warning btn-sm">
+                                <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                                Continue
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 mb-3">
+                <div class="course-card">
+                    <div class="course-header">
+                        <div>
+                            <h5 class="course-title">Chemistry IGCSE</h5>
+                            <p class="course-subtitle">Organic & Inorganic Chemistry</p>
+                        </div>
+                        <span class="badge bg-success">100% Complete</span>
+                    </div>
+                    <div class="course-progress">
+                        <div class="progress">
+                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="course-stats">
+                        <span class="course-lessons">16/16 lessons completed</span>
+                        <div class="course-actions">
+                            <button class="btn btn-outline-success btn-sm">
+                                <iconify-icon icon="material-symbols:verified" class="me-1"></iconify-icon>
+                                Certificate
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Available Quizzes -->
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-3">Available Quizzes</h4>
+            </div>
+            <div class="col-lg-6 mb-3">
+                <div class="quiz-card">
+                    <div class="quiz-header">
+                        <div>
+                            <h5 class="quiz-title">Mathematics Quiz</h5>
+                            <p class="quiz-subject">Algebra Chapter 4</p>
+                        </div>
+                        <span class="badge bg-primary">Available</span>
+                    </div>
+                    <div class="quiz-meta">
+                        <div class="quiz-meta-item">
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            <span>30 minutes</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                            <span>25 questions</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <iconify-icon icon="material-symbols:star"></iconify-icon>
+                            <span>Medium</span>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn btn-primary btn-sm">
+                            <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                            Start Quiz
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            <iconify-icon icon="material-symbols:preview" class="me-1"></iconify-icon>
+                            Preview
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 mb-3">
+                <div class="quiz-card">
+                    <div class="quiz-header">
+                        <div>
+                            <h5 class="quiz-title">Physics Quiz</h5>
+                            <p class="quiz-subject">Mechanics Unit 2</p>
+                        </div>
+                        <span class="badge bg-warning">Due Soon</span>
+                    </div>
+                    <div class="quiz-meta">
+                        <div class="quiz-meta-item">
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            <span>45 minutes</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                            <span>30 questions</span>
+                        </div>
+                        <div class="quiz-meta-item">
+                            <iconify-icon icon="material-symbols:star"></iconify-icon>
+                            <span>Hard</span>
+                        </div>
+                    </div>
+                    <div class="quiz-actions">
+                        <button class="btn btn-warning btn-sm">
+                            <iconify-icon icon="material-symbols:play-arrow" class="me-1"></iconify-icon>
+                            Start Quiz
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm">
+                            <iconify-icon icon="material-symbols:preview" class="me-1"></iconify-icon>
+                            Preview
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <script>
+        // Update user name and welcome message
+        function updateStudentName() {
+            let userName = localStorage.getItem('userName');
+            
+            if (!userName) {
+                const userEmail = localStorage.getItem('userEmail');
+                if (userEmail) {
+                    userName = userEmail.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                } else {
+                    userName = 'User';
+                }
+            }
+            
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const welcomeSubtext = document.getElementById('welcomeSubtext');
+            
+            if (welcomeMessage) {
+                welcomeMessage.textContent = `Hello, ${userName}`;
+            }
+            
+            if (welcomeSubtext) {
+                welcomeSubtext.textContent = 'Welcome to your learning hub';
+            }
+        }
+
+        // Quick Action Functions
+        function continueLearning() {
+            alert('Redirecting to continue learning...');
+        }
+
+        function takeQuiz() {
+            alert('Opening quiz selection...');
+        }
+
+        function submitWork() {
+            alert('Opening work submission...');
+        }
+
+        function getHelp() {
+            alert('Opening help center...');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Learning Hub loaded successfully!');
+            updateStudentName();
+        });
+    </script>
+</body>
+</html>

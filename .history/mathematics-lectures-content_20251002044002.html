@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Lectures Content - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1031;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .menu-icon {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+        
+        .welcome-subtext {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .btn-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .breadcrumb-item {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .breadcrumb-item:hover {
+            color: #764ba2;
+        }
+        
+        .breadcrumb-separator {
+            color: #bdc3c7;
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8ecf0;
+        }
+        
+        .filter-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-badge {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            color: #495057;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-badge.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .filter-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Lectures Grid */
+        .lectures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .lecture-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e8ecf0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .lecture-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .lecture-thumbnail {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .lecture-thumbnail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(102, 126, 234, 0.7);
+            z-index: 1;
+        }
+        
+        .play-button {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #667eea;
+            z-index: 2;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .play-button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: scale(1.1);
+        }
+        
+        .lecture-content {
+            padding: 1.5rem;
+        }
+        
+        .lecture-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        
+        .lecture-description {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .lecture-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .lecture-duration {
+            background: #e8f5e8;
+            color: #28a745;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .lecture-level {
+            background: #fff3cd;
+            color: #856404;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .lecture-instructor {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .instructor-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .instructor-info {
+            flex: 1;
+        }
+        
+        .instructor-name {
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+        
+        .instructor-role {
+            color: #7f8c8d;
+            font-size: 0.8rem;
+        }
+        
+        .lecture-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-lecture {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary-lecture {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary-lecture:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+        
+        .btn-outline-lecture {
+            background: transparent;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-outline-lecture:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            color: #bdc3c7;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-description {
+            color: #7f8c8d;
+            margin-bottom: 2rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .lectures-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .filter-badges {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-md-6 welcome-section">
+                    <div class="d-flex align-items-center">
+                        <button class="menu-toggle me-3" onclick="toggleMenu()">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        <div>
+                            <div class="welcome-text">Mathematics Lectures</div>
+                            <div class="welcome-subtext">IG Nation Learning Platform</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="header-actions justify-content-end">
+                        <a href="mathematics-lectures.html" class="btn-header">
+                            <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                            Back to Categories
+                        </a>
+                        <a href="course-mathematics.html" class="btn-header">
+                            <iconify-icon icon="material-symbols:home"></iconify-icon>
+                            Course Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title" id="pageTitle">Mathematics Lectures</h1>
+            <p class="page-subtitle" id="pageSubtitle">Explore comprehensive mathematics lectures</p>
+            
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb-nav">
+                <a href="course-mathematics.html" class="breadcrumb-item">Mathematics Course</a>
+                <span class="breadcrumb-separator">›</span>
+                <a href="mathematics-lectures.html" class="breadcrumb-item">Lectures</a>
+                <span class="breadcrumb-separator">›</span>
+                <span class="breadcrumb-item" id="currentCategory">Loading...</span>
+            </nav>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h3 class="filter-title">Filter by Source</h3>
+            <div class="filter-badges">
+                <div class="filter-badge active" data-source="all">All Sources</div>
+                <div class="filter-badge" data-source="teacher">Teacher</div>
+                <div class="filter-badge" data-source="assistant">AI Assistant</div>
+            </div>
+        </div>
+
+        <!-- Lectures Grid -->
+        <div class="lectures-grid" id="lecturesGrid">
+            <!-- Lectures will be loaded here -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <div class="empty-icon">
+                <iconify-icon icon="material-symbols:video-library"></iconify-icon>
+            </div>
+            <h3 class="empty-title">No Lectures Found</h3>
+            <p class="empty-description">No lectures are available for the selected category and source combination.</p>
+            <a href="mathematics-lectures.html" class="btn-header">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                Back to Categories
+            </a>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+
+    <script>
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const source = urlParams.get('source') || 'all';
+        const category = urlParams.get('category') || 'algebra';
+        
+        console.log('Source:', source);
+        console.log('Category:', category);
+        
+        // Sample lectures data
+        const sampleLectures = [
+            {
+                id: 1,
+                title: "Introduction to Algebra",
+                description: "Learn the fundamentals of algebraic expressions, variables, and basic operations.",
+                instructor: "Dr. Sarah Johnson",
+                source: "teacher",
+                topic: "algebra",
+                duration: 45,
+                level: "Beginner",
+                thumbnail: "algebra-1.jpg"
+            },
+            {
+                id: 2,
+                title: "Quadratic Equations",
+                description: "Master solving quadratic equations using various methods including factoring and the quadratic formula.",
+                instructor: "AI Assistant",
+                source: "assistant",
+                topic: "algebra",
+                duration: 60,
+                level: "Intermediate",
+                thumbnail: "algebra-2.jpg"
+            },
+            {
+                id: 3,
+                title: "Linear Functions",
+                description: "Understand linear functions, their graphs, and real-world applications.",
+                instructor: "Dr. Michael Chen",
+                source: "teacher",
+                topic: "algebra",
+                duration: 50,
+                level: "Beginner",
+                thumbnail: "algebra-3.jpg"
+            },
+            {
+                id: 4,
+                title: "Polynomial Operations",
+                description: "Learn to add, subtract, multiply, and divide polynomials effectively.",
+                instructor: "AI Assistant",
+                source: "assistant",
+                topic: "algebra",
+                duration: 55,
+                level: "Intermediate",
+                thumbnail: "algebra-4.jpg"
+            },
+            {
+                id: 5,
+                title: "Basic Geometry Concepts",
+                description: "Introduction to points, lines, angles, and basic geometric shapes.",
+                instructor: "Dr. Emily Rodriguez",
+                source: "teacher",
+                topic: "geometry",
+                duration: 40,
+                level: "Beginner",
+                thumbnail: "geometry-1.jpg"
+            },
+            {
+                id: 6,
+                title: "Triangle Properties",
+                description: "Explore different types of triangles and their unique properties.",
+                instructor: "AI Assistant",
+                source: "assistant",
+                topic: "geometry",
+                duration: 50,
+                level: "Intermediate",
+                thumbnail: "geometry-2.jpg"
+            },
+            {
+                id: 7,
+                title: "Calculus Fundamentals",
+                description: "Introduction to limits, derivatives, and basic calculus concepts.",
+                instructor: "Dr. James Wilson",
+                source: "teacher",
+                topic: "calculus",
+                duration: 75,
+                level: "Advanced",
+                thumbnail: "calculus-1.jpg"
+            },
+            {
+                id: 8,
+                title: "Integration Techniques",
+                description: "Learn various methods of integration and their applications.",
+                instructor: "AI Assistant",
+                source: "assistant",
+                topic: "calculus",
+                duration: 65,
+                level: "Advanced",
+                thumbnail: "calculus-2.jpg"
+            }
+        ];
+        
+        // Load lectures from localStorage or use sample data
+        const storedLectures = JSON.parse(localStorage.getItem('mathematicsLectures')) || [];
+        const lectures = storedLectures.length > 0 ? storedLectures : sampleLectures;
+        
+        // Update page title and breadcrumb
+        document.getElementById('pageTitle').textContent = `${category.charAt(0).toUpperCase() + category.slice(1)} Lectures`;
+        document.getElementById('pageSubtitle').textContent = `Explore ${category} lectures from expert teachers and AI assistants`;
+        document.getElementById('currentCategory').textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        
+        // Filter lectures based on source and category
+        function filterLectures() {
+            const currentSource = document.querySelector('.filter-badge.active').dataset.source;
+            
+            const filteredLectures = lectures.filter(lecture => {
+                const matchesCategory = lecture.topic && 
+                    lecture.topic.toLowerCase() === category.toLowerCase();
+                
+                let matchesSource = true;
+                if (currentSource !== 'all') {
+                    matchesSource = lecture.source === currentSource;
+                }
+                
+                return matchesCategory && matchesSource;
+            });
+            
+            displayLectures(filteredLectures);
+        }
+        
+        // Display lectures
+        function displayLectures(lecturesToShow) {
+            const lecturesGrid = document.getElementById('lecturesGrid');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (lecturesToShow.length === 0) {
+                lecturesGrid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            lecturesGrid.style.display = 'grid';
+            emptyState.style.display = 'none';
+            
+            lecturesGrid.innerHTML = lecturesToShow.map(lecture => `
+                <div class="lecture-card">
+                    <div class="lecture-thumbnail">
+                        <div class="play-button">
+                            <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                        </div>
+                    </div>
+                    <div class="lecture-content">
+                        <h3 class="lecture-title">${lecture.title}</h3>
+                        <p class="lecture-description">${lecture.description}</p>
+                        
+                        <div class="lecture-meta">
+                            <span class="lecture-duration">${lecture.duration} min</span>
+                            <span class="lecture-level">${lecture.level}</span>
+                        </div>
+                        
+                        <div class="lecture-instructor">
+                            <div class="instructor-avatar">
+                                ${lecture.instructor.charAt(0)}
+                            </div>
+                            <div class="instructor-info">
+                                <div class="instructor-name">${lecture.instructor}</div>
+                                <div class="instructor-role">${lecture.source === 'teacher' ? 'Mathematics Teacher' : 'AI Assistant'}</div>
+                            </div>
+                        </div>
+                        
+                        <div class="lecture-actions">
+                            <button class="btn-lecture btn-primary-lecture" onclick="startLecture(${lecture.id})">
+                                <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                                Start Lecture
+                            </button>
+                            <button class="btn-lecture btn-outline-lecture" onclick="viewDetails(${lecture.id})">
+                                <iconify-icon icon="material-symbols:info"></iconify-icon>
+                                Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Filter badge click handler
+        document.querySelectorAll('.filter-badge').forEach(badge => {
+            badge.addEventListener('click', function() {
+                document.querySelectorAll('.filter-badge').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                filterLectures();
+            });
+        });
+        
+        // Start lecture function
+        function startLecture(lectureId) {
+            const lecture = lectures.find(l => l.id === lectureId);
+            if (lecture) {
+                alert(`Starting lecture: ${lecture.title}\n\nThis would normally open the video player or redirect to the lecture content.`);
+                // In a real application, this would:
+                // 1. Open a video player modal
+                // 2. Redirect to a video page
+                // 3. Track progress
+            }
+        }
+        
+        // View details function
+        function viewDetails(lectureId) {
+            const lecture = lectures.find(l => l.id === lectureId);
+            if (lecture) {
+                alert(`Lecture Details:\n\nTitle: ${lecture.title}\nDescription: ${lecture.description}\nInstructor: ${lecture.instructor}\nDuration: ${lecture.duration} minutes\nLevel: ${lecture.level}\nSource: ${lecture.source}`);
+            }
+        }
+        
+        // Toggle menu function
+        function toggleMenu() {
+            // Menu toggle functionality
+            console.log('Menu toggled');
+        }
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active filter based on URL parameter
+            const filterBadges = document.querySelectorAll('.filter-badge');
+            filterBadges.forEach(badge => {
+                if (badge.dataset.source === source) {
+                    badge.classList.add('active');
+                } else {
+                    badge.classList.remove('active');
+                }
+            });
+            
+            filterLectures();
+        });
+    </script>
+</body>
+</html>

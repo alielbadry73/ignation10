@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG Way Community - Dr. Ahmed Hassan</title>
+    <link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/vendor.css">
+    <link rel="stylesheet" type="text/css" href="style.css?v=6">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        body {
+            background: #e5ddd5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .community-container {
+            display: flex;
+            height: 100vh;
+            background: #e5ddd5;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #2c3e50;
+            color: white;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            background: #34495e;
+            padding: 20px;
+            border-bottom: 1px solid #34495e;
+        }
+
+        .doctor-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .doctor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .doctor-info h4 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .doctor-info p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .online-indicator {
+            width: 12px;
+            height: 12px;
+            background: #2ecc71;
+            border-radius: 50%;
+            margin-left: auto;
+        }
+
+        .students-list {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .students-list h5 {
+            margin-bottom: 15px;
+            color: #bdc3c7;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .student-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .student-item:hover {
+            background: #34495e;
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .student-info h6 {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .student-info p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #e5ddd5;
+        }
+
+        .chat-header {
+            background: #075e54;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .chat-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .chat-info h4 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .chat-info p {
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="%23ffffff" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="10" cy="60" r="0.5" fill="%23ffffff" opacity="0.1"/><circle cx="90" cy="40" r="0.5" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message-bubble {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.sent .message-bubble {
+            background: #dcf8c6;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.received .message-bubble {
+            background: white;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .message-content {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .message-time {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 4px;
+            text-align: right;
+        }
+
+        .message.sent .message-time {
+            text-align: right;
+        }
+
+        .message.received .message-time {
+            text-align: left;
+        }
+
+        .message-sender {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            opacity: 0.8;
+        }
+
+        .chat-input {
+            background: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .input-group {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: #f0f0f0;
+            border-radius: 25px;
+            padding: 8px 15px;
+        }
+
+        .input-group input {
+            border: none;
+            background: none;
+            outline: none;
+            flex: 1;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .input-group input::placeholder {
+            color: #999;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #075e54;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background: #064e46;
+        }
+
+        .action-btn.send {
+            background: #25d366;
+        }
+
+        .action-btn.send:hover {
+            background: #1ea952;
+        }
+
+        .file-upload {
+            display: none;
+        }
+
+        .camera-preview {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 1000;
+            display: none;
+        }
+
+        .camera-controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .camera-btn {
+            width: 60px;
+            height: 60px;
+            border: none;
+            border-radius: 50%;
+            background: white;
+            color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .camera-btn.capture {
+            background: #25d366;
+            color: white;
+        }
+
+        .camera-btn.close {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .file-message {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 5px 0;
+        }
+
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            background: #007bff;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .file-details h6 {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .file-details p {
+            margin: 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .download-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .download-btn:hover {
+            background: #0056b3;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            max-width: 70px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: #999;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .welcome-message h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .welcome-message p {
+            margin-bottom: 20px;
+        }
+
+        .start-chat-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .start-chat-btn:hover {
+            background: #1ea952;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .community-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .students-list {
+                display: flex;
+                overflow-x: auto;
+                padding: 10px;
+            }
+            
+            .student-item {
+                min-width: 150px;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="community-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="doctor-profile">
+                    <div class="doctor-avatar">AH</div>
+                    <div class="doctor-info">
+                        <h4>Dr. Ahmed Hassan</h4>
+                        <p>IGCSE Mathematics Professor</p>
+                    </div>
+                    <div class="online-indicator"></div>
+                </div>
+            </div>
+            
+            <div class="students-list">
+                <h5>Students (10)</h5>
+                <div class="student-item" onclick="selectStudent('أحمد محمد علي')">
+                    <div class="student-avatar">أم</div>
+                    <div class="student-info">
+                        <h6>أحمد محمد علي</h6>
+                        <p>Mathematics Student</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('فاطمة السيد')">
+                    <div class="student-avatar">فس</div>
+                    <div class="student-info">
+                        <h6>فاطمة السيد</h6>
+                        <p>Physics Student</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('محمد حسن')">
+                    <div class="student-avatar">مح</div>
+                    <div class="student-info">
+                        <h6>محمد حسن</h6>
+                        <p>English Student</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('نور الدين أحمد')">
+                    <div class="student-avatar">ند</div>
+                    <div class="student-info">
+                        <h6>نور الدين أحمد</h6>
+                        <p>Chemistry Student</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('ياسمين محمود')">
+                    <div class="student-avatar">يم</div>
+                    <div class="student-info">
+                        <h6>ياسمين محمود</h6>
+                        <p>Biology Student</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('عبد الرحمن خالد')">
+                    <div class="student-avatar">عخ</div>
+                    <div class="student-info">
+                        <h6>عبد الرحمن خالد</h6>
+                        <p>Computer Science</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('مريم أحمد')">
+                    <div class="student-avatar">ما</div>
+                    <div class="student-info">
+                        <h6>مريم أحمد</h6>
+                        <p>Mathematics Student</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('علي محسن')">
+                    <div class="student-avatar">عم</div>
+                    <div class="student-info">
+                        <h6>علي محسن</h6>
+                        <p>Physics Student</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('سارة محمد')">
+                    <div class="student-avatar">سم</div>
+                    <div class="student-info">
+                        <h6>سارة محمد</h6>
+                        <p>English Student</p>
+                    </div>
+                </div>
+                <div class="student-item" onclick="selectStudent('خالد عبد الله')">
+                    <div class="student-avatar">خع</div>
+                    <div class="student-info">
+                        <h6>خالد عبد الله</h6>
+                        <p>Chemistry Student</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-avatar" id="chatAvatar">IG</div>
+                <div class="chat-info">
+                    <h4 id="chatTitle">IG Way Community</h4>
+                    <p id="chatSubtitle">Dr. Ahmed Hassan & Students</p>
+                </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    <h3>Welcome to IG Way Community! 👋</h3>
+                    <p>This is your space to discuss IGCSE topics, ask questions, and share resources with Dr. Ahmed Hassan and fellow students.</p>
+                    <button class="start-chat-btn" onclick="startChat()">Start Chatting</button>
+                </div>
+            </div>
+
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="chat-input">
+                <div class="input-group">
+                    <input type="text" id="messageInput" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="openFileUpload()" title="Upload File">
+                        <iconify-icon icon="material-symbols:attach-file"></iconify-icon>
+                    </button>
+                    <button class="action-btn" onclick="openCamera()" title="Take Photo">
+                        <iconify-icon icon="material-symbols:camera-alt"></iconify-icon>
+                    </button>
+                    <button class="action-btn send" onclick="sendMessage()" title="Send Message">
+                        <iconify-icon icon="material-symbols:send"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Upload Input -->
+    <input type="file" id="fileUpload" class="file-upload" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif,.mp4,.mp3" onchange="handleFileUpload(event)">
+
+    <!-- Camera Preview -->
+    <div class="camera-preview" id="cameraPreview">
+        <video id="cameraVideo" autoplay></video>
+        <canvas id="cameraCanvas" style="display: none;"></canvas>
+        <div class="camera-controls">
+            <button class="camera-btn close" onclick="closeCamera()">
+                <iconify-icon icon="material-symbols:close"></iconify-icon>
+            </button>
+            <button class="camera-btn capture" onclick="capturePhoto()">
+                <iconify-icon icon="material-symbols:camera-alt"></iconify-icon>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentUser = 'You';
+        let selectedStudent = null;
+        let messages = [];
+        let stream = null;
+
+        // Sample messages for demonstration
+        const sampleMessages = [
+            {
+                sender: 'Dr. Ahmed Hassan',
+                content: 'مرحباً بكم جميعاً في مجتمع IG Way! أهلاً وسهلاً',
+                time: '10:30 AM',
+                type: 'text',
+                avatar: 'AH'
+            },
+            {
+                sender: 'أحمد محمد علي',
+                content: 'شكراً دكتور! متحمس للبدء في دراسة الرياضيات',
+                time: '10:32 AM',
+                type: 'text',
+                avatar: 'أم'
+            },
+            {
+                sender: 'فاطمة السيد',
+                content: 'هل يمكننا مناقشة الفصل الأول في الفيزياء؟',
+                time: '10:35 AM',
+                type: 'text',
+                avatar: 'فس'
+            },
+            {
+                sender: 'Dr. Ahmed Hassan',
+                content: 'بالطبع! سأقوم برفع ملف PDF يحتوي على ملخص الفصل الأول',
+                time: '10:37 AM',
+                type: 'text',
+                avatar: 'AH'
+            },
+            {
+                sender: 'Dr. Ahmed Hassan',
+                content: 'Physics_Chapter1_Summary.pdf',
+                time: '10:38 AM',
+                type: 'file',
+                avatar: 'AH',
+                fileName: 'Physics_Chapter1_Summary.pdf',
+                fileSize: '2.3 MB'
+            }
+        ];
+
+        function startChat() {
+            document.querySelector('.welcome-message').style.display = 'none';
+            loadSampleMessages();
+        }
+
+        function loadSampleMessages() {
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+            
+            sampleMessages.forEach(message => {
+                addMessageToChat(message);
+            });
+        }
+
+        function selectStudent(studentName) {
+            selectedStudent = studentName;
+            document.getElementById('chatTitle').textContent = studentName;
+            document.getElementById('chatSubtitle').textContent = 'Private Chat';
+            document.getElementById('chatAvatar').textContent = studentName.charAt(0);
+            
+            // Clear messages and show private chat
+            document.getElementById('chatMessages').innerHTML = '<div class="welcome-message"><h3>Private Chat with ' + studentName + '</h3><p>Start a private conversation</p></div>';
+        }
+
+        function addMessageToChat(message) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${message.sender === currentUser ? 'sent' : 'received'}`;
+            
+            let messageContent = '';
+            if (message.type === 'file') {
+                messageContent = `
+                    <div class="file-message">
+                        <div class="file-info">
+                            <div class="file-icon">
+                                <iconify-icon icon="material-symbols:description"></iconify-icon>
+                            </div>
+                            <div class="file-details">
+                                <h6>${message.fileName}</h6>
+                                <p>${message.fileSize}</p>
+                            </div>
+                            <button class="download-btn" onclick="downloadFile('${message.fileName}')">Download</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                messageContent = `
+                    <p class="message-content">${message.content}</p>
+                `;
+            }
+            
+            messageDiv.innerHTML = `
+                ${message.sender !== currentUser ? `<div class="message-avatar">${message.avatar}</div>` : ''}
+                <div class="message-bubble">
+                    ${message.sender !== currentUser ? `<div class="message-sender">${message.sender}</div>` : ''}
+                    ${messageContent}
+                    <div class="message-time">${message.time}</div>
+                </div>
+                ${message.sender === currentUser ? `<div class="message-avatar">${message.avatar}</div>` : ''}
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const content = messageInput.value.trim();
+            
+            if (content === '') return;
+            
+            const message = {
+                sender: currentUser,
+                content: content,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                type: 'text',
+                avatar: 'Y'
+            };
+            
+            addMessageToChat(message);
+            messageInput.value = '';
+            
+            // Simulate typing indicator
+            showTypingIndicator();
+            setTimeout(() => {
+                hideTypingIndicator();
+                simulateResponse();
+            }, 2000);
+        }
+
+        function simulateResponse() {
+            const responses = [
+                'شكراً لك!',
+                'ممتاز!',
+                'هل يمكنك توضيح أكثر؟',
+                'أفهم تماماً',
+                'هذا سؤال جيد',
+                'دعني أفكر في هذا',
+                'نعم، هذا صحيح',
+                'أوافقك الرأي'
+            ];
+            
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            const randomStudent = ['أحمد محمد علي', 'فاطمة السيد', 'محمد حسن', 'نور الدين أحمد'][Math.floor(Math.random() * 4)];
+            
+            const response = {
+                sender: randomStudent,
+                content: randomResponse,
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                type: 'text',
+                avatar: randomStudent.charAt(0)
+            };
+            
+            addMessageToChat(response);
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'flex';
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').style.display = 'none';
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function openFileUpload() {
+            document.getElementById('fileUpload').click();
+        }
+
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            for (let file of files) {
+                const message = {
+                    sender: currentUser,
+                    content: file.name,
+                    time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    type: 'file',
+                    avatar: 'Y',
+                    fileName: file.name,
+                    fileSize: formatFileSize(file.size)
+                };
+                
+                addMessageToChat(message);
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function downloadFile(fileName) {
+            // Simulate file download
+            const link = document.createElement('a');
+            link.href = '#';
+            link.download = fileName;
+            link.click();
+            alert('File download started: ' + fileName);
+        }
+
+        function openCamera() {
+            const cameraPreview = document.getElementById('cameraPreview');
+            const cameraVideo = document.getElementById('cameraVideo');
+            
+            cameraPreview.style.display = 'block';
+            
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    cameraVideo.srcObject = stream;
+                    window.currentStream = stream;
+                })
+                .catch(err => {
+                    console.error('Error accessing camera:', err);
+                    alert('Unable to access camera. Please check permissions.');
+                });
+        }
+
+        function closeCamera() {
+            const cameraPreview = document.getElementById('cameraPreview');
+            cameraPreview.style.display = 'none';
+            
+            if (window.currentStream) {
+                window.currentStream.getTracks().forEach(track => track.stop());
+                window.currentStream = null;
+            }
+        }
+
+        function capturePhoto() {
+            const cameraVideo = document.getElementById('cameraVideo');
+            const cameraCanvas = document.getElementById('cameraCanvas');
+            const ctx = cameraCanvas.getContext('2d');
+            
+            cameraCanvas.width = cameraVideo.videoWidth;
+            cameraCanvas.height = cameraVideo.videoHeight;
+            ctx.drawImage(cameraVideo, 0, 0);
+            
+            const imageData = cameraCanvas.toDataURL('image/jpeg');
+            
+            const message = {
+                sender: currentUser,
+                content: 'Photo captured',
+                time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                type: 'image',
+                avatar: 'Y',
+                imageData: imageData
+            };
+            
+            addMessageToChat(message);
+            closeCamera();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Community page loaded successfully!');
+        });
+    </script>
+</body>
+</html>

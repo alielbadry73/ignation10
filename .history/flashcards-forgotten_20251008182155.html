@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgotten Cards - Review - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            color: #ef4444;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .empty-state iconify-icon {
+            font-size: 5rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h2 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: #6c757d;
+        }
+
+        .flashcard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            perspective: 1000px;
+            margin-bottom: 2rem;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .flashcard-front {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .flashcard-content {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .flashcard-meta {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(239, 68, 68, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #ef4444;
+        }
+
+        .flashcard-hint {
+            position: absolute;
+            bottom: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        .controls {
+            max-width: 800px;
+            margin: 2rem auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-control {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: none;
+            color: #ef4444;
+            padding: 1rem 2rem;
+            border-radius: 15px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            flex: 1;
+            justify-content: center;
+            min-width: 150px;
+        }
+
+        .btn-control:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-learned {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-learned:hover {
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-remove {
+            background: linear-gradient(135deg, #6c757d, #495057);
+            color: white;
+        }
+
+        .btn-remove:hover {
+            box-shadow: 0 12px 40px rgba(108, 117, 125, 0.3);
+        }
+
+        .progress-container {
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .progress-bar-custom {
+            height: 10px;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .chapter-filter {
+            max-width: 800px;
+            margin: 0 auto 2rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid rgba(239, 68, 68, 0.2);
+            border-radius: 10px;
+            font-weight: 600;
+            color: #1e293b;
+            background: white;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #ef4444;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .flashcard {
+                height: 350px;
+            }
+            
+            .flashcard-content {
+                font-size: 1.5rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .btn-control {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1><iconify-icon icon="material-symbols:priority-high"></iconify-icon> Forgotten Cards - Review</h1>
+                <a href="flashcards.html" class="btn btn-outline-danger">
+                    <iconify-icon icon="material-symbols:arrow-back"></iconify-icon> All Chapters
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Chapter Filter -->
+        <div class="chapter-filter fade-in" id="chapterFilterContainer" style="display: none;">
+            <label class="filter-label">Filter by Chapter:</label>
+            <select class="filter-select" id="chapterFilter" onchange="filterByChapter()">
+                <option value="all">All Chapters</option>
+            </select>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state fade-in" id="emptyState">
+            <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+            <h2>No Forgotten Cards!</h2>
+            <p>You're doing great! You haven't marked any cards as forgotten yet.</p>
+            <a href="flashcards.html" class="btn btn-danger mt-3">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon> Back to Flashcards
+            </a>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-container fade-in" id="progressContainer" style="display: none;">
+            <div class="progress-info">
+                <span class="progress-text">
+                    Card <span id="currentCard">1</span> of <span id="totalCards">0</span>
+                </span>
+                <span class="progress-text">
+                    <span id="learnedCount">0</span> Learned • 
+                    <span id="remainingCount">0</span> Remaining
+                </span>
+            </div>
+            <div class="progress-bar-custom">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <!-- Flashcard -->
+        <div class="flashcard-container" id="flashcardContainer" style="display: none;">
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div class="flashcard-face flashcard-front">
+                    <div class="flashcard-meta" id="cardMeta">Chapter</div>
+                    <div class="flashcard-label">Question</div>
+                    <div class="flashcard-content" id="questionContent">Question</div>
+                    <div class="flashcard-hint">Click to reveal answer</div>
+                </div>
+                <div class="flashcard-face flashcard-back">
+                    <div class="flashcard-label">Answer</div>
+                    <div class="flashcard-content" id="answerContent">Answer</div>
+                    <div class="flashcard-hint">Click to flip back</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls fade-in" id="controlsContainer" style="display: none;">
+            <button class="btn-control" onclick="previousCard()">
+                <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1.5rem;"></iconify-icon>
+                Previous
+            </button>
+            <button class="btn-control btn-remove" onclick="removeFromForgotten()">
+                <iconify-icon icon="material-symbols:delete" style="font-size: 1.5rem;"></iconify-icon>
+                Remove
+            </button>
+            <button class="btn-control btn-learned" onclick="markAsLearned()">
+                <iconify-icon icon="material-symbols:check-circle" style="font-size: 1.5rem;"></iconify-icon>
+                Learned!
+            </button>
+            <button class="btn-control" onclick="nextCard()">
+                Next
+                <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 1.5rem;"></iconify-icon>
+            </button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Chapter names
+        const chapterNames = {
+            1: 'Algebra Basics',
+            2: 'Quadratic Equations',
+            3: 'Geometry Fundamentals',
+            4: 'Trigonometry',
+            5: 'Calculus Introduction',
+            6: 'Statistics & Probability',
+            7: 'Linear Functions',
+            8: 'Circle Theorems'
+        };
+
+        // Current state
+        let currentCardIndex = 0;
+        let allForgottenCards = [];
+        let displayCards = [];
+        let learnedCards = [];
+        let isFlipped = false;
+        let currentFilter = 'all';
+
+        // Load forgotten cards
+        function loadForgottenCards() {
+            const forgotten = JSON.parse(localStorage.getItem('forgottenCards') || '{}');
+            allForgottenCards = [];
+            
+            Object.keys(forgotten).forEach(chapterId => {
+                if (Array.isArray(forgotten[chapterId])) {
+                    forgotten[chapterId].forEach(card => {
+                        allForgottenCards.push({
+                            ...card,
+                            chapterId: parseInt(chapterId),
+                            chapterName: chapterNames[chapterId] || 'Unknown Chapter'
+                        });
+                    });
+                }
+            });
+            
+            displayCards = [...allForgottenCards];
+            return allForgottenCards.length > 0;
+        }
+
+        // Populate chapter filter
+        function populateChapterFilter() {
+            const filter = document.getElementById('chapterFilter');
+            const chapters = new Set(allForgottenCards.map(card => card.chapterId));
+            
+            filter.innerHTML = '<option value="all">All Chapters</option>';
+            chapters.forEach(chapterId => {
+                const count = allForgottenCards.filter(c => c.chapterId === chapterId).length;
+                filter.innerHTML += `<option value="${chapterId}">${chapterNames[chapterId]} (${count})</option>`;
+            });
+        }
+
+        // Filter by chapter
+        function filterByChapter() {
+            const filter = document.getElementById('chapterFilter').value;
+            currentFilter = filter;
+            
+            if (filter === 'all') {
+                displayCards = [...allForgottenCards];
+            } else {
+                displayCards = allForgottenCards.filter(card => card.chapterId === parseInt(filter));
+            }
+            
+            currentCardIndex = 0;
+            learnedCards = [];
+            updateUI();
+        }
+
+        // Update UI
+        function updateUI() {
+            if (displayCards.length === 0) {
+                document.getElementById('emptyState').style.display = 'block';
+                document.getElementById('progressContainer').style.display = 'none';
+                document.getElementById('flashcardContainer').style.display = 'none';
+                document.getElementById('controlsContainer').style.display = 'none';
+                document.getElementById('chapterFilterContainer').style.display = 'none';
+                return;
+            }
+            
+            document.getElementById('emptyState').style.display = 'none';
+            document.getElementById('progressContainer').style.display = 'block';
+            document.getElementById('flashcardContainer').style.display = 'block';
+            document.getElementById('controlsContainer').style.display = 'flex';
+            document.getElementById('chapterFilterContainer').style.display = 'block';
+            
+            document.getElementById('currentCard').textContent = currentCardIndex + 1;
+            document.getElementById('totalCards').textContent = displayCards.length;
+            document.getElementById('learnedCount').textContent = learnedCards.length;
+            document.getElementById('remainingCount').textContent = displayCards.length - learnedCards.length;
+            
+            const progress = ((currentCardIndex + 1) / displayCards.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            if (displayCards[currentCardIndex]) {
+                const card = displayCards[currentCardIndex];
+                document.getElementById('cardMeta').textContent = card.chapterName;
+                document.getElementById('questionContent').textContent = card.question;
+                document.getElementById('answerContent').textContent = card.answer;
+            }
+        }
+
+        // Flip card
+        function flipCard() {
+            const card = document.getElementById('flashcard');
+            card.classList.toggle('flipped');
+            isFlipped = !isFlipped;
+        }
+
+        // Next card
+        function nextCard() {
+            if (currentCardIndex < displayCards.length - 1) {
+                currentCardIndex++;
+                if (isFlipped) flipCard();
+                updateUI();
+            }
+        }
+
+        // Previous card
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                if (isFlipped) flipCard();
+                updateUI();
+            }
+        }
+
+        // Mark as learned
+        function markAsLearned() {
+            const card = displayCards[currentCardIndex];
+            
+            // Remove from forgotten cards
+            removeCardFromStorage(card);
+            
+            // Add to learned list
+            learnedCards.push(card);
+            
+            // Remove from display
+            displayCards.splice(currentCardIndex, 1);
+            
+            // Also remove from allForgottenCards
+            const index = allForgottenCards.findIndex(c => 
+                c.question === card.question && c.chapterId === card.chapterId
+            );
+            if (index > -1) {
+                allForgottenCards.splice(index, 1);
+            }
+            
+            // Show notification
+            showNotification('Great! Card removed from forgotten list 🎉', 'success');
+            
+            // Adjust current index
+            if (currentCardIndex >= displayCards.length && currentCardIndex > 0) {
+                currentCardIndex--;
+            }
+            
+            updateUI();
+        }
+
+        // Remove from forgotten
+        function removeFromForgotten() {
+            const card = displayCards[currentCardIndex];
+            
+            if (confirm('Remove this card from forgotten list without marking as learned?')) {
+                removeCardFromStorage(card);
+                
+                // Remove from display
+                displayCards.splice(currentCardIndex, 1);
+                
+                // Also remove from allForgottenCards
+                const index = allForgottenCards.findIndex(c => 
+                    c.question === card.question && c.chapterId === card.chapterId
+                );
+                if (index > -1) {
+                    allForgottenCards.splice(index, 1);
+                }
+                
+                showNotification('Card removed from forgotten list', 'info');
+                
+                // Adjust current index
+                if (currentCardIndex >= displayCards.length && currentCardIndex > 0) {
+                    currentCardIndex--;
+                }
+                
+                updateUI();
+            }
+        }
+
+        // Remove card from localStorage
+        function removeCardFromStorage(card) {
+            const forgotten = JSON.parse(localStorage.getItem('forgottenCards') || '{}');
+            
+            if (forgotten[card.chapterId]) {
+                forgotten[card.chapterId] = forgotten[card.chapterId].filter(c => 
+                    !(c.question === card.question && c.answer === card.answer)
+                );
+                
+                // Remove chapter key if empty
+                if (forgotten[card.chapterId].length === 0) {
+                    delete forgotten[card.chapterId];
+                }
+            }
+            
+            localStorage.setItem('forgottenCards', JSON.stringify(forgotten));
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : type === 'warning' ? '#f59e0b' : '#667eea'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', function(e) {
+            if (e.key === ' ' || e.key === 'Spacebar') {
+                e.preventDefault();
+                flipCard();
+            } else if (e.key === 'ArrowRight') {
+                nextCard();
+            } else if (e.key === 'ArrowLeft') {
+                previousCard();
+            } else if (e.key === 'l' || e.key === 'L') {
+                markAsLearned();
+            } else if (e.key === 'Delete' || e.key === 'Backspace') {
+                e.preventDefault();
+                removeFromForgotten();
+            }
+        });
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(400px); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(400px); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const hasCards = loadForgottenCards();
+            if (hasCards) {
+                populateChapterFilter();
+            }
+            updateUI();
+        });
+    </script>
+</body>
+</html>
+

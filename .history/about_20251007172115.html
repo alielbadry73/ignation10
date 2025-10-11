@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>About Us - IG Way IGCSE Tutoring</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+</head>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+<link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+<link rel="stylesheet" type="text/css" href="css/vendor.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap"
+  rel="stylesheet">
+
+<style>
+    body {
+        background-color: #F8F8F8;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* WhatsApp Chat Button Styles */
+    .nav-link[onclick="openWhatsAppChat()"] {
+      transition: all 0.3s ease !important;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+    }
+
+    .nav-link[onclick="openWhatsAppChat()"]:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4) !important;
+      background: linear-gradient(135deg, #128c7e, #25d366) !important;
+    }
+
+    .nav-link[onclick="openWhatsAppChat()"]:active {
+      transform: translateY(0) !important;
+      box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3) !important;
+    }
+
+    @media (max-width: 768px) {
+      .nav-link[onclick="openWhatsAppChat()"] {
+        padding: 6px 12px !important;
+        font-size: 0.85rem !important;
+      }
+    }
+</style>
+
+</head>
+
+<body>
+
+  <!-- Top Utility Bar -->
+  <div class="top-utility-bar" style="position:relative; height:70px;">
+    <div class="container-fluid" style="position:relative; height:100%;">
+      
+      <!-- Centered Logo -->
+      <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);">
+        <a href="index.html">
+          <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height:55px; width:auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: all 0.3s ease;">
+        </a>
+      </div>
+
+      <!-- Right-aligned Utility Links -->
+      <div style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:20px; font-size:14px;">
+        
+        <!-- User Name Display -->
+        <div id="userNameDisplay" style="display:none;">
+          <span class="text-primary fw-bold" id="displayUserName">User</span>
+        </div>
+
+        <!-- Cart Button -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#cartModal" style="text-decoration:none; color:#000; display:flex; align-items:center; position:relative;">
+          <iconify-icon icon="material-symbols:shopping-cart" style="margin-right:5px;"></iconify-icon>
+          Cart <span class="badge bg-primary ms-1" id="cartCount">0</span>
+        </a>
+
+        <!-- Favorites -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#favoritesModal" style="text-decoration:none; color:#000; display:flex; align-items:center;">
+          <iconify-icon icon="material-symbols:favorite" style="margin-right:5px;"></iconify-icon>
+          Favorites
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-navigation">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-7">
+          <ul class="nav-menu d-flex list-unstyled mb-0">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="courses.html" class="nav-link">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a href="about.html" class="nav-link active">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.html" class="nav-link">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <!-- FAQ removed -->
+            </li>
+            <li class="nav-item">
+              <a href="community.html" class="nav-link">Community</a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link" onclick="openWhatsAppChat()" style="background: linear-gradient(135deg, #25d366, #128c7e); color: white; border-radius: 20px; padding: 8px 16px; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                <iconify-icon icon="logos:whatsapp-icon" style="font-size: 1.1rem;"></iconify-icon>
+                Chat with Staff
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-5">
+          <div class="d-flex justify-content-end align-items-center gap-2">
+            <a href="#" class="btn btn-outline-secondary login-btn" data-bs-toggle="modal" data-bs-target="#loginModal" style="font-size: 14px; padding: 8px 16px;">
+              <iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>
+              Login
+            </a>
+            <a href="#" class="btn btn-primary register-btn" data-bs-toggle="modal" data-bs-target="#registerModal" style="font-size: 14px; padding: 8px 16px;">
+              <iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>
+              Register Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- About Us Page Content -->
+  <section id="about-content" class="padding-medium">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto">
+          <div class="text-center mb-5">
+            <h1 class="display-4 fw-semibold mb-4">About <span class="text-primary">IG Way</span></h1>
+            <p class="lead">Your trusted path to IGCSE success</p>
+          </div>
+          
+          <div class="about-content">
+            <div class="mb-5">
+              <p class="fs-5 mb-4">
+                Welcome to <strong>theIGWAY</strong> – your trusted path to IGCSE success.
+              </p>
+              
+              <p class="mb-4">
+                <strong>theIGWAY</strong> was built with a simple vision: to make high-quality IGCSE learning accessible, engaging, and effective for every student. We believe that education should not just prepare students for exams, but also inspire curiosity, confidence, and a love for learning.
+              </p>
+              
+              <p class="mb-4">
+                At <strong>theIGWAY</strong>, we bring together expert tutors, interactive lessons, and smart learning tools to create an environment where students can thrive. Whether it's mastering a challenging subject, practicing past papers, or receiving personalized feedback, our platform is designed to support every learner's journey.
+              </p>
+            </div>
+
+            <div class="row mb-5">
+              <div class="col-md-6 mb-4">
+                <div class="about-card p-4 h-100">
+                  <h3 class="text-primary mb-3">Our Mission</h3>
+                  <p class="mb-0">
+                    To empower IGCSE students with the knowledge, skills, and resources they need to achieve academic excellence and unlock future opportunities.
+                  </p>
+                </div>
+              </div>
+              <div class="col-md-6 mb-4">
+                <div class="about-card p-4 h-100">
+                  <h3 class="text-primary mb-3">Our Values</h3>
+                  <ul class="list-unstyled mb-0">
+                    <li class="mb-2"><strong>Excellence</strong> – Providing top-quality resources and guidance.</li>
+                    <li class="mb-2"><strong>Innovation</strong> – Using technology to make learning smarter and more accessible.</li>
+                    <li class="mb-2"><strong>Support</strong> – Creating a community where students and tutors grow together.</li>
+                    <li class="mb-0"><strong>Integrity</strong> – Building trust through transparency and dedication.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-5">
+              <h3 class="text-primary mb-4">Why theIGWAY?</h3>
+              <ul class="list-unstyled">
+                <li class="mb-3 d-flex align-items-start">
+                  <iconify-icon icon="material-symbols:check-circle" class="text-primary me-3 mt-1 fs-5"></iconify-icon>
+                  <span>Access to expert IGCSE tutors.</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                  <iconify-icon icon="material-symbols:check-circle" class="text-primary me-3 mt-1 fs-5"></iconify-icon>
+                  <span>Tailored lessons and homework support.</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                  <iconify-icon icon="material-symbols:check-circle" class="text-primary me-3 mt-1 fs-5"></iconify-icon>
+                  <span>A growing library of resources and practice materials.</span>
+                </li>
+                <li class="mb-3 d-flex align-items-start">
+                  <iconify-icon icon="material-symbols:check-circle" class="text-primary me-3 mt-1 fs-5"></iconify-icon>
+                  <span>A supportive online community that motivates learners to achieve their best.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="text-center">
+              <div class="about-highlight p-4 rounded">
+                <p class="fs-5 mb-0 fw-semibold">
+                  At <strong>theIGWAY</strong>, we're not just preparing students for exams — we're shaping futures.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="container padding-medium">
+      <div class="row">
+        <div class="col-md-4 my-3">
+          <h5 class="text-uppercase fw-bold mb-4">Contact us</h5>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="mdi:location"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Address: </span> New Cairo,
+            Egypt</p>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="solar:phone-bold"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Phone: </span> 01027500835</p>
+          <p><iconify-icon class="social-icon text-primary fs-5 me-2" icon="ic:baseline-email"
+              style="vertical-align:text-bottom"></iconify-icon> <span class="fw-bold">Email: </span>
+            info@igway.com
+          </p>
+        </div>
+        <div class="col-md-2 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">Links</h5>
+            <ul class="menu-list list-unstyled">
+              <li class="menu-item mb-2">
+                <a href="index.html" class="footer-link">Home</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="about.html" class="footer-link">About us</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="courses.html" class="footer-link">Courses</a>
+              </li>
+              <li class="menu-item mb-2">
+                <a href="contact.html" class="footer-link">Contact</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-2 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">support</h5>
+            <ul class="menu-list list-unstyled">
+              <li class="menu-item mb-2">
+                <!-- FAQ removed -->
+              </li>
+              <li class="menu-item mb-2">
+                <a href="https://wa.me/201027500835" target="_blank" class="footer-link">Support</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-3 my-3">
+          <div class="footer-menu">
+            <h5 class="text-uppercase fw-bold mb-4">Follow us</h5>
+            <div class="social-links mt-4">
+              <ul class="d-flex list-unstyled gap-3">
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:facebook-fill"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="simple-icons:tiktok"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:instagram-fill"></iconify-icon>
+                  </a>
+                </li>
+                <li class="social">
+                  <a href="#">
+                    <iconify-icon class="social-icon fs-4 me-2" icon="ri:youtube-fill"></iconify-icon>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="footer-bottom">
+    <hr class="m-0 text-black-50">
+    <div class="container py-3">
+      <div class="row mt-3">
+        <div class="col-md-6 copyright">
+          <p>Copyright © 2025</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+  <script src="js/plugins.js"></script>
+  <!-- Cart Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">
+            <iconify-icon icon="material-symbols:shopping-cart" class="me-2 text-primary"></iconify-icon>
+            Your Cart
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="cartList">
+            <div class="text-center text-muted py-4">
+              <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+              <p>Your cart is empty. Start adding courses to your cart!</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+          <button type="button" class="btn btn-primary" id="checkoutBtn" disabled>Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Cart Modal -->
+
+  <!-- Favorites Modal -->
+  <div class="modal fade" id="favoritesModal" tabindex="-1" aria-labelledby="favoritesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="favoritesModalLabel">
+            <iconify-icon icon="material-symbols:favorite" class="me-2 text-danger"></iconify-icon>
+            Your Favorite Courses
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="favoritesList">
+            <div class="text-center text-muted py-4">
+              <iconify-icon icon="material-symbols:favorite-outline" class="fs-1 mb-3"></iconify-icon>
+              <p>No favorite courses yet. Start adding courses to your favorites!</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="clearFavorites">Clear All Favorites</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Favorites Modal -->
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Cart and Favorites functionality
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+    // Check login state and update UI
+    function checkLoginState() {
+        const isLoggedIn = localStorage.getItem('userLoggedIn');
+        const userName = localStorage.getItem('userName');
+        
+        if (isLoggedIn) {
+            // Show user name in utility bar
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            const displayUserName = document.getElementById('displayUserName');
+            if (userNameDisplay && displayUserName) {
+                userNameDisplay.style.display = 'block';
+                displayUserName.textContent = userName || 'User';
+            }
+            
+            // Hide login and register buttons, show logout
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+            
+            if (loginBtn) {
+                loginBtn.style.display = 'none';
+            }
+            
+            if (registerBtn) {
+                registerBtn.innerHTML = `<iconify-icon icon="material-symbols:logout" class="me-1"></iconify-icon>Logout`;
+                registerBtn.classList.remove('btn-primary');
+                registerBtn.classList.add('btn-outline-danger');
+                registerBtn.setAttribute('onclick', 'logout()');
+                registerBtn.removeAttribute('data-bs-target');
+            }
+        } else {
+            // Hide user name in utility bar
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            if (userNameDisplay) {
+                userNameDisplay.style.display = 'none';
+            }
+            
+            // Show login and register buttons
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+            
+            if (loginBtn) {
+                loginBtn.style.display = 'inline-block';
+                loginBtn.innerHTML = `<iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>Login`;
+                loginBtn.classList.remove('btn-success');
+                loginBtn.classList.add('btn-outline-secondary');
+                loginBtn.setAttribute('data-bs-target', '#loginModal');
+                loginBtn.removeAttribute('onclick');
+            }
+            
+            if (registerBtn) {
+                registerBtn.style.display = 'inline-block';
+                registerBtn.innerHTML = `<iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>Register Now`;
+                registerBtn.classList.remove('btn-outline-danger');
+                registerBtn.classList.add('btn-primary');
+                registerBtn.setAttribute('data-bs-target', '#registerModal');
+                registerBtn.removeAttribute('onclick');
+            }
+        }
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('userLoggedIn');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        showToast('Logged out successfully', 'info');
+        checkLoginState();
+    }
+    
+    // Course data
+    const courses = {
+      mathematics: {
+        title: 'IGCSE Mathematics (Extended)',
+        instructor: 'Dr. Sarah Mitchell',
+        board: 'Cambridge Board',
+        price: '£299.00',
+        originalPrice: '£399.00',
+        image: 'images/teacher1.png'
+      },
+      physics: {
+        title: 'IGCSE Physics (Extended)',
+        instructor: 'Prof. Michael Chen',
+        board: 'Edexcel Board',
+        price: '£279.00',
+        originalPrice: '£349.00',
+        image: 'images/teacher2.png'
+      },
+      english: {
+        title: 'IGCSE English Language',
+        instructor: 'Dr. Emily Rodriguez',
+        board: 'Cambridge Board',
+        price: '£249.00',
+        originalPrice: '£329.00',
+        image: 'images/teacher3.png'
+      }
+    };
+
+    // Update cart count
+    function updateCartCount() {
+      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartBadge = document.getElementById('cartCount');
+      if (cartBadge) {
+        cartBadge.textContent = cartCount;
+      }
+    }
+
+    // Update cart modal
+    function updateCartModal() {
+      const cartList = document.getElementById('cartList');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      
+      if (cart.length === 0) {
+        cartList.innerHTML = `
+          <div class="text-center text-muted py-4">
+            <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+            <p>Your cart is empty. Start adding courses to your cart!</p>
+          </div>
+        `;
+        if (checkoutBtn) checkoutBtn.disabled = true;
+      } else {
+        cartList.innerHTML = cart.map(item => {
+          const course = courses[item.courseId];
+          return `
+            <div class="cart-item d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                <div>
+                  <div class="course-title">${course.title}</div>
+                  <div class="course-instructor">${course.instructor} - ${course.board}</div>
+                  <div class="course-price">${course.price} <span class="text-muted">x${item.quantity}</span></div>
+                </div>
+              </div>
+              <button class="remove-cart" onclick="removeFromCart('${item.courseId}')">
+                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+              </button>
+            </div>
+          `;
+        }).join('');
+        if (checkoutBtn) checkoutBtn.disabled = false;
+      }
+    }
+
+    // Remove from cart function
+    function removeFromCart(courseId) {
+      cart = cart.filter(item => item.courseId !== courseId);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      updateCartModal();
+    }
+
+    // Favorites functionality
+    function toggleFavorite(courseId) {
+      console.log('toggleFavorite called with courseId:', courseId);
+      
+      const index = favorites.indexOf(courseId);
+      
+      if (index === -1) {
+        favorites.push(courseId);
+        showToast('This course was added to your favorite courses!');
+      } else {
+        favorites.splice(index, 1);
+        showToast('Course removed from favorites');
+      }
+      
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      updateFavoriteButtons();
+      updateFavoritesModal();
+    }
+
+    function updateFavoriteButtons() {
+      document.querySelectorAll('.favorite-btn').forEach(button => {
+        const courseId = button.getAttribute('data-course');
+        const icon = button.querySelector('.iconify-icon');
+        
+        if (favorites.includes(courseId)) {
+          button.classList.add('favorited');
+          icon.setAttribute('icon', 'mdi:heart');
+        } else {
+          button.classList.remove('favorited');
+          icon.setAttribute('icon', 'mdi:heart-outline');
+        }
+      });
+    }
+
+    function updateFavoritesModal() {
+      const favoritesList = document.getElementById('favoritesList');
+      
+      if (favorites.length === 0) {
+        favoritesList.innerHTML = `
+          <div class="text-center text-muted py-4">
+            <iconify-icon icon="material-symbols:favorite-outline" class="fs-1 mb-3"></iconify-icon>
+            <p>No favorite courses yet. Start adding courses to your favorites!</p>
+          </div>
+        `;
+      } else {
+        favoritesList.innerHTML = favorites.map(courseId => {
+          const course = courses[courseId];
+          return `
+            <div class="favorite-item d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center">
+                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                <div>
+                  <div class="course-title">${course.title}</div>
+                  <div class="course-instructor">${course.instructor} - ${course.board}</div>
+                  <div class="course-price">${course.price}</div>
+                </div>
+              </div>
+              <button class="remove-favorite" onclick="removeFavorite('${courseId}')">
+                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function removeFavorite(courseId) {
+      favorites = favorites.filter(id => id !== courseId);
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      updateFavoriteButtons();
+      updateFavoritesModal();
+      showToast('Course removed from favorites');
+    }
+
+    function showToast(message, type = 'info') {
+      const toastContainer = document.getElementById('toastContainer');
+      const toastId = 'toast-' + Date.now();
+      
+      let icon = 'material-symbols:info';
+      let title = 'Notification';
+      
+      if (message.includes('favorite') || message.includes('Favorite')) {
+        icon = 'material-symbols:favorite';
+        title = 'Favorite Updated!';
+      } else if (message.includes('cart') || message.includes('Cart')) {
+        icon = 'material-symbols:shopping-cart';
+        title = 'Cart Updated!';
+      }
+      
+      const toastHTML = `
+        <div class="toast" id="${toastId}" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <iconify-icon icon="${icon}" class="me-2"></iconify-icon>
+            <strong class="me-auto">${title}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            ${message}
+          </div>
+        </div>
+      `;
+      
+      toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+      
+      const toastElement = document.getElementById(toastId);
+      const toast = new bootstrap.Toast(toastElement, {
+        autohide: true,
+        delay: 3000
+      });
+      
+      toast.show();
+      
+      toastElement.addEventListener('hidden.bs.toast', function() {
+        toastElement.remove();
+      });
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      checkLoginState();
+      updateCartCount();
+      updateCartModal();
+      updateFavoriteButtons();
+      updateFavoritesModal();
+      
+      // Clear favorites button
+      document.getElementById('clearFavorites').addEventListener('click', function() {
+        favorites = [];
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoriteButtons();
+        updateFavoritesModal();
+        showToast('All favorites cleared');
+      });
+    });
+
+    // WhatsApp Chat Function
+    function openWhatsAppChat() {
+      const phoneNumber = '+201027500835';
+      const message = encodeURIComponent('Hello! I need assistance with my IGCSE courses. Can you help me?');
+      const whatsappUrl = `https://wa.me/${phoneNumber.replace('+', '')}?text=${message}`;
+      
+      // Open WhatsApp in a new tab
+      window.open(whatsappUrl, '_blank');
+      
+      // Show a toast notification
+      showToast('Opening WhatsApp to chat with our staff...', 'success');
+    }
+  </script>
+
+  <script src="js/script.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</body>
+
+</html>

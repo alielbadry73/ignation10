@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG Nation Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3d6f 0%, #2c5aa0 100%);
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            margin: 2px 0;
+        }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        .main-content {
+            background: #f8f9fa;
+            min-height: 100vh;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+        }
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .table-responsive {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .btn-grant {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border: none;
+        }
+        .btn-revoke {
+            background: linear-gradient(135deg, #dc3545, #fd7e14);
+            border: none;
+        }
+        .search-box {
+            border-radius: 25px;
+            border: 2px solid #e9ecef;
+            padding: 10px 20px;
+        }
+        .search-box:focus {
+            border-color: #1e3d6f;
+            box-shadow: 0 0 0 0.2rem rgba(30, 61, 111, 0.25);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Admin Login</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="adminEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="adminEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="adminPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="adminPassword" required>
+                        </div>
+                        <div class="alert alert-danger" id="loginError" style="display: none;"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="adminLogin()">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid" id="mainContent" style="display: block;">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 sidebar p-0">
+                <div class="p-3">
+                    <h4 class="text-white mb-4">
+                        <i class="bi bi-mortarboard me-2"></i>
+                        IG Nation Admin
+                    </h4>
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" href="#" onclick="showSection('dashboard')">
+                            <i class="bi bi-speedometer2 me-2"></i>
+                            Dashboard
+                        </a>
+                        <a class="nav-link" href="#" onclick="showSection('students')">
+                            <i class="bi bi-people me-2"></i>
+                            Students
+                        </a>
+                        <a class="nav-link" href="#" onclick="showSection('courses')">
+                            <i class="bi bi-book me-2"></i>
+                            Courses
+                        </a>
+                        <a class="nav-link" href="#" onclick="showSection('enrollments')">
+                            <i class="bi bi-person-check me-2"></i>
+                            Enrollments
+                        </a>
+                        <a class="nav-link" href="#" onclick="showSection('orders')">
+                            <i class="bi bi-cart-check me-2"></i>
+                            Orders
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="p-4">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 id="pageTitle">Dashboard</h2>
+                        <div class="d-flex align-items-center">
+                            <span class="me-3">Welcome, Admin</span>
+                            <button class="btn btn-outline-danger btn-sm" onclick="logout()">
+                                <i class="bi bi-box-arrow-right me-1"></i>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Section -->
+                    <div id="dashboard-section">
+                        <div class="row mb-4">
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-people fs-1 mb-2"></i>
+                                        <h3 id="totalStudents">0</h3>
+                                        <p class="mb-0">Total Students</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-book fs-1 mb-2"></i>
+                                        <h3 id="totalCourses">0</h3>
+                                        <p class="mb-0">Active Courses</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-person-check fs-1 mb-2"></i>
+                                        <h3 id="totalEnrollments">0</h3>
+                                        <p class="mb-0">Active Enrollments</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card stats-card">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-currency-pound fs-1 mb-2"></i>
+                                        <h3 id="totalRevenue">£0</h3>
+                                        <p class="mb-0">Total Revenue</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0">Recent Activity</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="recentActivity">
+                                            <p class="text-muted">Loading recent activity...</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Students Section -->
+                    <div id="students-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Student Management</h5>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="loadStudents()">
+                                        <i class="bi bi-arrow-clockwise"></i> Refresh
+                                    </button>
+                                    <div class="input-group" style="width: 300px;">
+                                        <input type="text" class="form-control search-box" id="studentSearch" placeholder="Search by email or name...">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="searchStudents()">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Joined</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="studentsTable">
+                                            <tr>
+                                                <td colspan="6" class="text-center">Loading students...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student Details Modal -->
+                    <div class="modal fade" id="studentDetailsModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Student Details</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <strong>Name:</strong> <span id="studentName"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Email:</strong> <span id="studentEmail"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <strong>Phone:</strong> <span id="studentPhone"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>Joined:</strong> <span id="studentJoined"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <h6 class="mt-4 mb-3">Enrolled Courses</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course</th>
+                                                    <th>Instructor</th>
+                                                    <th>Price</th>
+                                                    <th>Enrolled</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="studentEnrollments">
+                                                <tr>
+                                                    <td colspan="6" class="text-center">Loading enrollments...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <h6 class="mt-4 mb-3">Available Courses</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Course</th>
+                                                    <th>Instructor</th>
+                                                    <th>Price</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="availableCourses">
+                                                <tr>
+                                                    <td colspan="4" class="text-center">Loading courses...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Courses Section -->
+                    <div id="courses-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Course Management</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Title</th>
+                                                <th>Instructor</th>
+                                                <th>Price</th>
+                                                <th>Level</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="coursesTable">
+                                            <tr>
+                                                <td colspan="7" class="text-center">Loading courses...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enrollments Section -->
+                    <div id="enrollments-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Enrollment Management</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Student</th>
+                                                <th>Course</th>
+                                                <th>Enrolled Date</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="enrollmentsTable">
+                                            <tr>
+                                                <td colspan="5" class="text-center">Loading enrollments...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Orders Section -->
+                    <div id="orders-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="mb-0">Order Management</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-dark">
+                                            <tr>
+                                                <th>Order ID</th>
+                                                <th>Student</th>
+                                                <th>Amount</th>
+                                                <th>Payment Method</th>
+                                                <th>Status</th>
+                                                <th>Date</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="ordersTable">
+                                            <tr>
+                                                <td colspan="7" class="text-center">Loading orders...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let authToken = null;
+        let currentStudentId = null;
+
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if already logged in
+            const savedToken = localStorage.getItem('adminToken');
+            if (savedToken) {
+                authToken = savedToken;
+                loadDashboard();
+                
+                // Auto-refresh data every 30 seconds
+                setInterval(() => {
+                    if (document.getElementById('students-section').style.display !== 'none') {
+                        loadStudents();
+                    }
+                    if (document.getElementById('dashboard-section').style.display !== 'none') {
+                        loadDashboard();
+                    }
+                }, 30000);
+            } else {
+                showLoginModal();
+            }
+        });
+
+        function showLoginModal() {
+            const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+            modal.show();
+        }
+
+        async function login(email, password) {
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    authToken = data.token;
+                    localStorage.setItem('adminToken', authToken);
+                    
+                    // Hide login modal and show main content
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                    if (modal) modal.hide();
+                    
+                    document.getElementById('mainContent').style.display = 'block';
+                    loadDashboard();
+                } else {
+                    alert('Login failed: ' + data.error);
+                }
+            } catch (error) {
+                alert('Login error: ' + error.message);
+            }
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            login(email, password);
+        });
+
+        function logout() {
+            authToken = null;
+            localStorage.removeItem('adminToken');
+            showLoginModal();
+        }
+
+        async function apiCall(endpoint, options = {}) {
+            const defaultOptions = {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                }
+            };
+
+            const response = await fetch(endpoint, { ...defaultOptions, ...options });
+            
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            return response.json();
+        }
+
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('[id$="-section"]').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName + '-section').style.display = 'block';
+            
+            // Add active class to clicked nav link
+            event.target.classList.add('active');
+            
+            // Update page title
+            document.getElementById('pageTitle').textContent = sectionName.charAt(0).toUpperCase() + sectionName.slice(1);
+            
+            // Load section data
+            switch(sectionName) {
+                case 'dashboard':
+                    loadDashboard();
+                    break;
+                case 'students':
+                    loadStudents();
+                    break;
+                case 'courses':
+                    loadCourses();
+                    break;
+                case 'enrollments':
+                    loadEnrollments();
+                    break;
+                case 'orders':
+                    loadOrders();
+                    break;
+            }
+        }
+
+        async function loadDashboard() {
+            try {
+                // Load stats
+                const [students, courses, enrollments, orders] = await Promise.all([
+                    apiCall('/api/admin/users'),
+                    apiCall('/api/courses'),
+                    apiCall('/api/admin/enrollments').catch(() => []),
+                    apiCall('/api/admin/orders').catch(() => [])
+                ]);
+
+                document.getElementById('totalStudents').textContent = students.length;
+                document.getElementById('totalCourses').textContent = courses.length;
+                document.getElementById('totalEnrollments').textContent = enrollments.length;
+                
+                // Calculate revenue
+                const revenue = orders.reduce((sum, order) => sum + (order.total_amount || 0), 0);
+                document.getElementById('totalRevenue').textContent = '£' + revenue.toFixed(2);
+
+                // Load recent activity
+                loadRecentActivity();
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                // Set default values if API fails
+                document.getElementById('totalStudents').textContent = '0';
+                document.getElementById('totalCourses').textContent = '0';
+                document.getElementById('totalEnrollments').textContent = '0';
+                document.getElementById('totalRevenue').textContent = '£0.00';
+            }
+        }
+
+        async function loadRecentActivity() {
+            try {
+                const [enrollments, orders] = await Promise.all([
+                    apiCall('/api/admin/enrollments').catch(() => []),
+                    apiCall('/api/admin/orders').catch(() => [])
+                ]);
+                
+                const recentActivity = [
+                    ...enrollments.slice(0, 3).map(e => ({
+                        type: 'enrollment',
+                        text: `${e.first_name} ${e.last_name} enrolled in ${e.course_title}`,
+                        date: e.enrolled_at
+                    })),
+                    ...orders.slice(0, 3).map(o => ({
+                        type: 'order',
+                        text: `${o.first_name} ${o.last_name} placed an order for £${o.total_amount}`,
+                        date: o.created_at
+                    }))
+                ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+                
+                if (recentActivity.length === 0) {
+                    document.getElementById('recentActivity').innerHTML = '<p class="text-muted">No recent activity yet. Students will appear here when they register and enroll in courses.</p>';
+                } else {
+                    const activityHtml = recentActivity.map(activity => `
+                        <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                            <div>
+                                <strong>${activity.text}</strong>
+                            </div>
+                            <small class="text-muted">${new Date(activity.date).toLocaleDateString()}</small>
+                        </div>
+                    `).join('');
+                    document.getElementById('recentActivity').innerHTML = activityHtml;
+                }
+            } catch (error) {
+                document.getElementById('recentActivity').innerHTML = '<p class="text-muted">No recent activity</p>';
+            }
+        }
+
+        async function loadStudents() {
+            try {
+                initializeSampleData();
+                const students = getStudents();
+                displayStudents(students);
+            } catch (error) {
+                document.getElementById('studentsTable').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error loading students</td></tr>';
+            }
+        }
+
+        function displayStudents(students) {
+            const tableBody = document.getElementById('studentsTable');
+            if (students.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No students found</td></tr>';
+                return;
+            }
+
+            tableBody.innerHTML = students.map(student => `
+                <tr>
+                    <td>${student.id}</td>
+                    <td>${student.name}</td>
+                    <td>${student.email}</td>
+                    <td>${student.phone || 'N/A'}</td>
+                    <td>${new Date(student.joined).toLocaleDateString()}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary" onclick="viewStudentDetails(${student.id})">
+                            <i class="bi bi-eye"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-warning" onclick="editStudent(${student.id})">
+                            <i class="bi bi-pencil"></i> Edit
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function viewStudentDetails(studentId) {
+            const students = getStudents();
+            const student = students.find(s => s.id === studentId);
+            if (student) {
+                document.getElementById('studentName').textContent = student.name;
+                document.getElementById('studentEmail').textContent = student.email;
+                document.getElementById('studentPhone').textContent = student.phone;
+                document.getElementById('studentJoined').textContent = new Date(student.joined).toLocaleDateString();
+                
+                // Show modal
+                new bootstrap.Modal(document.getElementById('studentDetailsModal')).show();
+            }
+        }
+
+        function editStudent(studentId) {
+            alert(`Edit student ${studentId} - Feature coming soon!`);
+        }
+
+        function viewOrderDetails(orderId) {
+            alert(`View order ${orderId} - Feature coming soon!`);
+        }
+
+        async function loadDashboard() {
+            try {
+                initializeSampleData();
+                const students = getStudents();
+                const courses = getCourses();
+                const enrollments = getEnrollments();
+                const orders = getOrders();
+
+                document.getElementById('totalStudents').textContent = students.length;
+                document.getElementById('totalCourses').textContent = courses.length;
+                document.getElementById('totalEnrollments').textContent = enrollments.filter(e => e.status === 'active').length;
+                
+                const totalRevenue = orders.filter(o => o.status === 'completed').reduce((sum, order) => sum + order.amount, 0);
+                document.getElementById('totalRevenue').textContent = `£${totalRevenue}`;
+
+                // Recent activity
+                const recentActivity = document.getElementById('recentActivity');
+                recentActivity.innerHTML = `
+                    <div class="list-group">
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">New Student Registration</h6>
+                                <small>2 hours ago</small>
+                            </div>
+                            <p class="mb-1">Sarah Johnson joined the platform</p>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Course Enrollment</h6>
+                                <small>4 hours ago</small>
+                            </div>
+                            <p class="mb-1">Mike Brown enrolled in Chemistry IGCSE</p>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">Payment Received</h6>
+                                <small>1 day ago</small>
+                            </div>
+                            <p class="mb-1">£299 payment from Emma Wilson</p>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        async function viewStudentDetails(studentId) {
+            currentStudentId = studentId;
+            
+            try {
+                const [students, courses] = await Promise.all([
+                    apiCall('/api/admin/users'),
+                    apiCall('/api/courses')
+                ]);
+                
+                const student = students.find(u => u.id === studentId);
+                
+                if (!student) {
+                    alert('Student not found');
+                    return;
+                }
+
+                // Populate student info
+                document.getElementById('studentName').textContent = `${student.first_name} ${student.last_name}`;
+                document.getElementById('studentEmail').textContent = student.email;
+                document.getElementById('studentPhone').textContent = student.phone || 'N/A';
+                document.getElementById('studentJoined').textContent = new Date(student.created_at).toLocaleDateString();
+
+                // For now, show no enrollments since we don't have the enrollments endpoint yet
+                document.getElementById('studentEnrollments').innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">
+                            <i class="bi bi-info-circle me-2"></i>
+                            No course enrollments yet. Use the "Available Courses" section below to grant access.
+                        </td>
+                    </tr>
+                `;
+
+                // Populate available courses - this is where you grant access
+                const availableCoursesHtml = courses.map(course => `
+                    <tr>
+                        <td>${course.title}</td>
+                        <td>${course.instructor}</td>
+                        <td>£${course.price}</td>
+                        <td>
+                            <button class="btn btn-sm btn-grant text-white" onclick="grantAccess(${studentId}, ${course.id})">
+                                <i class="bi bi-plus"></i> Grant Access
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                document.getElementById('availableCourses').innerHTML = availableCoursesHtml;
+
+                // Show modal
+                new bootstrap.Modal(document.getElementById('studentDetailsModal')).show();
+            } catch (error) {
+                console.error('Error loading student details:', error);
+                alert('Error loading student details: ' + error.message);
+            }
+        }
+
+        async function grantAccess(userId, courseId) {
+            try {
+                const response = await apiCall('/api/admin/grant-access', {
+                    method: 'POST',
+                    body: JSON.stringify({ userId, courseId })
+                });
+                
+                alert('Course access granted successfully!');
+                
+                // Close the modal and refresh data
+                const modal = bootstrap.Modal.getInstance(document.getElementById('studentDetailsModal'));
+                if (modal) modal.hide();
+                
+                // Refresh all data
+                loadStudents();
+                loadEnrollments();
+                loadDashboard();
+            } catch (error) {
+                console.error('Error granting access:', error);
+                alert('Error granting access: ' + error.message);
+            }
+        }
+
+        async function revokeAccess(userId, courseId) {
+            if (confirm('Are you sure you want to revoke access to this course?')) {
+                try {
+                    await apiCall('/api/admin/revoke-access', {
+                        method: 'DELETE',
+                        body: JSON.stringify({ userId, courseId })
+                    });
+                    
+                    alert('Course access revoked successfully!');
+                    viewStudentDetails(userId); // Refresh the modal
+                } catch (error) {
+                    alert('Error revoking access: ' + error.message);
+                }
+            }
+        }
+
+        async function loadCourses() {
+            try {
+                const courses = await apiCall('/api/courses');
+                
+                const tableHtml = courses.map(course => `
+                    <tr>
+                        <td>${course.id}</td>
+                        <td>${course.title}</td>
+                        <td>${course.instructor}</td>
+                        <td>£${course.price}</td>
+                        <td>${course.level}</td>
+                        <td>
+                            <span class="badge ${course.is_active ? 'bg-success' : 'bg-danger'}">${course.is_active ? 'Active' : 'Inactive'}</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                document.getElementById('coursesTable').innerHTML = tableHtml;
+            } catch (error) {
+                document.getElementById('coursesTable').innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error loading courses</td></tr>';
+            }
+        }
+
+        async function loadEnrollments() {
+            try {
+                const enrollments = await apiCall('/api/admin/enrollments');
+                
+                const tableHtml = enrollments.map(enrollment => `
+                    <tr>
+                        <td>${enrollment.first_name} ${enrollment.last_name}</td>
+                        <td>${enrollment.course_title}</td>
+                        <td>${new Date(enrollment.enrolled_at).toLocaleDateString()}</td>
+                        <td>
+                            <span class="badge ${enrollment.status === 'active' ? 'bg-success' : 'bg-danger'}">${enrollment.status}</span>
+                        </td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewStudentDetails(${enrollment.user_id})">
+                                <i class="bi bi-eye"></i> View Student
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                document.getElementById('enrollmentsTable').innerHTML = tableHtml || `
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">
+                            <i class="bi bi-info-circle me-2"></i>
+                            No enrollments yet. Students will appear here when they are granted course access.
+                        </td>
+                    </tr>
+                `;
+            } catch (error) {
+                document.getElementById('enrollmentsTable').innerHTML = '<tr><td colspan="5" class="text-center text-danger">Error loading enrollments</td></tr>';
+            }
+        }
+
+        async function loadOrders() {
+            try {
+                const orders = await apiCall('/api/admin/orders');
+                
+                const tableHtml = orders.map(order => `
+                    <tr>
+                        <td>#${order.id}</td>
+                        <td>${order.first_name} ${order.last_name}</td>
+                        <td>£${order.total_amount}</td>
+                        <td>${order.payment_method}</td>
+                        <td>
+                            <span class="badge ${order.status === 'completed' ? 'bg-success' : 'bg-warning'}">${order.status || 'pending'}</span>
+                        </td>
+                        <td>${new Date(order.created_at).toLocaleDateString()}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary" onclick="viewOrderDetails(${order.id})">
+                                <i class="bi bi-eye"></i> View
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                document.getElementById('ordersTable').innerHTML = tableHtml || `
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">
+                            <i class="bi bi-info-circle me-2"></i>
+                            No orders yet. Orders will appear here when students purchase courses.
+                        </td>
+                    </tr>
+                `;
+            } catch (error) {
+                document.getElementById('ordersTable').innerHTML = '<tr><td colspan="7" class="text-center text-danger">Error loading orders</td></tr>';
+            }
+        }
+
+        function searchStudents() {
+            const searchTerm = document.getElementById('studentSearch').value.toLowerCase();
+            const students = getStudents();
+            const filteredStudents = students.filter(student => 
+                student.name.toLowerCase().includes(searchTerm) || 
+                student.email.toLowerCase().includes(searchTerm)
+            );
+            displayStudents(filteredStudents);
+        }
+
+        // Authentication Functions
+        function adminLogin() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('loginError');
+            
+            // Simple admin credentials (in real app, this would be server-side)
+            if (email === 'admin@ignation.com' && password === 'admin123') {
+                localStorage.setItem('adminLoggedIn', 'true');
+                localStorage.setItem('adminEmail', email);
+                document.getElementById('loginModal').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                initializeAdminPanel();
+            } else {
+                errorDiv.textContent = 'Invalid email or password';
+                errorDiv.style.display = 'block';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminEmail');
+            document.getElementById('loginModal').style.display = 'block';
+            document.getElementById('mainContent').style.display = 'none';
+        }
+
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            if (isLoggedIn === 'true') {
+                document.getElementById('loginModal').style.display = 'none';
+                document.getElementById('mainContent').style.display = 'block';
+                initializeAdminPanel();
+            } else {
+                document.getElementById('loginModal').style.display = 'block';
+                document.getElementById('mainContent').style.display = 'none';
+            }
+        }
+
+        function initializeAdminPanel() {
+            loadDashboard();
+            showSection('dashboard');
+        }
+
+        // Data Management Functions
+        function getStudents() {
+            return JSON.parse(localStorage.getItem('adminStudents') || '[]');
+        }
+
+        function saveStudents(students) {
+            localStorage.setItem('adminStudents', JSON.stringify(students));
+        }
+
+        function getCourses() {
+            return JSON.parse(localStorage.getItem('adminCourses') || '[]');
+        }
+
+        function saveCourses(courses) {
+            localStorage.setItem('adminCourses', JSON.stringify(courses));
+        }
+
+        function getEnrollments() {
+            return JSON.parse(localStorage.getItem('adminEnrollments') || '[]');
+        }
+
+        function saveEnrollments(enrollments) {
+            localStorage.setItem('adminEnrollments', JSON.stringify(enrollments));
+        }
+
+        function getOrders() {
+            return JSON.parse(localStorage.getItem('adminOrders') || '[]');
+        }
+
+        function saveOrders(orders) {
+            localStorage.setItem('adminOrders', JSON.stringify(orders));
+        }
+
+        // Initialize sample data if none exists
+        function initializeSampleData() {
+            if (getStudents().length === 0) {
+                const sampleStudents = [
+                    { id: 1, name: 'John Smith', email: 'john@example.com', phone: '+44 7123 456789', joined: '2024-01-15', status: 'active' },
+                    { id: 2, name: 'Sarah Johnson', email: 'sarah@example.com', phone: '+44 7234 567890', joined: '2024-01-20', status: 'active' },
+                    { id: 3, name: 'Mike Brown', email: 'mike@example.com', phone: '+44 7345 678901', joined: '2024-02-01', status: 'active' },
+                    { id: 4, name: 'Emma Wilson', email: 'emma@example.com', phone: '+44 7456 789012', joined: '2024-02-10', status: 'inactive' }
+                ];
+                saveStudents(sampleStudents);
+            }
+
+            if (getCourses().length === 0) {
+                const sampleCourses = [
+                    { id: 1, name: 'Mathematics IGCSE', instructor: 'Dr. Smith', price: 299, students: 45, status: 'active' },
+                    { id: 2, name: 'Physics IGCSE', instructor: 'Prof. Johnson', price: 299, students: 32, status: 'active' },
+                    { id: 3, name: 'Chemistry IGCSE', instructor: 'Dr. Brown', price: 299, students: 28, status: 'active' },
+                    { id: 4, name: 'Biology IGCSE', instructor: 'Dr. Wilson', price: 299, students: 35, status: 'active' }
+                ];
+                saveCourses(sampleCourses);
+            }
+
+            if (getEnrollments().length === 0) {
+                const sampleEnrollments = [
+                    { id: 1, studentId: 1, courseId: 1, enrolledDate: '2024-01-16', status: 'active' },
+                    { id: 2, studentId: 1, courseId: 2, enrolledDate: '2024-01-16', status: 'active' },
+                    { id: 3, studentId: 2, courseId: 1, enrolledDate: '2024-01-21', status: 'active' },
+                    { id: 4, studentId: 3, courseId: 3, enrolledDate: '2024-02-02', status: 'active' }
+                ];
+                saveEnrollments(sampleEnrollments);
+            }
+
+            if (getOrders().length === 0) {
+                const sampleOrders = [
+                    { id: 1, studentId: 1, courseId: 1, amount: 299, status: 'completed', created_at: '2024-01-15' },
+                    { id: 2, studentId: 1, courseId: 2, amount: 299, status: 'completed', created_at: '2024-01-15' },
+                    { id: 3, studentId: 2, courseId: 1, amount: 299, status: 'completed', created_at: '2024-01-20' },
+                    { id: 4, studentId: 3, courseId: 3, amount: 299, status: 'pending', created_at: '2024-02-01' }
+                ];
+                saveOrders(sampleOrders);
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+        });
+    </script>
+</body>
+</html>
