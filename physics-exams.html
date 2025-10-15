@@ -5,524 +5,1380 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Physics Exams - IG Nation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* ✅ Your same styles kept exactly */
+    * { box-sizing: border-box; }
+    html, body { margin:0!important; padding:0!important; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#F8F8F8; min-height:100vh; }
+    .homework-header { background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); box-shadow:0 8px 32px rgba(0,0,0,0.1); border-bottom:1px solid rgba(255,255,255,0.2); padding:1rem 2rem; position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; justify-content:space-between; align-items:center; }
+    .homework-logo { display:flex; align-items:center; text-decoration:none; color:#333; }
+    .homework-logo img { height:35px; margin-right:.75rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,.1)); transition:.3s; }
+    .homework-logo:hover img { transform:scale(1.05); }
+    .subject-badge { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; padding:.25rem .75rem; border-radius:20px; font-size:.8rem; font-weight:600; margin-left:1rem; }
+    .homework-nav { display:flex; gap:1rem; align-items:center; }
+    .nav-btn { background:white; border:1px solid #e9ecef; border-radius:8px; padding:.5rem 1rem; color:#333; text-decoration:none; font-weight:500; transition:.3s; display:flex; align-items:center; gap:.5rem; }
+    .nav-btn:hover { background:#667eea; color:white; transform:translateY(-2px); box-shadow:0 4px 12px rgba(102,126,234,0.3); }
+    .main-content { margin-top:100px; padding:2rem; }
+    .homework-hero { 
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+      padding: 1.5rem 2.5rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .homework-hero::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+    .homework-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
+    }
+    .hero-left {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-left h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: white;
+      margin: 0 0 0.35rem 0;
+      letter-spacing: -0.5px;
+    }
+    .hero-left p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.85);
             margin: 0;
-            padding: 0;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.95);
+      font-weight: 400;
+    }
+    .homework-stats { 
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-item { 
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-content {
+      padding: 1rem 1.75rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+    .stat-item:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+    }
+    .stat-number { 
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
+    }
+    .stat-label { 
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .homework-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:2rem; margin-bottom:2rem; }
+    .homework-card { background:white; border-radius:12px; padding:2rem; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:.3s; border-left:4px solid #667eea; }
+    .homework-card:hover { transform:translateY(-4px); box-shadow:0 8px 24px rgba(0,0,0,0.12); }
+    .homework-card-header { display:flex; align-items:center; margin-bottom:1rem; }
+    .homework-icon { width:50px; height:50px; border-radius:12px; display:flex; align-items:center; justify-content:center; margin-right:1rem; font-size:1.5rem; color:white; background:linear-gradient(135deg,#f59e0b 0%,#d97706 100%); }
+    .homework-card-title { font-size:1.25rem; font-weight:700; color:#333; margin-bottom:.5rem; }
+    .homework-card-description { color:#666; margin-bottom:1.5rem; line-height:1.6; }
+    .homework-details { background:#f8f9fa; border-radius:8px; padding:1rem; margin-bottom:1.5rem; }
+    .detail-row { display:flex; justify-content:space-between; margin-bottom:.5rem; }
+    .detail-label { font-weight:600; color:#333; }
+    .detail-value { color:#666; }
+    .homework-actions { display:flex; gap:1rem; }
+    .btn-primary { background:linear-gradient(135deg,#f59e0b 0%,#d97706 100%); border:none; border-radius:8px; padding:.75rem 1.5rem; color:white; font-weight:600; transition:.3s; flex:1; }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 4px 12px rgba(245,158,11,0.3); }
+    .btn-outline { background:transparent; border:2px solid #f59e0b; border-radius:8px; padding:.75rem 1.5rem; color:#f59e0b; font-weight:600; transition:.3s; flex:1; }
+    .btn-outline:hover { background:#f59e0b; color:white; }
+    .status-badge { display:inline-block; padding:.25rem .75rem; border-radius:20px; font-size:.8rem; font-weight:600; margin-bottom:1rem; }
+    .status-pending { background:#fff3cd; color:#856404; }
+    .status-completed { background:#d4edda; color:#155724; }
+    .status-overdue { background:#f8d7da; color:#721c24; }
+    .status-upcoming { background:#d1ecf1; color:#0c5460; }
+    .status-locked { background:#f8d7da; color:#721c24; }
+    .homework-filters { 
+      background: white; 
+      border-radius: 16px; 
+      padding: 2rem; 
+      margin-bottom: 2rem; 
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06); 
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+    .filters-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .logo {
+      margin-bottom: 1rem;
+      flex-wrap: nowrap;
+      gap: 1.5rem;
+    }
+    
+    .filter-badge {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
             display: flex;
             align-items: center;
-            text-decoration: none;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+    
+    .filter-count {
+      font-weight: 600;
+      color: #1565c0;
+    }
+    
+    .filter-label {
             color: #333;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-
-        .logo img {
-            height: 40px;
-            margin-right: 0.5rem;
-        }
-
-        .utility-buttons {
+    }
+    
+    .sort-display {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .sort-label {
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .sort-value {
+      color: #1976d2;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+    
+    .sort-value:hover {
+      background-color: rgba(25, 118, 210, 0.1);
+    }
+    
+    .sort-clear {
+      background: none;
+      border: none;
+      color: #1976d2;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
             display: flex;
-            gap: 1rem;
             align-items: center;
-        }
-
-        .btn-utility {
-            background: rgba(102, 126, 234, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            color: #667eea;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 0.9rem;
+      justify-content: center;
+      transition: background-color 0.2s ease;
+    }
+    
+    .sort-clear:hover {
+      background-color: rgba(25, 118, 210, 0.1);
+    }
+    
+    .filter-tabs { 
+      display: flex; 
+      gap: 0.5rem; 
+      margin-bottom: 0; 
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .filter-tab { 
+      padding: 0.75rem 1.5rem; 
+      border: 2px solid #e9ecef; 
+      background: transparent; 
+      color: #6c757d; 
+      font-weight: 500; 
+      border-radius: 12px; 
+      cursor: pointer; 
             transition: all 0.3s ease;
+      font-size: 0.9rem;
             position: relative;
-        }
-
-        .btn-utility:hover {
-            background: #667eea;
+      overflow: hidden;
+    }
+    .filter-tab::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
+    .filter-tab.active { 
             color: white;
-            transform: translateY(-2px);
-        }
-
-        .notification-badge {
+      border-color: #667eea;
+    }
+    .filter-tab.active::before {
+      left: 0;
+    }
+    .filter-tab:hover { 
+      border-color: #667eea; 
+      color: #667eea;
+      transform: translateY(-1px);
+    }
+    .filter-tab.active:hover { 
+      color: white;
+    }
+    
+    .search-box { 
+      position: relative; 
+      max-width: 300px;
+      flex: 0 0 300px;
+      min-width: 250px;
+    }
+    .search-input { 
+      width: 100%; 
+      padding: 0.875rem 1rem 0.875rem 3rem; 
+      border: 2px solid #e9ecef; 
+      border-radius: 12px; 
+      font-size: 0.95rem;
+      background: #f8f9fa;
+      transition: all 0.3s ease;
+      font-weight: 400;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    .search-input::placeholder {
+      color: #adb5bd;
+      font-weight: 400;
+    }
+    .search-icon { 
             position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #ff4757;
+      left: 1rem; 
+      top: 50%; 
+      transform: translateY(-50%); 
+      color: #6c757d; 
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+    .search-input:focus + .search-icon {
+      color: #667eea;
+    }
+    
+    /* Question Modal Styles */
+    .question-card { background:white; border-radius:12px; padding:2rem; margin-bottom:1rem; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+    .question-text { font-size:1.1rem; font-weight:600; margin-bottom:1.5rem; color:#333; }
+    .question-options { margin-bottom:1.5rem; }
+    .option-item { display:flex; align-items:center; margin-bottom:1rem; padding:1rem; border:2px solid #e9ecef; border-radius:8px; cursor:pointer; transition:.3s; }
+    .option-item:hover { border-color:#667eea; background:#f8f9ff; }
+    .option-item.selected { border-color:#667eea; background:#f0f4ff; }
+    .option-radio { margin-right:1rem; }
+    .option-text { flex:1; font-size:1rem; }
+    .question-navigation { display:flex; justify-content:space-between; align-items:center; }
+    .progress-bar { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
+    .timer { font-weight:600; color:#667eea; }
+    
+    /* Page Timer Styles */
+    .page-timer {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.7rem;
+      border-radius: 12px;
+      padding: 15px 20px;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
+      min-width: 200px;
+      animation: slideInRight 0.3s ease-out;
+    }
+    
+    .timer-clock {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-        }
-
-        .main-content {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
-        }
-
-        .page-title {
-            color: white;
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .page-title h1 {
-            font-size: 3rem;
+      gap: 12px;
+    }
+    
+    .timer-icon {
+      font-size: 24px;
+      opacity: 0.9;
+    }
+    
+    .timer-content {
+      flex: 1;
+    }
+    
+    .timer-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin-bottom: 2px;
+    }
+    
+    .timer-display {
+      font-size: 18px;
             font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-
-        .page-title p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .exams-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .exam-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-        }
-
-        .exam-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .exam-badge {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: #ff6b6b;
-            color: white;
-            padding: 0.3rem 0.8rem;
-            border-radius: 15px;
-            font-size: 0.7rem;
-            font-weight: 600;
-        }
-
-        .exam-header {
-            margin-bottom: 1rem;
-        }
-
-        .exam-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #333;
-            margin: 0 0 0.5rem 0;
-        }
-
-        .exam-type {
-            color: #667eea;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
-
-        .exam-meta {
+      font-family: 'Courier New', monospace;
+    }
+    
+    .timer-progress {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+    
+    .timer-progress-bar {
+      height: 100%;
+      background: #fff;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+      width: 100%;
+    }
+    
+    .timer-progress-bar.warning { background: #ffc107; }
+    .timer-progress-bar.danger { background: #dc3545; }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    .timer-warning { animation: pulse 1s infinite; }
+    
+    /* Autocorrect Styles */
+    .correct-answer {
+      border-color: #28a745 !important;
+      background: #d4edda !important;
+    }
+    
+    .correct-selected {
+      border-color: #28a745 !important;
+      background: #d4edda !important;
+      box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.25) !important;
+    }
+    
+    .incorrect-selected {
+      border-color: #dc3545 !important;
+      background: #f8d7da !important;
+      box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.25) !important;
+    }
+    
+    .option-item.disabled {
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    
+    /* Question Action Buttons */
+    .question-actions {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+    }
+    
+    .action-buttons {
             display: flex;
-            justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .action-buttons .btn {
+      display: flex;
             align-items: center;
+      gap: 5px;
+      font-size: 0.875rem;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .action-buttons .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .action-buttons .btn-outline-primary:hover {
+      background: #007bff;
+      color: white;
+    }
+    
+    .action-buttons .btn-outline-success:hover {
+      background: #28a745;
+      color: white;
+    }
+    
+    .action-buttons .btn-outline-warning:hover {
+      background: #ffc107;
+      color: #212529;
+    }
+    
+    /* Review Modal Styles */
+    .assignment-review { background: white; }
+    .review-header { background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); }
+    
+    /* Modern Question Review Styles */
+    .question-review-item { 
+      background: white; 
+      border: none; 
+      border-radius: 12px; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+      margin-bottom: 2rem; 
+      padding: 2rem; 
+    }
+    
+    .question-text { 
+      font-size: 1.1rem; 
+      font-weight: 600; 
+      color: #333; 
             margin-bottom: 1.5rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .exam-description {
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .exam-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(255, 107, 107, 0.05);
-            border-radius: 10px;
-        }
-
-        .detail-item {
+      line-height: 1.6; 
+    }
+    
+    .answer-option { 
+      background: #f8f9fa; 
+      border: 2px solid #e9ecef; 
+      border-radius: 8px; 
+      padding: 1rem; 
+      margin-bottom: 0.75rem; 
+      cursor: default; 
+      transition: all 0.2s ease; 
             display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        .exam-progress {
-            margin-bottom: 1.5rem;
-        }
-
-        .progress-label {
+      align-items: center; 
+      gap: 0.75rem; 
+    }
+    
+    .answer-option.correct { 
+      background: #d4edda; 
+      border-color: #28a745; 
+      color: #155724; 
+    }
+    
+    .answer-option.incorrect { 
+      background: #f8d7da; 
+      border-color: #dc3545; 
+      color: #721c24; 
+    }
+    
+    .answer-option.user-selected { 
+      border-width: 3px; 
+      font-weight: 600; 
+    }
+    
+    .option-radio { 
+      width: 18px; 
+      height: 18px; 
+      border: 2px solid #6c757d; 
+      border-radius: 50%; 
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .progress-bar {
-            height: 8px;
-            background: rgba(255, 107, 107, 0.2);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: #ff6b6b;
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .exam-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn-exam {
-            flex: 1;
-            padding: 0.8rem 1.5rem;
-            border: none;
-            border-radius: 10px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .btn-start {
-            background: #ff6b6b;
-            color: white;
-        }
-
-        .btn-start:hover {
-            background: #ff5252;
-            transform: translateY(-2px);
-        }
-
-        .btn-review {
-            background: rgba(255, 107, 107, 0.1);
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 107, 107, 0.3);
-        }
-
-        .btn-review:hover {
-            background: rgba(255, 107, 107, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .btn-locked {
-            background: #ddd;
-            color: #666;
-            cursor: not-allowed;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: white;
-        }
-
-        .empty-state iconify-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.7;
-        }
-
-        .empty-state h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .empty-state p {
-            opacity: 0.8;
-            font-size: 1.1rem;
-        }
-
+      align-items: center; 
+      justify-content: center; 
+      flex-shrink: 0; 
+    }
+    
+    .option-radio.checked { 
+      background: #007bff; 
+      border-color: #007bff; 
+    }
+    
+    .option-radio.checked::after { 
+      content: ''; 
+      width: 8px; 
+      height: 8px; 
+      background: white; 
+      border-radius: 50%; 
+    }
+    
+    .option-radio.correct { 
+      background: #28a745; 
+      border-color: #28a745; 
+    }
+    
+    .option-radio.incorrect { 
+      background: #dc3545; 
+      border-color: #dc3545; 
+    }
+    
+    .points-display { 
+      color: #6c757d; 
+      font-size: 0.9rem; 
+      font-weight: 500; 
+    }
+    
+    .answer-content { font-family: monospace; white-space: pre-wrap; background: white; }
+    .teacher-comments .answer-content { background: #e3f2fd; border-left: 4px solid #2196f3; }
+    .sample-answer .answer-content { background: #e8f5e8; border-left: 4px solid #4caf50; }
+    
+    /* Notification Styles */
+    .notification {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      padding: 12px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      animation: slideDown 0.3s ease-out;
+    }
+    
+    .notification-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    
+    .notification-info {
+      background: #d1ecf1;
+      color: #0c5460;
+      border: 1px solid #bee5eb;
+    }
+    
+    .notification-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    @keyframes slideDown {
+      from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+    
+    /* Responsive Design for Hero and Filters */
         @media (max-width: 768px) {
-            .header-content {
-                padding: 0 1rem;
-            }
-            
-            .main-content {
-                padding: 0 1rem;
-            }
-            
-            .page-title h1 {
-                font-size: 2rem;
-            }
-            
-            .exams-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .exam-card {
+      .homework-hero {
+        padding: 1.5rem 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .homework-title {
+        font-size: 1.75rem;
+      }
+      .homework-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+      }
+      .homework-stats {
+        gap: 1.25rem;
+        margin-top: 1.25rem;
+      }
+      .stat-item {
+        min-width: 90px;
+        padding: 0.6rem;
+      }
+      .stat-number {
+        font-size: 1.4rem;
+      }
+      .stat-label {
+        font-size: 0.75rem;
+      }
+      
+      .homework-filters {
                 padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+      .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+      }
+      .filter-tabs {
+        justify-content: center;
+        gap: 0.25rem;
+        margin-top: 1rem;
+      }
+      .filter-tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+      }
+      .search-box {
+        max-width: 100%;
+        min-width: auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .homework-hero {
+        padding: 1.25rem 0.75rem;
+      }
+      .homework-title {
+        font-size: 1.5rem;
+      }
+      .homework-stats {
+        gap: 0.75rem;
+        flex-direction: column;
+        align-items: center;
+      }
+      .stat-item {
+        width: 100%;
+        max-width: 180px;
+        padding: 0.5rem;
+      }
+      .filter-tabs {
+        flex-direction: column;
+        width: 100%;
+      }
+      .filter-tab {
+        text-align: center;
+        width: 100%;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="physics-dashboard.html" class="logo">
-                <img src="https://ui-avatars.com/api/?name=IG+Nation&background=667eea&color=fff&size=40" alt="IG Nation">
-                IG Nation
-            </a>
-            <div class="utility-buttons">
-                <a href="#" class="btn-utility" onclick="navigateToNotifications()">
-                    <iconify-icon icon="material-symbols:notifications"></iconify-icon>
-                    Notifications
-                    <span class="notification-badge" id="notificationBadge">3</span>
-                </a>
-                <a href="#" class="btn-utility" onclick="navigateToProfile()">
-                    <iconify-icon icon="material-symbols:person"></iconify-icon>
-                    Profile
-                </a>
-                <a href="#" class="btn-utility" onclick="logout()">
-                    <iconify-icon icon="material-symbols:logout"></iconify-icon>
-                    Logout
-                </a>
+  <div class="homework-header">
+    <a href="physics-dashboard.html" class="homework-logo">
+      <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
+      <span style="font-weight:700;font-size:1.25rem;">Physics Exams</span>
+      <span class="subject-badge">Physics IGCSE</span>
+    </a>
+    <div class="homework-nav">
+      <a href="mathcourse.html" class="nav-btn"><iconify-icon icon="material-symbols:arrow-back"></iconify-icon>Back to Course</a>
+      <a href="physics-homework.html" class="nav-btn"><iconify-icon icon="material-symbols:assignment"></iconify-icon>Assignments</a>
+      <a href="physics-quizzes.html" class="nav-btn"><iconify-icon icon="material-symbols:quiz"></iconify-icon>Quizzes</a>
+      <a href="course-assistants-chat.html?course=physics" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;"><iconify-icon icon="material-symbols:chat"></iconify-icon>Ask Assistant</a>
             </div>
         </div>
-    </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="page-title">
-            <h1>📋 Physics Exams</h1>
-            <p>Comprehensive assessments to test your knowledge</p>
+  <!-- Real-time Timer (hidden by default) -->
+  <div id="pageTimer" class="page-timer" style="display: none;">
+    <div class="timer-clock">
+      <div class="timer-icon">
+        <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+      </div>
+      <div class="timer-content">
+        <div class="timer-label">Exam Timer</div>
+        <div class="timer-display" id="pageTimerDisplay">00:00</div>
+      </div>
+      <div class="timer-progress">
+        <div class="timer-progress-bar" id="pageTimerProgress"></div>
+      </div>
+    </div>
         </div>
 
-        <div class="exams-grid" id="examsGrid">
-            <!-- Exams will be loaded here -->
+  <!-- Main -->
+  <div class="main-content">
+    <div class="homework-hero">
+      <div class="hero-left">
+        <h2>Physics Exams</h2>
+        <p>Comprehensive examinations and assessments</p>
+      </div>
+      <div class="homework-stats">
+        <div class="stat-item">
+          <div class="stat-number" id="totalExams">0</div>
+          <div class="stat-label">Total</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="upcomingExams">0</div>
+          <div class="stat-label">Upcoming</div>
+        </div>
+      </div>
         </div>
 
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <iconify-icon icon="material-symbols:assignment"></iconify-icon>
-            <h3>No Exams Yet</h3>
-            <p>Your physics exams will appear here once they are scheduled.</p>
+    <!-- Filters -->
+    <div class="homework-filters">
+      <div class="filters-row">
+        <div class="filter-badge">
+          <span class="filter-count" id="filterCount">0</span>
+          <span class="filter-label">Filtering</span>
         </div>
-    </main>
+        
+        <div class="sort-display">
+          <span class="sort-label">Sorted By:</span>
+          <span class="sort-value" id="currentSort" onclick="showSortOptions()">Date</span>
+          <button class="sort-clear" onclick="clearSort()" id="sortClearBtn" style="display: none;">
+            <iconify-icon icon="material-symbols:close"></iconify-icon>
+          </button>
+        </div>
+        
+        <!-- Hidden sort select for functionality -->
+        <select id="sortSelect" style="display: none;" onchange="sortExams()">
+          <option value="date-asc">Date (Earliest First)</option>
+          <option value="date-desc">Date (Latest First)</option>
+          <option value="title-asc">Title (A-Z)</option>
+          <option value="title-desc">Title (Z-A)</option>
+          <option value="duration-asc">Duration (Short to Long)</option>
+          <option value="duration-desc">Duration (Long to Short)</option>
+          <option value="questions-asc">Questions (Few to Many)</option>
+          <option value="questions-desc">Questions (Many to Few)</option>
+        </select>
+        
+        <div class="search-box">
+          <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
+          <input type="text" class="search-input" placeholder="Search exams..." id="examSearch">
+        </div>
+                    </div>
+                    
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-tab active" onclick="filterExams('all',event)">All Exams</button>
+        <button class="filter-tab" onclick="filterExams('upcoming',event)">Upcoming</button>
+        <button class="filter-tab" onclick="filterExams('completed',event)">Completed</button>
+        <button class="filter-tab" onclick="filterExams('locked',event)">Locked</button>
+      </div>
+                    </div>
+                    
+    <div class="homework-grid" id="examGrid"></div>
+                    </div>
+                    
+  <!-- Question Viewing Modal -->
+  <div class="modal fade" id="questionModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="questionModalTitle">Exam Questions</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+        <div class="modal-body">
+          <div class="question-progress mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-muted">Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">0</span></span>
+              <div class="timer-container">
+                <span class="text-muted">Time: <span id="timer" class="timer">00:00</span></span>
+                <span id="timeLimitInfo" class="text-muted ms-2" style="display: none;">/ <span id="timeLimit">60</span> min</span>
+                        </div>
+                        </div>
+            <div class="progress">
+              <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+            </div>
+            <div id="timeProgress" class="mt-2" style="display: none;">
+              <div class="progress" style="height: 6px;">
+                <div class="progress-bar bg-warning" id="timeProgressBar" style="width: 100%"></div>
+              </div>
+                        </div>
+                    </div>
+                    
+          <div id="questionContainer">
+            <!-- Questions will be loaded here -->
+                            </div>
+          
+          <div class="question-navigation mt-4">
+            <button class="btn btn-outline-secondary" id="prevBtn" onclick="previousQuestion()" disabled>
+              <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+              Previous
+            </button>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
+              Next
+              <iconify-icon icon="material-symbols:arrow-forward"></iconify-icon>
+            </button>
+            <button class="btn btn-success" id="submitBtn" onclick="submitExam()" style="display: none;">
+              <iconify-icon icon="material-symbols:check"></iconify-icon>
+              Submit Exam
+            </button>
+                            </div>
+                        </div>
+      </div>
+    </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/notifications.js"></script>
-    <script>
-        // Sample exams data
-        const physicsExams = [
-            {
-                id: 1,
-                title: "Midterm Examination",
-                type: "Midterm",
-                description: "Comprehensive exam covering mechanics, thermodynamics, and wave properties.",
-                date: "2025-01-30",
-                duration: 120,
-                questions: 50,
-                maxScore: 100,
-                status: "upcoming",
-                progress: 0,
-                difficulty: "Medium",
-                topics: ["Mechanics", "Thermodynamics", "Waves"]
-            },
-            {
-                id: 2,
-                title: "Final Examination",
-                type: "Final",
-                description: "Complete assessment of all physics topics covered in the course.",
-                date: "2025-02-15",
-                duration: 180,
-                questions: 75,
-                maxScore: 100,
-                status: "upcoming",
-                progress: 0,
-                difficulty: "Hard",
-                topics: ["All Topics"]
-            },
-            {
-                id: 3,
-                title: "Electricity & Magnetism Test",
-                type: "Unit Test",
-                description: "Focused examination on electric fields, magnetic fields, and electromagnetic induction.",
-                date: "2025-01-20",
-                duration: 90,
-                questions: 30,
-                maxScore: 100,
-                status: "completed",
-                progress: 100,
-                difficulty: "Medium",
-                topics: ["Electricity", "Magnetism"]
-            },
-            {
-                id: 4,
-                title: "Optics & Light",
-                type: "Quiz",
-                description: "Quick assessment on light properties, reflection, and refraction.",
-                date: "2025-01-25",
-                duration: 45,
-                questions: 20,
-                maxScore: 50,
-                status: "locked",
-                progress: 0,
-                difficulty: "Easy",
-                topics: ["Optics", "Light"]
-            }
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+  <script>
+    let exams = [];
+    let currentFilter = 'all';
+
+    // Physics exams data - will be loaded from backend or localStorage
+    const physicsExams = [];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Page loaded, starting exam loading...');
+      
+      loadExams();
+      updateStats();
+      document.getElementById('examSearch').addEventListener('input', searchExams);
+    });
+
+    function loadExams() {
+      exams = [...physicsExams];
+      let list = exams;
+      if (currentFilter !== 'all') {
+        list = exams.filter(e => e.status === currentFilter);
+      }
+
+      // Apply current sorting
+      const sortValue = document.getElementById('sortSelect')?.value || 'date-asc';
+      switch(sortValue) {
+        case 'date-asc':
+          list.sort((a, b) => new Date(a.date) - new Date(b.date));
+          break;
+        case 'date-desc':
+          list.sort((a, b) => new Date(b.date) - new Date(a.date));
+          break;
+        case 'title-asc':
+          list.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+          break;
+        case 'title-desc':
+          list.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
+          break;
+        case 'duration-asc':
+          list.sort((a, b) => (a.duration || 0) - (b.duration || 0));
+          break;
+        case 'duration-desc':
+          list.sort((a, b) => (b.duration || 0) - (a.duration || 0));
+          break;
+        case 'questions-asc':
+          list.sort((a, b) => (a.questions || 0) - (b.questions || 0));
+          break;
+        case 'questions-desc':
+          list.sort((a, b) => (b.questions || 0) - (a.questions || 0));
+          break;
+      }
+
+      updateExamDisplay(list);
+      updateFilterCount();
+      updateSortDisplay();
+    }
+
+    function filterExams(status, ev) {
+      currentFilter = status;
+      document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+      ev.target.classList.add('active');
+      updateFilterCount();
+      loadExams();
+    }
+    
+    function updateFilterCount() {
+      const filtered = currentFilter === 'all' ? exams : exams.filter(e => e.status === currentFilter);
+      document.getElementById('filterCount').textContent = filtered.length;
+    }
+    
+    function updateSortDisplay() {
+      const sortSelect = document.getElementById('sortSelect');
+      const currentSort = document.getElementById('currentSort');
+      const sortClearBtn = document.getElementById('sortClearBtn');
+      
+      if (sortSelect) {
+        const sortValue = sortSelect.value;
+        const sortText = sortSelect.options[sortSelect.selectedIndex].text;
+        currentSort.textContent = sortText;
+        
+        // Show clear button if not on default sort
+        if (sortValue !== 'date-asc') {
+          sortClearBtn.style.display = 'inline-flex';
+        } else {
+          sortClearBtn.style.display = 'none';
+        }
+      }
+    }
+    
+    function clearSort() {
+      const sortSelect = document.getElementById('sortSelect');
+      if (sortSelect) {
+        sortSelect.value = 'date-asc';
+        updateSortDisplay();
+        sortExams();
+      }
+    }
+    
+    function showSortOptions() {
+      const sortSelect = document.getElementById('sortSelect');
+      if (sortSelect) {
+        // Create a simple dropdown menu
+        const options = [
+          { value: 'date-asc', text: 'Date (Earliest First)' },
+          { value: 'date-desc', text: 'Date (Latest First)' },
+          { value: 'title-asc', text: 'Title (A-Z)' },
+          { value: 'title-desc', text: 'Title (Z-A)' },
+          { value: 'duration-asc', text: 'Duration (Short to Long)' },
+          { value: 'duration-desc', text: 'Duration (Long to Short)' },
+          { value: 'questions-asc', text: 'Questions (Few to Many)' },
+          { value: 'questions-desc', text: 'Questions (Many to Few)' }
         ];
+        
+        const currentValue = sortSelect.value;
+        const selectedIndex = options.findIndex(opt => opt.value === currentValue);
+        
+        // Cycle through options
+        const nextIndex = (selectedIndex + 1) % options.length;
+        sortSelect.value = options[nextIndex].value;
+        updateSortDisplay();
+        sortExams();
+      }
+    }
 
-        function loadExams() {
-            const grid = document.getElementById('examsGrid');
-            const emptyState = document.getElementById('emptyState');
+    function sortExams() {
+      const sortValue = document.getElementById('sortSelect').value;
+      console.log('Sorting by:', sortValue);
+      
+      let list = [...exams];
+      
+      // Apply category filter first
+      if (currentFilter !== 'all') {
+        list = exams.filter(e => e.status === currentFilter);
+      }
+      
+      // Apply sorting
+      switch(sortValue) {
+        case 'date-asc':
+          list.sort((a, b) => new Date(a.date) - new Date(b.date));
+          break;
+        case 'date-desc':
+          list.sort((a, b) => new Date(b.date) - new Date(a.date));
+          break;
+        case 'title-asc':
+          list.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+          break;
+        case 'title-desc':
+          list.sort((a, b) => (b.title || '').localeCompare(a.title || ''));
+          break;
+        case 'duration-asc':
+          list.sort((a, b) => (a.duration || 0) - (b.duration || 0));
+          break;
+        case 'duration-desc':
+          list.sort((a, b) => (b.duration || 0) - (a.duration || 0));
+          break;
+        case 'questions-asc':
+          list.sort((a, b) => (a.questions || 0) - (b.questions || 0));
+          break;
+        case 'questions-desc':
+          list.sort((a, b) => (b.questions || 0) - (a.questions || 0));
+          break;
+      }
+      
+      // Update the display
+      updateExamDisplay(list);
+      updateSortDisplay();
+    }
 
-            if (physicsExams.length === 0) {
-                grid.style.display = 'none';
-                emptyState.style.display = 'block';
-                return;
-            }
+    function updateExamDisplay(list) {
+      const grid = document.getElementById('examGrid');
+      if (list.length === 0) {
+        grid.innerHTML = `<div class="col-12 text-center py-5"><h4>No exams available</h4><p class="text-muted">Check back later for new exams or contact your teacher.</p></div>`;
+        updateStats();
+        return;
+      }
 
-            grid.innerHTML = physicsExams.map(exam => `
-                <div class="exam-card">
-                    ${exam.status === 'upcoming' ? '<div class="exam-badge">Upcoming</div>' : 
-                      exam.status === 'completed' ? '<div class="exam-badge" style="background: #00b894;">Completed</div>' : 
-                      '<div class="exam-badge" style="background: #ddd; color: #666;">Locked</div>'}
-                    
-                    <div class="exam-header">
-                        <h3 class="exam-title">${exam.title}</h3>
-                        <div class="exam-type">${exam.type}</div>
-                    </div>
-                    
-                    <div class="exam-meta">
-                        <span><iconify-icon icon="material-symbols:event"></iconify-icon> ${new Date(exam.date).toLocaleDateString()}</span>
-                        <span><iconify-icon icon="material-symbols:star"></iconify-icon> ${exam.maxScore} pts</span>
-                    </div>
-                    
-                    <div class="exam-description">
-                        ${exam.description}
-                    </div>
-                    
-                    <div class="exam-details">
-                        <div class="detail-item">
-                            <iconify-icon icon="material-symbols:timer"></iconify-icon>
-                            ${exam.duration} minutes
-                        </div>
-                        <div class="detail-item">
-                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
-                            ${exam.questions} questions
-                        </div>
-                        <div class="detail-item">
-                            <iconify-icon icon="material-symbols:psychology"></iconify-icon>
-                            ${exam.difficulty}
-                        </div>
-                        <div class="detail-item">
-                            <iconify-icon icon="material-symbols:school"></iconify-icon>
-                            ${exam.topics.join(', ')}
-                        </div>
-                    </div>
-                    
-                    ${exam.status === 'completed' ? `
-                        <div class="exam-progress">
-                            <div class="progress-label">
-                                <span>Progress</span>
-                                <span>${exam.progress}%</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${exam.progress}%"></div>
-                            </div>
-                        </div>
-                    ` : ''}
-                    
-                    <div class="exam-actions">
-                        ${exam.status === 'upcoming' ? 
-                            `<a href="physics-exam-detail.html?id=${exam.id}" class="btn-exam btn-start">View Details</a>` :
-                            exam.status === 'completed' ?
-                            `<a href="physics-exam-detail.html?id=${exam.id}" class="btn-exam btn-review">Review Results</a>` :
-                            `<button class="btn-exam btn-locked" disabled>Locked</button>`
-                        }
+      grid.innerHTML = list.map(e => `
+        <div class="homework-card">
+          <div class="homework-card-header">
+            <div class="homework-icon"><iconify-icon icon="material-symbols:school"></iconify-icon></div>
+            <div>
+              <div class="homework-card-title">${e.title}</div>
+              <span class="status-badge status-${e.status}">${e.status.toUpperCase()}</span>
+            </div>
+          </div>
+          <div class="homework-card-description">${e.description}</div>
+          <div class="homework-details">
+            <div class="detail-row"><span class="detail-label">Type:</span><span class="detail-value">${e.type}</span></div>
+            <div class="detail-row"><span class="detail-label">Date:</span><span class="detail-value">${new Date(e.date).toLocaleDateString()}</span></div>
+            <div class="detail-row"><span class="detail-label">Duration:</span><span class="detail-value">${e.duration} minutes</span></div>
+            <div class="detail-row"><span class="detail-label">Questions:</span><span class="detail-value">${e.questions}</span></div>
+            <div class="detail-row"><span class="detail-label">Max Score:</span><span class="detail-value">${e.maxScore}</span></div>
+            <div class="detail-row"><span class="detail-label">Difficulty:</span><span class="detail-value">${e.difficulty}</span></div>
+            <div class="detail-row"><span class="detail-label">Topics:</span><span class="detail-value">${e.topics.join(', ')}</span></div>
+          </div>
+          <div class="homework-actions">
+            ${e.status === 'upcoming' ? `
+              <button class="btn btn-primary" onclick="startExam('${e.id}')"><iconify-icon icon="material-symbols:play-arrow"></iconify-icon>Start Exam</button>
+            ` : e.status === 'completed' ? `
+              <button class="btn btn-outline" onclick="reviewExam('${e.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>Review</button>
+            ` : `
+              <button class="btn btn-outline" disabled><iconify-icon icon="material-symbols:lock"></iconify-icon>Locked</button>
+            `}
                     </div>
                 </div>
             `).join('');
-        }
+      updateStats();
+    }
 
-        function navigateToNotifications() {
-            showNotificationsModal();
-        }
+    function updateStats() {
+      const total = exams.length;
+      const upcoming = exams.filter(e => e.status === 'upcoming').length;
+      
+      const totalEl = document.getElementById('totalExams');
+      const upcomingEl = document.getElementById('upcomingExams');
+      
+      if (totalEl) totalEl.textContent = total;
+      if (upcomingEl) upcomingEl.textContent = upcoming;
+    }
 
-        function navigateToProfile() {
-            window.location.href = 'student-profile.html';
-        }
+    let currentExam = null;
+    let currentQuestionIndex = 0;
+    let userAnswers = {};
+    let startTime = null;
+    let timerInterval = null;
+    let timeLimit = null;
+    let timeRemaining = null;
 
-        function logout() {
-            localStorage.removeItem('authToken');
-            localStorage.removeItem('token');
-            localStorage.removeItem('userEmail');
-            localStorage.removeItem('userName');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('userLoggedIn');
-            window.location.href = 'index.html';
-        }
+    function startExam(id) {
+      const exam = exams.find(e => e.id == id);
+      if (!exam) {
+        alert('Exam not found!');
+        return;
+      }
 
-        // Load exams when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            loadExams();
-            updateNotificationBadge();
+      currentExam = exam;
+      currentQuestionIndex = 0;
+      userAnswers = {};
+      startTime = new Date();
+      timeLimit = exam.duration;
+
+      // Set modal title
+      document.getElementById('questionModalTitle').textContent = exam.title;
+
+      // Setup timer display
+      if (timeLimit) {
+        timeRemaining = timeLimit * 60;
+        document.getElementById('timeLimitInfo').style.display = 'inline';
+        document.getElementById('timeLimit').textContent = timeLimit;
+        document.getElementById('timeProgress').style.display = 'block';
+        updateTimeProgress();
+      } else {
+        document.getElementById('timeLimitInfo').style.display = 'none';
+        document.getElementById('timeProgress').style.display = 'none';
+      }
+
+      // Load questions
+      loadQuestions();
+
+      // Start timer
+      startTimer();
+
+      // Show page timer
+      document.getElementById('pageTimer').style.display = 'block';
+      updatePageTimer();
+      
+      // Show modal
+      const modal = new bootstrap.Modal(document.getElementById('questionModal'));
+      modal.show();
+    }
+
+    function loadQuestions() {
+      if (!currentExam || !currentExam.questions || currentExam.questions.length === 0) {
+        document.getElementById('questionContainer').innerHTML = `
+          <div class="question-card">
+            <div class="question-text">This exam doesn't have any questions yet.</div>
+            <p class="text-muted">Please contact your teacher to add questions to this exam.</p>
+          </div>
+        `;
+        document.getElementById('totalQuestions').textContent = '0';
+        document.getElementById('currentQuestionNum').textContent = '0';
+        return;
+      }
+
+      const questions = currentExam.questions;
+      document.getElementById('totalQuestions').textContent = questions.length;
+      displayCurrentQuestion();
+    }
+
+    function displayCurrentQuestion() {
+      if (!currentExam || !currentExam.questions) return;
+
+      const questions = currentExam.questions;
+      const question = questions[currentQuestionIndex];
+      
+      if (!question) return;
+      
+      // Reset autocorrect feedback
+      document.querySelectorAll('.autocorrect-feedback').forEach(feedback => feedback.remove());
+      document.querySelectorAll('.option-item').forEach(item => {
+        item.classList.remove('correct-answer', 'correct-selected', 'incorrect-selected', 'disabled');
+        item.style.pointerEvents = 'auto';
+        item.style.opacity = '1';
+      });
+      
+      let questionHtml = `
+        <div class="question-card">
+          <div class="question-text">${question.text || 'Question text not available'}</div>
+          <div class="question-options">
+      `;
+
+      // Handle answer types
+      if (question.type === 'multiple-choice' && question.options) {
+        question.options.forEach((option, index) => {
+          const isSelected = userAnswers[currentQuestionIndex] === index ? 'selected' : '';
+          questionHtml += `
+            <div class="option-item ${isSelected}" onclick="selectOption(${index})">
+              <input type="radio" class="option-radio" name="question_${currentQuestionIndex}" value="${index}" ${userAnswers[currentQuestionIndex] === index ? 'checked' : ''}>
+              <span class="option-text">${option}</span>
+            </div>
+          `;
         });
-    </script>
+      }
+
+      questionHtml += `
+          </div>
+          <div class="question-meta">
+            <small class="text-muted">Points: ${question.points || 1}</small>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('questionContainer').innerHTML = questionHtml;
+      document.getElementById('currentQuestionNum').textContent = currentQuestionIndex + 1;
+      
+      // Update progress bar
+      const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+      document.getElementById('progressBar').style.width = progress + '%';
+      
+      // Update navigation buttons
+      updateNavigationButtons();
+    }
+
+    function selectOption(optionIndex) {
+      // Remove previous selection
+      document.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+      
+      // Add selection to clicked option
+      event.currentTarget.classList.add('selected');
+      
+      // Update radio button
+      const radio = event.currentTarget.querySelector('input[type="radio"]');
+      radio.checked = true;
+      
+      // Save answer
+      userAnswers[currentQuestionIndex] = optionIndex;
+    }
+
+    function nextQuestion() {
+      if (currentExam && currentExam.questions && currentQuestionIndex < currentExam.questions.length - 1) {
+        currentQuestionIndex++;
+        displayCurrentQuestion();
+      } else {
+        // Show submit button on last question
+        document.getElementById('submitBtn').style.display = 'inline-block';
+        document.getElementById('nextBtn').style.display = 'none';
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        displayCurrentQuestion();
+        document.getElementById('submitBtn').style.display = 'none';
+        document.getElementById('nextBtn').style.display = 'inline-block';
+      }
+    }
+
+    function updateNavigationButtons() {
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      prevBtn.disabled = currentQuestionIndex === 0;
+      
+      if (currentQuestionIndex === currentExam.questions.length - 1) {
+        nextBtn.style.display = 'none';
+        document.getElementById('submitBtn').style.display = 'inline-block';
+      } else {
+        nextBtn.style.display = 'inline-block';
+        document.getElementById('submitBtn').style.display = 'none';
+      }
+    }
+
+    function startTimer() {
+      startTime = new Date();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function updateTimer() {
+      if (!startTime) return;
+      
+      if (timeLimit && timeRemaining !== null) {
+        // Countdown timer
+        timeRemaining--;
+        
+        if (timeRemaining <= 0) {
+          // Time's up!
+          clearInterval(timerInterval);
+          alert('Time\'s up! Your exam will be submitted automatically.');
+          submitExam();
+          return;
+        }
+        
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        
+        const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        document.getElementById('timer').textContent = timeString;
+        document.getElementById('pageTimerDisplay').textContent = timeString;
+        
+        // Update time progress bar
+        updateTimeProgress();
+        updatePageTimer();
+        
+        // Change color when time is running low
+        const timerElement = document.getElementById('timer');
+        if (timeRemaining <= 300) { // 5 minutes or less
+          timerElement.style.color = '#dc3545';
+          timerElement.style.fontWeight = 'bold';
+        } else if (timeRemaining <= 600) { // 10 minutes or less
+          timerElement.style.color = '#ffc107';
+          timerElement.style.fontWeight = 'bold';
+        } else {
+          timerElement.style.color = '#667eea';
+          timerElement.style.fontWeight = 'normal';
+        }
+      } else {
+        // Regular elapsed time timer
+        const now = new Date();
+        const elapsed = Math.floor((now - startTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        
+        const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        document.getElementById('timer').textContent = timeString;
+        document.getElementById('pageTimerDisplay').textContent = timeString;
+      }
+    }
+
+    function updateTimeProgress() {
+      if (!timeLimit || timeRemaining === null) return;
+      
+      const progress = (timeRemaining / (timeLimit * 60)) * 100;
+      document.getElementById('timeProgressBar').style.width = progress + '%';
+      
+      // Change color based on remaining time
+      const progressBar = document.getElementById('timeProgressBar');
+      if (progress <= 20) {
+        progressBar.className = 'progress-bar bg-danger';
+      } else if (progress <= 40) {
+        progressBar.className = 'progress-bar bg-warning';
+      } else {
+        progressBar.className = 'progress-bar bg-success';
+      }
+    }
+    
+    function updatePageTimer() {
+      if (!timeLimit || timeRemaining === null) return;
+      
+      const progress = (timeRemaining / (timeLimit * 60)) * 100;
+      const progressBar = document.getElementById('pageTimerProgress');
+      
+      progressBar.style.width = `${progress}%`;
+      
+      // Change color based on remaining time
+      if (progress <= 20) {
+        progressBar.className = 'timer-progress-bar danger';
+        document.getElementById('pageTimer').classList.add('timer-warning');
+      } else if (progress <= 40) {
+        progressBar.className = 'timer-progress-bar warning';
+        document.getElementById('pageTimer').classList.remove('timer-warning');
+      } else {
+        progressBar.className = 'timer-progress-bar';
+        document.getElementById('pageTimer').classList.remove('timer-warning');
+      }
+    }
+
+    function submitExam() {
+      // Calculate score
+      let score = 0;
+      let totalPoints = 0;
+      
+      currentExam.questions.forEach((question, index) => {
+        totalPoints += question.points || 1;
+        
+        if (question.type === 'multiple-choice') {
+          if (userAnswers[index] === question.correctAnswer) {
+            score += question.points || 1;
+          }
+        }
+      });
+      
+      const percentage = Math.round((score / totalPoints) * 100);
+      const timeSpent = Math.floor((new Date() - startTime) / 60000); // in minutes
+      
+      // Update exam status
+      const examIndex = exams.findIndex(e => e.id === currentExam.id);
+      if (examIndex !== -1) {
+        exams[examIndex].status = 'completed';
+        exams[examIndex].progress = 100;
+        exams[examIndex].completedAt = new Date().toISOString();
+        exams[examIndex].answers = userAnswers;
+        exams[examIndex].totalPoints = totalPoints;
+        exams[examIndex].score = score;
+      }
+      
+      // Clear timer
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      
+      // Hide page timer
+      document.getElementById('pageTimer').style.display = 'none';
+      
+      // Close modal
+      bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+      
+      // Show success message
+      alert(`Exam completed!\nScore: ${score}/${totalPoints} (${percentage}%)\nTime spent: ${timeSpent} minutes`);
+      
+      // Reload exams to show updated status
+      loadExams();
+    }
+
+    function reviewExam(id) {
+      const exam = exams.find(e => e.id == id);
+      if (!exam) {
+        alert('Exam not found!');
+        return;
+      }
+      
+      // Show review modal with exam results
+      alert(`Exam Review: ${exam.title}\nScore: ${exam.score}/${exam.totalPoints}\nStatus: ${exam.status}`);
+    }
+
+    function searchExams(e) {
+      const term = e.target.value.toLowerCase();
+      const filtered = exams.filter(e =>
+        e.title.toLowerCase().includes(term) ||
+        e.description.toLowerCase().includes(term) ||
+        e.type.toLowerCase().includes(term) ||
+        e.difficulty.toLowerCase().includes(term)
+      );
+      
+      const grid = document.getElementById('examGrid');
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-12 text-center py-5"><h4>No exams found</h4><p class="text-muted">Try adjusting your search terms or filters.</p></div>`;
+        return;
+      }
+      
+      updateExamDisplay(filtered);
+    }
+
+    // Cleanup when modal is closed
+    document.getElementById('questionModal').addEventListener('hidden.bs.modal', function() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      // Reset timer display
+      document.getElementById('timer').style.color = '#667eea';
+      document.getElementById('timer').style.fontWeight = 'normal';
+    });
+  </script>
 </body>
 </html>
-

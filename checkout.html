@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Checkout - IG Way IGCSE Tutoring V2.0</title>
+  <title>Checkout - IG Nation</title>
   <!-- CACHE BUSTER: v20251011-1210 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -244,7 +244,7 @@
             <div class="card-header bg-light">
               <h5 class="mb-0">
                 <iconify-icon icon="material-symbols:shopping-cart" class="me-2 text-primary"></iconify-icon>
-                Order Summary
+                <span id="orderSummaryTitle">Order Summary</span>
               </h5>
             </div>
             <div class="card-body">
@@ -311,6 +311,24 @@
     
     // TRY ALL SOURCES IN ORDER
     let cart = JSON.parse(localStorage.getItem('cart') || sessionStorage.getItem('cart') || '[]');
+    
+    // Check for book cart if coming from library
+    const urlParams = new URLSearchParams(window.location.search);
+    const cartType = urlParams.get('type');
+    
+    if (cartType === 'books') {
+      const bookCart = JSON.parse(localStorage.getItem('bookCart') || '[]');
+      if (bookCart && bookCart.length > 0) {
+        cart = bookCart;
+        console.log('📚 Book cart loaded:', cart);
+        // Update page title and header for books
+        document.title = 'Checkout - Digital Books | IG Nation';
+        const orderSummaryTitle = document.getElementById('orderSummaryTitle');
+        if (orderSummaryTitle) {
+          orderSummaryTitle.textContent = 'Book Order Summary';
+        }
+      }
+    }
     
     // If still empty, try enrollCourse
     if (!cart || cart.length === 0) {
@@ -588,6 +606,35 @@
       
       const summaryHTML = cart.map(item => {
         console.log('Processing cart item:', item);
+        
+        // Check if this is a book item
+        if (item.type === 'book') {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          
+          return `
+            <div class="d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+              <div class="d-flex align-items-center">
+                <div class="me-3">
+                  <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <i class="bi bi-file-earmark-pdf text-white"></i>
+                  </div>
+                </div>
+                <div>
+                  <div class="fw-bold text-primary">${item.title}</div>
+                  <div class="text-muted small">${item.author} - ${item.subject}</div>
+                  <div class="text-muted small">Qty: ${item.quantity}</div>
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="fw-bold">£${itemTotal.toFixed(2)}</div>
+                <div class="text-muted small">£${item.price} each</div>
+              </div>
+            </div>
+          `;
+        }
+        
+        // Handle course items (existing logic)
         console.log('Looking for course with ID:', item.courseId);
         
         // Handle multiple cases: course data directly in item, numeric ID, or string ID

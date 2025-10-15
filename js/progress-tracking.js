@@ -14,11 +14,22 @@ function loadCourseProgressData(courseName) {
 
 // Load homework statistics
 function loadHomeworkStats(courseName) {
-    const homeworks = JSON.parse(localStorage.getItem(`${courseName}TeacherAssignments`) || '[]');
-    const total = homeworks.length;
-    const done = homeworks.filter(hw => hw.submitted || hw.status === 'submitted' || hw.status === 'completed').length;
-    const pending = homeworks.filter(hw => (!hw.submitted && !hw.status) || hw.status === 'pending').length;
-    const late = homeworks.filter(hw => {
+    // Use student assignments (published items)
+    const homeworks = JSON.parse(localStorage.getItem(`${courseName}Assignments`) || '[]');
+    
+    console.log(`=== PROGRESS: ${courseName} Assignments ===`);
+    console.log('Student assignments (published):', homeworks);
+    
+    // Filter ONLY by subject - match what homework page shows
+    const subjectHomeworks = homeworks.filter(hw => hw.subject === courseName.toLowerCase());
+    
+    console.log('Filtered assignments by subject:', subjectHomeworks);
+    console.log('Assignment items detail:', subjectHomeworks.map(hw => ({id: hw.id, title: hw.title, subject: hw.subject, published: hw.published})));
+    
+    const total = subjectHomeworks.length;
+    const done = subjectHomeworks.filter(hw => hw.submitted || hw.status === 'submitted' || hw.status === 'completed').length;
+    const pending = subjectHomeworks.filter(hw => (!hw.submitted && !hw.status) || hw.status === 'pending').length;
+    const late = subjectHomeworks.filter(hw => {
         if (hw.deadline && !hw.submitted) {
             return new Date(hw.deadline) < new Date();
         }
@@ -36,14 +47,22 @@ function loadHomeworkStats(courseName) {
 
 // Load quiz statistics
 function loadQuizStats(courseName) {
+    // Use student quizzes (same as quiz page) - these are published items
     const quizzes = JSON.parse(localStorage.getItem(`${courseName}Quizzes`) || '[]');
-    const teacherQuizzes = JSON.parse(localStorage.getItem(`${courseName}TeacherQuizzes`) || '[]');
-    const allQuizzes = [...quizzes, ...teacherQuizzes];
     
-    const total = allQuizzes.length;
-    const done = allQuizzes.filter(q => q.completed || q.status === 'completed' || q.score !== undefined).length;
-    const pending = allQuizzes.filter(q => !q.completed && !q.score && q.status !== 'completed').length;
-    const late = allQuizzes.filter(q => {
+    console.log(`=== PROGRESS: ${courseName} Quizzes ===`);
+    console.log('Student quizzes (published):', quizzes);
+    
+    // Filter ONLY by subject - match what quiz page shows
+    const subjectQuizzes = quizzes.filter(q => q.subject === courseName.toLowerCase());
+    
+    console.log('Filtered quizzes by subject:', subjectQuizzes);
+    console.log('Quiz items detail:', subjectQuizzes.map(q => ({id: q.id, title: q.title, subject: q.subject, published: q.published})));
+    
+    const total = subjectQuizzes.length;
+    const done = subjectQuizzes.filter(q => q.completed || q.status === 'completed' || q.score !== undefined).length;
+    const pending = subjectQuizzes.filter(q => !q.completed && !q.score && q.status !== 'completed').length;
+    const late = subjectQuizzes.filter(q => {
         if (q.deadline && !q.completed) {
             return new Date(q.deadline) < new Date();
         }
@@ -61,14 +80,22 @@ function loadQuizStats(courseName) {
 
 // Load exam statistics
 function loadExamStats(courseName) {
+    // Use student exams (same as exam page) - these are published items
     const exams = JSON.parse(localStorage.getItem(`${courseName}Exams`) || '[]');
-    const teacherExams = JSON.parse(localStorage.getItem(`${courseName}TeacherExams`) || '[]');
-    const allExams = [...exams, ...teacherExams];
     
-    const total = allExams.length;
-    const done = allExams.filter(e => e.completed || e.status === 'completed' || e.score !== undefined).length;
-    const pending = allExams.filter(e => !e.completed && !e.score && e.status !== 'completed').length;
-    const late = allExams.filter(e => {
+    console.log(`=== PROGRESS: ${courseName} Exams ===`);
+    console.log('Student exams (published):', exams);
+    
+    // Filter ONLY by subject - match what exam page shows
+    const subjectExams = exams.filter(e => e.subject === courseName.toLowerCase());
+    
+    console.log('Filtered exams by subject:', subjectExams);
+    console.log('Exam items detail:', subjectExams.map(e => ({id: e.id, title: e.title, subject: e.subject, published: e.published})));
+    
+    const total = subjectExams.length;
+    const done = subjectExams.filter(e => e.completed || e.status === 'completed' || e.score !== undefined).length;
+    const pending = subjectExams.filter(e => !e.completed && !e.score && e.status !== 'completed').length;
+    const late = subjectExams.filter(e => {
         if (e.deadline && !e.completed) {
             return new Date(e.deadline) < new Date();
         }
@@ -91,8 +118,7 @@ function loadRecentGrades(courseName) {
 
     // Recent Quizzes
     const quizzes = JSON.parse(localStorage.getItem(`${courseName}Quizzes`) || '[]');
-    const teacherQuizzes = JSON.parse(localStorage.getItem(`${courseName}TeacherQuizzes`) || '[]');
-    const allQuizzes = [...quizzes, ...teacherQuizzes];
+    const allQuizzes = quizzes.filter(q => q.subject === courseName.toLowerCase());
     
     const recentQuizzes = allQuizzes.filter(q => {
         if (q.completedAt || q.submittedAt) {
@@ -119,8 +145,7 @@ function loadRecentGrades(courseName) {
 
     // Recent Exams
     const exams = JSON.parse(localStorage.getItem(`${courseName}Exams`) || '[]');
-    const teacherExams = JSON.parse(localStorage.getItem(`${courseName}TeacherExams`) || '[]');
-    const allExams = [...exams, ...teacherExams];
+    const allExams = exams.filter(e => e.subject === courseName.toLowerCase());
     
     const recentExams = allExams.filter(e => {
         if (e.completedAt || e.submittedAt) {
@@ -150,8 +175,7 @@ function loadRecentGrades(courseName) {
 function calculateAverageGrades(courseName) {
     // Quiz Average
     const quizzes = JSON.parse(localStorage.getItem(`${courseName}Quizzes`) || '[]');
-    const teacherQuizzes = JSON.parse(localStorage.getItem(`${courseName}TeacherQuizzes`) || '[]');
-    const allQuizzes = [...quizzes, ...teacherQuizzes];
+    const allQuizzes = quizzes.filter(q => q.subject === courseName.toLowerCase());
     const completedQuizzes = allQuizzes.filter(q => q.score !== undefined);
     
     if (completedQuizzes.length > 0) {
@@ -163,8 +187,7 @@ function calculateAverageGrades(courseName) {
 
     // Exam Average
     const exams = JSON.parse(localStorage.getItem(`${courseName}Exams`) || '[]');
-    const teacherExams = JSON.parse(localStorage.getItem(`${courseName}TeacherExams`) || '[]');
-    const allExams = [...exams, ...teacherExams];
+    const allExams = exams.filter(e => e.subject === courseName.toLowerCase());
     const completedExams = allExams.filter(e => e.score !== undefined);
     
     if (completedExams.length > 0) {
@@ -193,8 +216,7 @@ function loadDailyPracticeStats(courseName) {
 // Show all quiz grades with bar chart
 function showAllQuizGrades(courseName) {
     const quizzes = JSON.parse(localStorage.getItem(`${courseName}Quizzes`) || '[]');
-    const teacherQuizzes = JSON.parse(localStorage.getItem(`${courseName}TeacherQuizzes`) || '[]');
-    const allQuizzes = [...quizzes, ...teacherQuizzes];
+    const allQuizzes = quizzes.filter(q => q.subject === courseName.toLowerCase());
     const completedQuizzes = allQuizzes.filter(q => q.score !== undefined);
 
     if (completedQuizzes.length === 0) {
@@ -304,8 +326,7 @@ function showAllQuizGrades(courseName) {
 // Show all exam grades with bar chart
 function showAllExamGrades(courseName) {
     const exams = JSON.parse(localStorage.getItem(`${courseName}Exams`) || '[]');
-    const teacherExams = JSON.parse(localStorage.getItem(`${courseName}TeacherExams`) || '[]');
-    const allExams = [...exams, ...teacherExams];
+    const allExams = exams.filter(e => e.subject === courseName.toLowerCase());
     const completedExams = allExams.filter(e => e.score !== undefined);
 
     if (completedExams.length === 0) {

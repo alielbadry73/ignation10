@@ -516,37 +516,6 @@
                     </div>
                 </div>
 
-                <!-- Daily Practice Section -->
-                <div class="progress-section" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <h4 style="margin: 0; margin-bottom: 0.5rem; color: white; font-weight: 700;">
-                                <iconify-icon icon="material-symbols:edit-note" class="me-2"></iconify-icon>
-                                Daily Practice Questions
-                            </h4>
-                            <p style="margin: 0; opacity: 0.9;">Solve a new challenge every day!</p>
-                        </div>
-                        <button class="btn btn-light" onclick="window.location.href='mathematics-daily-practice.html'" style="font-weight: 600;">
-                            <iconify-icon icon="material-symbols:arrow-forward" class="me-1"></iconify-icon>
-                            Start Practice
-                        </button>
-                    </div>
-                    <div class="row mt-3" style="font-size: 0.9rem;">
-                        <div class="col-4 text-center">
-                            <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeStreak">0</div>
-                            <div style="opacity: 0.8;">Day Streak</div>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeSolved">0</div>
-                            <div style="opacity: 0.8;">Solved</div>
-                        </div>
-                        <div class="col-4 text-center">
-                            <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeAccuracy">0%</div>
-                            <div style="opacity: 0.8;">Accuracy</div>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Wrong Questions & Flashcards Review Section -->
                 <div class="progress-section">
                     <h3 style="color: #1e293b; font-weight: 700; margin-bottom: 1.5rem;">
@@ -606,57 +575,22 @@
             <div class="right-column">
                 <!-- Learning Goals -->
                 <div class="goals-section">
-                    <h6 style="color: #333; margin-bottom: 1rem; font-weight: 600;">
-                        <iconify-icon icon="material-symbols:flag" class="me-2" style="color: #4facfe;"></iconify-icon>
-                        Learning Goals
-                    </h6>
-                    <div class="goal-item">
-                        <div class="goal-checkbox checked" onclick="toggleGoal(this)">
-                            <iconify-icon icon="material-symbols:check" style="font-size: 0.8rem;"></iconify-icon>
-                        </div>
-                        <div class="goal-content">
-                            <div class="goal-title">Complete Algebra Module</div>
-                            <div class="goal-description">Finish all algebra lessons and exercises</div>
-                            <div class="goal-progress">
-                                <div class="goal-progress-fill" style="width: 100%;"></div>
-                            </div>
-                        </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 style="color: #333; margin: 0; font-weight: 600;">
+                            <iconify-icon icon="material-symbols:flag" class="me-2" style="color: #4facfe;"></iconify-icon>
+                            My Learning Goals
+                        </h6>
+                        <button class="btn btn-sm btn-primary" onclick="addNewGoal()">
+                            <iconify-icon icon="material-symbols:add"></iconify-icon>
+                            Add Goal
+                        </button>
                     </div>
-                    <div class="goal-item">
-                        <div class="goal-checkbox" onclick="toggleGoal(this)">
-                            <iconify-icon icon="material-symbols:check" style="font-size: 0.8rem; display: none;"></iconify-icon>
-                        </div>
-                        <div class="goal-content">
-                            <div class="goal-title">Master Calculus Basics</div>
-                            <div class="goal-description">Understand derivatives and integration</div>
-                            <div class="goal-progress">
-                                <div class="goal-progress-fill" style="width: 65%;"></div>
-                            </div>
-                        </div>
+                    <div id="goalsList">
+                        <!-- Goals will be loaded from localStorage -->
                     </div>
-                    <div class="goal-item">
-                        <div class="goal-checkbox" onclick="toggleGoal(this)">
-                            <iconify-icon icon="material-symbols:check" style="font-size: 0.8rem; display: none;"></iconify-icon>
-                        </div>
-                        <div class="goal-content">
-                            <div class="goal-title">Score 90%+ on Final Exam</div>
-                            <div class="goal-description">Achieve high marks in mathematics exam</div>
-                            <div class="goal-progress">
-                                <div class="goal-progress-fill" style="width: 30%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="goal-item">
-                        <div class="goal-checkbox" onclick="toggleGoal(this)">
-                            <iconify-icon icon="material-symbols:check" style="font-size: 0.8rem; display: none;"></iconify-icon>
-                        </div>
-                        <div class="goal-content">
-                            <div class="goal-title">Complete 50 Practice Problems</div>
-                            <div class="goal-description">Solve additional practice exercises</div>
-                            <div class="goal-progress">
-                                <div class="goal-progress-fill" style="width: 80%;"></div>
-                            </div>
-                        </div>
+                    <div id="noGoalsMessage" class="text-center py-4" style="display: none; color: #94a3b8;">
+                        <iconify-icon icon="material-symbols:flag-circle" style="font-size: 3rem; opacity: 0.3;"></iconify-icon>
+                        <p style="margin-top: 1rem;">No goals yet. Click "Add Goal" to create one!</p>
                     </div>
                 </div>
                 
@@ -664,52 +598,23 @@
                 <div class="card" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                     <h6 style="color: #333; margin-bottom: 1rem; font-weight: 600;">
                         <iconify-icon icon="material-symbols:calendar-month" class="me-2" style="color: #4facfe;"></iconify-icon>
-                        Study Calendar
+                        Study Calendar - <span id="calendarMonth"></span>
                     </h6>
-                    <div class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
-                        <div style="text-align: center; font-size: 0.8rem; color: #666; padding: 0.5rem;">Mon</div>
-                        <div style="text-align: center; font-size: 0.8rem; color: #666; padding: 0.5rem;">Tue</div>
-                        <div style="text-align: center; font-size: 0.8rem; color: #666; padding: 0.5rem;">Wed</div>
-                        <div style="text-align: center; font-size: 0.8rem; color: #666; padding: 0.5rem;">Thu</div>
-                        <div style="text-align: center; font-size: 0.8rem; color: #666; padding: 0.5rem;">Fri</div>
-                        <div style="text-align: center; font-size: 0.8rem; color: #666; padding: 0.5rem;">Sat</div>
-                        <div style="text-align: center; font-size: 0.8rem; color: #666; padding: 0.5rem;">Sun</div>
-                        
-                        <div style="text-align: center; padding: 0.5rem; background: #f8f9fa; border-radius: 4px;">1</div>
-                        <div style="text-align: center; padding: 0.5rem; background: #4facfe; color: white; border-radius: 4px;">2</div>
-                        <div style="text-align: center; padding: 0.5rem; background: #4facfe; color: white; border-radius: 4px;">3</div>
-                        <div style="text-align: center; padding: 0.5rem; background: #f8f9fa; border-radius: 4px;">4</div>
-                        <div style="text-align: center; padding: 0.5rem; background: #4facfe; color: white; border-radius: 4px;">5</div>
-                        <div style="text-align: center; padding: 0.5rem; background: #f8f9fa; border-radius: 4px;">6</div>
-                        <div style="text-align: center; padding: 0.5rem; background: #f8f9fa; border-radius: 4px;">7</div>
+                    <div id="calendarGrid" class="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem; margin-bottom: 1rem;">
+                        <!-- Calendar will be generated dynamically -->
                     </div>
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
-                        <div style="width: 12px; height: 12px; background: #4facfe; border-radius: 2px;"></div>
-                        <small style="color: #666;">Study Days</small>
+                    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="width: 12px; height: 12px; background: #10b981; border-radius: 50%; border: 2px solid #059669;"></div>
+                            <small style="color: #666;">Today</small>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div style="width: 12px; height: 12px; background: #4facfe; border-radius: 2px;"></div>
+                            <small style="color: #666;">Study Days</small>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Quick Actions -->
-                <div class="card" style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <h6 style="color: #333; margin-bottom: 1rem; font-weight: 600;">
-                        <iconify-icon icon="material-symbols:flash-on" class="me-2" style="color: #4facfe;"></iconify-icon>
-                        Quick Actions
-                    </h6>
-                    <div class="d-grid gap-2">
-                        <button class="btn btn-primary" onclick="startStudySession()" style="background: #4facfe; border: none; border-radius: 8px; padding: 0.75rem;">
-                            <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
-                            Start Study Session
-                        </button>
-                        <button class="btn btn-outline-primary" onclick="viewDetailedReport()" style="border-color: #4facfe; color: #4facfe; border-radius: 8px; padding: 0.75rem;">
-                            <iconify-icon icon="material-symbols:analytics" class="me-2"></iconify-icon>
-                            View Detailed Report
-                        </button>
-                        <button class="btn btn-outline-secondary" onclick="setNewGoal()" style="border-radius: 8px; padding: 0.75rem;">
-                            <iconify-icon icon="material-symbols:add" class="me-2"></iconify-icon>
-                            Set New Goal
-                        </button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -717,30 +622,132 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
     <script>
-        // Progress functionality
-        function toggleGoal(checkbox) {
-            const icon = checkbox.querySelector('iconify-icon');
-            if (checkbox.classList.contains('checked')) {
-                checkbox.classList.remove('checked');
-                icon.style.display = 'none';
-            } else {
-                checkbox.classList.add('checked');
-                icon.style.display = 'block';
+        // ===== GOALS MANAGEMENT =====
+        function loadGoals(courseName) {
+            const goals = JSON.parse(localStorage.getItem(`${courseName}Goals`) || '[]');
+            const goalsList = document.getElementById('goalsList');
+            const noGoalsMsg = document.getElementById('noGoalsMessage');
+            
+            if (goals.length === 0) {
+                goalsList.innerHTML = '';
+                noGoalsMsg.style.display = 'block';
+                return;
+            }
+            
+            noGoalsMsg.style.display = 'none';
+            goalsList.innerHTML = goals.map((goal, index) => `
+                <div class="goal-item">
+                    <div class="goal-checkbox ${goal.completed ? 'checked' : ''}" onclick="toggleGoal(${index}, '${courseName}')">
+                        <iconify-icon icon="material-symbols:check" style="font-size: 0.8rem; display: ${goal.completed ? 'block' : 'none'};"></iconify-icon>
+                    </div>
+                    <div class="goal-content" style="flex: 1;">
+                        <div class="goal-title">${goal.title}</div>
+                        ${goal.description ? `<div class="goal-description">${goal.description}</div>` : ''}
+                        ${goal.progress !== undefined ? `
+                            <div class="goal-progress">
+                                <div class="goal-progress-fill" style="width: ${goal.progress}%;"></div>
+                            </div>
+                            <small style="color: #666;">${goal.progress}% complete</small>
+                        ` : ''}
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteGoal(${index}, '${courseName}')" style="margin-left: 10px;">
+                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                    </button>
+                </div>
+            `).join('');
+        }
+        
+        function addNewGoal() {
+            const courseName = 'mathematics';
+            const title = prompt('Enter your goal:');
+            if (!title || !title.trim()) return;
+            
+            const description = prompt('Description (optional):');
+            
+            const goals = JSON.parse(localStorage.getItem(`${courseName}Goals`) || '[]');
+            goals.push({
+                title: title.trim(),
+                description: description ? description.trim() : '',
+                progress: 0,
+                completed: false,
+                createdAt: new Date().toISOString()
+            });
+            
+            localStorage.setItem(`${courseName}Goals`, JSON.stringify(goals));
+            loadGoals(courseName);
+        }
+        
+        function toggleGoal(index, courseName) {
+            const goals = JSON.parse(localStorage.getItem(`${courseName}Goals`) || '[]');
+            if (goals[index]) {
+                goals[index].completed = !goals[index].completed;
+                if (goals[index].completed) {
+                    goals[index].progress = 100;
+                }
+                localStorage.setItem(`${courseName}Goals`, JSON.stringify(goals));
+                loadGoals(courseName);
             }
         }
         
-        function startStudySession() {
-            alert('Starting study session...');
+        function deleteGoal(index, courseName) {
+            if (!confirm('Delete this goal?')) return;
+            const goals = JSON.parse(localStorage.getItem(`${courseName}Goals`) || '[]');
+            goals.splice(index, 1);
+            localStorage.setItem(`${courseName}Goals`, JSON.stringify(goals));
+            loadGoals(courseName);
         }
         
-        function viewDetailedReport() {
-            alert('Opening detailed progress report...');
+        // ===== CALENDAR GENERATION =====
+        function generateCalendar() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = today.getMonth();
+            const currentDay = today.getDate();
+            
+            // Set month name
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                                'July', 'August', 'September', 'October', 'November', 'December'];
+            document.getElementById('calendarMonth').textContent = monthNames[month] + ' ' + year;
+            
+            // Get first day of month and total days
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Generate calendar
+            const calendarGrid = document.getElementById('calendarGrid');
+            let html = '';
+            
+            // Day headers
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            days.forEach(day => {
+                html += `<div style="text-align: center; font-size: 0.8rem; color: #666; padding: 0.5rem; font-weight: 600;">${day}</div>`;
+            });
+            
+            // Empty cells before month starts
+            for (let i = 0; i < firstDay; i++) {
+                html += `<div></div>`;
+            }
+            
+            // Days of month
+            for (let day = 1; day <= daysInMonth; day++) {
+                const isToday = day === currentDay;
+                const style = isToday 
+                    ? 'text-align: center; padding: 0.5rem; background: #10b981; color: white; border-radius: 50%; font-weight: 700; border: 2px solid #059669;'
+                    : 'text-align: center; padding: 0.5rem; background: #f8f9fa; border-radius: 4px; cursor: pointer;';
+                
+                html += `<div style="${style}" ${!isToday ? 'onclick="markStudyDay(this)"' : ''}>${day}</div>`;
+            }
+            
+            calendarGrid.innerHTML = html;
         }
         
-        function setNewGoal() {
-            const goal = prompt('Enter your new learning goal:');
-            if (goal) {
-                alert(`New goal set: ${goal}`);
+        function markStudyDay(dayElement) {
+            if (dayElement.style.background === 'rgb(79, 172, 254)') {
+                dayElement.style.background = '#f8f9fa';
+                dayElement.style.color = '#333';
+            } else {
+                dayElement.style.background = '#4facfe';
+                dayElement.style.color = 'white';
             }
         }
         
@@ -829,9 +836,10 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             loadCourseProgressData('mathematics');
-            loadDailyPracticeStats('mathematics');
             loadWrongQuestionsData('mathematics');
             loadWrongFlashcardsData('mathematics');
+            loadGoals('mathematics');
+            generateCalendar();
         });
         
         function showAllQuizGrades() {
@@ -856,26 +864,12 @@
         
         // Open wrong questions folder
         function openWrongQuestionsFolder(courseName) {
-            const wrongQuestions = JSON.parse(localStorage.getItem(`${courseName}WrongQuestions`) || '[]');
-            if (wrongQuestions.length === 0) {
-                alert('Great job! You have no wrong questions to review. 🎉');
-                return;
-            }
-            // Store current course and redirect
-            localStorage.setItem('reviewCourse', courseName);
-            window.location.href = `wrong-questions-review.html?course=${courseName}`;
+            window.location.href = 'wrong-questions.html';
         }
         
         // Open wrong flashcards
         function openWrongFlashcards(courseName) {
-            const wrongFlashcards = JSON.parse(localStorage.getItem(`${courseName}WrongFlashcards`) || '[]');
-            if (wrongFlashcards.length === 0) {
-                alert('Excellent! You have no wrong flashcards to review. 🎉');
-                return;
-            }
-            // Store current course and redirect
-            localStorage.setItem('reviewCourse', courseName);
-            window.location.href = `wrong-flashcards-review.html?course=${courseName}`;
+            window.location.href = 'incorrect-flashcards.html';
         }
     </script>
 </body>

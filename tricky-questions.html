@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tricky Questions - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFF7E6 0%, #FFE4B5 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo iconify-icon {
+            font-size: 2.5rem;
+        }
+        
+        .logo span {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.1);
+            font-weight: 600;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.25);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .page-title {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #d97706;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .page-subtitle {
+            color: #92400e;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+            border: 2px solid #fbbf24;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+        }
+        
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f59e0b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #92400e;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .questions-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .question-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+            border-left: 5px solid #f59e0b;
+            transition: all 0.3s ease;
+        }
+        
+        .question-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.25);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #fef3c7;
+        }
+        
+        .question-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .meta-badge {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .question-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            background: #fef3c7;
+            color: #d97706;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .action-btn:hover {
+            background: #fbbf24;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .action-btn.remove {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        
+        .action-btn.remove:hover {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .question-content {
+            color: #1e293b;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15);
+        }
+        
+        .empty-icon {
+            font-size: 5rem;
+            color: #fbbf24;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d97706;
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-text {
+            color: #92400e;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <a href="mathematics-dashboard.html" class="logo">
+                <iconify-icon icon="material-symbols:lightbulb"></iconify-icon>
+                <span>Tricky Questions</span>
+            </a>
+            <div class="nav-buttons">
+                <a href="mathematics-dashboard.html" class="nav-btn">
+                    <iconify-icon icon="material-symbols:dashboard"></iconify-icon>
+                    Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">
+                💡 Tricky Questions Collection
+            </h1>
+            <p class="page-subtitle">Practice the questions you've marked as challenging</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-number" id="totalQuestions">0</div>
+                <div class="stat-label">Total Questions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-number" id="totalMath">0</div>
+                <div class="stat-label">Mathematics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">⚗️</div>
+                <div class="stat-number" id="totalPhysics">0</div>
+                <div class="stat-label">Physics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📖</div>
+                <div class="stat-number" id="totalEnglish">0</div>
+                <div class="stat-label">English</div>
+            </div>
+        </div>
+
+        <!-- Questions List -->
+        <div id="questionsContainer" class="questions-container">
+            <!-- Questions will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Load tricky questions from localStorage
+        function loadTrickyQuestions() {
+            const trickyQuestions = JSON.parse(localStorage.getItem('trickyQuestions') || '[]');
+            const container = document.getElementById('questionsContainer');
+            
+            console.log('📚 Loading tricky questions:', trickyQuestions.length);
+            
+            if (trickyQuestions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">💡</div>
+                        <div class="empty-title">No Tricky Questions Yet</div>
+                        <p class="empty-text">When you're solving questions and find something challenging, mark it as "tricky" and it will appear here for practice!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Update stats
+            document.getElementById('totalQuestions').textContent = trickyQuestions.length;
+            document.getElementById('totalMath').textContent = trickyQuestions.filter(q => q.subject === 'mathematics').length;
+            document.getElementById('totalPhysics').textContent = trickyQuestions.filter(q => q.subject === 'physics').length;
+            document.getElementById('totalEnglish').textContent = trickyQuestions.filter(q => q.subject === 'english').length;
+            
+            // Display questions
+            container.innerHTML = '';
+            trickyQuestions.forEach((question, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                questionCard.innerHTML = `
+                    <div class="question-header">
+                        <div>
+                            <div class="question-title">Question ${index + 1}</div>
+                            <div class="question-meta">
+                                <span class="meta-badge">${question.subject || 'Unknown'}</span>
+                                <span class="meta-badge">${question.type || 'Mixed'}</span>
+                                ${question.source ? `<span class="meta-badge">${question.source}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="question-actions">
+                            <button class="action-btn" onclick="reviewQuestion(${index})" title="Review">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            </button>
+                            <button class="action-btn remove" onclick="removeQuestion(${index})" title="Remove">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="question-content">
+                        ${question.text || 'Question content'}
+                    </div>
+                `;
+                container.appendChild(questionCard);
+            });
+        }
+        
+        function removeQuestion(index) {
+            if (confirm('Remove this question from your tricky questions list?')) {
+                const trickyQuestions = JSON.parse(localStorage.getItem('trickyQuestions') || '[]');
+                trickyQuestions.splice(index, 1);
+                localStorage.setItem('trickyQuestions', JSON.stringify(trickyQuestions));
+                loadTrickyQuestions();
+            }
+        }
+        
+        function reviewQuestion(index) {
+            alert('Review functionality coming soon!');
+        }
+        
+        // Load on page load
+        document.addEventListener('DOMContentLoaded', loadTrickyQuestions);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

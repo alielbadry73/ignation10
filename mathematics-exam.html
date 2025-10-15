@@ -97,46 +97,99 @@
         }
         
         .exam-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 3rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            text-align: center;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
-        .exam-title {
-            font-size: 3rem;
+        .exam-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .exam-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .hero-left {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-left h2 {
+            font-size: 1.75rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            color: white;
+            margin: 0 0 0.35rem 0;
+            letter-spacing: -0.5px;
         }
         
-        .exam-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+        .hero-left p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+            font-weight: 400;
         }
         
         .exam-stats {
             display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
+            gap: 2.5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
         
         .stat-item {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
         }
         
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
         }
         
         .stat-label {
-            font-size: 1rem;
-            opacity: 0.8;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .exam-grid {
@@ -354,7 +407,7 @@
 <body>
     <!-- Exam Header -->
     <div class="exam-header">
-        <a href="course-mathematics.html" class="exam-logo">
+        <a href="mathematics-dashboard.html" class="exam-logo">
             <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
             <span style="font-weight: 700; font-size: 1.25rem;">Mathematics Exam</span>
             <span class="subject-badge">Mathematics IGCSE</span>
@@ -373,6 +426,10 @@
                 <iconify-icon icon="material-symbols:assignment"></iconify-icon>
                 Homework
             </a>
+            <a href="course-assistants-chat.html?course=mathematics" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">
+                <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                Ask Assistant
+            </a>
         </div>
     </div>
 
@@ -380,21 +437,18 @@
     <div class="main-content">
         <!-- Exam Hero Section -->
         <div class="exam-hero">
-            <div class="exam-title">Mathematics Exam</div>
-            <div class="exam-subtitle">Comprehensive mathematics assessments and final exams</div>
-            
+            <div class="hero-left">
+                <h2>Mathematics Exams</h2>
+                <p>Comprehensive assessments and final exams</p>
+            </div>
             <div class="exam-stats">
                 <div class="stat-item">
                     <div class="stat-number" id="totalExams">0</div>
-                    <div class="stat-label">Available Exams</div>
+                    <div class="stat-label">Total</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="completedExams">0</div>
-                    <div class="stat-label">Completed</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="averageScore">0%</div>
-                    <div class="stat-label">Average Score</div>
+                    <div class="stat-number" id="pendingExams">0</div>
+                    <div class="stat-label">Pending</div>
                 </div>
             </div>
         </div>
@@ -624,17 +678,26 @@
                     </div>
                     
                     <div class="exam-actions">
-                        ${exam.status === 'completed' ? `
-                            <button class="btn btn-outline" onclick="reviewExam(${exam.id})">
+                        ${exam.status === 'pending' && exam.gradingStatus === 'pending' ? `
+                            <div class="alert alert-info mb-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                <iconify-icon icon="material-symbols:pending" class="me-1"></iconify-icon>
+                                <strong>Status:</strong> Waiting for assistant correction
+                            </div>
+                            <button class="btn btn-outline" onclick="reviewExam('${exam.id}')">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                View Submission
+                            </button>
+                        ` : exam.status === 'completed' ? `
+                            <button class="btn btn-outline" onclick="reviewExam('${exam.id}')">
                                 <iconify-icon icon="material-symbols:visibility"></iconify-icon>
                                 Review Results
                             </button>
-                            <button class="btn btn-primary" onclick="retakeExam(${exam.id})">
+                            <button class="btn btn-primary" onclick="retakeExam('${exam.id}')">
                                 <iconify-icon icon="material-symbols:refresh"></iconify-icon>
                                 Retake Exam
                             </button>
-                        ` : (exam.status === 'available' || exam.published === true || exam.status === 'pending') ? `
-                            <button class="btn btn-primary" onclick="startExam(${exam.id})">
+                        ` : (exam.status === 'available' || exam.published === true) ? `
+                            <button class="btn btn-primary" onclick="startExam('${exam.id}')">
                                 <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
                                 Start Exam
                             </button>
@@ -670,12 +733,13 @@
             );
             const totalExams = publishedExams.length;
             const completedExams = publishedExams.filter(e => e.status === 'completed').length;
-            const averageScore = completedExams > 0 ? 
-                Math.round(publishedExams.filter(e => e.status === 'completed').reduce((sum, e) => sum + e.score, 0) / completedExams) : 0;
+            const pendingExams = totalExams - completedExams;
             
-            document.getElementById('totalExams').textContent = totalExams;
-            document.getElementById('completedExams').textContent = completedExams;
-            document.getElementById('averageScore').textContent = averageScore + '%';
+            const totalExamsEl = document.getElementById('totalExams');
+            const pendingExamsEl = document.getElementById('pendingExams');
+            
+            if (totalExamsEl) totalExamsEl.textContent = totalExams;
+            if (pendingExamsEl) pendingExamsEl.textContent = pendingExams;
         }
 
         let currentExam = null;
@@ -940,15 +1004,8 @@
         }
 
         function askAssistant() {
-            if (!currentExam || !currentExam.questions) return;
-            
-            const question = currentExam.questions[currentQuestionIndex];
-            const questionText = question.text;
-            const examTitle = currentExam.title;
-            
-            // Redirect to ask-assistants page with question context
-            const assistantUrl = `ask-assistants.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(examTitle)}&subject=mathematics`;
-            window.open(assistantUrl, '_blank');
+            // Redirect to course assistants chat page
+            window.location.href = 'course-assistants-chat.html?course=mathematics';
         }
 
         function askCommunity() {
@@ -976,24 +1033,31 @@
                     if (userAnswers[index] === question.correctAnswer) {
                         score += question.points || 1;
                     }
-                } else {
+                } else if (question.type === 'text' || question.type === 'file') {
                     // For text and file questions, no automatic scoring - manual grading required
                     hasManualGradingQuestions = true;
                 }
             });
-            
-            // If there are text or file questions, push to pending grading
-            if (hasManualGradingQuestions) {
-                pushToPendingGrading('exam');
-            }
             
             const percentage = Math.round((score / totalPoints) * 100);
             const timeSpent = Math.floor((new Date() - startTime) / 60000);
             
             const examIndex = exams.findIndex(e => e.id === currentExam.id);
             if (examIndex !== -1) {
-                exams[examIndex].status = 'completed';
-                exams[examIndex].score = percentage;
+                // Set status based on whether manual grading is needed
+                if (hasManualGradingQuestions) {
+                    exams[examIndex].status = 'pending';
+                    exams[examIndex].gradingStatus = 'pending';
+                    exams[examIndex].score = null; // No score yet
+                    
+                    // Push to pending grading
+                    pushToPendingGrading('exam');
+                } else {
+                    exams[examIndex].status = 'completed';
+                    exams[examIndex].gradingStatus = 'graded';
+                    exams[examIndex].score = percentage;
+                }
+                
                 exams[examIndex].timeSpent = timeSpent;
                 exams[examIndex].completedAt = new Date().toISOString();
                 exams[examIndex].answers = userAnswers;
@@ -1006,7 +1070,12 @@
             }
             
             bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
-            alert(`Exam completed!\nScore: ${percentage}%\nTime spent: ${timeSpent} minutes`);
+            
+            if (hasManualGradingQuestions) {
+                alert(`Exam submitted!\nYour answers are being reviewed.\nStatus: Waiting for assistant correction\nTime spent: ${timeSpent} minutes`);
+            } else {
+                alert(`Exam completed!\nScore: ${percentage}%\nTime spent: ${timeSpent} minutes`);
+            }
             loadExams();
         }
 

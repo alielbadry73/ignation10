@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Panel Integration Test - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            padding: 2rem;
+        }
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+        }
+        .test-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+        }
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        .status-success { background: #28a745; }
+        .status-warning { background: #ffc107; }
+        .status-danger { background: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1 class="text-center mb-4">
+            <iconify-icon icon="material-symbols:science" style="font-size: 2rem; color: #667eea;"></iconify-icon>
+            Teacher Panel Integration Test
+        </h1>
+        
+        <div class="test-section">
+            <h3>📝 Step 1: Create Questions in Teacher Panel</h3>
+            <p>Create questions using the teacher panel for each course:</p>
+            <div class="d-grid gap-2">
+                <a href="mathematics-teacher-panel.html" class="btn btn-outline-primary" target="_blank">
+                    <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+                    Mathematics Teacher Panel
+                </a>
+                <a href="physics-teacher-panel.html" class="btn btn-outline-primary" target="_blank">
+                    <iconify-icon icon="material-symbols:science"></iconify-icon>
+                    Physics Teacher Panel
+                </a>
+                <a href="chemistry-teacher-panel.html" class="btn btn-outline-primary" target="_blank">
+                    <iconify-icon icon="material-symbols:experiment"></iconify-icon>
+                    Chemistry Teacher Panel
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>🔧 Step 2: Test Question Creation</h3>
+            <p>Create sample questions to test the integration:</p>
+            <button class="test-button" onclick="createTestQuestions()">
+                <iconify-icon icon="material-symbols:add-circle"></iconify-icon>
+                Create Test Questions
+            </button>
+            <div id="testQuestionsStatus" class="mt-3"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Step 3: Check Assistant Correction System</h3>
+            <p>View submissions in the assistant correction system:</p>
+            <a href="assistant-correction-system.html" class="test-button" target="_blank">
+                <iconify-icon icon="material-symbols:rate-review"></iconify-icon>
+                Assistant Correction System
+            </a>
+        </div>
+
+        <div class="test-section">
+            <h3>❌ Step 4: Test Wrong Questions Integration</h3>
+            <p>Add a wrong question and check the categorization:</p>
+            <button class="test-button" onclick="addTestWrongQuestion()">
+                <iconify-icon icon="material-symbols:error"></iconify-icon>
+                Add Test Wrong Question
+            </button>
+            <div id="wrongQuestionStatus" class="mt-3"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📁 Step 5: Check Wrong Questions Folders</h3>
+            <p>Verify questions appear in the correct folders:</p>
+            <div class="d-grid gap-2">
+                <a href="physics-wrong-questions.html" class="btn btn-outline-danger" target="_blank">
+                    <iconify-icon icon="material-symbols:folder"></iconify-icon>
+                    Physics Wrong Questions
+                </a>
+                <a href="physics-wrong-questions-assignments.html" class="btn btn-outline-danger" target="_blank">
+                    <iconify-icon icon="material-symbols:assignment"></iconify-icon>
+                    Physics Assignments Folder
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>📈 Integration Status</h3>
+            <div id="integrationStatus">
+                <p><span class="status-indicator status-warning"></span>Waiting for tests...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+        function createTestQuestions() {
+            const statusDiv = document.getElementById('testQuestionsStatus');
+            statusDiv.innerHTML = '<span class="status-indicator status-warning"></span>Creating test questions...';
+
+            // Create test questions for each course
+            const courses = [
+                {
+                    name: 'mathematics',
+                    title: 'Mathematics',
+                    questions: [
+                        {
+                            text: 'Solve for x: 2x + 5 = 15',
+                            type: 'text',
+                            correctAnswer: 'x = 5'
+                        },
+                        {
+                            text: 'What is the derivative of x²?',
+                            type: 'multiple-choice',
+                            options: [
+                                { text: 'x', isCorrect: false },
+                                { text: '2x', isCorrect: true },
+                                { text: 'x²', isCorrect: false },
+                                { text: '2x²', isCorrect: false }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'physics',
+                    title: 'Physics',
+                    questions: [
+                        {
+                            text: 'What is the formula for kinetic energy?',
+                            type: 'multiple-choice',
+                            options: [
+                                { text: 'KE = mv²', isCorrect: false },
+                                { text: 'KE = 1/2mv²', isCorrect: true },
+                                { text: 'KE = mv', isCorrect: false }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: 'chemistry',
+                    title: 'Chemistry',
+                    questions: [
+                        {
+                            text: 'What is the chemical symbol for gold?',
+                            type: 'multiple-choice',
+                            options: [
+                                { text: 'Go', isCorrect: false },
+                                { text: 'Au', isCorrect: true },
+                                { text: 'Ag', isCorrect: false }
+                            ]
+                        }
+                    ]
+                }
+            ];
+
+            courses.forEach(course => {
+                const questions = JSON.parse(localStorage.getItem(`${course.name}Questions`) || '[]');
+                
+                course.questions.forEach((q, index) => {
+                    const question = {
+                        id: `test_${course.name}_${Date.now()}_${index}`,
+                        course: course.name,
+                        activityType: 'assignment',
+                        questionType: q.type,
+                        text: q.text,
+                        correctAnswer: q.correctAnswer,
+                        options: q.options,
+                        difficulty: 'medium',
+                        points: 5,
+                        createdAt: new Date().toISOString()
+                    };
+                    questions.push(question);
+                });
+                
+                localStorage.setItem(`${course.name}Questions`, JSON.stringify(questions));
+            });
+
+            statusDiv.innerHTML = '<span class="status-indicator status-success"></span>Test questions created successfully!';
+            updateIntegrationStatus();
+        }
+
+        function addTestWrongQuestion() {
+            const statusDiv = document.getElementById('wrongQuestionStatus');
+            statusDiv.innerHTML = '<span class="status-indicator status-warning"></span>Adding test wrong questions with proper data...';
+
+            // Clear existing wrong questions first
+            localStorage.removeItem('physicsWrongQuestions');
+            localStorage.removeItem('mathematicsWrongQuestions');
+            localStorage.removeItem('chemistryWrongQuestions');
+
+            // Create comprehensive test wrong questions with proper data structure
+            const testQuestions = [
+                {
+                    course: 'physics',
+                    questionText: 'What is the formula for kinetic energy?',
+                    questionType: 'multiple-choice',
+                    options: [
+                        { text: 'KE = mv²', isCorrect: false },
+                        { text: 'KE = 1/2mv²', isCorrect: true },
+                        { text: 'KE = mv', isCorrect: false },
+                        { text: 'KE = 2mv²', isCorrect: false }
+                    ],
+                    studentAnswer: 'KE = mv²',
+                    correctAnswer: 'KE = 1/2mv²',
+                    activityType: 'assignments',
+                    activityTitle: 'Physics Assignment 1'
+                },
+                {
+                    course: 'physics',
+                    questionText: 'Explain the difference between potential and kinetic energy.',
+                    questionType: 'text',
+                    studentAnswer: 'This is an incorrect student answer that shows misunderstanding.',
+                    correctAnswer: 'Potential energy is stored energy due to position, while kinetic energy is energy of motion.',
+                    activityType: 'quizzes',
+                    activityTitle: 'Physics Quiz 1'
+                },
+                {
+                    course: 'mathematics',
+                    questionText: 'Solve for x: 2x + 5 = 15',
+                    questionType: 'text',
+                    studentAnswer: 'x = 10',
+                    correctAnswer: 'x = 5',
+                    activityType: 'assignments',
+                    activityTitle: 'Mathematics Assignment 1'
+                },
+                {
+                    course: 'chemistry',
+                    questionText: 'What is the chemical symbol for gold?',
+                    questionType: 'multiple-choice',
+                    options: [
+                        { text: 'Go', isCorrect: false },
+                        { text: 'Au', isCorrect: true },
+                        { text: 'Ag', isCorrect: false }
+                    ],
+                    studentAnswer: 'Go',
+                    correctAnswer: 'Au',
+                    activityType: 'exams',
+                    activityTitle: 'Chemistry Exam 1'
+                }
+            ];
+
+            testQuestions.forEach((q, index) => {
+                const wrongQuestion = {
+                    id: 'wrong_' + (Date.now() + index),
+                    questionId: 'test_' + index,
+                    questionText: q.questionText, // This is the key field that was missing
+                    studentAnswer: q.studentAnswer,
+                    correctAnswer: q.correctAnswer,
+                    course: q.course,
+                    activityType: q.activityType,
+                    activityTitle: q.activityTitle,
+                    questionType: q.questionType,
+                    studentName: 'Test Student',
+                    studentId: 'student_001',
+                    difficulty: 'medium',
+                    notes: 'Test question for demonstration',
+                    attempts: 1,
+                    createdAt: new Date().toISOString(),
+                    source: q.activityType.slice(0, -1), // Remove 's' from assignments, quizzes, exams
+                    subject: q.course,
+                    questionImage: null,
+                    studentAnswerImage: null,
+                    correctAnswerImage: null,
+                    options: q.options || null,
+                    userAnswer: q.questionType === 'multiple-choice' ? 0 : null, // First option (incorrect)
+                    correctAnswerIndex: q.questionType === 'multiple-choice' ? 1 : null, // Second option (correct)
+                    inActivityFolder: true
+                };
+
+                const wrongQuestions = JSON.parse(localStorage.getItem(`${q.course}WrongQuestions`) || '[]');
+                wrongQuestions.push(wrongQuestion);
+                localStorage.setItem(`${q.course}WrongQuestions`, JSON.stringify(wrongQuestions));
+            });
+
+            statusDiv.innerHTML = '<span class="status-indicator status-success"></span>Test wrong questions created with proper data structure!';
+            updateIntegrationStatus();
+        }
+
+        function updateIntegrationStatus() {
+            const statusDiv = document.getElementById('integrationStatus');
+            const courses = ['mathematics', 'physics', 'chemistry'];
+            let statusHtml = '';
+
+            courses.forEach(course => {
+                const questions = JSON.parse(localStorage.getItem(`${course}Questions`) || '[]');
+                const wrongQuestions = JSON.parse(localStorage.getItem(`${course}WrongQuestions`) || '[]');
+                
+                const status = questions.length > 0 ? 'success' : 'danger';
+                const wrongStatus = wrongQuestions.length > 0 ? 'success' : 'warning';
+                
+                statusHtml += `
+                    <div class="mb-2">
+                        <strong>${course.charAt(0).toUpperCase() + course.slice(1)}:</strong>
+                        <span class="status-indicator status-${status}"></span>${questions.length} questions created
+                        <span class="status-indicator status-${wrongStatus}"></span>${wrongQuestions.length} wrong questions
+                    </div>
+                `;
+            });
+
+            statusDiv.innerHTML = statusHtml;
+        }
+
+        // Initialize status on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateIntegrationStatus();
+        });
+    </script>
+</body>
+</html>

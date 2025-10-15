@@ -36,3 +36,15 @@ db.all("PRAGMA table_info(teachers)", (err, rows) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+

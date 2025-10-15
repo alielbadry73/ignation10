@@ -1193,8 +1193,46 @@
             this.style.height = (this.scrollHeight) + 'px';
         });
 
+        // Check for question draft from assignment/quiz/exam
+        function checkQuestionDraft() {
+            const draft = localStorage.getItem('communityQuestionDraft');
+            if (draft) {
+                try {
+                    const question = JSON.parse(draft);
+                    const messageInput = document.getElementById('messageInput');
+                    
+                    // Format question for community post
+                    let questionText = `📝 Question from ${question.source}:\n\n${question.text}`;
+                    
+                    if (question.options && question.options.length > 0) {
+                        questionText += '\n\nOptions:';
+                        question.options.forEach((opt, idx) => {
+                            questionText += `\n${String.fromCharCode(65 + idx)}. ${opt}`;
+                        });
+                    }
+                    
+                    questionText += '\n\nCan someone help me understand this?';
+                    
+                    // Pre-fill the message input
+                    messageInput.value = questionText;
+                    messageInput.style.height = 'auto';
+                    messageInput.style.height = (messageInput.scrollHeight) + 'px';
+                    messageInput.focus();
+                    
+                    // Clear the draft
+                    localStorage.removeItem('communityQuestionDraft');
+                    
+                    console.log('✅ Question loaded from assignment/quiz/exam');
+                } catch (e) {
+                    console.error('Error loading question draft:', e);
+                    localStorage.removeItem('communityQuestionDraft');
+                }
+            }
+        }
+
         // Initialize
         initializeChat();
+        checkQuestionDraft();
     </script>
 </body>
 </html>

@@ -642,7 +642,7 @@
                     </div>
                     
                     <div class="homework-actions">
-                        ${assignment.status === 'completed' ? `
+                        ${assignment.status === 'completed' || assignment.status === 'graded' ? `
                             <button class="btn btn-outline" onclick="reviewHomework(${assignment.id})">
                                 <iconify-icon icon="material-symbols:visibility"></iconify-icon>
                                 Review
@@ -650,6 +650,24 @@
                             <button class="btn btn-primary" onclick="retakeHomework(${assignment.id})">
                                 <iconify-icon icon="material-symbols:refresh"></iconify-icon>
                                 Retake
+                            </button>
+                        ` : (assignment.status === 'pending' && assignment.gradingStatus === 'pending') || (assignment.status === 'pending-grading') ? `
+                            <div class="alert alert-info mb-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                <iconify-icon icon="material-symbols:pending" class="me-1"></iconify-icon>
+                                <strong>Status:</strong> Waiting for assistant correction
+                            </div>
+                            <button class="btn btn-outline" onclick="reviewHomework(${assignment.id})">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                View Submission
+                            </button>
+                        ` : assignment.submittedAt || assignment.completedAt ? `
+                            <div class="alert alert-success mb-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                <iconify-icon icon="material-symbols:check-circle" class="me-1"></iconify-icon>
+                                <strong>Status:</strong> Submitted
+                            </div>
+                            <button class="btn btn-outline" onclick="reviewHomework(${assignment.id})">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                View Submission
                             </button>
                         ` : `
                             <button class="btn btn-primary" onclick="startHomework(${assignment.id})">

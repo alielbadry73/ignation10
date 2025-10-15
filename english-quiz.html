@@ -97,46 +97,99 @@
         }
         
         .quiz-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 3rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            text-align: center;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
-        .quiz-title {
-            font-size: 3rem;
+        .quiz-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .quiz-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .hero-left {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-left h2 {
+            font-size: 1.75rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            color: white;
+            margin: 0 0 0.35rem 0;
+            letter-spacing: -0.5px;
         }
         
-        .quiz-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+        .hero-left p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+            font-weight: 400;
         }
         
         .quiz-stats {
             display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
+            gap: 2.5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
         
         .stat-item {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
         }
         
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
         }
         
         .stat-label {
-            font-size: 1rem;
-            opacity: 0.8;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .quiz-grid {
@@ -360,10 +413,10 @@
 <body>
     <!-- Quiz Header -->
     <div class="quiz-header">
-        <a href="course-mathematics.html" class="quiz-logo">
+        <a href="english-dashboard.html" class="quiz-logo">
             <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
-            <span style="font-weight: 700; font-size: 1.25rem;">Mathematics Quiz</span>
-            <span class="subject-badge">Mathematics IGCSE</span>
+            <span style="font-weight: 700; font-size: 1.25rem;">English Quiz</span>
+            <span class="subject-badge">English IGCSE</span>
         </a>
         
         <div class="quiz-nav">
@@ -371,13 +424,17 @@
                 <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
                 Back to Course
             </a>
-            <a href="mathematics-exam.html" class="nav-btn">
+            <a href="english-exam.html" class="nav-btn">
                 <iconify-icon icon="material-symbols:quiz"></iconify-icon>
                 Exams
             </a>
-            <a href="mathematics-homework.html" class="nav-btn">
+            <a href="english-homework.html" class="nav-btn">
                 <iconify-icon icon="material-symbols:assignment"></iconify-icon>
                 Homework
+            </a>
+            <a href="course-assistants-chat.html?course=english" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">
+                <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                Ask Assistant
             </a>
         </div>
     </div>
@@ -386,38 +443,43 @@
     <div class="main-content">
         <!-- Quiz Hero Section -->
         <div class="quiz-hero">
-            <div class="quiz-title">Mathematics Quiz</div>
-            <div class="quiz-subtitle">Test your mathematics knowledge with interactive quizzes and practice problems</div>
-            
+            <div class="hero-left">
+                <h2>English Quizzes</h2>
+                <p>Test your understanding across all topics</p>
+            </div>
             <div class="quiz-stats">
                 <div class="stat-item">
                     <div class="stat-number" id="totalQuizzes">0</div>
-                    <div class="stat-label">Available Quizzes</div>
+                    <div class="stat-label">Total</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="completedQuizzes">0</div>
-                    <div class="stat-label">Completed</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="averageScore">0%</div>
-                    <div class="stat-label">Average Score</div>
+                    <div class="stat-number" id="pendingQuizzes">0</div>
+                    <div class="stat-label">Pending</div>
                 </div>
             </div>
         </div>
         
         <!-- Quiz Filters -->
         <div class="quiz-filters">
-            <div class="filter-tabs">
-                <button class="filter-tab active" onclick="filterQuizzes('all')">All Quizzes</button>
-                <button class="filter-tab" onclick="filterQuizzes('algebra')">Algebra</button>
-                <button class="filter-tab" onclick="filterQuizzes('geometry')">Geometry</button>
-                <button class="filter-tab" onclick="filterQuizzes('calculus')">Calculus</button>
-                <button class="filter-tab" onclick="filterQuizzes('statistics')">Statistics</button>
-            </div>
-            
-            <div class="search-box">
-                <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
-                <input type="text" class="search-input" placeholder="Search quizzes..." id="quizSearch">
+            <div class="filters-top">
+                <div class="filters-left">
+                    <span class="filters-label">
+                        <iconify-icon icon="mdi:filter-variant"></iconify-icon>
+                        Topics
+                    </span>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" onclick="filterQuizzes('all')">All</button>
+                        <button class="filter-tab" onclick="filterQuizzes('reading')">Reading</button>
+                        <button class="filter-tab" onclick="filterQuizzes('writing')">Writing</button>
+                        <button class="filter-tab" onclick="filterQuizzes('grammar')">Grammar</button>
+                        <button class="filter-tab" onclick="filterQuizzes('vocabulary')">Vocabulary</button>
+                    </div>
+                </div>
+                
+                <div class="search-box">
+                    <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
+                    <input type="text" class="search-input" placeholder="Search quizzes..." id="quizSearch">
+                </div>
             </div>
         </div>
         
@@ -744,7 +806,7 @@
             
             // Filter for published mathematics quizzes
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'mathematics'
+                quiz.published && quiz.subject === 'english'
             );
             
             if (publishedQuizzes.length === 0) {
@@ -790,16 +852,16 @@
                     
                     <div class="quiz-actions">
                         ${quiz.completed ? `
-                            <button class="btn btn-outline" onclick="reviewQuiz(${quiz.id})">
+                            <button class="btn btn-outline" onclick="reviewQuiz('${quiz.id}')">
                                 <iconify-icon icon="material-symbols:visibility"></iconify-icon>
                                 Review (${quiz.score}%)
                             </button>
-                            <button class="btn btn-primary" onclick="retakeQuiz(${quiz.id})">
+                            <button class="btn btn-primary" onclick="retakeQuiz('${quiz.id}')">
                                 <iconify-icon icon="material-symbols:refresh"></iconify-icon>
                                 Retake
                             </button>
                         ` : `
-                            <button class="btn btn-primary" onclick="startQuiz(${quiz.id})">
+                            <button class="btn btn-primary" onclick="startQuiz('${quiz.id}')">
                                 <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
                                 Start Quiz
                             </button>
@@ -846,16 +908,17 @@
             });
             
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'mathematics'
+                quiz.published && quiz.subject === 'english'
             );
             const totalQuizzes = publishedQuizzes.length;
             const completedQuizzes = publishedQuizzes.filter(q => q.completed).length;
-            const averageScore = completedQuizzes > 0 ? 
-                Math.round(publishedQuizzes.filter(q => q.completed).reduce((sum, q) => sum + q.score, 0) / completedQuizzes) : 0;
+            const pendingQuizzes = totalQuizzes - completedQuizzes;
             
-            document.getElementById('totalQuizzes').textContent = totalQuizzes;
-            document.getElementById('completedQuizzes').textContent = completedQuizzes;
-            document.getElementById('averageScore').textContent = averageScore + '%';
+            const totalQuizzesEl = document.getElementById('totalQuizzes');
+            const pendingQuizzesEl = document.getElementById('pendingQuizzes');
+            
+            if (totalQuizzesEl) totalQuizzesEl.textContent = totalQuizzes;
+            if (pendingQuizzesEl) pendingQuizzesEl.textContent = pendingQuizzes;
         }
 
         let currentQuiz = null;
@@ -1134,15 +1197,8 @@
         }
 
         function askAssistant() {
-            if (!currentQuiz || !currentQuiz.questions) return;
-            
-            const question = currentQuiz.questions[currentQuestionIndex];
-            const questionText = question.text;
-            const quizTitle = currentQuiz.title;
-            
-            // Redirect to ask-assistants page with question context
-            const assistantUrl = `ask-assistants.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(quizTitle)}&subject=mathematics`;
-            window.open(assistantUrl, '_blank');
+            // Redirect to course assistants chat page
+            window.location.href = 'course-assistants-chat.html?course=english';
         }
 
         function askCommunity() {
@@ -1170,33 +1226,41 @@
                     if (userAnswers[index] === question.correctAnswer) {
                         score += question.points || 1;
                     }
-                } else {
+                } else if (question.type === 'text' || question.type === 'file') {
                     // For text and file questions, no automatic scoring - manual grading required
                     hasManualGradingQuestions = true;
                 }
             });
-            
-            // If there are text or file questions, push to pending grading
-            if (hasManualGradingQuestions) {
-                pushToPendingGrading('quiz');
-            }
             
             const percentage = Math.round((score / totalPoints) * 100);
             const timeSpent = Math.floor((new Date() - startTime) / 60000);
             
             const quizIndex = quizzes.findIndex(q => q.id === currentQuiz.id);
             if (quizIndex !== -1) {
-                quizzes[quizIndex].status = 'completed';
-                quizzes[quizIndex].completed = true;
-                quizzes[quizIndex].score = percentage;
+                // Set status based on whether manual grading is needed
+                if (hasManualGradingQuestions) {
+                    quizzes[quizIndex].status = 'pending';
+                    quizzes[quizIndex].gradingStatus = 'pending';
+                    quizzes[quizIndex].completed = true; // Submitted but awaiting grading
+                    quizzes[quizIndex].score = null; // No score yet
+                    
+                    // Push to pending grading
+                    pushToPendingGrading('quiz');
+                } else {
+                    quizzes[quizIndex].status = 'completed';
+                    quizzes[quizIndex].gradingStatus = 'graded';
+                    quizzes[quizIndex].completed = true;
+                    quizzes[quizIndex].score = percentage;
+                    
+                    // Update student points for auto-graded quizzes
+                    updateStudentPoints('student_001', 'quiz', percentage, currentQuiz.questions ? currentQuiz.questions.length : 5);
+                }
+                
                 quizzes[quizIndex].timeSpent = timeSpent;
                 quizzes[quizIndex].completedAt = new Date().toISOString();
                 quizzes[quizIndex].answers = userAnswers;
                 quizzes[quizIndex].studentId = 'student_001'; // Default student ID for now
                 localStorage.setItem('englishQuizzes', JSON.stringify(quizzes));
-                
-                // Update student points
-                updateStudentPoints('student_001', 'quiz', percentage, currentQuiz.questions ? currentQuiz.questions.length : 5);
             }
             
             if (timerInterval) {
@@ -1205,7 +1269,12 @@
             }
             
             bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
-            alert(`Quiz completed!\nScore: ${percentage}%\nTime spent: ${timeSpent} minutes`);
+            
+            if (hasManualGradingQuestions) {
+                alert(`Quiz submitted!\nYour answers are being reviewed.\nStatus: Waiting for assistant correction\nTime spent: ${timeSpent} minutes`);
+            } else {
+                alert(`Quiz completed!\nScore: ${percentage}%\nTime spent: ${timeSpent} minutes`);
+            }
             loadQuizzes();
         }
 
@@ -1280,7 +1349,7 @@
         document.getElementById('quizSearch').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'mathematics'
+                quiz.published && quiz.subject === 'english'
             );
             
             filteredQuizzes = publishedQuizzes.filter(quiz => 

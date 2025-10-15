@@ -99,22 +99,100 @@
             padding: 0 2rem;
         }
 
-        .page-title {
-            color: white;
-            text-align: center;
-            margin-bottom: 3rem;
+        .assignment-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
         }
-
-        .page-title h1 {
-            font-size: 3rem;
+        
+        .assignment-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 50%;
+        }
+        
+        .assignment-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(118, 75, 162, 0.03);
+            border-radius: 50%;
+        }
+        
+        .hero-left {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-left h2 {
+            font-size: 1.75rem;
             font-weight: 700;
-            margin-bottom: 1rem;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            color: #1e293b;
+            margin: 0 0 0.35rem 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .hero-left p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        .assignment-stats {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            background: #f8fafc;
+            padding: 1rem 1.75rem;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            background: #f1f5f9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
-        .page-title p {
-            font-size: 1.2rem;
-            opacity: 0.9;
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #667eea;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .assignments-grid {
@@ -284,6 +362,10 @@
                 IG Nation
             </a>
             <div class="utility-buttons">
+                <a href="course-assistants-chat.html?course=english" class="btn-utility" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+                    <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                    Ask Assistant
+                </a>
                 <a href="#" class="btn-utility" onclick="navigateToNotifications()">
                     <iconify-icon icon="material-symbols:notifications"></iconify-icon>
                     Notifications
@@ -303,9 +385,21 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="page-title">
-            <h1>📝 English Assignments</h1>
-            <p>Complete your assignments and enhance your language skills</p>
+        <div class="assignment-hero">
+            <div class="hero-left">
+                <h2>English Assignments</h2>
+                <p>Complete your assignments and enhance your language skills</p>
+            </div>
+            <div class="assignment-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalAssignments">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="pendingAssignments">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+            </div>
         </div>
 
         <div class="assignments-grid" id="assignmentsGrid">
@@ -435,4 +529,6 @@
     </script>
 </body>
 </html>
+
+
 

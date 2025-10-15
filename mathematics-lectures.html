@@ -556,7 +556,7 @@ e        .course-icon-small {
                 <h6>My Courses</h6>
                                 </div>
             <div class="menu-courses">
-                <div class="menu-course-item" onclick="toggleMathematicsSubmenu()">
+                <div class="menu-course-item" onclick="toggleMathematicsSubmenu()" style="background: #e3f2fd; border-color: #2196f3;">
                     <div class="course-icon-small math">
                         <iconify-icon icon="material-symbols:calculate"></iconify-icon>
                             </div>
@@ -568,7 +568,7 @@ e        .course-icon-small {
                         </div>
                         
                 <!-- Mathematics Submenu -->
-                <div class="mathematics-submenu" id="mathematicsSubmenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">
+                <div class="mathematics-submenu" id="mathematicsSubmenu" style="display: block; margin-left: 1rem; margin-bottom: 0.5rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">
                     <div class="submenu-item" onclick="openBooks()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
                         <div style="display: flex; align-items: center;">
                             <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
@@ -578,7 +578,7 @@ e        .course-icon-small {
                             </div>
                                 </div>
                             </div>
-                    <div class="submenu-item" onclick="openLectures()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                    <div class="submenu-item" onclick="openLectures()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #e3f2fd; border: 1px solid #2196f3;">
                         <div style="display: flex; align-items: center;">
                             <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
                             <div>
@@ -611,6 +611,15 @@ e        .course-icon-small {
                             <div>
                                 <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Badges</h6>
                                 <small style="color: #666; font-size: 0.75rem;">Achievements & Rewards</small>
+                            </div>
+                        </div>
+                                </div>
+                    <div class="submenu-item" onclick="openMathematicsPastPapers()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:description" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Past Papers</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Previous Exam Papers</small>
                             </div>
                         </div>
                                 </div>
@@ -720,7 +729,7 @@ e        .course-icon-small {
         }
         
         function openBooks() {
-            window.location.href = 'mathematics-books.html';
+            window.location.href = 'mathematics-library.html';
         }
         
         function openLectures() {
@@ -737,6 +746,10 @@ e        .course-icon-small {
         
         function openBadges() {
             window.location.href = 'mathematics-badges.html';
+        }
+        
+        function openMathematicsPastPapers() {
+            window.location.href = 'mathematics-past-papers.html';
         }
     </script>
 
@@ -1000,8 +1013,6 @@ e        .course-icon-small {
             <!-- Empty State -->
             <div class="empty-state" id="emptyState" style="display: none; text-align: center; padding: 4rem 2rem;">
                 <iconify-icon icon="material-symbols:video-library" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></iconify-icon>
-                <h3 style="color: #666; margin-bottom: 1rem;">No lectures found</h3>
-                <p style="color: #999; margin-bottom: 2rem;">Start by adding your first video lecture or adjust your search criteria.</p>
             </div>
         </div>
     </div>
@@ -1094,27 +1105,6 @@ e        .course-icon-small {
             object-fit: cover;
         }
 
-        .lecture-thumbnail .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #667eea;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .lecture-card:hover .play-icon {
-            background: white;
-            transform: translate(-50%, -50%) scale(1.1);
-        }
 
         /* Category Bar Styling */
         .category-bar {
@@ -1237,6 +1227,22 @@ e        .course-icon-small {
             100% { 
                 transform: translateX(100%); 
             }
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-dialog {
+            max-width: 600px !important;
+            margin: 1.75rem auto !important;
         }
 
         /* Folder Item Enhancements */
@@ -1751,6 +1757,7 @@ e        .course-icon-small {
                         videoUrl: "https://www.youtube.com/watch?v=NybHckSEQBI",
                         videoSource: "youtube",
                         thumbnail: "",
+                        pdfUrl: "https://example.com/algebra-intro.pdf",
                         createdAt: new Date().toISOString()
                     },
                     {
@@ -2003,9 +2010,6 @@ e        .course-icon-small {
                 <div class="lecture-card" onclick="openLecture('${lecture.id}')">
                     <div class="lecture-thumbnail">
                         <img src="${thumbnail}" alt="${lecture.title}" onerror="this.style.display='none'">
-                        <div class="play-icon">
-                            <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
-                        </div>
                         ${isWatched ? '<div class="watched-badge">Watched</div>' : ''}
                     </div>
                     <div class="lecture-content">
@@ -2015,6 +2019,14 @@ e        .course-icon-small {
                             <span class="lecture-duration">${formatDuration(lecture.duration)}</span>
                         </div>
                         <p class="lecture-description">${lecture.description}</p>
+                        ${lecture.pdfUrl ? `
+                            <div class="lecture-pdf" style="margin: 1rem 0;">
+                                <button class="btn btn-outline-danger btn-sm" onclick="event.stopPropagation(); openPdf('${lecture.pdfUrl}')" style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <iconify-icon icon="material-symbols:picture-as-pdf"></iconify-icon>
+                                    View PDF Notes
+                                </button>
+                            </div>
+                        ` : ''}
                         <div class="lecture-footer">
                             <span class="lecture-instructor">${lecture.instructor}</span>
                         </div>
@@ -2102,6 +2114,12 @@ e        .course-icon-small {
             
             const modal = new bootstrap.Modal(document.getElementById('lecturePlayerModal'));
             modal.show();
+        }
+        
+        function openPdf(pdfUrl) {
+            if (pdfUrl) {
+                window.open(pdfUrl, '_blank');
+            }
         }
 
         // Mark lecture as watched/unwatched
@@ -2215,8 +2233,6 @@ e        .course-icon-small {
                 folderGrid.innerHTML = `
                     <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
                         <iconify-icon icon="material-symbols:folder-off" style="font-size: 4rem; color: #ccc; margin-bottom: 1rem;"></iconify-icon>
-                        <h3 style="color: #666; margin-bottom: 1rem;">No folders yet</h3>
-                        <p style="color: #999;">The admin hasn't added any content to this category yet. Check back soon!</p>
                     </div>
                 `;
                 return;
@@ -2245,12 +2261,42 @@ e        .course-icon-small {
             generateFoldersForCategory(currentCategory);
         }
 
+        // Global variables for modal
+        let currentFolderData = {};
+
         function openContentModal(topic, chapter, folderId) {
-            // Redirect to content selection page with folder ID
-            console.log('Opening content selection for:', topic, chapter, folderId);
-            const folderIdParam = folderId ? `&folderId=${folderId}` : '';
-            window.location.href = `content-selection.html?category=${encodeURIComponent(topic)}&folder=${encodeURIComponent(chapter)}${folderIdParam}`;
+            // Show teacher/TA selection modal instead of redirecting
+            console.log('Opening teacher/TA selection for:', topic, chapter, folderId);
+            currentFolderData = { topic, chapter, folderId };
+            
+            // Update modal content
+            document.getElementById('modalFolderName').textContent = chapter;
+            
+            // Show modal
+            document.getElementById('teacherTAModal').style.display = 'flex';
         }
+
+        function selectInstructor(instructorType) {
+            // Close modal
+            closeTeacherTAModal();
+            
+            // Redirect to view-content page with instructor type
+            const { topic, chapter, folderId } = currentFolderData;
+            const folderIdParam = folderId ? `&folderId=${folderId}` : '';
+            const typeParam = `&type=${instructorType}`;
+            window.location.href = `view-content.html?category=${encodeURIComponent(topic)}&folder=${encodeURIComponent(chapter)}${folderIdParam}${typeParam}`;
+        }
+
+        function closeTeacherTAModal() {
+            document.getElementById('teacherTAModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('teacherTAModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeTeacherTAModal();
+            }
+        });
 
 
 
@@ -2384,5 +2430,56 @@ e        .course-icon-small {
         }
 
     </script>
+
+    <!-- Teacher/TA Selection Modal -->
+    <div id="teacherTAModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
+        <div class="modal-content" style="background-color: white; margin: 5% auto; padding: 0; border-radius: 24px; width: 90%; max-width: 600px; box-shadow: 0 25px 50px rgba(0,0,0,0.25); animation: modalSlideIn 0.4s ease-out; position: relative; overflow: hidden;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 2.5rem 2rem 2rem; border-radius: 24px 24px 0 0; text-align: center; position: relative;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); border-radius: 24px 24px 0 0;"></div>
+                <div style="position: relative; z-index: 1;">
+                    <div style="width: 80px; height: 80px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; backdrop-filter: blur(10px);">
+                        <iconify-icon icon="material-symbols:school" style="font-size: 2.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <h3 style="margin: 0; font-weight: 800; font-size: 1.8rem; letter-spacing: -0.5px;">Choose Your Instructor</h3>
+                    <p style="margin: 0.75rem 0 0; opacity: 0.9; font-size: 1.1rem; font-weight: 500;" id="modalFolderName">Select your preferred learning experience</p>
+                </div>
+            </div>
+            <div class="modal-body" style="padding: 3rem 2rem; min-height: 280px;">
+                <div class="instructor-options" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+                    <div class="instructor-card" onclick="selectInstructor('teacher')" style="cursor: pointer; border: 2px solid #e9ecef; border-radius: 20px; padding: 2rem 1.5rem; transition: all 0.3s ease; background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08)); flex: 1; min-width: 200px; max-width: 250px; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='#667eea'; this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 35px rgba(102, 126, 234, 0.25)'" onmouseout="this.style.borderColor='#e9ecef'; this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.1)'">
+                        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, #667eea, #764ba2);"></div>
+                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem;">
+                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);">
+                                <iconify-icon icon="material-symbols:person" style="font-size: 2.2rem; color: white;"></iconify-icon>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; color: #1e293b; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.3px;">Teacher</h4>
+                                <p style="margin: 0.5rem 0 0; color: #64748b; font-size: 0.95rem; line-height: 1.4;">Main instructor with comprehensive course content and detailed explanations</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="instructor-card" onclick="selectInstructor('ta')" style="cursor: pointer; border: 2px solid #e9ecef; border-radius: 20px; padding: 2rem 1.5rem; transition: all 0.3s ease; background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.08)); flex: 1; min-width: 200px; max-width: 250px; position: relative; overflow: hidden;" onmouseover="this.style.borderColor='#10b981'; this.style.transform='translateY(-5px)'; this.style.boxShadow='0 15px 35px rgba(16, 185, 129, 0.25)'" onmouseout="this.style.borderColor='#e9ecef'; this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.1)'">
+                        <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, #10b981, #059669);"></div>
+                        <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.25rem;">
+                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);">
+                                <iconify-icon icon="material-symbols:school" style="font-size: 2.2rem; color: white;"></iconify-icon>
+                            </div>
+                            <div>
+                                <h4 style="margin: 0; color: #1e293b; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.3px;">Teaching Assistant</h4>
+                                <p style="margin: 0.5rem 0 0; color: #64748b; font-size: 0.95rem; line-height: 1.4;">Assistant with supplementary materials and additional support</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding: 1.5rem 2rem 2.5rem; text-align: center; background: #f8fafc;">
+                <button onclick="closeTeacherTAModal()" style="background: #6c757d; color: white; border: none; padding: 0.875rem 2rem; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 1rem; box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);" onmouseover="this.style.background='#5a6268'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(108, 117, 125, 0.4)'" onmouseout="this.style.background='#6c757d'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(108, 117, 125, 0.3)'">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>

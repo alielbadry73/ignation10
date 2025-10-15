@@ -761,21 +761,21 @@
             if (location.files) {
                 location.files.forEach(file => {
                     const icon = getFileIcon(file.type);
-                    const size = formatFileSize(file.size || 0);
+                    const pdfIcon = file.pdfUrl ? '<iconify-icon icon="material-symbols:picture-as-pdf" style="color: #dc2626; font-size: 1.2rem; margin-left: 0.5rem;" title="PDF Available"></iconify-icon>' : '';
                     html += `
                         <div class="file-item" ondblclick="openFile(${file.id})" onclick="selectItem('file-${file.id}', event)" data-id="file-${file.id}" oncontextmenu="showContextMenu(event, 'file', ${file.id})">
                             <div class="item-actions">
                                 <button class="action-btn edit" onclick="event.stopPropagation(); editFile(${file.id})">
                                     <iconify-icon icon="material-symbols:edit"></iconify-icon>
                                 </button>
-                                ${file.size === 0 ? '<button class="action-btn fix" onclick="event.stopPropagation(); fixFileSize(' + file.id + ')" title="Fix file size"><iconify-icon icon="material-symbols:build"></iconify-icon></button>' : ''}
+                                ${file.pdfUrl ? '<button class="action-btn pdf" onclick="event.stopPropagation(); openPdf(\'' + file.pdfUrl + '\')" title="Open PDF"><iconify-icon icon="material-symbols:picture-as-pdf"></iconify-icon></button>' : ''}
                                 <button class="action-btn delete" onclick="event.stopPropagation(); deleteItem('file', ${file.id})">
                                     <iconify-icon icon="material-symbols:delete"></iconify-icon>
                                 </button>
                             </div>
                             <div class="folder-icon">${icon}</div>
-                            <div class="file-name">${file.name}</div>
-                            <div class="file-info">${size}</div>
+                            <div class="file-name">${file.name}${pdfIcon}</div>
+                            <div class="file-info">${file.type === 'video' ? '🎥 Video' : '📄 PDF'}</div>
                         </div>
                     `;
                 });
@@ -814,9 +814,120 @@
             const location = getCurrentLocation();
             const file = location.files.find(f => f.id === fileId);
             if (file && file.url) {
-                window.open(file.url, '_blank');
+                if (file.type === 'video') {
+                    showVideoOptions(file);
+                } else {
+                    window.open(file.url, '_blank');
+                }
             } else {
                 alert('File URL not found');
+            }
+        }
+        
+        // Show video opening options
+        function showVideoOptions(file) {
+            const modalHtml = `
+                <div class="modal-overlay" id="videoOptionsModal" onclick="if(event.target.id==='videoOptionsModal') closeVideoOptions()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 500px;">
+                        <div class="modal-header">
+                            <h3>📹 Open Video</h3>
+                            <button class="modal-close" onclick="closeVideoOptions()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>${file.name}</strong></p>
+                            <p style="color: #666; margin-bottom: 1.5rem;">How would you like to open this video?</p>
+                            <div class="video-options" style="display: flex; flex-direction: column; gap: 1rem;">
+                                <button class="btn btn-primary" onclick="openVideoInNewTab('${file.url}')" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; justify-content: center;">
+                                    <iconify-icon icon="material-symbols:open-in-new"></iconify-icon>
+                                    Open in New Tab
+                                </button>
+                                <button class="btn btn-outline-primary" onclick="openVideoInCurrentTab('${file.url}')" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; justify-content: center;">
+                                    <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                                    Open in Current Tab
+                                </button>
+                                ${file.pdfUrl ? `
+                                    <button class="btn btn-outline-danger" onclick="openPdf('${file.pdfUrl}')" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; justify-content: center;">
+                                        <iconify-icon icon="material-symbols:picture-as-pdf"></iconify-icon>
+                                        View PDF Notes
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn-cancel" onclick="closeVideoOptions()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+        
+        function closeVideoOptions() {
+            const modal = document.getElementById('videoOptionsModal');
+            if (modal) modal.remove();
+        }
+        
+        function openVideoInNewTab(url) {
+            window.open(url, '_blank');
+            closeVideoOptions();
+        }
+        
+        function openVideoInCurrentTab(url) {
+            window.location.href = url;
+        }
+        
+        function openPdf(pdfUrl) {
+            if (pdfUrl) {
+                window.open(pdfUrl, '_blank');
+            }
+        }
+
+        // Handle PDF file upload
+        function handlePdfUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                // Check file type
+                if (file.type !== 'application/pdf') {
+                    alert('Please select a PDF file.');
+                    input.value = '';
+                    return;
+                }
+                
+                // Check file size (limit to 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size must be less than 10MB.');
+                    input.value = '';
+                    return;
+                }
+                
+                // Convert file to base64 and store in localStorage
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Content = e.target.result.split(',')[1]; // Remove data:application/pdf;base64, prefix
+                    const fileData = {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        content: base64Content,
+                        uploadedAt: new Date().toISOString()
+                    };
+                    
+                    localStorage.setItem(`uploaded_pdf_${file.name}`, JSON.stringify(fileData));
+                    
+                    // Show upload success message
+                    const container = input.closest('.form-group');
+                    const infoDiv = container.querySelector('.uploaded-pdf-info');
+                    const filenameSpan = container.querySelector('.pdf-filename');
+                    
+                    if (infoDiv && filenameSpan) {
+                        filenameSpan.textContent = file.name;
+                        infoDiv.style.display = 'block';
+                    }
+                    
+                    // Store the file for later processing
+                    input.uploadedFile = file;
+                };
+                reader.readAsDataURL(file);
             }
         }
 
@@ -1029,15 +1140,15 @@
                                     </small>
                                 </div>
                                 <div class="form-group">
-                                    <label>File Size (optional)</label>
-                                    <input type="text" class="file-size form-control" placeholder="e.g., 25 MB, 1.2 GB, 500 KB" oninput="validateFileSize(this)">
+                                    <label>PDF File (optional - for accompanying materials)</label>
+                                    <input type="file" class="pdf-upload form-control" accept=".pdf" onchange="handlePdfUpload(this)">
                                     <small style="color: #666; margin-top: 0.25rem; display: block;">
-                                        Examples: 25 MB, 1.2 GB, 500 KB, 2 GB
+                                        Upload PDF file from your device
                                     </small>
-                                </div>
-                                <div class="form-group">
-                                    <label>Duration (for videos, optional)</label>
-                                    <input type="text" class="file-duration form-control" placeholder="e.g., 45 minutes">
+                                    <div class="uploaded-pdf-info" style="display: none; margin-top: 0.5rem;">
+                                        <span class="badge bg-success">PDF uploaded</span>
+                                        <span class="pdf-filename" style="margin-left: 0.5rem;"></span>
+                                    </div>
                                 </div>
                             </div>
                             </div>
@@ -1087,15 +1198,15 @@
                         <input type="url" class="file-url form-control" placeholder="https://...">
                     </div>
                     <div class="form-group">
-                        <label>File Size (optional)</label>
-                        <input type="text" class="file-size form-control" placeholder="e.g., 25 MB, 1.2 GB, 500 KB" oninput="validateFileSize(this)">
+                        <label>PDF File (optional - for accompanying materials)</label>
+                        <input type="file" class="pdf-upload form-control" accept=".pdf" onchange="handlePdfUpload(this)">
                         <small style="color: #666; margin-top: 0.25rem; display: block;">
-                            Examples: 25 MB, 1.2 GB, 500 KB, 2 GB
+                            Upload PDF file from your device
                         </small>
-                    </div>
-                    <div class="form-group">
-                        <label>Duration (for videos, optional)</label>
-                        <input type="text" class="file-duration form-control" placeholder="e.g., 45 minutes">
+                        <div class="uploaded-pdf-info" style="display: none; margin-top: 0.5rem;">
+                            <span class="badge bg-success">PDF uploaded</span>
+                            <span class="pdf-filename" style="margin-left: 0.5rem;"></span>
+                        </div>
                     </div>
                 </div>
             `;
@@ -1120,8 +1231,8 @@
                 const fileName = form.querySelector('.file-name').value.trim();
                 const fileUrl = form.querySelector('.file-url').value.trim();
                 const fileType = form.querySelector('.file-type').value;
-                const fileSize = form.querySelector('.file-size').value.trim();
-                const fileDuration = form.querySelector('.file-duration').value.trim();
+                const pdfUpload = form.querySelector('.pdf-upload');
+                const pdfUrl = pdfUpload && pdfUpload.uploadedFile ? `uploaded:${pdfUpload.uploadedFile.name}` : '';
                 
                 if (!fileName || !fileUrl) {
                     errors.push(`File #${index + 1}: Missing name or URL`);
@@ -1133,8 +1244,7 @@
                     name: fileName,
                     type: fileType,
                     url: fileUrl,
-                    size: parseFileSize(fileSize),
-                    duration: fileDuration,
+                    pdfUrl: pdfUrl || null,
                     created: new Date().toISOString()
                 };
                 
@@ -1336,12 +1446,16 @@
                             <input type="url" id="editFileUrl" value="${file.url || ''}" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>File Size</label>
-                            <input type="text" id="editFileSize" value="${sizeStr}" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Duration (for videos)</label>
-                            <input type="text" id="editFileDuration" value="${file.duration || ''}" class="form-control">
+                            <label>PDF File (optional - for accompanying materials)</label>
+                            <input type="file" id="editFilePdfUpload" accept=".pdf" class="form-control" onchange="handlePdfUpload(this)">
+                            <small style="color: #666; margin-top: 0.25rem; display: block;">
+                                Upload new PDF file from your device
+                            </small>
+                            ${file.pdfUrl ? `
+                                <div style="margin-top: 0.5rem;">
+                                    <span class="badge bg-info">Current PDF: ${file.pdfUrl.split('/').pop()}</span>
+                                </div>
+                            ` : ''}
                         </div>
                         <div class="modal-actions">
                             <button class="btn-cancel" onclick="closeModal()">Cancel</button>
@@ -1363,8 +1477,11 @@
             file.name = document.getElementById('editFileName').value.trim();
             file.type = document.getElementById('editFileType').value;
             file.url = document.getElementById('editFileUrl').value.trim();
-            file.size = parseFileSize(document.getElementById('editFileSize').value.trim());
-            file.duration = document.getElementById('editFileDuration').value.trim();
+            const pdfUpload = document.getElementById('editFilePdfUpload');
+            if (pdfUpload && pdfUpload.uploadedFile) {
+                file.pdfUrl = `uploaded:${pdfUpload.uploadedFile.name}`;
+            }
+            // Keep existing pdfUrl if no new file uploaded
 
             saveData();
             closeModal();

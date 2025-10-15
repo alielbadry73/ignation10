@@ -100,3 +100,15 @@ SMTP_PASS=your-password
 - Verify SMTP_FROM email address
 - Wait a few minutes for delivery
 
+
+
+
+
+
+
+
+
+
+
+
+

@@ -97,46 +97,99 @@
         }
         
         .quiz-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 3rem;
-            border-radius: 12px;
-            margin-bottom: 2rem;
-            text-align: center;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+            position: relative;
+            overflow: hidden;
         }
         
-        .quiz-title {
-            font-size: 3rem;
+        .quiz-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .quiz-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .hero-left {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-left h2 {
+            font-size: 1.75rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            color: white;
+            margin: 0 0 0.35rem 0;
+            letter-spacing: -0.5px;
         }
         
-        .quiz-subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
+        .hero-left p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+            font-weight: 400;
         }
         
         .quiz-stats {
             display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin-top: 2rem;
+            gap: 2.5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
         
         .stat-item {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
         }
         
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
         }
         
         .stat-label {
-            font-size: 1rem;
-            opacity: 0.8;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .quiz-grid {
@@ -300,52 +353,99 @@
         
         .quiz-filters {
             background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid #f1f5f9;
+        }
+        
+        .filters-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .filters-left {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .filters-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filters-label iconify-icon {
+            color: #667eea;
+            font-size: 1.1rem;
         }
         
         .filter-tabs {
             display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            background: #f8fafc;
+            padding: 0.35rem;
+            border-radius: 10px;
         }
         
         .filter-tab {
-            padding: 0.5rem 1rem;
+            padding: 0.45rem 1.25rem;
             border: none;
             background: transparent;
-            color: #666;
+            color: #64748b;
             font-weight: 500;
-            border-radius: 6px;
+            font-size: 0.85rem;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .filter-tab.active {
-            background: #667eea;
-            color: white;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
         }
         
-        .filter-tab:hover {
-            background: #f8f9fa;
-        }
-        
-        .filter-tab.active:hover {
-            background: #5a6fd8;
+        .filter-tab:hover:not(.active) {
+            color: #475569;
+            background: rgba(255, 255, 255, 0.5);
         }
         
         .search-box {
             position: relative;
+            min-width: 320px;
         }
         
         .search-input {
             width: 100%;
-            padding: 0.75rem 1rem 0.75rem 3rem;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 0.65rem 1.25rem 0.65rem 2.75rem;
+            border: 2px solid #f1f5f9;
+            background: #f8fafc;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            font-weight: 400;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.08);
+        }
+        
+        .search-input::placeholder {
+            color: #94a3b8;
+            font-weight: 400;
         }
         
         .search-icon {
@@ -353,14 +453,19 @@
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
-            color: #666;
+            color: #94a3b8;
+            font-size: 1.15rem;
+        }
+        
+        .search-input:focus ~ .search-icon {
+            color: #667eea;
         }
     </style>
 </head>
 <body>
     <!-- Quiz Header -->
     <div class="quiz-header">
-        <a href="course-mathematics.html" class="quiz-logo">
+        <a href="mathematics-dashboard.html" class="quiz-logo">
             <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
             <span style="font-weight: 700; font-size: 1.25rem;">Mathematics Quiz</span>
             <span class="subject-badge">Mathematics IGCSE</span>
@@ -379,6 +484,10 @@
                 <iconify-icon icon="material-symbols:assignment"></iconify-icon>
                 Homework
             </a>
+            <a href="course-assistants-chat.html?course=mathematics" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">
+                <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                Ask Assistant
+            </a>
         </div>
     </div>
 
@@ -386,38 +495,43 @@
     <div class="main-content">
         <!-- Quiz Hero Section -->
         <div class="quiz-hero">
-            <div class="quiz-title">Mathematics Quiz</div>
-            <div class="quiz-subtitle">Test your mathematics knowledge with interactive quizzes and practice problems</div>
-            
+            <div class="hero-left">
+                <h2>Mathematics Quizzes</h2>
+                <p>Test your understanding across all topics</p>
+            </div>
             <div class="quiz-stats">
                 <div class="stat-item">
                     <div class="stat-number" id="totalQuizzes">0</div>
-                    <div class="stat-label">Available Quizzes</div>
+                    <div class="stat-label">Total</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number" id="completedQuizzes">0</div>
-                    <div class="stat-label">Completed</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="averageScore">0%</div>
-                    <div class="stat-label">Average Score</div>
+                    <div class="stat-number" id="pendingQuizzes">0</div>
+                    <div class="stat-label">Pending</div>
                 </div>
             </div>
         </div>
         
         <!-- Quiz Filters -->
         <div class="quiz-filters">
-            <div class="filter-tabs">
-                <button class="filter-tab active" onclick="filterQuizzes('all')">All Quizzes</button>
-                <button class="filter-tab" onclick="filterQuizzes('algebra')">Algebra</button>
-                <button class="filter-tab" onclick="filterQuizzes('geometry')">Geometry</button>
-                <button class="filter-tab" onclick="filterQuizzes('calculus')">Calculus</button>
-                <button class="filter-tab" onclick="filterQuizzes('statistics')">Statistics</button>
-            </div>
-            
-            <div class="search-box">
-                <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
-                <input type="text" class="search-input" placeholder="Search quizzes..." id="quizSearch">
+            <div class="filters-top">
+                <div class="filters-left">
+                    <span class="filters-label">
+                        <iconify-icon icon="mdi:filter-variant"></iconify-icon>
+                        Topics
+                    </span>
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" onclick="filterQuizzes('all')">All</button>
+                        <button class="filter-tab" onclick="filterQuizzes('algebra')">Algebra</button>
+                        <button class="filter-tab" onclick="filterQuizzes('geometry')">Geometry</button>
+                        <button class="filter-tab" onclick="filterQuizzes('calculus')">Calculus</button>
+                        <button class="filter-tab" onclick="filterQuizzes('statistics')">Statistics</button>
+                    </div>
+                </div>
+                
+                <div class="search-box">
+                    <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
+                    <input type="text" class="search-input" placeholder="Search quizzes..." id="quizSearch">
+                </div>
             </div>
         </div>
         
@@ -789,17 +903,28 @@
                     </div>
                     
                     <div class="quiz-actions">
-                        ${quiz.completed ? `
-                            <button class="btn btn-outline" onclick="reviewQuiz(${quiz.id})">
-                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
-                                Review (${quiz.score}%)
-                            </button>
-                            <button class="btn btn-primary" onclick="retakeQuiz(${quiz.id})">
-                                <iconify-icon icon="material-symbols:refresh"></iconify-icon>
-                                Retake
-                            </button>
-                        ` : `
-                            <button class="btn btn-primary" onclick="startQuiz(${quiz.id})">
+                        ${quiz.completed ? 
+                            (quiz.status === 'pending' || quiz.gradingStatus === 'pending') ? `
+                                <div class="alert alert-info mb-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                    <iconify-icon icon="material-symbols:pending" class="me-1"></iconify-icon>
+                                    <strong>Status:</strong> Waiting for assistant correction
+                                </div>
+                                <button class="btn btn-outline" onclick="reviewQuiz('${quiz.id}')">
+                                    <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                    View Submission
+                                </button>
+                            ` : `
+                                <button class="btn btn-outline" onclick="reviewQuiz('${quiz.id}')">
+                                    <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                    Review (${quiz.score}%)
+                                </button>
+                                <button class="btn btn-primary" onclick="retakeQuiz('${quiz.id}')">
+                                    <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                                    Retake
+                                </button>
+                            `
+                        : `
+                            <button class="btn btn-primary" onclick="startQuiz('${quiz.id}')">
                                 <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
                                 Start Quiz
                             </button>
@@ -850,12 +975,10 @@
             );
             const totalQuizzes = publishedQuizzes.length;
             const completedQuizzes = publishedQuizzes.filter(q => q.completed).length;
-            const averageScore = completedQuizzes > 0 ? 
-                Math.round(publishedQuizzes.filter(q => q.completed).reduce((sum, q) => sum + q.score, 0) / completedQuizzes) : 0;
+            const pendingQuizzes = totalQuizzes - completedQuizzes;
             
             document.getElementById('totalQuizzes').textContent = totalQuizzes;
-            document.getElementById('completedQuizzes').textContent = completedQuizzes;
-            document.getElementById('averageScore').textContent = averageScore + '%';
+            document.getElementById('pendingQuizzes').textContent = pendingQuizzes;
         }
 
         let currentQuiz = null;
@@ -1134,15 +1257,8 @@
         }
 
         function askAssistant() {
-            if (!currentQuiz || !currentQuiz.questions) return;
-            
-            const question = currentQuiz.questions[currentQuestionIndex];
-            const questionText = question.text;
-            const quizTitle = currentQuiz.title;
-            
-            // Redirect to ask-assistants page with question context
-            const assistantUrl = `ask-assistants.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(quizTitle)}&subject=mathematics`;
-            window.open(assistantUrl, '_blank');
+            // Redirect to course assistants chat page
+            window.location.href = 'course-assistants-chat.html?course=mathematics';
         }
 
         function askCommunity() {
@@ -1169,34 +1285,45 @@
                 if (question.type === 'multiple-choice') {
                     if (userAnswers[index] === question.correctAnswer) {
                         score += question.points || 1;
+                    } else {
+                        // Student answered incorrectly - create wrong question entry
+                        createWrongQuestionEntry(question, index, 'quiz');
                     }
-                } else {
+                } else if (question.type === 'text' || question.type === 'file') {
                     // For text and file questions, no automatic scoring - manual grading required
                     hasManualGradingQuestions = true;
                 }
             });
-            
-            // If there are text or file questions, push to pending grading
-            if (hasManualGradingQuestions) {
-                pushToPendingGrading('quiz');
-            }
             
             const percentage = Math.round((score / totalPoints) * 100);
             const timeSpent = Math.floor((new Date() - startTime) / 60000);
             
             const quizIndex = quizzes.findIndex(q => q.id === currentQuiz.id);
             if (quizIndex !== -1) {
-                quizzes[quizIndex].status = 'completed';
-                quizzes[quizIndex].completed = true;
-                quizzes[quizIndex].score = percentage;
+                // Set status based on whether manual grading is needed
+                if (hasManualGradingQuestions) {
+                    quizzes[quizIndex].status = 'pending';
+                    quizzes[quizIndex].gradingStatus = 'pending';
+                    quizzes[quizIndex].completed = true; // Submitted but awaiting grading
+                    quizzes[quizIndex].score = null; // No score yet
+                    
+                    // Push to pending grading
+                    pushToPendingGrading('quiz');
+                } else {
+                    quizzes[quizIndex].status = 'completed';
+                    quizzes[quizIndex].gradingStatus = 'graded';
+                    quizzes[quizIndex].completed = true;
+                    quizzes[quizIndex].score = percentage;
+                    
+                    // Update student points for auto-graded quizzes
+                    updateStudentPoints('student_001', 'quiz', percentage, currentQuiz.questions ? currentQuiz.questions.length : 5);
+                }
+                
                 quizzes[quizIndex].timeSpent = timeSpent;
                 quizzes[quizIndex].completedAt = new Date().toISOString();
                 quizzes[quizIndex].answers = userAnswers;
                 quizzes[quizIndex].studentId = 'student_001'; // Default student ID for now
                 localStorage.setItem('studentQuizzes', JSON.stringify(quizzes));
-                
-                // Update student points
-                updateStudentPoints('student_001', 'quiz', percentage, currentQuiz.questions ? currentQuiz.questions.length : 5);
             }
             
             if (timerInterval) {
@@ -1205,8 +1332,53 @@
             }
             
             bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
-            alert(`Quiz completed!\nScore: ${percentage}%\nTime spent: ${timeSpent} minutes`);
+            
+            if (hasManualGradingQuestions) {
+                alert(`Quiz submitted!\nYour answers are being reviewed.\nStatus: Waiting for assistant correction\nTime spent: ${timeSpent} minutes`);
+            } else {
+                alert(`Quiz completed!\nScore: ${percentage}%\nTime spent: ${timeSpent} minutes`);
+            }
             loadQuizzes();
+        }
+
+        // Function to automatically create wrong question entries
+        function createWrongQuestionEntry(question, questionIndex, activityType) {
+            const wrongQuestion = {
+                id: 'wrong_' + Date.now() + '_' + questionIndex,
+                questionId: question.id,
+                questionText: question.text, // This is the key field
+                studentAnswer: question.options && question.options[userAnswers[questionIndex]] ? 
+                              question.options[userAnswers[questionIndex]] : 
+                              userAnswers[questionIndex] || 'No answer provided',
+                correctAnswer: question.options && question.options[question.correctAnswer] ? 
+                              question.options[question.correctAnswer] : 
+                              question.correctAnswer || 'Correct answer not provided',
+                course: 'mathematics', // Get from quiz context
+                activityType: activityType + 's', // quizzes, assignments, exams
+                activityTitle: currentQuiz.title, // Use quiz title like "yf"
+                questionType: question.type,
+                studentName: 'Student',
+                studentId: 'student_001',
+                difficulty: question.difficulty || 'medium',
+                notes: 'Automatically created from incorrect quiz answer',
+                attempts: 1,
+                createdAt: new Date().toISOString(),
+                source: activityType,
+                subject: 'mathematics',
+                // Multiple choice specific fields
+                options: question.options || null,
+                userAnswer: userAnswers[questionIndex] || null,
+                correctAnswerIndex: question.correctAnswer || null,
+                // Ensure proper categorization
+                inActivityFolder: true
+            };
+
+            // Save to wrong questions collection
+            const wrongQuestions = JSON.parse(localStorage.getItem('mathematicsWrongQuestions') || '[]');
+            wrongQuestions.push(wrongQuestion);
+            localStorage.setItem('mathematicsWrongQuestions', JSON.stringify(wrongQuestions));
+            
+            console.log('Created wrong question entry:', wrongQuestion);
         }
 
         function pushToPendingGrading(type) {

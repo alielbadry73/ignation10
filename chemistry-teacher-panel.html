@@ -607,16 +607,6 @@
                             <textarea class="form-control" id="assignmentDescription" rows="4" placeholder="Describe the assignment requirements..."></textarea>
                         </div>
                         
-                        <div class="form-group">
-                            <label class="form-label">Attach Files (Optional)</label>
-                            <div class="file-upload-area" onclick="document.getElementById('assignmentFiles').click()">
-                                <iconify-icon icon="material-symbols:cloud-upload" style="font-size: 2rem; color: #27ae60; margin-bottom: 1rem;"></iconify-icon>
-                                <p>Click to upload files or drag and drop</p>
-                                <small class="text-muted">PDF, DOC, DOCX, images supported</small>
-                                <input type="file" id="assignmentFiles" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display: none;">
-                            </div>
-                            <div id="fileList" class="mt-2"></div>
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -886,6 +876,506 @@
 
         function editAssignment(id) {
             alert('Edit assignment functionality coming soon!');
+        }
+    </script>
+
+    <!-- Simple Question Creator Modal -->
+    <div class="modal fade" id="simpleQuestionCreatorModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Create Chemistry Question</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="simpleQuestionForm">
+                        <!-- Question Input Section -->
+                        <div class="form-section">
+                            <h6 class="section-title">
+                                <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                                Question Content
+                            </h6>
+                            <div class="question-input-section" id="questionInputSection" onclick="document.getElementById('questionFileInput').click()">
+                                <div class="upload-area" id="uploadArea">
+                                    <iconify-icon icon="material-symbols:cloud-upload" class="upload-icon"></iconify-icon>
+                                    <div class="upload-text">Upload Images or Enter Text</div>
+                                    <div class="upload-hint">Click to upload images (each image = 1 question) or type your question below</div>
+                                </div>
+                                <input type="file" id="questionFileInput" class="file-input" accept="image/*" multiple onchange="handleQuestionFileUpload(event)">
+                                <div class="uploaded-content" id="uploadedContent">
+                                    <!-- Uploaded content will appear here -->
+                                </div>
+                            </div>
+                            <textarea class="form-control" id="questionText" rows="4" placeholder="Or type your question here..." oninput="handleTextInput()"></textarea>
+                        </div>
+
+                        <!-- Answer Type Selection -->
+                        <div class="form-section">
+                            <h6 class="section-title">
+                                <iconify-icon icon="material-symbols:settings"></iconify-icon>
+                                Answer Type
+                            </h6>
+                            <div class="answer-type-selector">
+                                <div class="answer-type-card active" data-type="bullet-points" onclick="selectAnswerType('bullet-points')">
+                                    <iconify-icon icon="material-symbols:format-list-bulleted" class="answer-type-icon"></iconify-icon>
+                                    <div class="answer-type-name">Bullet Points</div>
+                                    <div class="answer-type-description">Students answer with bullet points</div>
+                                </div>
+                                <div class="answer-type-card" data-type="file-upload" onclick="selectAnswerType('file-upload')">
+                                    <iconify-icon icon="material-symbols:upload-file" class="answer-type-icon"></iconify-icon>
+                                    <div class="answer-type-name">File Upload</div>
+                                    <div class="answer-type-description">Students upload PDF or image</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bullet Points Section -->
+                        <div class="form-section bullet-points-section show" id="bulletPointsSection">
+                            <h6 class="section-title">
+                                <iconify-icon icon="material-symbols:format-list-bulleted"></iconify-icon>
+                                Expected Key Points
+                            </h6>
+                            <div class="form-group">
+                                <label class="form-label">Add key points that students should include in their answer:</label>
+                                <div id="bulletPointsList">
+                                    <!-- Bullet points will be added here -->
+                                </div>
+                                <button type="button" class="add-bullet-btn" onclick="addBulletPoint()">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Key Point
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- File Upload Section -->
+                        <div class="form-section file-upload-section" id="fileUploadSection">
+                            <h6 class="section-title">
+                                <iconify-icon icon="material-symbols:upload-file"></iconify-icon>
+                                File Upload Settings
+                            </h6>
+                            <div class="form-group">
+                                <label class="form-label">Allowed File Types</label>
+                                <select class="form-control" id="allowedFileTypes" multiple>
+                                    <option value="pdf" selected>PDF</option>
+                                    <option value="doc">DOC</option>
+                                    <option value="docx" selected>DOCX</option>
+                                    <option value="jpg" selected>JPG</option>
+                                    <option value="png" selected>PNG</option>
+                                    <option value="gif">GIF</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Additional Settings -->
+                        <div class="form-section">
+                            <h6 class="section-title">
+                                <iconify-icon icon="material-symbols:settings"></iconify-icon>
+                                Additional Settings
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Points</label>
+                                        <input type="number" class="form-control" id="questionPoints" min="1" value="1" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question Preview -->
+                        <div class="form-section">
+                            <h6 class="section-title">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                Preview
+                            </h6>
+                            <div class="question-preview" id="questionPreview">
+                                <div class="preview-title">Question Preview</div>
+                                <div class="preview-question">Enter your question content to see a preview here.</div>
+                                <div class="preview-answer-type">Answer type: <span id="answerTypePreview">Bullet Points</span></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="resetSimpleQuestionForm()">
+                        Reset
+                    </button>
+                    <button type="button" class="btn btn-success" onclick="saveSimpleQuestion()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Add Question
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Simple Question Creator CSS -->
+    <style>
+        .form-section { margin-bottom:2rem; }
+        .section-title { font-size:1.1rem; font-weight:600; color:#333; margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem; }
+        .question-input-section { border:2px dashed #e9ecef; border-radius:12px; padding:2rem; text-align:center; transition:all 0.3s ease; cursor:pointer; margin-bottom:1rem; }
+        .question-input-section:hover { border-color:#667eea; background:rgba(102,126,234,0.05); }
+        .question-input-section.has-content { border-color:#28a745; background:rgba(40,167,69,0.05); }
+        .upload-area { display:flex; flex-direction:column; align-items:center; gap:1rem; }
+        .upload-icon { font-size:3rem; color:#667eea; }
+        .upload-text { color:#666; font-size:1.1rem; }
+        .upload-hint { color:#999; font-size:0.9rem; }
+        .file-input { display:none; }
+        .uploaded-content { display:none; margin-top:1rem; }
+        .uploaded-content.show { display:block; }
+        .uploaded-image { max-width:100%; max-height:300px; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+        .remove-content { background:#dc3545; color:white; border:none; border-radius:4px; padding:0.25rem 0.5rem; cursor:pointer; margin-top:0.5rem; }
+        .answer-type-selector { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem; }
+        .answer-type-card { border:2px solid #e9ecef; border-radius:12px; padding:1.5rem; text-align:center; cursor:pointer; transition:all 0.3s ease; background:white; }
+        .answer-type-card:hover { border-color:#667eea; transform:translateY(-2px); box-shadow:0 8px 20px rgba(102,126,234,0.15); }
+        .answer-type-card.active { border-color:#667eea; background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; }
+        .answer-type-icon { font-size:2rem; margin-bottom:0.75rem; display:block; }
+        .answer-type-name { font-weight:600; margin-bottom:0.5rem; }
+        .answer-type-description { font-size:0.875rem; opacity:0.8; }
+        .bullet-points-section { display:none; }
+        .bullet-points-section.show { display:block; }
+        .bullet-point-input { display:flex; gap:0.5rem; margin-bottom:0.5rem; }
+        .bullet-point-input input { flex:1; }
+        .add-bullet-btn { background:#667eea; color:white; border:none; border-radius:8px; padding:0.75rem 1rem; font-weight:600; cursor:pointer; transition:all 0.3s ease; display:flex; align-items:center; gap:0.5rem; }
+        .add-bullet-btn:hover { background:#5a6fd8; transform:translateY(-1px); }
+        .question-preview { background:#f8f9fa; border-radius:8px; padding:1.5rem; margin-top:1rem; }
+        .preview-title { font-weight:600; color:#333; margin-bottom:1rem; }
+        .preview-question { font-size:1.1rem; line-height:1.6; margin-bottom:1rem; }
+        .preview-answer-type { font-size:0.9rem; color:#666; font-style:italic; }
+    </style>
+
+    <!-- Simple Question Creator JavaScript -->
+    <script>
+        // Simple Question Creator Variables
+        let currentAnswerType = 'bullet-points';
+        let questionContent = {
+            type: 'text', // 'text' or 'image'
+            content: '',
+            filename: ''
+        };
+        let currentAssessmentType = null;
+
+        function initializeSimpleQuestionCreator() {
+            currentAnswerType = 'bullet-points';
+            questionContent = { type: 'text', content: '', filename: '' };
+            document.getElementById('questionText').value = '';
+            document.getElementById('questionPoints').value = '1';
+            document.getElementById('bulletPointsList').innerHTML = '';
+            document.getElementById('uploadedContent').innerHTML = '';
+            document.getElementById('uploadedContent').classList.remove('show');
+            document.getElementById('questionInputSection').classList.remove('has-content');
+            updateSimpleQuestionPreview();
+        }
+
+        function selectAnswerType(type) {
+            currentAnswerType = type;
+            document.querySelectorAll('.answer-type-card').forEach(card => card.classList.remove('active'));
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            document.getElementById('bulletPointsSection').classList.toggle('show', type === 'bullet-points');
+            document.getElementById('fileUploadSection').classList.toggle('show', type === 'file-upload');
+            
+            updateSimpleQuestionPreview();
+        }
+
+        function handleQuestionFileUpload(event) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+            
+            for (let file of files) {
+                if (!file.type.startsWith('image/')) {
+                    showToast('Please select only image files', 'error');
+                    return;
+                }
+            }
+            
+            if (files.length > 1) {
+                createMultipleQuestionsFromImages(files);
+            } else {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    questionContent = {
+                        type: 'image',
+                        content: e.target.result,
+                        filename: files[0].name
+                    };
+                    displayUploadedContent();
+                    updateSimpleQuestionPreview();
+                };
+                reader.readAsDataURL(files[0]);
+            }
+        }
+
+        function createMultipleQuestionsFromImages(files) {
+            let processedCount = 0;
+            const questions = [];
+            
+            for (let file of files) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const questionData = {
+                        id: Date.now().toString() + Math.random(),
+                        type: currentAnswerType,
+                        questionContent: {
+                            type: 'image',
+                            content: e.target.result,
+                            filename: file.name
+                        },
+                        questionText: '',
+                        points: parseInt(document.getElementById('questionPoints').value),
+                        timeLimit: null,
+                        bulletPoints: [],
+                        fileUploadSettings: {
+                            allowedTypes: Array.from(document.getElementById('allowedFileTypes').selectedOptions).map(option => option.value),
+                            maxSize: 10
+                        },
+                        createdAt: new Date().toISOString(),
+                        subject: 'chemistry'
+                    };
+                    
+                    questions.push(questionData);
+                    processedCount++;
+                    
+                    if (processedCount === files.length) {
+                        questions.forEach(q => addQuestionToAssessment(q));
+                        showToast(`${questions.length} questions created from images!`, 'success');
+                        
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('simpleQuestionCreatorModal'));
+                        modal.hide();
+                        
+                        resetSimpleQuestionForm();
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleTextInput() {
+            const text = document.getElementById('questionText').value.trim();
+            if (text) {
+                questionContent = {
+                    type: 'text',
+                    content: text,
+                    filename: ''
+                };
+                document.getElementById('questionInputSection').classList.add('has-content');
+            } else {
+                questionContent = { type: 'text', content: '', filename: '' };
+                document.getElementById('questionInputSection').classList.remove('has-content');
+            }
+            updateSimpleQuestionPreview();
+        }
+
+        function displayUploadedContent() {
+            const container = document.getElementById('uploadedContent');
+            if (questionContent.type === 'image') {
+                container.innerHTML = `
+                    <div class="uploaded-image-container">
+                        <img src="${questionContent.content}" alt="Question Image" class="uploaded-image">
+                        <button type="button" class="remove-content" onclick="removeQuestionContent()">Remove</button>
+                    </div>
+                `;
+                container.classList.add('show');
+                document.getElementById('questionInputSection').classList.add('has-content');
+            }
+        }
+
+        function removeQuestionContent() {
+            questionContent = { type: 'text', content: '', filename: '' };
+            document.getElementById('uploadedContent').innerHTML = '';
+            document.getElementById('uploadedContent').classList.remove('show');
+            document.getElementById('questionInputSection').classList.remove('has-content');
+            document.getElementById('questionFileInput').value = '';
+            updateSimpleQuestionPreview();
+        }
+
+        function addBulletPoint() {
+            const container = document.getElementById('bulletPointsList');
+            const pointCount = container.children.length + 1;
+            const pointDiv = document.createElement('div');
+            pointDiv.className = 'bullet-point-input';
+            pointDiv.innerHTML = `
+                <input type="text" class="form-control" placeholder="Key point ${pointCount}..." oninput="updateSimpleQuestionPreview()">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="correctPoint${pointCount}" onchange="updateSimpleQuestionPreview()">
+                    <label class="form-check-label" for="correctPoint${pointCount}">
+                        Correct
+                    </label>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeBulletPoint(this)">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                </button>
+            `;
+            container.appendChild(pointDiv);
+            updateSimpleQuestionPreview();
+        }
+
+        function removeBulletPoint(button) {
+            button.parentElement.remove();
+            updateSimpleQuestionPreview();
+        }
+
+        function updateSimpleQuestionPreview() {
+            const preview = document.getElementById('questionPreview');
+            const questionText = document.getElementById('questionText').value.trim();
+            const questionContentText = questionContent.content || questionText;
+            
+            if (questionContentText) {
+                preview.innerHTML = `
+                    <div class="preview-title">Question Preview</div>
+                    <div class="preview-question">${questionContentText}</div>
+                    <div class="preview-answer-type">Answer type: <span id="answerTypePreview">${currentAnswerType === 'bullet-points' ? 'Bullet Points' : 'File Upload'}</span></div>
+                `;
+            } else {
+                preview.innerHTML = `
+                    <div class="preview-title">Question Preview</div>
+                    <div class="preview-question">Enter your question content to see a preview here.</div>
+                    <div class="preview-answer-type">Answer type: <span id="answerTypePreview">Bullet Points</span></div>
+                `;
+            }
+        }
+
+        function saveSimpleQuestion() {
+            // Validate form
+            if (!questionContent.content && !document.getElementById('questionText').value.trim()) {
+                showToast('Please enter question content or upload an image', 'error');
+                return;
+            }
+            
+            // Collect form data
+            const questionData = {
+                id: Date.now().toString(),
+                type: currentAnswerType,
+                questionContent: questionContent,
+                questionText: document.getElementById('questionText').value.trim(),
+                points: parseInt(document.getElementById('questionPoints').value),
+                timeLimit: null,
+                bulletPoints: [],
+                correctBulletPoints: [],
+                fileUploadSettings: {
+                    allowedTypes: Array.from(document.getElementById('allowedFileTypes').selectedOptions).map(option => option.value),
+                    maxSize: 10
+                },
+                createdAt: new Date().toISOString(),
+                subject: 'chemistry'
+            };
+            
+            // Collect bullet points if applicable
+            if (currentAnswerType === 'bullet-points') {
+                document.querySelectorAll('#bulletPointsList input[type="text"]').forEach((input, index) => {
+                    if (input.value.trim()) {
+                        questionData.bulletPoints.push(input.value.trim());
+                        
+                        // Check if this point is marked as correct
+                        const correctCheckbox = document.getElementById(`correctPoint${index + 1}`);
+                        if (correctCheckbox && correctCheckbox.checked) {
+                            questionData.correctBulletPoints.push(input.value.trim());
+                        }
+                    }
+                });
+            }
+            
+            // Add question to current assessment
+            addQuestionToAssessment(questionData);
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('simpleQuestionCreatorModal'));
+            modal.hide();
+            
+            // Reset form
+            resetSimpleQuestionForm();
+            
+            showToast('Question added successfully!', 'success');
+        }
+
+        function resetSimpleQuestionForm() {
+            document.getElementById('simpleQuestionForm').reset();
+            document.getElementById('bulletPointsList').innerHTML = '';
+            document.getElementById('uploadedContent').innerHTML = '';
+            document.getElementById('uploadedContent').classList.remove('show');
+            document.getElementById('questionInputSection').classList.remove('has-content');
+            questionContent = { type: 'text', content: '', filename: '' };
+            currentAnswerType = 'bullet-points';
+            document.querySelectorAll('.answer-type-card').forEach(card => card.classList.remove('active'));
+            document.querySelector('[data-type="bullet-points"]').classList.add('active');
+            document.getElementById('bulletPointsSection').classList.add('show');
+            document.getElementById('fileUploadSection').classList.remove('show');
+            updateSimpleQuestionPreview();
+        }
+
+        function addQuestionToAssessment(questionData) {
+            if (currentAssessmentType === 'exam') {
+                addQuestionToExam(questionData);
+            } else if (currentAssessmentType === 'assignment') {
+                addQuestionToAssignment(questionData);
+            }
+        }
+
+        function addQuestionToExam(questionData) {
+            const questionsContainer = document.getElementById('questionsContainer');
+            const questionElement = createQuestionElement(questionData, 'exam');
+            questionsContainer.appendChild(questionElement);
+        }
+
+        function addQuestionToAssignment(questionData) {
+            const questionsContainer = document.getElementById('assignmentQuestions');
+            const questionElement = createQuestionElement(questionData, 'assignment');
+            questionsContainer.appendChild(questionElement);
+        }
+
+        function createQuestionElement(questionData, assessmentType) {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-item';
+            questionDiv.dataset.questionData = JSON.stringify(questionData);
+            questionDiv.innerHTML = `
+                <div class="question-header">
+                    <span class="question-number">Question ${document.querySelectorAll('.question-item').length + 1}</span>
+                    <div class="question-actions">
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeQuestion('${questionData.id}', '${assessmentType}')">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="question-content">
+                    ${questionData.questionContent.type === 'image' ? 
+                        `<img src="${questionData.questionContent.content}" alt="Question Image" style="max-width: 100%; max-height: 200px; border-radius: 8px;">` :
+                        `<p>${questionData.questionText || questionData.questionContent.content}</p>`
+                    }
+                    <div class="question-meta">
+                        <span class="question-type">${questionData.type}</span>
+                        <span class="question-points">${questionData.points} points</span>
+                    </div>
+                </div>
+            `;
+            return questionDiv;
+        }
+
+        function removeQuestion(questionId, assessmentType) {
+            const questionElement = document.querySelector(`[data-question-data*="${questionId}"]`);
+            if (questionElement) {
+                questionElement.remove();
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast-notification ${type}`;
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <iconify-icon icon="material-symbols:${type === 'success' ? 'check-circle' : 'error'}"></iconify-icon>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => { if (toast.parentNode) toast.parentNode.removeChild(toast); }, 5000);
+        }
+
+        // Override the existing addQuestion function to use the modal
+        function addQuestion() {
+            currentAssessmentType = 'exam'; // Default to exam, can be changed based on context
+            const modal = new bootstrap.Modal(document.getElementById('simpleQuestionCreatorModal'));
+            modal.show();
+            initializeSimpleQuestionCreator();
         }
     </script>
 </body>

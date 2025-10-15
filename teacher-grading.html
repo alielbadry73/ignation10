@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Grading Interface - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .container-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .submission-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .submission-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            transform: translateY(-2px);
+        }
+
+        .submission-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .submission-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .subject-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-mathematics {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-physics {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .badge-english {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .question-section {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .student-answer {
+            background: white;
+            padding: 1rem;
+            border-radius: 6px;
+            border-left: 3px solid #ffc107;
+            margin: 0.5rem 0;
+        }
+
+        .grading-input {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        .btn-grade {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-grade:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .filter-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            margin: 0.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .no-submissions {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+
+        .feedback-textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            resize: vertical;
+        }
+
+        .points-input {
+            width: 100px;
+            padding: 0.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .submission-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container-main">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="mb-2">Teacher Grading Interface</h1>
+                    <p class="mb-0">Review and grade student submissions</p>
+                </div>
+                <a href="index.html" class="btn btn-light">
+                    <iconify-icon icon="material-symbols:home"></iconify-icon>
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-main">
+        <!-- Stats Section -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stat-number" id="totalPending">0</div>
+                    <div class="stat-label">Total Pending</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stat-number" id="mathPending">0</div>
+                    <div class="stat-label">Mathematics</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stat-number" id="physicsPending">0</div>
+                    <div class="stat-label">Physics</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stat-number" id="englishPending">0</div>
+                    <div class="stat-label">English</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filter-section">
+            <h5 class="mb-3">Filter Submissions</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Subject:</label>
+                    <div>
+                        <button class="filter-btn active" data-filter="subject" data-value="all">All Subjects</button>
+                        <button class="filter-btn" data-filter="subject" data-value="mathematics">Mathematics</button>
+                        <button class="filter-btn" data-filter="subject" data-value="physics">Physics</button>
+                        <button class="filter-btn" data-filter="subject" data-value="english">English</button>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Type:</label>
+                    <div>
+                        <button class="filter-btn active" data-filter="type" data-value="all">All Types</button>
+                        <button class="filter-btn" data-filter="type" data-value="assignment">Assignments</button>
+                        <button class="filter-btn" data-filter="type" data-value="quiz">Quizzes</button>
+                        <button class="filter-btn" data-filter="type" data-value="exam">Exams</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submissions List -->
+        <div id="submissionsList"></div>
+    </div>
+
+    <!-- Grading Modal -->
+    <div class="modal fade" id="gradingModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gradingModalTitle">Grade Submission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="gradingModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn-grade" onclick="submitGrade()">
+                        <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                        Submit Grade
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+        let allSubmissions = [];
+        let currentSubmission = null;
+        let currentFilters = { subject: 'all', type: 'all' };
+
+        // Load all pending submissions
+        function loadSubmissions() {
+            allSubmissions = [];
+
+            // Load from all sources
+            const sources = [
+                { key: 'assignmentSubmissions', type: 'assignment', subject: 'mathematics' },
+                { key: 'quizSubmissions', type: 'quiz', subject: 'mathematics' },
+                { key: 'examSubmissions', type: 'exam', subject: 'mathematics' },
+                { key: 'physicsAssignmentSubmissions', type: 'assignment', subject: 'physics' },
+                { key: 'physicsQuizSubmissions', type: 'quiz', subject: 'physics' },
+                { key: 'physicsExamSubmissions', type: 'exam', subject: 'physics' },
+                { key: 'englishAssignmentSubmissions', type: 'assignment', subject: 'english' },
+                { key: 'englishQuizSubmissions', type: 'quiz', subject: 'english' },
+                { key: 'englishExamSubmissions', type: 'exam', subject: 'english' }
+            ];
+
+            sources.forEach(source => {
+                const items = JSON.parse(localStorage.getItem(source.key) || '[]');
+                items.forEach(item => {
+                    if (item.status === 'pending') {
+                        allSubmissions.push({
+                            ...item,
+                            type: source.type,
+                            subject: source.subject || item.subject,
+                            storageKey: source.key
+                        });
+                    }
+                });
+            });
+
+            updateStats();
+            displaySubmissions();
+        }
+
+        function updateStats() {
+            document.getElementById('totalPending').textContent = allSubmissions.length;
+            document.getElementById('mathPending').textContent = allSubmissions.filter(s => s.subject === 'mathematics').length;
+            document.getElementById('physicsPending').textContent = allSubmissions.filter(s => s.subject === 'physics').length;
+            document.getElementById('englishPending').textContent = allSubmissions.filter(s => s.subject === 'english').length;
+        }
+
+        function displaySubmissions() {
+            let filtered = allSubmissions.filter(sub => {
+                const subjectMatch = currentFilters.subject === 'all' || sub.subject === currentFilters.subject;
+                const typeMatch = currentFilters.type === 'all' || sub.type === currentFilters.type;
+                return subjectMatch && typeMatch;
+            });
+
+            const listContainer = document.getElementById('submissionsList');
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="no-submissions">
+                        <iconify-icon icon="material-symbols:inbox" style="font-size: 4rem; color: #ddd;"></iconify-icon>
+                        <h4 class="mt-3">No Pending Submissions</h4>
+                        <p>All submissions have been graded!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            listContainer.innerHTML = filtered.map(submission => `
+                <div class="submission-card">
+                    <div class="submission-header">
+                        <div>
+                            <div class="submission-title">${submission.assignmentTitle || submission.quizTitle || submission.examTitle || 'Untitled'}</div>
+                            <div class="mt-2">
+                                <span class="subject-badge badge-${submission.subject}">${submission.subject.toUpperCase()}</span>
+                                <span class="badge bg-secondary ms-2">${submission.type.toUpperCase()}</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-grade" onclick="openGrading('${submission.id}')">
+                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            Grade
+                        </button>
+                    </div>
+                    <div class="submission-meta">
+                        <div><iconify-icon icon="material-symbols:person"></iconify-icon> ${submission.studentName || 'Student'}</div>
+                        <div><iconify-icon icon="material-symbols:schedule"></iconify-icon> Submitted: ${new Date(submission.submittedAt).toLocaleString()}</div>
+                        <div><iconify-icon icon="material-symbols:quiz"></iconify-icon> ${submission.questions ? submission.questions.length : 0} Questions</div>
+                        <div><iconify-icon icon="material-symbols:star"></iconify-icon> ${submission.totalPoints || 0} Points</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openGrading(submissionId) {
+            currentSubmission = allSubmissions.find(s => s.id === submissionId);
+            if (!currentSubmission) return;
+
+            const modalTitle = document.getElementById('gradingModalTitle');
+            const modalBody = document.getElementById('gradingModalBody');
+
+            modalTitle.textContent = `Grade: ${currentSubmission.assignmentTitle || currentSubmission.quizTitle || currentSubmission.examTitle || 'Submission'}`;
+
+            let questionsHtml = currentSubmission.questions.map((question, index) => {
+                const hasTextOrFile = question.type === 'text' || question.type === 'file';
+                const userAnswer = question.userAnswer || '';
+
+                return `
+                    <div class="question-section">
+                        <div class="question-text">Question ${index + 1}: ${question.text}</div>
+                        <div class="mt-2">
+                            <strong>Type:</strong> ${question.type}
+                            <strong class="ms-3">Points:</strong> ${question.points || 1}
+                        </div>
+                        ${question.type === 'multiple-choice' ? `
+                            <div class="mt-2">
+                                <strong>Student Answer:</strong> 
+                                <span class="${question.userAnswer === question.correctAnswer ? 'text-success' : 'text-danger'}">
+                                    ${question.options ? question.options[question.userAnswer] : question.userAnswer}
+                                    ${question.userAnswer === question.correctAnswer ? '✓ Correct' : '✗ Incorrect'}
+                                </span>
+                            </div>
+                            ${question.userAnswer !== question.correctAnswer ? `
+                                <div class="mt-1"><strong>Correct Answer:</strong> ${question.options ? question.options[question.correctAnswer] : question.correctAnswer}</div>
+                            ` : ''}
+                        ` : `
+                            <div class="student-answer">
+                                <strong>Student Answer:</strong>
+                                <div class="mt-2">${userAnswer || 'No answer provided'}</div>
+                            </div>
+                            ${question.sampleAnswer ? `
+                                <div class="mt-2 p-2 bg-light rounded">
+                                    <strong>Sample Answer:</strong>
+                                    <div class="mt-1">${question.sampleAnswer}</div>
+                                </div>
+                            ` : ''}
+                            <div class="grading-input">
+                                <label class="form-label mb-0">Points Awarded:</label>
+                                <input type="number" class="points-input" id="points_${index}" 
+                                       min="0" max="${question.points || 1}" 
+                                       value="${question.awardedPoints || 0}"
+                                       ${!hasTextOrFile ? 'disabled' : ''}>
+                                <span>/ ${question.points || 1}</span>
+                            </div>
+                            ${hasTextOrFile ? `
+                                <div class="mt-3">
+                                    <label class="form-label fw-bold">Feedback:</label>
+                                    <textarea class="feedback-textarea" id="feedback_${index}" 
+                                              placeholder="Provide feedback for the student...">${question.feedback || ''}</textarea>
+                                </div>
+                            ` : ''}
+                        `}
+                    </div>
+                `;
+            }).join('');
+
+            modalBody.innerHTML = `
+                <div class="mb-3">
+                    <strong>Student:</strong> ${currentSubmission.studentName || 'Student'}<br>
+                    <strong>Submitted:</strong> ${new Date(currentSubmission.submittedAt).toLocaleString()}<br>
+                    <strong>Total Points:</strong> ${currentSubmission.totalPoints || 0}
+                </div>
+                ${questionsHtml}
+            `;
+
+            const modal = new bootstrap.Modal(document.getElementById('gradingModal'));
+            modal.show();
+        }
+
+        function submitGrade() {
+            if (!currentSubmission) return;
+
+            let totalScore = 0;
+            let totalPoints = 0;
+
+            currentSubmission.questions.forEach((question, index) => {
+                totalPoints += question.points || 1;
+
+                if (question.type === 'multiple-choice') {
+                    if (question.userAnswer === question.correctAnswer) {
+                        totalScore += question.points || 1;
+                    }
+                } else {
+                    const pointsInput = document.getElementById(`points_${index}`);
+                    const feedbackInput = document.getElementById(`feedback_${index}`);
+
+                    if (pointsInput) {
+                        const awarded = parseFloat(pointsInput.value) || 0;
+                        question.awardedPoints = Math.min(awarded, question.points || 1);
+                        totalScore += question.awardedPoints;
+                    }
+
+                    if (feedbackInput) {
+                        question.feedback = feedbackInput.value;
+                    }
+                }
+            });
+
+            // Update submission status
+            currentSubmission.status = 'graded';
+            currentSubmission.gradedAt = new Date().toISOString();
+            currentSubmission.gradedBy = 'Teacher'; // In real app, use actual teacher name
+            currentSubmission.finalScore = totalScore;
+            currentSubmission.percentage = Math.round((totalScore / totalPoints) * 100);
+
+            // Save back to localStorage
+            const submissions = JSON.parse(localStorage.getItem(currentSubmission.storageKey) || '[]');
+            const index = submissions.findIndex(s => s.id === currentSubmission.id);
+            if (index !== -1) {
+                submissions[index] = currentSubmission;
+                localStorage.setItem(currentSubmission.storageKey, JSON.stringify(submissions));
+            }
+
+            // Update the student's assignment/quiz/exam
+            pushGradeToStudent(currentSubmission);
+
+            // Close modal and reload
+            bootstrap.Modal.getInstance(document.getElementById('gradingModal')).hide();
+            alert(`Grade submitted successfully!\nScore: ${totalScore}/${totalPoints} (${Math.round((totalScore / totalPoints) * 100)}%)`);
+            loadSubmissions();
+        }
+
+        function pushGradeToStudent(submission) {
+            const storageKeys = {
+                mathematics: {
+                    assignment: 'studentAssignments',
+                    quiz: 'studentQuizzes',
+                    exam: 'studentExams'
+                },
+                physics: {
+                    assignment: 'physicsAssignments',
+                    quiz: 'physicsQuizzes',
+                    exam: 'physicsExams'
+                },
+                english: {
+                    assignment: 'englishAssignments',
+                    quiz: 'englishQuizzes',
+                    exam: 'englishExams'
+                }
+            };
+
+            const storageKey = storageKeys[submission.subject]?.[submission.type];
+            if (!storageKey) return;
+
+            const items = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            const itemId = submission.assignmentId || submission.quizId || submission.examId;
+            const itemIndex = items.findIndex(item => item.id == itemId);
+
+            if (itemIndex !== -1) {
+                items[itemIndex].status = 'completed';
+                items[itemIndex].gradingStatus = 'graded';
+                items[itemIndex].score = submission.finalScore;
+                items[itemIndex].finalScore = submission.finalScore;
+                items[itemIndex].percentage = submission.percentage;
+                items[itemIndex].gradedAt = submission.gradedAt;
+                items[itemIndex].gradedBy = submission.gradedBy;
+                items[itemIndex].feedback = submission.questions.map(q => q.feedback).filter(f => f);
+
+                localStorage.setItem(storageKey, JSON.stringify(items));
+                console.log(`Grade pushed to student for ${submission.type} ${itemId}`);
+            }
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filterType = this.dataset.filter;
+                const filterValue = this.dataset.value;
+
+                // Update active state
+                document.querySelectorAll(`[data-filter="${filterType}"]`).forEach(b => {
+                    b.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                // Update filter
+                currentFilters[filterType] = filterValue;
+                displaySubmissions();
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSubmissions();
+        });
+    </script>
+</body>
+</html>
+

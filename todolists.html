@@ -109,27 +109,29 @@
 
         /* Main Content */
         .main-content {
-            padding: 2rem 0;
-            margin-top: 80px;
+            padding: 1rem 0 3rem 0;
+            margin-top: 20px;
         }
 
         /* Cards */
         .dashboard-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
             height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
         }
 
         .dashboard-card::before {
@@ -155,41 +157,45 @@
         }
 
         .card-title {
-            font-size: 1.3rem;
+            font-size: 1.6rem;
             font-weight: 700;
             color: #1e293b;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .card-icon {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         }
 
         /* Todo List Styles */
         .todo-item {
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 0.5rem;
-            border-left: 4px solid #667eea;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 5px solid #667eea;
             transition: all 0.3s ease;
             cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            font-size: 1.05rem;
         }
 
         .todo-item:hover {
-            background: rgba(255, 255, 255, 0.9);
-            transform: translateX(5px);
+            background: rgba(255, 255, 255, 1);
+            transform: translateX(8px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
         }
 
         .todo-item.completed {
@@ -211,13 +217,14 @@
         }
 
         .todo-checkbox {
-            width: 20px;
-            height: 20px;
-            border-radius: 4px;
-            border: 2px solid #667eea;
-            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            border: 2.5px solid #667eea;
+            margin-right: 14px;
             cursor: pointer;
             transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
         .todo-checkbox.checked {
@@ -229,10 +236,11 @@
         .btn-primary {
             background: linear-gradient(135deg, #667eea, #764ba2);
             border: none;
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            padding: 1rem 2rem;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 1.05rem;
         }
 
         .btn-primary:hover {
@@ -243,15 +251,35 @@
         .btn-success {
             background: linear-gradient(135deg, #10b981, #059669);
             border: none;
-            border-radius: 10px;
-            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            padding: 1rem 2rem;
             font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 1.05rem;
         }
 
         .btn-success:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+        
+        .container {
+            max-width: 1400px;
         }
 
         /* Back to Dashboard Button */
@@ -375,45 +403,45 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="container">
-            <div class="welcome-section text-center" style="margin-bottom: 3rem;">
-                <h1 class="welcome-text" id="pageTitle" style="color: white; font-size: 2.5rem; font-weight: 700; text-shadow: 0 4px 8px rgba(0,0,0,0.3);">📋 My Todo List</h1>
-                <small class="welcome-subtext" id="pageSubtitle" style="color: rgba(255,255,255,0.9); font-size: 1.1rem;">Manage your tasks for this course</small>
+            <div class="welcome-section text-center" style="margin-bottom: 2rem;">
+                <h1 class="welcome-text" id="pageTitle" style="color: white; font-size: 2.8rem; font-weight: 800; text-shadow: 0 4px 12px rgba(0,0,0,0.3); letter-spacing: -0.5px;">📋 My Todo List</h1>
+                <small class="welcome-subtext" id="pageSubtitle" style="color: rgba(255,255,255,0.95); font-size: 1.15rem; font-weight: 500;">Manage your tasks for this course</small>
             </div>
 
             <!-- Single Course TodoList -->
             <div class="row mb-5">
                 <div class="col-12">
                     <div class="dashboard-card animate-on-scroll">
-                        <h3 class="card-title" id="courseTitle" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f0f0f0; padding-bottom: 1rem;">
-                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <h3 class="card-title" id="courseTitle" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #e5e7eb; padding-bottom: 1.5rem; margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
                                 <div class="card-icon" id="courseIcon">
                                     <iconify-icon icon="material-symbols:checklist"></iconify-icon>
                                 </div>
-                                <span id="courseName">My Todos</span>
+                                <span id="courseName" style="font-size: 1.6rem;">My Todos</span>
                             </div>
-                            <div id="todoCount" style="background: #667eea; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 600;">0</div>
+                            <div id="todoCount" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">0</div>
                         </h3>
                         
-                        <div id="todoListContainer" style="min-height: 200px;">
+                        <div id="todoListContainer" style="min-height: 300px;">
                             <!-- Todos will be loaded here -->
                         </div>
 
-                        <div class="row mt-4">
-                            <div class="col-md-4 mb-2">
-                                <button class="btn btn-primary w-100" id="backToDashboard" style="background: linear-gradient(135deg, #667eea, #764ba2); border: none;">
-                                    <iconify-icon icon="material-symbols:dashboard" class="me-1"></iconify-icon>
+                        <div class="row mt-5">
+                            <div class="col-md-4 mb-3">
+                                <button class="btn btn-primary w-100" id="backToDashboard">
+                                    <iconify-icon icon="material-symbols:dashboard" class="me-2" style="font-size: 1.3rem;"></iconify-icon>
                                     Back to Dashboard
                                 </button>
                             </div>
-                            <div class="col-md-4 mb-2">
-                                <button class="btn btn-danger w-100" onclick="clearAllTasks()" style="background: linear-gradient(135deg, #ef4444, #dc2626); border: none;">
-                                    <iconify-icon icon="material-symbols:delete-sweep" class="me-1"></iconify-icon>
+                            <div class="col-md-4 mb-3">
+                                <button class="btn btn-danger w-100" onclick="clearAllTasks()">
+                                    <iconify-icon icon="material-symbols:delete-sweep" class="me-2" style="font-size: 1.3rem;"></iconify-icon>
                                     Clear All Tasks
                                 </button>
                             </div>
-                            <div class="col-md-4 mb-2">
-                                <button class="btn btn-success w-100" onclick="window.location.href='all-todolists.html'" style="background: linear-gradient(135deg, #10b981, #059669); border: none;">
-                                    <iconify-icon icon="material-symbols:view-list" class="me-1"></iconify-icon>
+                            <div class="col-md-4 mb-3">
+                                <button class="btn btn-success w-100" onclick="window.location.href='all-todolists.html'">
+                                    <iconify-icon icon="material-symbols:view-list" class="me-2" style="font-size: 1.3rem;"></iconify-icon>
                                     View All Courses
                                 </button>
                             </div>
@@ -529,13 +557,13 @@
             
             countBadge.textContent = savedLists.length;
             
-            // Create 3-column grid
+            // Create 2-column grid (changed from 3 for better layout)
             const gridContainer = document.createElement('div');
             gridContainer.style.cssText = `
                 display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.5rem;
-                margin-top: 1rem;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+                margin-top: 1.5rem;
             `;
             
             // Responsive adjustments
@@ -544,8 +572,10 @@
                 const mediaQuery576 = window.matchMedia('(max-width: 576px)');
                 if (mediaQuery576.matches) {
                     gridContainer.style.gridTemplateColumns = '1fr';
+                    gridContainer.style.gap = '1.5rem';
                 } else if (mediaQuery992.matches) {
-                    gridContainer.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                    gridContainer.style.gridTemplateColumns = '1fr';
+                    gridContainer.style.gap = '1.5rem';
                 }
             };
             addResponsiveStyles();
@@ -555,10 +585,10 @@
                 const listCard = document.createElement('div');
                 listCard.style.cssText = `
                     background: white;
-                    border-radius: 15px;
-                    padding: 1.5rem;
-                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-                    border-top: 4px solid ${getCourseColor(currentCourse)};
+                    border-radius: 18px;
+                    padding: 2rem;
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+                    border-top: 5px solid ${getCourseColor(currentCourse)};
                     transition: all 0.3s ease;
                     display: flex;
                     flex-direction: column;
@@ -566,12 +596,12 @@
                 `;
                 
                 listCard.onmouseover = () => {
-                    listCard.style.transform = 'translateY(-5px)';
-                    listCard.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                    listCard.style.transform = 'translateY(-8px)';
+                    listCard.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.18)';
                 };
                 listCard.onmouseout = () => {
                     listCard.style.transform = 'translateY(0)';
-                    listCard.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.1)';
+                    listCard.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.12)';
                 };
                 
                 // List header
@@ -587,11 +617,11 @@
                 
                 listHeader.innerHTML = `
                     <div style="flex: 1;">
-                        <h5 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 1.1rem; margin-bottom: 0.25rem;">${list.name}</h5>
-                        <p style="margin: 0; color: #64748b; font-size: 0.8rem;">${new Date(list.createdAt).toLocaleDateString()}</p>
+                        <h5 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 1.3rem; margin-bottom: 0.5rem;">${list.name}</h5>
+                        <p style="margin: 0; color: #64748b; font-size: 0.9rem; font-weight: 500;">${new Date(list.createdAt).toLocaleDateString()}</p>
                     </div>
-                    <button onclick="deleteList(${listIndex})" style="background: #fee2e2; border: none; color: #ef4444; padding: 0.5rem; border-radius: 8px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'" title="Delete this list">
-                        <iconify-icon icon="material-symbols:delete" style="font-size: 1.2rem;"></iconify-icon>
+                    <button onclick="deleteList(${listIndex})" style="background: #fee2e2; border: none; color: #ef4444; padding: 0.6rem; border-radius: 10px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'" title="Delete this list">
+                        <iconify-icon icon="material-symbols:delete" style="font-size: 1.3rem;"></iconify-icon>
                     </button>
                 `;
                 
@@ -599,24 +629,25 @@
                 
                 // Tasks container
                 const tasksContainer = document.createElement('div');
-                tasksContainer.style.cssText = 'flex: 1; overflow-y: auto; max-height: 350px;';
+                tasksContainer.style.cssText = 'flex: 1; overflow-y: auto; max-height: 400px;';
                 
                 list.tasks.forEach((todo, todoIndex) => {
                     const todoItem = document.createElement('div');
                     todoItem.style.cssText = `
-                        padding: 0.75rem;
-                        margin-bottom: 0.5rem;
-                        background: #f8fafc;
-                        border-radius: 8px;
-                        border-left: 3px solid ${todo.priority === 'high' ? '#ef4444' : todo.priority === 'medium' ? '#f59e0b' : '#10b981'};
+                        padding: 1.25rem;
+                        margin-bottom: 0.75rem;
+                        background: rgba(255, 255, 255, 0.8);
+                        border-radius: 12px;
+                        border-left: 5px solid ${todo.priority === 'high' ? '#ef4444' : todo.priority === 'medium' ? '#f59e0b' : '#10b981'};
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
                     `;
                     
                     todoItem.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <div onclick="toggleTaskInList(${listIndex}, ${todoIndex})" style="width: 20px; height: 20px; border: 2px solid ${todo.completed ? getCourseColor(currentCourse) : '#cbd5e1'}; border-radius: 4px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; background: ${todo.completed ? getCourseColor(currentCourse) : 'transparent'}; flex-shrink: 0;">
-                                ${todo.completed ? '<iconify-icon icon="material-symbols:check" style="color: white; font-size: 0.85rem;"></iconify-icon>' : ''}
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div onclick="toggleTaskInList(${listIndex}, ${todoIndex})" style="width: 24px; height: 24px; border: 2.5px solid ${todo.completed ? getCourseColor(currentCourse) : '#cbd5e1'}; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; background: ${todo.completed ? getCourseColor(currentCourse) : 'transparent'}; flex-shrink: 0;">
+                                ${todo.completed ? '<iconify-icon icon="material-symbols:check" style="color: white; font-size: 1rem;"></iconify-icon>' : ''}
                             </div>
-                            <div style="flex: 1; font-size: 0.9rem; color: #1e293b; ${todo.completed ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${todo.text}</div>
+                            <div style="flex: 1; font-size: 1.05rem; color: #1e293b; font-weight: 500; ${todo.completed ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${todo.text}</div>
                         </div>
                     `;
                     
@@ -638,11 +669,11 @@
                 `;
                 
                 listFooter.innerHTML = `
-                    <div style="font-size: 0.85rem; color: #64748b;">
-                        <iconify-icon icon="material-symbols:check-circle" style="color: ${getCourseColor(currentCourse)};"></iconify-icon>
+                    <div style="font-size: 0.95rem; color: #64748b; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:check-circle" style="color: ${getCourseColor(currentCourse)}; font-size: 1.1rem;"></iconify-icon>
                         ${completedCount}/${list.tasks.length} done
                     </div>
-                    <div style="font-size: 0.85rem; color: #64748b;">
+                    <div style="font-size: 0.95rem; color: #64748b; font-weight: 600;">
                         ${list.tasks.length} tasks
                     </div>
                 `;

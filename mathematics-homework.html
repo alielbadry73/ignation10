@@ -20,73 +20,89 @@
     .nav-btn:hover { background:#667eea; color:white; transform:translateY(-2px); box-shadow:0 4px 12px rgba(102,126,234,0.3); }
     .main-content { margin-top:100px; padding:2rem; }
     .homework-hero { 
-      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); 
-      color: #2c3e50; 
-      padding: 2rem 1.5rem; 
-      border-radius: 16px; 
-      margin-bottom: 1.5rem; 
-      text-align: center; 
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 1.5rem 2.5rem;
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
       position: relative;
       overflow: hidden;
     }
     .homework-hero::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #667eea 0%, #764ba2 50%, #667eea 100%);
+      top: -50px;
+      right: -50px;
+      width: 150px;
+      height: 150px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
     }
-    .homework-title { 
-      font-size: 2rem; 
-      font-weight: 300; 
-      margin-bottom: 0.5rem; 
-      letter-spacing: -0.02em;
-      color: #2c3e50;
+    .homework-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: -30px;
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 50%;
     }
-    .homework-subtitle { 
-      font-size: 1rem; 
-      color: #6c757d; 
-      margin-bottom: 1.5rem; 
+    .hero-left {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-left h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: white;
+      margin: 0 0 0.35rem 0;
+      letter-spacing: -0.5px;
+    }
+    .hero-left p {
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0;
       font-weight: 400;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
     }
     .homework-stats { 
-      display: flex; 
-      justify-content: center; 
-      gap: 2rem; 
-      margin-top: 1.5rem; 
-      flex-wrap: wrap;
+      display: flex;
+      gap: 2.5rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
     }
     .stat-item { 
-      text-align: center; 
-      padding: 0.75rem;
-      background: rgba(255, 255, 255, 0.6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      padding: 1rem 1.75rem;
       border-radius: 12px;
-      min-width: 100px;
-      transition: transform 0.2s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
     }
     .stat-item:hover {
-      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
     }
     .stat-number { 
-      font-size: 2rem; 
-      font-weight: 600; 
-      margin-bottom: 0.5rem; 
-      color: #667eea;
-      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 2.25rem;
+      font-weight: 800;
+      color: white;
+      line-height: 1;
     }
     .stat-label { 
-      font-size: 0.9rem; 
-      color: #6c757d; 
-      font-weight: 500;
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
     }
     .homework-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:2rem; margin-bottom:2rem; }
     .homework-card { background:white; border-radius:12px; padding:2rem; box-shadow:0 4px 12px rgba(0,0,0,0.08); transition:.3s; border-left:4px solid #667eea; }
@@ -644,7 +660,7 @@
 <body>
   <!-- Header -->
   <div class="homework-header">
-    <a href="course-mathematics.html" class="homework-logo">
+    <a href="mathematics-dashboard.html" class="homework-logo">
       <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
       <span style="font-weight:700;font-size:1.25rem;">Mathematics Homework</span>
       <span class="subject-badge">Mathematics IGCSE</span>
@@ -653,6 +669,7 @@
       <a href="mathcourse.html" class="nav-btn"><iconify-icon icon="material-symbols:arrow-back"></iconify-icon>Back to Course</a>
       <a href="mathematics-quiz.html" class="nav-btn"><iconify-icon icon="material-symbols:quiz"></iconify-icon>Quizzes</a>
       <a href="mathematics-exam.html" class="nav-btn"><iconify-icon icon="material-symbols:quiz"></iconify-icon>Exams</a>
+      <a href="course-assistants-chat.html?course=mathematics" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;"><iconify-icon icon="material-symbols:chat"></iconify-icon>Ask Assistant</a>
     </div>
   </div>
 
@@ -675,12 +692,19 @@
   <!-- Main -->
   <div class="main-content">
     <div class="homework-hero">
-      <div class="homework-title">Mathematics Homework</div>
-      <div class="homework-subtitle">Practice exercises and assignments</div>
+      <div class="hero-left">
+        <h2>Mathematics Homework</h2>
+        <p>Practice exercises and assignments</p>
+      </div>
       <div class="homework-stats">
-        <div class="stat-item"><div class="stat-number" id="totalHomework">0</div><div class="stat-label">Available</div></div>
-        <div class="stat-item"><div class="stat-number" id="completedHomework">0</div><div class="stat-label">Completed</div></div>
-        <div class="stat-item"><div class="stat-number" id="averageScore">0%</div><div class="stat-label">Average</div></div>
+        <div class="stat-item">
+          <div class="stat-number" id="totalHomework">0</div>
+          <div class="stat-label">Total</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="pendingHomework">0</div>
+          <div class="stat-label">Pending</div>
+        </div>
       </div>
     </div>
 
@@ -855,8 +879,55 @@
 
     function getPublishedHomework() {
       console.log('=== DEBUGGING HOMEWORK LOADING ===');
-      const rawData = localStorage.getItem('studentAssignments');
-      console.log('Raw studentAssignments from localStorage:', rawData);
+      
+      // First try the course page data (where teacher dashboard publishes to)
+      let rawData = localStorage.getItem('mathematicsAssignments');
+      console.log('Raw mathematicsAssignments from localStorage:', rawData);
+      
+      if (rawData) {
+        try {
+          const assessments = JSON.parse(rawData);
+          console.log('Parsed assessments:', assessments);
+          
+          // Filter for published mathematics assignments (including submitted ones)
+          const publishedAssignments = assessments.filter(assessment => {
+            const isMathematics = assessment.type === 'assignment' || assessment.category === 'assignment';
+            const isPublished = assessment.status === 'published' || assessment.status === 'completed' || assessment.status === 'pending' || assessment.status === 'graded';
+            console.log(`Assessment "${assessment.title}": published=${isPublished}, type=${assessment.type}, category=${assessment.category}, isMathematics=${isMathematics}, status=${assessment.status}`);
+            return isMathematics && isPublished;
+          });
+          
+          console.log('Filtered published mathematics assignments:', publishedAssignments);
+          
+          // Convert assessments to homework format
+          return publishedAssignments.map(assessment => ({
+            id: assessment.id,
+            title: assessment.title,
+            description: assessment.description,
+            points: assessment.points,
+            difficulty: assessment.difficulty,
+            status: assessment.status || 'pending',
+            gradingStatus: assessment.gradingStatus,
+            score: assessment.score,
+            finalScore: assessment.finalScore,
+            timeSpent: assessment.timeSpent,
+            completedAt: assessment.completedAt,
+            submittedAt: assessment.submittedAt,
+            answers: assessment.answers,
+            totalPoints: assessment.points,
+            dueDate: assessment.dueDate,
+            timeLimit: assessment.timeLimit,
+            questions: assessment.questions || [],
+            category: 'assignment'
+          }));
+        } catch (error) {
+          console.error('Error parsing assessments:', error);
+        }
+      }
+      
+      // Fallback to old system
+      rawData = localStorage.getItem('mathematicsAssignments');
+      console.log('Fallback: Raw mathematicsAssignments from localStorage:', rawData);
       
       const allAssignments = JSON.parse(rawData) || [];
       console.log('Parsed assignments:', allAssignments);
@@ -1042,7 +1113,10 @@
           <div class="homework-card-description">${a.description}</div>
           <div class="homework-details">
             <div class="detail-row"><span class="detail-label">Points:</span><span class="detail-value">${a.points || 'N/A'}</span></div>
-            ${a.status !== 'completed' && a.status !== 'graded' ? `
+            ${(a.status === 'pending' || a.status === 'pending-grading') && a.gradingStatus === 'pending' ? `
+            <div class="detail-row"><span class="detail-label">Score:</span><span class="detail-value" style="color:#0d6efd;font-weight:600;font-style:italic;">Waiting for assistant correction</span></div>
+            <div class="detail-row"><span class="detail-label">Time Spent:</span><span class="detail-value">${a.timeSpent || 0} minutes</span></div>
+            ` : a.status !== 'completed' && a.status !== 'graded' ? `
             <div class="detail-row"><span class="detail-label">Due Date:</span><span class="detail-value">${new Date(a.dueDate || new Date()).toLocaleDateString()}</span></div>` : ''}
             ${a.status === 'completed' || a.status === 'graded' ? `
             <div class="detail-row"><span class="detail-label">Your Score:</span><span class="detail-value" style="color:#28a745;font-weight:600;">${(() => {
@@ -1056,8 +1130,17 @@
             ${a.status === 'completed' || a.status === 'graded' ? `
               <button class="btn btn-outline" onclick="reviewHomework('${a.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>Review</button>
               <button class="btn btn-primary" onclick="retakeHomework('${a.id}')"><iconify-icon icon="material-symbols:refresh"></iconify-icon>Retake</button>
-            ` : a.status === 'pending-grading' ? `
-              <button class="btn btn-warning" disabled><iconify-icon icon="material-symbols:schedule"></iconify-icon>Pending Grading</button>
+            ` : (a.status === 'pending' && a.gradingStatus === 'pending') || (a.status === 'pending-grading') ? `
+              <div class="alert alert-info mb-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                <iconify-icon icon="material-symbols:pending" class="me-1"></iconify-icon>
+                <strong>Status:</strong> Waiting for assistant correction
+              </div>
+              <button class="btn btn-outline" onclick="reviewHomework('${a.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>View Submission</button>
+            ` : a.submittedAt || a.completedAt ? `
+              <div class="alert alert-success mb-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                <iconify-icon icon="material-symbols:check-circle" class="me-1"></iconify-icon>
+                <strong>Status:</strong> Submitted
+              </div>
               <button class="btn btn-outline" onclick="reviewHomework('${a.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>View Submission</button>
             ` : `
               <button class="btn btn-primary" onclick="startHomework('${a.id}')"><iconify-icon icon="material-symbols:play-arrow"></iconify-icon>Start Assignment</button>
@@ -1072,10 +1155,13 @@
       const published = getPublishedHomework();
       const total = published.length;
       const completed = published.filter(h => h.status === 'completed').length;
-      const average = completed > 0 ? Math.round(published.filter(h => h.status === 'completed').reduce((s,h)=>s+h.score,0)/completed) : 0;
-      document.getElementById('totalHomework').textContent = total;
-      document.getElementById('completedHomework').textContent = completed;
-      document.getElementById('averageScore').textContent = average + '%';
+      const pending = total - completed;
+      
+      const totalEl = document.getElementById('totalHomework');
+      const pendingEl = document.getElementById('pendingHomework');
+      
+      if (totalEl) totalEl.textContent = total;
+      if (pendingEl) pendingEl.textContent = pending;
     }
 
     let currentAssignment = null;
@@ -1174,7 +1260,46 @@
           <div class="question-options">
       `;
 
-      if (question.type === 'multiple-choice' && question.options) {
+      // Handle new simple question format
+      if (question.questionContent && question.questionContent.type === 'image') {
+        // Display image question
+        questionHtml += `
+          <div class="question-image mb-3">
+            <img src="${question.questionContent.content}" alt="Question Image" style="max-width: 100%; max-height: 300px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+          </div>
+        `;
+      }
+
+      // Handle answer types
+      if (question.type === 'bullet-points') {
+        questionHtml += `
+          <div class="form-group">
+            <label class="form-label">Answer with bullet points:</label>
+            <div id="bulletPointsContainer_${currentQuestionIndex}">
+              <div class="bullet-point-input mb-2">
+                <input type="text" class="form-control" placeholder="First point..." oninput="updateBulletPoints(${currentQuestionIndex})">
+              </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-primary" onclick="addBulletPoint(${currentQuestionIndex})">
+              <iconify-icon icon="material-symbols:add"></iconify-icon>
+              Add Point
+            </button>
+            <textarea class="form-control mt-2" rows="3" placeholder="Or type your complete answer here..." id="textAnswer_${currentQuestionIndex}" style="display: none;">${userAnswers[currentQuestionIndex] || ''}</textarea>
+            <button type="button" class="btn btn-sm btn-link mt-1" onclick="toggleAnswerMode(${currentQuestionIndex})">
+              Switch to text area
+            </button>
+          </div>
+        `;
+      } else if (question.type === 'file-upload') {
+        const allowedTypes = question.fileUploadSettings ? question.fileUploadSettings.allowedTypes.join(',') : 'pdf,doc,docx,jpg,jpeg,png';
+        const maxSize = question.fileUploadSettings ? question.fileUploadSettings.maxSize : 10;
+        questionHtml += `
+          <div class="form-group">
+            <input type="file" class="form-control" id="fileAnswer_${currentQuestionIndex}" accept=".${allowedTypes.replace(/,/g, ',.')}" onchange="validateFileUpload(this, ${maxSize})">
+            <small class="text-muted">Allowed formats: ${allowedTypes.toUpperCase()} | Max size: ${maxSize}MB</small>
+          </div>
+        `;
+      } else if (question.type === 'multiple-choice' && question.options) {
         question.options.forEach((option, index) => {
           const isSelected = userAnswers[currentQuestionIndex] === index ? 'selected' : '';
           questionHtml += `
@@ -1314,6 +1439,10 @@
             <iconify-icon icon="material-symbols:folder"></iconify-icon>
             Add to Wrong Questions
           </button>
+          <button class="btn btn-outline-warning btn-sm" onclick="markAsTricky()">
+            <iconify-icon icon="material-symbols:star"></iconify-icon>
+            Mark as Tricky
+          </button>
         </div>
       `;
       
@@ -1324,7 +1453,7 @@
       if (!currentAssignment || !currentAssignment.questions) return;
       
       const question = currentAssignment.questions[currentQuestionIndex];
-      const wrongQuestions = JSON.parse(localStorage.getItem('wrongQuestions')) || [];
+      const wrongQuestions = JSON.parse(localStorage.getItem('mathematicsWrongQuestions')) || [];
       
       // Check if question already exists
       const existingIndex = wrongQuestions.findIndex(q => q.id === question.id);
@@ -1342,6 +1471,7 @@
         assignmentTitle: currentAssignment.title,
         chapter: currentAssignment.chapter || null, // Include chapter information
         chapterId: currentAssignment.chapterId || null, // Include chapter ID for folder categorization
+        folderId: question.autoFolder || null, // Auto-assign to folder if specified by teacher
         addedAt: new Date().toISOString(),
         attempts: existingIndex >= 0 ? wrongQuestions[existingIndex].attempts + 1 : 1,
         points: question.points || 1,
@@ -1350,25 +1480,56 @@
       
       if (existingIndex >= 0) {
         wrongQuestions[existingIndex] = wrongQuestion;
-        showNotification('Question updated in Wrong Questions folder!', 'info');
+        const folderMessage = question.autoFolder ? ` in folder ${question.autoFolder.toUpperCase()}` : '';
+        showNotification(`Question updated in Wrong Questions${folderMessage}!`, 'info');
       } else {
         wrongQuestions.push(wrongQuestion);
-        showNotification('❌ Wrong answer! Question added to Wrong Questions folder for review.', 'success');
+        const folderMessage = question.autoFolder ? ` to folder ${question.autoFolder.toUpperCase()}` : '';
+        showNotification(`❌ Wrong answer! Question added${folderMessage} in Wrong Questions for review.`, 'success');
       }
       
-      localStorage.setItem('wrongQuestions', JSON.stringify(wrongQuestions));
+      localStorage.setItem('mathematicsWrongQuestions', JSON.stringify(wrongQuestions));
     }
     
-    function askAssistant() {
+    function markAsTricky() {
       if (!currentAssignment || !currentAssignment.questions) return;
       
       const question = currentAssignment.questions[currentQuestionIndex];
-      const questionText = question.text;
-      const assignmentTitle = currentAssignment.title;
+      const trickyQuestions = JSON.parse(localStorage.getItem('mathematicsTrickyQuestions')) || [];
       
-      // Redirect to ask-assistants page with question context
-      const assistantUrl = `ask-assistants.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(assignmentTitle)}&subject=mathematics`;
-      window.open(assistantUrl, '_blank');
+      // Check if question already exists
+      const existingIndex = trickyQuestions.findIndex(q => q.id === question.id);
+      
+      if (existingIndex >= 0) {
+        showNotification('Question already in Tricky Questions!', 'info');
+        return;
+      }
+      
+      const trickyQuestion = {
+        id: question.id,
+        text: question.text,
+        type: question.type,
+        options: question.options || [],
+        correctAnswer: question.correctAnswer,
+        subject: 'mathematics',
+        assignmentId: currentAssignment.id,
+        assignmentTitle: currentAssignment.title,
+        chapter: currentAssignment.chapter || null,
+        chapterId: currentAssignment.chapterId || null,
+        addedAt: new Date().toISOString(),
+        points: question.points || 1,
+        difficulty: currentAssignment.difficulty || 'medium'
+      };
+      
+      trickyQuestions.push(trickyQuestion);
+      showNotification('⭐ Question marked as tricky and added to Tricky Questions!', 'success');
+      
+      localStorage.setItem('mathematicsTrickyQuestions', JSON.stringify(trickyQuestions));
+    }
+    
+    function askAssistant() {
+      // Redirect to course assistants chat page
+      window.location.href = 'course-assistants-chat.html?course=mathematics';
     }
     
     function askCommunity() {
@@ -1433,7 +1594,24 @@
     function saveCurrentAnswer() {
       const question = currentAssignment.questions[currentQuestionIndex];
       
-      if (question.type === 'text') {
+      if (question.type === 'bullet-points') {
+        // Check if using bullet points or text area
+        const bulletContainer = document.getElementById(`bulletPointsContainer_${currentQuestionIndex}`);
+        const textArea = document.getElementById(`textAnswer_${currentQuestionIndex}`);
+        
+        if (bulletContainer && bulletContainer.style.display !== 'none') {
+          // Using bullet points
+          updateBulletPoints(currentQuestionIndex);
+        } else if (textArea && textArea.style.display !== 'none') {
+          // Using text area
+          userAnswers[currentQuestionIndex] = textArea.value;
+        }
+      } else if (question.type === 'file-upload') {
+        const fileAnswer = document.getElementById(`fileAnswer_${currentQuestionIndex}`);
+        if (fileAnswer && fileAnswer.files.length > 0) {
+          userAnswers[currentQuestionIndex] = fileAnswer.files[0].name;
+        }
+      } else if (question.type === 'text') {
         const textAnswer = document.getElementById(`textAnswer_${currentQuestionIndex}`);
         if (textAnswer) {
           userAnswers[currentQuestionIndex] = textAnswer.value;
@@ -1605,16 +1783,11 @@
           if (userAnswers[index] === question.correctAnswer) {
             score += question.points || 1;
           }
-        } else {
-          // For text and file questions, no automatic scoring - manual grading required
+        } else if (question.type === 'text' || question.type === 'file' || question.type === 'bullet-points' || question.type === 'file-upload') {
+          // For text, file, bullet-points, and file-upload questions, no automatic scoring - manual grading required
           hasManualGradingQuestions = true;
         }
       });
-      
-      // If there are text or file questions, push to pending grading
-      if (hasManualGradingQuestions) {
-        pushToPendingGrading();
-      }
       
       const percentage = Math.round((score / totalPoints) * 100);
       const timeSpent = Math.floor((new Date() - startTime) / 60000); // in minutes
@@ -1622,16 +1795,32 @@
       // Update assignment status
       const assignmentIndex = homework.findIndex(h => h.id === currentAssignment.id);
       if (assignmentIndex !== -1) {
-        homework[assignmentIndex].status = hasManualGradingQuestions ? 'pending-grading' : 'completed';
-        homework[assignmentIndex].score = score; // Store actual points earned
-        homework[assignmentIndex].finalScore = score; // Store actual points earned
+        // Set status based on whether manual grading is needed
+        if (hasManualGradingQuestions) {
+          homework[assignmentIndex].status = 'pending';
+          homework[assignmentIndex].gradingStatus = 'pending';
+          homework[assignmentIndex].score = null; // No score yet
+          homework[assignmentIndex].finalScore = null;
+          
+          // Push to pending grading
+          pushToPendingGrading();
+        } else {
+          homework[assignmentIndex].status = 'completed';
+          homework[assignmentIndex].gradingStatus = 'graded';
+          homework[assignmentIndex].score = score; // Store actual points earned
+          homework[assignmentIndex].finalScore = score; // Store actual points earned
+        }
+        
         homework[assignmentIndex].timeSpent = timeSpent;
         homework[assignmentIndex].completedAt = new Date().toISOString();
         homework[assignmentIndex].answers = userAnswers;
         homework[assignmentIndex].totalPoints = totalPoints;
         
         // Save to localStorage
-        localStorage.setItem('studentAssignments', JSON.stringify(homework));
+        localStorage.setItem('mathematicsAssignments', JSON.stringify(homework));
+        
+        // Also update the mathematicsAssessments data for consistency
+        updateMathematicsAssessments(currentAssignment.id, homework[assignmentIndex]);
       }
       
       // Clear timer
@@ -1647,10 +1836,44 @@
       bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
       
       // Show success message
-      alert(`Assignment completed!\nScore: ${score}/${totalPoints}\nTime spent: ${timeSpent} minutes`);
+      if (hasManualGradingQuestions) {
+        alert(`Assignment submitted!\nYour answers are being reviewed.\nStatus: Waiting for assistant correction\nTime spent: ${timeSpent} minutes`);
+      } else {
+        alert(`Assignment completed!\nScore: ${score}/${totalPoints}\nTime spent: ${timeSpent} minutes`);
+      }
       
       // Reload homework to show updated status
       loadHomework();
+    }
+
+    function updateMathematicsAssessments(assignmentId, updatedAssignment) {
+      // Update the mathematicsAssessments data to reflect the submission
+      const assessmentsData = localStorage.getItem('mathematicsAssessments');
+      if (assessmentsData) {
+        try {
+          const assessments = JSON.parse(assessmentsData);
+          const assessmentIndex = assessments.findIndex(a => a.id === assignmentId);
+          
+          if (assessmentIndex !== -1) {
+            // Update the assessment with submission data
+            assessments[assessmentIndex].status = updatedAssignment.status;
+            assessments[assessmentIndex].gradingStatus = updatedAssignment.gradingStatus;
+            assessments[assessmentIndex].score = updatedAssignment.score;
+            assessments[assessmentIndex].finalScore = updatedAssignment.finalScore;
+            assessments[assessmentIndex].timeSpent = updatedAssignment.timeSpent;
+            assessments[assessmentIndex].completedAt = updatedAssignment.completedAt;
+            assessments[assessmentIndex].submittedAt = updatedAssignment.submittedAt;
+            assessments[assessmentIndex].answers = updatedAssignment.answers;
+            assessments[assessmentIndex].totalPoints = updatedAssignment.totalPoints;
+            
+            // Save back to localStorage
+            localStorage.setItem('mathematicsAssessments', JSON.stringify(assessments));
+            console.log('Updated mathematicsAssessments with submission data');
+          }
+        } catch (error) {
+          console.error('Error updating mathematicsAssessments:', error);
+        }
+      }
     }
 
     function pushToPendingGrading() {
@@ -1683,7 +1906,7 @@
           };
           
           // For file questions, include file information
-          if (question.type === 'file') {
+          if (question.type === 'file' || question.type === 'file-upload') {
             const fileInput = document.getElementById(`fileAnswer_${index}`);
             if (fileInput && fileInput.files.length > 0) {
               submissionQuestion.fileName = fileInput.files[0].name;
@@ -1720,6 +1943,59 @@
       document.getElementById('timer').style.color = '#667eea';
       document.getElementById('timer').style.fontWeight = 'normal';
     });
+
+    // Helper functions for new question types
+    function addBulletPoint(questionIndex) {
+      const container = document.getElementById(`bulletPointsContainer_${questionIndex}`);
+      const pointCount = container.children.length + 1;
+      const pointDiv = document.createElement('div');
+      pointDiv.className = 'bullet-point-input mb-2';
+      pointDiv.innerHTML = `
+        <input type="text" class="form-control" placeholder="Point ${pointCount}..." oninput="updateBulletPoints(${questionIndex})">
+      `;
+      container.appendChild(pointDiv);
+      updateBulletPoints(questionIndex);
+    }
+
+    function updateBulletPoints(questionIndex) {
+      const container = document.getElementById(`bulletPointsContainer_${questionIndex}`);
+      const inputs = container.querySelectorAll('input');
+      const bulletPoints = Array.from(inputs).map(input => input.value.trim()).filter(value => value);
+      userAnswers[questionIndex] = bulletPoints;
+    }
+
+    function toggleAnswerMode(questionIndex) {
+      const bulletContainer = document.getElementById(`bulletPointsContainer_${questionIndex}`);
+      const textArea = document.getElementById(`textAnswer_${questionIndex}`);
+      const toggleBtn = event.target;
+      
+      if (bulletContainer.style.display === 'none') {
+        // Switch to bullet points
+        bulletContainer.style.display = 'block';
+        textArea.style.display = 'none';
+        toggleBtn.textContent = 'Switch to text area';
+      } else {
+        // Switch to text area
+        bulletContainer.style.display = 'none';
+        textArea.style.display = 'block';
+        toggleBtn.textContent = 'Switch to bullet points';
+      }
+    }
+
+    function validateFileUpload(input, maxSizeMB) {
+      const file = input.files[0];
+      if (!file) return;
+      
+      const fileSizeMB = file.size / (1024 * 1024);
+      if (fileSizeMB > maxSizeMB) {
+        alert(`File size (${fileSizeMB.toFixed(2)}MB) exceeds maximum allowed size (${maxSizeMB}MB)`);
+        input.value = '';
+        return;
+      }
+      
+      // Save the file name for submission
+      userAnswers[currentQuestionIndex] = file.name;
+    }
     function reviewHomework(id){ 
       console.log('Review button clicked for ID:', id);
       
