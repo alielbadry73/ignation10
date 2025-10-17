@@ -723,11 +723,11 @@
       </div>
       <div class="homework-stats">
         <div class="stat-item">
-          <div class="stat-number" id="totalHomework">0</div>
+          <div class="stat-number" id="totalHomework">5</div>
           <div class="stat-label">Total</div>
         </div>
         <div class="stat-item">
-          <div class="stat-number" id="pendingHomework">0</div>
+          <div class="stat-number" id="pendingHomework">5</div>
           <div class="stat-label">Pending</div>
         </div>
       </div>
@@ -916,13 +916,12 @@
           
           // Filter for published physics assignments (including submitted ones)
           const publishedAssignments = assessments.filter(assessment => {
-            // Check if it's an assignment (either by type, category, or if it has questions)
-            const isPhysics = assessment.type === 'assignment' || 
-                             assessment.category === 'assignment' || 
-                             (assessment.questions && assessment.questions.length > 0);
+            // Since this is the Physics homework page, show all assignments that are assignments
+            // The subject filtering should happen at the data source level
+            const isAssignment = assessment.category === 'assignment' || assessment.type === 'assignment';
             const isPublished = assessment.status === 'published' || assessment.status === 'completed' || assessment.status === 'pending' || assessment.status === 'graded';
-            console.log(`Assessment "${assessment.title}": published=${isPublished}, type=${assessment.type}, category=${assessment.category}, isPhysics=${isPhysics}, status=${assessment.status}, hasQuestions=${assessment.questions && assessment.questions.length > 0}`);
-            return isPhysics && isPublished;
+            console.log(`Assessment "${assessment.title}": published=${isPublished}, subject=${assessment.subject}, isAssignment=${isAssignment}, status=${assessment.status}, category=${assessment.category}`);
+            return isAssignment && isPublished;
           });
           
           console.log('Filtered published physics assignments:', publishedAssignments);
@@ -1590,8 +1589,30 @@
       const questionText = question.text;
       const assignmentTitle = currentAssignment.title;
       
-      // Redirect to community page with question context
-      const communityUrl = `community.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(assignmentTitle)}&subject=mathematics`;
+      // Build comprehensive question content for community message
+      let messageContent = `Question from ${assignmentTitle}:\n\n${questionText}`;
+      
+      // Add choices for multiple choice questions
+      if (question.type === 'multiple-choice' && question.options && question.options.length > 0) {
+          messageContent += '\n\nChoices:';
+          question.options.forEach((option, index) => {
+              messageContent += `\n${String.fromCharCode(65 + index)}. ${option}`;
+          });
+      }
+      
+      // Add image if present
+      if (question.image) {
+          messageContent += `\n\n[Image: ${question.image}]`;
+      }
+      
+      // Add question type and points info
+      messageContent += `\n\nQuestion Type: ${question.type}`;
+      if (question.points) {
+          messageContent += `\nPoints: ${question.points}`;
+      }
+      
+      // Redirect to community page with comprehensive question context
+      const communityUrl = `community.html?message=${encodeURIComponent(messageContent)}&assignment=${encodeURIComponent(assignmentTitle)}&subject=physics`;
       window.open(communityUrl, '_blank');
     }
     
@@ -2014,8 +2035,13 @@
         homework[assignmentIndex].answers = userAnswers;
         homework[assignmentIndex].totalPoints = totalPoints;
         
-        // Save to localStorage
-        localStorage.setItem('physicsAssignments', JSON.stringify(homework));
+        // Save to localStorage - update the full assignments array, not just the filtered homework
+        const allAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+        const globalAssignmentIndex = allAssignments.findIndex(a => a.id === currentAssignment.id);
+        if (globalAssignmentIndex !== -1) {
+          allAssignments[globalAssignmentIndex] = homework[assignmentIndex];
+          localStorage.setItem('physicsAssignments', JSON.stringify(allAssignments));
+        }
         
         // Also update the physicsAssessments data for consistency
         updatePhysicsAssessments(currentAssignment.id, homework[assignmentIndex]);
@@ -2498,6 +2524,16 @@ d          // Reload the page to show empty state
           
           console.log('All assignments deleted');
         }
+      }
+    }
+
+    // Helper function to update physicsAssessments for consistency
+    function updatePhysicsAssessments(assignmentId, updatedAssignment) {
+      const physicsAssessments = JSON.parse(localStorage.getItem('physicsAssessments') || '[]');
+      const assessmentIndex = physicsAssessments.findIndex(a => a.id === assignmentId);
+      if (assessmentIndex !== -1) {
+        physicsAssessments[assessmentIndex] = updatedAssignment;
+        localStorage.setItem('physicsAssessments', JSON.stringify(physicsAssessments));
       }
     }
     

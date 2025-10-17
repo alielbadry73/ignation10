@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Populate Physics Homework Data</title>
+</head>
+<body>
+    <h1>Populating Physics Homework Data...</h1>
+    <p>This page will create sample Physics homework assignments.</p>
+    
+    <script>
+        // Physics homework assignments data
+        const physicsAssignments = [
+            {
+                id: 'phy-hw-001',
+                title: 'Mechanics: Newton\'s Laws of Motion',
+                description: 'Apply Newton\'s three laws of motion to solve problems involving forces, acceleration, and momentum.',
+                points: 25,
+                difficulty: 'medium',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'physics',
+                published: true,
+                category: 'mechanics',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'A 5kg object is pushed with a force of 20N. Calculate the acceleration of the object.',
+                        type: 'text',
+                        points: 8,
+                        sampleAnswer: 'a = F/m = 20N/5kg = 4 m/s²',
+                        gradingNotes: 'Check F = ma formula application and units'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'A car of mass 1200kg accelerates from rest to 20 m/s in 8 seconds. Calculate the force required.',
+                        type: 'text',
+                        points: 9,
+                        sampleAnswer: 'F = 3000N',
+                        gradingNotes: 'Verify acceleration calculation and force formula'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'Explain Newton\'s third law using a real-life example.',
+                        type: 'text',
+                        points: 8,
+                        sampleAnswer: 'Student should provide clear explanation with example',
+                        gradingNotes: 'Check for understanding of action-reaction pairs'
+                    }
+                ]
+            },
+            {
+                id: 'phy-hw-002',
+                title: 'Electricity: Ohm\'s Law and Circuits',
+                description: 'Use Ohm\'s Law to calculate voltage, current, and resistance in electrical circuits. Include circuit diagrams.',
+                points: 30,
+                difficulty: 'hard',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'physics',
+                published: true,
+                category: 'electricity',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'A resistor of 15Ω has a current of 2A flowing through it. Calculate the voltage across the resistor.',
+                        type: 'text',
+                        points: 10,
+                        sampleAnswer: 'V = IR = 2A × 15Ω = 30V',
+                        gradingNotes: 'Check Ohm\'s Law application and units'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'Two resistors of 6Ω and 4Ω are connected in series. Calculate the total resistance and current if connected to a 12V battery.',
+                        type: 'text',
+                        points: 12,
+                        sampleAnswer: 'R_total = 10Ω, I = 1.2A',
+                        gradingNotes: 'Verify series resistance calculation and Ohm\'s Law'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'Draw a circuit diagram showing two resistors in parallel connected to a battery.',
+                        type: 'text',
+                        points: 8,
+                        sampleAnswer: 'Student should draw correct parallel circuit',
+                        gradingNotes: 'Check for accurate circuit representation'
+                    }
+                ]
+            },
+            {
+                id: 'phy-hw-003',
+                title: 'Waves: Frequency and Wavelength',
+                description: 'Calculate wave properties including frequency, wavelength, and speed. Use the wave equation v = fλ.',
+                points: 20,
+                difficulty: 'medium',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'physics',
+                published: true,
+                category: 'waves',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'A wave has a frequency of 50Hz and a wavelength of 4m. Calculate the speed of the wave.',
+                        type: 'text',
+                        points: 10,
+                        sampleAnswer: 'v = fλ = 50Hz × 4m = 200 m/s',
+                        gradingNotes: 'Check wave equation application and units'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'The speed of sound in air is 340 m/s. If a sound wave has a frequency of 680Hz, what is its wavelength?',
+                        type: 'text',
+                        points: 10,
+                        sampleAnswer: 'λ = v/f = 340/680 = 0.5m',
+                        gradingNotes: 'Verify wavelength calculation and units'
+                    }
+                ]
+            },
+            {
+                id: 'phy-hw-004',
+                title: 'Energy: Kinetic and Potential Energy',
+                description: 'Calculate kinetic and potential energy using the appropriate formulas. Include energy transformations.',
+                points: 28,
+                difficulty: 'medium',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'physics',
+                published: true,
+                category: 'energy',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'A ball of mass 0.5kg is dropped from a height of 10m. Calculate its potential energy at the top and kinetic energy just before hitting the ground.',
+                        type: 'text',
+                        points: 14,
+                        sampleAnswer: 'PE = 49J, KE = 49J',
+                        gradingNotes: 'Check PE = mgh and energy conservation'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'A car of mass 1000kg is moving at 20 m/s. Calculate its kinetic energy.',
+                        type: 'text',
+                        points: 14,
+                        sampleAnswer: 'KE = 200,000J = 200kJ',
+                        gradingNotes: 'Verify KE = ½mv² formula and units'
+                    }
+                ]
+            },
+            {
+                id: 'phy-hw-005',
+                title: 'Light: Reflection and Refraction',
+                description: 'Use the laws of reflection and Snell\'s law to solve problems involving light rays and optical phenomena.',
+                points: 26,
+                difficulty: 'hard',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'physics',
+                published: true,
+                category: 'optics',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'A light ray strikes a mirror at an angle of 30° to the normal. What is the angle of reflection?',
+                        type: 'text',
+                        points: 8,
+                        sampleAnswer: 'Angle of reflection = 30°',
+                        gradingNotes: 'Check law of reflection understanding'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'Light travels from air (n=1.00) to glass (n=1.50) at an angle of 45°. Calculate the angle of refraction.',
+                        type: 'text',
+                        points: 10,
+                        sampleAnswer: 'θ₂ ≈ 28.1°',
+                        gradingNotes: 'Verify Snell\'s law application and calculation'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'Explain why a pencil appears bent when placed in a glass of water.',
+                        type: 'text',
+                        points: 8,
+                        sampleAnswer: 'Student should explain refraction effect',
+                        gradingNotes: 'Check for understanding of refraction phenomenon'
+                    }
+                ]
+            }
+        ];
+
+        // Save to localStorage
+        localStorage.setItem('physicsAssignments', JSON.stringify(physicsAssignments));
+
+        // Display success message
+        document.body.innerHTML = `
+            <h1>✅ Physics Homework Data Created Successfully!</h1>
+            <p><strong>Created ${physicsAssignments.length} homework assignments:</strong></p>
+            <ul>
+                ${physicsAssignments.map(hw => `<li><strong>${hw.title}</strong> (${hw.points} points, ${hw.difficulty})</li>`).join('')}
+            </ul>
+            <p>You can now go to <a href="physics-homework.html">physics-homework.html</a> to see the assignments.</p>
+            <p>Data saved to localStorage as 'physicsAssignments'.</p>
+        `;
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

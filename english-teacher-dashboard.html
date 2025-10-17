@@ -330,6 +330,63 @@
             opacity: 0.9;
         }
 
+        /* Daily Practice Questions Styles */
+        .questions-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .question-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .question-item:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-color);
+        }
+
+        .question-content {
+            flex: 1;
+            margin-right: 1rem;
+        }
+
+        .question-content h6 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .question-content p {
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .question-meta {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .question-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .stat-item {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
         /* Tabs */
         .content-tabs {
             background: white;
@@ -958,6 +1015,11 @@
                     <h6>Grade Submissions</h6>
                     <p>Review & grade work</p>
                 </button>
+                <button class="action-btn success" onclick="openDailyPracticeModal()">
+                    <iconify-icon icon="material-symbols:edit-note"></iconify-icon>
+                    <h6>Daily Practice</h6>
+                    <p>Create daily questions</p>
+                </button>
             </div>
         </div>
 
@@ -1038,6 +1100,58 @@
                     <div class="loading">
                         <div class="spinner"></div>
                         Student management coming soon...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Practice Questions & Assistant Section -->
+        <div class="row mb-5">
+            <!-- Daily Practice Questions Card -->
+            <div class="col-md-6 mb-4">
+                <div class="modern-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <iconify-icon icon="material-symbols:edit-note" class="me-2"></iconify-icon>
+                            Daily Practice Questions
+                        </h5>
+                        <button class="btn btn-sm btn-primary" onclick="openDailyPracticeModal()">
+                            <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
+                            Add Question
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="dailyQuestionsPreview">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                Loading daily questions...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assistant Card -->
+            <div class="col-md-6 mb-4">
+                <div class="modern-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <iconify-icon icon="material-symbols:person-add" class="me-2"></iconify-icon>
+                            Course Assistant
+                        </h5>
+                        <button class="btn btn-sm btn-success" onclick="openAddAssistantModal()">
+                            <iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>
+                            Add Assistant
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="assistantPreview">
+                            <div class="text-center py-3">
+                                <iconify-icon icon="material-symbols:person-add" style="font-size: 2rem; color: #6c757d;"></iconify-icon>
+                                <p class="text-muted mt-2 mb-0">No assistant assigned yet</p>
+                                <small class="text-muted">Click "Add Assistant" to get started</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1199,6 +1313,210 @@
         </div>
     </div>
 
+    <!-- Daily Practice Questions Modal -->
+    <div class="modal fade" id="dailyPracticeModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:quiz" style="margin-right: 0.5rem;"></iconify-icon>
+                        Daily Practice Questions Management
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="dailyPracticeForm">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <!-- Question Type Selection -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Question Type</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-check assessment-type-option" onclick="selectDailyPracticeQuestionType('multiple-choice')">
+                                                <input class="form-check-input" type="radio" name="dailyPracticeQuestionType" id="mcType" value="multiple-choice" checked>
+                                                <label class="form-check-label" for="mcType">
+                                                    <div class="assessment-type-card">
+                                                        <iconify-icon icon="material-symbols:quiz" style="font-size: 1.5rem; color: #667eea;"></iconify-icon>
+                                                        <h6>Multiple Choice</h6>
+                                                        <p>Select one answer</p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check assessment-type-option" onclick="selectDailyPracticeQuestionType('short-answer')">
+                                                <input class="form-check-input" type="radio" name="dailyPracticeQuestionType" id="saType" value="short-answer">
+                                                <label class="form-check-label" for="saType">
+                                                    <div class="assessment-type-card">
+                                                        <iconify-icon icon="material-symbols:edit-note" style="font-size: 1.5rem; color: #10b981;"></iconify-icon>
+                                                        <h6>Short Answer</h6>
+                                                        <p>Text response</p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check assessment-type-option" onclick="selectDailyPracticeQuestionType('file-upload')">
+                                                <input class="form-check-input" type="radio" name="dailyPracticeQuestionType" id="fuType" value="file-upload">
+                                                <label class="form-check-label" for="fuType">
+                                                    <div class="assessment-type-card">
+                                                        <iconify-icon icon="material-symbols:upload-file" style="font-size: 1.5rem; color: #f59e0b;"></iconify-icon>
+                                                        <h6>File Upload</h6>
+                                                        <p>Upload document</p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question Management Section -->
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6>Daily Practice Questions (<span id="dailyPracticeQuestionCount">0</span>)</h6>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-primary" onclick="addDailyPracticeQuestion()">
+                                                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                                Add Question
+                                            </button>
+                                            <button type="button" class="btn btn-success" onclick="generateDailyPracticeQuestions()">
+                                                <iconify-icon icon="material-symbols:auto-awesome"></iconify-icon>
+                                                Generate
+                                            </button>
+                                            <button type="button" class="btn btn-outline-info" onclick="previewQuestions()">
+                                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                                Preview
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Search and Filter -->
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <iconify-icon icon="material-symbols:search"></iconify-icon>
+                                                </span>
+                                                <input type="text" class="form-control" id="questionSearch" placeholder="Search questions..." onkeyup="filterQuestions()">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-select" id="difficultyFilter" onchange="filterQuestions()">
+                                                <option value="">All Difficulties</option>
+                                                <option value="Easy">Easy</option>
+                                                <option value="Medium">Medium</option>
+                                                <option value="Hard">Hard</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <select class="form-select" id="typeFilter" onchange="filterQuestions()">
+                                                <option value="">All Types</option>
+                                                <option value="multiple-choice">Multiple Choice</option>
+                                                <option value="short-answer">Short Answer</option>
+                                                <option value="file-upload">File Upload</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Bulk Actions -->
+                                    <div class="d-flex justify-content-between align-items-center mb-3" id="bulkActions" style="display: none;">
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteSelectedQuestions()">
+                                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                                Delete Selected
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="exportSelectedQuestions()">
+                                                <iconify-icon icon="material-symbols:download"></iconify-icon>
+                                                Export Selected
+                                            </button>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearSelection()">
+                                            Clear Selection
+                                        </button>
+                                    </div>
+                                    
+                                    <div id="dailyPracticeQuestionsContainer" class="mt-4">
+                                        <!-- Questions will be added here -->
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Quick Stats</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="stat-item mb-3">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Total Questions:</span>
+                                                <strong id="totalQuestionsCount">0</strong>
+                                            </div>
+                                        </div>
+                                        <div class="stat-item mb-3">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Easy Questions:</span>
+                                                <strong id="easyQuestionsCount">0</strong>
+                                            </div>
+                                        </div>
+                                        <div class="stat-item mb-3">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Medium Questions:</span>
+                                                <strong id="mediumQuestionsCount">0</strong>
+                                            </div>
+                                        </div>
+                                        <div class="stat-item mb-3">
+                                            <div class="d-flex justify-content-between">
+                                                <span>Hard Questions:</span>
+                                                <strong id="hardQuestionsCount">0</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="card mt-3">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Quick Actions</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <button class="btn btn-outline-primary w-100 mb-2" onclick="exportDailyPracticeQuestions()">
+                                            <iconify-icon icon="material-symbols:download"></iconify-icon>
+                                            Export Questions
+                                        </button>
+                                        <button class="btn btn-outline-success w-100 mb-2" onclick="importDailyPracticeQuestions()">
+                                            <iconify-icon icon="material-symbols:upload"></iconify-icon>
+                                            Import Questions
+                                        </button>
+                                        <button class="btn btn-outline-danger w-100" onclick="clearAllDailyPracticeQuestions()">
+                                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                            Clear All
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex justify-content-between w-100">
+                        <button type="button" class="btn btn-outline-danger" onclick="clearAllDailyPracticeQuestions()" id="clearAllBtn" style="display: none;">
+                            <iconify-icon icon="material-symbols:delete-forever"></iconify-icon>
+                            Delete All Questions
+                        </button>
+                        <div>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='english-daily-practice.html'">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                View Student Dashboard
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
@@ -1213,12 +1531,17 @@
         let englishQuizzes = [];
         let englishAssignments = [];
         let englishExams = [];
+        
+        // Daily Practice variables
+        let currentDailyPracticeQuestionType = 'multiple-choice';
+        let dailyPracticeQuestionCounter = 0;
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
             loadEnglishData();
             loadAssessments();
             updateStats();
+            loadDailyQuestions();
             
             // Add event listener for publish button
             document.getElementById('publishBtn').addEventListener('click', function() {
@@ -2100,6 +2423,171 @@
             localStorage.setItem('englishSubmissions', JSON.stringify(submissions));
         }
 
+        // Open Daily Practice Modal
+        function openDailyPracticeModal() {
+            loadDailyPracticeQuestions();
+            const modal = new bootstrap.Modal(document.getElementById('dailyPracticeModal'));
+            modal.show();
+        }
+
+        // Load daily practice questions
+        function loadDailyPracticeQuestions() {
+            const questions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
+            const questionsList = document.getElementById('dailyPracticeQuestionsList');
+            const questionCount = document.getElementById('dailyPracticeQuestionCount');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            
+            questionCount.textContent = questions.length;
+            
+            // Show/hide clear all button based on question count
+            if (questions.length > 0) {
+                clearAllBtn.style.display = 'block';
+            } else {
+                clearAllBtn.style.display = 'none';
+            }
+            
+            // Update statistics
+            updateQuestionStatistics(questions);
+            
+            questionsList.innerHTML = '';
+            if (questions.length === 0) {
+                questionsList.innerHTML = '<div class="text-center text-muted py-4"><iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; opacity: 0.3;"></iconify-icon><p class="mt-2">No daily practice questions added yet</p></div>';
+            } else {
+                questions.forEach((question, index) => {
+                    const questionItem = document.createElement('div');
+                    questionItem.className = 'question-item';
+                    questionItem.innerHTML = `
+                        <div class="question-content">
+                            <h6>Question ${index + 1}</h6>
+                            <p>${question.question}</p>
+                            <div class="question-meta">
+                                <span class="badge bg-primary">${question.difficulty}</span>
+                                <span class="badge bg-secondary">${question.topic}</span>
+                            </div>
+                        </div>
+                        <div class="question-actions">
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteDailyPracticeQuestion(${index})">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    `;
+                    questionsList.appendChild(questionItem);
+                });
+            }
+        }
+
+        // Update question statistics
+        function updateQuestionStatistics(questions) {
+            const totalCount = questions.length;
+            const easyCount = questions.filter(q => q.difficulty === 'Easy').length;
+            const mediumCount = questions.filter(q => q.difficulty === 'Medium').length;
+            const hardCount = questions.filter(q => q.difficulty === 'Hard').length;
+
+            document.getElementById('totalQuestionsCount').textContent = totalCount;
+            document.getElementById('easyQuestionsCount').textContent = easyCount;
+            document.getElementById('mediumQuestionsCount').textContent = mediumCount;
+            document.getElementById('hardQuestionsCount').textContent = hardCount;
+        }
+
+        // Add new daily practice question
+        function addDailyPracticeQuestion() {
+            const question = document.getElementById('newQuestionText').value.trim();
+            const difficulty = document.getElementById('newQuestionDifficulty').value;
+            const topic = document.getElementById('newQuestionTopic').value;
+            const answer = document.getElementById('newQuestionAnswer').value.trim();
+            const explanation = document.getElementById('newQuestionExplanation').value.trim();
+
+            if (!question || !difficulty || !topic || !answer) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+
+            const questions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
+            const newQuestion = {
+                id: Date.now(),
+                question: question,
+                difficulty: difficulty,
+                topic: topic,
+                answer: answer,
+                explanation: explanation,
+                createdAt: new Date().toISOString()
+            };
+
+            questions.push(newQuestion);
+            localStorage.setItem('english_daily_practice_questions', JSON.stringify(questions));
+            
+            // Clear form
+            document.getElementById('newQuestionText').value = '';
+            document.getElementById('newQuestionDifficulty').value = '';
+            document.getElementById('newQuestionTopic').value = '';
+            document.getElementById('newQuestionAnswer').value = '';
+            document.getElementById('newQuestionExplanation').value = '';
+            
+            loadDailyPracticeQuestions();
+            showToast('Daily practice question added successfully!', 'success');
+        }
+
+        // Delete daily practice question
+        function deleteDailyPracticeQuestion(index) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                const questions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
+                questions.splice(index, 1);
+                localStorage.setItem('english_daily_practice_questions', JSON.stringify(questions));
+                loadDailyPracticeQuestions();
+                showToast('Question deleted successfully!', 'success');
+            }
+        }
+
+        // Export questions
+        function exportQuestions() {
+            const questions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
+            if (questions.length === 0) {
+                showToast('No questions to export', 'warning');
+                return;
+            }
+            
+            const dataStr = JSON.stringify(questions, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'english_daily_practice_questions.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            showToast('Questions exported successfully!', 'success');
+        }
+
+        // Import questions
+        function importQuestions() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const importedQuestions = JSON.parse(e.target.result);
+                            if (Array.isArray(importedQuestions)) {
+                                const currentQuestions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
+                                const mergedQuestions = [...currentQuestions, ...importedQuestions];
+                                localStorage.setItem('english_daily_practice_questions', JSON.stringify(mergedQuestions));
+                                loadDailyPracticeQuestions();
+                                showToast(`${importedQuestions.length} questions imported successfully!`, 'success');
+                            } else {
+                                showToast('Invalid file format', 'error');
+                            }
+                        } catch (error) {
+                            showToast('Error reading file', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
         // Show toast notification
         function showToast(message, type = 'success') {
             const toast = document.createElement('div');
@@ -2172,6 +2660,778 @@
                     comments: 'Excellent analysis!'
                 }
             ];
+        }
+
+        // Daily Practice Questions Functions
+        function loadDailyQuestions() {
+            const questionsData = localStorage.getItem('englishDailyQuestions');
+            englishDailyQuestions = questionsData ? JSON.parse(questionsData) : [];
+            displayDailyQuestions();
+        }
+
+        function displayDailyQuestions() {
+            const container = document.getElementById('dailyQuestionsPreview');
+            
+            if (englishDailyQuestions.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-3">
+                        <iconify-icon icon="material-symbols:quiz" style="font-size: 2rem; color: #6c757d;"></iconify-icon>
+                        <p class="text-muted mt-2 mb-0">No daily questions yet</p>
+                        <small class="text-muted">Click "Add Question" to get started</small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show preview of recent questions (max 3)
+            const recentQuestions = englishDailyQuestions.slice(-3);
+            container.innerHTML = recentQuestions.map((question, index) => `
+                <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-1" style="font-size: 0.9rem;">${question.question.substring(0, 50)}${question.question.length > 50 ? '...' : ''}</h6>
+                        <div class="d-flex gap-2">
+                            <span class="badge bg-primary" style="font-size: 0.7rem;">${question.type}</span>
+                            <span class="badge bg-secondary" style="font-size: 0.7rem;">${question.difficulty}</span>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-1">
+                        <button class="btn btn-sm btn-outline-primary" onclick="editDailyQuestion(${englishDailyQuestions.length - recentQuestions.length + index})" style="padding: 0.25rem 0.5rem;">
+                            <iconify-icon icon="material-symbols:edit" style="font-size: 0.8rem;"></iconify-icon>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteDailyQuestion(${englishDailyQuestions.length - recentQuestions.length + index})" style="padding: 0.25rem 0.5rem;">
+                            <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+            `).join('') + `
+                ${englishDailyQuestions.length > 3 ? `
+                    <div class="text-center mt-2">
+                        <small class="text-muted">+${englishDailyQuestions.length - 3} more questions</small>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        function openDailyPracticeModal(questionIndex = null) {
+            const modal = new bootstrap.Modal(document.getElementById('dailyPracticeModal'));
+            const title = document.getElementById('dailyPracticeModalTitle');
+            
+            if (questionIndex !== null) {
+                title.textContent = 'Edit Daily Question';
+                loadQuestionForEdit(questionIndex);
+            } else {
+                title.textContent = 'Add New Daily Question';
+                document.getElementById('dailyPracticeForm').reset();
+                toggleAnswerOptions();
+            }
+            
+            modal.show();
+        }
+
+        function loadQuestionForEdit(index) {
+            const question = englishDailyQuestions[index];
+            document.getElementById('questionText').value = question.question;
+            document.getElementById('questionType').value = question.type;
+            document.getElementById('difficultyLevel').value = question.difficulty;
+            document.getElementById('questionTopic').value = question.topic;
+            document.getElementById('questionPoints').value = question.points;
+            document.getElementById('questionExplanation').value = question.explanation || '';
+            
+            toggleAnswerOptions();
+            
+            if (question.type === 'multiple-choice' && question.options) {
+                question.options.forEach((option, i) => {
+                    const optionInput = document.querySelector(`input[data-option="${String.fromCharCode(65 + i)}"]`);
+                    if (optionInput) optionInput.value = option;
+                });
+                document.querySelector(`input[name="correctAnswer"][value="${question.correctAnswer}"]`).checked = true;
+            } else if (question.expectedAnswer) {
+                document.getElementById('expectedAnswer').value = question.expectedAnswer;
+            }
+        }
+
+        function toggleAnswerOptions() {
+            const questionType = document.getElementById('questionType').value;
+            const multipleChoiceDiv = document.getElementById('multipleChoiceOptions');
+            const shortAnswerDiv = document.getElementById('shortAnswerOptions');
+            
+            if (questionType === 'multiple-choice') {
+                multipleChoiceDiv.style.display = 'block';
+                shortAnswerDiv.style.display = 'none';
+            } else {
+                multipleChoiceDiv.style.display = 'none';
+                shortAnswerDiv.style.display = 'block';
+            }
+        }
+
+        function saveDailyQuestion() {
+            const questionText = document.getElementById('questionText').value;
+            const questionType = document.getElementById('questionType').value;
+            const difficulty = document.getElementById('difficultyLevel').value;
+            const topic = document.getElementById('questionTopic').value;
+            const points = parseInt(document.getElementById('questionPoints').value);
+            const explanation = document.getElementById('questionExplanation').value;
+            
+            if (!questionText || !topic) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            const question = {
+                id: Date.now(),
+                question: questionText,
+                type: questionType,
+                difficulty: difficulty,
+                topic: topic,
+                points: points,
+                explanation: explanation,
+                createdAt: new Date().toISOString()
+            };
+            
+            if (questionType === 'multiple-choice') {
+                const options = [];
+                const optionInputs = document.querySelectorAll('input[data-option]');
+                optionInputs.forEach(input => {
+                    if (input.value.trim()) {
+                        options.push(input.value.trim());
+                    }
+                });
+                
+                const correctAnswer = document.querySelector('input[name="correctAnswer"]:checked');
+                if (!correctAnswer || options.length < 2) {
+                    showToast('Please provide at least 2 options and select the correct answer', 'error');
+                    return;
+                }
+                
+                question.options = options;
+                question.correctAnswer = correctAnswer.value;
+            } else {
+                const expectedAnswer = document.getElementById('expectedAnswer').value;
+                if (!expectedAnswer.trim()) {
+                    showToast('Please provide an expected answer', 'error');
+                    return;
+                }
+                question.expectedAnswer = expectedAnswer;
+            }
+            
+            // Add or update question
+            englishDailyQuestions.push(question);
+            localStorage.setItem('englishDailyQuestions', JSON.stringify(englishDailyQuestions));
+            
+            showToast('Daily question saved successfully!', 'success');
+            displayDailyQuestions();
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('dailyPracticeModal'));
+            modal.hide();
+        }
+
+        function editDailyQuestion(index) {
+            openDailyPracticeModal(index);
+        }
+
+        function deleteDailyQuestion(index) {
+            if (confirm('Are you sure you want to delete this daily question?')) {
+                englishDailyQuestions.splice(index, 1);
+                localStorage.setItem('englishDailyQuestions', JSON.stringify(englishDailyQuestions));
+                displayDailyQuestions();
+                showToast('Daily question deleted successfully', 'success');
+            }
+        }
+
+        // Daily Practice Questions Management
+        function openDailyPracticeModal() {
+            const modal = new bootstrap.Modal(document.getElementById('dailyPracticeModal'));
+            modal.show();
+            loadDailyPracticeQuestions();
+        }
+
+        function selectDailyPracticeQuestionType(type) {
+            currentDailyPracticeQuestionType = type;
+        }
+
+        function loadDailyPracticeQuestions() {
+            const questions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
+            const questionCount = document.getElementById('dailyPracticeQuestionCount');
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            
+            questionCount.textContent = questions.length;
+            updateQuestionStatistics(questions);
+            
+            container.innerHTML = '';
+            if (questions.length === 0) {
+                container.innerHTML = '<div class="text-center text-muted py-4"><iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; opacity: 0.3;"></iconify-icon><p class="mt-2">No daily practice questions added yet. Click "Add Question" to get started!</p></div>';
+            } else {
+                questions.forEach((question, index) => {
+                    addDailyPracticeQuestionToContainer(question, index + 1);
+                });
+            }
+        }
+
+        function addDailyPracticeQuestionToContainer(question, questionNumber) {
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            dailyPracticeQuestionCounter++;
+            
+            const questionHtml = `
+                <div class="question-item mb-4 p-3 border rounded" id="dailyPracticeQuestion-${dailyPracticeQuestionCounter}" style="display: block;" data-question-type="${question.type || currentDailyPracticeQuestionType}" data-difficulty="${question.difficulty || 'Easy'}">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input question-checkbox" type="checkbox" value="${dailyPracticeQuestionCounter}" onchange="updateBulkActions()">
+                            </div>
+                            <h6>Question ${questionNumber}</h6>
+                            <span class="badge bg-primary">${question.type || currentDailyPracticeQuestionType}</span>
+                            <span class="badge bg-${question.difficulty === 'Easy' ? 'success' : question.difficulty === 'Medium' ? 'warning' : 'danger'}">${question.difficulty || 'Easy'}</span>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-sm btn-outline-info" onclick="duplicateQuestion(${dailyPracticeQuestionCounter})">
+                                <iconify-icon icon="material-symbols:content-copy"></iconify-icon>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeDailyPracticeQuestion(${dailyPracticeQuestionCounter})">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mb-3" style="width: 100%; display: block;">
+                        <label class="form-label" style="display: block; width: 100%;">Question Text</label>
+                        <textarea class="form-control" name="dailyPracticeQuestionText" rows="3" placeholder="Enter your question..." style="width: 100%; display: block;">${question.question || ''}</textarea>
+                    </div>
+                    <div class="mb-3" style="width: 100%; display: block;">
+                        <label class="form-label" style="display: block; width: 100%;">Difficulty</label>
+                        <select class="form-control" name="dailyPracticeDifficulty" style="width: 100%; display: block;">
+                            <option value="Easy" ${question.difficulty === 'Easy' ? 'selected' : ''}>Easy</option>
+                            <option value="Medium" ${question.difficulty === 'Medium' ? 'selected' : ''}>Medium</option>
+                            <option value="Hard" ${question.difficulty === 'Hard' ? 'selected' : ''}>Hard</option>
+                        </select>
+                    </div>
+                    <div class="mb-3" style="width: 100%; display: block;">
+                        <label class="form-label" style="display: block; width: 100%;">Topic</label>
+                        <input type="text" class="form-control" name="dailyPracticeTopic" placeholder="e.g., Grammar, Vocabulary, Reading" value="${question.topic || ''}" style="width: 100%; display: block;">
+                    </div>
+                    <div class="mb-3" style="width: 100%; display: block;">
+                        <label class="form-label" style="display: block; width: 100%;">Points</label>
+                        <input type="number" class="form-control" name="dailyPracticePoints" min="1" value="${question.points || 10}" style="width: 100%; display: block;">
+                    </div>
+                    <div id="dailyPracticeQuestionOptions-${dailyPracticeQuestionCounter}" style="width: 100%; display: block;">
+                        ${generateDailyPracticeQuestionOptions(question.type || currentDailyPracticeQuestionType, dailyPracticeQuestionCounter, question.options || [])}
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', questionHtml);
+        }
+
+        function generateDailyPracticeQuestionOptions(type, questionId, options = []) {
+            switch(type) {
+                case 'multiple-choice':
+                    const optionHtml = options.length > 0 ? 
+                        options.map((option, index) => `
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" placeholder="Option ${index + 1}" value="${option}">
+                                <div class="input-group-text">
+                                    <input type="radio" name="dailyPracticeCorrect-${questionId}" value="${index}">
+                                </div>
+                            </div>
+                        `).join('') :
+                        `
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" placeholder="Option 1">
+                                <div class="input-group-text">
+                                    <input type="radio" name="dailyPracticeCorrect-${questionId}" value="0">
+                                </div>
+                            </div>
+                            <div class="input-group mb-2">
+                                <input type="text" class="form-control" placeholder="Option 2">
+                                <div class="input-group-text">
+                                    <input type="radio" name="dailyPracticeCorrect-${questionId}" value="1">
+                                </div>
+                            </div>
+                        `;
+                    
+                    return `
+                        <div class="mb-3">
+                            <label class="form-label">Options</label>
+                            <div id="dailyPracticeOptions-${questionId}">
+                                ${optionHtml}
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="addDailyPracticeOption(${questionId})">
+                                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                Add Option
+                            </button>
+                        </div>
+                    `;
+                case 'short-answer':
+                    return `
+                        <div class="mb-3">
+                            <label class="form-label">Correct Answer</label>
+                            <textarea class="form-control" name="dailyPracticeAnswer" rows="2" placeholder="Enter the correct answer...">${options[0] || ''}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Explanation (Optional)</label>
+                            <textarea class="form-control" name="dailyPracticeExplanation" rows="2" placeholder="Provide explanation for the answer...">${options[1] || ''}</textarea>
+                        </div>
+                    `;
+                case 'file-upload':
+                    return `
+                        <div class="mb-3">
+                            <label class="form-label">Expected File Type</label>
+                            <select class="form-control" name="dailyPracticeFileType">
+                                <option value="pdf" ${options[0] === 'pdf' ? 'selected' : ''}>PDF Document</option>
+                                <option value="image" ${options[0] === 'image' ? 'selected' : ''}>Image (JPG, PNG)</option>
+                                <option value="document" ${options[0] === 'document' ? 'selected' : ''}>Word Document</option>
+                                <option value="any" ${options[0] === 'any' ? 'selected' : ''}>Any File Type</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Instructions</label>
+                            <textarea class="form-control" name="dailyPracticeInstructions" rows="2" placeholder="Provide instructions for the file upload...">${options[1] || ''}</textarea>
+                        </div>
+                    `;
+                default:
+                    return '';
+            }
+        }
+
+        function addDailyPracticeQuestion() {
+            addDailyPracticeQuestionToContainer({}, dailyPracticeQuestionCounter + 1);
+        }
+
+        function addDailyPracticeOption(questionId) {
+            const optionsContainer = document.getElementById(`dailyPracticeOptions-${questionId}`);
+            const optionCount = optionsContainer.children.length;
+            
+            const optionHtml = `
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="Option ${optionCount + 1}">
+                    <div class="input-group-text">
+                        <input type="radio" name="dailyPracticeCorrect-${questionId}" value="${optionCount}">
+                    </div>
+                </div>
+            `;
+            
+            optionsContainer.insertAdjacentHTML('beforeend', optionHtml);
+        }
+
+        function removeDailyPracticeQuestion(questionId) {
+            const questionElement = document.getElementById(`dailyPracticeQuestion-${questionId}`);
+            if (questionElement) {
+                questionElement.remove();
+                updateDailyPracticeQuestionCount();
+            }
+        }
+
+        function updateDailyPracticeQuestionCount() {
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            const questions = container.querySelectorAll('.question-item');
+            document.getElementById('dailyPracticeQuestionCount').textContent = questions.length;
+        }
+
+        function saveDailyPracticeQuestions() {
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            const questionElements = container.querySelectorAll('.question-item');
+            const questions = [];
+            let hasErrors = false;
+
+            // Show loading state
+            const saveBtn = document.querySelector('button[onclick="saveDailyPracticeQuestions()"]');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<iconify-icon icon="material-symbols:hourglass-empty"></iconify-icon> Saving...';
+            saveBtn.disabled = true;
+
+            questionElements.forEach((element, index) => {
+                const questionText = element.querySelector('textarea[name="dailyPracticeQuestionText"]').value.trim();
+                const difficulty = element.querySelector('select[name="dailyPracticeDifficulty"]').value;
+                const topic = element.querySelector('input[name="dailyPracticeTopic"]').value.trim();
+                const points = parseInt(element.querySelector('input[name="dailyPracticePoints"]').value) || 10;
+                const questionType = element.getAttribute('data-question-type') || currentDailyPracticeQuestionType;
+                
+                // Validation
+                if (!questionText) {
+                    showToast(`Question text is required for question ${index + 1}`, 'error');
+                    hasErrors = true;
+                    return;
+                }
+                if (!topic) {
+                    showToast(`Topic is required for question ${index + 1}`, 'error');
+                    hasErrors = true;
+                    return;
+                }
+                if (points < 1) {
+                    showToast(`Points must be at least 1 for question ${index + 1}`, 'error');
+                    hasErrors = true;
+                    return;
+                }
+
+                const question = {
+                    id: question.id || Date.now() + index,
+                    question: questionText,
+                    difficulty: difficulty,
+                    topic: topic,
+                    points: points,
+                    type: questionType,
+                    createdAt: question.createdAt || new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                // Get answer based on question type
+                if (questionType === 'multiple-choice') {
+                    const correctRadio = element.querySelector(`input[name="dailyPracticeCorrect-${element.id.split('-')[1]}"]:checked`);
+                    const options = Array.from(element.querySelectorAll('#dailyPracticeOptions-' + element.id.split('-')[1] + ' input[type="text"]')).map(input => input.value.trim()).filter(opt => opt);
+                    
+                    if (!correctRadio) {
+                        showToast(`Please select a correct answer for question ${index + 1}`, 'error');
+                        hasErrors = true;
+                        return;
+                    }
+                    if (options.length < 2) {
+                        showToast(`At least 2 options are required for question ${index + 1}`, 'error');
+                        hasErrors = true;
+                        return;
+                    }
+                    
+                    question.options = options;
+                    question.correctAnswer = correctRadio.value;
+                    question.answer = options[parseInt(correctRadio.value)];
+                } else if (questionType === 'short-answer') {
+                    const answerTextarea = element.querySelector('textarea[name="dailyPracticeAnswer"]');
+                    const explanationTextarea = element.querySelector('textarea[name="dailyPracticeExplanation"]');
+                    
+                    if (answerTextarea && answerTextarea.value.trim()) {
+                        question.answer = answerTextarea.value.trim();
+                    }
+                    if (explanationTextarea && explanationTextarea.value.trim()) {
+                        question.explanation = explanationTextarea.value.trim();
+                    }
+                } else if (questionType === 'file-upload') {
+                    const fileTypeSelect = element.querySelector('select[name="dailyPracticeFileType"]');
+                    const instructionsTextarea = element.querySelector('textarea[name="dailyPracticeInstructions"]');
+                    
+                    if (fileTypeSelect) {
+                        question.fileType = fileTypeSelect.value;
+                    }
+                    if (instructionsTextarea && instructionsTextarea.value.trim()) {
+                        question.instructions = instructionsTextarea.value.trim();
+                    }
+                }
+
+                questions.push(question);
+            });
+
+            if (hasErrors) {
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+                return;
+            }
+
+            localStorage.setItem('english_daily_practice_questions', JSON.stringify(questions));
+            showToast(`Successfully saved ${questions.length} daily practice questions!`, 'success');
+            
+            // Reset button state
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+            
+            loadDailyPracticeQuestions();
+        }
+
+        function updateQuestionStatistics(questions) {
+            const total = questions.length;
+            const easy = questions.filter(q => q.difficulty === 'Easy').length;
+            const medium = questions.filter(q => q.difficulty === 'Medium').length;
+            const hard = questions.filter(q => q.difficulty === 'Hard').length;
+            
+            document.getElementById('totalQuestionsCount').textContent = total;
+            document.getElementById('easyQuestionsCount').textContent = easy;
+            document.getElementById('mediumQuestionsCount').textContent = medium;
+            document.getElementById('hardQuestionsCount').textContent = hard;
+        }
+
+        function generateDailyPracticeQuestions() {
+            // Generate sample questions based on the selected type
+            const sampleQuestions = [];
+            
+            if (currentDailyPracticeQuestionType === 'multiple-choice') {
+                sampleQuestions.push({
+                    question: "What is the correct form of the verb 'to be' in the present tense for 'he'?",
+                    difficulty: "Easy",
+                    topic: "Grammar",
+                    points: 10,
+                    type: "multiple-choice",
+                    options: ["is", "are", "am", "be"],
+                    answer: "is",
+                    explanation: "The correct form of 'to be' for third person singular (he/she/it) is 'is'."
+                });
+            } else if (currentDailyPracticeQuestionType === 'short-answer') {
+                sampleQuestions.push({
+                    question: "Explain the difference between 'affect' and 'effect'.",
+                    difficulty: "Medium",
+                    topic: "Vocabulary",
+                    points: 15,
+                    type: "short-answer",
+                    options: [],
+                    answer: "Affect is a verb meaning to influence, while effect is a noun meaning a result.",
+                    explanation: "Remember: Affect = Action (verb), Effect = End result (noun)."
+                });
+            } else if (currentDailyPracticeQuestionType === 'file-upload') {
+                sampleQuestions.push({
+                    question: "Write a short essay about your favorite book and upload it as a PDF.",
+                    difficulty: "Hard",
+                    topic: "Writing",
+                    points: 25,
+                    type: "file-upload",
+                    options: ["pdf", "Please write at least 200 words and include specific examples from the book."],
+                    answer: "",
+                    explanation: "Focus on clear structure, specific examples, and personal insights."
+                });
+            }
+            
+            sampleQuestions.forEach(question => {
+                addDailyPracticeQuestionToContainer(question, dailyPracticeQuestionCounter + 1);
+            });
+            
+            showToast('Sample questions generated!', 'success');
+        }
+
+        function exportDailyPracticeQuestions() {
+            const questions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
+            const dataStr = JSON.stringify(questions, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'english_daily_practice_questions.json';
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importDailyPracticeQuestions() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const questions = JSON.parse(e.target.result);
+                            localStorage.setItem('english_daily_practice_questions', JSON.stringify(questions));
+                            loadDailyPracticeQuestions();
+                            showToast('Questions imported successfully!', 'success');
+                        } catch (error) {
+                            showToast('Error importing questions. Please check the file format.', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        function clearAllDailyPracticeQuestions() {
+            if (confirm('Are you sure you want to clear all daily practice questions? This action cannot be undone.')) {
+                localStorage.removeItem('english_daily_practice_questions');
+                loadDailyPracticeQuestions();
+                showToast('All questions cleared!', 'success');
+            }
+        }
+
+        // Filter questions based on search and filters
+        function filterQuestions() {
+            const searchTerm = document.getElementById('questionSearch').value.toLowerCase();
+            const difficultyFilter = document.getElementById('difficultyFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const questions = document.querySelectorAll('.question-item');
+            
+            questions.forEach(question => {
+                const questionText = question.querySelector('textarea[name="dailyPracticeQuestionText"]').value.toLowerCase();
+                const topic = question.querySelector('input[name="dailyPracticeTopic"]').value.toLowerCase();
+                const difficulty = question.getAttribute('data-difficulty');
+                const type = question.getAttribute('data-question-type');
+                
+                const matchesSearch = questionText.includes(searchTerm) || topic.includes(searchTerm);
+                const matchesDifficulty = !difficultyFilter || difficulty === difficultyFilter;
+                const matchesType = !typeFilter || type === typeFilter;
+                
+                if (matchesSearch && matchesDifficulty && matchesType) {
+                    question.style.display = 'block';
+                } else {
+                    question.style.display = 'none';
+                }
+            });
+        }
+
+        // Update bulk actions visibility
+        function updateBulkActions() {
+            const checkedBoxes = document.querySelectorAll('.question-checkbox:checked');
+            const bulkActions = document.getElementById('bulkActions');
+            
+            if (checkedBoxes.length > 0) {
+                bulkActions.style.display = 'flex';
+            } else {
+                bulkActions.style.display = 'none';
+            }
+        }
+
+        // Delete selected questions
+        function deleteSelectedQuestions() {
+            const checkedBoxes = document.querySelectorAll('.question-checkbox:checked');
+            if (checkedBoxes.length === 0) return;
+            
+            if (confirm(`Are you sure you want to delete ${checkedBoxes.length} selected questions?`)) {
+                checkedBoxes.forEach(checkbox => {
+                    const questionId = checkbox.value;
+                    const questionElement = document.getElementById(`dailyPracticeQuestion-${questionId}`);
+                    if (questionElement) {
+                        questionElement.remove();
+                    }
+                });
+                updateDailyPracticeQuestionCount();
+                updateBulkActions();
+                showToast(`${checkedBoxes.length} questions deleted successfully!`, 'success');
+            }
+        }
+
+        // Export selected questions
+        function exportSelectedQuestions() {
+            const checkedBoxes = document.querySelectorAll('.question-checkbox:checked');
+            if (checkedBoxes.length === 0) return;
+            
+            const allQuestions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
+            const selectedQuestions = [];
+            
+            checkedBoxes.forEach(checkbox => {
+                const questionId = checkbox.value;
+                const questionElement = document.getElementById(`dailyPracticeQuestion-${questionId}`);
+                if (questionElement) {
+                    // Get question data from form
+                    const questionText = questionElement.querySelector('textarea[name="dailyPracticeQuestionText"]').value.trim();
+                    const difficulty = questionElement.querySelector('select[name="dailyPracticeDifficulty"]').value;
+                    const topic = questionElement.querySelector('input[name="dailyPracticeTopic"]').value.trim();
+                    const points = parseInt(questionElement.querySelector('input[name="dailyPracticePoints"]').value) || 10;
+                    const type = questionElement.getAttribute('data-question-type');
+                    
+                    if (questionText && topic) {
+                        selectedQuestions.push({
+                            question: questionText,
+                            difficulty: difficulty,
+                            topic: topic,
+                            points: points,
+                            type: type
+                        });
+                    }
+                }
+            });
+            
+            if (selectedQuestions.length > 0) {
+                const dataStr = JSON.stringify(selectedQuestions, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `selected-daily-practice-questions-${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                URL.revokeObjectURL(url);
+                showToast(`${selectedQuestions.length} questions exported successfully!`, 'success');
+            }
+        }
+
+        // Clear selection
+        function clearSelection() {
+            document.querySelectorAll('.question-checkbox:checked').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            updateBulkActions();
+        }
+
+        // Duplicate question
+        function duplicateQuestion(questionId) {
+            const questionElement = document.getElementById(`dailyPracticeQuestion-${questionId}`);
+            if (questionElement) {
+                const questionData = {
+                    question: questionElement.querySelector('textarea[name="dailyPracticeQuestionText"]').value,
+                    difficulty: questionElement.querySelector('select[name="dailyPracticeDifficulty"]').value,
+                    topic: questionElement.querySelector('input[name="dailyPracticeTopic"]').value,
+                    points: questionElement.querySelector('input[name="dailyPracticePoints"]').value,
+                    type: questionElement.getAttribute('data-question-type')
+                };
+                
+                addDailyPracticeQuestionToContainer(questionData, document.querySelectorAll('.question-item').length + 1);
+                showToast('Question duplicated successfully!', 'success');
+            }
+        }
+
+        // Preview questions
+        function previewQuestions() {
+            const questions = document.querySelectorAll('.question-item');
+            if (questions.length === 0) {
+                showToast('No questions to preview', 'warning');
+                return;
+            }
+            
+            // Create preview modal
+            const previewModal = document.createElement('div');
+            previewModal.className = 'modal fade';
+            previewModal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Question Preview</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div id="previewContent"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(previewModal);
+            const modal = new bootstrap.Modal(previewModal);
+            
+            // Generate preview content
+            const previewContent = document.getElementById('previewContent');
+            let previewHtml = '';
+            
+            questions.forEach((question, index) => {
+                const questionText = question.querySelector('textarea[name="dailyPracticeQuestionText"]').value;
+                const difficulty = question.querySelector('select[name="dailyPracticeDifficulty"]').value;
+                const topic = question.querySelector('input[name="dailyPracticeTopic"]').value;
+                const points = question.querySelector('input[name="dailyPracticePoints"]').value;
+                const type = question.getAttribute('data-question-type');
+                
+                if (questionText) {
+                    previewHtml += `
+                        <div class="card mb-3">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Question ${index + 1}</h6>
+                                <div>
+                                    <span class="badge bg-primary me-1">${type}</span>
+                                    <span class="badge bg-${difficulty === 'Easy' ? 'success' : difficulty === 'Medium' ? 'warning' : 'danger'}">${difficulty}</span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Topic:</strong> ${topic} | <strong>Points:</strong> ${points}</p>
+                                <p>${questionText}</p>
+                                ${type === 'multiple-choice' ? '<p><em>Multiple choice options would appear here</em></p>' : ''}
+                                ${type === 'short-answer' ? '<p><em>Text input field would appear here</em></p>' : ''}
+                                ${type === 'file-upload' ? '<p><em>File upload field would appear here</em></p>' : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            previewContent.innerHTML = previewHtml || '<p class="text-muted">No questions to preview</p>';
+            
+            modal.show();
+            
+            // Clean up modal after it's hidden
+            previewModal.addEventListener('hidden.bs.modal', () => {
+                document.body.removeChild(previewModal);
+            });
         }
     </script>
 </body>

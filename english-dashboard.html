@@ -1073,7 +1073,7 @@
         <div class="sidebar-content" style="padding: 1rem;">
             <!-- Books Section -->
             <div class="menu-section">
-                <div class="menu-item" onclick="window.location.href='library.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                <div class="menu-item" onclick="window.location.href='english-library.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
                     <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
                         <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.5rem; color: white;"></iconify-icon>
                     </div>
@@ -1151,33 +1151,6 @@
                 </div>
             </div>
 
-            <!-- Live Sessions Section -->
-            <div class="menu-section">
-                <div class="menu-item" onclick="window.location.href='live-sessions.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
-                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                        <iconify-icon icon="material-symbols:video-camera-front" style="font-size: 1.5rem; color: white;"></iconify-icon>
-                    </div>
-                    <div class="menu-text" style="flex: 1;">
-                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Live Sessions</div>
-                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Interactive Learning Sessions</div>
-                    </div>
-                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
-                </div>
-            </div>
-            
-            <!-- Live Sessions Section -->
-            <div class="menu-section">
-                <div class="menu-item" onclick="window.location.href='english-live-sessions.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
-                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                        <iconify-icon icon="material-symbols:video-call" style="font-size: 1.5rem; color: white;"></iconify-icon>
-                    </div>
-                    <div class="menu-text" style="flex: 1;">
-                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Live Sessions</div>
-                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Interactive Learning Sessions</div>
-                    </div>
-                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
-                </div>
-            </div>
             
             <!-- Live Sessions Section -->
             <div class="menu-section">
@@ -2344,8 +2317,8 @@
             });
         }
 
-        // Update deadlines every 5 seconds
-        setInterval(updateDeadlines, 5000);
+        // Update deadlines once on load (removed interval to prevent performance issues)
+        updateDeadlines();
 
         // Function to start assignment
         function startAssignment(title) {
@@ -2752,10 +2725,8 @@
                 }
             });
             
-            // Poll for changes every 2 seconds (for same-tab updates)
-            setInterval(() => {
-                updateAlexProfile();
-            }, 2000);
+            // Update Alex profile once on load (removed interval to prevent infinite loop)
+            updateAlexProfile();
             
             // Generate schedule widget (at the end to ensure DOM is ready)
             setTimeout(() => {
@@ -2848,8 +2819,23 @@
             }
         }
 
+        // Cache for student points to prevent repeated calculations
+        let studentPointsCache = {};
+        let cacheExpiry = Date.now() + 30000; // Cache for 30 seconds
+
+        // Function to clear the cache (call when data changes)
+        function clearStudentPointsCache() {
+            studentPointsCache = {};
+            cacheExpiry = Date.now() + 30000;
+        }
+
         // Function to calculate student points from completed work
         function calculateStudentPoints(studentId) {
+            // Check cache first
+            if (studentPointsCache[studentId] && Date.now() < cacheExpiry) {
+                return studentPointsCache[studentId];
+            }
+
             let totalPoints = 0;
             let quizPoints = 0;
             let assignmentPoints = 0;
@@ -2933,7 +2919,7 @@
             
             console.log('Total points calculated:', {totalPoints, quizPoints, assignmentPoints, examPoints, completedQuizzes, completedAssignments, completedExams});
 
-            return {
+            const result = {
                 totalPoints,
                 quizPoints,
                 assignmentPoints,
@@ -2942,6 +2928,11 @@
                 completedAssignments,
                 completedExams
             };
+
+            // Cache the result
+            studentPointsCache[studentId] = result;
+            
+            return result;
         }
 
         // Function to render the leaderboard

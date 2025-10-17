@@ -698,11 +698,11 @@
       </div>
       <div class="homework-stats">
         <div class="stat-item">
-          <div class="stat-number" id="totalHomework">0</div>
+          <div class="stat-number" id="totalHomework">5</div>
           <div class="stat-label">Total</div>
         </div>
         <div class="stat-item">
-          <div class="stat-number" id="pendingHomework">0</div>
+          <div class="stat-number" id="pendingHomework">5</div>
           <div class="stat-label">Pending</div>
         </div>
       </div>
@@ -891,10 +891,12 @@
           
           // Filter for published mathematics assignments (including submitted ones)
           const publishedAssignments = assessments.filter(assessment => {
-            const isMathematics = assessment.type === 'assignment' || assessment.category === 'assignment';
+            // Since this is the Mathematics homework page, show all assignments that are assignments
+            // The subject filtering should happen at the data source level
+            const isAssignment = assessment.category === 'assignment' || assessment.type === 'assignment';
             const isPublished = assessment.status === 'published' || assessment.status === 'completed' || assessment.status === 'pending' || assessment.status === 'graded';
-            console.log(`Assessment "${assessment.title}": published=${isPublished}, type=${assessment.type}, category=${assessment.category}, isMathematics=${isMathematics}, status=${assessment.status}`);
-            return isMathematics && isPublished;
+            console.log(`Assessment "${assessment.title}": published=${isPublished}, subject=${assessment.subject}, isAssignment=${isAssignment}, status=${assessment.status}, category=${assessment.category}`);
+            return isAssignment && isPublished;
           });
           
           console.log('Filtered published mathematics assignments:', publishedAssignments);
@@ -1539,8 +1541,30 @@
       const questionText = question.text;
       const assignmentTitle = currentAssignment.title;
       
-      // Redirect to community page with question context
-      const communityUrl = `community.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(assignmentTitle)}&subject=mathematics`;
+      // Build comprehensive question content for community message
+      let messageContent = `Question from ${assignmentTitle}:\n\n${questionText}`;
+      
+      // Add choices for multiple choice questions
+      if (question.type === 'multiple-choice' && question.options && question.options.length > 0) {
+          messageContent += '\n\nChoices:';
+          question.options.forEach((option, index) => {
+              messageContent += `\n${String.fromCharCode(65 + index)}. ${option}`;
+          });
+      }
+      
+      // Add image if present
+      if (question.image) {
+          messageContent += `\n\n[Image: ${question.image}]`;
+      }
+      
+      // Add question type and points info
+      messageContent += `\n\nQuestion Type: ${question.type}`;
+      if (question.points) {
+          messageContent += `\nPoints: ${question.points}`;
+      }
+      
+      // Redirect to community page with comprehensive question context
+      const communityUrl = `community.html?message=${encodeURIComponent(messageContent)}&assignment=${encodeURIComponent(assignmentTitle)}&subject=mathematics`;
       window.open(communityUrl, '_blank');
     }
     
@@ -1816,8 +1840,13 @@
         homework[assignmentIndex].answers = userAnswers;
         homework[assignmentIndex].totalPoints = totalPoints;
         
-        // Save to localStorage
-        localStorage.setItem('mathematicsAssignments', JSON.stringify(homework));
+        // Save to localStorage - update the full assignments array, not just the filtered homework
+        const allAssignments = JSON.parse(localStorage.getItem('mathematicsAssignments') || '[]');
+        const globalAssignmentIndex = allAssignments.findIndex(a => a.id === currentAssignment.id);
+        if (globalAssignmentIndex !== -1) {
+          allAssignments[globalAssignmentIndex] = homework[assignmentIndex];
+          localStorage.setItem('mathematicsAssignments', JSON.stringify(allAssignments));
+        }
         
         // Also update the mathematicsAssessments data for consistency
         updateMathematicsAssessments(currentAssignment.id, homework[assignmentIndex]);
@@ -2271,7 +2300,17 @@
         alert('All mathematics content (assignments, quizzes, exams) has been deleted!');
       }
     }
-    
+
+    // Helper function to update mathematicsAssessments for consistency
+    function updateMathematicsAssessments(assignmentId, updatedAssignment) {
+      const mathematicsAssessments = JSON.parse(localStorage.getItem('mathematicsAssessments') || '[]');
+      const assessmentIndex = mathematicsAssessments.findIndex(a => a.id === assignmentId);
+      if (assessmentIndex !== -1) {
+        mathematicsAssessments[assessmentIndex] = updatedAssignment;
+        localStorage.setItem('mathematicsAssessments', JSON.stringify(mathematicsAssessments));
+      }
+    }
+
     function clearMathematicsContent() {
       // Clear studentAssignments - filter out mathematics assignments
       let studentAssignments = JSON.parse(localStorage.getItem('studentAssignments')) || [];

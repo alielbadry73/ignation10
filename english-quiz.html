@@ -432,10 +432,6 @@
                 <iconify-icon icon="material-symbols:assignment"></iconify-icon>
                 Homework
             </a>
-            <a href="course-assistants-chat.html?course=english" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">
-                <iconify-icon icon="material-symbols:chat"></iconify-icon>
-                Ask Assistant
-            </a>
         </div>
     </div>
 
@@ -752,11 +748,20 @@
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
-            loadQuizzes();
+            // Check if this is being used for physics course
+            const urlParams = new URLSearchParams(window.location.search);
+            const course = urlParams.get('course');
+            
+            if (course === 'physics') {
+                // Load physics quizzes instead of English quizzes
+                loadPhysicsQuizzes();
+            } else {
+                loadQuizzes();
+            }
+            
             updateStats();
             
             // Check if we should auto-start a specific quiz
-            const urlParams = new URLSearchParams(window.location.search);
             const startQuizId = urlParams.get('start');
             if (startQuizId) {
                 console.log('Auto-starting quiz with ID:', startQuizId);
@@ -804,9 +809,9 @@
             
             const quizGrid = document.getElementById('quizGrid');
             
-            // Filter for published mathematics quizzes
+            // Filter for published English quizzes
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'english'
+                quiz.published && (quiz.subject === 'english' || quiz.category === 'quiz' || quiz.type === 'quiz')
             );
             
             if (publishedQuizzes.length === 0) {
@@ -873,6 +878,121 @@
             quizGrid.innerHTML = quizzesHtml;
         }
 
+        function loadPhysicsQuizzes() {
+            // Load physics quizzes from localStorage
+            const physicsQuizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            
+            // Sample physics quizzes if none exist
+            const samplePhysicsQuizzes = [
+                {
+                    id: 1,
+                    title: "Mechanics Quiz",
+                    description: "Quick quiz on basic mechanics concepts including motion and forces.",
+                    date: "2025-01-20",
+                    time: "10:00",
+                    duration: 30,
+                    status: "available",
+                    difficulty: "Medium",
+                    points: 50,
+                    questions: [
+                        {
+                            id: 1,
+                            text: "What is Newton's first law of motion?",
+                            type: "text",
+                            points: 10
+                        },
+                        {
+                            id: 2,
+                            text: "Which of the following is a vector quantity?",
+                            type: "multiple-choice",
+                            options: ["Speed", "Distance", "Velocity", "Time"],
+                            correctAnswer: 2,
+                            points: 10
+                        }
+                    ],
+                    published: true,
+                    subject: "physics"
+                }
+            ];
+
+            // Use sample data if no published quizzes exist
+            if (physicsQuizzes.length === 0) {
+                quizzes = samplePhysicsQuizzes;
+            } else {
+                quizzes = physicsQuizzes;
+            }
+
+            const grid = document.getElementById('quizzesGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            if (quizzes.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            // Apply current filter
+            let filteredQuizzes = quizzes;
+            if (currentFilter !== 'all') {
+                filteredQuizzes = quizzes.filter(quiz => quiz.category === currentFilter);
+            }
+
+            if (filteredQuizzes.length === 0) {
+                grid.innerHTML = '<div class="col-12 text-center py-5"><h4>No quizzes found</h4><p class="text-muted">Try adjusting your filters or search terms.</p></div>';
+                return;
+            }
+
+            const quizzesHtml = filteredQuizzes.map(quiz => `
+                <div class="quiz-card">
+                    <div class="quiz-card-header">
+                        <div class="quiz-icon ${getDifficultyClass(quiz.difficulty)}">
+                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                        </div>
+                        <div>
+                            <div class="quiz-card-title">${quiz.title}</div>
+                            <div class="quiz-card-subtitle">${quiz.difficulty} • ${quiz.points} points</div>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-card-description">
+                        ${quiz.description}
+                    </div>
+                    
+                    <div class="quiz-progress">
+                        <div class="progress-bar" style="width: ${quiz.progress || 0}%"></div>
+                        <div class="progress-text">
+                            <span>${quiz.questions ? quiz.questions.length : 0} Questions</span>
+                            <span>${quiz.timeLimit || quiz.duration || 30} min</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-actions">
+                        ${quiz.completed ? `
+                            <button class="btn btn-outline" onclick="reviewQuiz('${quiz.id}')">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                Review (${quiz.score}%)
+                            </button>
+                            <button class="btn btn-primary" onclick="retakeQuiz('${quiz.id}')">
+                                <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                                Retake
+                            </button>
+                        ` : `
+                            <button class="btn btn-primary" onclick="startQuiz('${quiz.id}')">
+                                <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                                Start Quiz
+                            </button>
+                            <button class="btn btn-outline" onclick="previewQuiz('${quiz.id}')">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                Preview
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+            
+            grid.innerHTML = quizzesHtml;
+        }
+
         function getDifficultyClass(difficulty) {
             switch(difficulty) {
                 case 'easy': return 'green';
@@ -908,7 +1028,7 @@
             });
             
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'english'
+                quiz.published && (quiz.subject === 'english' || quiz.category === 'quiz' || quiz.type === 'quiz')
             );
             const totalQuizzes = publishedQuizzes.length;
             const completedQuizzes = publishedQuizzes.filter(q => q.completed).length;
@@ -1065,7 +1185,6 @@
                             </button>
                         </div>
                     </div>
-                </div>
             `;
 
             document.getElementById('questionContainer').innerHTML = questionHtml;
@@ -1208,8 +1327,30 @@
             const questionText = question.text;
             const quizTitle = currentQuiz.title;
             
-            // Redirect to community page with question context
-            const communityUrl = `community.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(quizTitle)}&subject=mathematics`;
+            // Build comprehensive question content for community message
+            let messageContent = `Question from ${quizTitle}:\n\n${questionText}`;
+            
+            // Add choices for multiple choice questions
+            if (question.type === 'multiple-choice' && question.options && question.options.length > 0) {
+                messageContent += '\n\nChoices:';
+                question.options.forEach((option, index) => {
+                    messageContent += `\n${String.fromCharCode(65 + index)}. ${option}`;
+                });
+            }
+            
+            // Add image if present
+            if (question.image) {
+                messageContent += `\n\n[Image: ${question.image}]`;
+            }
+            
+            // Add question type and points info
+            messageContent += `\n\nQuestion Type: ${question.type}`;
+            if (question.points) {
+                messageContent += `\nPoints: ${question.points}`;
+            }
+            
+            // Redirect to community page with comprehensive question context
+            const communityUrl = `community.html?message=${encodeURIComponent(messageContent)}&assignment=${encodeURIComponent(quizTitle)}&subject=english`;
             window.open(communityUrl, '_blank');
         }
 
@@ -1260,7 +1401,13 @@
                 quizzes[quizIndex].completedAt = new Date().toISOString();
                 quizzes[quizIndex].answers = userAnswers;
                 quizzes[quizIndex].studentId = 'student_001'; // Default student ID for now
-                localStorage.setItem('englishQuizzes', JSON.stringify(quizzes));
+                // Save to localStorage - update the full quizzes array, not just the filtered quizzes
+                const allQuizzes = JSON.parse(localStorage.getItem('englishQuizzes') || '[]');
+                const globalQuizIndex = allQuizzes.findIndex(q => q.id === currentQuiz.id);
+                if (globalQuizIndex !== -1) {
+                  allQuizzes[globalQuizIndex] = quizzes[quizIndex];
+                  localStorage.setItem('englishQuizzes', JSON.stringify(allQuizzes));
+                }
             }
             
             if (timerInterval) {
@@ -1349,7 +1496,7 @@
         document.getElementById('quizSearch').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'english'
+                quiz.published && (quiz.subject === 'english' || quiz.category === 'quiz' || quiz.type === 'quiz')
             );
             
             filteredQuizzes = publishedQuizzes.filter(quiz => 

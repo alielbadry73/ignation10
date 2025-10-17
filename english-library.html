@@ -20,7 +20,7 @@
         
         body {
             font-family: 'Jost', sans-serif;
-            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            background: #F8F8F8;
             min-height: 100vh;
         }
         
@@ -306,20 +306,123 @@
 </head>
 <body>
     <!-- Dashboard Header -->
-    <div class="dashboard-header">
+    <header class="dashboard-header">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-12 text-center">
-                    <a href="library.html" class="back-btn">
-                        <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
-                        Back to Library
-                    </a>
-                    <h1 class="page-title">📚 English Library</h1>
-                    <p class="page-subtitle">Master language and literature with our English resources</p>
+            <!-- Top Header with Hamburger Menu and Navigation Buttons -->
+            <div class="row align-items-center" style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Button -->
+                        <button class="hamburger-menu-btn" onclick="toggleSidebar()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:menu" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="english-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
+                        </a>
+                        
+                        <!-- Focus Mode Button -->
+                        <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Notifications Button -->
+                        <button class="nav-icon-btn" onclick="navigateToNotifications()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:notifications" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                            <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</span>
+                        </button>
+                        
+                        <!-- Community Button -->
+                        <button class="nav-icon-btn" onclick="navigateToCommunity()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Profile Button -->
+                        <button class="nav-icon-btn" onclick="navigateToProfile()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Menu -->
+    <div id="sidebar" class="sidebar" style="position: fixed; top: 0; left: -350px; width: 350px; height: 100vh; background: white; box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); transition: left 0.3s ease; z-index: 1000; overflow-y: auto;">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header" style="padding: 1.5rem; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center;">
+            <h4 style="margin: 0; color: #333; font-weight: 700;">My Courses</h4>
+            <button onclick="toggleSidebar()" style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.5rem; padding: 0.25rem;" onmouseover="this.style.color='#333'" onmouseout="this.style.color='#666'">
+                <iconify-icon icon="material-symbols:close"></iconify-icon>
+            </button>
+        </div>
+        
+        <!-- Sidebar Content -->
+        <div class="sidebar-content" style="padding: 1rem;">
+            <!-- Books Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='english-library.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Books</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Textbooks & Study Materials</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Lectures Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='english-lectures.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Lectures</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Video Lessons & Tutorials</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Quiz Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='english-quiz.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:quiz" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Quiz</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Test Your Knowledge</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Homework Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='english-homework.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:assignment" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Homework</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Assignments & Practice</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;" onclick="toggleSidebar()"></div>
 
     <!-- Library Content -->
     <div class="library-content">
@@ -328,25 +431,13 @@
             <iconify-icon icon="material-symbols:menu-book" class="course-icon"></iconify-icon>
             <h2 class="course-title">IGCSE English</h2>
             <p class="course-description">Develop reading, writing, speaking, and literature analysis skills with our comprehensive English resources</p>
-            <div class="course-stats">
-                <div class="stat-item">
-                    <div class="stat-number" id="totalBooks">0</div>
-                    <div class="stat-label">Total Books</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="totalPages">0</div>
-                    <div class="stat-label">Total Pages</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number" id="avgRating">0</div>
-                    <div class="stat-label">Avg Rating</div>
-                </div>
-            </div>
         </div>
 
-        <!-- Books Grid -->
-        <div class="books-grid" id="booksGrid">
-            <!-- Books will be loaded here -->
+        <!-- Main Package Section -->
+        <div class="main-package-section" style="margin-bottom: 3rem;">
+            <div id="mainPackage" style="max-width: 1000px; margin: 0 auto;">
+                <!-- Main package will be loaded here -->
+            </div>
         </div>
     </div>
 
@@ -409,156 +500,188 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // English Books Data
+        // Featured English Package
+        const englishPackage = {
+            id: 'english-complete-package',
+            title: 'IGCSE English Complete Package',
+            author: 'IG Nation',
+            subject: 'English',
+            pages: 1200,
+            size: '38.7 MB',
+            price: 49.99,
+            originalPrice: 79.99,
+            discount: 38,
+            description: 'Complete IGCSE English package including all topics: Language Skills, Literature Analysis, Writing Techniques, Grammar & Vocabulary, Reading Comprehension, and Speaking & Listening. Perfect for comprehensive exam preparation.',
+            color: '#fa709a',
+            rating: 4.9,
+            reviews: 167,
+            isNew: true,
+            libraryInfo: {
+                name: 'IG Nation Central Library',
+                location: '123 Education Street, Learning District, Knowledge City',
+                phone: '+1 (555) 123-4567',
+                hours: 'Mon-Fri: 9AM-8PM, Sat-Sun: 10AM-6PM'
+            }
+        };
+
+        // Individual English Books
         const englishBooks = [
             {
-                id: 'english-language',
-                title: 'IGCSE English Language',
+                id: 'english-textbook',
+                title: 'IGCSE English Language Textbook',
                 author: 'Cambridge International',
                 subject: 'English',
-                pages: 298,
-                size: '7.4 MB',
-                price: 22.99,
-                originalPrice: 27.99,
-                discount: 18,
-                description: 'Complete English language course with writing guides, reading comprehension, and speaking practice.',
-                url: '/pdfs/english-language.pdf',
+                pages: 456,
+                size: '11.8 MB',
+                price: 29.99,
+                originalPrice: 37.99,
+                discount: 21,
+                description: 'Comprehensive English language textbook with reading comprehension, writing skills, and grammar exercises.',
+                url: '/pdfs/english-textbook.pdf',
                 color: '#fa709a',
-                rating: 4.4,
-                reviews: 112,
+                rating: 4.7,
+                reviews: 123,
                 isNew: false
             },
             {
-                id: 'english-literature',
-                title: 'IGCSE English Literature',
-                author: 'Cambridge International',
-                subject: 'English',
-                pages: 334,
-                size: '9.1 MB',
-                price: 25.99,
-                originalPrice: 31.99,
-                discount: 19,
-                description: 'Comprehensive literature guide with analysis of poems, novels, and plays for IGCSE exams.',
-                url: '/pdfs/english-literature.pdf',
-                color: '#fa709a',
-                rating: 4.6,
-                reviews: 89,
-                isNew: false
-            },
-            {
-                id: 'creative-writing',
-                title: 'Creative Writing Guide',
+                id: 'literature-guide',
+                title: 'Literature Analysis Guide',
                 author: 'IG Nation',
                 subject: 'English',
-                pages: 156,
-                size: '4.8 MB',
+                pages: 234,
+                size: '6.2 MB',
+                price: 19.99,
+                originalPrice: 24.99,
+                discount: 20,
+                description: 'Complete guide to analyzing poetry, prose, and drama with critical thinking techniques.',
+                url: '/pdfs/literature-guide.pdf',
+                color: '#fa709a',
+                rating: 4.8,
+                reviews: 98,
+                isNew: true
+            },
+            {
+                id: 'writing-skills',
+                title: 'Advanced Writing Skills',
+                author: 'Cambridge International',
+                subject: 'English',
+                pages: 189,
+                size: '5.1 MB',
                 price: 17.99,
                 originalPrice: 22.99,
                 discount: 22,
-                description: 'Techniques for creative writing, storytelling, and developing unique writing styles.',
-                url: '/pdfs/creative-writing.pdf',
+                description: 'Master essay writing, creative writing, and formal writing with step-by-step guidance.',
+                url: '/pdfs/writing-skills.pdf',
+                color: '#fa709a',
+                rating: 4.6,
+                reviews: 87,
+                isNew: false
+            },
+            {
+                id: 'grammar-vocabulary',
+                title: 'Grammar & Vocabulary Mastery',
+                author: 'IG Nation',
+                subject: 'English',
+                pages: 167,
+                size: '4.7 MB',
+                price: 15.99,
+                originalPrice: 19.99,
+                discount: 20,
+                description: 'Essential grammar rules, vocabulary building, and language usage with practical exercises.',
+                url: '/pdfs/grammar-vocabulary.pdf',
                 color: '#fa709a',
                 rating: 4.5,
                 reviews: 76,
                 isNew: true
             },
             {
-                id: 'grammar-essentials',
-                title: 'Grammar & Style Essentials',
+                id: 'reading-comprehension',
+                title: 'Reading Comprehension Practice',
                 author: 'Cambridge International',
                 subject: 'English',
-                pages: 189,
-                size: '5.9 MB',
-                price: 19.99,
-                originalPrice: 24.99,
-                discount: 20,
-                description: 'Essential grammar rules, punctuation, and writing style guidelines for academic writing.',
-                url: '/pdfs/grammar-essentials.pdf',
-                color: '#fa709a',
-                rating: 4.3,
-                reviews: 98,
-                isNew: false
-            },
-            {
-                id: 'poetry-analysis',
-                title: 'Poetry Analysis & Interpretation',
-                author: 'IG Nation',
-                subject: 'English',
-                pages: 134,
+                pages: 145,
                 size: '4.2 MB',
-                price: 16.99,
-                originalPrice: 21.99,
-                discount: 23,
-                description: 'Understanding poetic devices, themes, and techniques for literature analysis.',
-                url: '/pdfs/poetry-analysis.pdf',
-                color: '#fa709a',
-                rating: 4.2,
-                reviews: 65,
-                isNew: true
-            },
-            {
-                id: 'essay-writing',
-                title: 'Essay Writing Mastery',
-                author: 'Cambridge International',
-                subject: 'English',
-                pages: 167,
-                size: '5.3 MB',
-                price: 18.99,
-                originalPrice: 23.99,
+                price: 14.99,
+                originalPrice: 18.99,
                 discount: 21,
-                description: 'Step-by-step guide to writing compelling essays with structure and argumentation.',
-                url: '/pdfs/essay-writing.pdf',
+                description: 'Practice passages with questions and detailed explanations to improve reading skills.',
+                url: '/pdfs/reading-comprehension.pdf',
                 color: '#fa709a',
                 rating: 4.4,
-                reviews: 87,
+                reviews: 65,
                 isNew: false
+            },
+            {
+                id: 'speaking-listening',
+                title: 'Speaking & Listening Skills',
+                author: 'IG Nation',
+                subject: 'English',
+                pages: 123,
+                size: '3.8 MB',
+                price: 13.99,
+                originalPrice: 17.99,
+                discount: 22,
+                description: 'Oral communication skills, presentation techniques, and listening comprehension strategies.',
+                url: '/pdfs/speaking-listening.pdf',
+                color: '#fa709a',
+                rating: 4.3,
+                reviews: 54,
+                isNew: true
             }
         ];
 
         let currentBook = null;
 
         function renderBooks() {
-            const grid = document.getElementById('booksGrid');
-            grid.innerHTML = englishBooks.map(book => `
-                <div class="book-card" style="position: relative;">
-                    ${book.isNew ? '<div class="new-badge">NEW</div>' : ''}
-                    <div class="book-cover" style="background: ${book.color};">
-                        <iconify-icon icon="material-symbols:menu-book"></iconify-icon>
-                    </div>
-                    <h3 class="book-title">${book.title}</h3>
-                    <p class="book-author">${book.author}</p>
-                    <div class="book-meta">
-                        <span class="book-pages">${book.pages} pages</span>
-                        <span class="book-size">${book.size}</span>
-                    </div>
-                    <div class="book-price">
-                        <span class="current-price">$${book.price}</span>
-                        <span class="original-price">$${book.originalPrice}</span>
-                        <span class="discount-badge">-${book.discount}%</span>
-                    </div>
-                    <div class="book-rating">
-                        <div class="stars">${'★'.repeat(Math.floor(book.rating))}${'☆'.repeat(5-Math.floor(book.rating))}</div>
-                        <span class="rating-text">${book.rating} (${book.reviews} reviews)</span>
-                    </div>
-                    <div class="book-actions">
-                        <a href="#" class="btn-preview" onclick="previewBook('${book.id}')">Preview</a>
-                        <button class="btn-add-cart" onclick="addToCart('${book.id}')">Add to Cart</button>
+            // Render main package
+            const mainContainer = document.getElementById('mainPackage');
+            const package = englishPackage;
+            
+            mainContainer.innerHTML = `
+                <div class="book-card package-card" style="position: relative; background: linear-gradient(135deg, ${package.color}, #ff9a9e); color: white; border-radius: 20px; padding: 3rem; box-shadow: 0 15px 40px rgba(0,0,0,0.3);">
+                    ${package.isNew ? '<div class="new-badge" style="background: #ffd700; color: #333; font-size: 1.1rem; padding: 0.5rem 1rem;">MAIN PACKAGE</div>' : ''}
+                    <div class="row align-items-center">
+                        <div class="col-lg-5 text-center">
+                            <div class="book-cover" style="background: rgba(255,255,255,0.2); height: 300px; border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem;">
+                                <iconify-icon icon="material-symbols:menu-book" style="font-size: 6rem; color: white;"></iconify-icon>
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <h2 class="book-title" style="color: white; margin-bottom: 1rem; font-size: 2.5rem; font-weight: 700;">${package.title}</h2>
+                            <p class="book-author" style="color: rgba(255,255,255,0.9); margin-bottom: 1.5rem; font-size: 1.2rem;">${package.author}</p>
+                            <div class="book-meta" style="margin-bottom: 1.5rem;">
+                                <span class="book-pages" style="background: rgba(255,255,255,0.3); padding: 0.5rem 1rem; border-radius: 20px; margin-right: 1rem; font-size: 1.1rem;">${package.pages} pages</span>
+                                <span class="book-size" style="background: rgba(255,255,255,0.3); padding: 0.5rem 1rem; border-radius: 20px; font-size: 1.1rem;">${package.size}</span>
+                            </div>
+                            <div class="book-price" style="margin-bottom: 1.5rem;">
+                                <span class="current-price" style="font-size: 2.5rem; font-weight: bold;">$${package.price}</span>
+                                <span class="original-price" style="text-decoration: line-through; margin-left: 1rem; opacity: 0.7; font-size: 1.5rem;">$${package.originalPrice}</span>
+                                <span class="discount-badge" style="background: #ff6b6b; padding: 0.5rem 1rem; border-radius: 20px; margin-left: 1rem; font-size: 1.1rem;">-${package.discount}%</span>
+                            </div>
+                            <div class="book-rating" style="margin-bottom: 1.5rem;">
+                                <div class="stars" style="color: #ffd700; font-size: 1.5rem;">${'★'.repeat(Math.floor(package.rating))}${'☆'.repeat(5-Math.floor(package.rating))}</div>
+                                <span class="rating-text" style="margin-left: 1rem; opacity: 0.9; font-size: 1.1rem;">${package.rating} (${package.reviews} reviews)</span>
+                            </div>
+                            <div class="book-description" style="margin-bottom: 2rem; opacity: 0.95; line-height: 1.6; font-size: 1.1rem;">
+                                ${package.description}
+                            </div>
+                            <div class="purchase-options" style="display: flex; gap: 1.5rem;">
+                                <button class="btn-hard-copy" onclick="showHardCopyInfo()" style="flex: 1; padding: 1rem 2rem; background: rgba(255,255,255,0.2); color: white; border: 3px solid white; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease;" onmouseover="this.style.background='white'; this.style.color='#333'" onmouseout="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'">
+                                    <iconify-icon icon="material-symbols:local-library" style="margin-right: 0.5rem; font-size: 1.2rem;"></iconify-icon>
+                                    Hard Copy
+                                </button>
+                                <button class="btn-soft-copy" onclick="purchaseSoftCopy()" style="flex: 1; padding: 1rem 2rem; background: white; color: #333; border: 3px solid white; border-radius: 12px; cursor: pointer; font-weight: 700; font-size: 1.1rem; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'" onmouseout="this.style.background='white'; this.style.color='#333'">
+                                    <iconify-icon icon="material-symbols:download" style="margin-right: 0.5rem; font-size: 1.2rem;"></iconify-icon>
+                                    Soft Copy
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            `).join('');
+            `;
 
-            updateStats();
         }
 
-        function updateStats() {
-            const totalBooks = englishBooks.length;
-            const totalPages = englishBooks.reduce((sum, book) => sum + book.pages, 0);
-            const avgRating = (englishBooks.reduce((sum, book) => sum + book.rating, 0) / totalBooks).toFixed(1);
-
-            document.getElementById('totalBooks').textContent = totalBooks;
-            document.getElementById('totalPages').textContent = totalPages.toLocaleString();
-            document.getElementById('avgRating').textContent = avgRating;
-        }
 
         function previewBook(bookId) {
             const book = englishBooks.find(b => b.id === bookId);
@@ -604,11 +727,160 @@
             alert(`${book.title} added to cart!`);
         }
 
+        function showHardCopyInfo() {
+            const package = englishPackage;
+            const libraryInfo = package.libraryInfo;
+            
+            const modalHtml = `
+                <div class="modal fade" id="hardCopyModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Hard Copy Purchase Information</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>Package Details</h6>
+                                        <p><strong>Title:</strong> ${package.title}</p>
+                                        <p><strong>Author:</strong> ${package.author}</p>
+                                        <p><strong>Pages:</strong> ${package.pages}</p>
+                                        <p><strong>Price:</strong> <span class="text-success fw-bold">$${package.price}</span></p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Library Information</h6>
+                                        <p><strong>Library Name:</strong> ${libraryInfo.name}</p>
+                                        <p><strong>Address:</strong> ${libraryInfo.location}</p>
+                                        <p><strong>Phone:</strong> <a href="tel:${libraryInfo.phone}">${libraryInfo.phone}</a></p>
+                                        <p><strong>Hours:</strong> ${libraryInfo.hours}</p>
+                                    </div>
+                                </div>
+                                <div class="alert alert-info mt-3">
+                                    <iconify-icon icon="material-symbols:info" style="margin-right: 0.5rem;"></iconify-icon>
+                                    <strong>Note:</strong> Please call the library to check availability and arrange pickup. Payment can be made in person at the library.
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a href="tel:${libraryInfo.phone}" class="btn btn-success">
+                                    <iconify-icon icon="material-symbols:phone" style="margin-right: 0.5rem;"></iconify-icon>
+                                    Call Library
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Remove existing modal if any
+            const existingModal = document.getElementById('hardCopyModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('hardCopyModal'));
+            modal.show();
+        }
+
+        function purchaseSoftCopy() {
+            const package = englishPackage;
+            
+            // Add to cart for checkout
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            cart.push({
+                id: package.id,
+                title: package.title,
+                author: package.author,
+                price: package.price,
+                subject: package.subject,
+                quantity: 1,
+                type: 'book',
+                format: 'digital'
+            });
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            // Redirect to checkout
+            window.location.href = 'checkout.html';
+        }
+
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
             renderBooks();
         });
+
+        // Sidebar Functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.style.left === '-350px' || sidebar.style.left === '') {
+                // Open sidebar
+                sidebar.style.left = '0';
+                overlay.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                // Close sidebar
+                sidebar.style.left = '-350px';
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+            }
+        }
+
+        // Navigation Functions
+        function navigateToFocusMode() {
+            window.location.href = 'focus-mode.html';
+        }
+
+        function navigateToNotifications() {
+            window.location.href = 'notifications.html';
+        }
+
+        function navigateToCommunity() {
+            window.location.href = 'community.html';
+        }
+
+        function navigateToProfile() {
+            window.location.href = 'student-profile.html';
+        }
+
+        function toggleBadgesBar() {
+            // Badge functionality can be added here
+            console.log('Badge bar toggled');
+        }
+
+        // Close sidebar when clicking outside (overlay)
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const hamburgerBtn = document.querySelector('.hamburger-menu-btn');
+            
+            // Check if click is outside sidebar and not on hamburger button
+            if (!sidebar.contains(event.target) && !hamburgerBtn.contains(event.target)) {
+                if (sidebar.style.left === '0') {
+                    toggleSidebar();
+                }
+            }
+        });
+
+        // Close sidebar on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar.style.left === '0') {
+                    toggleSidebar();
+                }
+            }
+        });
     </script>
 </body>
 </html>
+
+
+
+
+
 

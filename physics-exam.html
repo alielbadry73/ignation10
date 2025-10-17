@@ -580,8 +580,8 @@
             // Store current exam for the exam taking page
             localStorage.setItem('currentExam', JSON.stringify(exam));
             
-            // Redirect to exam taking page
-            window.location.href = `physics-exam-taking.html?examId=${examId}`;
+            // Redirect to exam taking page (using English exam page which has full question support)
+            window.location.href = `english-exam.html?examId=${examId}&course=physics`;
         }
 
         // Preview exam

@@ -810,8 +810,41 @@
     let quizzes = [];
     let currentFilter = 'all';
 
-    // Physics quizzes data - will be loaded from backend or localStorage
-    const physicsQuizzes = [];
+    // Load Physics quizzes from localStorage (published by teachers)
+    let physicsQuizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+    
+    // Sample data for demonstration (only used if no published quizzes exist)
+    const sampleQuizzes = [
+        {
+            id: 1,
+            title: "Mechanics Quiz",
+            description: "Quick quiz on basic mechanics concepts including motion and forces.",
+            date: "2025-01-20",
+            time: "10:00",
+            duration: "30",
+            status: "pending",
+            difficulty: "Medium",
+            points: 50,
+            questions: []
+        },
+        {
+            id: 2,
+            title: "Thermodynamics Quiz",
+            description: "Quiz covering heat, temperature, and energy transfer concepts.",
+            date: "2025-01-25",
+            time: "14:00",
+            duration: "25",
+            status: "pending",
+            difficulty: "Hard",
+            points: 40,
+            questions: []
+        }
+    ];
+
+    // Use sample data if no published quizzes exist
+    if (physicsQuizzes.length === 0) {
+        physicsQuizzes = sampleQuizzes;
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Page loaded, starting quiz loading...');
@@ -822,7 +855,44 @@
     });
 
     function loadQuizzes() {
-      quizzes = [...physicsQuizzes];
+      // Reload quizzes from localStorage to get latest published quizzes
+      physicsQuizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+      
+      // Use sample data if no published quizzes exist
+      if (physicsQuizzes.length === 0) {
+        physicsQuizzes = sampleQuizzes;
+      }
+
+      // Convert published quizzes to the format expected by the page
+      quizzes = physicsQuizzes.map(quiz => {
+        // Handle both standard and published quiz formats
+        const title = quiz.title || quiz.name || 'Untitled Quiz';
+        const description = quiz.description || quiz.desc || 'No description available';
+        const dueDate = quiz.dueDate || quiz.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        const time = quiz.time || '10:00';
+        const duration = quiz.timeLimit || quiz.duration || 30;
+        const status = quiz.status || 'pending';
+        const difficulty = quiz.difficulty || 'Medium';
+        const points = quiz.points || quiz.totalPoints || 50;
+        const questions = quiz.questions || [];
+        
+        return {
+          id: quiz.id,
+          title: title,
+          description: description,
+          date: dueDate,
+          time: time,
+          duration: duration,
+          status: status,
+          difficulty: difficulty,
+          points: points,
+          questions: questions,
+          // Check if it's a file-based quiz
+          assessmentType: quiz.assessmentType,
+          fileBased: quiz.fileBased
+        };
+      });
+
       let list = quizzes;
       if (currentFilter !== 'all') {
         list = quizzes.filter(q => q.status === currentFilter);

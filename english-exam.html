@@ -426,10 +426,6 @@
                 <iconify-icon icon="material-symbols:assignment"></iconify-icon>
                 Homework
             </a>
-            <a href="course-assistants-chat.html?course=english" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">
-                <iconify-icon icon="material-symbols:chat"></iconify-icon>
-                Ask Assistant
-            </a>
         </div>
     </div>
 
@@ -606,9 +602,9 @@
             
             const examGrid = document.getElementById('examGrid');
             
-            // Filter for published english exams
+            // Filter for published English exams
             const publishedExams = exams.filter(exam => 
-                exam.published && exam.subject === 'english'
+                exam.published && (exam.subject === 'english' || exam.category === 'exam' || exam.type === 'exam')
             );
             
             console.log('Published english exams:', publishedExams);
@@ -729,7 +725,7 @@
             exams = JSON.parse(localStorage.getItem('englishExams')) || [];
             
             const publishedExams = exams.filter(exam => 
-                exam.published && exam.subject === 'english'
+                exam.published && (exam.subject === 'english' || exam.category === 'exam' || exam.type === 'exam')
             );
             const totalExams = publishedExams.length;
             const completedExams = publishedExams.filter(e => e.status === 'completed').length;
@@ -872,7 +868,6 @@
                             </button>
                         </div>
                     </div>
-                </div>
             `;
 
             document.getElementById('questionContainer').innerHTML = questionHtml;
@@ -1015,8 +1010,30 @@
             const questionText = question.text;
             const examTitle = currentExam.title;
             
-            // Redirect to community page with question context
-            const communityUrl = `community.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(examTitle)}&subject=mathematics`;
+            // Build comprehensive question content for community message
+            let messageContent = `Question from ${examTitle}:\n\n${questionText}`;
+            
+            // Add choices for multiple choice questions
+            if (question.type === 'multiple-choice' && question.options && question.options.length > 0) {
+                messageContent += '\n\nChoices:';
+                question.options.forEach((option, index) => {
+                    messageContent += `\n${String.fromCharCode(65 + index)}. ${option}`;
+                });
+            }
+            
+            // Add image if present
+            if (question.image) {
+                messageContent += `\n\n[Image: ${question.image}]`;
+            }
+            
+            // Add question type and points info
+            messageContent += `\n\nQuestion Type: ${question.type}`;
+            if (question.points) {
+                messageContent += `\nPoints: ${question.points}`;
+            }
+            
+            // Redirect to community page with comprehensive question context
+            const communityUrl = `community.html?message=${encodeURIComponent(messageContent)}&assignment=${encodeURIComponent(examTitle)}&subject=english`;
             window.open(communityUrl, '_blank');
         }
 
@@ -1061,7 +1078,13 @@
                 exams[examIndex].timeSpent = timeSpent;
                 exams[examIndex].completedAt = new Date().toISOString();
                 exams[examIndex].answers = userAnswers;
-                localStorage.setItem('englishExams', JSON.stringify(exams));
+                // Save to localStorage - update the full exams array, not just the filtered exams
+                const allExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
+                const globalExamIndex = allExams.findIndex(e => e.id === currentExam.id);
+                if (globalExamIndex !== -1) {
+                  allExams[globalExamIndex] = exams[examIndex];
+                  localStorage.setItem('englishExams', JSON.stringify(allExams));
+                }
             }
             
             if (timerInterval) {
@@ -1150,7 +1173,7 @@
         document.getElementById('examSearch').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const publishedExams = exams.filter(exam => 
-                exam.published && exam.subject === 'english'
+                exam.published && (exam.subject === 'english' || exam.category === 'exam' || exam.type === 'exam')
             );
             
             filteredExams = publishedExams.filter(exam => 

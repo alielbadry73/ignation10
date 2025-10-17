@@ -332,85 +332,77 @@
     </main>
 
     <script>
-        // Sample daily practice questions (would come from teacher panel)
-        const englishDailyPractice = JSON.parse(localStorage.getItem('englishDailyPractice') || '[]');
-
-        // Sample data if none exists
-        if (englishDailyPractice.length === 0) {
-            const sampleQuestions = [
-                {
-                    id: 1,
-                    question: "A car accelerates from rest to 30 m/s in 6 seconds. What is its acceleration?",
-                    difficulty: "medium",
-                    topic: "Mechanics",
-                    videoExplanation: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                    answer: "5 m/s²",
-                    date: new Date().toISOString().split('T')[0]
-                }
-            ];
-            localStorage.setItem('englishDailyPractice', JSON.stringify(sampleQuestions));
-        }
-
-        function loadDailyQuestion() {
-            const questions = JSON.parse(localStorage.getItem('englishDailyPractice') || '[]');
-            const today = new Date().toISOString().split('T')[0];
+        // Load daily practice questions from teacher dashboard
+        function loadDailyQuestions() {
+            const questions = JSON.parse(localStorage.getItem('english_daily_practice_questions') || '[]');
             
-            // Get today's question
-            const todayQuestion = questions.find(q => q.date === today) || questions[0];
-
-            if (!todayQuestion) {
+            if (questions.length === 0) {
                 document.getElementById('emptyState').style.display = 'block';
                 document.getElementById('questionContainer').style.display = 'none';
                 return;
             }
 
             const container = document.getElementById('questionContainer');
-            container.innerHTML = `
-                <div class="question-card">
+            container.innerHTML = '';
+
+            questions.forEach((question, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                questionCard.innerHTML = `
                     <div class="question-header">
-                        <div class="question-number">Question of the Day</div>
-                        <div class="difficulty-badge difficulty-${todayQuestion.difficulty}">
-                            ${todayQuestion.difficulty.charAt(0).toUpperCase() + todayQuestion.difficulty.slice(1)}
+                        <div class="question-number">Question ${index + 1}</div>
+                        <div class="difficulty-badge difficulty-${question.difficulty.toLowerCase()}">
+                            ${question.difficulty}
                         </div>
                     </div>
 
                     <div class="question-text">
-                        ${todayQuestion.question}
+                        ${question.question}
+                    </div>
+
+                    <div class="question-topic">
+                        <iconify-icon icon="material-symbols:category"></iconify-icon>
+                        ${question.topic}
                     </div>
 
                     <div class="answer-section">
                         <label class="answer-label">Your Answer:</label>
-                        <textarea class="answer-input" id="answerInput" rows="4" placeholder="Type your answer here..."></textarea>
+                        <textarea class="answer-input" id="answerInput${index}" rows="4" placeholder="Type your answer here..."></textarea>
                     </div>
 
                     <div class="action-buttons">
-                        <button class="btn-action btn-submit" onclick="submitAnswer()">
+                        <button class="btn-action btn-submit" onclick="submitAnswer(${index})">
                             <iconify-icon icon="material-symbols:check"></iconify-icon>
                             Submit Answer
                         </button>
-                        <button class="btn-action btn-skip" onclick="skipQuestion()">
-                            <iconify-icon icon="material-symbols:skip-next"></iconify-icon>
-                            Skip for Today
+                        <button class="btn-action btn-show" onclick="showAnswer(${index})">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Show Answer
+                        </button>
+                        <button class="btn-action btn-explanation" onclick="showExplanation(${index})">
+                            <iconify-icon icon="material-symbols:help"></iconify-icon>
+                            Explanation
                         </button>
                     </div>
 
-                    ${todayQuestion.videoExplanation ? `
-                        <div class="video-section">
-                            <div class="video-header">
-                                <iconify-icon icon="material-symbols:play-circle"></iconify-icon>
-                                Video Explanation
-                            </div>
-                            <div class="video-container">
-                                <iframe width="100%" height="400" src="${todayQuestion.videoExplanation}" frameborder="0" allowfullscreen></iframe>
-                            </div>
+                    <div id="answerSection${index}" style="display: none;">
+                        <div class="answer-display">
+                            <strong>Correct Answer:</strong> ${question.answer}
                         </div>
-                    ` : ''}
-                </div>
-            `;
+                    </div>
+
+                    <div id="explanationSection${index}" style="display: none;">
+                        <div class="explanation-display">
+                            <strong>Explanation:</strong> ${question.explanation || 'No explanation provided.'}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionCard);
+            });
         }
 
-        function submitAnswer() {
-            const answer = document.getElementById('answerInput').value.trim();
+        function submitAnswer(questionIndex) {
+            const answer = document.getElementById(`answerInput${questionIndex}`).value.trim();
             
             if (!answer) {
                 alert('Please enter an answer before submitting.');
@@ -418,7 +410,7 @@
             }
 
             // Save answer and update streak
-            alert('✅ Answer submitted! Check the video explanation below.');
+            alert('✅ Answer submitted! You can now check the correct answer and explanation.');
             
             // Update streak (simplified version)
             let streak = parseInt(localStorage.getItem('englishStreak') || '0');
@@ -426,14 +418,24 @@
             localStorage.setItem('englishStreak', streak.toString());
         }
 
-        function skipQuestion() {
-            if (confirm('Are you sure you want to skip today\'s question?')) {
-                alert('Question skipped. Come back tomorrow for a new challenge!');
-            }
+        function showAnswer(questionIndex) {
+            const answerSection = document.getElementById(`answerSection${questionIndex}`);
+            const explanationSection = document.getElementById(`explanationSection${questionIndex}`);
+            
+            answerSection.style.display = 'block';
+            explanationSection.style.display = 'none';
         }
 
-        // Load question on page load
-        document.addEventListener('DOMContentLoaded', loadDailyQuestion);
+        function showExplanation(questionIndex) {
+            const answerSection = document.getElementById(`answerSection${questionIndex}`);
+            const explanationSection = document.getElementById(`explanationSection${questionIndex}`);
+            
+            explanationSection.style.display = 'block';
+            answerSection.style.display = 'none';
+        }
+
+        // Load questions on page load
+        document.addEventListener('DOMContentLoaded', loadDailyQuestions);
     </script>
 </body>
 </html>

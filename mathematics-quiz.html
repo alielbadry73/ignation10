@@ -484,10 +484,6 @@
                 <iconify-icon icon="material-symbols:assignment"></iconify-icon>
                 Homework
             </a>
-            <a href="course-assistants-chat.html?course=mathematics" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">
-                <iconify-icon icon="material-symbols:chat"></iconify-icon>
-                Ask Assistant
-            </a>
         </div>
     </div>
 
@@ -820,45 +816,84 @@
         });
 
         function loadQuizzes() {
-            // Reload quizzes from localStorage to get latest data
-            // Check multiple sources: studentQuizzes, teacherQuizzes, and fallback data
-            let studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes')) || [];
-            let teacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes')) || [];
+            // Load Mathematics quizzes from localStorage (published by teachers)
+            let mathematicsQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
             
-            // Combine all quiz sources, prioritizing studentQuizzes
-            quizzes = [...studentQuizzes];
-            teacherQuizzes.forEach(teacherQuiz => {
-                // Only add if not already in studentQuizzes and is published
-                if (!quizzes.find(q => q.id === teacherQuiz.id) && teacherQuiz.published) {
-                    quizzes.push(teacherQuiz);
+            // Sample data for demonstration (only used if no published quizzes exist)
+            const sampleQuizzes = [
+                {
+                    id: 1,
+                    title: "Basic Algebra Fundamentals",
+                    description: "Test your understanding of basic algebraic concepts including variables, equations, and expressions.",
+                    category: "algebra",
+                    difficulty: "easy",
+                    questions: 15,
+                    timeLimit: 20,
+                    completed: true,
+                    score: 92,
+                    progress: 100,
+                    subject: "mathematics",
+                    published: true
+                },
+                {
+                    id: 2,
+                    title: "Geometry Basics",
+                    description: "Quiz on basic geometric shapes, angles, and properties.",
+                    category: "geometry",
+                    difficulty: "medium",
+                    questions: 12,
+                    timeLimit: 25,
+                    completed: false,
+                    score: null,
+                    progress: 0,
+                    subject: "mathematics",
+                    published: true
                 }
-            });
-            
-            // If no quizzes found, use default data
-            if (quizzes.length === 0) {
-                quizzes = [
-                    {
-                        id: 1,
-                        title: "Basic Algebra Fundamentals",
-                        description: "Test your understanding of basic algebraic concepts including variables, equations, and expressions.",
-                        category: "algebra",
-                        difficulty: "easy",
-                        questions: 15,
-                        timeLimit: 20,
-                        completed: true,
-                        score: 92,
-                        progress: 100,
-                        subject: "mathematics",
-                        published: true
-                    }
-                ];
+            ];
+
+            // Use sample data if no published quizzes exist
+            if (mathematicsQuizzes.length === 0) {
+                mathematicsQuizzes = sampleQuizzes;
             }
+
+            // Convert published quizzes to the format expected by the page
+            quizzes = mathematicsQuizzes.map(quiz => {
+                // Handle both standard and published quiz formats
+                const title = quiz.title || quiz.name || 'Untitled Quiz';
+                const description = quiz.description || quiz.desc || 'No description available';
+                const timeLimit = quiz.timeLimit || quiz.duration || 30;
+                const status = quiz.status || (quiz.completed ? 'completed' : 'available');
+                const difficulty = quiz.difficulty || 'Medium';
+                const points = quiz.points || quiz.totalPoints || 30;
+                const questions = quiz.questions ? quiz.questions.length : (quiz.questions || 15);
+                const score = quiz.score || quiz.bestScore || null;
+                const progress = quiz.progress || (status === 'completed' ? 100 : 0);
+                const category = quiz.category || 'general';
+                
+                return {
+                    id: quiz.id,
+                    title: title,
+                    description: description,
+                    category: category,
+                    difficulty: difficulty,
+                    questions: questions,
+                    timeLimit: timeLimit,
+                    completed: status === 'completed',
+                    score: score,
+                    progress: progress,
+                    subject: 'mathematics',
+                    published: true,
+                    // Check if it's a file-based quiz
+                    assessmentType: quiz.assessmentType,
+                    fileBased: quiz.fileBased
+                };
+            });
             
             const quizGrid = document.getElementById('quizGrid');
             
-            // Filter for published mathematics quizzes
+            // Filter for published Mathematics quizzes (all quizzes are now published)
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'mathematics'
+                quiz.published && (quiz.subject === 'mathematics' || quiz.category === 'quiz' || quiz.type === 'quiz')
             );
             
             if (publishedQuizzes.length === 0) {
@@ -957,21 +992,11 @@
 
         function updateStats() {
             // Reload quizzes from localStorage to get latest data
-            // Use the same logic as loadQuizzes to ensure consistency
-            let studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes')) || [];
-            let teacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes')) || [];
-            
-            // Combine all quiz sources, prioritizing studentQuizzes
-            quizzes = [...studentQuizzes];
-            teacherQuizzes.forEach(teacherQuiz => {
-                // Only add if not already in studentQuizzes and is published
-                if (!quizzes.find(q => q.id === teacherQuiz.id) && teacherQuiz.published) {
-                    quizzes.push(teacherQuiz);
-                }
-            });
+            const mathematicsQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
+            quizzes = mathematicsQuizzes;
             
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'mathematics'
+                quiz.published && (quiz.subject === 'mathematics' || quiz.category === 'quiz' || quiz.type === 'quiz')
             );
             const totalQuizzes = publishedQuizzes.length;
             const completedQuizzes = publishedQuizzes.filter(q => q.completed).length;
@@ -1268,8 +1293,30 @@
             const questionText = question.text;
             const quizTitle = currentQuiz.title;
             
-            // Redirect to community page with question context
-            const communityUrl = `community.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(quizTitle)}&subject=mathematics`;
+            // Build comprehensive question content for community message
+            let messageContent = `Question from ${quizTitle}:\n\n${questionText}`;
+            
+            // Add choices for multiple choice questions
+            if (question.type === 'multiple-choice' && question.options && question.options.length > 0) {
+                messageContent += '\n\nChoices:';
+                question.options.forEach((option, index) => {
+                    messageContent += `\n${String.fromCharCode(65 + index)}. ${option}`;
+                });
+            }
+            
+            // Add image if present
+            if (question.image) {
+                messageContent += `\n\n[Image: ${question.image}]`;
+            }
+            
+            // Add question type and points info
+            messageContent += `\n\nQuestion Type: ${question.type}`;
+            if (question.points) {
+                messageContent += `\nPoints: ${question.points}`;
+            }
+            
+            // Redirect to community page with comprehensive question context
+            const communityUrl = `community.html?message=${encodeURIComponent(messageContent)}&assignment=${encodeURIComponent(quizTitle)}&subject=mathematics`;
             window.open(communityUrl, '_blank');
         }
 
@@ -1323,7 +1370,13 @@
                 quizzes[quizIndex].completedAt = new Date().toISOString();
                 quizzes[quizIndex].answers = userAnswers;
                 quizzes[quizIndex].studentId = 'student_001'; // Default student ID for now
-                localStorage.setItem('studentQuizzes', JSON.stringify(quizzes));
+                // Save to localStorage - update the full quizzes array, not just the filtered quizzes
+                const allQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
+                const globalQuizIndex = allQuizzes.findIndex(q => q.id === currentQuiz.id);
+                if (globalQuizIndex !== -1) {
+                  allQuizzes[globalQuizIndex] = quizzes[quizIndex];
+                  localStorage.setItem('mathematicsQuizzes', JSON.stringify(allQuizzes));
+                }
             }
             
             if (timerInterval) {
@@ -1452,7 +1505,7 @@
         document.getElementById('quizSearch').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && quiz.subject === 'mathematics'
+                quiz.published && (quiz.subject === 'mathematics' || quiz.category === 'quiz' || quiz.type === 'quiz')
             );
             
             filteredQuizzes = publishedQuizzes.filter(quiz => 

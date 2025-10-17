@@ -1005,6 +1005,81 @@
         function initializeChat() {
             renderMessages();
             scrollToBottom();
+            
+            // Handle URL parameters for pre-filled message
+            handleURLParameters();
+        }
+        
+        // Handle URL parameters to pre-fill message
+        function handleURLParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const message = urlParams.get('message');
+            const assignment = urlParams.get('assignment');
+            const subject = urlParams.get('subject');
+            
+            if (message) {
+                const messageInput = document.getElementById('messageInput');
+                messageInput.value = message;
+                
+                // Auto-resize the textarea
+                messageInput.style.height = 'auto';
+                messageInput.style.height = (messageInput.scrollHeight) + 'px';
+                
+                // Focus on the input
+                messageInput.focus();
+                
+                // Show a notification about the pre-filled content
+                if (assignment) {
+                    showNotification(`Question from ${assignment} has been pre-filled in the message box.`, 'info');
+                }
+            }
+        }
+        
+        // Show notification function
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'info' ? '#667eea' : '#10b981'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 1000;
+                max-width: 300px;
+                font-size: 14px;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            // Add animation keyframes if not already added
+            if (!document.getElementById('notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideInRight {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 4 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
         }
 
         function renderMessages() {

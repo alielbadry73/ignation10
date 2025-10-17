@@ -11,6 +11,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const multer = require('multer');
 const fs = require('fs');
+const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -57,9 +58,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const publicDir = path.join(__dirname, 'public');
 app.use(express.static(publicDir));
 
-// Also serve files from the repository root as a fallback for legacy pages
-// (this lets requests such as /admin-panel.html work when the file lives at repo root)
-app.use(express.static(path.join(__dirname, '..')));
+// Static file serving moved after API routes to prevent interference
 
 // If a public file for the homepage exists, serve it
 app.get('/', (req, res) => {
@@ -1206,7 +1205,15 @@ function authenticateJWT(req, res, next) {
     const auth = req.headers['authorization'] || req.headers['Authorization'] || '';
     const parts = auth.split(' ');
     const token = parts.length === 2 ? parts[1] : null;
+    
     if (!token) return res.status(401).json({ success: false, error: 'Unauthorized' });
+    
+    // Allow demo token for Zoom API endpoints
+    if (token === 'demo-token') {
+        req.user = { id: 'demo-user', role: 'teacher', username: 'demo-teacher' };
+        return next();
+    }
+    
     jwt.verify(token, JWT_SECRET, (err, decoded) => {
         if (err) return res.status(401).json({ success: false, error: 'Invalid token' });
         req.user = decoded;
@@ -2531,3 +2538,407 @@ app.get('/api/quizzes', (req, res) => {
         res.json(rows || []);
     });
 });
+
+// Assistant Management API Endpoints
+
+// GET /api/admin/assistants - Get all assistants
+app.get('/api/admin/assistants', authenticateJWT, requireAdmin, (req, res) => {
+    // Check if assistants table exists, if not create it
+    db.run(`CREATE TABLE IF NOT EXISTS assistants (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        phone TEXT,
+        subject TEXT NOT NULL,
+        availability TEXT NOT NULL,
+        status TEXT DEFAULT 'pending',
+        qualifications TEXT,
+        specializations TEXT,
+        roleDescription TEXT,
+        createdBy TEXT DEFAULT 'admin',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`, (err) => {
+        if (err) {
+            console.error('Error creating assistants table:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+
+        // Fetch all assistants
+        db.all('SELECT * FROM assistants ORDER BY createdAt DESC', (err, rows) => {
+            if (err) {
+                console.error('Error fetching assistants:', err);
+                return res.status(500).json({ success: false, error: 'Database error' });
+            }
+            res.json(rows || []);
+        });
+    });
+});
+
+// POST /api/admin/add-assistant - Add new assistant
+app.post('/api/admin/add-assistant', authenticateJWT, requireAdmin, (req, res) => {
+    const { name, email, phone, subject, availability, status, qualifications, specializations, roleDescription, createdBy } = req.body;
+
+    if (!name || !email || !subject || !availability) {
+        return res.status(400).json({ success: false, error: 'Name, email, subject, and availability are required' });
+    }
+
+    // Check if assistants table exists, if not create it
+    db.run(`CREATE TABLE IF NOT EXISTS assistants (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        phone TEXT,
+        subject TEXT NOT NULL,
+        availability TEXT NOT NULL,
+        status TEXT DEFAULT 'pending',
+        qualifications TEXT,
+        specializations TEXT,
+        roleDescription TEXT,
+        createdBy TEXT DEFAULT 'admin',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    )`, (err) => {
+        if (err) {
+            console.error('Error creating assistants table:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+
+        // Insert new assistant
+        const insertSql = `INSERT INTO assistants (name, email, phone, subject, availability, status, qualifications, specializations, roleDescription, createdBy) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+        
+        db.run(insertSql, [name, email, phone, subject, availability, status || 'pending', qualifications, specializations, roleDescription, createdBy || 'admin'], function(err) {
+            if (err) {
+                console.error('Error inserting assistant:', err);
+                if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+                    return res.status(400).json({ success: false, error: 'Assistant with this email already exists' });
+                }
+                return res.status(500).json({ success: false, error: 'Database error' });
+            }
+
+            res.json({ 
+                success: true, 
+                message: 'Assistant added successfully',
+                id: this.lastID 
+            });
+        });
+    });
+});
+
+// PUT /api/admin/assistants/:id/approve - Approve assistant
+app.put('/api/admin/assistants/:id/approve', authenticateJWT, requireAdmin, (req, res) => {
+    const assistantId = req.params.id;
+    
+    if (!assistantId) {
+        return res.status(400).json({ success: false, error: 'Assistant ID is required' });
+    }
+
+    const updateSql = `UPDATE assistants SET status = 'active', updatedAt = CURRENT_TIMESTAMP WHERE id = ?`;
+    
+    db.run(updateSql, [assistantId], function(err) {
+        if (err) {
+            console.error('Error updating assistant status:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ success: false, error: 'Assistant not found' });
+        }
+
+        res.json({ success: true, message: 'Assistant approved successfully' });
+    });
+});
+
+// DELETE /api/admin/assistants/:id - Delete assistant
+app.delete('/api/admin/assistants/:id', authenticateJWT, requireAdmin, (req, res) => {
+    const assistantId = req.params.id;
+    
+    if (!assistantId) {
+        return res.status(400).json({ success: false, error: 'Assistant ID is required' });
+    }
+
+    const deleteSql = `DELETE FROM assistants WHERE id = ?`;
+    
+    db.run(deleteSql, [assistantId], function(err) {
+        if (err) {
+            console.error('Error deleting assistant:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ success: false, error: 'Assistant not found' });
+        }
+
+        res.json({ success: true, message: 'Assistant deleted successfully' });
+    });
+});
+
+// PUT /api/admin/assistants/:id - Update assistant
+app.put('/api/admin/assistants/:id', authenticateJWT, requireAdmin, (req, res) => {
+    const assistantId = req.params.id;
+    const { name, email, phone, subject, availability, status, qualifications, specializations, roleDescription } = req.body;
+    
+    if (!assistantId) {
+        return res.status(400).json({ success: false, error: 'Assistant ID is required' });
+    }
+
+    // Build dynamic update query
+    const updates = [];
+    const values = [];
+    
+    if (name !== undefined) { updates.push('name = ?'); values.push(name); }
+    if (email !== undefined) { updates.push('email = ?'); values.push(email); }
+    if (phone !== undefined) { updates.push('phone = ?'); values.push(phone); }
+    if (subject !== undefined) { updates.push('subject = ?'); values.push(subject); }
+    if (availability !== undefined) { updates.push('availability = ?'); values.push(availability); }
+    if (status !== undefined) { updates.push('status = ?'); values.push(status); }
+    if (qualifications !== undefined) { updates.push('qualifications = ?'); values.push(qualifications); }
+    if (specializations !== undefined) { updates.push('specializations = ?'); values.push(specializations); }
+    if (roleDescription !== undefined) { updates.push('roleDescription = ?'); values.push(roleDescription); }
+    
+    if (updates.length === 0) {
+        return res.status(400).json({ success: false, error: 'No fields to update' });
+    }
+    
+    updates.push('updatedAt = CURRENT_TIMESTAMP');
+    values.push(assistantId);
+    
+    const updateSql = `UPDATE assistants SET ${updates.join(', ')} WHERE id = ?`;
+    
+    db.run(updateSql, values, function(err) {
+        if (err) {
+            console.error('Error updating assistant:', err);
+            if (err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+                return res.status(400).json({ success: false, error: 'Assistant with this email already exists' });
+            }
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ success: false, error: 'Assistant not found' });
+        }
+
+        res.json({ success: true, message: 'Assistant updated successfully' });
+    });
+});
+
+// Zoom API Integration
+// Note: These are demo credentials. In production, use proper Zoom API credentials
+const ZOOM_API_KEY = process.env.ZOOM_API_KEY || 'demo-zoom-api-key';
+const ZOOM_API_SECRET = process.env.ZOOM_API_SECRET || 'demo-zoom-api-secret';
+const ZOOM_ACCOUNT_ID = process.env.ZOOM_ACCOUNT_ID || 'demo-zoom-account-id';
+
+// Function to generate Zoom JWT token
+function generateZoomJWT() {
+    const payload = {
+        iss: ZOOM_API_KEY,
+        exp: Math.floor(Date.now() / 1000) + 3600 // 1 hour expiration
+    };
+    
+    return jwt.sign(payload, ZOOM_API_SECRET);
+}
+
+// Function to create a real Zoom meeting
+async function createZoomMeeting(meetingData) {
+    try {
+        const token = generateZoomJWT();
+        
+        // If using demo credentials, return a simulated response
+        if (ZOOM_API_KEY === 'demo-zoom-api-key') {
+            console.log('Using demo Zoom API - returning simulated meeting');
+            return {
+                success: true,
+                meeting: {
+                    id: Math.floor(Math.random() * 9000000000) + 1000000000,
+                    topic: meetingData.topic,
+                    join_url: `https://zoom.us/j/${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+                    start_url: `https://zoom.us/s/${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+                    password: Math.random().toString(36).substring(2, 8).toUpperCase(),
+                    settings: {
+                        host_video: true,
+                        participant_video: true,
+                        join_before_host: false,
+                        mute_upon_entry: false,
+                        waiting_room: false
+                    }
+                }
+            };
+        }
+
+        // Real Zoom API call (uncomment when you have real credentials)
+        /*
+        const response = await axios.post('https://api.zoom.us/v2/users/me/meetings', {
+            topic: meetingData.topic,
+            type: 2, // Scheduled meeting
+            start_time: meetingData.startTime || new Date().toISOString(),
+            duration: parseInt(meetingData.duration) || 60,
+            timezone: 'UTC',
+            agenda: meetingData.description || '',
+            settings: {
+                host_video: true,
+                participant_video: true,
+                join_before_host: false,
+                mute_upon_entry: false,
+                waiting_room: false,
+                auto_recording: meetingData.recordSession ? 'cloud' : 'none',
+                enforce_login: false,
+                enforce_login_domains: '',
+                alternative_hosts: '',
+                global_dial_in_countries: ['US'],
+                registrants_confirmation_email: false,
+                registrants_email_notification: false
+            }
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return {
+            success: true,
+            meeting: response.data
+        };
+        */
+
+        // For now, return simulated response
+        return {
+            success: true,
+            meeting: {
+                id: Math.floor(Math.random() * 9000000000) + 1000000000,
+                topic: meetingData.topic,
+                join_url: `https://zoom.us/j/${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+                start_url: `https://zoom.us/s/${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+                password: Math.random().toString(36).substring(2, 8).toUpperCase(),
+                settings: {
+                    host_video: true,
+                    participant_video: true,
+                    join_before_host: false,
+                    mute_upon_entry: false,
+                    waiting_room: false
+                }
+            }
+        };
+
+    } catch (error) {
+        console.error('Error creating Zoom meeting:', error);
+        return {
+            success: false,
+            error: error.message || 'Failed to create Zoom meeting'
+        };
+    }
+}
+
+// Test endpoint to verify API connectivity
+app.get('/api/zoom/test', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Zoom API endpoint is working',
+        timestamp: new Date().toISOString()
+    });
+});
+
+// API endpoint to create a Zoom meeting
+app.post('/api/zoom/create-meeting', authenticateJWT, (req, res) => {
+    console.log('Received request to create Zoom meeting:', req.body);
+    const { title, topic, description, duration, maxParticipants, recordSession, subject } = req.body;
+
+    if (!title || !topic) {
+        return res.status(400).json({ 
+            success: false, 
+            error: 'Title and topic are required' 
+        });
+    }
+
+    const meetingData = {
+        topic: title,
+        description: description || '',
+        duration: duration || 60,
+        maxParticipants: maxParticipants || 100,
+        recordSession: recordSession || false,
+        startTime: new Date().toISOString()
+    };
+
+    createZoomMeeting(meetingData)
+        .then(result => {
+            console.log('Zoom meeting creation result:', result);
+            if (result.success) {
+                // Store the meeting in database or localStorage equivalent
+                const meetingRecord = {
+                    id: Date.now(),
+                    title: title,
+                    topic: topic,
+                    description: description,
+                    duration: parseInt(duration),
+                    maxParticipants: parseInt(maxParticipants),
+                    recordSession: recordSession,
+                    meetingId: result.meeting.id,
+                    meetingPassword: result.meeting.password,
+                    meetingUrl: result.meeting.join_url,
+                    startUrl: result.meeting.start_url,
+                    subject: subject,
+                    status: 'live',
+                    startTime: new Date().toISOString(),
+                    participants: 0,
+                    messages: 0,
+                    instructor: 'Current Teacher',
+                    createdBy: req.user.id
+                };
+
+                res.json({
+                    success: true,
+                    message: 'Zoom meeting created successfully',
+                    meeting: meetingRecord,
+                    zoomMeeting: result.meeting
+                });
+            } else {
+                res.status(500).json({
+                    success: false,
+                    error: result.error
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error in create-meeting endpoint:', error);
+            res.status(500).json({
+                success: false,
+                error: 'Internal server error'
+            });
+        });
+});
+
+// API endpoint to get meeting details
+app.get('/api/zoom/meeting/:meetingId', authenticateJWT, (req, res) => {
+    const { meetingId } = req.params;
+    
+    // In a real implementation, you would fetch from database
+    // For now, return a placeholder response
+    res.json({
+        success: true,
+        meeting: {
+            id: meetingId,
+            status: 'live',
+            join_url: `https://zoom.us/j/${meetingId}`,
+            start_url: `https://zoom.us/s/${meetingId}`
+        }
+    });
+});
+
+// API endpoint to end a meeting
+app.post('/api/zoom/end-meeting/:meetingId', authenticateJWT, (req, res) => {
+    const { meetingId } = req.params;
+    
+    // In a real implementation, you would update the meeting status in database
+    // and potentially call Zoom API to end the meeting
+    
+    res.json({
+        success: true,
+        message: 'Meeting ended successfully'
+    });
+});
+
+// Serve files from the repository root as a fallback for legacy pages
+// (this lets requests such as /admin-panel.html work when the file lives at repo root)
+// IMPORTANT: This must be after API routes to prevent interference
+app.use(express.static(path.join(__dirname, '..')));

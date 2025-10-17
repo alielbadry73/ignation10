@@ -462,8 +462,8 @@
             // Store current quiz for the quiz taking page
             localStorage.setItem('currentQuiz', JSON.stringify(quiz));
             
-            // Redirect to quiz taking page
-            window.location.href = `physics-quiz-taking.html?quizId=${quizId}`;
+            // Redirect to quiz taking page (using English quiz page which has full question support)
+            window.location.href = `english-quiz.html?quizId=${quizId}&course=physics`;
         }
 
         // Preview quiz

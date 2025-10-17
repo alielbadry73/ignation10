@@ -426,10 +426,6 @@
                 <iconify-icon icon="material-symbols:assignment"></iconify-icon>
                 Homework
             </a>
-            <a href="course-assistants-chat.html?course=mathematics" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;">
-                <iconify-icon icon="material-symbols:chat"></iconify-icon>
-                Ask Assistant
-            </a>
         </div>
     </div>
 
@@ -597,18 +593,90 @@
         });
 
         function loadExams() {
-            // Reload exams from localStorage to get latest data
-            exams = JSON.parse(localStorage.getItem('studentExams')) || [];
+            // Load Mathematics exams from localStorage (published by teachers)
+            let mathematicsExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+            
+            // Sample data for demonstration (only used if no published exams exist)
+            const sampleExams = [
+                {
+                    id: 1,
+                    title: "Algebra Fundamentals Exam",
+                    description: "Comprehensive exam covering algebraic expressions, equations, and inequalities.",
+                    dueDate: "2025-01-25",
+                    points: 100,
+                    status: "upcoming",
+                    difficulty: "Medium",
+                    estimatedTime: "2 hours",
+                    questions: [],
+                    published: true,
+                    subject: "mathematics",
+                    category: "exam"
+                },
+                {
+                    id: 2,
+                    title: "Calculus Midterm",
+                    description: "Midterm exam covering derivatives, integrals, and limits.",
+                    dueDate: "2025-02-15",
+                    points: 150,
+                    status: "upcoming",
+                    difficulty: "Hard",
+                    estimatedTime: "3 hours",
+                    questions: [],
+                    published: true,
+                    subject: "mathematics",
+                    category: "exam"
+                }
+            ];
+
+            // Use sample data if no published exams exist
+            if (mathematicsExams.length === 0) {
+                mathematicsExams = sampleExams;
+            }
             
             console.log('=== DEBUGGING EXAMS ===');
-            console.log('Raw studentExams from localStorage:', localStorage.getItem('studentExams'));
-            console.log('Loaded exams array:', exams);
+            console.log('Raw mathematicsExams from localStorage:', localStorage.getItem('mathematicsExams'));
+            console.log('Loaded exams array:', mathematicsExams);
             
             const examGrid = document.getElementById('examGrid');
             
-            // Filter for published mathematics exams
+            // Convert published exams to the format expected by the page
+            exams = mathematicsExams.map(exam => {
+                // Handle both standard and published exam formats
+                const title = exam.title || exam.name || 'Untitled Exam';
+                const description = exam.description || exam.desc || 'No description available';
+                const dueDate = exam.dueDate || exam.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const duration = exam.timeLimit || exam.duration || 120;
+                const status = exam.status || 'upcoming';
+                const difficulty = exam.difficulty || 'Medium';
+                const maxScore = exam.points || exam.totalPoints || 100;
+                const questions = exam.questions || [];
+                const type = exam.type || 'Exam';
+                const topics = exam.topics || ['General'];
+                
+                return {
+                    id: exam.id,
+                    title: title,
+                    type: type,
+                    description: description,
+                    date: dueDate,
+                    duration: duration,
+                    questions: questions,
+                    maxScore: maxScore,
+                    status: status,
+                    difficulty: difficulty,
+                    topics: topics,
+                    published: true,
+                    subject: 'mathematics',
+                    category: 'exam',
+                    // Check if it's a file-based exam
+                    assessmentType: exam.assessmentType,
+                    fileBased: exam.fileBased
+                };
+            });
+            
+            // Filter for published Mathematics exams (all exams are now published)
             const publishedExams = exams.filter(exam => 
-                exam.published && exam.subject === 'mathematics'
+                exam.published && (exam.subject === 'mathematics' || exam.category === 'exam' || exam.type === 'exam')
             );
             
             console.log('Published mathematics exams:', publishedExams);
@@ -726,10 +794,11 @@
 
         function updateStats() {
             // Reload exams from localStorage to get latest data
-            exams = JSON.parse(localStorage.getItem('studentExams')) || [];
+            const mathematicsExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+            exams = mathematicsExams;
             
             const publishedExams = exams.filter(exam => 
-                exam.published && exam.subject === 'mathematics'
+                exam.published && (exam.subject === 'mathematics' || exam.category === 'exam' || exam.type === 'exam')
             );
             const totalExams = publishedExams.length;
             const completedExams = publishedExams.filter(e => e.status === 'completed').length;
@@ -872,7 +941,6 @@
                             </button>
                         </div>
                     </div>
-                </div>
             `;
 
             document.getElementById('questionContainer').innerHTML = questionHtml;
@@ -1015,8 +1083,30 @@
             const questionText = question.text;
             const examTitle = currentExam.title;
             
-            // Redirect to community page with question context
-            const communityUrl = `community.html?question=${encodeURIComponent(questionText)}&assignment=${encodeURIComponent(examTitle)}&subject=mathematics`;
+            // Build comprehensive question content for community message
+            let messageContent = `Question from ${examTitle}:\n\n${questionText}`;
+            
+            // Add choices for multiple choice questions
+            if (question.type === 'multiple-choice' && question.options && question.options.length > 0) {
+                messageContent += '\n\nChoices:';
+                question.options.forEach((option, index) => {
+                    messageContent += `\n${String.fromCharCode(65 + index)}. ${option}`;
+                });
+            }
+            
+            // Add image if present
+            if (question.image) {
+                messageContent += `\n\n[Image: ${question.image}]`;
+            }
+            
+            // Add question type and points info
+            messageContent += `\n\nQuestion Type: ${question.type}`;
+            if (question.points) {
+                messageContent += `\nPoints: ${question.points}`;
+            }
+            
+            // Redirect to community page with comprehensive question context
+            const communityUrl = `community.html?message=${encodeURIComponent(messageContent)}&assignment=${encodeURIComponent(examTitle)}&subject=mathematics`;
             window.open(communityUrl, '_blank');
         }
 
@@ -1061,7 +1151,13 @@
                 exams[examIndex].timeSpent = timeSpent;
                 exams[examIndex].completedAt = new Date().toISOString();
                 exams[examIndex].answers = userAnswers;
-                localStorage.setItem('studentExams', JSON.stringify(exams));
+                // Save to localStorage - update the full exams array, not just the filtered exams
+                const allExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+                const globalExamIndex = allExams.findIndex(e => e.id === currentExam.id);
+                if (globalExamIndex !== -1) {
+                  allExams[globalExamIndex] = exams[examIndex];
+                  localStorage.setItem('mathematicsExams', JSON.stringify(allExams));
+                }
             }
             
             if (timerInterval) {
@@ -1150,7 +1246,7 @@
         document.getElementById('examSearch').addEventListener('input', function(e) {
             const searchTerm = e.target.value.toLowerCase();
             const publishedExams = exams.filter(exam => 
-                exam.published && exam.subject === 'mathematics'
+                exam.published && (exam.subject === 'mathematics' || exam.category === 'exam' || exam.type === 'exam')
             );
             
             filteredExams = publishedExams.filter(exam => 

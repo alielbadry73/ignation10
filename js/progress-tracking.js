@@ -36,13 +36,20 @@ function loadHomeworkStats(courseName) {
         return false;
     }).length;
 
-    document.getElementById('homeworkScore').textContent = `${done}/${total}`;
-    document.getElementById('homeworkDone').textContent = done;
-    document.getElementById('homeworkPending').textContent = pending;
-    document.getElementById('homeworkLate').textContent = late;
+    // Check if elements exist before setting textContent
+    const homeworkScoreEl = document.getElementById('homeworkScore');
+    const homeworkDoneEl = document.getElementById('homeworkDone');
+    const homeworkPendingEl = document.getElementById('homeworkPending');
+    const homeworkLateEl = document.getElementById('homeworkLate');
+    
+    if (homeworkScoreEl) homeworkScoreEl.textContent = `${done}/${total}`;
+    if (homeworkDoneEl) homeworkDoneEl.textContent = done;
+    if (homeworkPendingEl) homeworkPendingEl.textContent = pending;
+    if (homeworkLateEl) homeworkLateEl.textContent = late;
     
     const percentage = total > 0 ? (done / total) * 100 : 0;
-    document.getElementById('homeworkProgress').style.width = percentage + '%';
+    const homeworkProgressEl = document.getElementById('homeworkProgress');
+    if (homeworkProgressEl) homeworkProgressEl.style.width = percentage + '%';
 }
 
 // Load quiz statistics
@@ -69,13 +76,20 @@ function loadQuizStats(courseName) {
         return false;
     }).length;
 
-    document.getElementById('quizScore').textContent = `${done}/${total}`;
-    document.getElementById('quizDone').textContent = done;
-    document.getElementById('quizPending').textContent = pending;
-    document.getElementById('quizLate').textContent = late;
+    // Check if elements exist before setting textContent
+    const quizScoreEl = document.getElementById('quizScore');
+    const quizDoneEl = document.getElementById('quizDone');
+    const quizPendingEl = document.getElementById('quizPending');
+    const quizLateEl = document.getElementById('quizLate');
+    
+    if (quizScoreEl) quizScoreEl.textContent = `${done}/${total}`;
+    if (quizDoneEl) quizDoneEl.textContent = done;
+    if (quizPendingEl) quizPendingEl.textContent = pending;
+    if (quizLateEl) quizLateEl.textContent = late;
     
     const percentage = total > 0 ? (done / total) * 100 : 0;
-    document.getElementById('quizProgress').style.width = percentage + '%';
+    const quizProgressEl = document.getElementById('quizProgress');
+    if (quizProgressEl) quizProgressEl.style.width = percentage + '%';
 }
 
 // Load exam statistics
@@ -102,13 +116,20 @@ function loadExamStats(courseName) {
         return false;
     }).length;
 
-    document.getElementById('examScore').textContent = `${done}/${total}`;
-    document.getElementById('examDone').textContent = done;
-    document.getElementById('examPending').textContent = pending;
-    document.getElementById('examLate').textContent = late;
+    // Check if elements exist before setting textContent
+    const examScoreEl = document.getElementById('examScore');
+    const examDoneEl = document.getElementById('examDone');
+    const examPendingEl = document.getElementById('examPending');
+    const examLateEl = document.getElementById('examLate');
+    
+    if (examScoreEl) examScoreEl.textContent = `${done}/${total}`;
+    if (examDoneEl) examDoneEl.textContent = done;
+    if (examPendingEl) examPendingEl.textContent = pending;
+    if (examLateEl) examLateEl.textContent = late;
     
     const percentage = total > 0 ? (done / total) * 100 : 0;
-    document.getElementById('examProgress').style.width = percentage + '%';
+    const examProgressEl = document.getElementById('examProgress');
+    if (examProgressEl) examProgressEl.style.width = percentage + '%';
 }
 
 // Load recent month grades (last 30 days)
@@ -129,8 +150,9 @@ function loadRecentGrades(courseName) {
     }).sort((a, b) => new Date(b.completedAt || b.submittedAt) - new Date(a.completedAt || a.submittedAt)).slice(0, 5);
 
     const recentQuizGradesEl = document.getElementById('recentQuizGrades');
-    if (recentQuizzes.length > 0) {
-        recentQuizGradesEl.innerHTML = recentQuizzes.map(q => {
+    if (recentQuizGradesEl) {
+        if (recentQuizzes.length > 0) {
+            recentQuizGradesEl.innerHTML = recentQuizzes.map(q => {
             const score = q.score || 0;
             const color = score >= 80 ? '#10b981' : score >= 60 ? '#f59e0b' : '#ef4444';
             return `
@@ -138,9 +160,10 @@ function loadRecentGrades(courseName) {
                     ${score}%
                 </div>
             `;
-        }).join('');
-    } else {
-        recentQuizGradesEl.innerHTML = '<span style="color: #94a3b8; font-style: italic;">No quizzes completed in the last month</span>';
+            }).join('');
+        } else {
+            recentQuizGradesEl.innerHTML = '<span style="color: #94a3b8; font-style: italic;">No quizzes completed in the last month</span>';
+        }
     }
 
     // Recent Exams
@@ -156,8 +179,9 @@ function loadRecentGrades(courseName) {
     }).sort((a, b) => new Date(b.completedAt || b.submittedAt) - new Date(a.completedAt || a.submittedAt)).slice(0, 5);
 
     const recentExamGradesEl = document.getElementById('recentExamGrades');
-    if (recentExams.length > 0) {
-        recentExamGradesEl.innerHTML = recentExams.map(e => {
+    if (recentExamGradesEl) {
+        if (recentExams.length > 0) {
+            recentExamGradesEl.innerHTML = recentExams.map(e => {
             const score = e.score || 0;
             const color = score >= 80 ? '#10b981' : score >= 60 ? '#f59e0b' : '#ef4444';
             return `
@@ -165,9 +189,10 @@ function loadRecentGrades(courseName) {
                     ${score}%
                 </div>
             `;
-        }).join('');
-    } else {
-        recentExamGradesEl.innerHTML = '<span style="color: #94a3b8; font-style: italic;">No exams completed in the last month</span>';
+            }).join('');
+        } else {
+            recentExamGradesEl.innerHTML = '<span style="color: #94a3b8; font-style: italic;">No exams completed in the last month</span>';
+        }
     }
 }
 
@@ -178,11 +203,14 @@ function calculateAverageGrades(courseName) {
     const allQuizzes = quizzes.filter(q => q.subject === courseName.toLowerCase());
     const completedQuizzes = allQuizzes.filter(q => q.score !== undefined);
     
-    if (completedQuizzes.length > 0) {
-        const avgQuiz = Math.round(completedQuizzes.reduce((sum, q) => sum + (q.score || 0), 0) / completedQuizzes.length);
-        document.getElementById('avgQuizGrade').textContent = avgQuiz;
-    } else {
-        document.getElementById('avgQuizGrade').textContent = '--';
+    const avgQuizGradeEl = document.getElementById('avgQuizGrade');
+    if (avgQuizGradeEl) {
+        if (completedQuizzes.length > 0) {
+            const avgQuiz = Math.round(completedQuizzes.reduce((sum, q) => sum + (q.score || 0), 0) / completedQuizzes.length);
+            avgQuizGradeEl.textContent = avgQuiz;
+        } else {
+            avgQuizGradeEl.textContent = '--';
+        }
     }
 
     // Exam Average
@@ -190,11 +218,14 @@ function calculateAverageGrades(courseName) {
     const allExams = exams.filter(e => e.subject === courseName.toLowerCase());
     const completedExams = allExams.filter(e => e.score !== undefined);
     
-    if (completedExams.length > 0) {
-        const avgExam = Math.round(completedExams.reduce((sum, e) => sum + (e.score || 0), 0) / completedExams.length);
-        document.getElementById('avgExamGrade').textContent = avgExam;
-    } else {
-        document.getElementById('avgExamGrade').textContent = '--';
+    const avgExamGradeEl = document.getElementById('avgExamGrade');
+    if (avgExamGradeEl) {
+        if (completedExams.length > 0) {
+            const avgExam = Math.round(completedExams.reduce((sum, e) => sum + (e.score || 0), 0) / completedExams.length);
+            avgExamGradeEl.textContent = avgExam;
+        } else {
+            avgExamGradeEl.textContent = '--';
+        }
     }
 }
 

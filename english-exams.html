@@ -317,6 +317,38 @@
                 padding: 1.5rem;
             }
         }
+
+        .file-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .exam-file-info {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-left: 3px solid #10b981;
+        }
+
+        .exam-file-info iconify-icon {
+            color: #10b981;
+        }
     </style>
 </head>
 <body>
@@ -366,8 +398,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/notifications.js"></script>
     <script>
-        // Sample English exams data
-        const englishExams = [
+        // Load English exams from localStorage (published by teachers)
+        let englishExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
+        
+        // Sample data for demonstration (only used if no published exams exist)
+        const sampleExams = [
             {
                 id: 1,
                 title: "Midterm Examination",
@@ -409,26 +444,25 @@
                 progress: 100,
                 difficulty: "Hard",
                 topics: ["Literature", "Analysis"]
-            },
-            {
-                id: 4,
-                title: "Grammar & Syntax",
-                type: "Quiz",
-                description: "Quick assessment on grammar rules, sentence structure, and syntax.",
-                date: "2025-01-25",
-                duration: 45,
-                questions: 30,
-                maxScore: 50,
-                status: "locked",
-                progress: 0,
-                difficulty: "Medium",
-                topics: ["Grammar", "Syntax"]
             }
         ];
+
+        // Use sample data if no published exams exist
+        if (englishExams.length === 0) {
+            englishExams = sampleExams;
+        }
 
         function loadExams() {
             const grid = document.getElementById('examsGrid');
             const emptyState = document.getElementById('emptyState');
+
+            // Reload exams from localStorage to get latest published exams
+            englishExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
+            
+            // Use sample data if no published exams exist
+            if (englishExams.length === 0) {
+                englishExams = sampleExams;
+            }
 
             if (englishExams.length === 0) {
                 grid.style.display = 'none';
@@ -436,11 +470,50 @@
                 return;
             }
 
-            grid.innerHTML = englishExams.map(exam => `
+            // Convert published exams to the format expected by the page
+            const processedExams = englishExams.map(exam => {
+                // Handle both standard and published exam formats
+                const title = exam.title || exam.name || 'Untitled Exam';
+                const description = exam.description || exam.desc || 'No description available';
+                const dueDate = exam.dueDate || exam.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const duration = exam.timeLimit || exam.duration || 120;
+                const status = exam.status || 'upcoming';
+                const difficulty = exam.difficulty || 'Medium';
+                const maxScore = exam.points || exam.totalPoints || exam.maxScore || 100;
+                const questions = exam.questions ? exam.questions.length : (exam.questions || 50);
+                const progress = exam.progress || (status === 'completed' ? 100 : 0);
+                const type = exam.type || 'Exam';
+                const topics = exam.topics || ['General'];
+                
+                return {
+                    id: exam.id,
+                    title: title,
+                    type: type,
+                    description: description,
+                    date: dueDate,
+                    duration: duration,
+                    questions: questions,
+                    maxScore: maxScore,
+                    status: status,
+                    progress: progress,
+                    difficulty: difficulty,
+                    topics: topics,
+                    // Check if it's a file-based exam
+                    assessmentType: exam.assessmentType,
+                    fileBased: exam.fileBased
+                };
+            });
+
+            grid.innerHTML = processedExams.map(exam => {
+                // Check if it's a file-based exam
+                const isFileBased = exam.assessmentType === 'file-based' || exam.fileBased;
+                
+                return `
                 <div class="exam-card">
                     ${exam.status === 'upcoming' ? '<div class="exam-badge">Upcoming</div>' : 
                       exam.status === 'completed' ? '<div class="exam-badge" style="background: #00b894;">Completed</div>' : 
                       '<div class="exam-badge" style="background: #ddd; color: #666;">Locked</div>'}
+                    ${isFileBased ? '<div class="file-badge"><iconify-icon icon="material-symbols:upload-file"></iconify-icon> File-Based</div>' : ''}
                     
                     <div class="exam-header">
                         <h3 class="exam-title">${exam.title}</h3>
@@ -461,10 +534,12 @@
                             <iconify-icon icon="material-symbols:timer"></iconify-icon>
                             ${exam.duration} minutes
                         </div>
+                        ${!isFileBased ? `
                         <div class="detail-item">
                             <iconify-icon icon="material-symbols:quiz"></iconify-icon>
                             ${exam.questions} questions
                         </div>
+                        ` : ''}
                         <div class="detail-item">
                             <iconify-icon icon="material-symbols:psychology"></iconify-icon>
                             ${exam.difficulty}
@@ -474,6 +549,13 @@
                             ${exam.topics.join(', ')}
                         </div>
                     </div>
+                    
+                    ${isFileBased && exam.fileBased ? `
+                    <div class="exam-file-info">
+                        <iconify-icon icon="material-symbols:description"></iconify-icon>
+                        <span>Question File: ${exam.fileBased.questionFile.name}</span>
+                    </div>
+                    ` : ''}
                     
                     ${exam.status === 'completed' ? `
                         <div class="exam-progress">
@@ -489,14 +571,17 @@
                     
                     <div class="exam-actions">
                         ${exam.status === 'upcoming' ? 
-                            `<a href="english-exam-detail.html?id=${exam.id}" class="btn-exam btn-start">View Details</a>` :
+                            `<a href="english-exam-detail.html?id=${exam.id}" class="btn-exam btn-start">
+                                ${isFileBased ? 'Download & View' : 'View Details'}
+                            </a>` :
                             exam.status === 'completed' ?
                             `<a href="english-exam-detail.html?id=${exam.id}" class="btn-exam btn-review">Review Results</a>` :
                             `<button class="btn-exam btn-locked" disabled>Locked</button>`
                         }
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function navigateToNotifications() {
@@ -525,6 +610,7 @@
     </script>
 </body>
 </html>
+
 
 
 

@@ -911,8 +911,19 @@
             const sessions = JSON.parse(localStorage.getItem('englishLiveSessions')) || [];
             const liveSessionsContainer = document.getElementById('live-sessions');
             
-            // Filter live sessions
-            const liveSessions = sessions.filter(session => session.status === 'live');
+            console.log('Loading live sessions. Found sessions:', sessions);
+            
+            // Filter live sessions - be more flexible with status checking
+            const liveSessions = sessions.filter(session => {
+                const isLive = session.status === 'live' || 
+                              session.status === 'active' || 
+                              session.status === 'running' ||
+                              !session.status; // If no status, assume it's live
+                console.log(`Session ${session.id}: status=${session.status}, isLive=${isLive}`);
+                return isLive;
+            });
+            
+            console.log('Filtered live sessions:', liveSessions);
             
             if (liveSessions.length === 0) {
                 liveSessionsContainer.innerHTML = `
@@ -920,6 +931,12 @@
                         <i class="bi bi-camera-video-off"></i>
                         <h3>No Live Sessions</h3>
                         <p>There are currently no live English sessions. Check back later or join upcoming sessions.</p>
+                        <div style="margin-top: 1rem;">
+                            <button class="btn-primary-custom" onclick="joinDemoSession('literature-demo')" style="margin-right: 1rem;">
+                                <i class="bi bi-camera-video-fill"></i>
+                                Try Demo Session
+                            </button>
+                        </div>
                     </div>
                 `;
                 return;
@@ -983,13 +1000,29 @@
         function joinSession(sessionId) {
             // Get session details from localStorage
             const sessions = JSON.parse(localStorage.getItem('englishLiveSessions')) || [];
-            const session = sessions.find(s => s.id === sessionId);
+            const session = sessions.find(s => s.id == sessionId); // Use == for type flexibility
             
             if (session) {
                 // Open Zoom application with meeting details
                 openZoomMeeting(session);
             } else {
-                alert('Session not found!');
+                // Session not found - provide helpful options
+                console.log('Session not found. Available sessions:', sessions);
+                console.log('Looking for session ID:', sessionId);
+                
+                // Show a more helpful error message with options
+                const userChoice = confirm(`❌ Session not found!\n\nThis might be because:\n• The session has ended\n• The session was cancelled\n• There's a temporary issue\n\nWould you like to:\n\nOK - Try joining a demo session instead\nCancel - Return to sessions list`);
+                
+                if (userChoice) {
+                    // Offer to join a demo session
+                    const demoChoice = confirm(`🎥 Join a Demo Session?\n\nChoose a demo session to join:\n\nOK - Literature Analysis Demo\nCancel - Grammar Demo`);
+                    
+                    if (demoChoice) {
+                        joinDemoSession('literature-demo');
+                    } else {
+                        joinDemoSession('grammar-demo');
+                    }
+                }
             }
         }
         
@@ -1072,6 +1105,7 @@
     </script>
 </body>
 </html>
+
 
 
 

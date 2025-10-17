@@ -590,84 +590,76 @@
             localStorage.setItem('mathematicsDailyPractice', JSON.stringify(sampleQuestions));
         }
 
-        function loadDailyQuestion() {
-            const questions = JSON.parse(localStorage.getItem('mathematicsDailyPractice') || '[]');
-            const today = new Date().toISOString().split('T')[0];
+        function loadDailyQuestions() {
+            const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions') || '[]');
             
-            // Get today's question (randomly select if no specific today's question)
-            const todayQuestion = questions.find(q => q.date === today) || questions[Math.floor(Math.random() * questions.length)];
-
-            if (!todayQuestion) {
+            if (questions.length === 0) {
                 document.getElementById('emptyState').style.display = 'block';
                 document.getElementById('questionContainer').style.display = 'none';
                 return;
             }
 
             const container = document.getElementById('questionContainer');
-            container.innerHTML = `
-                <div class="question-card">
+            container.innerHTML = '';
+
+            questions.forEach((question, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+                questionCard.innerHTML = `
                     <div class="question-header">
-                        <div class="question-number">Question of the Day</div>
-                        <div class="difficulty-badge difficulty-${todayQuestion.difficulty}">
-                            ${todayQuestion.difficulty.charAt(0).toUpperCase() + todayQuestion.difficulty.slice(1)}
+                        <div class="question-number">Question ${index + 1}</div>
+                        <div class="difficulty-badge difficulty-${question.difficulty.toLowerCase()}">
+                            ${question.difficulty}
                         </div>
                     </div>
 
                     <div class="question-text">
-                        <strong>Topic:</strong> ${todayQuestion.topic}<br><br>
-                        ${todayQuestion.question}
-                    </div>
-
-                    <button class="hint-button" onclick="showHint()">
-                        <iconify-icon icon="material-symbols:lightbulb"></iconify-icon>
-                        Show Hint
-                    </button>
-
-                    <div class="hint-section" id="hintSection">
-                        <div class="hint-header">
-                            <iconify-icon icon="material-symbols:lightbulb"></iconify-icon>
-                            Hint
-                        </div>
-                        <div class="hint-content">${todayQuestion.hint}</div>
+                        <strong>Topic:</strong> ${question.topic}<br><br>
+                        ${question.question}
                     </div>
 
                     <div class="answer-section">
                         <label class="answer-label">Your Answer:</label>
-                        <textarea class="answer-input" id="answerInput" rows="4" placeholder="Type your answer here..."></textarea>
+                        <textarea class="answer-input" id="answerInput${index}" rows="4" placeholder="Type your answer here..."></textarea>
                     </div>
 
                     <div class="action-buttons">
-                        <button class="btn-action btn-submit" onclick="submitAnswer()">
+                        <button class="btn-action btn-submit" onclick="submitAnswer(${index})">
                             <iconify-icon icon="material-symbols:check"></iconify-icon>
                             Submit Answer
                         </button>
-                        <button class="btn-action btn-skip" onclick="skipQuestion()">
-                            <iconify-icon icon="material-symbols:skip-next"></iconify-icon>
-                            Skip for Today
+                        <button class="btn-action btn-show" onclick="showAnswer(${index})">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Show Answer
+                        </button>
+                        <button class="btn-action btn-explanation" onclick="showExplanation(${index})">
+                            <iconify-icon icon="material-symbols:help"></iconify-icon>
+                            Explanation
                         </button>
                     </div>
 
-                    <div class="feedback-section" id="feedbackSection">
+                    <div id="answerSection${index}" style="display: none;">
+                        <div class="answer-display">
+                            <strong>Correct Answer:</strong> ${question.answer}
+                        </div>
+                    </div>
+
+                    <div id="explanationSection${index}" style="display: none;">
+                        <div class="explanation-display">
+                            <strong>Explanation:</strong> ${question.explanation || 'No explanation provided.'}
+                        </div>
+                    </div>
+
+                    <div class="feedback-section" id="feedbackSection${index}" style="display: none;">
                         <div class="feedback-header">
                             <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
                             Feedback
                         </div>
-                        <div id="feedbackContent"></div>
+                        <div id="feedbackContent${index}"></div>
                     </div>
-
-                    ${todayQuestion.videoExplanation ? `
-                        <div class="video-section">
-                            <div class="video-header">
-                                <iconify-icon icon="material-symbols:play-circle"></iconify-icon>
-                                Video Explanation
-                            </div>
-                            <div class="video-container">
-                                <iframe width="100%" height="400" src="${todayQuestion.videoExplanation}" frameborder="0" allowfullscreen></iframe>
-                            </div>
-                        </div>
-                    ` : ''}
-                </div>
-            `;
+                `;
+                container.appendChild(questionCard);
+            });
         }
 
         function showHint() {
@@ -688,20 +680,19 @@
             document.getElementById('achievementsCount').textContent = achievements;
         }
 
-        function submitAnswer() {
-            const answer = document.getElementById('answerInput').value.trim();
+        function submitAnswer(questionIndex) {
+            const answer = document.getElementById(`answerInput${questionIndex}`).value.trim();
             
             if (!answer) {
                 alert('Please enter an answer before submitting.');
                 return;
             }
 
-            const questions = JSON.parse(localStorage.getItem('mathematicsDailyPractice') || '[]');
-            const today = new Date().toISOString().split('T')[0];
-            const currentQuestion = questions.find(q => q.date === today) || questions[Math.floor(Math.random() * questions.length)];
+            const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions') || '[]');
+            const currentQuestion = questions[questionIndex];
             
-            const feedbackSection = document.getElementById('feedbackSection');
-            const feedbackContent = document.getElementById('feedbackContent');
+            const feedbackSection = document.getElementById(`feedbackSection${questionIndex}`);
+            const feedbackContent = document.getElementById(`feedbackContent${questionIndex}`);
             
             // Simple answer checking (case-insensitive, flexible matching)
             const isCorrect = checkAnswer(answer, currentQuestion.answer);
@@ -714,7 +705,7 @@
                         Correct! 🎉
                     </div>
                     <p><strong>Your answer:</strong> ${answer}</p>
-                    <p><strong>Explanation:</strong> ${currentQuestion.explanation}</p>
+                    <p><strong>Explanation:</strong> ${currentQuestion.explanation || 'No explanation provided.'}</p>
                 `;
                 
                 // Update stats
@@ -729,7 +720,7 @@
                     </div>
                     <p><strong>Your answer:</strong> ${answer}</p>
                     <p><strong>Correct answer:</strong> ${currentQuestion.answer}</p>
-                    <p><strong>Explanation:</strong> ${currentQuestion.explanation}</p>
+                    <p><strong>Explanation:</strong> ${currentQuestion.explanation || 'No explanation provided.'}</p>
                 `;
                 
                 updateStreak(false);
@@ -740,6 +731,22 @@
             
             // Update stats display
             updateStats();
+        }
+
+        function showAnswer(questionIndex) {
+            const answerSection = document.getElementById(`answerSection${questionIndex}`);
+            const explanationSection = document.getElementById(`explanationSection${questionIndex}`);
+            
+            answerSection.style.display = 'block';
+            explanationSection.style.display = 'none';
+        }
+
+        function showExplanation(questionIndex) {
+            const answerSection = document.getElementById(`answerSection${questionIndex}`);
+            const explanationSection = document.getElementById(`explanationSection${questionIndex}`);
+            
+            explanationSection.style.display = 'block';
+            answerSection.style.display = 'none';
         }
 
         function checkAnswer(userAnswer, correctAnswer) {
@@ -805,9 +812,9 @@
             }
         }
 
-        // Load question and stats on page load
+        // Load questions and stats on page load
         document.addEventListener('DOMContentLoaded', function() {
-            loadDailyQuestion();
+            loadDailyQuestions();
             updateStats();
         });
     </script>

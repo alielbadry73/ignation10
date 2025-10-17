@@ -273,6 +273,36 @@
             color: #e17055;
         }
 
+        .file-badge {
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-left: 0.5rem;
+        }
+
+        .assignment-file-info {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-left: 3px solid #10b981;
+        }
+
+        .assignment-file-info iconify-icon {
+            color: #10b981;
+        }
+
         .assignment-meta {
             display: flex;
             justify-content: space-between;
@@ -920,8 +950,11 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/notifications.js"></script>
     <script>
-        // Sample assignments data
-        let physicsAssignments = [
+        // Load Physics assignments from localStorage (published by teachers)
+        let physicsAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+        
+        // Sample data for demonstration (only used if no published assignments exist)
+        const sampleAssignments = [
             {
                 id: 1,
                 title: "Mechanics Fundamentals",
@@ -968,6 +1001,11 @@
             }
         ];
 
+        // Use sample data if no published assignments exist
+        if (physicsAssignments.length === 0) {
+            physicsAssignments = sampleAssignments;
+        }
+
         // Question Creator Variables
         let currentAnswerType = 'bullet-points';
         let questionContent = {
@@ -981,48 +1019,83 @@
             const grid = document.getElementById('assignmentsGrid');
             const emptyState = document.getElementById('emptyState');
 
+            // Reload assignments from localStorage to get latest published assessments
+            physicsAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            
+            // Use sample data if no published assignments exist
+            if (physicsAssignments.length === 0) {
+                physicsAssignments = sampleAssignments;
+            }
+
             if (physicsAssignments.length === 0) {
                 grid.style.display = 'none';
                 emptyState.style.display = 'block';
                 return;
             }
 
-            grid.innerHTML = physicsAssignments.map(assignment => `
+            grid.innerHTML = physicsAssignments.map(assignment => {
+                // Handle both standard and published assessment formats
+                const title = assignment.title || assignment.name || 'Untitled Assignment';
+                const description = assignment.description || assignment.desc || 'No description available';
+                const dueDate = assignment.dueDate || assignment.deadline || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const points = assignment.points || assignment.totalPoints || 100;
+                const status = assignment.status || 'pending';
+                const difficulty = assignment.difficulty || 'Medium';
+                const estimatedTime = assignment.estimatedTime || assignment.timeLimit ? `${assignment.timeLimit} minutes` : 'No time limit';
+                const questionsCount = assignment.questions ? assignment.questions.length : 0;
+                
+                // Check if it's a file-based assessment
+                const isFileBased = assignment.assessmentType === 'file-based' || assignment.fileBased;
+                
+                return `
                 <div class="assignment-card">
                     <div class="assignment-header">
-                        <h3 class="assignment-title">${assignment.title}</h3>
-                        <span class="assignment-status status-${assignment.status}">
-                            ${assignment.status.charAt(0).toUpperCase() + assignment.status.slice(1)}
+                        <h3 class="assignment-title">${title}</h3>
+                        <span class="assignment-status status-${status}">
+                            ${status.charAt(0).toUpperCase() + status.slice(1)}
                         </span>
+                        ${isFileBased ? '<span class="file-badge"><iconify-icon icon="material-symbols:upload-file"></iconify-icon> File-Based</span>' : ''}
                     </div>
                     
                     <div class="assignment-meta">
-                        <span><iconify-icon icon="material-symbols:schedule"></iconify-icon> Due: ${new Date(assignment.dueDate).toLocaleDateString()}</span>
-                        <span><iconify-icon icon="material-symbols:star"></iconify-icon> ${assignment.points} pts</span>
-                        <span><iconify-icon icon="material-symbols:quiz"></iconify-icon> ${assignment.questions.length} questions</span>
+                        <span><iconify-icon icon="material-symbols:schedule"></iconify-icon> Due: ${new Date(dueDate).toLocaleDateString()}</span>
+                        <span><iconify-icon icon="material-symbols:star"></iconify-icon> ${points} pts</span>
+                        ${!isFileBased ? `<span><iconify-icon icon="material-symbols:quiz"></iconify-icon> ${questionsCount} questions</span>` : ''}
                     </div>
                     
                     <div class="assignment-description">
-                        ${assignment.description}
+                        ${description}
                     </div>
                     
                     <div class="assignment-meta">
-                        <span><iconify-icon icon="material-symbols:psychology"></iconify-icon> ${assignment.difficulty}</span>
-                        <span><iconify-icon icon="material-symbols:timer"></iconify-icon> ${assignment.estimatedTime}</span>
+                        <span><iconify-icon icon="material-symbols:psychology"></iconify-icon> ${difficulty}</span>
+                        <span><iconify-icon icon="material-symbols:timer"></iconify-icon> ${estimatedTime}</span>
                     </div>
                     
+                    ${isFileBased && assignment.fileBased ? `
+                    <div class="assignment-file-info">
+                        <iconify-icon icon="material-symbols:description"></iconify-icon>
+                        <span>Question File: ${assignment.fileBased.questionFile.name}</span>
+                    </div>
+                    ` : ''}
+                    
                     <div class="assignment-actions">
+                        ${!isFileBased ? `
                         <button class="btn-assignment btn-view" onclick="addQuestionToAssignment(${assignment.id})" style="margin-right: 0.5rem;">
                             <iconify-icon icon="material-symbols:add"></iconify-icon>
                             Add Question
                         </button>
-                        ${assignment.status === 'pending' ? 
-                            `<a href="assignment-taking.html?assignment=${assignment.id}&course=physics&title=${encodeURIComponent(assignment.title)}" class="btn-assignment btn-start">Start Assignment</a>` :
-                            `<a href="assignment-taking.html?assignment=${assignment.id}&course=physics&title=${encodeURIComponent(assignment.title)}" class="btn-assignment btn-view">View Assignment</a>`
+                        ` : ''}
+                        ${status === 'pending' ? 
+                            `<a href="assignment-taking.html?assignment=${assignment.id}&course=physics&title=${encodeURIComponent(title)}" class="btn-assignment btn-start">
+                                ${isFileBased ? 'Download & Start' : 'Start Assignment'}
+                            </a>` :
+                            `<a href="assignment-taking.html?assignment=${assignment.id}&course=physics&title=${encodeURIComponent(title)}" class="btn-assignment btn-view">View Assignment</a>`
                         }
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
             
             updateAssignmentStats();
         }

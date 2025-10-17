@@ -126,6 +126,36 @@
     .status-overdue { background:#f8d7da; color:#721c24; }
     .status-upcoming { background:#d1ecf1; color:#0c5460; }
     .status-locked { background:#f8d7da; color:#721c24; }
+    
+    .file-badge {
+        background: #10b981;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-left: 0.5rem;
+    }
+
+    .exam-file-info {
+        background: #f8f9fa;
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin: 0.75rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #64748b;
+        font-size: 0.9rem;
+        border-left: 3px solid #10b981;
+    }
+
+    .exam-file-info iconify-icon {
+        color: #10b981;
+    }
     .homework-filters { 
       background: white; 
       border-radius: 16px; 
@@ -810,8 +840,41 @@
     let exams = [];
     let currentFilter = 'all';
 
-    // Physics exams data - will be loaded from backend or localStorage
-    const physicsExams = [];
+    // Load Physics exams from localStorage (published by teachers)
+    let physicsExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+    
+    // Sample data for demonstration (only used if no published exams exist)
+    const sampleExams = [
+        {
+            id: 1,
+            title: "Physics Midterm Exam",
+            description: "Comprehensive exam covering mechanics, thermodynamics, and electricity.",
+            date: "2025-01-25",
+            time: "09:00",
+            duration: "120",
+            status: "pending",
+            difficulty: "Hard",
+            points: 100,
+            questions: []
+        },
+        {
+            id: 2,
+            title: "Waves and Optics Final",
+            description: "Final exam on wave properties, interference, and optical systems.",
+            date: "2025-02-15",
+            time: "14:00",
+            duration: "90",
+            status: "pending",
+            difficulty: "Medium",
+            points: 80,
+            questions: []
+        }
+    ];
+
+    // Use sample data if no published exams exist
+    if (physicsExams.length === 0) {
+        physicsExams = sampleExams;
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Page loaded, starting exam loading...');
@@ -822,7 +885,44 @@
     });
 
     function loadExams() {
-      exams = [...physicsExams];
+      // Reload exams from localStorage to get latest published exams
+      physicsExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+      
+      // Use sample data if no published exams exist
+      if (physicsExams.length === 0) {
+        physicsExams = sampleExams;
+      }
+
+      // Convert published exams to the format expected by the page
+      exams = physicsExams.map(exam => {
+        // Handle both standard and published exam formats
+        const title = exam.title || exam.name || 'Untitled Exam';
+        const description = exam.description || exam.desc || 'No description available';
+        const dueDate = exam.dueDate || exam.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        const time = exam.time || '09:00';
+        const duration = exam.timeLimit || exam.duration || 120;
+        const status = exam.status || 'pending';
+        const difficulty = exam.difficulty || 'Medium';
+        const points = exam.points || exam.totalPoints || 100;
+        const questions = exam.questions || [];
+        
+        return {
+          id: exam.id,
+          title: title,
+          description: description,
+          date: dueDate,
+          time: time,
+          duration: duration,
+          status: status,
+          difficulty: difficulty,
+          points: points,
+          questions: questions,
+          // Check if it's a file-based exam
+          assessmentType: exam.assessmentType,
+          fileBased: exam.fileBased
+        };
+      });
+
       let list = exams;
       if (currentFilter !== 'all') {
         list = exams.filter(e => e.status === currentFilter);
@@ -981,36 +1081,50 @@
         return;
       }
 
-      grid.innerHTML = list.map(e => `
+      grid.innerHTML = list.map(e => {
+        // Check if it's a file-based exam
+        const isFileBased = e.assessmentType === 'file-based' || e.fileBased;
+        const questionsCount = e.questions ? e.questions.length : 0;
+        
+        return `
         <div class="homework-card">
           <div class="homework-card-header">
             <div class="homework-icon"><iconify-icon icon="material-symbols:school"></iconify-icon></div>
             <div>
               <div class="homework-card-title">${e.title}</div>
               <span class="status-badge status-${e.status}">${e.status.toUpperCase()}</span>
+              ${isFileBased ? '<span class="file-badge"><iconify-icon icon="material-symbols:upload-file"></iconify-icon> File-Based</span>' : ''}
             </div>
           </div>
           <div class="homework-card-description">${e.description}</div>
           <div class="homework-details">
-            <div class="detail-row"><span class="detail-label">Type:</span><span class="detail-value">${e.type}</span></div>
             <div class="detail-row"><span class="detail-label">Date:</span><span class="detail-value">${new Date(e.date).toLocaleDateString()}</span></div>
             <div class="detail-row"><span class="detail-label">Duration:</span><span class="detail-value">${e.duration} minutes</span></div>
-            <div class="detail-row"><span class="detail-label">Questions:</span><span class="detail-value">${e.questions}</span></div>
-            <div class="detail-row"><span class="detail-label">Max Score:</span><span class="detail-value">${e.maxScore}</span></div>
+            ${!isFileBased ? `<div class="detail-row"><span class="detail-label">Questions:</span><span class="detail-value">${questionsCount}</span></div>` : ''}
+            <div class="detail-row"><span class="detail-label">Max Score:</span><span class="detail-value">${e.points}</span></div>
             <div class="detail-row"><span class="detail-label">Difficulty:</span><span class="detail-value">${e.difficulty}</span></div>
-            <div class="detail-row"><span class="detail-label">Topics:</span><span class="detail-value">${e.topics.join(', ')}</span></div>
           </div>
+          ${isFileBased && e.fileBased ? `
+          <div class="exam-file-info">
+            <iconify-icon icon="material-symbols:description"></iconify-icon>
+            <span>Question File: ${e.fileBased.questionFile.name}</span>
+          </div>
+          ` : ''}
           <div class="homework-actions">
-            ${e.status === 'upcoming' ? `
-              <button class="btn btn-primary" onclick="startExam('${e.id}')"><iconify-icon icon="material-symbols:play-arrow"></iconify-icon>Start Exam</button>
+            ${e.status === 'pending' ? `
+              <button class="btn btn-primary" onclick="startExam('${e.id}')">
+                <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                ${isFileBased ? 'Download & Start' : 'Start Exam'}
+              </button>
             ` : e.status === 'completed' ? `
               <button class="btn btn-outline" onclick="reviewExam('${e.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>Review</button>
             ` : `
               <button class="btn btn-outline" disabled><iconify-icon icon="material-symbols:lock"></iconify-icon>Locked</button>
             `}
-                    </div>
-                </div>
-            `).join('');
+          </div>
+        </div>
+        `;
+      }).join('');
       updateStats();
     }
 

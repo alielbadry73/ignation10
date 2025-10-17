@@ -408,6 +408,12 @@
             margin: 0;
         }
 
+        .video-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
         .close-video-btn {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
@@ -426,11 +432,33 @@
             box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
         }
 
+        .fullscreen-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .fullscreen-btn:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #5a67d8 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
         .video-container {
             position: relative;
             width: 100%;
-            height: 500px;
-            max-width: 600px;
+            height: 70vh;
+            min-height: 500px;
+            max-height: 800px;
             margin: 0 auto;
             background: #000;
             border-radius: 20px;
@@ -438,6 +466,115 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(105, 149, 177, 0.2);
             aspect-ratio: 16/9;
+        }
+
+        /* Fullscreen video container */
+        .video-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            border-radius: 0;
+            max-height: none;
+            min-height: 100vh;
+        }
+
+        .video-container.fullscreen .video-iframe {
+            border-radius: 0;
+        }
+
+        /* PDF Viewer Styles */
+        .pdf-viewer {
+            width: 100%;
+            height: 70vh;
+            min-height: 500px;
+            max-height: 800px;
+            border: 2px solid rgba(105, 149, 177, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            background: #f8f9fa;
+        }
+
+        .pdf-viewer.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 9999;
+            border-radius: 0;
+            max-height: none;
+            min-height: 100vh;
+        }
+
+        .pdf-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Lecture Info Panel */
+        .lecture-info {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            border: 1px solid rgba(105, 149, 177, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .lecture-info h3 {
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .lecture-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .detail-item iconify-icon {
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive adjustments for mobile */
+        @media (max-width: 768px) {
+            .video-container {
+                height: 50vh;
+                min-height: 300px;
+            }
+
+            .pdf-viewer {
+                height: 50vh;
+                min-height: 300px;
+            }
+
+            .video-controls {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .close-video-btn,
+            .fullscreen-btn {
+                width: 100%;
+                justify-content: center;
+            }
         }
 
         .video-iframe {
@@ -923,8 +1060,23 @@
             }
 
             .video-container {
-                height: 300px;
+                height: 50vh;
+                min-height: 250px;
                 max-width: 100%;
+            }
+
+            .pdf-viewer {
+                height: 50vh;
+                min-height: 250px;
+            }
+
+            .lecture-info {
+                padding: 1rem;
+            }
+
+            .lecture-details {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
             }
         }
 
@@ -1111,13 +1263,51 @@
                     <div class="video-player-area" id="videoPlayerArea">
                         <div class="video-header">
                             <h2 class="video-title" id="videoTitle">Video Lecture</h2>
-                            <button class="close-video-btn" onclick="closeVideoPlayer()">
-                                <iconify-icon icon="material-symbols:close"></iconify-icon>
-                                Close
-                            </button>
+                            <div class="video-controls">
+                                <button class="fullscreen-btn" onclick="toggleFullscreen()" id="fullscreenBtn">
+                                    <iconify-icon icon="material-symbols:fullscreen"></iconify-icon>
+                                    Fullscreen
+                                </button>
+                                <button class="close-video-btn" onclick="closeVideoPlayer()">
+                                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                                    Close
+                                </button>
+                            </div>
                         </div>
-                        <div class="video-container">
+                        <div class="video-container" id="videoContainer">
                             <iframe class="video-iframe" id="videoIframe" src="" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="lecture-info" id="lectureInfo">
+                            <h3 id="lectureInfoTitle">Lecture Information</h3>
+                            <div class="lecture-details" id="lectureDetails">
+                                <!-- Lecture details will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PDF Viewer Area -->
+                    <div class="video-player-area" id="pdfViewerArea" style="display: none;">
+                        <div class="video-header">
+                            <h2 class="video-title" id="pdfTitle">PDF Document</h2>
+                            <div class="video-controls">
+                                <button class="fullscreen-btn" onclick="togglePdfFullscreen()" id="pdfFullscreenBtn">
+                                    <iconify-icon icon="material-symbols:fullscreen"></iconify-icon>
+                                    Fullscreen
+                                </button>
+                                <button class="close-video-btn" onclick="closePdfViewer()">
+                                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                                    Close
+                                </button>
+                            </div>
+                        </div>
+                        <div class="pdf-viewer" id="pdfViewer">
+                            <iframe class="pdf-iframe" id="pdfIframe" src="" frameborder="0"></iframe>
+                        </div>
+                        <div class="lecture-info" id="pdfInfo">
+                            <h3 id="pdfInfoTitle">Document Information</h3>
+                            <div class="lecture-details" id="pdfDetails">
+                                <!-- PDF details will be populated here -->
+                            </div>
                         </div>
                     </div>
 
@@ -1156,7 +1346,7 @@
         const category = urlParams.get('category');
         const folderName = urlParams.get('folder');
         const folderId = urlParams.get('folderId');
-        const type = urlParams.get('type');
+        const type = urlParams.get('type') || urlParams.get('instructor');
 
         // Determine course from URL parameter or referrer
         const courseParam = urlParams.get('course');
@@ -1433,7 +1623,7 @@
 
             selectedLecture = index;
             
-            // Update active state in sidebar (only for videos)
+            // Update active state in sidebar
             document.querySelectorAll('.lecture-item').forEach((item) => {
                 const itemIndex = parseInt(item.dataset.index);
                 item.classList.toggle('active', itemIndex === index);
@@ -1445,17 +1635,24 @@
             if (isVideo) {
                 openVideoPlayer(file);
             } else {
-                // For PDF files, open directly
-                openFile(file.url);
+                // For PDF files, open in enhanced viewer
+                openPdfViewer(file);
             }
         }
 
         function openVideoPlayer(file) {
             const videoPlayerArea = document.getElementById('videoPlayerArea');
+            const pdfViewerArea = document.getElementById('pdfViewerArea');
             const videoTitle = document.getElementById('videoTitle');
             const videoIframe = document.getElementById('videoIframe');
+            const lectureInfoTitle = document.getElementById('lectureInfoTitle');
+            const lectureDetails = document.getElementById('lectureDetails');
+            
+            // Hide PDF viewer if open
+            pdfViewerArea.style.display = 'none';
             
             videoTitle.textContent = file.name;
+            lectureInfoTitle.textContent = 'Lecture Information';
             
             // Convert video URL to embed format
             let embedUrl = file.url;
@@ -1469,15 +1666,167 @@
             
             videoIframe.src = embedUrl;
             videoPlayerArea.classList.add('active');
+            
+            // Populate lecture details
+            lectureDetails.innerHTML = `
+                <div class="detail-item">
+                    <iconify-icon icon="material-symbols:video-library"></iconify-icon>
+                    <span>Video Lecture</span>
+                </div>
+                <div class="detail-item">
+                    <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                    <span>Duration: ${file.duration || 'Unknown'}</span>
+                </div>
+                <div class="detail-item">
+                    <iconify-icon icon="material-symbols:category"></iconify-icon>
+                    <span>Category: ${category?.charAt(0).toUpperCase() + category?.slice(1) || 'General'}</span>
+                </div>
+                <div class="detail-item">
+                    <iconify-icon icon="material-symbols:folder"></iconify-icon>
+                    <span>Folder: ${folderName || 'Unknown'}</span>
+                </div>
+            `;
         }
 
         function closeVideoPlayer() {
             const videoPlayerArea = document.getElementById('videoPlayerArea');
             const videoIframe = document.getElementById('videoIframe');
+            const videoContainer = document.getElementById('videoContainer');
             
             videoPlayerArea.classList.remove('active');
             videoIframe.src = '';
+            videoContainer.classList.remove('fullscreen');
+            
+            // Reset fullscreen button
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            fullscreenBtn.innerHTML = '<iconify-icon icon="material-symbols:fullscreen"></iconify-icon> Fullscreen';
         }
+
+        // PDF Viewer Functions
+        function openPdfViewer(file) {
+            const videoPlayerArea = document.getElementById('videoPlayerArea');
+            const pdfViewerArea = document.getElementById('pdfViewerArea');
+            const pdfTitle = document.getElementById('pdfTitle');
+            const pdfIframe = document.getElementById('pdfIframe');
+            const pdfInfoTitle = document.getElementById('pdfInfoTitle');
+            const pdfDetails = document.getElementById('pdfDetails');
+            
+            // Hide video player if open
+            videoPlayerArea.classList.remove('active');
+            
+            pdfTitle.textContent = file.name;
+            pdfInfoTitle.textContent = 'Document Information';
+            
+            // Handle PDF URL
+            let pdfUrl = file.url;
+            if (file.url && file.url.startsWith('uploaded:')) {
+                // For uploaded PDFs, we'll need to handle them differently
+                // For now, show a message that PDF viewing is not available for uploaded files
+                pdfIframe.src = 'about:blank';
+                pdfDetails.innerHTML = `
+                    <div class="detail-item">
+                        <iconify-icon icon="material-symbols:picture-as-pdf"></iconify-icon>
+                        <span>PDF Document</span>
+                    </div>
+                    <div class="detail-item">
+                        <iconify-icon icon="material-symbols:info"></iconify-icon>
+                        <span>Click "Open PDF" to view in new tab</span>
+                    </div>
+                    <div class="detail-item">
+                        <iconify-icon icon="material-symbols:category"></iconify-icon>
+                        <span>Category: ${category?.charAt(0).toUpperCase() + category?.slice(1) || 'General'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <iconify-icon icon="material-symbols:folder"></iconify-icon>
+                        <span>Folder: ${folderName || 'Unknown'}</span>
+                    </div>
+                `;
+            } else {
+                // For URL-based PDFs, embed them
+                pdfUrl = file.url + '#toolbar=1&navpanes=1&scrollbar=1';
+                pdfIframe.src = pdfUrl;
+                
+                pdfDetails.innerHTML = `
+                    <div class="detail-item">
+                        <iconify-icon icon="material-symbols:picture-as-pdf"></iconify-icon>
+                        <span>PDF Document</span>
+                    </div>
+                    <div class="detail-item">
+                        <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                        <span>Size: ${file.size || 'Unknown'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <iconify-icon icon="material-symbols:category"></iconify-icon>
+                        <span>Category: ${category?.charAt(0).toUpperCase() + category?.slice(1) || 'General'}</span>
+                    </div>
+                    <div class="detail-item">
+                        <iconify-icon icon="material-symbols:folder"></iconify-icon>
+                        <span>Folder: ${folderName || 'Unknown'}</span>
+                    </div>
+                `;
+            }
+            
+            pdfViewerArea.style.display = 'block';
+        }
+
+        function closePdfViewer() {
+            const pdfViewerArea = document.getElementById('pdfViewerArea');
+            const pdfIframe = document.getElementById('pdfIframe');
+            const pdfViewer = document.getElementById('pdfViewer');
+            
+            pdfViewerArea.style.display = 'none';
+            pdfIframe.src = '';
+            pdfViewer.classList.remove('fullscreen');
+            
+            // Reset fullscreen button
+            const pdfFullscreenBtn = document.getElementById('pdfFullscreenBtn');
+            pdfFullscreenBtn.innerHTML = '<iconify-icon icon="material-symbols:fullscreen"></iconify-icon> Fullscreen';
+        }
+
+        // Fullscreen Functions
+        function toggleFullscreen() {
+            const videoContainer = document.getElementById('videoContainer');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            
+            if (videoContainer.classList.contains('fullscreen')) {
+                // Exit fullscreen
+                videoContainer.classList.remove('fullscreen');
+                fullscreenBtn.innerHTML = '<iconify-icon icon="material-symbols:fullscreen"></iconify-icon> Fullscreen';
+            } else {
+                // Enter fullscreen
+                videoContainer.classList.add('fullscreen');
+                fullscreenBtn.innerHTML = '<iconify-icon icon="material-symbols:fullscreen-exit"></iconify-icon> Exit Fullscreen';
+            }
+        }
+
+        function togglePdfFullscreen() {
+            const pdfViewer = document.getElementById('pdfViewer');
+            const pdfFullscreenBtn = document.getElementById('pdfFullscreenBtn');
+            
+            if (pdfViewer.classList.contains('fullscreen')) {
+                // Exit fullscreen
+                pdfViewer.classList.remove('fullscreen');
+                pdfFullscreenBtn.innerHTML = '<iconify-icon icon="material-symbols:fullscreen"></iconify-icon> Fullscreen';
+            } else {
+                // Enter fullscreen
+                pdfViewer.classList.add('fullscreen');
+                pdfFullscreenBtn.innerHTML = '<iconify-icon icon="material-symbols:fullscreen-exit"></iconify-icon> Exit Fullscreen';
+            }
+        }
+
+        // Handle escape key for fullscreen
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const videoContainer = document.getElementById('videoContainer');
+                const pdfViewer = document.getElementById('pdfViewer');
+                
+                if (videoContainer.classList.contains('fullscreen')) {
+                    toggleFullscreen();
+                } else if (pdfViewer.classList.contains('fullscreen')) {
+                    togglePdfFullscreen();
+                }
+            }
+        });
 
         // Navigation functions for breadcrumb
         function navigateToCategory(category) {
