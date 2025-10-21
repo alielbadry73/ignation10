@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -322,48 +323,6 @@
             background: linear-gradient(135deg, #6b7280, #4b5563);
         }
 
-        /* Assessment Type Selection Styles */
-        .assessment-type-option {
-            cursor: pointer;
-        }
-
-        .assessment-type-option input[type="radio"] {
-            display: none;
-        }
-
-        .assessment-type-card {
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            background: white;
-            cursor: pointer;
-        }
-
-        .assessment-type-card:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-        }
-
-        .assessment-type-option input[type="radio"]:checked + label .assessment-type-card {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #f8faff, #e8f2ff);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-        }
-
-        .assessment-type-card h6 {
-            margin: 1rem 0 0.5rem;
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .assessment-type-card p {
-            margin: 0;
-            color: #64748b;
-            font-size: 0.9rem;
-        }
 
         /* File Upload Section Styles */
         .file-upload-info {
@@ -411,10 +370,121 @@
             overflow-y: auto;
         }
 
-        .question-item {
+        .questions-container {
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            width: 100%;
+        }
+
+        /* Ensure questions display modal appears above daily practice modal */
+        #questionsDisplayModal {
+            z-index: 1060 !important;
+        }
+        
+        #questionsDisplayModal .modal-backdrop {
+            z-index: 1059 !important;
+        }
+
+        .question-creator.compact {
+            padding: 0;
+            background: transparent;
+        }
+        .question-creator.compact .form-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .question-creator.compact .form-control-sm {
+            max-width: 120px;
+        }
+        
+        .question-types-compact {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .question-type-compact {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            padding: 0.375rem 0.75rem;
+        }
+        
+        .question-type-compact.active {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .question-type-compact:hover {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Weekly Schedule Styles */
+        .weekly-schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .day-schedule {
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .day-header {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .session-slot {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .session-slot:last-child {
+            margin-bottom: 0;
+        }
+        
+        .question-item {
+            background-color: white;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .question-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .question-item .form-control {
+            width: 100%;
+        }
+        
+        .question-item .form-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .question-item {
             padding: 1rem;
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -979,6 +1049,10 @@
                 </div>
             </div>
             <div class="header-actions">
+                <button class="btn btn-outline-primary me-2" onclick="showCourseAssistants()">
+                    <iconify-icon icon="material-symbols:people"></iconify-icon>
+                    Course Assistants
+                </button>
                 <button class="notification-btn" onclick="showNotifications()">
                     <iconify-icon icon="material-symbols:notifications"></iconify-icon>
                     <span class="notification-badge" id="notificationCount">3</span>
@@ -1111,11 +1185,7 @@
         <!-- Main Content Tabs -->
         <div class="content-tabs">
             <div class="tab-nav">
-                <button class="tab-btn active" onclick="switchTab('assessments')">
-                    <iconify-icon icon="material-symbols:folder"></iconify-icon>
-                    My Assessments
-                </button>
-                <button class="tab-btn" onclick="switchTab('grading')">
+                <button class="tab-btn active" onclick="switchTab('grading')">
                     <iconify-icon icon="material-symbols:grading"></iconify-icon>
                     Grading Center
                 </button>
@@ -1131,33 +1201,15 @@
                     <iconify-icon icon="material-symbols:edit-note"></iconify-icon>
                     Daily Practice
                 </button>
-            </div>
-
-            <div class="tab-content">
-                <!-- Assessments Tab -->
-                <div id="assessments" class="tab-pane active">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3>My Assessments</h3>
-                        <div class="d-flex gap-2">
-                            <select class="form-control" style="width: auto;" onchange="filterAssessments(this.value)">
-                                <option value="all">All Types</option>
-                                <option value="assignment">Assignments</option>
-                                <option value="quiz">Quizzes</option>
-                                <option value="exam">Exams</option>
-                            </select>
-                            <button class="btn btn-primary" onclick="refreshAssessments()">
-                                <iconify-icon icon="material-symbols:refresh"></iconify-icon>
-                                Refresh
+                <button class="tab-btn" onclick="switchTab('schedule')">
+                    <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                    Session Schedule
                             </button>
-                        </div>
-                    </div>
-                    <div id="assessmentsContainer" class="assessments-grid">
-                        <!-- Assessments will be loaded here -->
-                    </div>
                 </div>
 
+            <div class="tab-content">
                 <!-- Grading Tab -->
-                <div id="grading" class="tab-pane">
+                <div id="grading" class="tab-pane active">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h3>Grading Center</h3>
                         <div class="d-flex gap-2">
@@ -1218,9 +1270,89 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Session Schedule Tab -->
+                <div id="schedule" class="tab-pane">
+                    <div class="section-header">
+                        <h3>
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            Session Schedule Management
+                        </h3>
+                        <p>Set up and manage your class session schedules</p>
             </div>
+
+                    <!-- Add New Session Button -->
+                    <div class="mb-4">
+                        <button class="btn btn-primary me-2" onclick="openSessionScheduleModal()">
+                            <iconify-icon icon="material-symbols:add"></iconify-icon>
+                            Add New Session
+                        </button>
+                        <button class="btn btn-outline-primary" onclick="openWeeklyScheduleModal()">
+                            <iconify-icon icon="material-symbols:calendar-month"></iconify-icon>
+                            Set Weekly Schedule
+                        </button>
+                        <button class="btn btn-outline-secondary ms-2" onclick="openMonthlyScheduleModal()">
+                            <iconify-icon icon="material-symbols:calendar-view-month"></iconify-icon>
+                            Set Monthly Schedule
+                        </button>
         </div>
-    </main>
+
+                    <!-- Schedule Overview -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title text-primary" id="totalSessions">0</h5>
+                                    <p class="card-text">Total Sessions</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title text-success" id="upcomingSessions">0</h5>
+                                    <p class="card-text">Upcoming</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title text-warning" id="todaySessions">0</h5>
+                                    <p class="card-text">Today</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center">
+                                <div class="card-body">
+                                    <h5 class="card-title text-info" id="weeklySessions">0</h5>
+                                    <p class="card-text">This Week</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Weekly Overview (auto-filled after saving weekly schedule) -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="mb-0">Weekly Overview</h5>
+                                <small id="weeklyOverviewRange" class="text-muted"></small>
+                            </div>
+                            <div class="row" id="weeklyOverview"></div>
+                        </div>
+                    </div>
+
+                    <!-- Sessions List -->
+                    <div class="sessions-list" id="sessionsList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            Loading sessions...
+                        </div>
+                    </div>
+                </div>
+            </div>
 
     <!-- Create Assessment Modal -->
     <div class="modal fade" id="createModal" tabindex="-1">
@@ -1241,36 +1373,6 @@
                                 <div class="mb-3">
                                     <label class="form-label">Description</label>
                                     <textarea class="form-control" id="assessmentDescription" rows="3"></textarea>
-                                </div>
-                                <!-- Assessment Type Selection -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-bold">Assessment Type</label>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-check assessment-type-option" onclick="selectAssessmentType('standard')">
-                                                <input class="form-check-input" type="radio" name="assessmentType" id="standardType" value="standard" checked>
-                                                <label class="form-check-label" for="standardType">
-                                                    <div class="assessment-type-card">
-                                                        <iconify-icon icon="material-symbols:quiz" style="font-size: 2rem; color: #667eea;"></iconify-icon>
-                                                        <h6>Standard Questions</h6>
-                                                        <p>Create questions directly in the platform</p>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check assessment-type-option" onclick="selectAssessmentType('file-based')">
-                                                <input class="form-check-input" type="radio" name="assessmentType" id="fileBasedType" value="file-based">
-                                                <label class="form-check-label" for="fileBasedType">
-                                                    <div class="assessment-type-card">
-                                                        <iconify-icon icon="material-symbols:upload-file" style="font-size: 2rem; color: #10b981;"></iconify-icon>
-                                                        <h6>File-Based Assessment</h6>
-                                                        <p>Upload question file, students download & submit</p>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <!-- File Upload Section (Hidden by default) -->
@@ -1361,35 +1463,20 @@
                                 <div class="question-creator">
                                     <h6 class="mb-3">Question Types</h6>
                                     <div class="question-types">
-                                        <div class="question-type-btn active" data-type="multiple-choice" onclick="selectQuestionType('multiple-choice')">
-                                            <iconify-icon icon="material-symbols:radio-button-checked"></iconify-icon>
-                                            <h6>Multiple Choice</h6>
-                                            <p>Single answer</p>
-                                        </div>
-                                        <div class="question-type-btn" data-type="multiple-select" onclick="selectQuestionType('multiple-select')">
+                                        <div class="question-type-btn active" data-type="multiple-select" onclick="selectQuestionType('multiple-select')">
                                             <iconify-icon icon="material-symbols:check-box"></iconify-icon>
                                             <h6>Multiple Select</h6>
                                             <p>Multiple answers</p>
-                                        </div>
-                                        <div class="question-type-btn" data-type="true-false" onclick="selectQuestionType('true-false')">
-                                            <iconify-icon icon="material-symbols:toggle-on"></iconify-icon>
-                                            <h6>True/False</h6>
-                                            <p>Binary choice</p>
                                         </div>
                                         <div class="question-type-btn" data-type="short-answer" onclick="selectQuestionType('short-answer')">
                                             <iconify-icon icon="material-symbols:short-text"></iconify-icon>
                                             <h6>Short Answer</h6>
                                             <p>Text response</p>
                                         </div>
-                                        <div class="question-type-btn" data-type="essay" onclick="selectQuestionType('essay')">
-                                            <iconify-icon icon="material-symbols:article"></iconify-icon>
-                                            <h6>Essay</h6>
-                                            <p>Long form</p>
-                                        </div>
-                                        <div class="question-type-btn" data-type="file-upload" onclick="selectQuestionType('file-upload')">
+                                        <div class="question-type-btn" data-type="file-based" onclick="selectQuestionType('file-based')">
                                             <iconify-icon icon="material-symbols:upload-file"></iconify-icon>
-                                            <h6>File Upload</h6>
-                                            <p>Document upload</p>
+                                            <h6>File-Based Assessment</h6>
+                                            <p>File upload</p>
                                         </div>
                                     </div>
                                     <div class="d-flex gap-2">
@@ -1504,10 +1591,33 @@
                     </button>
                 </div>
             </div>
+    </div>
+</div>
+
+<!-- Questions Display Modal -->
+<div class="modal fade" id="questionsDisplayModal" tabindex="-1" style="z-index: 1060;">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="questionsModalTitle">
+                    <iconify-icon icon="material-symbols:quiz" style="margin-right: 0.5rem;"></iconify-icon>
+                    Questions
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="questionsDisplayContainer">
+                    <!-- Questions will be displayed here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
         </div>
     </div>
+</div>
 
-    <!-- Add Assistant Modal -->
+<!-- Add Assistant Modal -->
     <div class="modal fade" id="addAssistantModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -1569,189 +1679,80 @@
 
     <!-- Daily Practice Questions Modal -->
     <div class="modal fade" id="dailyPracticeModal" tabindex="-1">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
                         <iconify-icon icon="material-symbols:quiz" style="margin-right: 0.5rem;"></iconify-icon>
-                        Daily Practice Questions Management
+                        Daily Practice Questions
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="dailyPracticeForm">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <!-- Question Type Selection -->
-                                <div class="mb-4">
-                                    <label class="form-label fw-bold">Question Type</label>
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-check assessment-type-option" onclick="selectDailyPracticeQuestionType('multiple-choice')">
-                                                <input class="form-check-input" type="radio" name="dailyPracticeQuestionType" id="mcType" value="multiple-choice" checked>
-                                                <label class="form-check-label" for="mcType">
-                                                    <div class="assessment-type-card">
-                                                        <iconify-icon icon="material-symbols:quiz" style="font-size: 1.5rem; color: #667eea;"></iconify-icon>
-                                                        <h6>Multiple Choice</h6>
-                                                        <p>Select one answer</p>
+                        <!-- Question Type Selection (Compact) -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold mb-2">Question Type</label>
+                            <div class="question-types-compact">
+                                <button type="button" class="btn btn-outline-primary btn-sm question-type-compact active" data-type="multiple-choice" onclick="selectDailyPracticeQuestionType('multiple-choice')">
+                                    <iconify-icon icon="material-symbols:check-box"></iconify-icon>
+                                    Multiple Choice
+                                            </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm question-type-compact" data-type="short-answer" onclick="selectDailyPracticeQuestionType('short-answer')">
+                                    <iconify-icon icon="material-symbols:short-text"></iconify-icon>
+                                    Short Answer
+                                </button>
+                                <button type="button" class="btn btn-outline-primary btn-sm question-type-compact" data-type="file-based" onclick="selectDailyPracticeQuestionType('file-based')">
+                                    <iconify-icon icon="material-symbols:upload-file"></iconify-icon>
+                                    File-Based
+                                </button>
                                                     </div>
-                                                </label>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-check assessment-type-option" onclick="selectDailyPracticeQuestionType('short-answer')">
-                                                <input class="form-check-input" type="radio" name="dailyPracticeQuestionType" id="saType" value="short-answer">
-                                                <label class="form-check-label" for="saType">
-                                                    <div class="assessment-type-card">
-                                                        <iconify-icon icon="material-symbols:edit-note" style="font-size: 1.5rem; color: #10b981;"></iconify-icon>
-                                                        <h6>Short Answer</h6>
-                                                        <p>Text response</p>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-check assessment-type-option" onclick="selectDailyPracticeQuestionType('file-upload')">
-                                                <input class="form-check-input" type="radio" name="dailyPracticeQuestionType" id="fuType" value="file-upload">
-                                                <label class="form-check-label" for="fuType">
-                                                    <div class="assessment-type-card">
-                                                        <iconify-icon icon="material-symbols:upload-file" style="font-size: 1.5rem; color: #f59e0b;"></iconify-icon>
-                                                        <h6>File Upload</h6>
-                                                        <p>Upload document</p>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <!-- Question Management Section -->
-                                <div class="mb-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <h6>Daily Practice Questions (<span id="dailyPracticeQuestionCount">0</span>)</h6>
-                                        <div class="d-flex gap-2">
-                                            <button type="button" class="btn btn-primary" onclick="addDailyPracticeQuestion()">
-                                                <iconify-icon icon="material-symbols:add"></iconify-icon>
-                                                Add Question
-                                            </button>
-                                            <button type="button" class="btn btn-success" onclick="generateDailyPracticeQuestions()">
-                                                <iconify-icon icon="material-symbols:auto-awesome"></iconify-icon>
-                                                Generate
-                                            </button>
-                                            <button type="button" class="btn btn-outline-info" onclick="previewQuestions()">
-                                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
-                                                Preview
-                                            </button>
+                        <!-- Question Creator (Compact) -->
+                        <div class="question-creator compact d-flex align-items-end gap-2 mb-3">
+                            <div>
+                                <label class="form-label mb-1 small">Questions</label>
+                                <input type="number" class="form-control form-control-sm" id="questionCountInput" min="1" max="50" value="1" placeholder="Count">
                                         </div>
-                                    </div>
-                                    
-                                    <!-- Search and Filter -->
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <span class="input-group-text">
-                                                    <iconify-icon icon="material-symbols:search"></iconify-icon>
-                                                </span>
-                                                <input type="text" class="form-control" id="questionSearch" placeholder="Search questions..." onkeyup="filterQuestions()">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <select class="form-select" id="difficultyFilter" onchange="filterQuestions()">
-                                                <option value="">All Difficulties</option>
-                                                <option value="Easy">Easy</option>
-                                                <option value="Medium">Medium</option>
-                                                <option value="Hard">Hard</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <select class="form-select" id="typeFilter" onchange="filterQuestions()">
-                                                <option value="">All Types</option>
-                                                <option value="multiple-choice">Multiple Choice</option>
-                                                <option value="short-answer">Short Answer</option>
-                                                <option value="file-upload">File Upload</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Bulk Actions -->
-                                    <div class="d-flex justify-content-between align-items-center mb-3" id="bulkActions" style="display: none;">
-                                        <div class="d-flex gap-2">
-                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteSelectedQuestions()">
-                                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
-                                                Delete Selected
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="exportSelectedQuestions()">
-                                                <iconify-icon icon="material-symbols:download"></iconify-icon>
-                                                Export Selected
-                                            </button>
-                                        </div>
-                                        <button type="button" class="btn btn-sm btn-outline-secondary" onclick="clearSelection()">
-                                            Clear Selection
+                            <button type="button" class="btn btn-sm btn-primary" onclick="addDailyPracticeQuestions()">
+                                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                Add
+                            </button>
+                                                    </div>
+
+                        <!-- Questions Container -->
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="mb-0">Created Questions</h6>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-success" onclick="saveCurrentlyCreatingQuestions()" title="Save current questions">
+                                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                                        Save Questions
+                                    </button>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-sm btn-outline-primary" onclick="showAllQuestions()">
+                                            All Questions
                                         </button>
-                                    </div>
-                                    
-                                    <div id="dailyPracticeQuestionsContainer" class="mt-4">
-                                        <!-- Questions will be added here -->
+                                        <button type="button" class="btn btn-sm btn-outline-success" onclick="showQuestionsByDifficulty('Easy')">
+                                            Easy
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-warning" onclick="showQuestionsByDifficulty('Medium')">
+                                            Medium
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="showQuestionsByDifficulty('Hard')">
+                                            Hard
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="col-md-4">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h6 class="mb-0">Quick Stats</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="stat-item mb-3">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Total Questions:</span>
-                                                <strong id="totalQuestionsCount">0</strong>
-                                            </div>
-                                        </div>
-                                        <div class="stat-item mb-3">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Easy Questions:</span>
-                                                <strong id="easyQuestionsCount">0</strong>
-                                            </div>
-                                        </div>
-                                        <div class="stat-item mb-3">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Medium Questions:</span>
-                                                <strong id="mediumQuestionsCount">0</strong>
-                                            </div>
-                                        </div>
-                                        <div class="stat-item mb-3">
-                                            <div class="d-flex justify-content-between">
-                                                <span>Hard Questions:</span>
-                                                <strong id="hardQuestionsCount">0</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div class="card mt-3">
-                                    <div class="card-header">
-                                        <h6 class="mb-0">Actions</h6>
-                                    </div>
-                                    <div class="card-body">
-                                        <button type="button" class="btn btn-outline-primary w-100 mb-2" onclick="exportDailyPracticeQuestions()">
-                                            <iconify-icon icon="material-symbols:download"></iconify-icon>
-                                            Export Questions
-                                        </button>
-                                        <button type="button" class="btn btn-outline-secondary w-100 mb-2" onclick="importDailyPracticeQuestions()">
-                                            <iconify-icon icon="material-symbols:upload"></iconify-icon>
-                                            Import Questions
-                                        </button>
-                                        <button type="button" class="btn btn-outline-info w-100" onclick="window.location.href='mathematics-daily-practice.html'">
-                                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
-                                            View Student Page
-                                        </button>
-                                    </div>
-                                </div>
+                            <div id="dailyPracticeQuestionsContainer" class="questions-container" style="display: block;">
+                                <!-- Questions will be added here -->
                             </div>
                         </div>
+
                     </form>
-                </div>
+                                            </div>
                 <div class="modal-footer">
                     <div class="d-flex justify-content-between w-100">
                         <button type="button" class="btn btn-outline-danger" onclick="clearAllDailyPracticeQuestions()" id="clearAllBtn" style="display: none;">
@@ -1764,8 +1765,419 @@
                                 <iconify-icon icon="material-symbols:save"></iconify-icon>
                                 Save Questions
                             </button>
+                            <button type="button" class="btn btn-success" onclick="publishDailyPracticeQuestions()">
+                                <iconify-icon icon="material-symbols:publish"></iconify-icon>
+                                Publish to Course
+                            </button>
                         </div>
-                    </div>
+                                    </div>
+                                </div>
+            </div>
+                                        </div>
+                                    </div>
+                                    
+    <!-- Session Schedule Modal -->
+    <div class="modal fade" id="sessionScheduleModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:schedule" style="margin-right: 0.5rem;"></iconify-icon>
+                        Schedule Session
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="sessionScheduleForm">
+                        <div class="row">
+                                        <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Session Title</label>
+                                    <input type="text" class="form-control" id="sessionTitle" placeholder="e.g., Algebra Basics" required>
+                                            </div>
+                                        </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Session Type</label>
+                                    <select class="form-control" id="sessionType" required>
+                                        <option value="">Select Type</option>
+                                        <option value="lecture">Lecture</option>
+                                        <option value="practice">Practice Session</option>
+                                        <option value="quiz">Quiz</option>
+                                        <option value="exam">Exam</option>
+                                        <option value="review">Review Session</option>
+                                            </select>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="sessionDate" required>
+                                                    </div>
+                                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Time</label>
+                                    <input type="time" class="form-control" id="sessionTime" required>
+                                        </div>
+                                                    </div>
+                                            </div>
+                            
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Duration (minutes)</label>
+                                    <input type="number" class="form-control" id="sessionDuration" min="15" max="180" value="60" required>
+                                        </div>
+                                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Max Students</label>
+                                    <input type="number" class="form-control" id="maxStudents" min="1" max="50" value="30" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="sessionDescription" rows="3" placeholder="Describe what will be covered in this session..."></textarea>
+                                            </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Location/Platform</label>
+                            <input type="text" class="form-control" id="sessionLocation" placeholder="e.g., Classroom A, Zoom Room, Google Meet">
+                                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="recurringSession">
+                                <label class="form-check-label" for="recurringSession">
+                                    Recurring Session
+                                </label>
+                                    </div>
+                                </div>
+                                
+                        <div id="recurringOptions" style="display: none;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Repeat Every</label>
+                                        <select class="form-control" id="repeatFrequency">
+                                            <option value="weekly">Week</option>
+                                            <option value="biweekly">2 Weeks</option>
+                                            <option value="monthly">Month</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">End Date</label>
+                                        <input type="date" class="form-control" id="endDate">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveSessionSchedule()">
+                                <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Save Session
+                                            </button>
+                </div>
+            </div>
+                                        </div>
+                                    </div>
+                                    
+    <!-- Weekly Schedule Modal -->
+    <div class="modal fade" id="weeklyScheduleModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:calendar-month" style="margin-right: 0.5rem;"></iconify-icon>
+                        Set Weekly Schedule
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="weeklyScheduleForm">
+                        <div class="row mb-4">
+                                        <div class="col-md-6">
+                                <label class="form-label fw-bold">Week Starting Date</label>
+                                <input type="date" class="form-control" id="weekStartDate" required>
+                                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Schedule Name</label>
+                                <input type="text" class="form-control" id="scheduleName" placeholder="e.g., Fall 2024 Schedule" required>
+                            </div>
+                        </div>
+
+                        <div class="weekly-schedule-grid">
+                            <!-- Sunday -->
+                            <div class="day-schedule">
+                                <h6 class="day-header">Sunday</h6>
+                                <div class="session-slots" id="sunday-slots">
+                                    <div class="session-slot">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Session Name" name="sunday-name">
+                                        </div>
+                                        <div class="col-md-3">
+                                                <input type="time" class="form-control" name="sunday-time">
+                                        </div>
+                                        <div class="col-md-3">
+                                                <select class="form-control" name="sunday-type">
+                                                    <option value="">Select Type</option>
+                                                    <option value="lecture">Lecture</option>
+                                                    <option value="practice">Practice</option>
+                                                    <option value="quiz">Quiz</option>
+                                                    <option value="exam">Exam</option>
+                                                    <option value="review">Review</option>
+                                            </select>
+                                        </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSessionSlot(this)">
+                                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSessionSlot('sunday-slots')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Session
+                                </button>
+                                    </div>
+                                    
+                            <!-- Monday -->
+                            <div class="day-schedule">
+                                <h6 class="day-header">Monday</h6>
+                                <div class="session-slots" id="monday-slots">
+                                    <div class="session-slot">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Session Name" name="monday-name">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="time" class="form-control" name="monday-time">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control" name="monday-type">
+                                                    <option value="">Select Type</option>
+                                                    <option value="lecture">Lecture</option>
+                                                    <option value="practice">Practice</option>
+                                                    <option value="quiz">Quiz</option>
+                                                    <option value="exam">Exam</option>
+                                                    <option value="review">Review</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSessionSlot(this)">
+                                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                            </button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSessionSlot('monday-slots')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Session
+                                        </button>
+                                    </div>
+                                    
+                            <!-- Tuesday -->
+                            <div class="day-schedule">
+                                <h6 class="day-header">Tuesday</h6>
+                                <div class="session-slots" id="tuesday-slots">
+                                    <div class="session-slot">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Session Name" name="tuesday-name">
+                                    </div>
+                                            <div class="col-md-3">
+                                                <input type="time" class="form-control" name="tuesday-time">
+                                </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control" name="tuesday-type">
+                                                    <option value="">Select Type</option>
+                                                    <option value="lecture">Lecture</option>
+                                                    <option value="practice">Practice</option>
+                                                    <option value="quiz">Quiz</option>
+                                                    <option value="exam">Exam</option>
+                                                    <option value="review">Review</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSessionSlot(this)">
+                                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSessionSlot('tuesday-slots')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Session
+                                </button>
+                            </div>
+                            
+                            <!-- Wednesday -->
+                            <div class="day-schedule">
+                                <h6 class="day-header">Wednesday</h6>
+                                <div class="session-slots" id="wednesday-slots">
+                                    <div class="session-slot">
+                                        <div class="row">
+                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Session Name" name="wednesday-name">
+                                    </div>
+                                            <div class="col-md-3">
+                                                <input type="time" class="form-control" name="wednesday-time">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control" name="wednesday-type">
+                                                    <option value="">Select Type</option>
+                                                    <option value="lecture">Lecture</option>
+                                                    <option value="practice">Practice</option>
+                                                    <option value="quiz">Quiz</option>
+                                                    <option value="exam">Exam</option>
+                                                    <option value="review">Review</option>
+                                                </select>
+                                        </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSessionSlot(this)">
+                                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                            </div>
+                                        </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSessionSlot('wednesday-slots')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Session
+                                </button>
+                                            </div>
+
+                            <!-- Thursday -->
+                            <div class="day-schedule">
+                                <h6 class="day-header">Thursday</h6>
+                                <div class="session-slots" id="thursday-slots">
+                                    <div class="session-slot">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Session Name" name="thursday-name">
+                                        </div>
+                                            <div class="col-md-3">
+                                                <input type="time" class="form-control" name="thursday-time">
+                                    </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control" name="thursday-type">
+                                                    <option value="">Select Type</option>
+                                                    <option value="lecture">Lecture</option>
+                                                    <option value="practice">Practice</option>
+                                                    <option value="quiz">Quiz</option>
+                                                    <option value="exam">Exam</option>
+                                                    <option value="review">Review</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSessionSlot(this)">
+                                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSessionSlot('thursday-slots')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Session
+                                </button>
+                                </div>
+                                
+                            <!-- Friday -->
+                            <div class="day-schedule">
+                                <h6 class="day-header">Friday</h6>
+                                <div class="session-slots" id="friday-slots">
+                                    <div class="session-slot">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Session Name" name="friday-name">
+                                    </div>
+                                            <div class="col-md-3">
+                                                <input type="time" class="form-control" name="friday-time">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control" name="friday-type">
+                                                    <option value="">Select Type</option>
+                                                    <option value="lecture">Lecture</option>
+                                                    <option value="practice">Practice</option>
+                                                    <option value="quiz">Quiz</option>
+                                                    <option value="exam">Exam</option>
+                                                    <option value="review">Review</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSessionSlot(this)">
+                                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                        </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSessionSlot('friday-slots')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Session
+                                        </button>
+                            </div>
+
+                            <!-- Saturday -->
+                            <div class="day-schedule">
+                                <h6 class="day-header">Saturday</h6>
+                                <div class="session-slots" id="saturday-slots">
+                                    <div class="session-slot">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" placeholder="Session Name" name="saturday-name">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <input type="time" class="form-control" name="saturday-time">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <select class="form-control" name="saturday-type">
+                                                    <option value="">Select Type</option>
+                                                    <option value="lecture">Lecture</option>
+                                                    <option value="practice">Practice</option>
+                                                    <option value="quiz">Quiz</option>
+                                                    <option value="exam">Exam</option>
+                                                    <option value="review">Review</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSessionSlot(this)">
+                                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="addSessionSlot('saturday-slots')">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                    Add Session
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveWeeklySchedule()">
+                                <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Save Weekly Schedule
+                            </button>
                 </div>
             </div>
         </div>
@@ -1786,6 +2198,7 @@
         let mathematicsAssignments = [];
         let mathematicsExams = [];
         let mathematicsDailyQuestions = [];
+        let sessionSchedules = [];
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
@@ -1799,6 +2212,7 @@
             loadMathematicsData();
             loadAssessments();
             updateStats();
+            loadSessionSchedules();
             
             // Add event listener for publish button
             document.getElementById('publishBtn').addEventListener('click', function() {
@@ -1889,27 +2303,13 @@
             document.getElementById('questionsContainer').innerHTML = '';
             questionCounter = 0;
             
-            // Reset assessment type to standard
-            document.getElementById('standardType').checked = true;
+            // Reset form sections
             document.getElementById('fileUploadSection').style.display = 'none';
             document.getElementById('numberOfQuestionsSection').style.display = 'block';
             
             modal.show();
         }
 
-        // Select assessment type
-        function selectAssessmentType(type) {
-            const fileUploadSection = document.getElementById('fileUploadSection');
-            const numberOfQuestionsSection = document.getElementById('numberOfQuestionsSection');
-            
-            if (type === 'file-based') {
-                fileUploadSection.style.display = 'block';
-                numberOfQuestionsSection.style.display = 'none';
-            } else {
-                fileUploadSection.style.display = 'none';
-                numberOfQuestionsSection.style.display = 'block';
-            }
-        }
 
         // Handle file upload
         function handleFileUpload(input) {
@@ -2037,20 +2437,72 @@
                         </div>
                     `;
                 case 'file-upload':
+                case 'file-based':
                     return `
                         <div class="mb-3">
-                            <label class="form-label">Allowed File Types</label>
+                            <label class="form-label">Upload Question File (Optional)</label>
+                            <div class="file-upload-area" onclick="document.getElementById('questionFile_${questionId}').click()" 
+                                 style="border: 2px dashed #667eea; border-radius: 8px; padding: 1rem; text-align: center; cursor: pointer; background: #f8f9ff;">
+                                <iconify-icon icon="material-symbols:cloud-upload" style="font-size: 2rem; color: #667eea;"></iconify-icon>
+                                <div style="margin-top: 0.5rem; color: #667eea;">Click to upload question file (PDF, Image, etc.)</div>
+                                <div id="questionFileDisplay_${questionId}" style="margin-top: 0.5rem; font-size: 0.9rem; color: #28a745;"></div>
+                            </div>
+                            <input type="file" id="questionFile_${questionId}" style="display: none;" 
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
+                                   onchange="handleQuestionFileUpload('${questionId}', this)">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Allowed Answer File Types</label>
                             <select class="form-control" name="allowedTypes" multiple>
                                 <option value="pdf" selected>PDF</option>
                                 <option value="doc" selected>DOC</option>
                                 <option value="docx" selected>DOCX</option>
                                 <option value="jpg" selected>JPG</option>
                                 <option value="png" selected>PNG</option>
+                                <option value="txt">TXT</option>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Max File Size (MB)</label>
                             <input type="number" class="form-control" name="maxFileSize" value="10" min="1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Answer Type</label>
+                            <select class="form-control" name="answerType" onchange="toggleAnswerOptions('${questionId}')">
+                                <option value="file-upload">File Upload Only</option>
+                                <option value="file-with-multiple-choice">File Upload + Multiple Choice</option>
+                                <option value="multiple-choice-only">Multiple Choice Only</option>
+                            </select>
+                        </div>
+                        <div class="mb-3" id="multipleChoiceOptions_${questionId}" style="display: none;">
+                            <label class="form-label">Multiple Choice Options (for file assessment)</label>
+                            <div id="fileAnswerOptions_${questionId}">
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control" placeholder="Option 1" name="fileAnswerOption">
+                                    <div class="input-group-text">
+                                        <input type="radio" name="correctFileAnswer_${questionId}" value="0">
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger" onclick="removeFileAnswerOption(this)">
+                                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                                    </button>
+                                </div>
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control" placeholder="Option 2" name="fileAnswerOption">
+                                    <div class="input-group-text">
+                                        <input type="radio" name="correctFileAnswer_${questionId}" value="1">
+                                    </div>
+                                    <button type="button" class="btn btn-outline-danger" onclick="removeFileAnswerOption(this)">
+                                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                                    </button>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-sm btn-outline-primary" onclick="addFileAnswerOption('${questionId}')">
+                                <iconify-icon icon="material-symbols:add"></iconify-icon> Add Option
+                            </button>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Instructions for Students</label>
+                            <textarea class="form-control" name="fileInstructions" rows="3" placeholder="Provide specific instructions for file submission and/or multiple choice answers..."></textarea>
                         </div>
                     `;
                 default:
@@ -2076,6 +2528,96 @@
             `;
             
             container.insertAdjacentHTML('beforeend', optionHtml);
+        }
+
+        // Handle question file upload
+        function handleQuestionFileUpload(questionId, input) {
+            const file = input.files[0];
+            if (file) {
+                const display = document.getElementById(`questionFileDisplay_${questionId}`);
+                display.innerHTML = `
+                    <strong>Uploaded:</strong> ${file.name} (${formatFileSize(file.size)})
+                    <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="removeQuestionFile('${questionId}')">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                `;
+                
+                // Store file data for later use
+                const fileData = {
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    data: file // Store the actual file object
+                };
+                
+                // Store in a temporary storage for this question
+                if (!window.questionFiles) window.questionFiles = {};
+                window.questionFiles[elementId] = fileData;
+            }
+        }
+
+        // Remove question file
+        function removeQuestionFile(questionId) {
+            const input = document.getElementById(`questionFile_${questionId}`);
+            const display = document.getElementById(`questionFileDisplay_${questionId}`);
+            
+            input.value = '';
+            display.innerHTML = '';
+            
+            if (window.questionFiles) {
+                delete window.questionFiles[elementId];
+            }
+        }
+
+        // Toggle answer options for file assessments
+        function toggleAnswerOptions(questionId) {
+            const answerType = document.querySelector(`select[name="answerType"]`).value;
+            const multipleChoiceDiv = document.getElementById(`multipleChoiceOptions_${questionId}`);
+            
+            if (answerType === 'file-with-multiple-choice' || answerType === 'multiple-choice-only') {
+                multipleChoiceDiv.style.display = 'block';
+            } else {
+                multipleChoiceDiv.style.display = 'none';
+            }
+        }
+
+        // Add file answer option
+        function addFileAnswerOption(questionId) {
+            const container = document.getElementById(`fileAnswerOptions_${questionId}`);
+            const optionCount = container.children.length;
+            
+            const optionHtml = `
+                <div class="input-group mb-2">
+                    <input type="text" class="form-control" placeholder="Option ${optionCount + 1}" name="fileAnswerOption">
+                    <div class="input-group-text">
+                        <input type="radio" name="correctFileAnswer_${questionId}" value="${optionCount}">
+                    </div>
+                    <button type="button" class="btn btn-outline-danger" onclick="removeFileAnswerOption(this)">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', optionHtml);
+        }
+
+        // Remove file answer option
+        function removeFileAnswerOption(button) {
+            const container = button.closest('.input-group').parentElement;
+            if (container.children.length > 2) {
+                button.closest('.input-group').remove();
+            } else {
+                showToast('At least 2 options are required', 'warning');
+            }
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
         // Remove option
@@ -2254,7 +2796,8 @@
 
         // Save assessment
         function saveAssessment() {
-            const assessmentType = document.querySelector('input[name="assessmentType"]:checked').value;
+            // Default to standard assessment type since we removed the selection
+            const assessmentType = 'standard';
             
             const formData = {
                 id: Date.now().toString(),
@@ -2271,31 +2814,7 @@
                 status: 'draft'
             };
 
-            // Add file-based assessment data if applicable
-            if (assessmentType === 'file-based') {
-                const questionFile = document.getElementById('questionFile').files[0];
-                const answerTemplate = document.getElementById('answerTemplate').files[0];
-                
-                if (!questionFile) {
-                    showToast('Please upload a question file for file-based assessments', 'error');
-                    return;
-                }
-
-                formData.fileBased = {
-                    questionFile: {
-                        name: questionFile.name,
-                        size: questionFile.size,
-                        type: questionFile.type,
-                        lastModified: questionFile.lastModified
-                    },
-                    answerTemplate: answerTemplate ? {
-                        name: answerTemplate.name,
-                        size: answerTemplate.size,
-                        type: answerTemplate.type,
-                        lastModified: answerTemplate.lastModified
-                    } : null
-                };
-            }
+            // File-based assessment logic removed since we only use standard assessments now
 
             assessments.push(formData);
             saveToLocalStorage();
@@ -2365,7 +2884,8 @@
                     return;
                 }
                 
-                const assessmentType = document.querySelector('input[name="assessmentType"]:checked').value;
+                // Default to standard assessment type since we removed the selection
+                const assessmentType = 'standard';
                 
                 const formData = {
                     id: Date.now().toString(),
@@ -2383,31 +2903,7 @@
                     subject: 'mathematics'
                 };
 
-                // Add file-based assessment data if applicable
-                if (assessmentType === 'file-based') {
-                    const questionFile = document.getElementById('questionFile').files[0];
-                    const answerTemplate = document.getElementById('answerTemplate').files[0];
-                    
-                    if (!questionFile) {
-                        showToast('Please upload a question file for file-based assessments', 'error');
-                        return;
-                    }
-
-                    formData.fileBased = {
-                        questionFile: {
-                            name: questionFile.name,
-                            size: questionFile.size,
-                            type: questionFile.type,
-                            lastModified: questionFile.lastModified
-                        },
-                        answerTemplate: answerTemplate ? {
-                            name: answerTemplate.name,
-                            size: answerTemplate.size,
-                            type: answerTemplate.type,
-                            lastModified: answerTemplate.lastModified
-                        } : null
-                    };
-                }
+                // File-based assessment logic removed since we only use standard assessments now
 
                 console.log('Form data created:', formData);
 
@@ -2453,7 +2949,7 @@
                     difficulty: assessment.difficulty.charAt(0).toUpperCase() + assessment.difficulty.slice(1),
                     estimatedTime: assessment.timeLimit ? `${assessment.timeLimit} minutes` : 'No time limit',
                     questions: assessment.questions,
-                    status: 'pending',
+                status: 'published',
                     type: assessment.type, // Add the type field
                     subject: 'mathematics', // Add the subject field for fallback compatibility
                     createdAt: new Date().toISOString()
@@ -2506,11 +3002,19 @@
             console.log('Found question elements:', questionElements.length);
             
             questionElements.forEach((element, index) => {
+                const questionTextElement = element.querySelector('[name="questionText"]');
+                const questionPointsElement = element.querySelector('[name="questionPoints"]');
+                
+                if (!questionTextElement || !questionPointsElement) {
+                    console.warn(`Question ${index + 1} is missing required fields, skipping...`);
+                    return;
+                }
+                
                 const questionData = {
                     id: `q${index + 1}`,
                     type: currentQuestionType,
-                    text: element.querySelector('[name="questionText"]').value,
-                    points: parseInt(element.querySelector('[name="questionPoints"]').value),
+                    text: questionTextElement.value,
+                    points: parseInt(questionPointsElement.value) || 1,
                     options: [],
                     correctAnswer: null,
                     sampleAnswer: element.querySelector('[name="sampleAnswer"]')?.value || null
@@ -2877,6 +3381,256 @@
             showToast('You have 3 pending submissions to grade', 'warning');
         }
 
+        // Show course assistants
+        function showCourseAssistants() {
+            showToast('Course Assistants feature coming soon', 'info');
+        }
+
+        // Weekly Schedule Functions
+        function openWeeklyScheduleModal() {
+            const modal = new bootstrap.Modal(document.getElementById('weeklyScheduleModal'));
+            modal.show();
+            
+            // Set default week start date to next Sunday
+            const today = new Date();
+            const nextSunday = new Date(today);
+            nextSunday.setDate(today.getDate() + (7 - today.getDay()));
+            document.getElementById('weekStartDate').value = nextSunday.toISOString().split('T')[0];
+        }
+
+        function addSessionSlot(daySlotsId) {
+            const container = document.getElementById(daySlotsId);
+            const dayName = daySlotsId.replace('-slots', '');
+            
+            const sessionSlot = document.createElement('div');
+            sessionSlot.className = 'session-slot';
+            sessionSlot.innerHTML = `
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="Session Name" name="${dayName}-name">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="time" class="form-control" name="${dayName}-time">
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-control" name="${dayName}-type">
+                            <option value="">Select Type</option>
+                            <option value="lecture">Lecture</option>
+                            <option value="practice">Practice</option>
+                            <option value="quiz">Quiz</option>
+                            <option value="exam">Exam</option>
+                            <option value="review">Review</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSessionSlot(this)">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(sessionSlot);
+        }
+
+        function removeSessionSlot(button) {
+            const sessionSlot = button.closest('.session-slot');
+            const container = sessionSlot.parentElement;
+            
+            // Don't remove if it's the only session slot
+            if (container.children.length > 1) {
+                sessionSlot.remove();
+            } else {
+                showToast('At least one session slot is required per day', 'warning');
+            }
+        }
+
+        function saveWeeklySchedule() {
+            try {
+                console.log('[WeeklySchedule][Math] saveWeeklySchedule clicked');
+                showToast('Saving weekly schedule...', 'info');
+            } catch (e) { /* noop */ }
+
+            const weekStartDateInput = document.getElementById('weekStartDate');
+            const scheduleNameInput = document.getElementById('scheduleName');
+            if (!weekStartDateInput || !scheduleNameInput) {
+                showToast('Weekly schedule form not found on page', 'error');
+                console.error('[WeeklySchedule][Math] Missing inputs weekStartDate or scheduleName');
+                return;
+            }
+            const weekStartDate = weekStartDateInput.value;
+            const scheduleName = scheduleNameInput.value;
+            
+            if (!weekStartDate || !scheduleName) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+
+            const weeklySchedule = {
+                id: Date.now().toString(),
+                name: scheduleName,
+                weekStartDate: weekStartDate,
+                createdAt: new Date().toISOString(),
+                sessions: []
+            };
+
+            // Collect sessions for each day
+            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+            
+            days.forEach(day => {
+                const daySlots = document.getElementById(`${day}-slots`);
+                const sessionSlots = daySlots.querySelectorAll('.session-slot');
+                
+                sessionSlots.forEach(slot => {
+                    const nameInput = slot.querySelector(`input[name="${day}-name"]`);
+                    const timeInput = slot.querySelector(`input[name="${day}-time"]`);
+                    const typeSelect = slot.querySelector(`select[name="${day}-type"]`);
+                    
+                    if (nameInput.value.trim() && timeInput.value && typeSelect.value) {
+                        weeklySchedule.sessions.push({
+                            day: day,
+                            name: nameInput.value.trim(),
+                            time: timeInput.value,
+                            type: typeSelect.value
+                        });
+                    }
+                });
+            });
+
+            if (weeklySchedule.sessions.length === 0) {
+                showToast('Please add at least one session to the schedule', 'warning');
+                return;
+            }
+
+            // Save to localStorage
+            const existingSchedules = JSON.parse(localStorage.getItem('mathematicsWeeklySchedules') || '[]');
+            existingSchedules.push(weeklySchedule);
+            localStorage.setItem('mathematicsWeeklySchedules', JSON.stringify(existingSchedules));
+
+            // Generate individual sessions for the next 4 weeks
+            generateWeeklySessions(weeklySchedule);
+
+            // Render weekly overview for the selected week
+            renderWeeklyOverview(new Date(weeklySchedule.weekStartDate), weeklySchedule.sessions);
+
+            // Close modal and reset form
+            const modalEl = document.getElementById('weeklyScheduleModal');
+            const modal = modalEl ? bootstrap.Modal.getInstance(modalEl) : null;
+            if (modal) modal.hide();
+            const formEl = document.getElementById('weeklyScheduleForm');
+            if (formEl) formEl.reset();
+
+            showToast('Weekly schedule saved successfully!', 'success');
+        }
+
+        function generateWeeklySessions(weeklySchedule) {
+            const weekStart = new Date(weeklySchedule.weekStartDate);
+            const generatedSessions = [];
+            const generatedStudent = [];
+
+            // Generate sessions for 4 weeks
+            for (let week = 0; week < 4; week++) {
+                weeklySchedule.sessions.forEach(session => {
+                    const sessionDate = new Date(weekStart);
+                    sessionDate.setDate(weekStart.getDate() + (week * 7) + getDayOffset(session.day));
+                    
+                    const sessionData = {
+                        id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+                        title: session.name,
+                        type: session.type,
+                        date: sessionDate.toISOString().split('T')[0],
+                        time: session.time,
+                        duration: 60, // Default duration
+                        maxStudents: 30, // Default max students
+                        description: `Weekly ${session.type} session`,
+                        location: 'Classroom',
+                        isRecurring: true,
+                        weeklyScheduleId: weeklySchedule.id,
+                        createdAt: new Date().toISOString()
+                    };
+
+                    generatedSessions.push(sessionData);
+                    // Store student-facing schedule entries
+                    generatedStudent.push(sessionData);
+                });
+            }
+
+            // Add to existing sessions
+            const existingSessions = JSON.parse(localStorage.getItem('mathematicsSessionSchedules') || '[]');
+            const updatedSessions = [...existingSessions, ...generatedSessions];
+            localStorage.setItem('mathematicsSessionSchedules', JSON.stringify(updatedSessions));
+
+            // Store to student-facing schedule key for mathematics dashboard
+            const existingStudent = JSON.parse(localStorage.getItem('mathematicsStudentSchedule') || '[]');
+            const updatedStudent = [...existingStudent, ...generatedStudent];
+            localStorage.setItem('mathematicsStudentSchedule', JSON.stringify(updatedStudent));
+
+            // Reload sessions display
+            loadSessionSchedules();
+            updateSessionStats();
+        }
+
+        function getDayOffset(day) {
+            const dayMap = {
+                'sunday': 0,
+                'monday': 1,
+                'tuesday': 2,
+                'wednesday': 3,
+                'thursday': 4,
+                'friday': 5,
+                'saturday': 6
+            };
+            return dayMap[day] || 0;
+        }
+
+        function renderWeeklyOverview(weekStartDateObj, templateSessions) {
+            const overviewContainer = document.getElementById('weeklyOverview');
+            const rangeEl = document.getElementById('weeklyOverviewRange');
+            if (!overviewContainer || !rangeEl) return;
+
+            const start = new Date(weekStartDateObj);
+            const end = new Date(start);
+            end.setDate(start.getDate() + 6);
+            rangeEl.textContent = `${start.toLocaleDateString()} - ${end.toLocaleDateString()}`;
+
+            const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+            const sessionsByDay = { sunday: [], monday: [], tuesday: [], wednesday: [], thursday: [], friday: [], saturday: [] };
+            (templateSessions || []).forEach(s => { sessionsByDay[s.day]?.push(s); });
+
+            let html = '';
+            for (let i = 0; i < 7; i++) {
+                const dayDate = new Date(start); dayDate.setDate(start.getDate() + i);
+                const key = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'][i];
+                const sessions = sessionsByDay[key] || [];
+
+                html += `
+                    <div class="col-md-4 col-lg-3 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="mb-2">${dayNames[i]} <small class="text-muted">${dayDate.toLocaleDateString()}</small></h6>
+                                ${sessions.length === 0 ? `<p class="text-muted mb-0">No session</p>` : sessions.map(s => `
+                                    <div class="border rounded p-2 mb-2">
+                                        <div class="d-flex justify-content-between">
+                                            <strong>${s.name}</strong>
+                                            <span class="badge bg-light text-dark text-capitalize">${s.type}</span>
+                                        </div>
+                                        <small class="text-muted">${s.time}</small>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>`;
+            }
+
+            overviewContainer.innerHTML = html;
+        }
+
+        // Expose weekly schedule functions globally for inline onclick handlers
+        window.openWeeklyScheduleModal = openWeeklyScheduleModal;
+        window.saveWeeklySchedule = saveWeeklySchedule;
+        window.addSessionSlot = addSessionSlot;
+        window.removeSessionSlot = removeSessionSlot;
+
         // Show profile menu
         function showProfileMenu() {
             showToast('Profile menu coming soon', 'info');
@@ -3152,6 +3906,243 @@
                 return false;
             }
         }
+
+        // Session Schedule Functions
+        function openSessionScheduleModal() {
+            const modal = new bootstrap.Modal(document.getElementById('sessionScheduleModal'));
+            modal.show();
+            
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('sessionDate').value = today;
+            
+            // Set default time to next hour
+            const nextHour = new Date();
+            nextHour.setHours(nextHour.getHours() + 1);
+            document.getElementById('sessionTime').value = nextHour.toTimeString().slice(0, 5);
+        }
+
+        function saveSessionSchedule() {
+            const sessionData = {
+                id: Date.now().toString(),
+                title: document.getElementById('sessionTitle').value,
+                type: document.getElementById('sessionType').value,
+                date: document.getElementById('sessionDate').value,
+                time: document.getElementById('sessionTime').value,
+                duration: parseInt(document.getElementById('sessionDuration').value),
+                maxStudents: parseInt(document.getElementById('maxStudents').value),
+                description: document.getElementById('sessionDescription').value,
+                location: document.getElementById('sessionLocation').value,
+                isRecurring: document.getElementById('recurringSession').checked,
+                repeatFrequency: document.getElementById('repeatFrequency').value,
+                endDate: document.getElementById('endDate').value,
+                createdAt: new Date().toISOString()
+            };
+
+            if (!sessionData.title || !sessionData.type || !sessionData.date || !sessionData.time) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+
+            sessionSchedules.push(sessionData);
+            localStorage.setItem('mathematicsSessionSchedules', JSON.stringify(sessionSchedules));
+            
+            loadSessionSchedules();
+            updateSessionStats();
+            
+            // Close modal and reset form
+            const modal = bootstrap.Modal.getInstance(document.getElementById('sessionScheduleModal'));
+            modal.hide();
+            document.getElementById('sessionScheduleForm').reset();
+            
+            showToast('Session scheduled successfully!', 'success');
+        }
+
+        function loadSessionSchedules() {
+            const stored = localStorage.getItem('mathematicsSessionSchedules');
+            if (stored) {
+                sessionSchedules = JSON.parse(stored);
+            }
+            
+            displaySessionSchedules();
+            // If a weekly schedule exists, render overview for its start week
+            try {
+                const weekly = JSON.parse(localStorage.getItem('mathematicsWeeklySchedules') || '[]');
+                if (weekly.length > 0) {
+                    const latest = weekly[weekly.length - 1];
+                    renderWeeklyOverview(new Date(latest.weekStartDate), latest.sessions);
+                }
+            } catch (e) { /* noop */ }
+        }
+
+        function displaySessionSchedules() {
+            const container = document.getElementById('sessionsList');
+            if (!container) return;
+
+            if (sessionSchedules.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <iconify-icon icon="material-symbols:schedule" style="font-size: 3rem; color: #ccc;"></iconify-icon>
+                        <h5 class="mt-3 text-muted">No Sessions Scheduled</h5>
+                        <p class="text-muted">Click "Add New Session" to schedule your first class session.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Sort sessions by date and time
+            const sortedSessions = sessionSchedules.sort((a, b) => {
+                const dateA = new Date(`${a.date} ${a.time}`);
+                const dateB = new Date(`${b.date} ${b.time}`);
+                return dateA - dateB;
+            });
+
+            container.innerHTML = sortedSessions.map(session => {
+                const sessionDate = new Date(`${session.date} ${session.time}`);
+                const isUpcoming = sessionDate > new Date();
+                const isToday = sessionDate.toDateString() === new Date().toDateString();
+                
+                return `
+                    <div class="session-item card mb-3 ${isUpcoming ? 'border-primary' : 'border-secondary'}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="card-title mb-1">${session.title}</h6>
+                                    <p class="card-text text-muted mb-2">
+                                        <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                                        ${formatSessionDateTime(session.date, session.time)} (${session.duration} min)
+                                    </p>
+                                    <div class="d-flex gap-3 mb-2">
+                                        <small class="text-muted">
+                                            <iconify-icon icon="material-symbols:category"></iconify-icon>
+                                            ${session.type.charAt(0).toUpperCase() + session.type.slice(1)}
+                                        </small>
+                                        <small class="text-muted">
+                                            <iconify-icon icon="material-symbols:people"></iconify-icon>
+                                            Max ${session.maxStudents} students
+                                        </small>
+                                        ${session.location ? `
+                                            <small class="text-muted">
+                                                <iconify-icon icon="material-symbols:location-on"></iconify-icon>
+                                                ${session.location}
+                                            </small>
+                                        ` : ''}
+                                    </div>
+                                    ${session.description ? `<p class="card-text small">${session.description}</p>` : ''}
+                                </div>
+                                <div class="d-flex gap-2">
+                                    ${isUpcoming ? `
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editSession('${session.id}')">
+                                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                        </button>
+                                    ` : ''}
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteSession('${session.id}')">
+                                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function formatSessionDateTime(date, time) {
+            const sessionDate = new Date(`${date} ${time}`);
+            const now = new Date();
+            const diffTime = sessionDate - now;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            let dateStr = sessionDate.toLocaleDateString();
+            if (diffDays === 0) {
+                dateStr = 'Today';
+            } else if (diffDays === 1) {
+                dateStr = 'Tomorrow';
+            } else if (diffDays < 7) {
+                dateStr = sessionDate.toLocaleDateString('en-US', { weekday: 'long' });
+            }
+            
+            return `${dateStr} at ${sessionDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}`;
+        }
+
+        function updateSessionStats() {
+            const total = sessionSchedules.length;
+            const now = new Date();
+            const today = now.toDateString();
+            const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+            
+            const upcoming = sessionSchedules.filter(session => {
+                const sessionDate = new Date(`${session.date} ${session.time}`);
+                return sessionDate > now;
+            }).length;
+            
+            const todaySessions = sessionSchedules.filter(session => {
+                const sessionDate = new Date(`${session.date} ${session.time}`);
+                return sessionDate.toDateString() === today;
+            }).length;
+            
+            const weeklySessions = sessionSchedules.filter(session => {
+                const sessionDate = new Date(`${session.date} ${session.time}`);
+                return sessionDate >= now && sessionDate <= weekFromNow;
+            }).length;
+
+            document.getElementById('totalSessions').textContent = total;
+            document.getElementById('upcomingSessions').textContent = upcoming;
+            document.getElementById('todaySessions').textContent = todaySessions;
+            document.getElementById('weeklySessions').textContent = weeklySessions;
+        }
+
+        function editSession(sessionId) {
+            const session = sessionSchedules.find(s => s.id === sessionId);
+            if (!session) return;
+
+            // Populate form with session data
+            document.getElementById('sessionTitle').value = session.title;
+            document.getElementById('sessionType').value = session.type;
+            document.getElementById('sessionDate').value = session.date;
+            document.getElementById('sessionTime').value = session.time;
+            document.getElementById('sessionDuration').value = session.duration;
+            document.getElementById('maxStudents').value = session.maxStudents;
+            document.getElementById('sessionDescription').value = session.description || '';
+            document.getElementById('sessionLocation').value = session.location || '';
+            document.getElementById('recurringSession').checked = session.isRecurring || false;
+            document.getElementById('repeatFrequency').value = session.repeatFrequency || 'weekly';
+            document.getElementById('endDate').value = session.endDate || '';
+
+            // Show recurring options if needed
+            if (session.isRecurring) {
+                document.getElementById('recurringOptions').style.display = 'block';
+            }
+
+            // Open modal
+            const modal = new bootstrap.Modal(document.getElementById('sessionScheduleModal'));
+            modal.show();
+
+            // Store the session ID for updating
+            document.getElementById('sessionScheduleModal').setAttribute('data-editing-id', sessionId);
+        }
+
+        function deleteSession(sessionId) {
+            if (confirm('Are you sure you want to delete this session?')) {
+                sessionSchedules = sessionSchedules.filter(s => s.id !== sessionId);
+                localStorage.setItem('mathematicsSessionSchedules', JSON.stringify(sessionSchedules));
+                loadSessionSchedules();
+                updateSessionStats();
+                showToast('Session deleted successfully', 'success');
+            }
+        }
+
+        // Handle recurring session checkbox
+        document.addEventListener('DOMContentLoaded', function() {
+            const recurringCheckbox = document.getElementById('recurringSession');
+            const recurringOptions = document.getElementById('recurringOptions');
+            
+            if (recurringCheckbox && recurringOptions) {
+                recurringCheckbox.addEventListener('change', function() {
+                    recurringOptions.style.display = this.checked ? 'block' : 'none';
+                });
+            }
+        });
 
         // Create Live Session - Now with Real Zoom API Integration
         async function createLiveSession() {
@@ -3459,9 +4450,80 @@
             modal.show();
         }
 
+        // Show questions by type/difficulty
+        function showQuestionsByType(type) {
+            const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions') || '[]');
+            let filteredQuestions = questions;
+            
+            if (type !== 'all') {
+                filteredQuestions = questions.filter(q => q.difficulty && q.difficulty.toLowerCase() === type);
+            }
+            
+            if (filteredQuestions.length === 0) {
+                showToast(`No ${type === 'all' ? '' : type + ' '}questions found`, 'info');
+                return;
+            }
+            
+            // Create a modal to display questions
+            const modalHtml = `
+                <div class="modal fade" id="questionsViewModal" tabindex="-1">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <iconify-icon icon="material-symbols:quiz" style="margin-right: 0.5rem;"></iconify-icon>
+                                    ${type === 'all' ? 'All' : type.charAt(0).toUpperCase() + type.slice(1)} Questions (${filteredQuestions.length})
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    ${filteredQuestions.map((question, index) => `
+                                        <div class="col-md-6 mb-3">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                                        <h6 class="card-title">Question ${index + 1}</h6>
+                                                        <span class="badge bg-${question.difficulty === 'Easy' ? 'success' : question.difficulty === 'Medium' ? 'warning' : 'danger'}">${question.difficulty || 'Easy'}</span>
+                                                    </div>
+                                                    <p class="card-text">${question.question || 'No question text'}</p>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <small class="text-muted">Topic: ${question.topic || 'Not specified'}</small>
+                                                        <small class="text-muted">Points: ${question.points || 10}</small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Remove existing modal if any
+            const existingModal = document.getElementById('questionsViewModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('questionsViewModal'));
+            modal.show();
+        }
+
         // Select daily practice question type
         function selectDailyPracticeQuestionType(type) {
             currentDailyPracticeQuestionType = type;
+            document.querySelectorAll('.question-type-compact').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.question-type-compact').classList.add('active');
         }
 
         // Load daily practice questions
@@ -3471,33 +4533,42 @@
             const container = document.getElementById('dailyPracticeQuestionsContainer');
             const clearAllBtn = document.getElementById('clearAllBtn');
             
+            // Update question count if element exists
+            if (questionCount) {
             questionCount.textContent = questions.length;
+            }
+            
+            // Update statistics
             updateQuestionStatistics(questions);
             
             // Show/hide clear all button based on question count
+            if (clearAllBtn) {
             if (questions.length > 0) {
                 clearAllBtn.style.display = 'block';
             } else {
                 clearAllBtn.style.display = 'none';
+                }
             }
             
+            // Only update container if it exists
+            if (container) {
             container.innerHTML = '';
-            if (questions.length === 0) {
-                container.innerHTML = '<div class="text-center text-muted py-4"><iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; opacity: 0.3;"></iconify-icon><p class="mt-2">No daily practice questions added yet. Click "Add Question" to get started!</p></div>';
-            } else {
-                questions.forEach((question, index) => {
-                    addDailyPracticeQuestionToContainer(question, index + 1);
-                });
+            // Show container by default
+            container.style.display = 'block';
+            
+            // Show empty state message - saved questions are hidden in categories
+            container.innerHTML = '<div class="text-center text-muted py-4"><iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; opacity: 0.3;"></iconify-icon><p class="mt-2">No questions being created. Click "Add Question" to start creating a new question!</p><p class="small">Use the filter buttons above to view saved questions by difficulty.</p></div>';
             }
         }
 
         // Add daily practice question to container
         function addDailyPracticeQuestionToContainer(question, questionNumber) {
             const container = document.getElementById('dailyPracticeQuestionsContainer');
+            if (!container) return; // Exit if container doesn't exist
             dailyPracticeQuestionCounter++;
             
             const questionHtml = `
-                <div class="question-item mb-4 p-3 border rounded" id="dailyPracticeQuestion-${dailyPracticeQuestionCounter}" style="display: block;" data-question-type="${question.type || currentDailyPracticeQuestionType}" data-difficulty="${question.difficulty || 'Easy'}">
+                <div class="question-item mb-4 p-3 border rounded" id="dailyPracticeQuestion-${dailyPracticeQuestionCounter}" style="display: block;" data-question-type="${question.type || currentDailyPracticeQuestionType}" data-difficulty="${question.difficulty || 'Easy'}" data-question-id="${question.id || ''}" data-created-at="${question.createdAt || ''}">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div class="d-flex align-items-center gap-3">
                             <div class="form-check">
@@ -3511,7 +4582,7 @@
                             <button type="button" class="btn btn-sm btn-outline-info" onclick="duplicateQuestion(${dailyPracticeQuestionCounter})">
                                 <iconify-icon icon="material-symbols:content-copy"></iconify-icon>
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeDailyPracticeQuestion(${dailyPracticeQuestionCounter})">
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteDailyPracticeQuestion(${dailyPracticeQuestionCounter})">
                                 <iconify-icon icon="material-symbols:delete"></iconify-icon>
                             </button>
                         </div>
@@ -3549,6 +4620,7 @@
         function generateDailyPracticeQuestionOptions(type, questionId, options = []) {
             switch(type) {
                 case 'multiple-choice':
+                case 'multiple-select':
                     const optionHtml = options.length > 0 ? 
                         options.map((option, index) => `
                             <div class="input-group mb-2">
@@ -3588,28 +4660,39 @@
                 case 'short-answer':
                     return `
                         <div class="mb-3">
-                            <label class="form-label">Correct Answer</label>
-                            <textarea class="form-control" name="dailyPracticeAnswer" rows="2" placeholder="Enter the correct answer...">${options[0] || ''}</textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Explanation (Optional)</label>
-                            <textarea class="form-control" name="dailyPracticeExplanation" rows="2" placeholder="Provide explanation for the answer...">${options[1] || ''}</textarea>
+                            <label class="form-label">Sample Answer (Optional)</label>
+                            <textarea class="form-control" name="dailyPracticeSampleAnswer" rows="2" placeholder="Provide a sample answer for reference...">${options[0] || ''}</textarea>
                         </div>
                     `;
                 case 'file-upload':
+                case 'file-based':
                     return `
                         <div class="mb-3">
-                            <label class="form-label">Expected File Type</label>
-                            <select class="form-control" name="dailyPracticeFileType">
-                                <option value="pdf" ${options[0] === 'pdf' ? 'selected' : ''}>PDF Document</option>
-                                <option value="image" ${options[0] === 'image' ? 'selected' : ''}>Image (JPG, PNG)</option>
-                                <option value="document" ${options[0] === 'document' ? 'selected' : ''}>Word Document</option>
-                                <option value="any" ${options[0] === 'any' ? 'selected' : ''}>Any File Type</option>
+                            <label class="form-label">Upload Question File (Optional)</label>
+                            <div class="file-upload-area" onclick="document.getElementById('dailyPracticeQuestionFile_${questionId}').click()" 
+                                 style="border: 2px dashed #667eea; border-radius: 8px; padding: 1rem; text-align: center; cursor: pointer; background: #f8f9ff;">
+                                <iconify-icon icon="material-symbols:cloud-upload" style="font-size: 2rem; color: #667eea;"></iconify-icon>
+                                <div style="margin-top: 0.5rem; color: #667eea;">Click to upload question file (PDF, Image, etc.)</div>
+                                <div id="dailyPracticeQuestionFileDisplay_${questionId}" style="margin-top: 0.5rem; font-size: 0.9rem; color: #28a745;"></div>
+                            </div>
+                            <input type="file" id="dailyPracticeQuestionFile_${questionId}" style="display: none;" 
+                                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" 
+                                   onchange="handleDailyPracticeQuestionFileUpload('${questionId}', this)">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Allowed Answer File Types</label>
+                            <select class="form-control" name="dailyPracticeAllowedTypes" multiple>
+                                <option value="pdf" selected>PDF</option>
+                                <option value="doc" selected>DOC</option>
+                                <option value="docx" selected>DOCX</option>
+                                <option value="jpg" selected>JPG</option>
+                                <option value="png" selected>PNG</option>
+                                <option value="txt">TXT</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Instructions</label>
-                            <textarea class="form-control" name="dailyPracticeInstructions" rows="2" placeholder="Provide instructions for the file upload...">${options[1] || ''}</textarea>
+                            <label class="form-label">Max File Size (MB)</label>
+                            <input type="number" class="form-control" name="dailyPracticeMaxFileSize" value="10" min="1">
                         </div>
                     `;
                 default:
@@ -3617,9 +4700,93 @@
             }
         }
 
-        // Add daily practice question
+        // Add daily practice questions
+        function addDailyPracticeQuestions() {
+            console.log('addDailyPracticeQuestions called!');
+            const questionCountInput = document.getElementById('questionCountInput');
+            console.log('questionCountInput:', questionCountInput);
+            const numberOfQuestions = parseInt(questionCountInput.value) || 1;
+            console.log('numberOfQuestions:', numberOfQuestions);
+            
+            if (numberOfQuestions < 1 || numberOfQuestions > 50) {
+                console.log('Invalid number of questions');
+                showToast('Please enter a valid number between 1 and 50', 'warning');
+                return;
+            }
+            
+            console.log('Creating questions...');
+            // Create questions based on the selected type
+            for (let i = 0; i < numberOfQuestions; i++) {
+                console.log(`Creating question ${i + 1}`);
+                addDailyPracticeQuestion();
+            }
+            
+            console.log('Questions created successfully');
+            showToast(`Successfully created ${numberOfQuestions} question${numberOfQuestions > 1 ? 's' : ''}`, 'success');
+        }
+
+        // Add single daily practice question
         function addDailyPracticeQuestion() {
-            addDailyPracticeQuestionToContainer({}, dailyPracticeQuestionCounter + 1);
+            console.log('addDailyPracticeQuestion called, counter:', dailyPracticeQuestionCounter);
+            dailyPracticeQuestionCounter++;
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            console.log('container:', container);
+            if (!container) {
+                console.log('Container not found!');
+                return; // Exit if container doesn't exist
+            }
+            
+            console.log('Creating question HTML...');
+            const questionHtml = `
+                <div class="question-item mb-4 p-3 border rounded" id="dailyPracticeQuestion-${dailyPracticeQuestionCounter}" data-saved="false" data-question-type="${currentDailyPracticeQuestionType}">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6>Question ${dailyPracticeQuestionCounter}</h6>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteCurrentQuestion(${dailyPracticeQuestionCounter})" title="Delete this question">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            Delete
+                        </button>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Question Text</label>
+                        <textarea class="form-control" name="dailyPracticeQuestionText" rows="3" placeholder="Enter your question..."></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Points</label>
+                        <input type="number" class="form-control" name="dailyPracticePoints" min="1" value="10">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Difficulty</label>
+                        <select class="form-control" name="dailyPracticeDifficulty">
+                            <option value="Easy">Easy</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Topic</label>
+                        <input type="text" class="form-control" name="dailyPracticeTopic" placeholder="e.g., Algebra, Geometry">
+                    </div>
+                    <div id="dailyPracticeQuestionOptions-${dailyPracticeQuestionCounter}">
+                        ${generateDailyPracticeQuestionOptions(currentDailyPracticeQuestionType, dailyPracticeQuestionCounter)}
+                    </div>
+                </div>
+            `;
+            
+            console.log('Adding question to container...');
+            
+            // Clear only the empty state message when adding a new question, not existing questions
+            if (container.innerHTML.includes('No questions being created')) {
+                container.innerHTML = '';
+            }
+            
+            container.insertAdjacentHTML('beforeend', questionHtml);
+            console.log('Question added successfully');
+            
+            // Show container when question is added
+            container.style.display = 'block';
+            
+            // Update question count
+            updateDailyPracticeQuestionCount();
         }
 
         // Add daily practice option
@@ -3651,13 +4818,35 @@
         // Update daily practice question count
         function updateDailyPracticeQuestionCount() {
             const container = document.getElementById('dailyPracticeQuestionsContainer');
+            const questionCount = document.getElementById('dailyPracticeQuestionCount');
+            
+            if (!container || !questionCount) return; // Exit if elements don't exist
+            
             const questions = container.querySelectorAll('.question-item');
-            document.getElementById('dailyPracticeQuestionCount').textContent = questions.length;
+            questionCount.textContent = questions.length;
+        }
+
+        // Handle daily practice question file upload
+        function handleDailyPracticeQuestionFileUpload(questionId, input) {
+            const file = input.files[0];
+            const display = document.getElementById(`dailyPracticeQuestionFileDisplay_${questionId}`);
+            
+            if (file) {
+                const fileSize = formatFileSize(file.size);
+                display.innerHTML = `
+                    <iconify-icon icon="material-symbols:check-circle" style="color: #28a745;"></iconify-icon>
+                    ${file.name} (${fileSize})
+                `;
+            } else {
+                display.innerHTML = '';
+            }
         }
 
         // Save daily practice questions
         function saveDailyPracticeQuestions() {
             const container = document.getElementById('dailyPracticeQuestionsContainer');
+            if (!container) return; // Exit if container doesn't exist
+            
             const questionElements = container.querySelectorAll('.question-item');
             const questions = [];
             let hasErrors = false;
@@ -3692,14 +4881,18 @@
                     return;
                 }
 
+                // Get existing question data if available
+                const existingId = element.getAttribute('data-question-id');
+                const existingCreatedAt = element.getAttribute('data-created-at');
+                
                 const question = {
-                    id: question.id || Date.now() + index,
+                    id: existingId || Date.now() + index,
                     question: questionText,
                     difficulty: difficulty,
                     topic: topic,
                     points: points,
                     type: questionType,
-                    createdAt: question.createdAt || new Date().toISOString(),
+                    createdAt: existingCreatedAt || new Date().toISOString(),
                     updatedAt: new Date().toISOString()
                 };
 
@@ -3732,15 +4925,44 @@
                     if (explanationTextarea && explanationTextarea.value.trim()) {
                         question.explanation = explanationTextarea.value.trim();
                     }
-                } else if (questionType === 'file-upload') {
-                    const fileTypeSelect = element.querySelector('select[name="dailyPracticeFileType"]');
-                    const instructionsTextarea = element.querySelector('textarea[name="dailyPracticeInstructions"]');
+                } else if (questionType === 'file-upload' || questionType === 'file-based') {
+                    // Handle file upload question data
+                    const allowedTypesSelect = element.querySelector('select[name="allowedTypes"]');
+                    const maxFileSizeInput = element.querySelector('input[name="maxFileSize"]');
+                    const fileInstructionsTextarea = element.querySelector('textarea[name="fileInstructions"]');
+                    const answerTypeSelect = element.querySelector('select[name="answerType"]');
                     
-                    if (fileTypeSelect) {
-                        question.fileType = fileTypeSelect.value;
+                    if (allowedTypesSelect) {
+                        question.allowedFileTypes = Array.from(allowedTypesSelect.selectedOptions).map(option => option.value);
                     }
-                    if (instructionsTextarea && instructionsTextarea.value.trim()) {
-                        question.instructions = instructionsTextarea.value.trim();
+                    if (maxFileSizeInput) {
+                        question.maxFileSize = parseInt(maxFileSizeInput.value) || 10;
+                    }
+                    if (fileInstructionsTextarea && fileInstructionsTextarea.value.trim()) {
+                        question.fileInstructions = fileInstructionsTextarea.value.trim();
+                    }
+                    if (answerTypeSelect) {
+                        question.answerType = answerTypeSelect.value;
+                    }
+                    
+                    // Handle question file upload
+                    if (window.questionFiles && window.questionFiles[elementId]) {
+                        question.questionFile = {
+                            name: window.questionFiles[elementId].name,
+                            size: window.questionFiles[elementId].size,
+                            type: window.questionFiles[elementId].type
+                        };
+                    }
+                    
+                    // Handle multiple choice options for file assessments
+                    if (answerTypeSelect && (answerTypeSelect.value === 'file-with-multiple-choice' || answerTypeSelect.value === 'multiple-choice-only')) {
+                        const fileAnswerOptions = element.querySelectorAll('input[name="fileAnswerOption"]');
+                        const correctAnswerRadio = element.querySelector('input[name="correctFileAnswer_' + elementId + '"]:checked');
+                        
+                        question.fileAnswerOptions = Array.from(fileAnswerOptions).map(input => input.value.trim()).filter(value => value);
+                        if (correctAnswerRadio) {
+                            question.correctFileAnswer = parseInt(correctAnswerRadio.value);
+                        }
                     }
                 }
 
@@ -3763,6 +4985,460 @@
             loadDailyPracticeQuestions();
         }
 
+        // Publish daily practice questions to student dashboard
+        function publishDailyPracticeQuestions() {
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            if (!container) return; // Exit if container doesn't exist
+            
+            const questionElements = container.querySelectorAll('.question-item');
+            const questions = [];
+            let hasErrors = false;
+
+            // Show loading state
+            const publishBtn = document.querySelector('button[onclick="publishDailyPracticeQuestions()"]');
+            const originalText = publishBtn.innerHTML;
+            publishBtn.innerHTML = '<iconify-icon icon="material-symbols:hourglass-empty"></iconify-icon> Publishing...';
+            publishBtn.disabled = true;
+
+            questionElements.forEach((element, index) => {
+                const questionText = element.querySelector('textarea[name="dailyPracticeQuestionText"]').value.trim();
+                const difficulty = element.querySelector('select[name="dailyPracticeDifficulty"]').value;
+                const topic = element.querySelector('input[name="dailyPracticeTopic"]').value.trim();
+                const points = parseInt(element.querySelector('input[name="dailyPracticePoints"]').value) || 10;
+                const questionType = element.getAttribute('data-question-type') || currentDailyPracticeQuestionType;
+                
+                // Validation
+                if (!questionText) {
+                    showToast(`Question text is required for question ${index + 1}`, 'error');
+                    hasErrors = true;
+                    return;
+                }
+                if (!topic) {
+                    showToast(`Topic is required for question ${index + 1}`, 'error');
+                    hasErrors = true;
+                    return;
+                }
+                if (points < 1) {
+                    showToast(`Points must be at least 1 for question ${index + 1}`, 'error');
+                    hasErrors = true;
+                    return;
+                }
+
+                // Get existing question data if available
+                const existingId = element.getAttribute('data-question-id');
+                const existingCreatedAt = element.getAttribute('data-created-at');
+                
+                const question = {
+                    id: existingId || Date.now() + index,
+                    question: questionText,
+                    difficulty: difficulty,
+                    topic: topic,
+                    points: points,
+                    type: questionType,
+                    createdAt: existingCreatedAt || new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    published: true,
+                    publishedAt: new Date().toISOString()
+                };
+
+                // Get answer based on question type
+                if (questionType === 'multiple-choice') {
+                    const correctRadio = element.querySelector(`input[name="dailyPracticeCorrect-${element.id.split('-')[1]}"]:checked`);
+                    const options = Array.from(element.querySelectorAll('#dailyPracticeOptions-' + element.id.split('-')[1] + ' input[type="text"]')).map(input => input.value.trim()).filter(opt => opt);
+                    
+                    if (!correctRadio) {
+                        showToast(`Please select a correct answer for question ${index + 1}`, 'error');
+                        hasErrors = true;
+                        return;
+                    }
+                    if (options.length < 2) {
+                        showToast(`At least 2 options are required for question ${index + 1}`, 'error');
+                        hasErrors = true;
+                        return;
+                    }
+                    
+                    question.options = options;
+                    question.correctAnswer = correctRadio.value;
+                    question.answer = options[parseInt(correctRadio.value)];
+                } else if (questionType === 'short-answer') {
+                    const answerTextarea = element.querySelector('textarea[name="dailyPracticeAnswer"]');
+                    const explanationTextarea = element.querySelector('textarea[name="dailyPracticeExplanation"]');
+                    
+                    if (answerTextarea && answerTextarea.value.trim()) {
+                        question.answer = answerTextarea.value.trim();
+                    }
+                    if (explanationTextarea && explanationTextarea.value.trim()) {
+                        question.explanation = explanationTextarea.value.trim();
+                    }
+                } else if (questionType === 'file-upload' || questionType === 'file-based') {
+                    // Handle file upload question data
+                    const elementId = element.id.split('-')[1];
+                    const allowedTypesSelect = element.querySelector('select[name="allowedTypes"]');
+                    const maxFileSizeInput = element.querySelector('input[name="maxFileSize"]');
+                    const fileInstructionsTextarea = element.querySelector('textarea[name="fileInstructions"]');
+                    const answerTypeSelect = element.querySelector('select[name="answerType"]');
+                    
+                    if (allowedTypesSelect) {
+                        question.allowedFileTypes = Array.from(allowedTypesSelect.selectedOptions).map(option => option.value);
+                    }
+                    if (maxFileSizeInput) {
+                        question.maxFileSize = parseInt(maxFileSizeInput.value) || 10;
+                    }
+                    if (fileInstructionsTextarea && fileInstructionsTextarea.value.trim()) {
+                        question.fileInstructions = fileInstructionsTextarea.value.trim();
+                    }
+                    if (answerTypeSelect) {
+                        question.answerType = answerTypeSelect.value;
+                    }
+                    
+                    // Handle question file upload
+                    if (window.questionFiles && window.questionFiles[elementId]) {
+                        question.questionFile = {
+                            name: window.questionFiles[elementId].name,
+                            size: window.questionFiles[elementId].size,
+                            type: window.questionFiles[elementId].type
+                        };
+                    }
+                    
+                    // Handle multiple choice options for file assessments
+                    if (answerTypeSelect && (answerTypeSelect.value === 'file-with-multiple-choice' || answerTypeSelect.value === 'multiple-choice-only')) {
+                        const fileAnswerOptions = element.querySelectorAll('input[name="fileAnswerOption"]');
+                        const correctAnswerRadio = element.querySelector('input[name="correctFileAnswer_' + elementId + '"]:checked');
+                        
+                        question.fileAnswerOptions = Array.from(fileAnswerOptions).map(input => input.value.trim()).filter(value => value);
+                        if (correctAnswerRadio) {
+                            question.correctFileAnswer = parseInt(correctAnswerRadio.value);
+                        }
+                    }
+                }
+
+                questions.push(question);
+            });
+
+            if (hasErrors) {
+                publishBtn.innerHTML = originalText;
+                publishBtn.disabled = false;
+                return;
+            }
+
+            // Save to teacher's local storage (same as save function)
+            localStorage.setItem('mathematics_daily_practice_questions', JSON.stringify(questions));
+            
+            // Also save to student-facing storage for the student dashboard
+            localStorage.setItem('mathematics_daily_practice_questions_student', JSON.stringify(questions));
+            
+            showToast(`Successfully published ${questions.length} daily practice questions to course!`, 'success');
+            
+            // Reset button state
+            publishBtn.innerHTML = originalText;
+            publishBtn.disabled = false;
+            
+            loadDailyPracticeQuestions();
+        }
+
+        // Save currently creating questions to localStorage
+        function saveCurrentlyCreatingQuestions() {
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            if (!container) return;
+            
+            const questionElements = container.querySelectorAll('.question-item');
+            if (questionElements.length === 0) return;
+            
+            const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions') || '[]');
+            let hasNewQuestions = false;
+            
+            questionElements.forEach((element) => {
+                const questionText = element.querySelector('textarea[name="dailyPracticeQuestionText"]');
+                const difficulty = element.querySelector('select[name="dailyPracticeDifficulty"]');
+                const topic = element.querySelector('input[name="dailyPracticeTopic"]');
+                const points = element.querySelector('input[name="dailyPracticePoints"]');
+                
+                // Only save if question has content and hasn't been saved yet
+                if (questionText && questionText.value.trim() && !element.hasAttribute('data-saved')) {
+                    const questionId = element.id.split('-')[1];
+                    const questionType = element.getAttribute('data-question-type') || currentDailyPracticeQuestionType;
+                    
+                    const question = {
+                        id: Date.now() + Math.random(),
+                        question: questionText.value.trim(),
+                        difficulty: difficulty ? difficulty.value : 'Easy',
+                        topic: topic ? topic.value.trim() : '',
+                        points: points ? parseInt(points.value) || 10 : 10,
+                        type: questionType,
+                        createdAt: new Date().toISOString(),
+                        published: false
+                    };
+                    
+                    // Get answer based on question type
+                    if (questionType === 'multiple-choice') {
+                        const correctRadio = element.querySelector(`input[name="dailyPracticeCorrect-${questionId}"]:checked`);
+                        const options = Array.from(element.querySelectorAll('#dailyPracticeOptions-' + questionId + ' input[type="text"]')).map(input => input.value.trim()).filter(opt => opt);
+                        
+                        if (correctRadio && options.length >= 2) {
+                            question.options = options;
+                            question.correctAnswer = correctRadio.value;
+                            question.answer = options[parseInt(correctRadio.value)];
+                        }
+                    } else if (questionType === 'short-answer') {
+                        const answerTextarea = element.querySelector('textarea[name="dailyPracticeAnswer"]');
+                        const explanationTextarea = element.querySelector('textarea[name="dailyPracticeExplanation"]');
+                        
+                        if (answerTextarea && answerTextarea.value.trim()) {
+                            question.answer = answerTextarea.value.trim();
+                        }
+                        if (explanationTextarea && explanationTextarea.value.trim()) {
+                            question.explanation = explanationTextarea.value.trim();
+                        }
+                    }
+                    
+                    questions.push(question);
+                    hasNewQuestions = true;
+                    
+                    // Mark this element as saved to prevent duplicate saving
+                    element.setAttribute('data-saved', 'true');
+                }
+            });
+            
+            if (hasNewQuestions) {
+                localStorage.setItem('mathematics_daily_practice_questions', JSON.stringify(questions));
+                localStorage.setItem('mathematics_daily_practice_questions_student', JSON.stringify(questions));
+            }
+        }
+
+        // Expose publishDailyPracticeQuestions globally for inline onclick handlers
+        window.publishDailyPracticeQuestions = publishDailyPracticeQuestions;
+
+        // Show all questions in main container
+        function showAllQuestions() {
+            const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions') || '[]');
+            displayQuestionsInMainContainer(questions, 'All Questions');
+        }
+
+        // Show questions by difficulty in main container
+        function showQuestionsByDifficulty(difficulty) {
+            const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions') || '[]');
+            const filteredQuestions = questions.filter(q => q.difficulty === difficulty);
+            displayQuestionsInMainContainer(filteredQuestions, `${difficulty} Questions`);
+        }
+
+        // Display questions in main container
+        function displayQuestionsInMainContainer(questions, title) {
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            if (!container) return;
+            
+            // Get any currently creating questions that haven't been saved yet
+            const creatingQuestions = Array.from(container.querySelectorAll('.question-item[data-saved="false"]'));
+            
+            // Clear the main container
+            container.innerHTML = '';
+            container.style.display = 'block';
+            
+            // If there are questions being created, show them first
+            if (creatingQuestions.length > 0) {
+                creatingQuestions.forEach(element => {
+                    container.appendChild(element);
+                });
+                
+                // Add a separator if there are both creating and saved questions
+                if (questions.length > 0) {
+                    const separator = document.createElement('div');
+                    separator.className = 'border-top my-3';
+                    separator.innerHTML = '<div class="text-center text-muted py-2"><small>Saved Questions</small></div>';
+                    container.appendChild(separator);
+                }
+            }
+            
+            if (questions.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; opacity: 0.3;"></iconify-icon>
+                        <h5 class="text-muted">No ${title.toLowerCase()} found</h5>
+                        <p class="text-muted">Create some questions first to see them here.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = questions.map((question, index) => `
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">Question ${index + 1}</h6>
+                            <div class="d-flex gap-2 align-items-center">
+                                <span class="badge bg-${getDifficultyColor(question.difficulty)}">${question.difficulty || 'Easy'}</span>
+                                <span class="badge bg-primary">${question.type || 'Multiple Choice'}</span>
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteSavedQuestion('${question.id || index}', '${question.difficulty || 'Easy'}')" title="Delete this question">
+                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Question:</strong> ${question.text || question.question || 'No question text'}</p>
+                            ${question.type === 'multiple-choice' && question.options ? `
+                                <div class="mb-2">
+                                    <strong>Options:</strong>
+                                    <ul class="list-unstyled mt-1">
+                                        ${question.options.map((option, optIndex) => `
+                                            <li class="d-flex align-items-center">
+                                                <span class="badge bg-${optIndex === question.correctAnswer ? 'success' : 'secondary'} me-2">${String.fromCharCode(65 + optIndex)}</span>
+                                                ${option}
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                            ${question.correctAnswer ? `<p class="mb-0"><strong>Correct Answer:</strong> ${question.correctAnswer}</p>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Display questions in modal
+        function displayQuestionsInModal(questions, title) {
+            const modalTitle = document.getElementById('questionsModalTitle');
+            const container = document.getElementById('questionsDisplayContainer');
+            
+            modalTitle.innerHTML = `<iconify-icon icon="material-symbols:quiz" style="margin-right: 0.5rem;"></iconify-icon>${title} (${questions.length})`;
+            
+            if (questions.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-5">
+                        <iconify-icon icon="material-symbols:quiz" style="font-size: 4rem; color: #6c757d; margin-bottom: 1rem;"></iconify-icon>
+                        <h5 class="text-muted">No questions found</h5>
+                        <p class="text-muted">Create some questions first to see them here.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = questions.map((question, index) => `
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h6 class="mb-0">Question ${index + 1}</h6>
+                            <div class="d-flex gap-2 align-items-center">
+                                <span class="badge bg-${getDifficultyColor(question.difficulty)}">${question.difficulty || 'Easy'}</span>
+                                <span class="badge bg-primary">${question.type || 'Multiple Choice'}</span>
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="deleteSavedQuestion('${question.id || index}', '${question.difficulty || 'Easy'}')" title="Delete this question">
+                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text"><strong>Question:</strong> ${question.text || question.question || 'No question text'}</p>
+                            ${question.type === 'multiple-choice' && question.options ? `
+                                <div class="mb-2">
+                                    <strong>Options:</strong>
+                                    <ul class="list-unstyled mt-1">
+                                        ${question.options.map((option, optIndex) => `
+                                            <li class="d-flex align-items-center">
+                                                <span class="badge bg-${optIndex === question.correctAnswer ? 'success' : 'secondary'} me-2">${String.fromCharCode(65 + optIndex)}</span>
+                                                ${option}
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                            ${question.correctAnswer ? `<p class="mb-0"><strong>Correct Answer:</strong> ${question.correctAnswer}</p>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            const modal = new bootstrap.Modal(document.getElementById('questionsDisplayModal'));
+            modal.show();
+        }
+
+        // Get difficulty color for badge
+        function getDifficultyColor(difficulty) {
+            switch(difficulty) {
+                case 'Easy': return 'success';
+                case 'Medium': return 'warning';
+                case 'Hard': return 'danger';
+                default: return 'secondary';
+            }
+        }
+
+        // Delete currently added question (not yet saved)
+        function deleteCurrentQuestion(questionId) {
+            const questionElement = document.getElementById(`dailyPracticeQuestion-${questionId}`);
+            if (questionElement) {
+                questionElement.remove();
+                updateDailyPracticeQuestionCount();
+                
+                // Show empty state if no questions left
+                const container = document.getElementById('dailyPracticeQuestionsContainer');
+                if (container && container.children.length === 0) {
+                    container.innerHTML = '<div class="text-center text-muted py-4"><iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; opacity: 0.3;"></iconify-icon><p class="mt-2">No questions being created. Click "Add Question" to start creating a new question!</p><p class="small">Use the filter buttons above to view saved questions by difficulty.</p></div>';
+                }
+            }
+        }
+
+        // Delete saved question from localStorage
+        function deleteSavedQuestion(questionId, difficulty) {
+            if (confirm(`Are you sure you want to delete this ${difficulty.toLowerCase()} question?`)) {
+                const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions') || '[]');
+                const updatedQuestions = questions.filter(q => q.id != questionId);
+                
+                // Save updated questions
+                localStorage.setItem('mathematics_daily_practice_questions', JSON.stringify(updatedQuestions));
+                localStorage.setItem('mathematics_daily_practice_questions_student', JSON.stringify(updatedQuestions));
+                
+                // Refresh the modal display
+                const currentTitle = document.getElementById('questionsModalTitle').textContent;
+                if (currentTitle.includes('All Questions')) {
+                    showAllQuestions();
+                } else if (currentTitle.includes('Easy Questions')) {
+                    showQuestionsByDifficulty('Easy');
+                } else if (currentTitle.includes('Medium Questions')) {
+                    showQuestionsByDifficulty('Medium');
+                } else if (currentTitle.includes('Hard Questions')) {
+                    showQuestionsByDifficulty('Hard');
+                }
+                
+                // Update question count
+                updateDailyPracticeQuestionCount();
+                
+                showToast('Question deleted successfully!', 'success');
+            }
+        }
+
+        // Expose functions globally
+        window.showAllQuestions = showAllQuestions;
+        window.showQuestionsByDifficulty = showQuestionsByDifficulty;
+        window.deleteCurrentQuestion = deleteCurrentQuestion;
+        window.deleteSavedQuestion = deleteSavedQuestion;
+        window.addDailyPracticeQuestion = addDailyPracticeQuestion;
+        window.selectDailyPracticeQuestionType = selectDailyPracticeQuestionType;
+        window.addDailyPracticeOption = addDailyPracticeOption;
+        window.saveCurrentlyCreatingQuestions = saveCurrentlyCreatingQuestions;
+
+        // Toggle questions visibility
+        function toggleQuestionsVisibility() {
+            const container = document.getElementById('dailyPracticeQuestionsContainer');
+            const toggleBtn = document.getElementById('toggleQuestionsBtn');
+            
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                toggleBtn.innerHTML = '<iconify-icon icon="material-symbols:visibility-off"></iconify-icon> Hide Questions';
+            } else {
+                container.style.display = 'none';
+                toggleBtn.innerHTML = '<iconify-icon icon="material-symbols:visibility"></iconify-icon> Show Questions';
+            }
+        }
+
+        // Delete individual question
+        function deleteDailyPracticeQuestion(questionId) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                const questionElement = document.getElementById(`dailyPracticeQuestion-${questionId}`);
+                if (questionElement) {
+                    questionElement.remove();
+                    updateDailyPracticeQuestionCount();
+                    showToast('Question deleted successfully!', 'success');
+                }
+            }
+        }
+
+        // Expose functions globally
+        window.toggleQuestionsVisibility = toggleQuestionsVisibility;
+        window.deleteDailyPracticeQuestion = deleteDailyPracticeQuestion;
+        window.addDailyPracticeQuestions = addDailyPracticeQuestions;
+
         // Generate daily practice questions
         function generateDailyPracticeQuestions() {
             const numberOfQuestions = prompt('How many questions would you like to generate?', '5');
@@ -3771,6 +5447,7 @@
             }
 
             const container = document.getElementById('dailyPracticeQuestionsContainer');
+            if (!container) return; // Exit if container doesn't exist
             container.innerHTML = '';
             dailyPracticeQuestionCounter = 0;
 
@@ -3783,15 +5460,25 @@
 
         // Update question statistics
         function updateQuestionStatistics(questions) {
+            // Stats UI removed; safely no-op if elements do not exist
+            const totalEl = document.getElementById('totalQuestionsCount');
+            const easyEl = document.getElementById('easyQuestionsCount');
+            const mediumEl = document.getElementById('mediumQuestionsCount');
+            const hardEl = document.getElementById('hardQuestionsCount');
+
+            if (!totalEl || !easyEl || !mediumEl || !hardEl) {
+                return;
+            }
+
             const totalCount = questions.length;
             const easyCount = questions.filter(q => q.difficulty === 'Easy').length;
             const mediumCount = questions.filter(q => q.difficulty === 'Medium').length;
             const hardCount = questions.filter(q => q.difficulty === 'Hard').length;
 
-            document.getElementById('totalQuestionsCount').textContent = totalCount;
-            document.getElementById('easyQuestionsCount').textContent = easyCount;
-            document.getElementById('mediumQuestionsCount').textContent = mediumCount;
-            document.getElementById('hardQuestionsCount').textContent = hardCount;
+            totalEl.textContent = totalCount;
+            easyEl.textContent = easyCount;
+            mediumEl.textContent = mediumCount;
+            hardEl.textContent = hardCount;
         }
 
         // Export daily practice questions

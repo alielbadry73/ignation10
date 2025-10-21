@@ -180,6 +180,15 @@
             box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
         }
 
+        .dashboard-nav .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .dashboard-nav .nav-link:active {
+            transform: scale(0.95) translateY(-1px);
+        }
+
         .welcome-section {
             padding-left: 0;
             margin-left: 0;
@@ -624,16 +633,57 @@
             margin-bottom: 1rem;
         }
 
+        .add-todo-form .form-control {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .add-todo-form .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .add-todo-form .btn {
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments for todo form */
+        @media (max-width: 768px) {
+            .add-todo-form .row {
+                margin: 0;
+            }
+            .add-todo-form .col-6,
+            .add-todo-form .col-12 {
+                padding: 0.25rem;
+            }
+        }
+
         .form-control {
             border: 2px solid rgba(102, 126, 234, 0.2);
             border-radius: 10px;
             padding: 0.75rem;
             transition: all 0.3s ease;
+            color: #1e293b !important;
+            background-color: #ffffff !important;
         }
 
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-control::placeholder {
+            color: #64748b !important;
+            opacity: 1;
+        }
+        
+        .form-control option {
+            color: #1e293b !important;
+            background-color: #ffffff !important;
         }
 
         .btn-primary {
@@ -1123,11 +1173,11 @@
                             <div class="greeting-content">
                                 <div class="greeting-text" id="greetingText" style="font-weight: 600; color: #333; font-size: 0.9rem;">Good afternoon, Alex!</div>
                                 <div class="ranking-info" style="font-size: 0.75rem; color: #666; display: flex; align-items: center; gap: 0.3rem;">
-                                    <span id="studentRanking">#2 in class</span>
+                                    <span id="studentRanking">No ranking yet</span>
                                     <span>•</span>
                                     <span id="totalPoints" style="color: #667eea; font-weight: 600;">0 points</span>
                                     <span>•</span>
-                                    <span id="earnedBadges">3 badges</span>
+                                    <span id="earnedBadges">0 badges</span>
                                 </div>
                             </div>
                             <div class="sample-badges" style="display: flex; gap: 0.2rem;">
@@ -1178,13 +1228,13 @@
                                 <a class="nav-link active" href="#progress">Progress</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#deadlines">Deadlines</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#flashcards">Flashcards</a>
+                                <a class="nav-link" href="#schedule">Schedule</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#leaderboard">Leaderboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#flashcards">Flashcards</a>
                             </li>
                         </ul>
                     </div>
@@ -1423,7 +1473,7 @@
             </div>
 
             <!-- New Two-Column Layout: Schedule (Left) and Deadlines (Right) -->
-            <div class="row mb-5">
+            <div id="schedule" class="row mb-5">
                 <!-- Left Column - Schedule (50% width) -->
                 <div class="col-md-6 mb-4">
                     <div class="dashboard-card animate-on-scroll-left animate-delay-1" style="height: 100%;">
@@ -1482,18 +1532,7 @@
                                         Upcoming Sessions
                                     </h5>
                                     <div id="upcomingSessions">
-                                        <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem; border-left: 4px solid #667eea;">
-                                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.25rem;">Mathematics Problem Solving</div>
-                                            <div style="font-size: 0.85rem; color: #64748b;">Tomorrow, 2:00 PM - 4:00 PM</div>
-                        </div>
-                                        <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem; border-left: 4px solid #10b981;">
-                                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.25rem;">Calculus Review Session</div>
-                                            <div style="font-size: 0.85rem; color: #64748b;">Friday, 10:00 AM - 11:30 AM</div>
-                    </div>
-                                        <div style="background: rgba(245, 158, 11, 0.1); padding: 1rem; border-radius: 10px; border-left: 4px solid #f59e0b;">
-                                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.25rem;">Study Group Meeting</div>
-                                            <div style="font-size: 0.85rem; color: #64748b;">Monday, 6:00 PM - 8:00 PM</div>
-                </div>
+                                        <!-- Sessions will be loaded dynamically -->
                                     </div>
                                 </div>
                             </div>
@@ -1551,7 +1590,7 @@
             </div>
 
             <!-- Bottom Row: Leaderboard (Left) and Wrong/Tricky Questions (Right) -->
-            <div class="row mb-5">
+            <div id="leaderboard" class="row mb-5">
                 <!-- Left Column - Leaderboard (50% width) -->
                 <div class="col-md-6 mb-4">
                             <div class="dashboard-card animate-on-scroll-left animate-delay-2">
@@ -1562,51 +1601,7 @@
                             Class Leaderboard
                         </h3>
                         <div id="leaderboardList">
-                            <div class="leaderboard-item rank-1">
-                                <div class="rank-number">1</div>
-                                <div class="student-avatar">SJ</div>
-                                <div class="student-info">
-                                    <div class="student-name">Sarah Johnson</div>
-                                    <div class="student-score">Mathematics • Physics</div>
-                        </div>
-                                <div class="student-points">2,850</div>
-                            </div>
-                            <div class="leaderboard-item rank-2">
-                                <div class="rank-number">2</div>
-                                <div class="student-avatar">MR</div>
-                                <div class="student-info">
-                                    <div class="student-name">Maria Rodriguez</div>
-                                    <div class="student-score">Mathematics • Chemistry</div>
-                            </div>
-                                <div class="student-points">2,650</div>
-                            </div>
-                            <div class="leaderboard-item rank-3">
-                                <div class="rank-number">3</div>
-                                <div class="student-avatar">DK</div>
-                                <div class="student-info">
-                                    <div class="student-name">David Kim</div>
-                                    <div class="student-score">Mathematics • Physics</div>
-                        </div>
-                                <div class="student-points">2,420</div>
-                    </div>
-                            <div class="leaderboard-item">
-                                <div class="rank-number">4</div>
-                                <div class="student-avatar">AC</div>
-                                <div class="student-info">
-                                    <div class="student-name">Alex Chen</div>
-                                    <div class="student-score">Mathematics • Chemistry</div>
-                                </div>
-                                <div class="student-points">2,180</div>
-                            </div>
-                            <div class="leaderboard-item">
-                                <div class="rank-number">5</div>
-                                <div class="student-avatar">EW</div>
-                                <div class="student-info">
-                                    <div class="student-name">Emma Wilson</div>
-                                    <div class="student-score">Mathematics • Biology</div>
-                                </div>
-                                <div class="student-points">2,050</div>
-                            </div>
+                            <!-- Leaderboard items will be loaded dynamically -->
                         </div>
                     </div>
                 </div>
@@ -1660,7 +1655,7 @@
             </div>
 
             <!-- Daily Practice and Flashcards Section -->
-            <div class="row mb-5">
+            <div id="flashcards" class="row mb-5">
                 <!-- Daily Practice Section (50% width) -->
                 <div class="col-md-6 mb-4">
                     <div class="dashboard-card animate-on-scroll" style="height: 100%; display: flex; flex-direction: column;">
@@ -1683,7 +1678,7 @@
                         </div>
                         
                         <!-- Statistics Row -->
-                        <div class="row mx-3 mb-3" style="font-size: 0.9rem;">
+                        <div class="row mx-3 mb-3 mt-3" style="font-size: 0.9rem;">
                             <div class="col-4 text-center">
                                 <div class="stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); padding: 1rem; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
                                     <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;" id="dailyPracticeStreak">0</div>
@@ -1807,7 +1802,7 @@
                         <!-- Quick Access Buttons -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <button onclick="window.location.href='flashcards.html'" style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                                <button onclick="window.location.href='mathematics-flashcards.html'" style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
                                     <iconify-icon icon="material-symbols:style" style="font-size: 1.5rem;"></iconify-icon>
                                     Browse All Flashcards
                                 </button>
@@ -1890,6 +1885,13 @@
             }
             
             const todoList = document.getElementById('todoList');
+            
+            // Clear any "no tasks" message if it exists
+            const noTasksMessage = todoList.querySelector('div[style*="text-align: center"]');
+            if (noTasksMessage) {
+                noTasksMessage.remove();
+            }
+            
             const newTodo = document.createElement('div');
             newTodo.className = `todo-item ${priority}-priority`;
             newTodo.onclick = () => toggleTodo(newTodo);
@@ -2089,9 +2091,12 @@
         }
         
         function viewAllTodoLists() {
-            // Ensure course is saved before navigating
-            localStorage.setItem('lastViewedCourse', 'mathematics');
-            window.location.href = 'todolists.html';
+            // Navigate to course-specific todo lists page
+            window.location.href = 'mathematics-todolists.html';
+        }
+        
+        function clearTodoList() {
+            clearAllTodos();
         }
         
         function clearAllTodos() {
@@ -2140,16 +2145,38 @@
             circle.style.animation = 'pulse 2s ease-in-out infinite';
         });
 
+        // Submission tracking system
+        function markAsSubmitted(type, id) {
+            const submissionKey = `mathematicsSubmissions_${type}`;
+            let submissions = JSON.parse(localStorage.getItem(submissionKey) || '[]');
+            
+            // Check if already submitted
+            if (!submissions.includes(id)) {
+                submissions.push(id);
+                localStorage.setItem(submissionKey, JSON.stringify(submissions));
+                console.log(`Marked ${type} ${id} as submitted`);
+                
+                // Refresh deadlines after submission
+                loadDeadlines();
+            }
+        }
+
+        function isSubmitted(type, id) {
+            const submissionKey = `mathematicsSubmissions_${type}`;
+            const submissions = JSON.parse(localStorage.getItem(submissionKey) || '[]');
+            return submissions.includes(id);
+        }
+
         // Function to load deadlines from localStorage
         function loadDeadlinesFromPages() {
             const deadlines = [];
             
             console.log('Loading deadlines from pages...');
             
-            // Load assignments from localStorage (check both keys)
-            const studentAssignments = JSON.parse(localStorage.getItem('studentAssignments') || '[]');
-            const teacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
-            const assignmentsList = JSON.parse(localStorage.getItem('assignmentsList') || '[]');
+            // Load assignments from localStorage (check mathematics-specific keys)
+            const studentAssignments = JSON.parse(localStorage.getItem('mathematicsAssignments') || '[]');
+            const teacherAssignments = JSON.parse(localStorage.getItem('mathematicsTeacherAssignments') || '[]');
+            const assignmentsList = JSON.parse(localStorage.getItem('mathematicsAssignmentsList') || '[]');
             
             // No sample data - only show real assignments from teacher panel
             
@@ -2168,12 +2195,17 @@
             console.log('Assignments found:', allAssignments.length, allAssignments);
             
             allAssignments.forEach(assignment => {
+                // Check if assignment is submitted using our tracking system
+                const assignmentSubmitted = isSubmitted('assignment', assignment.id);
+                
                 // Handle multiple completion status formats for assignments
                 const isNotCompleted = (
-                    assignment.status !== 'completed' && 
-                    assignment.status !== 'graded' &&
-                    assignment.completed !== true &&
-                    assignment.status !== 'submitted'
+                    !assignmentSubmitted && (
+                        assignment.status !== 'completed' && 
+                        assignment.status !== 'graded' &&
+                        assignment.completed !== true &&
+                        assignment.status !== 'submitted'
+                    )
                 );
                 
                 if (assignment.dueDate && isNotCompleted) {
@@ -2185,16 +2217,17 @@
                             subject: assignment.subject || 'Mathematics',
                             title: assignment.title,
                             dueDate: assignment.dueDate,
-                            daysUntil: daysUntil
+                            daysUntil: daysUntil,
+                            id: assignment.id
                         });
                     }
                 }
             });
             
-            // Load quizzes from localStorage (check both keys)
-            const studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes') || '[]');
-            const teacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes') || '[]');
-            const quizzesList = JSON.parse(localStorage.getItem('quizzesList') || '[]');
+            // Load quizzes from localStorage (check mathematics-specific keys)
+            const studentQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
+            const teacherQuizzes = JSON.parse(localStorage.getItem('mathematicsTeacherQuizzes') || '[]');
+            const quizzesList = JSON.parse(localStorage.getItem('mathematicsQuizzesList') || '[]');
             
             // No sample data - only show real quizzes from teacher panel
             
@@ -2213,18 +2246,24 @@
             console.log('Quizzes found:', allQuizzes.length, allQuizzes);
             
             allQuizzes.forEach(quiz => {
+                // Check if quiz is submitted using our tracking system
+                const quizSubmitted = isSubmitted('quiz', quiz.id);
+                
                 // Check if quiz is published and not completed
                 // Handle multiple completion status formats
                 const isNotCompleted = (
-                    quiz.completed === false || 
-                    quiz.completed === undefined || 
-                    quiz.status === 'pending' ||
-                    quiz.status === 'available' ||
-                    (quiz.status && quiz.status !== 'completed' && quiz.status !== 'graded') ||
-                    !quiz.status  // If no status field, assume not completed
+                    !assignmentSubmitted && (
+                        quiz.completed === false || 
+                        quiz.completed === undefined || 
+                        quiz.status === 'pending' ||
+                        quiz.status === 'available' ||
+                        quiz.status === 'published' ||
+                        (quiz.status && quiz.status !== 'completed' && quiz.status !== 'graded') ||
+                        !quiz.status  // If no status field, assume not completed
+                    )
                 );
                 
-                const isPublished = quiz.published === true || quiz.status === 'available';
+                const isPublished = quiz.published === true || quiz.status === 'available' || quiz.status === 'published' || quiz.status === 'pending';
                 
                 // If no dueDate is set, create one based on published date or current date
                 let dueDate = quiz.dueDate;
@@ -2234,7 +2273,7 @@
                     dueDate = new Date(publishedDate.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
                 }
                 
-                console.log('Quiz:', quiz.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'completed field:', quiz.completed, 'status field:', quiz.status);
+                console.log('Quiz:', quiz.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'submitted:', quizSubmitted, 'completed field:', quiz.completed, 'status field:', quiz.status);
                 
                 if (dueDate && isPublished && isNotCompleted) {
                     const daysUntil = calculateDaysUntil(dueDate);
@@ -2245,16 +2284,17 @@
                             subject: quiz.subject || 'Mathematics',
                             title: quiz.title,
                             dueDate: dueDate,
-                            daysUntil: daysUntil
+                            daysUntil: daysUntil,
+                            id: quiz.id
                         });
                     }
                 }
             });
             
-            // Load exams from localStorage (check both keys)
-            const studentExams = JSON.parse(localStorage.getItem('studentExams') || '[]');
-            const teacherExams = JSON.parse(localStorage.getItem('teacherExams') || '[]');
-            const examsList = JSON.parse(localStorage.getItem('examsList') || '[]');
+            // Load exams from localStorage (check mathematics-specific keys)
+            const studentExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+            const teacherExams = JSON.parse(localStorage.getItem('mathematicsTeacherExams') || '[]');
+            const examsList = JSON.parse(localStorage.getItem('mathematicsExamsList') || '[]');
             
             // No sample data - only show real exams from teacher panel
             
@@ -2273,15 +2313,20 @@
             console.log('Exams found:', allExams.length, allExams);
             
             allExams.forEach(exam => {
+                // Check if exam is submitted using our tracking system
+                const examSubmitted = isSubmitted('exam', exam.id);
+                
                 // Check if exam is published and not completed
                 // Handle multiple completion status formats
                 const isNotCompleted = (
-                    exam.completed === false || 
-                    exam.completed === undefined || 
-                    exam.status === 'pending' ||
-                    exam.status === 'available' ||
-                    (exam.status && exam.status !== 'completed' && exam.status !== 'graded') ||
-                    !exam.status  // If no status field, assume not completed
+                    !assignmentSubmitted && (
+                        exam.completed === false || 
+                        exam.completed === undefined || 
+                        exam.status === 'pending' ||
+                        exam.status === 'available' ||
+                        (exam.status && exam.status !== 'completed' && exam.status !== 'graded') ||
+                        !exam.status  // If no status field, assume not completed
+                    )
                 );
                 
                 const isPublished = exam.published === true || exam.status === 'available';
@@ -2294,7 +2339,7 @@
                     dueDate = new Date(publishedDate.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
                 }
                 
-                console.log('Exam:', exam.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'completed field:', exam.completed, 'status field:', exam.status);
+                console.log('Exam:', exam.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'submitted:', quizSubmitted, 'completed field:', exam.completed, 'status field:', exam.status);
                 
                 if (dueDate && isPublished && isNotCompleted) {
                     const daysUntil = calculateDaysUntil(dueDate);
@@ -2305,7 +2350,8 @@
                             subject: exam.subject || 'Mathematics',
                             title: exam.title,
                             dueDate: dueDate,
-                            daysUntil: daysUntil
+                            daysUntil: daysUntil,
+                            id: exam.id
                         });
                     }
                 }
@@ -2315,6 +2361,51 @@
             console.log('Final deadlines array:', deadlines);
             return deadlines;
         }
+
+        // Function to refresh deadlines display
+        function loadDeadlines() {
+            const deadlinesList = document.getElementById('deadlinesList');
+            if (!deadlinesList) return;
+            
+            const deadlineData = loadDeadlinesFromPages();
+            
+            // Check if there are no deadlines
+            if (deadlineData.length === 0) {
+                deadlinesList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #6c757d;">
+                        <iconify-icon icon="material-symbols:check-circle" style="font-size: 3rem; color: #10b981; margin-bottom: 1rem;"></iconify-icon>
+                        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">All caught up!</p>
+                        <p style="font-size: 0.9rem;">No upcoming deadlines at the moment.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort deadlines by days until due (urgent first)
+            deadlineData.sort((a, b) => a.daysUntil - b.daysUntil);
+            
+            let deadlinesHTML = '';
+            deadlineData.forEach(deadline => {
+                let urgencyClass = 'normal';
+                if (deadline.daysUntil === 0) urgencyClass = 'urgent';
+                else if (deadline.daysUntil <= 2) urgencyClass = 'warning';
+                
+                deadlinesHTML += `
+                    <div class="deadline-item ${urgencyClass}" data-type="${deadline.type}" data-id="${deadline.id}">
+                        <div class="deadline-subject">${deadline.subject}</div>
+                        <div class="deadline-title">${deadline.title}</div>
+                        <div class="deadline-time">${formatDeadlineTime(deadline.daysUntil, deadline.dueDate)}</div>
+                    </div>
+                `;
+            });
+            
+            deadlinesList.innerHTML = deadlinesHTML;
+        }
+
+        // Expose submission functions globally
+        window.markAsSubmitted = markAsSubmitted;
+        window.isSubmitted = isSubmitted;
+        window.loadDeadlines = loadDeadlines;
         
         // Function to calculate days until deadline
         function calculateDaysUntil(dueDate) {
@@ -2604,25 +2695,80 @@
         // Update wrong questions count
         function updateWrongQuestionsCount() {
             const wrongQuestions = JSON.parse(localStorage.getItem('mathematicsWrongQuestions')) || [];
+            const customFolders = JSON.parse(localStorage.getItem('mathematicsCustomFolders')) || [];
+            
+            // Count questions in all folders (assignments, quizzes, exams, custom folders)
+            let totalCount = 0;
+            
+            // Count questions in predefined activity folders
+            const activityTypes = ['assignments', 'quizzes', 'exams'];
+            activityTypes.forEach(activityType => {
+                const count = wrongQuestions.filter(q => 
+                    q.activityType === activityType || q.source === activityType.slice(0, -1)
+                ).length;
+                totalCount += count;
+            });
+            
+            // Count questions in custom folders
+            customFolders.forEach(folder => {
+                const count = wrongQuestions.filter(q => q.folderId === folder.id).length;
+                totalCount += count;
+            });
+            
+            // Count questions not in any folder (uncategorized)
+            const uncategorizedCount = wrongQuestions.filter(q => 
+                !q.folderId && !q.activityType && !q.source
+            ).length;
+            totalCount += uncategorizedCount;
+            
             const countElement = document.getElementById('wrongQuestionsCount');
             if (countElement) {
-                countElement.textContent = wrongQuestions.length;
+                countElement.textContent = totalCount;
             }
         }
         
         // Update tricky questions count
         function updateTrickyQuestionsCount() {
             const trickyQuestions = JSON.parse(localStorage.getItem('mathematicsTrickyQuestions')) || [];
+            const customFolders = JSON.parse(localStorage.getItem('mathematicsTrickyCustomFolders')) || [];
+            
+            // Count questions in all folders (assignments, quizzes, exams, custom folders)
+            let totalCount = 0;
+            
+            // Count questions in predefined activity folders
+            const activityTypes = ['assignments', 'quizzes', 'exams'];
+            activityTypes.forEach(activityType => {
+                const count = trickyQuestions.filter(q => 
+                    q.activityType === activityType || q.source === activityType.slice(0, -1)
+                ).length;
+                totalCount += count;
+            });
+            
+            // Count questions in custom folders
+            customFolders.forEach(folder => {
+                const count = trickyQuestions.filter(q => q.folderId === folder.id).length;
+                totalCount += count;
+            });
+            
+            // Count questions not in any folder (uncategorized)
+            const uncategorizedCount = trickyQuestions.filter(q => 
+                !q.folderId && !q.activityType && !q.source
+            ).length;
+            totalCount += uncategorizedCount;
+            
             const countElement = document.getElementById('trickyQuestionsCount');
             if (countElement) {
-                countElement.textContent = trickyQuestions.length;
+                countElement.textContent = totalCount;
             }
         }
 
         // Update daily practice statistics
         function updateDailyPracticeStats() {
+            // Clear any existing sample questions from localStorage
+            localStorage.removeItem('mathematics_daily_practice_questions');
+            
             // Get daily practice data from localStorage
-            const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions') || '[]');
+            const questions = JSON.parse(localStorage.getItem('mathematics_daily_practice_questions_student') || '[]');
             const streak = parseInt(localStorage.getItem('mathematicsStreak') || '0');
             const solved = parseInt(localStorage.getItem('mathematicsQuestionsSolved') || '0');
             const correct = parseInt(localStorage.getItem('mathematicsCorrectAnswers') || '0');
@@ -2656,10 +2802,46 @@
                             <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
                                 ${firstQuestion.topic}
                             </span>
+                            <span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                ${firstQuestion.type || 'Multiple Choice'}
+                            </span>
                         </div>
                         <div style="font-size: 1.1rem; line-height: 1.6;">${firstQuestion.question}</div>
                     </div>
                 `;
+                
+                // Create appropriate answer input based on question type
+                let answerHtml = '';
+                if (firstQuestion.type === 'multiple-choice' && firstQuestion.options && firstQuestion.options.length > 0) {
+                    // Multiple choice options
+                    answerHtml = `
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Select your answer:</label>
+                            <div class="multiple-choice-options" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                ${firstQuestion.options.map((option, index) => `
+                                    <label class="option-label" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#10b981'" onmouseout="this.style.borderColor='#e2e8f0'">
+                                        <input type="radio" name="inlineAnswer" value="${option}" style="margin: 0;">
+                                        <span class="option-text" style="font-size: 0.95rem; color: #1e293b;">${option}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Short answer textarea
+                    answerHtml = `
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Type your answer:</label>
+                            <textarea id="inlineAnswerInput" class="form-control" rows="3" placeholder="Type your answer here..." style="border: 2px solid #e2e8f0; border-radius: 10px; resize: vertical; font-size: 0.95rem; transition: all 0.3s ease;" onfocus="this.style.borderColor='#10b981'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                        </div>
+                    `;
+                }
+                
+                // Update the answer container
+                const answerContainerDiv = document.querySelector('.mt-auto .row .col-md-8');
+                if (answerContainerDiv) {
+                    answerContainerDiv.innerHTML = answerHtml;
+                }
                 
                 // Store current question data for submission
                 window.currentInlineQuestion = firstQuestion;
@@ -2674,21 +2856,39 @@
 
         // Submit inline answer
         function submitInlineAnswer() {
-            const answer = document.getElementById('inlineAnswerInput').value.trim();
-            
-            if (!answer) {
-                alert('Please enter an answer before submitting.');
-                return;
-            }
-
             if (!window.currentInlineQuestion) {
                 alert('No question available.');
                 return;
             }
 
-            // Simple answer checking (case-insensitive)
-            const isCorrect = answer.toLowerCase().includes(window.currentInlineQuestion.answer.toLowerCase()) ||
-                             window.currentInlineQuestion.answer.toLowerCase().includes(answer.toLowerCase());
+            let answer = '';
+            let isCorrect = false;
+
+            if (window.currentInlineQuestion.type === 'multiple-choice') {
+                // Handle multiple choice answer
+                const selectedOption = document.querySelector('input[name="inlineAnswer"]:checked');
+                if (!selectedOption) {
+                    alert('Please select an answer before submitting.');
+                    return;
+                }
+                answer = selectedOption.value;
+                isCorrect = answer === window.currentInlineQuestion.answer;
+            } else {
+                // Handle short answer
+                const answerInput = document.getElementById('inlineAnswerInput');
+                if (!answerInput) {
+                    alert('Answer input not found.');
+                    return;
+                }
+                answer = answerInput.value.trim();
+                if (!answer) {
+                    alert('Please enter an answer before submitting.');
+                    return;
+                }
+                // Simple answer checking (case-insensitive)
+                isCorrect = answer.toLowerCase().includes(window.currentInlineQuestion.answer.toLowerCase()) ||
+                           window.currentInlineQuestion.answer.toLowerCase().includes(answer.toLowerCase());
+            }
 
             // Update statistics
             let solved = parseInt(localStorage.getItem('mathematicsQuestionsSolved') || '0');
@@ -2734,14 +2934,7 @@
         // Flashcard functionality
         function updateFlashcardStats() {
             const chapters = [
-                { id: 1, title: 'Algebra Basics', icon: 'material-symbols:calculate', cardsCount: 25 },
-                { id: 2, title: 'Quadratic Equations', icon: 'material-symbols:functions', cardsCount: 30 },
-                { id: 3, title: 'Geometry Fundamentals', icon: 'material-symbols:pentagon', cardsCount: 28 },
-                { id: 4, title: 'Trigonometry', icon: 'material-symbols:show-chart', cardsCount: 35 },
-                { id: 5, title: 'Calculus Introduction', icon: 'material-symbols:analytics', cardsCount: 40 },
-                { id: 6, title: 'Statistics & Probability', icon: 'material-symbols:bar-chart', cardsCount: 32 },
-                { id: 7, title: 'Linear Functions', icon: 'material-symbols:timeline', cardsCount: 22 },
-                { id: 8, title: 'Circle Theorems', icon: 'material-symbols:circle', cardsCount: 26 }
+                // Flashcard chapters will be loaded dynamically from teacher content
             ];
 
             const progress = JSON.parse(localStorage.getItem('flashcardProgress') || '{}');
@@ -2851,13 +3044,19 @@
             const currentMonth = currentDate.getMonth();
             const currentYear = currentDate.getFullYear();
             
-            // Sample sessions data
-            const sessions = [
-                { date: 5, title: "Algebra Fundamentals", time: "10:00 AM", type: "lecture" },
-                { date: 12, title: "Geometry Review", time: "2:00 PM", type: "workshop" },
-                { date: 19, title: "Calculus Introduction", time: "11:00 AM", type: "lecture" },
-                { date: 26, title: "Problem Solving Session", time: "3:00 PM", type: "tutorial" }
-            ];
+            // Load sessions from student-facing schedule store
+            const scheduleEntries = JSON.parse(localStorage.getItem('mathematicsStudentSchedule') || '[]');
+            const sessions = scheduleEntries
+                .filter(e => {
+                    const [y, m, d] = e.date.split('-').map(x => parseInt(x, 10));
+                    return y === currentYear && (m - 1) === currentMonth;
+                })
+                .map(e => ({
+                    date: parseInt(e.date.split('-')[2], 10),
+                    title: e.title,
+                    time: e.time,
+                    type: e.type
+                }));
 
             const monthNames = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"];
@@ -2954,18 +3153,75 @@
         }
 
         function showSessionDetails(day) {
-            const sessions = [
-                { date: 5, title: "Algebra Fundamentals", time: "10:00 AM", type: "lecture" },
-                { date: 12, title: "Geometry Review", time: "2:00 PM", type: "workshop" },
-                { date: 19, title: "Calculus Introduction", time: "11:00 AM", type: "lecture" },
-                { date: 26, title: "Problem Solving Session", time: "3:00 PM", type: "tutorial" }
-            ];
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+            const scheduleEntries = JSON.parse(localStorage.getItem('mathematicsStudentSchedule') || '[]');
+            const sessions = scheduleEntries
+                .filter(e => {
+                    const [y, m, d] = e.date.split('-').map(x => parseInt(x, 10));
+                    return y === currentYear && (m - 1) === currentMonth && d === day;
+                })
+                .map(e => ({
+                    date: day,
+                    title: e.title,
+                    time: e.time,
+                    type: e.type
+                }));
             
-            const session = sessions.find(s => s.date === day);
-            if (session) {
-                alert(`Session on ${day}:\n${session.title}\n${session.time}\nType: ${session.type}`);
+            if (sessions.length > 0) {
+                // Create modal HTML
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"];
+                const monthName = monthNames[currentMonth];
+                
+                let sessionsHTML = '';
+                sessions.forEach(session => {
+                    sessionsHTML += `
+                        <div class="session-detail-item" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
+                            <div style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem;">${session.title}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">
+                                <div><strong>Time:</strong> ${session.time}</div>
+                                <div><strong>Type:</strong> ${session.type}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                const modalHTML = `
+                    <div id="sessionDetailsModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+                        <div style="background: white; border-radius: 15px; padding: 2rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                <h4 style="margin: 0; color: #1e293b; font-weight: 600;">Sessions on ${monthName} ${day}</h4>
+                                <button onclick="closeSessionDetailsModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+                            </div>
+                            <div>
+                                ${sessionsHTML}
+                            </div>
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <button onclick="closeSessionDetailsModal()" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 0.75rem 2rem; border-radius: 10px; cursor: pointer; font-weight: 600;">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Remove existing modal if any
+                const existingModal = document.getElementById('sessionDetailsModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                // Add modal to page
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
             } else {
                 console.log(`No session on day ${day}`);
+            }
+        }
+
+        function closeSessionDetailsModal() {
+            const modal = document.getElementById('sessionDetailsModal');
+            if (modal) {
+                modal.remove();
             }
         }
 
@@ -3029,84 +3285,11 @@
             // Check if student data already exists
             let students = JSON.parse(localStorage.getItem('mathematicsStudents') || '[]');
             
-            // If no students exist, create some default students
-            if (students.length === 0) {
-                students = [
-                    {
-                        id: 'student_001',
-                        name: 'Sarah Johnson',
-                        email: 'sarah.johnson@school.edu',
-                        totalPoints: 2850,
-                        quizPoints: 1200,
-                        assignmentPoints: 950,
-                        examPoints: 700,
-                        completedQuizzes: 8,
-                        completedAssignments: 6,
-                        completedExams: 3,
-                        registeredDate: '2024-09-01',
-                        lastActive: new Date().toISOString()
-                    },
-                    {
-                        id: 'student_002',
-                        name: 'Alex Chen',
-                        email: 'alex.chen@school.edu',
-                        totalPoints: 2650,
-                        quizPoints: 1100,
-                        assignmentPoints: 900,
-                        examPoints: 650,
-                        completedQuizzes: 7,
-                        completedAssignments: 5,
-                        completedExams: 3,
-                        registeredDate: '2024-09-02',
-                        lastActive: new Date().toISOString()
-                    },
-                    {
-                        id: 'student_003',
-                        name: 'Maria Rodriguez',
-                        email: 'maria.rodriguez@school.edu',
-                        totalPoints: 2420,
-                        quizPoints: 1000,
-                        assignmentPoints: 820,
-                        examPoints: 600,
-                        completedQuizzes: 6,
-                        completedAssignments: 4,
-                        completedExams: 2,
-                        registeredDate: '2024-09-03',
-                        lastActive: new Date().toISOString()
-                    },
-                    {
-                        id: 'student_004',
-                        name: 'David Kim',
-                        email: 'david.kim@school.edu',
-                        totalPoints: 2180,
-                        quizPoints: 900,
-                        assignmentPoints: 780,
-                        examPoints: 500,
-                        completedQuizzes: 5,
-                        completedAssignments: 4,
-                        completedExams: 2,
-                        registeredDate: '2024-09-04',
-                        lastActive: new Date().toISOString()
-                    },
-                    {
-                        id: 'student_005',
-                        name: 'Emma Wilson',
-                        email: 'emma.wilson@school.edu',
-                        totalPoints: 2050,
-                        quizPoints: 850,
-                        assignmentPoints: 700,
-                        examPoints: 500,
-                        completedQuizzes: 4,
-                        completedAssignments: 3,
-                        completedExams: 2,
-                        registeredDate: '2024-09-05',
-                        lastActive: new Date().toISOString()
-                    }
-                ];
-                
-                localStorage.setItem('mathematicsStudents', JSON.stringify(students));
-                console.log('Initialized default student data with Alex as #2');
-            }
+            // Clear any existing sample data and start fresh
+            localStorage.removeItem('mathematicsStudents');
+            students = [];
+            
+            console.log('Cleared sample student data - leaderboard will show empty state');
         }
 
         // Cache for student points to prevent repeated calculations
@@ -3134,14 +3317,25 @@
             let completedAssignments = 0;
             let completedExams = 0;
 
-            // Calculate quiz points from all quiz storage keys
-            const studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes') || '[]');
-            const teacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes') || '[]');
+            // Calculate quiz points from mathematics-specific storage keys
             const mathematicsQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
+            const teacherQuizzes = JSON.parse(localStorage.getItem('mathematicsTeacherQuizzes') || '[]');
+            const quizzesList = JSON.parse(localStorage.getItem('mathematicsQuizzesList') || '[]');
             
-            console.log('Calculating points - All quizzes:', [...studentQuizzes, ...teacherQuizzes, ...mathematicsQuizzes]);
+            // Combine all quiz sources
+            let allQuizzes = [...mathematicsQuizzes];
+            teacherQuizzes.forEach(teacherQuiz => {
+                if (!allQuizzes.find(q => q.id === teacherQuiz.id)) {
+                    allQuizzes.push(teacherQuiz);
+                }
+            });
+            if (allQuizzes.length === 0) {
+                allQuizzes = quizzesList;
+            }
             
-            [...studentQuizzes, ...teacherQuizzes, ...mathematicsQuizzes].forEach(quiz => {
+            console.log('Calculating points - All quizzes:', allQuizzes);
+            
+            allQuizzes.forEach(quiz => {
                 // Check if quiz is completed by current student
                 if (quiz.completed === true && quiz.score !== undefined) {
                     const points = Math.round((quiz.score / 100) * (quiz.points || (quiz.questions ? quiz.questions.length * 10 : 50)));
@@ -3152,14 +3346,25 @@
                 }
             });
 
-            // Calculate assignment points from all assignment storage keys
-            const studentAssignments = JSON.parse(localStorage.getItem('studentAssignments') || '[]');
-            const teacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+            // Calculate assignment points from mathematics-specific storage keys
             const mathematicsAssignments = JSON.parse(localStorage.getItem('mathematicsAssignments') || '[]');
+            const teacherAssignments = JSON.parse(localStorage.getItem('mathematicsTeacherAssignments') || '[]');
+            const assignmentsList = JSON.parse(localStorage.getItem('mathematicsAssignmentsList') || '[]');
             
-            console.log('Calculating points - All assignments:', [...studentAssignments, ...teacherAssignments, ...mathematicsAssignments]);
+            // Combine all assignment sources
+            let allAssignments = [...mathematicsAssignments];
+            teacherAssignments.forEach(teacherAssignment => {
+                if (!allAssignments.find(a => a.id === teacherAssignment.id)) {
+                    allAssignments.push(teacherAssignment);
+                }
+            });
+            if (allAssignments.length === 0) {
+                allAssignments = assignmentsList;
+            }
             
-            [...studentAssignments, ...teacherAssignments, ...mathematicsAssignments].forEach(assignment => {
+            console.log('Calculating points - All assignments:', allAssignments);
+            
+            allAssignments.forEach(assignment => {
                 console.log(`Checking assignment: "${assignment.title}" - status: ${assignment.status}, completed: ${assignment.completed}, score: ${assignment.score}, totalScore: ${assignment.totalScore}, points: ${assignment.points}`);
                 // Check if assignment is completed
                 if ((assignment.status === 'completed' || assignment.completed === true) && assignment.score !== undefined) {
@@ -3189,14 +3394,25 @@
                 }
             });
 
-            // Calculate exam points from all exam storage keys
-            const studentExams = JSON.parse(localStorage.getItem('studentExams') || '[]');
-            const teacherExams = JSON.parse(localStorage.getItem('teacherExams') || '[]');
+            // Calculate exam points from mathematics-specific storage keys
             const mathematicsExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+            const teacherExams = JSON.parse(localStorage.getItem('mathematicsTeacherExams') || '[]');
+            const examsList = JSON.parse(localStorage.getItem('mathematicsExamsList') || '[]');
             
-            console.log('Calculating points - All exams:', [...studentExams, ...teacherExams, ...mathematicsExams]);
+            // Combine all exam sources
+            let allExams = [...mathematicsExams];
+            teacherExams.forEach(teacherExam => {
+                if (!allExams.find(e => e.id === teacherExam.id)) {
+                    allExams.push(teacherExam);
+                }
+            });
+            if (allExams.length === 0) {
+                allExams = examsList;
+            }
             
-            [...studentExams, ...teacherExams, ...mathematicsExams].forEach(exam => {
+            console.log('Calculating points - All exams:', allExams);
+            
+            allExams.forEach(exam => {
                 // Check if exam is completed
                 if ((exam.status === 'completed' || exam.completed === true) && exam.score !== undefined) {
                     const points = Math.round((exam.score / 100) * (exam.points || (exam.questions ? exam.questions.length * 20 : 100)));
@@ -3637,9 +3853,21 @@
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
-                element.scrollIntoView({
+                // Add a subtle highlight effect to the target section
+                element.style.transition = 'all 0.3s ease';
+                element.style.boxShadow = '0 0 20px rgba(102, 126, 234, 0.3)';
+                
+                // Smooth scroll to the element with offset for better positioning
+                const elementPosition = element.offsetTop - 100; // 100px offset from top
+                window.scrollTo({
+                    top: elementPosition,
                     behavior: 'smooth'
                 });
+                
+                // Remove highlight effect after animation
+                setTimeout(() => {
+                    element.style.boxShadow = '';
+                }, 1000);
             }
         }
 
@@ -3647,6 +3875,14 @@
         document.querySelectorAll('.dashboard-nav .nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // Add click animation effect
+                this.style.transform = 'scale(0.95)';
+                this.style.transition = 'transform 0.1s ease';
+                
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
                 
                 // Remove active class from all links
                 document.querySelectorAll('.dashboard-nav .nav-link').forEach(l => l.classList.remove('active'));
@@ -3756,21 +3992,21 @@
         <div class="todo-panel-content">
             <!-- Add Todo Form -->
             <div class="add-todo-form">
-                <div class="row">
-                    <div class="col-md-6 mb-2">
-                        <input type="text" class="form-control" id="newTodoInput" placeholder="Add a new task...">
+                <div class="row g-2">
+                    <div class="col-12 mb-2">
+                        <input type="text" class="form-control" id="newTodoInput" placeholder="Enter your new task here..." style="width: 100%;">
                     </div>
-                    <div class="col-md-3 mb-2">
-                        <select class="form-control" id="prioritySelect">
+                    <div class="col-8 mb-2">
+                        <select class="form-control" id="prioritySelect" style="width: 100%;">
                             <option value="low">Low Priority</option>
                             <option value="medium">Medium Priority</option>
                             <option value="high">High Priority</option>
                         </select>
                     </div>
-                    <div class="col-md-3 mb-2">
-                        <button class="btn btn-primary w-100" onclick="addTodo()">
+                    <div class="col-4 mb-2">
+                        <button class="btn btn-primary w-100" onclick="addTodo()" style="padding: 0.75rem 0.5rem; font-weight: 600; white-space: nowrap; font-size: 0.85rem;">
                             <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
-                            Add Task
+                            Add
                         </button>
                     </div>
                 </div>
@@ -3779,6 +4015,28 @@
             <!-- Todo List -->
             <div id="todoList" class="mt-4">
                 <!-- Todo items will be dynamically added here -->
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="row mt-4">
+                <div class="col-md-6 mb-2">
+                    <button class="btn btn-success w-100" onclick="saveTodoList()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:save" class="me-1"></iconify-icon>
+                        Save List
+                    </button>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <button class="btn btn-danger w-100" onclick="clearTodoList()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:clear-all" class="me-1"></iconify-icon>
+                        Clear List
+                    </button>
+                </div>
+                <div class="col-12 mb-2">
+                    <button class="btn btn-outline-primary w-100" onclick="viewAllTodoLists()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:list" class="me-1"></iconify-icon>
+                        View All Todo Lists
+                    </button>
+                </div>
             </div>
         </div>
     </div>

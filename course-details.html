@@ -43,7 +43,7 @@
       
       <!-- Centered Logo -->
       <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);">
-        <a href="index.html">
+        <a href="#" id="logoLink">
           <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height:55px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: all 0.3s ease;">
         </a>
       </div>
@@ -586,6 +586,24 @@
       const urlParams = new URLSearchParams(window.location.search);
       currentCourseId = urlParams.get('course');
       console.log('Current course ID:', currentCourseId);
+      
+      // Set logo link based on course
+      const logoLink = document.getElementById('logoLink');
+      if (currentCourseId && courses[currentCourseId]) {
+        const dashboardMap = {
+          'mathematics': 'mathematics-dashboard.html',
+          'physics': 'physics-dashboard.html',
+          'chemistry': 'chemistry-dashboard.html',
+          'english': 'english-dashboard.html'
+        };
+        if (dashboardMap[currentCourseId]) {
+          logoLink.href = dashboardMap[currentCourseId];
+        } else {
+          logoLink.href = 'index.html';
+        }
+      } else {
+        logoLink.href = 'index.html';
+      }
       
       // Test if buttons exist
       console.log('Testing button existence:');

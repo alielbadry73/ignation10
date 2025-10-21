@@ -415,7 +415,7 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <a href="index.html" class="logo">
+            <a href="physics-dashboard.html" class="logo">
                 <img src="images/ig-nation-logo-graduation.png" alt="IG Nation Logo">
                 <span>IG Nation</span>
             </a>
@@ -543,8 +543,19 @@
         });
 
         function loadWrongQuestions() {
+            // Clear all exam wrong questions from localStorage
             const allWrongQuestions = JSON.parse(localStorage.getItem('physicsWrongQuestions')) || [];
+            console.log('All wrong questions:', allWrongQuestions);
+            
+            // Filter to show only exam wrong questions
             wrongQuestions = allWrongQuestions.filter(q => q.activityType === 'exams');
+            console.log('Filtered exam wrong questions:', wrongQuestions);
+            
+            // Don't clear actual exam data - only clear wrong questions data
+            // localStorage.removeItem('physicsExams'); // REMOVED - don't clear actual exams
+            // localStorage.removeItem('physicsTeacherExams'); // REMOVED - don't clear actual exams
+            // localStorage.removeItem('physicsExamsList'); // REMOVED - don't clear actual exams
+            // localStorage.removeItem('physicsSubmissions_exam'); // REMOVED - don't clear submissions
         }
 
         function loadSubfolders() {

@@ -399,10 +399,11 @@
     <script src="js/notifications.js"></script>
     <script>
         // Load English exams from localStorage (published by teachers)
+        // Load English exams from localStorage (published by teachers)
         let englishExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
         
-        // Sample data for demonstration (only used if no published exams exist)
-        const sampleExams = [
+        // No sample data - only show exams created by teachers
+        const sampleExams = [];
             {
                 id: 1,
                 title: "Midterm Examination",
@@ -459,10 +460,8 @@
             // Reload exams from localStorage to get latest published exams
             englishExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
             
-            // Use sample data if no published exams exist
-            if (englishExams.length === 0) {
-                englishExams = sampleExams;
-            }
+            // Only show exams created by teachers - no sample data
+            // englishExams will contain teacher-created exams or be empty
 
             if (englishExams.length === 0) {
                 grid.style.display = 'none';
@@ -610,6 +609,9 @@
     </script>
 </body>
 </html>
+
+
+
 
 
 

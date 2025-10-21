@@ -174,10 +174,19 @@
 
         .dashboard-nav .nav-link:hover,
         .dashboard-nav .nav-link.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .dashboard-nav .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .dashboard-nav .nav-link:active {
+            transform: scale(0.95) translateY(-1px);
         }
 
         .welcome-section {
@@ -335,6 +344,92 @@
             font-weight: 800;
             color: #1e293b;
             z-index: 1;
+        }
+
+        /* Floating Todo Button Styles */
+        .floating-todo-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .floating-todo-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .todo-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* Collapsible Todo Panel Styles */
+        .todo-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease;
+            z-index: 999;
+            overflow-y: auto;
+        }
+
+        .todo-panel.open {
+            right: 0;
+        }
+
+        .todo-panel-header {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .close-todo-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-todo-btn:hover {
+            background: rgba(100, 116, 139, 0.1);
+        }
+
+        .todo-panel-content {
+            padding: 1.5rem;
         }
 
         /* Todo List Styles */
@@ -538,16 +633,57 @@
             margin-bottom: 1rem;
         }
 
+        .add-todo-form .form-control {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .add-todo-form .form-control:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.25);
+        }
+
+        .add-todo-form .btn {
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments for todo form */
+        @media (max-width: 768px) {
+            .add-todo-form .row {
+                margin: 0;
+            }
+            .add-todo-form .col-6,
+            .add-todo-form .col-12 {
+                padding: 0.25rem;
+            }
+        }
+
         .form-control {
             border: 2px solid rgba(102, 126, 234, 0.2);
             border-radius: 10px;
             padding: 0.75rem;
             transition: all 0.3s ease;
+            color: #1e293b !important;
+            background-color: #ffffff !important;
         }
 
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-control::placeholder {
+            color: #64748b !important;
+            opacity: 1;
+        }
+        
+        .form-control option {
+            color: #1e293b !important;
+            background-color: #ffffff !important;
         }
 
         .btn-primary {
@@ -965,6 +1101,57 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+
+        /* Enhanced Daily Practice Styles */
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .question-card {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .no-questions-message {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Enhanced button hover effects */
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-outline-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
     </style>
 </head>
 <body>
@@ -1041,16 +1228,13 @@
                                 <a class="nav-link active" href="#progress">Progress</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#deadlines">Deadlines</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#todos">Todo List</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#flashcards">Flashcards</a>
+                                <a class="nav-link" href="#schedule">Schedule</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#leaderboard">Leaderboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#flashcards">Flashcards</a>
                             </li>
                         </ul>
                     </div>
@@ -1073,7 +1257,7 @@
         <div class="sidebar-content" style="padding: 1rem;">
             <!-- Books Section -->
             <div class="menu-section">
-                <div class="menu-item" onclick="window.location.href='english-library.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                <div class="menu-item" onclick="window.location.href='physics-library.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
                     <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
                         <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.5rem; color: white;"></iconify-icon>
                     </div>
@@ -1087,7 +1271,7 @@
 
             <!-- Lectures Section -->
             <div class="menu-section">
-                <div class="menu-item" onclick="window.location.href='english-lectures.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                <div class="menu-item" onclick="window.location.href='physics-lectures.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
                     <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
                         <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.5rem; color: white;"></iconify-icon>
                     </div>
@@ -1154,7 +1338,7 @@
             
             <!-- Live Sessions Section -->
             <div class="menu-section">
-                <div class="menu-item" onclick="window.location.href='english-live-sessions.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                <div class="menu-item" onclick="window.location.href='physics-live-sessions.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
                     <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
                         <iconify-icon icon="material-symbols:video-call" style="font-size: 1.5rem; color: white;"></iconify-icon>
                     </div>
@@ -1168,7 +1352,7 @@
             
             <!-- Past Papers Section -->
             <div class="menu-section">
-                <div class="menu-item" onclick="window.location.href='english-past-papers.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                <div class="menu-item" onclick="window.location.href='physics-past-papers.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
                     <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
                         <iconify-icon icon="material-symbols:description" style="font-size: 1.5rem; color: white;"></iconify-icon>
                     </div>
@@ -1179,15 +1363,15 @@
                     <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
                 </div>
                 <div id="papers-submenu" class="submenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem;">
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">All Past Papers</div>
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers-2025.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2025 Papers</div>
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers-2024.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2024 Papers</div>
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers-2023.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2023 Papers</div>
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers-2022.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2022 Papers</div>
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers-2021.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2021 Papers</div>
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers-2020.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2020 Papers</div>
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers-2019.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2019 Papers</div>
-                    <div class="submenu-item" onclick="window.location.href='english-past-papers-2018.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2018 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">All Past Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers-2025.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2025 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers-2024.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2024 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers-2023.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2023 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers-2022.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2022 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers-2021.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2021 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers-2020.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2020 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers-2019.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2019 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='physics-past-papers-2018.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2018 Papers</div>
                 </div>
             </div>
         </div>
@@ -1281,109 +1465,96 @@
                 </div>
                 
                 <div class="col-md-3 mb-4">
-                    <div class="modern-card text-center animate-on-scroll animate-delay-4 clickable-card" onclick="window.location.href='english-progress.html'" style="cursor: pointer;">
+                    <div class="modern-card text-center animate-on-scroll animate-delay-4 clickable-card" onclick="window.location.href='physics-progress.html'" style="cursor: pointer;">
                         <img src="images/New folder/tracj.webp" alt="Track Your Progress" style="width: 80px; height: 80px; margin-bottom: 1rem; border-radius: 10px;">
                         <h4 style="color: #1e293b; font-weight: 700; margin: 0;">Track Your Progress</h4>
                     </div>
                 </div>
             </div>
 
-            <!-- Daily Practice Section -->
-            <div class="row mb-5">
-                <div class="col-12">
-                    <div class="modern-card animate-on-scroll" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white;">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h4 style="margin: 0; margin-bottom: 0.5rem; color: white; font-weight: 700;">
-                                    <iconify-icon icon="material-symbols:edit-note" class="me-2"></iconify-icon>
-                                    Daily Practice Questions
-                                </h4>
-                                <p style="margin: 0; opacity: 0.9;">Solve a new challenge every day!</p>
-                            </div>
-                            <button class="btn btn-light" onclick="window.location.href='english-daily-practice.html'" style="font-weight: 600;">
-                                <iconify-icon icon="material-symbols:arrow-forward" class="me-1"></iconify-icon>
-                                Start Practice
-                            </button>
-                        </div>
-                        <div class="row mt-3" style="font-size: 0.9rem;">
-                            <div class="col-4 text-center">
-                                <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeStreak">0</div>
-                                <div style="opacity: 0.8;">Day Streak</div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeSolved">0</div>
-                                <div style="opacity: 0.8;">Solved</div>
-                            </div>
-                            <div class="col-4 text-center">
-                                <div style="font-size: 1.5rem; font-weight: 700;" id="dailyPracticeAccuracy">0%</div>
-                                <div style="opacity: 0.8;">Accuracy</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Review Your Mistakes Section -->
-            <div class="row mb-5">
-                <div class="col-12">
-                    <h3 class="mb-4 animate-on-scroll" style="color: #1e293b; font-weight: 700;">
-                        <iconify-icon icon="material-symbols:error" class="me-2" style="color: #f59e0b;"></iconify-icon>
-                        Review Your Mistakes
+            <!-- New Two-Column Layout: Schedule (Left) and Deadlines (Right) -->
+            <div id="schedule" class="row mb-5">
+                <!-- Left Column - Schedule (50% width) -->
+                <div class="col-md-6 mb-4">
+                    <div class="dashboard-card animate-on-scroll-left animate-delay-1" style="height: 100%;">
+                        <h3 class="card-title">
+                            <div class="card-icon">
+                                <iconify-icon icon="material-symbols:calendar-month"></iconify-icon>
+                            </div>
+                            Monthly Schedule
                     </h3>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="modern-card animate-on-scroll clickable-card" onclick="window.location.href='english-wrong-questions.html'" style="cursor: pointer; border-left: 5px solid #ef4444;">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div>
-                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">
-                                        <iconify-icon icon="material-symbols:close-rounded" style="font-size: 2rem; color: white;"></iconify-icon>
-                                    </div>
-                                    <div>
-                                        <h4 style="color: #1e293b; font-weight: 700; margin: 0;">Wrong Questions</h4>
-                                        <p style="color: #64748b; margin: 0; font-size: 0.9rem;">Review your mistakes</p>
-                                    </div>
-                                </div>
-                                <div style="background: rgba(239, 68, 68, 0.1); padding: 0.75rem; border-radius: 10px;">
-                                    <div style="color: #ef4444; font-weight: 600; font-size: 1.5rem;" id="wrongQuestionsCount">0</div>
-                                    <div style="color: #64748b; font-size: 0.85rem;">Questions to review</div>
-                                </div>
-                            </div>
-                            <iconify-icon icon="material-symbols:arrow-forward-rounded" style="font-size: 2rem; color: #cbd5e1;"></iconify-icon>
+                        <div id="scheduleWidget">
+                            <!-- Enhanced Schedule Widget -->
+                            <div class="schedule-widget">
+                                <div class="schedule-header">
+                                    <h4 style="margin: 0; color: #1e293b; font-weight: 700;">January 2025</h4>
+                                    <div class="schedule-view-toggles">
+                                        <button class="schedule-view-toggle active">Month</button>
+                                        <button class="schedule-view-toggle">Week</button>
                         </div>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-4">
-                    <div class="modern-card animate-on-scroll clickable-card" onclick="window.location.href='english-tricky-questions.html'" style="cursor: pointer; border-left: 5px solid #f59e0b; background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(251, 191, 36, 0.05));">
-                        <div class="d-flex align-items-center justify-content-between">
-                            <div>
-                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
-                                        <iconify-icon icon="material-symbols:lightbulb" style="font-size: 2rem; color: white;"></iconify-icon>
-                                    </div>
-                                    <div>
-                                        <h4 style="color: #1e293b; font-weight: 700; margin: 0;">Tricky Questions</h4>
-                                        <p style="color: #64748b; margin: 0; font-size: 0.9rem;">Practice challenging problems</p>
-                                    </div>
-                                </div>
-                                <div style="background: rgba(245, 158, 11, 0.15); padding: 0.75rem; border-radius: 10px;">
-                                    <div style="color: #f59e0b; font-weight: 600; font-size: 1.5rem;" id="trickyQuestionsCount">0</div>
-                                    <div style="color: #64748b; font-size: 0.85rem;">Questions saved</div>
-                                </div>
                             </div>
-                            <iconify-icon icon="material-symbols:arrow-forward-rounded" style="font-size: 2rem; color: #cbd5e1;"></iconify-icon>
+                                
+                                <div class="schedule-calendar">
+                                    <div class="schedule-days-header">
+                                        <div class="schedule-day-header">Sun</div>
+                                        <div class="schedule-day-header">Mon</div>
+                                        <div class="schedule-day-header">Tue</div>
+                                        <div class="schedule-day-header">Wed</div>
+                                        <div class="schedule-day-header">Thu</div>
+                                        <div class="schedule-day-header">Fri</div>
+                                        <div class="schedule-day-header">Sat</div>
+                            </div>
+                                    
+                                    <div class="schedule-days-grid" id="calendarGrid">
+                                        <!-- Calendar days will be populated dynamically -->
+                            </div>
                         </div>
-                    </div>
-                </div>
+                                
+                                <div class="schedule-navigation">
+                                    <button class="schedule-nav-btn" onclick="previousMonth()">
+                                        <iconify-icon icon="material-symbols:chevron-left"></iconify-icon>
+                                        Previous
+                                    </button>
+                                    <button class="schedule-today-btn" onclick="goToToday()">
+                                        <iconify-icon icon="material-symbols:today"></iconify-icon>
+                                        Today
+                                    </button>
+                                    <button class="schedule-nav-btn" onclick="nextMonth()">
+                                        Next
+                                        <iconify-icon icon="material-symbols:chevron-right"></iconify-icon>
+                                    </button>
             </div>
 
-            <div class="row">
-                <!-- Left Column -->
-                <div class="col-lg-8">
-                    <!-- Upcoming Deadlines -->
-                    <div id="deadlines" class="row mb-4">
-                        <div class="col-12">
-                            <div class="dashboard-card animate-on-scroll-left animate-delay-1">
+                                <!-- Upcoming Sessions -->
+                                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0;">
+                                    <h5 style="color: #1e293b; font-weight: 600; margin-bottom: 1rem;">
+                                        <iconify-icon icon="material-symbols:schedule" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>
+                                        Upcoming Sessions
+                                    </h5>
+                                    <div id="upcomingSessions">
+                                        <div style="background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem; border-left: 4px solid #667eea;">
+                                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.25rem;">English Literature Session</div>
+                                            <div style="font-size: 0.85rem; color: #64748b;">Tomorrow, 2:00 PM - 4:00 PM</div>
+                </div>
+                                        <div style="background: rgba(16, 185, 129, 0.1); padding: 1rem; border-radius: 10px; margin-bottom: 0.5rem; border-left: 4px solid #10b981;">
+                                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.25rem;">Mathematics Review</div>
+                                            <div style="font-size: 0.85rem; color: #64748b;">Friday, 10:00 AM - 11:30 AM</div>
+                                    </div>
+                                        <div style="background: rgba(245, 158, 11, 0.1); padding: 1rem; border-radius: 10px; border-left: 4px solid #f59e0b;">
+                                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.25rem;">Study Group Meeting</div>
+                                            <div style="font-size: 0.85rem; color: #64748b;">Monday, 6:00 PM - 8:00 PM</div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Upcoming Deadlines (50% width) -->
+                <div class="col-md-6 mb-4">
+                    <div class="dashboard-card animate-on-scroll-right animate-delay-1" style="height: 100%;">
                                 <h3 class="card-title">
                                     <div class="card-icon">
                                         <iconify-icon icon="material-symbols:schedule"></iconify-icon>
@@ -1391,137 +1562,270 @@
                                     Upcoming Deadlines
                                 </h3>
                                 <div id="deadlinesList">
-                                    <!-- Deadlines will be dynamically generated here -->
+                            <!-- Enhanced Deadlines List -->
+                            <div class="deadline-item urgent">
+                                <div class="deadline-subject">PHYSICS</div>
+                                <div class="deadline-title">Mechanics Assignment #3</div>
+                                <div class="deadline-time">Due Tomorrow at 11:59 PM</div>
+                                    </div>
+                            <div class="deadline-item warning">
+                                <div class="deadline-subject">MATHEMATICS</div>
+                                <div class="deadline-title">Calculus Quiz - Integration</div>
+                                <div class="deadline-time">Due in 2 days at 3:00 PM</div>
                                 </div>
+                            <div class="deadline-item normal">
+                                <div class="deadline-subject">PHYSICS</div>
+                                <div class="deadline-title">Lab Report - Thermodynamics</div>
+                                <div class="deadline-time">Due in 5 days at 5:00 PM</div>
+                                </div>
+                            <div class="deadline-item normal">
+                                <div class="deadline-subject">MATHEMATICS</div>
+                                <div class="deadline-title">Statistics Project</div>
+                                <div class="deadline-time">Due in 1 week at 11:59 PM</div>
+                            </div>
+                            <div class="deadline-item warning">
+                                <div class="deadline-subject">PHYSICS</div>
+                                <div class="deadline-title">Midterm Exam Preparation</div>
+                                <div class="deadline-time">Exam in 10 days</div>
+                    </div>
+
+                            <!-- View All Button -->
+                            <div style="text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #e2e8f0;">
+                                <button style="background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: white; padding: 0.75rem 2rem; border-radius: 25px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'">
+                                    <iconify-icon icon="material-symbols:view-list" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>
+                                    View All Deadlines
+                                </button>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Todo List -->
-                    <div id="todos" class="row mb-4">
-                        <div class="col-12">
+            <!-- Bottom Row: Leaderboard (Left) and Wrong/Tricky Questions (Right) -->
+            <div id="leaderboard" class="row mb-5">
+                <!-- Left Column - Leaderboard (50% width) -->
+                <div class="col-md-6 mb-4">
                             <div class="dashboard-card animate-on-scroll-left animate-delay-2">
                                 <h3 class="card-title">
                                     <div class="card-icon">
-                                        <iconify-icon icon="material-symbols:checklist"></iconify-icon>
+                                <iconify-icon icon="material-symbols:leaderboard"></iconify-icon>
                                     </div>
-                                    My Todo List
+                            Class Leaderboard
                                 </h3>
-                                
-                                <!-- Add Todo Form -->
-                                <div class="add-todo-form">
-                                    <div class="row">
-                                        <div class="col-md-6 mb-2">
-                                            <input type="text" class="form-control" id="newTodoInput" placeholder="Add a new task...">
+                        <div id="leaderboardList">
+                            <div class="leaderboard-item rank-1">
+                                <div class="rank-number">1</div>
+                                <div class="student-avatar">SJ</div>
+                                <div class="student-info">
+                                    <div class="student-name">Sarah Johnson</div>
+                                    <div class="student-score">English • Mathematics</div>
+                                </div>
+                                <div class="student-points">2,850</div>
+                            </div>
+                            <div class="leaderboard-item rank-2">
+                                <div class="rank-number">2</div>
+                                <div class="student-avatar">MR</div>
+                                <div class="student-info">
+                                    <div class="student-name">Maria Rodriguez</div>
+                                    <div class="student-score">Chemistry • Biology</div>
+                        </div>
+                                <div class="student-points">2,650</div>
+                    </div>
+                            <div class="leaderboard-item rank-3">
+                                <div class="rank-number">3</div>
+                                <div class="student-avatar">DK</div>
+                                <div class="student-info">
+                                    <div class="student-name">David Kim</div>
+                                    <div class="student-score">Mathematics • English</div>
+                                    </div>
+                                <div class="student-points">2,420</div>
                                         </div>
-                                        <div class="col-md-3 mb-2">
-                                            <select class="form-control" id="prioritySelect">
-                                                <option value="low">Low Priority</option>
-                                                <option value="medium">Medium Priority</option>
-                                                <option value="high">High Priority</option>
-                                            </select>
+                            <div class="leaderboard-item">
+                                <div class="rank-number">4</div>
+                                <div class="student-avatar">AC</div>
+                                <div class="student-info">
+                                    <div class="student-name">Alex Chen</div>
+                                    <div class="student-score">English • Chemistry</div>
                                         </div>
-                                        <div class="col-md-3 mb-2">
-                                            <button class="btn btn-primary w-100" onclick="addTodo()">
-                                                <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
-                                                Add Task
-                                            </button>
+                                <div class="student-points">2,180</div>
                                         </div>
+                            <div class="leaderboard-item">
+                                <div class="rank-number">5</div>
+                                <div class="student-avatar">EW</div>
+                                <div class="student-info">
+                                    <div class="student-name">Emma Wilson</div>
+                                    <div class="student-score">Biology • English</div>
+                                </div>
+                                <div class="student-points">2,050</div>
+                            </div>
+                        </div>
                                     </div>
                                 </div>
 
-                                <div id="todoList">
-                                    <div class="todo-item high-priority" onclick="toggleTodo(this)">
-                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                                            <div style="display: flex; align-items: center; flex: 1;">
-                                                <div class="todo-checkbox checked"></div>
+                <!-- Right Column - Wrong Questions and Tricky Questions (50% width) -->
+                <div class="col-md-6 mb-4" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <!-- Wrong Questions Card (Top - 50% height) -->
+                    <div class="modern-card animate-on-scroll clickable-card" onclick="window.location.href='physics-wrong-questions.html'" style="cursor: pointer; border-left: 5px solid #ef4444; flex: 1; display: flex; align-items: center;">
+                        <div class="d-flex align-items-center justify-content-between w-100">
                                                 <div>
-                                                    <div style="font-weight: 600; color: #1e293b;">Complete Algebra Assignment</div>
-                                                    <small style="color: #64748b;">High Priority • Due Tomorrow</small>
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);">
+                                        <iconify-icon icon="material-symbols:close-rounded" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                                                </div>
+                                    <div>
+                                        <h4 style="color: #1e293b; font-weight: 700; margin: 0; font-size: 1.1rem;">Wrong Questions</h4>
+                                        <p style="color: #64748b; margin: 0; font-size: 0.8rem;">Review your mistakes</p>
+                                            </div>
+                                        </div>
+                                <div style="background: rgba(239, 68, 68, 0.1); padding: 0.5rem; border-radius: 10px;">
+                                    <div style="color: #ef4444; font-weight: 600; font-size: 1.2rem;" id="wrongQuestionsCount">0</div>
+                                    <div style="color: #64748b; font-size: 0.75rem;">Questions to review</div>
+                                    </div>
+                                                </div>
+                            <iconify-icon icon="material-symbols:arrow-forward-rounded" style="font-size: 1.5rem; color: #cbd5e1;"></iconify-icon>
+                                            </div>
+                                        </div>
+
+                    <!-- Tricky Questions Card (Bottom - 50% height) -->
+                    <div class="modern-card animate-on-scroll clickable-card" onclick="window.location.href='physics-tricky-questions.html'" style="cursor: pointer; border-left: 5px solid #f59e0b; background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(251, 191, 36, 0.05)); flex: 1; display: flex; align-items: center;">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 15px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
+                                        <iconify-icon icon="material-symbols:lightbulb" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                                    </div>
+                                                <div>
+                                        <h4 style="color: #1e293b; font-weight: 700; margin: 0; font-size: 1.1rem;">Tricky Questions</h4>
+                                        <p style="color: #64748b; margin: 0; font-size: 0.8rem;">Practice challenging problems</p>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
-                                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
-                                            </button>
+                                <div style="background: rgba(245, 158, 11, 0.15); padding: 0.5rem; border-radius: 10px;">
+                                    <div style="color: #f59e0b; font-weight: 600; font-size: 1.2rem;" id="trickyQuestionsCount">0</div>
+                                    <div style="color: #64748b; font-size: 0.75rem;">Questions saved</div>
                                         </div>
                                     </div>
-                                    <div class="todo-item medium-priority" onclick="toggleTodo(this)">
-                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                                            <div style="display: flex; align-items: center; flex: 1;">
-                                                <div class="todo-checkbox"></div>
+                            <iconify-icon icon="material-symbols:arrow-forward-rounded" style="font-size: 1.5rem; color: #cbd5e1;"></iconify-icon>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Daily Practice and Flashcards Section -->
+            <div id="flashcards" class="row mb-5">
+                <!-- Daily Practice Section (50% width) -->
+                <div class="col-md-6 mb-4">
+                    <div class="dashboard-card animate-on-scroll" style="height: 100%; display: flex; flex-direction: column;">
+                        <div class="card-header" style="border-bottom: 1px solid rgba(0,0,0,0.1); padding: 1.5rem 1.5rem 1rem 1.5rem;">
+                            <div class="d-flex justify-content-between align-items-center">
                                                 <div>
-                                                    <div style="font-weight: 600; color: #1e293b;">Review Physics Formulas</div>
-                                                    <small style="color: #64748b;">Medium Priority • Due in 2 days</small>
+                                    <h3 class="card-title" style="margin: 0; margin-bottom: 0.5rem; color: #1e293b; font-weight: 700;">
+                                        <div class="card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
                                                 </div>
+                                        Daily Practice Questions
+                                    </h3>
+                                    <p style="margin: 0; color: #6c757d;">Solve a new challenge every day!</p>
                                             </div>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
-                                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                                <button class="btn btn-primary" onclick="window.location.href='english-daily-practice.html'" style="font-weight: 600; border-radius: 10px; padding: 0.75rem 1.5rem;">
+                                    <iconify-icon icon="material-symbols:arrow-forward" class="me-1"></iconify-icon>
+                                    Start Practice
                                             </button>
-                                        </div>
-                                    </div>
-                                    <div class="todo-item low-priority" onclick="toggleTodo(this)">
-                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                                            <div style="display: flex; align-items: center; flex: 1;">
-                                                <div class="todo-checkbox checked"></div>
-                                                <div>
-                                                    <div style="font-weight: 600; color: #1e293b; text-decoration: line-through;">Update Study Schedule</div>
-                                                    <small style="color: #64748b;">Low Priority • Completed</small>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
-                                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="todo-item medium-priority" onclick="toggleTodo(this)">
-                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-                                            <div style="display: flex; align-items: center; flex: 1;">
-                                                <div class="todo-checkbox"></div>
-                                                <div>
-                                                    <div style="font-weight: 600; color: #1e293b;">Practice Calculus Problems</div>
-                                                    <small style="color: #64748b;">Medium Priority • Due in 3 days</small>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
-                                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
-                                            </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Statistics Row -->
+                        <div class="row mx-3 mb-3 mt-3" style="font-size: 0.9rem;">
+                            <div class="col-4 text-center">
+                                <div class="stat-card" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); padding: 1rem; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #667eea;" id="dailyPracticeStreak">0</div>
+                                    <div style="color: #6c757d; font-weight: 600;">Day Streak</div>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); padding: 1rem; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;" id="dailyPracticeSolved">0</div>
+                                    <div style="color: #6c757d; font-weight: 600;">Solved</div>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="stat-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1)); padding: 1rem; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #f59e0b;" id="dailyPracticeAccuracy">0%</div>
+                                    <div style="color: #6c757d; font-weight: 600;">Accuracy</div>
                                         </div>
                                     </div>
                                 </div>
                                 
-                                <!-- Save Todo List Button -->
-                                <div class="row mt-3">
-                                    <div class="col-12" style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                                        <button class="btn btn-success save-todo-btn" onclick="saveTodoList()" style="flex: 1; max-width: 180px;">
-                                            <iconify-icon icon="material-symbols:save" class="me-1"></iconify-icon>
-                                            Save List
-                                        </button>
-                                        <button class="btn btn-danger" onclick="clearAllTodos()" style="flex: 1; max-width: 180px; background: linear-gradient(135deg, #ef4444, #dc2626); border: none; border-radius: 10px; padding: 0.75rem 1rem; font-weight: 600; transition: all 0.3s ease;">
-                                            <iconify-icon icon="material-symbols:delete-sweep" class="me-1"></iconify-icon>
-                                            Clear All
-                                        </button>
-                                        <button class="btn btn-primary" onclick="viewAllTodoLists()" style="flex: 1; max-width: 180px; background: linear-gradient(135deg, #667eea, #764ba2); border: none; border-radius: 10px; padding: 0.75rem 1rem; font-weight: 600; transition: all 0.3s ease;">
-                                            <iconify-icon icon="material-symbols:view-list" class="me-1"></iconify-icon>
-                                            View All
+                        <!-- Question Display Area - Takes remaining height -->
+                        <div class="flex-grow-1 mx-3 mb-3" style="display: flex; flex-direction: column; min-height: 0;">
+                            <div id="inlineQuestionContainer" style="display: none; flex: 1; display: flex; flex-direction: column;">
+                                <div class="question-card" style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 2px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; flex: 1; display: flex; flex-direction: column; transition: all 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                            <iconify-icon icon="material-symbols:quiz" style="color: white; font-size: 1.2rem;"></iconify-icon>
+                                    </div>
+                                        <h6 style="margin: 0; color: #1e293b; font-weight: 600;">Today's Practice Question</h6>
+                                    </div>
+                                    
+                                    <div id="inlineQuestionText" style="color: #1e293b; margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.6; flex: 1; overflow-y: auto;">
+                                        <!-- Question will be loaded here -->
+                                    </div>
+                                    
+                                    <div class="mt-auto">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <textarea id="inlineAnswerInput" class="form-control" rows="3" placeholder="Type your answer here..." style="border: 2px solid #e2e8f0; border-radius: 10px; resize: vertical; font-size: 0.95rem; transition: all 0.3s ease;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <button onclick="submitInlineAnswer()" class="btn btn-primary w-100 mb-2" style="font-weight: 600; border-radius: 10px; padding: 0.75rem; transition: all 0.3s ease;">
+                                                    <iconify-icon icon="material-symbols:check" class="me-1"></iconify-icon>
+                                                    Submit
+                                                </button>
+                                                <button onclick="showInlineAnswer()" class="btn btn-outline-primary w-100" style="font-weight: 600; border-radius: 10px; padding: 0.75rem; transition: all 0.3s ease;">
+                                                    <iconify-icon icon="material-symbols:visibility" class="me-1"></iconify-icon>
+                                                    Show Answer
                                         </button>
                                     </div>
                                 </div>
+                                        
+                                        <div id="inlineAnswerDisplay" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: linear-gradient(135deg, #f1f5f9, #e2e8f0); border-radius: 12px; border-left: 4px solid #10b981;">
+                                            <div class="d-flex align-items-center mb-2">
+                                                <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; font-size: 1.2rem; margin-right: 0.5rem;"></iconify-icon>
+                                                <strong style="color: #1e293b;">Correct Answer:</strong>
+                                            </div>
+                                            <div id="inlineCorrectAnswer" style="color: #1e293b; margin-bottom: 1rem; font-weight: 500;"></div>
+                                            <div id="inlineExplanation" style="color: #64748b; font-size: 0.9rem; line-height: 1.5;"></div>
+                                        </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Flashcards Section -->
-                    <div id="flashcards" class="row mb-4">
-                        <div class="col-12">
-                            <div class="dashboard-card animate-on-scroll-left animate-delay-3">
+                            <!-- No Questions Message -->
+                            <div id="noQuestionsMessage" class="text-center" style="display: flex; align-items: center; justify-content: center; flex: 1; color: #6c757d;">
+                                <div class="no-questions-message">
+                                    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
+                                        <iconify-icon icon="material-symbols:quiz" style="font-size: 2.5rem; color: #667eea;"></iconify-icon>
+                                    </div>
+                                    <h5 style="color: #1e293b; margin-bottom: 0.5rem; font-weight: 600;">No Questions Here Yet</h5>
+                                    <p style="margin: 0; font-size: 1rem; color: #64748b;">Your teacher hasn't added any practice questions yet.</p>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">Check back later for new challenges!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flashcards Section (50% width) -->
+                <div class="col-md-6 mb-4">
+                    <div class="dashboard-card animate-on-scroll-left animate-delay-3" style="height: 100%;">
                                 <h3 class="card-title">
                                     <div class="card-icon">
                                         <iconify-icon icon="material-symbols:style"></iconify-icon>
                                     </div>
-                                    Mathematics Flashcards
+                            English Flashcards
                                 </h3>
                                 <p style="color: #6c757d; margin-bottom: 1.5rem;">
-                                    Study with interactive flashcards and track your progress across all chapters
+                            Study with interactive flashcards and track your progress across all English chapters
                                 </p>
                                 
                                 <!-- Flashcard Stats -->
@@ -1555,7 +1859,7 @@
                                 <!-- Quick Access Buttons -->
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
-                                        <button onclick="window.location.href='flashcards.html'" style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                                        <button onclick="window.location.href='physics-flashcards.html'" style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
                                             <iconify-icon icon="material-symbols:style" style="font-size: 1.5rem;"></iconify-icon>
                                             Browse All Flashcards
                                         </button>
@@ -1577,83 +1881,118 @@
                                     <div class="row" id="quickAccessChapters">
                                         <!-- Will be populated dynamically -->
                                     </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column -->
-                <div class="col-lg-4">
-                    <!-- Leaderboard -->
-                    <div id="leaderboard" class="dashboard-card animate-on-scroll-right animate-delay-1">
-                        <h3 class="card-title">
-                            <div class="card-icon">
-                                <iconify-icon icon="material-symbols:leaderboard"></iconify-icon>
+    <!-- Floating Todo Button -->
+    <div class="floating-todo-btn" onclick="toggleTodoPanel()">
+        <iconify-icon icon="material-symbols:checklist" style="font-size: 1.5rem; color: white;"></iconify-icon>
+        <span class="todo-count" id="todoCount">3</span>
                             </div>
-                            Class Leaderboard
-                        </h3>
-                        <div id="leaderboardList">
-                            <div class="leaderboard-item rank-1">
-                                <div class="rank-number">1</div>
-                                <div class="student-avatar">SJ</div>
-                                <div class="student-info">
-                                    <div class="student-name">Sarah Johnson</div>
-                                    <div class="student-score">Mathematics • Physics</div>
-                                </div>
-                                <div class="student-points">2,850</div>
-                            </div>
-                            <div class="leaderboard-item rank-2">
-                                <div class="rank-number">2</div>
-                                <div class="student-avatar">MR</div>
-                                <div class="student-info">
-                                    <div class="student-name">Maria Rodriguez</div>
-                                    <div class="student-score">Chemistry • Biology</div>
-                                </div>
-                                <div class="student-points">2,650</div>
-                            </div>
-                            <div class="leaderboard-item rank-3">
-                                <div class="rank-number">3</div>
-                                <div class="student-avatar">DK</div>
-                                <div class="student-info">
-                                    <div class="student-name">David Kim</div>
-                                    <div class="student-score">Mathematics • Chemistry</div>
-                                </div>
-                                <div class="student-points">2,420</div>
-                            </div>
-                            <div class="leaderboard-item">
-                                <div class="rank-number">4</div>
-                                <div class="student-avatar">AC</div>
-                                <div class="student-info">
-                                    <div class="student-name">Alex Chen</div>
-                                    <div class="student-score">Mathematics • Physics</div>
-                                </div>
-                                <div class="student-points">2,180</div>
-                            </div>
-                            <div class="leaderboard-item">
-                                <div class="rank-number">5</div>
-                                <div class="student-avatar">EW</div>
-                                <div class="student-info">
-                                    <div class="student-name">Emma Wilson</div>
-                                    <div class="student-score">Biology • Chemistry</div>
-                                </div>
-                                <div class="student-points">2,050</div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Monthly Schedule -->
-                    <div class="dashboard-card animate-on-scroll-right animate-delay-2" style="margin-top: 2rem;">
-                        <h3 class="card-title">
-                            <div class="card-icon">
-                                <iconify-icon icon="material-symbols:calendar-month"></iconify-icon>
-                            </div>
-                            Monthly Schedule
+    <!-- Collapsible Todo Panel -->
+    <div class="todo-panel" id="todoPanel">
+        <div class="todo-panel-header">
+            <h3 style="margin: 0; color: #1e293b; font-weight: 700;">
+                <iconify-icon icon="material-symbols:checklist" style="margin-right: 0.5rem; color: #667eea;"></iconify-icon>
+                My Todo List
                         </h3>
-                        <div id="scheduleWidget">
-                            <!-- Schedule will be loaded here -->
+            <button class="close-todo-btn" onclick="toggleTodoPanel()">
+                <iconify-icon icon="material-symbols:close" style="font-size: 1.5rem; color: #64748b;"></iconify-icon>
+            </button>
+                                </div>
+        
+        <div class="todo-panel-content">
+            <!-- Add Todo Form -->
+            <div class="add-todo-form">
+                <div class="row g-2">
+                    <div class="col-12 mb-2">
+                        <input type="text" class="form-control" id="newTodoInput" placeholder="Enter your new task here..." style="width: 100%;">
+                            </div>
+                    <div class="col-8 mb-2">
+                        <select class="form-control" id="prioritySelect" style="width: 100%;">
+                            <option value="low">Low Priority</option>
+                            <option value="medium">Medium Priority</option>
+                            <option value="high">High Priority</option>
+                        </select>
+                                </div>
+                    <div class="col-4 mb-2">
+                        <button class="btn btn-primary w-100" onclick="addTodo()" style="padding: 0.75rem 0.5rem; font-weight: 600; white-space: nowrap; font-size: 0.85rem;">
+                            <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
+                            Add
+                        </button>
+                            </div>
+                                </div>
+                            </div>
+
+            <div id="todoList">
+                <div class="todo-item high-priority" onclick="toggleTodo(this)">
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div style="display: flex; align-items: center; flex: 1;">
+                            <div class="todo-checkbox checked"></div>
+                            <div>
+                                <div style="font-weight: 600; color: #1e293b;">Complete English Assignment</div>
+                                <small style="color: #64748b;">High Priority • Due Tomorrow</small>
+                                </div>
+                            </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                            <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                        </button>
+                                </div>
+                            </div>
+                <div class="todo-item medium-priority" onclick="toggleTodo(this)">
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div style="display: flex; align-items: center; flex: 1;">
+                            <div class="todo-checkbox"></div>
+                            <div>
+                                <div style="font-weight: 600; color: #1e293b;">Review English Grammar</div>
+                                <small style="color: #64748b;">Medium Priority • Due in 2 days</small>
                         </div>
                     </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                            <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                        </button>
+                            </div>
+                        </div>
+                <div class="todo-item low-priority" onclick="toggleTodo(this)">
+                    <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                        <div style="display: flex; align-items: center; flex: 1;">
+                            <div class="todo-checkbox checked"></div>
+                            <div>
+                                <div style="font-weight: 600; color: #1e293b; text-decoration: line-through;">Update Study Schedule</div>
+                                <small style="color: #64748b;">Low Priority • Completed</small>
+                    </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                            <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="row mt-4">
+                <div class="col-md-6 mb-2">
+                    <button class="btn btn-success w-100" onclick="saveTodoList()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:save" class="me-1"></iconify-icon>
+                        Save List
+                    </button>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <button class="btn btn-danger w-100" onclick="clearTodoList()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:clear-all" class="me-1"></iconify-icon>
+                        Clear List
+                    </button>
+                </div>
+                <div class="col-12 mb-2">
+                    <button class="btn btn-outline-primary w-100" onclick="viewAllTodoLists()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:list" class="me-1"></iconify-icon>
+                        View All Todo Lists
+                    </button>
                 </div>
             </div>
         </div>
@@ -1681,6 +2020,25 @@
         document.querySelectorAll('.animate-on-scroll, .animate-on-scroll-right, .animate-on-scroll-left, .animate-on-scroll-scale').forEach(el => {
             observer.observe(el);
         });
+
+        // Todo Panel Toggle Function
+        function toggleTodoPanel() {
+            const panel = document.getElementById('todoPanel');
+            panel.classList.toggle('open');
+        }
+
+        // Todo Panel Toggle Function
+        function toggleTodoPanel() {
+            const panel = document.getElementById('todoPanel');
+            panel.classList.toggle('open');
+        }
+
+        // Update todo count
+        function updateTodoCount() {
+            const todoItems = document.querySelectorAll('#todoList .todo-item');
+            const count = todoItems.length;
+            document.getElementById('todoCount').textContent = count;
+        }
 
         // Todo List Functions
         function toggleTodo(element) {
@@ -1712,6 +2070,13 @@
             }
             
             const todoList = document.getElementById('todoList');
+            
+            // Clear any "no tasks" message if it exists
+            const noTasksMessage = todoList.querySelector('div[style*="text-align: center"]');
+            if (noTasksMessage) {
+                noTasksMessage.remove();
+            }
+            
             const newTodo = document.createElement('div');
             newTodo.className = `todo-item ${priority}-priority`;
             newTodo.onclick = () => toggleTodo(newTodo);
@@ -1911,9 +2276,12 @@
         }
         
         function viewAllTodoLists() {
-            // Ensure course is saved before navigating
-            localStorage.setItem('lastViewedCourse', 'english');
-            window.location.href = 'todolists.html';
+            // Navigate to course-specific todo lists page
+            window.location.href = 'physics-todolists.html';
+        }
+        
+        function clearTodoList() {
+            clearAllTodos();
         }
         
         function clearAllTodos() {
@@ -1947,7 +2315,16 @@
                 todoItem.remove();
                 // Save to localStorage after removal
                 saveTodosToLocalStorage();
+                // Update todo count
+                updateTodoCount();
             }, 300);
+        }
+
+        // Update todo count badge
+        function updateTodoCount() {
+            const todoItems = document.querySelectorAll('#todoList .todo-item');
+            const count = todoItems.length;
+            document.getElementById('todoCount').textContent = count;
         }
 
         // Update welcome message based on time
@@ -1957,10 +2334,120 @@
             return;
         }
 
+        // Schedule Widget Functions
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+
+        function generateCalendar() {
+            const calendarGrid = document.getElementById('calendarGrid');
+            if (!calendarGrid) return;
+
+            const firstDay = new Date(currentYear, currentMonth, 1);
+            const lastDay = new Date(currentYear, currentMonth + 1, 0);
+            const startDate = new Date(firstDay);
+            startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+            calendarGrid.innerHTML = '';
+
+            // Generate 42 days (6 weeks)
+            for (let i = 0; i < 42; i++) {
+                const date = new Date(startDate);
+                date.setDate(startDate.getDate() + i);
+                
+                const dayElement = document.createElement('div');
+                dayElement.className = 'schedule-day';
+                dayElement.textContent = date.getDate();
+                
+                // Mark today
+                if (date.toDateString() === new Date().toDateString()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Mark other month days
+                if (date.getMonth() !== currentMonth) {
+                    dayElement.classList.add('other-month');
+                }
+                
+                // Mark days with sessions (example)
+                if (Math.random() > 0.8 && date.getMonth() === currentMonth) {
+                    dayElement.classList.add('has-session');
+                }
+                
+                calendarGrid.appendChild(dayElement);
+            }
+        }
+
+        function previousMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateCalendarHeader();
+            generateCalendar();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCalendarHeader();
+            generateCalendar();
+        }
+
+        function goToToday() {
+            currentDate = new Date();
+            currentMonth = currentDate.getMonth();
+            currentYear = currentDate.getFullYear();
+            updateCalendarHeader();
+            generateCalendar();
+        }
+
+        function updateCalendarHeader() {
+            const monthNames = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            const header = document.querySelector('.schedule-header h4');
+            if (header) {
+                header.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            }
+        }
+
+        // Initialize calendar on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCalendar();
+        });
+
         // Add floating animation to progress circles
         document.querySelectorAll('.progress-circle').forEach(circle => {
             circle.style.animation = 'pulse 2s ease-in-out infinite';
         });
+
+        // Submission tracking system
+        function markAsSubmitted(type, id) {
+            const submissionKey = `englishSubmissions_${type}`;
+            let submissions = JSON.parse(localStorage.getItem(submissionKey) || '[]');
+            
+            // Check if already submitted
+            if (!submissions.includes(id)) {
+                submissions.push(id);
+                localStorage.setItem(submissionKey, JSON.stringify(submissions));
+                console.log(`Marked ${type} ${id} as submitted`);
+                
+                // Refresh deadlines after submission
+                loadDeadlines();
+            }
+        }
+
+        function isSubmitted(type, id) {
+            const submissionKey = `englishSubmissions_${type}`;
+            const submissions = JSON.parse(localStorage.getItem(submissionKey) || '[]');
+            return submissions.includes(id);
+        }
 
         // Function to load deadlines from localStorage
         function loadDeadlinesFromPages() {
@@ -1990,12 +2477,17 @@
             console.log('Assignments found:', allAssignments.length, allAssignments);
             
             allAssignments.forEach(assignment => {
+                // Check if assignment is submitted using our tracking system
+                const assignmentSubmitted = isSubmitted('assignment', assignment.id);
+                
                 // Handle multiple completion status formats for assignments
                 const isNotCompleted = (
-                    assignment.status !== 'completed' && 
-                    assignment.status !== 'graded' &&
-                    assignment.completed !== true &&
-                    assignment.status !== 'submitted'
+                    !assignmentSubmitted && (
+                        assignment.status !== 'completed' && 
+                        assignment.status !== 'graded' &&
+                        assignment.completed !== true &&
+                        assignment.status !== 'submitted'
+                    )
                 );
                 
                 if (assignment.dueDate && isNotCompleted) {
@@ -2004,10 +2496,11 @@
                         console.log('Adding assignment to deadlines:', assignment.title);
                         deadlines.push({
                             type: 'Assignment',
-                            subject: assignment.subject || 'Mathematics',
+                            subject: assignment.subject || 'English',
                             title: assignment.title,
                             dueDate: assignment.dueDate,
-                            daysUntil: daysUntil
+                            daysUntil: daysUntil,
+                            id: assignment.id
                         });
                     }
                 }
@@ -2035,18 +2528,24 @@
             console.log('Quizzes found:', allQuizzes.length, allQuizzes);
             
             allQuizzes.forEach(quiz => {
+                // Check if quiz is submitted using our tracking system
+                const quizSubmitted = isSubmitted('quiz', quiz.id);
+                
                 // Check if quiz is published and not completed
                 // Handle multiple completion status formats
                 const isNotCompleted = (
-                    quiz.completed === false || 
-                    quiz.completed === undefined || 
-                    quiz.status === 'pending' ||
-                    quiz.status === 'available' ||
-                    (quiz.status && quiz.status !== 'completed' && quiz.status !== 'graded') ||
-                    !quiz.status  // If no status field, assume not completed
+                    !assignmentSubmitted && (
+                        quiz.completed === false || 
+                        quiz.completed === undefined || 
+                        quiz.status === 'pending' ||
+                        quiz.status === 'available' ||
+                        quiz.status === 'published' ||
+                        (quiz.status && quiz.status !== 'completed' && quiz.status !== 'graded') ||
+                        !quiz.status  // If no status field, assume not completed
+                    )
                 );
                 
-                const isPublished = quiz.published === true || quiz.status === 'available';
+                const isPublished = quiz.published === true || quiz.status === 'available' || quiz.status === 'published' || quiz.status === 'pending';
                 
                 // If no dueDate is set, create one based on published date or current date
                 let dueDate = quiz.dueDate;
@@ -2056,7 +2555,7 @@
                     dueDate = new Date(publishedDate.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
                 }
                 
-                console.log('Quiz:', quiz.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'completed field:', quiz.completed, 'status field:', quiz.status);
+                console.log('Quiz:', quiz.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'submitted:', quizSubmitted, 'completed field:', quiz.completed, 'status field:', quiz.status);
                 
                 if (dueDate && isPublished && isNotCompleted) {
                     const daysUntil = calculateDaysUntil(dueDate);
@@ -2064,10 +2563,11 @@
                         console.log('Adding quiz to deadlines:', quiz.title);
                         deadlines.push({
                             type: 'Quiz',
-                            subject: quiz.subject || 'Mathematics',
+                            subject: quiz.subject || 'English',
                             title: quiz.title,
                             dueDate: dueDate,
-                            daysUntil: daysUntil
+                            daysUntil: daysUntil,
+                            id: quiz.id
                         });
                     }
                 }
@@ -2095,15 +2595,20 @@
             console.log('Exams found:', allExams.length, allExams);
             
             allExams.forEach(exam => {
+                // Check if exam is submitted using our tracking system
+                const examSubmitted = isSubmitted('exam', exam.id);
+                
                 // Check if exam is published and not completed
                 // Handle multiple completion status formats
                 const isNotCompleted = (
-                    exam.completed === false || 
-                    exam.completed === undefined || 
-                    exam.status === 'pending' ||
-                    exam.status === 'available' ||
-                    (exam.status && exam.status !== 'completed' && exam.status !== 'graded') ||
-                    !exam.status  // If no status field, assume not completed
+                    !assignmentSubmitted && (
+                        exam.completed === false || 
+                        exam.completed === undefined || 
+                        exam.status === 'pending' ||
+                        exam.status === 'available' ||
+                        (exam.status && exam.status !== 'completed' && exam.status !== 'graded') ||
+                        !exam.status  // If no status field, assume not completed
+                    )
                 );
                 
                 const isPublished = exam.published === true || exam.status === 'available';
@@ -2116,7 +2621,7 @@
                     dueDate = new Date(publishedDate.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
                 }
                 
-                console.log('Exam:', exam.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'completed field:', exam.completed, 'status field:', exam.status);
+                console.log('Exam:', exam.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'submitted:', quizSubmitted, 'completed field:', exam.completed, 'status field:', exam.status);
                 
                 if (dueDate && isPublished && isNotCompleted) {
                     const daysUntil = calculateDaysUntil(dueDate);
@@ -2124,10 +2629,11 @@
                         console.log('Adding exam to deadlines:', exam.title);
                         deadlines.push({
                             type: 'Exam',
-                            subject: exam.subject || 'Mathematics',
+                            subject: exam.subject || 'English',
                             title: exam.title,
                             dueDate: dueDate,
-                            daysUntil: daysUntil
+                            daysUntil: daysUntil,
+                            id: exam.id
                         });
                     }
                 }
@@ -2137,6 +2643,51 @@
             console.log('Final deadlines array:', deadlines);
             return deadlines;
         }
+
+        // Function to refresh deadlines display
+        function loadDeadlines() {
+            const deadlinesList = document.getElementById('deadlinesList');
+            if (!deadlinesList) return;
+            
+            const deadlineData = loadDeadlinesFromPages();
+            
+            // Check if there are no deadlines
+            if (deadlineData.length === 0) {
+                deadlinesList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #6c757d;">
+                        <iconify-icon icon="material-symbols:check-circle" style="font-size: 3rem; color: #10b981; margin-bottom: 1rem;"></iconify-icon>
+                        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">All caught up!</p>
+                        <p style="font-size: 0.9rem;">No upcoming deadlines at the moment.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort deadlines by days until due (urgent first)
+            deadlineData.sort((a, b) => a.daysUntil - b.daysUntil);
+            
+            let deadlinesHTML = '';
+            deadlineData.forEach(deadline => {
+                let urgencyClass = 'normal';
+                if (deadline.daysUntil === 0) urgencyClass = 'urgent';
+                else if (deadline.daysUntil <= 2) urgencyClass = 'warning';
+                
+                deadlinesHTML += `
+                    <div class="deadline-item ${urgencyClass}" data-type="${deadline.type}" data-id="${deadline.id}">
+                        <div class="deadline-subject">${deadline.subject}</div>
+                        <div class="deadline-title">${deadline.title}</div>
+                        <div class="deadline-time">${formatDeadlineTime(deadline.daysUntil, deadline.dueDate)}</div>
+                    </div>
+                `;
+            });
+            
+            deadlinesList.innerHTML = deadlinesHTML;
+        }
+
+        // Expose submission functions globally
+        window.markAsSubmitted = markAsSubmitted;
+        window.isSubmitted = isSubmitted;
+        window.loadDeadlines = loadDeadlines;
         
         // Function to calculate days until deadline
         function calculateDaysUntil(dueDate) {
@@ -2325,9 +2876,9 @@
             console.log('Starting assignment:', title);
             
             // Find the assignment by title
-            const studentAssignments = JSON.parse(localStorage.getItem('englishAssignments') || '[]');
-            const teacherAssignments = JSON.parse(localStorage.getItem('englishTeacherAssignments') || '[]');
-            const assignmentsList = JSON.parse(localStorage.getItem('englishAssignmentsList') || '[]');
+            const studentAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            const teacherAssignments = JSON.parse(localStorage.getItem('physicsTeacherAssignments') || '[]');
+            const assignmentsList = JSON.parse(localStorage.getItem('physicsAssignmentsList') || '[]');
             
             // Combine all assignment sources
             let allAssignments = [...studentAssignments];
@@ -2344,10 +2895,10 @@
             
             if (assignment) {
                 // Redirect to homework page with the assignment ID
-                window.location.href = `english-homework.html?start=${assignment.id}`;
+                window.location.href = `physics-homework.html?start=${assignment.id}`;
             } else {
                 // If not found, just go to homework page
-                window.location.href = 'english-homework.html';
+                window.location.href = 'physics-homework.html';
             }
         }
 
@@ -2356,9 +2907,9 @@
             console.log('Starting quiz:', title);
             
             // Find the quiz by title
-            const studentQuizzes = JSON.parse(localStorage.getItem('englishQuizzes') || '[]');
-            const teacherQuizzes = JSON.parse(localStorage.getItem('englishTeacherQuizzes') || '[]');
-            const quizzesList = JSON.parse(localStorage.getItem('englishQuizzesList') || '[]');
+            const studentQuizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const teacherQuizzes = JSON.parse(localStorage.getItem('physicsTeacherQuizzes') || '[]');
+            const quizzesList = JSON.parse(localStorage.getItem('physicsQuizzesList') || '[]');
             
             // Combine all quiz sources
             let allQuizzes = [...studentQuizzes];
@@ -2375,10 +2926,10 @@
             
             if (quiz) {
                 // Redirect to quiz page with the quiz ID
-                window.location.href = `english-quiz.html?start=${quiz.id}`;
+                window.location.href = `physics-quizzes.html?start=${quiz.id}`;
             } else {
                 // If not found, just go to quiz page
-                window.location.href = 'english-quiz.html';
+                window.location.href = 'physics-quizzes.html';
             }
         }
 
@@ -2387,9 +2938,9 @@
             console.log('Starting exam:', title);
             
             // Find the exam by title
-            const studentExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
-            const teacherExams = JSON.parse(localStorage.getItem('englishTeacherExams') || '[]');
-            const examsList = JSON.parse(localStorage.getItem('englishExamsList') || '[]');
+            const studentExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            const teacherExams = JSON.parse(localStorage.getItem('physicsTeacherExams') || '[]');
+            const examsList = JSON.parse(localStorage.getItem('physicsExamsList') || '[]');
             
             // Combine all exam sources
             let allExams = [...studentExams];
@@ -2406,10 +2957,10 @@
             
             if (exam) {
                 // Redirect to exam page with the exam ID
-                window.location.href = `english-exam.html?start=${exam.id}`;
+                window.location.href = `physics-exams.html?start=${exam.id}`;
             } else {
                 // If not found, just go to exam page
-                window.location.href = 'english-exam.html';
+                window.location.href = 'physics-exams.html';
             }
         }
 
@@ -2426,33 +2977,250 @@
         // Update wrong questions count
         function updateWrongQuestionsCount() {
             const wrongQuestions = JSON.parse(localStorage.getItem('englishWrongQuestions')) || [];
+            const customFolders = JSON.parse(localStorage.getItem('englishCustomFolders')) || [];
+            
+            // Count questions in all folders (assignments, quizzes, exams, custom folders)
+            let totalCount = 0;
+            
+            // Count questions in predefined activity folders
+            const activityTypes = ['assignments', 'quizzes', 'exams'];
+            activityTypes.forEach(activityType => {
+                const count = wrongQuestions.filter(q => 
+                    q.activityType === activityType || q.source === activityType.slice(0, -1)
+                ).length;
+                totalCount += count;
+            });
+            
+            // Count questions in custom folders
+            customFolders.forEach(folder => {
+                const count = wrongQuestions.filter(q => q.folderId === folder.id).length;
+                totalCount += count;
+            });
+            
+            // Count questions not in any folder (uncategorized)
+            const uncategorizedCount = wrongQuestions.filter(q => 
+                !q.folderId && !q.activityType && !q.source
+            ).length;
+            totalCount += uncategorizedCount;
+            
             const countElement = document.getElementById('wrongQuestionsCount');
             if (countElement) {
-                countElement.textContent = wrongQuestions.length;
+                countElement.textContent = totalCount;
             }
         }
         
         // Update tricky questions count
         function updateTrickyQuestionsCount() {
             const trickyQuestions = JSON.parse(localStorage.getItem('englishTrickyQuestions')) || [];
+            const customFolders = JSON.parse(localStorage.getItem('englishTrickyCustomFolders')) || [];
+            
+            // Count questions in all folders (assignments, quizzes, exams, custom folders)
+            let totalCount = 0;
+            
+            // Count questions in predefined activity folders
+            const activityTypes = ['assignments', 'quizzes', 'exams'];
+            activityTypes.forEach(activityType => {
+                const count = trickyQuestions.filter(q => 
+                    q.activityType === activityType || q.source === activityType.slice(0, -1)
+                ).length;
+                totalCount += count;
+            });
+            
+            // Count questions in custom folders
+            customFolders.forEach(folder => {
+                const count = trickyQuestions.filter(q => q.folderId === folder.id).length;
+                totalCount += count;
+            });
+            
+            // Count questions not in any folder (uncategorized)
+            const uncategorizedCount = trickyQuestions.filter(q => 
+                !q.folderId && !q.activityType && !q.source
+            ).length;
+            totalCount += uncategorizedCount;
+            
             const countElement = document.getElementById('trickyQuestionsCount');
             if (countElement) {
-                countElement.textContent = trickyQuestions.length;
+                countElement.textContent = totalCount;
             }
+        }
+
+        // Update daily practice statistics
+        function updateDailyPracticeStats() {
+            // Get daily practice data from localStorage
+            const questions = JSON.parse(localStorage.getItem('english_daily_practice_questions_student') || '[]');
+            const streak = parseInt(localStorage.getItem('physicsStreak') || '0');
+            const solved = parseInt(localStorage.getItem('physicsQuestionsSolved') || '0');
+            const correct = parseInt(localStorage.getItem('physicsCorrectAnswers') || '0');
+            
+            // Calculate accuracy
+            const accuracy = solved > 0 ? Math.round((correct / solved) * 100) : 0;
+            
+            // Update UI
+            document.getElementById('dailyPracticeStreak').textContent = streak;
+            document.getElementById('dailyPracticeSolved').textContent = solved;
+            document.getElementById('dailyPracticeAccuracy').textContent = accuracy + '%';
+            
+            // Load inline question if available
+            loadInlineQuestion(questions);
+        }
+
+        // Load inline question
+        function loadInlineQuestion(questions) {
+            const container = document.getElementById('inlineQuestionContainer');
+            const noQuestionsMessage = document.getElementById('noQuestionsMessage');
+            const questionText = document.getElementById('inlineQuestionText');
+            
+            if (questions.length > 0) {
+                const firstQuestion = questions[0];
+                questionText.innerHTML = `
+                    <div style="margin-bottom: 1rem;">
+                        <div class="d-flex gap-2 mb-2">
+                            <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                ${firstQuestion.difficulty}
+                            </span>
+                            <span style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                ${firstQuestion.topic}
+                            </span>
+                            <span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                                ${firstQuestion.type || 'Multiple Choice'}
+                            </span>
+                        </div>
+                        <div style="font-size: 1.1rem; line-height: 1.6;">${firstQuestion.question}</div>
+                    </div>
+                `;
+                
+                // Create appropriate answer input based on question type
+                let answerHtml = '';
+                if (firstQuestion.type === 'multiple-choice' && firstQuestion.options && firstQuestion.options.length > 0) {
+                    // Multiple choice options
+                    answerHtml = `
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Select your answer:</label>
+                            <div class="multiple-choice-options" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                ${firstQuestion.options.map((option, index) => `
+                                    <label class="option-label" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#667eea'" onmouseout="this.style.borderColor='#e2e8f0'">
+                                        <input type="radio" name="inlineAnswer" value="${option}" style="margin: 0;">
+                                        <span class="option-text" style="font-size: 0.95rem; color: #1e293b;">${option}</span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    // Short answer textarea
+                    answerHtml = `
+                        <div class="mb-3">
+                            <label class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Type your answer:</label>
+                            <textarea id="inlineAnswerInput" class="form-control" rows="3" placeholder="Type your answer here..." style="border: 2px solid #e2e8f0; border-radius: 10px; resize: vertical; font-size: 0.95rem; transition: all 0.3s ease;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
+                        </div>
+                    `;
+                }
+                
+                // Update the answer container
+                const answerContainerDiv = document.querySelector('.mt-auto .row .col-md-8');
+                if (answerContainerDiv) {
+                    answerContainerDiv.innerHTML = answerHtml;
+                }
+                
+                // Store current question data for submission
+                window.currentInlineQuestion = firstQuestion;
+                
+                container.style.display = 'flex';
+                noQuestionsMessage.style.display = 'none';
+            } else {
+                container.style.display = 'none';
+                noQuestionsMessage.style.display = 'flex';
+            }
+        }
+
+        // Submit inline answer
+        function submitInlineAnswer() {
+            if (!window.currentInlineQuestion) {
+                alert('No question available.');
+                return;
+            }
+
+            let answer = '';
+            let isCorrect = false;
+
+            if (window.currentInlineQuestion.type === 'multiple-choice') {
+                // Handle multiple choice answer
+                const selectedOption = document.querySelector('input[name="inlineAnswer"]:checked');
+                if (!selectedOption) {
+                    alert('Please select an answer before submitting.');
+                    return;
+                }
+                answer = selectedOption.value;
+                isCorrect = answer === window.currentInlineQuestion.answer;
+            } else {
+                // Handle short answer
+                const answerInput = document.getElementById('inlineAnswerInput');
+                if (!answerInput) {
+                    alert('Answer input not found.');
+                    return;
+                }
+                answer = answerInput.value.trim();
+                if (!answer) {
+                    alert('Please enter an answer before submitting.');
+                    return;
+                }
+                // Simple answer checking (case-insensitive)
+                isCorrect = answer.toLowerCase().includes(window.currentInlineQuestion.answer.toLowerCase()) ||
+                           window.currentInlineQuestion.answer.toLowerCase().includes(answer.toLowerCase());
+            }
+
+            // Update statistics
+            let solved = parseInt(localStorage.getItem('englishQuestionsSolved') || '0');
+            let correct = parseInt(localStorage.getItem('englishCorrectAnswers') || '0');
+            let streak = parseInt(localStorage.getItem('englishStreak') || '0');
+
+            solved++;
+            if (isCorrect) {
+                correct++;
+                streak++;
+                alert('✅ Correct! Well done!');
+            } else {
+                streak = Math.max(0, streak - 1);
+                alert('❌ Not quite right. Check the answer below.');
+            }
+
+            localStorage.setItem('englishQuestionsSolved', solved.toString());
+            localStorage.setItem('englishCorrectAnswers', correct.toString());
+            localStorage.setItem('englishStreak', streak.toString());
+
+            // Update statistics display
+            updateDailyPracticeStats();
+
+            // Show answer
+            showInlineAnswer();
+        }
+
+        // Show inline answer
+        function showInlineAnswer() {
+            if (!window.currentInlineQuestion) return;
+
+            const answerDisplay = document.getElementById('inlineAnswerDisplay');
+            const correctAnswer = document.getElementById('inlineCorrectAnswer');
+            const explanation = document.getElementById('inlineExplanation');
+
+            correctAnswer.textContent = window.currentInlineQuestion.answer;
+            explanation.textContent = window.currentInlineQuestion.explanation || 'No explanation provided.';
+            
+            answerDisplay.style.display = 'block';
         }
         
         // Initialize page when DOM is loaded
         // Flashcard functionality
         function updateFlashcardStats() {
             const chapters = [
-                { id: 1, title: 'Algebra Basics', icon: 'material-symbols:calculate', cardsCount: 25 },
-                { id: 2, title: 'Quadratic Equations', icon: 'material-symbols:functions', cardsCount: 30 },
-                { id: 3, title: 'Geometry Fundamentals', icon: 'material-symbols:pentagon', cardsCount: 28 },
-                { id: 4, title: 'Trigonometry', icon: 'material-symbols:show-chart', cardsCount: 35 },
-                { id: 5, title: 'Calculus Introduction', icon: 'material-symbols:analytics', cardsCount: 40 },
-                { id: 6, title: 'Statistics & Probability', icon: 'material-symbols:bar-chart', cardsCount: 32 },
-                { id: 7, title: 'Linear Functions', icon: 'material-symbols:timeline', cardsCount: 22 },
-                { id: 8, title: 'Circle Theorems', icon: 'material-symbols:circle', cardsCount: 26 }
+                { id: 1, title: 'Grammar Fundamentals', icon: 'material-symbols:edit', cardsCount: 35 },
+                { id: 2, title: 'Literature Analysis', icon: 'material-symbols:book', cardsCount: 28 },
+                { id: 3, title: 'Writing Techniques', icon: 'material-symbols:create', cardsCount: 42 },
+                { id: 4, title: 'Vocabulary Building', icon: 'material-symbols:translate', cardsCount: 30 },
+                { id: 5, title: 'Poetry & Prose', icon: 'material-symbols:auto-stories', cardsCount: 25 },
+                { id: 6, title: 'Critical Reading', icon: 'material-symbols:psychology', cardsCount: 20 },
+                { id: 7, title: 'Shakespeare Studies', icon: 'material-symbols:theater-comedy', cardsCount: 38 },
+                { id: 8, title: 'Essay Writing', icon: 'material-symbols:article', cardsCount: 22 }
             ];
 
             const progress = JSON.parse(localStorage.getItem('flashcardProgress') || '{}');
@@ -2564,13 +3332,20 @@
             const currentMonth = currentDate.getMonth();
             const currentYear = currentDate.getFullYear();
             
-            // Sample sessions data for English
-            const sessions = [
-                { date: 7, title: "Creative Writing Workshop", time: "11:00 AM", type: "workshop" },
-                { date: 14, title: "Literature Analysis", time: "2:00 PM", type: "lecture" },
-                { date: 21, title: "Grammar & Vocabulary", time: "10:00 AM", type: "lecture" },
-                { date: 28, title: "Speaking Practice", time: "3:30 PM", type: "tutorial" }
-            ];
+            // Load sessions from student-facing schedule store
+            const scheduleEntries = JSON.parse(localStorage.getItem('englishStudentSchedule') || '[]');
+            const sessions = scheduleEntries
+                .filter(e => {
+                    // e.date is yyyy-mm-dd
+                    const [y, m, d] = e.date.split('-').map(x => parseInt(x, 10));
+                    return y === currentYear && (m - 1) === currentMonth;
+                })
+                .map(e => ({
+                    date: parseInt(e.date.split('-')[2], 10),
+                    title: e.title,
+                    time: e.time,
+                    type: e.type
+                }));
 
             const monthNames = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"];
@@ -2667,18 +3442,75 @@
         }
 
         function showSessionDetails(day) {
-            const sessions = [
-                { date: 7, title: "Creative Writing Workshop", time: "11:00 AM", type: "workshop" },
-                { date: 14, title: "Literature Analysis", time: "2:00 PM", type: "lecture" },
-                { date: 21, title: "Grammar & Vocabulary", time: "10:00 AM", type: "lecture" },
-                { date: 28, title: "Speaking Practice", time: "3:30 PM", type: "tutorial" }
-            ];
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth();
+            const currentYear = currentDate.getFullYear();
+            const scheduleEntries = JSON.parse(localStorage.getItem('englishStudentSchedule') || '[]');
+            const sessions = scheduleEntries
+                .filter(e => {
+                    const [y, m, d] = e.date.split('-').map(x => parseInt(x, 10));
+                    return y === currentYear && (m - 1) === currentMonth && d === day;
+                })
+                .map(e => ({
+                    date: day,
+                    title: e.title,
+                    time: e.time,
+                    type: e.type
+                }));
             
-            const session = sessions.find(s => s.date === day);
-            if (session) {
-                alert(`Session on ${day}:\n${session.title}\n${session.time}\nType: ${session.type}`);
+            if (sessions.length > 0) {
+                // Create modal HTML
+                const monthNames = ["January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December"];
+                const monthName = monthNames[currentMonth];
+                
+                let sessionsHTML = '';
+                sessions.forEach(session => {
+                    sessionsHTML += `
+                        <div class="session-detail-item" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 1rem; border-radius: 10px; margin-bottom: 1rem;">
+                            <div style="font-weight: 600; font-size: 1.1rem; margin-bottom: 0.5rem;">${session.title}</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">
+                                <div><strong>Time:</strong> ${session.time}</div>
+                                <div><strong>Type:</strong> ${session.type}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                const modalHTML = `
+                    <div id="sessionDetailsModal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+                        <div style="background: white; border-radius: 15px; padding: 2rem; max-width: 500px; width: 90%; max-height: 80vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                                <h4 style="margin: 0; color: #1e293b; font-weight: 600;">Sessions on ${monthName} ${day}</h4>
+                                <button onclick="closeSessionDetailsModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #64748b;">&times;</button>
+                            </div>
+                            <div>
+                                ${sessionsHTML}
+                            </div>
+                            <div style="text-align: center; margin-top: 1.5rem;">
+                                <button onclick="closeSessionDetailsModal()" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 2rem; border-radius: 10px; cursor: pointer; font-weight: 600;">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Remove existing modal if any
+                const existingModal = document.getElementById('sessionDetailsModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                // Add modal to page
+                document.body.insertAdjacentHTML('beforeend', modalHTML);
             } else {
                 console.log(`No session on day ${day}`);
+            }
+        }
+
+        function closeSessionDetailsModal() {
+            const modal = document.getElementById('sessionDetailsModal');
+            if (modal) {
+                modal.remove();
             }
         }
 
@@ -2702,6 +3534,9 @@
             
             // Update flashcard stats
             updateFlashcardStats();
+            
+            // Update daily practice stats
+            updateDailyPracticeStats();
             
             // Initialize and render leaderboard
             initializeStudentData();
@@ -2737,7 +3572,7 @@
         // Initialize student data structure
         function initializeStudentData() {
             // Check if student data already exists
-            let students = JSON.parse(localStorage.getItem('mathematicsStudents') || '[]');
+            let students = JSON.parse(localStorage.getItem('physicsStudents') || '[]');
             
             // If no students exist, create some default students
             if (students.length === 0) {
@@ -2845,9 +3680,9 @@
             let completedExams = 0;
 
             // Calculate quiz points from all quiz storage keys
-            const studentQuizzes = JSON.parse(localStorage.getItem('englishQuizzes') || '[]');
-            const teacherQuizzes = JSON.parse(localStorage.getItem('englishTeacherQuizzes') || '[]');
-            const mathematicsQuizzes = JSON.parse(localStorage.getItem('englishQuizzesList') || '[]');
+            const studentQuizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const teacherQuizzes = JSON.parse(localStorage.getItem('physicsTeacherQuizzes') || '[]');
+            const mathematicsQuizzes = JSON.parse(localStorage.getItem('physicsQuizzesList') || '[]');
             
             console.log('Calculating points - All quizzes:', [...studentQuizzes, ...teacherQuizzes, ...mathematicsQuizzes]);
             
@@ -2863,9 +3698,9 @@
             });
 
             // Calculate assignment points from all assignment storage keys
-            const studentAssignments = JSON.parse(localStorage.getItem('englishAssignments') || '[]');
-            const teacherAssignments = JSON.parse(localStorage.getItem('englishTeacherAssignments') || '[]');
-            const mathematicsAssignments = JSON.parse(localStorage.getItem('englishAssignmentsList') || '[]');
+            const studentAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            const teacherAssignments = JSON.parse(localStorage.getItem('physicsTeacherAssignments') || '[]');
+            const mathematicsAssignments = JSON.parse(localStorage.getItem('physicsAssignmentsList') || '[]');
             
             console.log('Calculating points - All assignments:', [...studentAssignments, ...teacherAssignments, ...mathematicsAssignments]);
             
@@ -2900,9 +3735,9 @@
             });
 
             // Calculate exam points from all exam storage keys
-            const studentExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
-            const teacherExams = JSON.parse(localStorage.getItem('englishTeacherExams') || '[]');
-            const mathematicsExams = JSON.parse(localStorage.getItem('englishExamsList') || '[]');
+            const studentExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            const teacherExams = JSON.parse(localStorage.getItem('physicsTeacherExams') || '[]');
+            const mathematicsExams = JSON.parse(localStorage.getItem('physicsExamsList') || '[]');
             
             console.log('Calculating points - All exams:', [...studentExams, ...teacherExams, ...mathematicsExams]);
             
@@ -2938,7 +3773,7 @@
         // Function to render the leaderboard
         function renderLeaderboard() {
             const leaderboardList = document.getElementById('leaderboardList');
-            let students = JSON.parse(localStorage.getItem('englishStudents') || '[]');
+            let students = JSON.parse(localStorage.getItem('physicsStudents') || '[]');
             
             // If no students, show message
             if (students.length === 0) {
@@ -2966,7 +3801,7 @@
             students.sort((a, b) => b.totalPoints - a.totalPoints);
 
             // Save updated student data
-            localStorage.setItem('englishStudents', JSON.stringify(students));
+            localStorage.setItem('physicsStudents', JSON.stringify(students));
 
             // Generate leaderboard HTML
             const leaderboardHtml = students.map((student, index) => {
@@ -3257,7 +4092,7 @@
 
         function navigateToCommunity() {
             console.log('Community button clicked');
-            window.location.href = 'english-community.html';
+            window.location.href = 'physics-community.html';
         }
 
         function navigateToNotifications() {
@@ -3330,8 +4165,8 @@
         function navigateToSection(section) {
             // Map section types to specific English pages
             const pageMap = {
-                'quiz': 'english-quiz.html',
-                'exam': 'english-exam.html',
+                'quiz': 'english-quizzes.html',
+                'exam': 'english-exams.html',
                 'assignment': 'english-homework.html',
                 'progress': 'english-progress.html'
             };
@@ -3343,13 +4178,35 @@
             window.location.href = url;
         }
 
+        // Function to open quizzes
+        function openQuizzes() {
+            window.location.href = 'physics-quizzes.html';
+        }
+
+        // Function to open exams
+        function openExams() {
+            window.location.href = 'physics-exams.html';
+        }
+
         // Navigation functionality - Same as course-mathematics page
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
-                element.scrollIntoView({
+                // Add a subtle highlight effect to the target section
+                element.style.transition = 'all 0.3s ease';
+                element.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.3)';
+                
+                // Smooth scroll to the element with offset for better positioning
+                const elementPosition = element.offsetTop - 100; // 100px offset from top
+                window.scrollTo({
+                    top: elementPosition,
                     behavior: 'smooth'
                 });
+                
+                // Remove highlight effect after animation
+                setTimeout(() => {
+                    element.style.boxShadow = '';
+                }, 1000);
             }
         }
 
@@ -3357,6 +4214,14 @@
         document.querySelectorAll('.dashboard-nav .nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // Add click animation effect
+                this.style.transform = 'scale(0.95)';
+                this.style.transition = 'transform 0.1s ease';
+                
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
                 
                 // Remove active class from all links
                 document.querySelectorAll('.dashboard-nav .nav-link').forEach(l => l.classList.remove('active'));
@@ -3434,16 +4299,16 @@
     <script src="js/progress-tracking.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            loadCourseProgressData('english');
-            loadDailyPracticeStats('english');
+            loadCourseProgressData('physics');
+            loadDailyPracticeStats('physics');
         });
         
         function showAllQuizGrades() {
-            window.showAllQuizGrades('english');
+            window.showAllQuizGrades('physics');
         }
         
         function showAllExamGrades() {
-            window.showAllExamGrades('english');
+            window.showAllExamGrades('physics');
         }
     </script>
 </body>

@@ -813,38 +813,8 @@
     // Load Physics quizzes from localStorage (published by teachers)
     let physicsQuizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
     
-    // Sample data for demonstration (only used if no published quizzes exist)
-    const sampleQuizzes = [
-        {
-            id: 1,
-            title: "Mechanics Quiz",
-            description: "Quick quiz on basic mechanics concepts including motion and forces.",
-            date: "2025-01-20",
-            time: "10:00",
-            duration: "30",
-            status: "pending",
-            difficulty: "Medium",
-            points: 50,
-            questions: []
-        },
-        {
-            id: 2,
-            title: "Thermodynamics Quiz",
-            description: "Quiz covering heat, temperature, and energy transfer concepts.",
-            date: "2025-01-25",
-            time: "14:00",
-            duration: "25",
-            status: "pending",
-            difficulty: "Hard",
-            points: 40,
-            questions: []
-        }
-    ];
-
-    // Use sample data if no published quizzes exist
-    if (physicsQuizzes.length === 0) {
-        physicsQuizzes = sampleQuizzes;
-    }
+    // No sample data - only show quizzes created by teachers
+    const sampleQuizzes = [];
 
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Page loaded, starting quiz loading...');
@@ -858,10 +828,8 @@
       // Reload quizzes from localStorage to get latest published quizzes
       physicsQuizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
       
-      // Use sample data if no published quizzes exist
-      if (physicsQuizzes.length === 0) {
-        physicsQuizzes = sampleQuizzes;
-      }
+      // Only show quizzes created by teachers - no sample data
+      // physicsQuizzes will contain teacher-created quizzes or be empty
 
       // Convert published quizzes to the format expected by the page
       quizzes = physicsQuizzes.map(quiz => {
@@ -871,7 +839,7 @@
         const dueDate = quiz.dueDate || quiz.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
         const time = quiz.time || '10:00';
         const duration = quiz.timeLimit || quiz.duration || 30;
-        const status = quiz.status || 'pending';
+        const status = (quiz.status === 'published' || quiz.status === 'pending') ? 'available' : (quiz.status || 'pending');
         const difficulty = quiz.difficulty || 'Medium';
         const points = quiz.points || quiz.totalPoints || 50;
         const questions = quiz.questions || [];
@@ -887,6 +855,8 @@
           difficulty: difficulty,
           points: points,
           questions: questions,
+          attempts: quiz.attempts || 'Unlimited',
+          bestScore: quiz.bestScore || null,
           // Check if it's a file-based quiz
           assessmentType: quiz.assessmentType,
           fileBased: quiz.fileBased
@@ -1066,15 +1036,15 @@
                         </div>
           <div class="homework-card-description">${q.description}</div>
           <div class="homework-details">
-            <div class="detail-row"><span class="detail-label">Questions:</span><span class="detail-value">${q.questions}</span></div>
-            <div class="detail-row"><span class="detail-label">Time Limit:</span><span class="detail-value">${q.timeLimit} minutes</span></div>
-            <div class="detail-row"><span class="detail-label">Points:</span><span class="detail-value">${q.points}</span></div>
-            <div class="detail-row"><span class="detail-label">Difficulty:</span><span class="detail-value">${q.difficulty}</span></div>
+            <div class="detail-row"><span class="detail-label">Questions:</span><span class="detail-value">${Array.isArray(q.questions) ? q.questions.length : 0}</span></div>
+            <div class="detail-row"><span class="detail-label">Time Limit:</span><span class="detail-value">${q.duration || 30} minutes</span></div>
+            <div class="detail-row"><span class="detail-label">Points:</span><span class="detail-value">${q.points || 50}</span></div>
+            <div class="detail-row"><span class="detail-label">Difficulty:</span><span class="detail-value">${q.difficulty || 'Medium'}</span></div>
             ${q.bestScore ? `<div class="detail-row"><span class="detail-label">Best Score:</span><span class="detail-value" style="color:#28a745;font-weight:600;">${q.bestScore}%</span></div>` : ''}
-            <div class="detail-row"><span class="detail-label">Attempts:</span><span class="detail-value">${q.attempts} remaining</span></div>
+            <div class="detail-row"><span class="detail-label">Attempts:</span><span class="detail-value">${q.attempts || 'Unlimited'} remaining</span></div>
                         </div>
           <div class="homework-actions">
-            ${q.status === 'available' ? `
+            ${(q.status === 'available' || q.status === 'published' || q.status === 'pending') ? `
               <button class="btn btn-primary" onclick="startQuiz('${q.id}')"><iconify-icon icon="material-symbols:play-arrow"></iconify-icon>Start Quiz</button>
             ` : q.status === 'completed' ? `
               <button class="btn btn-outline" onclick="reviewQuiz('${q.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>Review</button>
@@ -1424,9 +1394,18 @@
         totalPoints += question.points || 1;
         
         if (question.type === 'multiple-choice') {
+          console.log(`Question ${index} - User answer: ${userAnswers[index]}, Correct answer: ${question.correctAnswer}`);
+          console.log(`Question ${index} - Answer comparison: ${userAnswers[index]} === ${question.correctAnswer} = ${userAnswers[index] === question.correctAnswer}`);
           if (userAnswers[index] === question.correctAnswer) {
+            console.log(`Question ${index} - CORRECT ANSWER`);
             score += question.points || 1;
+          } else {
+            console.log(`Question ${index} - WRONG ANSWER - Creating wrong question entry`);
+            // Student answered incorrectly - create wrong question entry
+            createWrongQuestionEntry(question, index, 'quiz');
           }
+        } else {
+          console.log(`Question ${index} - Not multiple choice, type: ${question.type}`);
         }
       });
       
@@ -1443,6 +1422,10 @@
         quizzes[quizIndex].answers = userAnswers;
         quizzes[quizIndex].totalPoints = totalPoints;
         quizzes[quizIndex].score = score;
+        
+        // Save updated quiz to localStorage
+        localStorage.setItem('physicsQuizzes', JSON.stringify(quizzes));
+        console.log('Quiz status updated and saved to localStorage:', quizzes[quizIndex]);
       }
       
       // Clear timer
@@ -1462,6 +1445,50 @@
       
       // Reload quizzes to show updated status
       loadQuizzes();
+    }
+
+    // Function to automatically create wrong question entries
+    function createWrongQuestionEntry(question, questionIndex, activityType) {
+      console.log('=== CREATING WRONG QUESTION ENTRY ===');
+      console.log('Question:', question);
+      console.log('QuestionIndex:', questionIndex);
+      console.log('ActivityType:', activityType);
+      console.log('UserAnswers:', userAnswers);
+      console.log('Question type check:', question.type === 'multiple-choice');
+      console.log('Question has correctAnswer:', 'correctAnswer' in question);
+      console.log('Question correctAnswer value:', question.correctAnswer);
+      
+      const wrongQuestion = {
+        id: 'wrong_' + Date.now() + '_' + questionIndex,
+        questionId: question.id,
+        questionText: question.text || question.question || question.title || 'Question text not found', // This is the key field
+        studentAnswer: question.options && question.options[userAnswers[questionIndex]] ? 
+                      question.options[userAnswers[questionIndex]] : 
+                      userAnswers[questionIndex] || 'No answer provided',
+        correctAnswer: question.options && question.options[question.correctAnswer] ? 
+                      question.options[question.correctAnswer] : 
+                      question.correctAnswer || 'Correct answer not provided',
+        course: 'physics', // Get from quiz context
+        subject: 'physics',
+        activityType: activityType === 'quiz' ? 'quizzes' : activityType + 's', // quizzes, assignments, exams
+        source: 'quiz',
+        difficulty: question.difficulty || 'Medium',
+        points: question.points || 1,
+        topic: question.topic || 'General',
+        chapter: question.chapter || 'General',
+        createdAt: new Date().toISOString(),
+        // Ensure proper categorization
+        inActivityFolder: true
+      };
+
+      // Save to wrong questions collection
+      const wrongQuestions = JSON.parse(localStorage.getItem('physicsWrongQuestions') || '[]');
+      wrongQuestions.push(wrongQuestion);
+      localStorage.setItem('physicsWrongQuestions', JSON.stringify(wrongQuestions));
+      
+      console.log('Created wrong question entry:', wrongQuestion);
+      console.log('Wrong question activityType:', wrongQuestion.activityType);
+      console.log('Saved to localStorage - physicsWrongQuestions:', JSON.parse(localStorage.getItem('physicsWrongQuestions')));
     }
 
     function reviewQuiz(id) {

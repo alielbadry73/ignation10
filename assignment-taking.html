@@ -74,6 +74,105 @@
             resize: vertical;
         }
         
+        .answer-input::placeholder {
+            color: #999;
+            opacity: 1;
+        }
+        
+        .expected-points {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .expected-points-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.75rem;
+        }
+        
+        .expected-points-list {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+        
+        .expected-points-list li {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #e9ecef;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-hint {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .uploaded-files {
+            margin-top: 1rem;
+        }
+        
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: #e9ecef;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .uploaded-file-icon {
+            color: #667eea;
+        }
+        
+        .uploaded-file-name {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .remove-file {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+        }
+        
         .submit-section {
             position: sticky;
             bottom: 0;
@@ -336,6 +435,28 @@
                             `).join('')}
                         </div>
                     `;
+                } else if (question.type === 'file' || question.type === 'file-based') {
+                    // File upload question
+                    answerInput = `
+                        ${question.bulletPoints && question.bulletPoints.length > 0 ? `
+                            <div class="expected-points">
+                                <h6 class="expected-points-title">
+                                    <iconify-icon icon="material-symbols:format-list-bulleted"></iconify-icon>
+                                    Key Points to Include:
+                                </h6>
+                                <ul class="expected-points-list">
+                                    ${question.bulletPoints.map(point => `<li>${point}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        <div class="file-upload-area" onclick="document.getElementById('file_${index}').click()">
+                            <iconify-icon icon="material-symbols:cloud-upload" class="upload-icon"></iconify-icon>
+                            <div class="upload-text">Click to upload or drag files here</div>
+                            <div class="upload-hint">Supports images, PDFs, and documents</div>
+                        </div>
+                        <input type="file" id="file_${index}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(${index}, this.files)">
+                        <div class="uploaded-files" id="uploaded_files_${index}"></div>
+                    `;
                 } else {
                     // Text/essay question
                     answerInput = `
@@ -464,9 +585,69 @@
             saveProgress();
         }
 
+        function handleFileUpload(questionIndex, files) {
+            if (!answers[questionIndex]) {
+                answers[questionIndex] = {};
+            }
+            if (!answers[questionIndex].files) {
+                answers[questionIndex].files = [];
+            }
+            
+            Array.from(files).forEach(file => {
+                const fileData = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    lastModified: file.lastModified
+                };
+                answers[questionIndex].files.push(fileData);
+            });
+            
+            displayUploadedFiles(questionIndex);
+            updateProgress();
+            saveProgress();
+        }
+
+        function displayUploadedFiles(questionIndex) {
+            const container = document.getElementById(`uploaded_files_${questionIndex}`);
+            if (!container) return;
+            
+            const files = answers[questionIndex]?.files || [];
+            container.innerHTML = '';
+            
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'uploaded-file';
+                fileItem.innerHTML = `
+                    <iconify-icon icon="material-symbols:description" class="uploaded-file-icon"></iconify-icon>
+                    <span class="uploaded-file-name">${file.name}</span>
+                    <button type="button" class="remove-file" onclick="removeFile(${questionIndex}, '${file.id}')">×</button>
+                `;
+                container.appendChild(fileItem);
+            });
+        }
+
+        function removeFile(questionIndex, fileId) {
+            if (answers[questionIndex] && answers[questionIndex].files) {
+                answers[questionIndex].files = answers[questionIndex].files.filter(file => file.id != fileId);
+                displayUploadedFiles(questionIndex);
+                updateProgress();
+                saveProgress();
+            }
+        }
+
         function updateProgress() {
             const totalQuestions = currentAssignment.questions ? currentAssignment.questions.length : 0;
-            const answeredQuestions = Object.keys(answers).filter(key => answers[key] && answers[key].trim() !== '').length;
+            const answeredQuestions = Object.keys(answers).filter(key => {
+                const answer = answers[key];
+                if (typeof answer === 'string') {
+                    return answer && answer.trim() !== '';
+                } else if (typeof answer === 'object' && answer.files) {
+                    return answer.files && answer.files.length > 0;
+                }
+                return false;
+            }).length;
             
             document.getElementById('answeredCount').textContent = answeredQuestions;
             

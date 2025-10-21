@@ -588,7 +588,7 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <a href="index.html" class="logo">
+            <a href="physics-dashboard.html" class="logo">
                 <img src="images/ig-nation-logo-graduation.png" alt="IG Nation Logo">
                 <span>IG Nation</span>
             </a>
@@ -724,15 +724,115 @@
         let subfolders = [];
         let currentSubfolder = null;
 
+        console.log('=== SCRIPT LOADED ===');
+        console.log('Physics wrong questions assignments script is running');
+
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== PAGE LOADED ===');
+            console.log('DOM Content Loaded event fired');
             loadWrongQuestions();
             loadSubfolders();
             displayContent();
+            console.log('=== PAGE LOAD COMPLETE ===');
         });
 
         function loadWrongQuestions() {
+            console.log('=== LOADING WRONG QUESTIONS ===');
+            // Load assignment wrong questions from localStorage
             const allWrongQuestions = JSON.parse(localStorage.getItem('physicsWrongQuestions')) || [];
             wrongQuestions = allWrongQuestions.filter(q => q.activityType === 'assignments');
+            
+            console.log('All wrong questions:', allWrongQuestions);
+            console.log('Filtered assignment wrong questions:', wrongQuestions);
+            console.log('Number of assignment wrong questions found:', wrongQuestions.length);
+        }
+
+        // Helper function to get student answer
+        function getStudentAnswer(question) {
+            console.log('=== DEBUGGING STUDENT ANSWER ===');
+            console.log('Full question object:', JSON.stringify(question, null, 2));
+            console.log('Available fields:', Object.keys(question));
+            
+            // Check if studentAnswer exists (for text-based answers)
+            if (question.studentAnswer) {
+                console.log('Found studentAnswer:', question.studentAnswer);
+                return question.studentAnswer;
+            }
+            
+            // Check if userAnswer exists and is a valid index for multiple choice
+            if (question.userAnswer !== undefined && question.userAnswer !== null) {
+                console.log('userAnswer found:', question.userAnswer, 'Type:', typeof question.userAnswer);
+                const userAnswerIndex = parseInt(question.userAnswer);
+                console.log('Parsed userAnswerIndex:', userAnswerIndex);
+                if (question.options && question.options.length > 0 && 
+                    userAnswerIndex >= 0 && userAnswerIndex < question.options.length) {
+                    console.log('Found userAnswer index:', userAnswerIndex, 'Options:', question.options);
+                    return question.options[userAnswerIndex];
+                } else {
+                    console.log('userAnswer index out of bounds or no options');
+                }
+            }
+            
+            // Check for other possible field names
+            const possibleAnswerFields = ['selectedAnswer', 'answer', 'studentAnswer', 'userSelection', 'chosenAnswer'];
+            for (const field of possibleAnswerFields) {
+                if (question[field] !== undefined && question[field] !== null) {
+                    console.log(`Found ${field}:`, question[field], 'Type:', typeof question[field]);
+                    const answerIndex = parseInt(question[field]);
+                    if (question.options && question.options.length > 0 && 
+                        answerIndex >= 0 && answerIndex < question.options.length) {
+                        console.log(`Found ${field} index:`, answerIndex, 'Options:', question.options);
+                        return question.options[answerIndex];
+                    }
+                }
+            }
+            
+            console.log('No valid student answer found after checking all fields');
+            return 'No answer provided';
+        }
+
+        // Helper function to get correct answer
+        function getCorrectAnswer(question) {
+            console.log('=== DEBUGGING CORRECT ANSWER ===');
+            console.log('Full question object:', JSON.stringify(question, null, 2));
+            console.log('Available fields:', Object.keys(question));
+            
+            // Check if correctAnswer exists and is a valid index for multiple choice
+            if (question.correctAnswer !== undefined && question.correctAnswer !== null) {
+                console.log('correctAnswer found:', question.correctAnswer, 'Type:', typeof question.correctAnswer);
+                const correctAnswerIndex = parseInt(question.correctAnswer);
+                console.log('Parsed correctAnswerIndex:', correctAnswerIndex);
+                if (question.options && question.options.length > 0 && 
+                    correctAnswerIndex >= 0 && correctAnswerIndex < question.options.length) {
+                    console.log('Found correctAnswer index:', correctAnswerIndex, 'Options:', question.options);
+                    return question.options[correctAnswerIndex];
+                } else {
+                    console.log('correctAnswer index out of bounds or no options');
+                }
+            }
+            
+            // Check if correctAnswerText exists (for text-based answers)
+            if (question.correctAnswerText) {
+                console.log('Found correctAnswerText:', question.correctAnswerText);
+                return question.correctAnswerText;
+            }
+            
+            // Check for other possible field names
+            const possibleCorrectAnswerFields = ['rightAnswer', 'answer', 'correctAnswer', 'solution', 'expectedAnswer'];
+            for (const field of possibleCorrectAnswerFields) {
+                if (question[field] !== undefined && question[field] !== null) {
+                    console.log(`Found ${field}:`, question[field], 'Type:', typeof question[field]);
+                    const answerIndex = parseInt(question[field]);
+                    if (question.options && question.options.length > 0 && 
+                        answerIndex >= 0 && answerIndex < question.options.length) {
+                        console.log(`Found ${field} index:`, answerIndex, 'Options:', question.options);
+                        return question.options[answerIndex];
+                    }
+                }
+            }
+            
+            console.log('No valid correct answer found after checking all fields');
+            return 'Correct answer not provided';
         }
 
         function loadSubfolders() {
@@ -748,6 +848,9 @@
         }
 
         function displayContent() {
+            console.log('=== DISPLAYING CONTENT ===');
+            console.log('Wrong questions length:', wrongQuestions.length);
+            console.log('Wrong questions:', wrongQuestions);
             updateStats();
             displaySubfolders();
             displayQuestions();
@@ -890,7 +993,7 @@
                                     ${question.studentAnswerImage ? `
                                         <img src="${question.studentAnswerImage}" alt="Your Answer" class="answer-image" onclick="openImageModal('${question.studentAnswerImage}', 'Your Answer')">
                                     ` : `
-                                        ${question.studentAnswer || 'No answer provided'}
+                                        ${getStudentAnswer(question)}
                                     `}
                                 </div>
                             </div>
@@ -904,7 +1007,7 @@
                                     ${question.correctAnswerImage ? `
                                         <img src="${question.correctAnswerImage}" alt="Correct Answer" class="answer-image" onclick="openImageModal('${question.correctAnswerImage}', 'Correct Answer')">
                                     ` : `
-                                        ${question.correctAnswer || 'Correct answer not provided'}
+                                        ${getCorrectAnswer(question)}
                                     `}
                                 </div>
                             </div>

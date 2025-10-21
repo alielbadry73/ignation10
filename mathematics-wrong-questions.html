@@ -598,51 +598,154 @@
             loadCustomFolders();
             loadSubfolders();
             loadWrongQuestions();
+            displayFolders();
+            displayQuestions();
             initializeDragAndDrop();
         });
+
+        // Helper function to get student answer
+        function getStudentAnswer(question) {
+            console.log('=== DEBUGGING STUDENT ANSWER ===');
+            console.log('Full question object:', JSON.stringify(question, null, 2));
+            console.log('Available fields:', Object.keys(question));
+            
+            // Check if studentAnswer exists (for text-based answers)
+            if (question.studentAnswer) {
+                console.log('Found studentAnswer:', question.studentAnswer);
+                return question.studentAnswer;
+            }
+            
+            // Check if userAnswer exists and is a valid index for multiple choice
+            if (question.userAnswer !== undefined && question.userAnswer !== null) {
+                console.log('userAnswer found:', question.userAnswer, 'Type:', typeof question.userAnswer);
+                const userAnswerIndex = parseInt(question.userAnswer);
+                console.log('Parsed userAnswerIndex:', userAnswerIndex);
+                if (question.options && question.options.length > 0 && 
+                    userAnswerIndex >= 0 && userAnswerIndex < question.options.length) {
+                    console.log('Found userAnswer index:', userAnswerIndex, 'Options:', question.options);
+                    return question.options[userAnswerIndex];
+                } else {
+                    console.log('userAnswer index out of bounds or no options');
+                }
+            }
+            
+            // Check for other possible field names
+            const possibleAnswerFields = ['selectedAnswer', 'answer', 'studentAnswer', 'userSelection', 'chosenAnswer'];
+            for (const field of possibleAnswerFields) {
+                if (question[field] !== undefined && question[field] !== null) {
+                    console.log(`Found ${field}:`, question[field], 'Type:', typeof question[field]);
+                    const answerIndex = parseInt(question[field]);
+                    if (question.options && question.options.length > 0 && 
+                        answerIndex >= 0 && answerIndex < question.options.length) {
+                        console.log(`Found ${field} index:`, answerIndex, 'Options:', question.options);
+                        return question.options[answerIndex];
+                    }
+                }
+            }
+            
+            console.log('No valid student answer found after checking all fields');
+            return 'No answer provided';
+        }
+
+        // Helper function to get correct answer
+        function getCorrectAnswer(question) {
+            console.log('=== DEBUGGING CORRECT ANSWER ===');
+            console.log('Full question object:', JSON.stringify(question, null, 2));
+            console.log('Available fields:', Object.keys(question));
+            
+            // Check if correctAnswer exists and is a valid index for multiple choice
+            if (question.correctAnswer !== undefined && question.correctAnswer !== null) {
+                console.log('correctAnswer found:', question.correctAnswer, 'Type:', typeof question.correctAnswer);
+                const correctAnswerIndex = parseInt(question.correctAnswer);
+                console.log('Parsed correctAnswerIndex:', correctAnswerIndex);
+                if (question.options && question.options.length > 0 && 
+                    correctAnswerIndex >= 0 && correctAnswerIndex < question.options.length) {
+                    console.log('Found correctAnswer index:', correctAnswerIndex, 'Options:', question.options);
+                    return question.options[correctAnswerIndex];
+                } else {
+                    console.log('correctAnswer index out of bounds or no options');
+                }
+            }
+            
+            // Check if correctAnswerText exists (for text-based answers)
+            if (question.correctAnswerText) {
+                console.log('Found correctAnswerText:', question.correctAnswerText);
+                return question.correctAnswerText;
+            }
+            
+            // Check for other possible field names
+            const possibleCorrectAnswerFields = ['rightAnswer', 'answer', 'correctAnswer', 'solution', 'expectedAnswer'];
+            for (const field of possibleCorrectAnswerFields) {
+                if (question[field] !== undefined && question[field] !== null) {
+                    console.log(`Found ${field}:`, question[field], 'Type:', typeof question[field]);
+                    const answerIndex = parseInt(question[field]);
+                    if (question.options && question.options.length > 0 && 
+                        answerIndex >= 0 && answerIndex < question.options.length) {
+                        console.log(`Found ${field} index:`, answerIndex, 'Options:', question.options);
+                        return question.options[answerIndex];
+                    }
+                }
+            }
+            
+            console.log('No valid correct answer found after checking all fields');
+            return 'Correct answer not provided';
+        }
         
         function loadWrongQuestions() {
-            // Load only mathematics wrong questions
+            console.log('=== LOADING WRONG QUESTIONS ===');
+            // Load all wrong questions from localStorage (including quizzes and exams)
             const allWrongQuestions = JSON.parse(localStorage.getItem('mathematicsWrongQuestions')) || [];
+            // Don't filter out any questions - keep all wrong questions
             wrongQuestions = allWrongQuestions.filter(q => q.subject === 'mathematics');
+            console.log('Loaded all mathematics wrong questions (including quizzes and exams)');
+            console.log('Number of wrong questions found:', wrongQuestions.length);
             
-            // Auto-categorize questions based on activity type (for all question types)
+            // Only set activityType if it's not already set (preserve existing values)
             wrongQuestions.forEach(question => {
-                const assignmentTitle = (question.assignmentTitle || '').toLowerCase();
-                const questionType = (question.questionType || '').toLowerCase();
-                const activityTitle = (question.activityTitle || '').toLowerCase();
-                
-                // Auto-assign activity type based on content - works for all question types
-                if (assignmentTitle.includes('exam') || assignmentTitle.includes('final') || assignmentTitle.includes('midterm') || 
-                    questionType.includes('exam') || activityTitle.includes('exam')) {
-                    question.activityType = 'exams';
-                    question.source = 'exam';
-                } else if (assignmentTitle.includes('quiz') || assignmentTitle.includes('test') || 
-                           questionType.includes('quiz') || activityTitle.includes('quiz')) {
-                    question.activityType = 'quizzes';
-                    question.source = 'quiz';
-                } else if (assignmentTitle.includes('assignment') || assignmentTitle.includes('homework') || 
-                           assignmentTitle.includes('practice') || questionType.includes('assignment') || 
-                           questionType.includes('homework') || activityTitle.includes('assignment')) {
-                    question.activityType = 'assignments';
-                    question.source = 'assignment';
-                } else {
-                    // Default to assignments if no clear indicator
-                    question.activityType = 'assignments';
-                    question.source = 'assignment';
+                if (!question.activityType) {
+                    const assignmentTitle = (question.assignmentTitle || '').toLowerCase();
+                    const questionType = (question.questionType || '').toLowerCase();
+                    const activityTitle = (question.activityTitle || '').toLowerCase();
+                    
+                    // Auto-assign activity type based on content - only if not already set
+                    if (assignmentTitle.includes('exam') || assignmentTitle.includes('final') || assignmentTitle.includes('midterm') || 
+                        questionType.includes('exam') || activityTitle.includes('exam')) {
+                        question.activityType = 'exams';
+                        question.source = 'exam';
+                    } else if (assignmentTitle.includes('quiz') || assignmentTitle.includes('test') || 
+                               questionType.includes('quiz') || activityTitle.includes('quiz')) {
+                        question.activityType = 'quizzes';
+                        question.source = 'quiz';
+                    } else if (assignmentTitle.includes('assignment') || assignmentTitle.includes('homework') || 
+                               assignmentTitle.includes('practice') || questionType.includes('assignment') || 
+                               questionType.includes('homework') || activityTitle.includes('assignment')) {
+                        question.activityType = 'assignments';
+                        question.source = 'assignment';
+                    } else {
+                        // Default to assignments if no clear indicator
+                        question.activityType = 'assignments';
+                        question.source = 'assignment';
+                    }
                 }
             });
             
             // Save updated questions with activity types
             localStorage.setItem('mathematicsWrongQuestions', JSON.stringify(wrongQuestions));
             
-            // Filter out questions that should be in specific activity folders
-            // Only show questions that are not clearly categorized or are in custom folders
-            wrongQuestions = wrongQuestions.filter(q => {
-                // Keep questions that are in custom folders or have no clear activity type
-                // Exclude questions that are marked as being in activity folders
-                return (q.folderId || q.subfolderId || (!q.activityType || q.activityType === 'custom')) && !q.inActivityFolder;
-            });
+            console.log('Before final filter - wrongQuestions length:', wrongQuestions.length);
+            console.log('Before final filter - sample question:', wrongQuestions[0]);
+            
+            // Show all questions by default - don't filter them out
+            // The original filter was too restrictive and removed all questions
+            console.log('Skipping restrictive filter - showing all questions');
+            // wrongQuestions = wrongQuestions.filter(q => {
+            //     const keepQuestion = (q.folderId || q.subfolderId || (!q.activityType || q.activityType === 'custom')) && !q.inActivityFolder;
+            //     console.log('Question', q.id, 'keepQuestion:', keepQuestion, 'folderId:', q.folderId, 'subfolderId:', q.subfolderId, 'activityType:', q.activityType, 'inActivityFolder:', q.inActivityFolder);
+            //     return keepQuestion;
+            // });
+            
+            console.log('After final filter - wrongQuestions length:', wrongQuestions.length);
+            console.log('After final filter - wrongQuestions:', wrongQuestions);
             
             updateStats();
             displayFolders();
@@ -999,11 +1102,6 @@
             // Apply activity type filter
             if (currentFolder) {
                 filteredQuestions = wrongQuestions.filter(q => {
-                    // Check if question has radio button options (multiple choice)
-                    const hasRadioOptions = q.options && q.options.length > 1;
-                    
-                    if (!hasRadioOptions) return false;
-                    
                     // Use auto-assigned activity type for predefined folders
                     if (['exams', 'quizzes', 'assignments'].includes(currentFolder)) {
                         return q.activityType === currentFolder;
@@ -1020,13 +1118,23 @@
             }
             
             if (filteredQuestions.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <iconify-icon icon="material-symbols:search"></iconify-icon>
-                        <h3>No Questions Found</h3>
-                        <p>No wrong questions found for ${currentFolder}.</p>
-                    </div>
-                `;
+                if (!currentFolder) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <iconify-icon icon="material-symbols:folder-open"></iconify-icon>
+                            <h3>Select a Folder</h3>
+                            <p>Choose a folder above to view your wrong questions organized by activity type.</p>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <iconify-icon icon="material-symbols:search"></iconify-icon>
+                            <h3>No Questions Found</h3>
+                            <p>No wrong questions found for ${currentFolder}.</p>
+                        </div>
+                    `;
+                }
                 return;
             }
             
@@ -1057,11 +1165,11 @@
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Your Answer:</span>
-                            <span class="detail-value">${question.studentAnswer || (question.options && question.userAnswer !== undefined ? question.options[question.userAnswer] : 'No answer provided') || 'No answer provided'}</span>
+                            <span class="detail-value">${getStudentAnswer(question)}</span>
                         </div>
                         <div class="detail-row">
                             <span class="detail-label">Correct Answer:</span>
-                            <span class="detail-value">${question.correctAnswer || (question.options && question.correctAnswer !== undefined ? question.options[question.correctAnswer] : 'Correct answer not provided') || 'Correct answer not provided'}</span>
+                            <span class="detail-value">${getCorrectAnswer(question)}</span>
                         </div>
                     </div>
                     

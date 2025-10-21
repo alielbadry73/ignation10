@@ -415,7 +415,7 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <a href="index.html" class="logo">
+            <a href="mathematics-dashboard.html" class="logo">
                 <img src="images/ig-nation-logo-graduation.png" alt="IG Nation Logo">
                 <span>IG Nation</span>
             </a>
@@ -543,8 +543,13 @@
         });
 
         function loadWrongQuestions() {
+            // Load assignment wrong questions from localStorage
             const allWrongQuestions = JSON.parse(localStorage.getItem('mathematicsWrongQuestions')) || [];
             wrongQuestions = allWrongQuestions.filter(q => q.activityType === 'assignments');
+            
+            console.log('All wrong questions:', allWrongQuestions);
+            console.log('Filtered assignment wrong questions:', wrongQuestions);
+            console.log('Number of assignment wrong questions found:', wrongQuestions.length);
         }
 
         function loadSubfolders() {

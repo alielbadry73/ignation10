@@ -953,58 +953,8 @@
         // Load Physics assignments from localStorage (published by teachers)
         let physicsAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
         
-        // Sample data for demonstration (only used if no published assignments exist)
-        const sampleAssignments = [
-            {
-                id: 1,
-                title: "Mechanics Fundamentals",
-                description: "Solve problems related to motion, forces, and energy in mechanical systems.",
-                dueDate: "2025-01-15",
-                points: 50,
-                status: "pending",
-                difficulty: "Medium",
-                estimatedTime: "2 hours",
-                questions: []
-            },
-            {
-                id: 2,
-                title: "Electric Field Analysis",
-                description: "Calculate electric fields and potentials for various charge distributions.",
-                dueDate: "2025-01-20",
-                points: 75,
-                status: "completed",
-                difficulty: "Hard",
-                estimatedTime: "3 hours",
-                questions: []
-            },
-            {
-                id: 3,
-                title: "Wave Properties Lab",
-                description: "Analyze wave characteristics including frequency, wavelength, and amplitude.",
-                dueDate: "2025-01-12",
-                points: 40,
-                status: "overdue",
-                difficulty: "Easy",
-                estimatedTime: "1.5 hours",
-                questions: []
-            },
-            {
-                id: 4,
-                title: "Thermodynamics Problems",
-                description: "Apply laws of thermodynamics to solve heat and energy transfer problems.",
-                dueDate: "2025-01-25",
-                points: 60,
-                status: "pending",
-                difficulty: "Medium",
-                estimatedTime: "2.5 hours",
-                questions: []
-            }
-        ];
-
-        // Use sample data if no published assignments exist
-        if (physicsAssignments.length === 0) {
-            physicsAssignments = sampleAssignments;
-        }
+        // No sample data - only show assignments created by teachers
+        const sampleAssignments = [];
 
         // Question Creator Variables
         let currentAnswerType = 'bullet-points';
@@ -1016,24 +966,108 @@
         let currentAssignmentId = null;
 
         function loadAssignments() {
-            const grid = document.getElementById('assignmentsGrid');
-            const emptyState = document.getElementById('emptyState');
+            try {
+                const grid = document.getElementById('assignmentsGrid');
+                const emptyState = document.getElementById('emptyState');
 
-            // Reload assignments from localStorage to get latest published assessments
-            physicsAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+                // Reload assignments from localStorage to get latest published assessments
+                physicsAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
             
-            // Use sample data if no published assignments exist
-            if (physicsAssignments.length === 0) {
-                physicsAssignments = sampleAssignments;
-            }
+                // Only show assignments created by teachers - no sample data
+                if (physicsAssignments.length === 0) {
+                    grid.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    updateAssignmentStats();
+                    return;
+                }
 
-            if (physicsAssignments.length === 0) {
-                grid.style.display = 'none';
-                emptyState.style.display = 'block';
-                return;
+                // Display teacher-created assignments
+                grid.innerHTML = physicsAssignments.map(assignment => {
+                    // Handle both standard and published assessment formats
+                    const title = assignment.title || assignment.name || 'Untitled Assignment';
+                    const description = assignment.description || assignment.desc || 'No description available';
+                    const dueDate = assignment.dueDate || assignment.deadline || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                    const points = assignment.points || assignment.totalPoints || 100;
+                    const status = assignment.status || 'pending';
+                    const difficulty = assignment.difficulty || 'Medium';
+                    const estimatedTime = assignment.estimatedTime || assignment.timeLimit ? `${assignment.timeLimit} minutes` : 'No time limit';
+                    const questionsCount = assignment.questions ? assignment.questions.length : 0;
+                    
+                    // Check if it's a file-based assessment
+                    const isFileBased = assignment.assessmentType === 'file-based' || assignment.fileBased;
+                    
+                    return `
+                    <div class="assignment-card">
+                        <div class="assignment-header">
+                            <h3 class="assignment-title">${title}</h3>
+                            <span class="assignment-status status-${status}">
+                                ${status.charAt(0).toUpperCase() + status.slice(1)}
+                            </span>
+                            ${isFileBased ? '<span class="file-badge"><iconify-icon icon="material-symbols:upload-file"></iconify-icon> File-Based</span>' : ''}
+                        </div>
+                        
+                        <div class="assignment-meta">
+                            <span><iconify-icon icon="material-symbols:schedule"></iconify-icon> Due: ${new Date(dueDate).toLocaleDateString()}</span>
+                            <span><iconify-icon icon="material-symbols:star"></iconify-icon> ${points} pts</span>
+                            ${!isFileBased ? `<span><iconify-icon icon="material-symbols:quiz"></iconify-icon> ${questionsCount} questions</span>` : ''}
+                        </div>
+                        
+                        <div class="assignment-description">
+                            <p>${description}</p>
+                        </div>
+                        
+                        <div class="assignment-details">
+                            <div class="detail-item">
+                                <iconify-icon icon="material-symbols:trending-up"></iconify-icon>
+                                <span>${difficulty}</span>
+                            </div>
+                            <div class="detail-item">
+                                <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                                <span>${estimatedTime}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="assignment-actions">
+                            <button class="btn btn-primary" onclick="startAssignment('${assignment.id}')">
+                                <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                                Start Assignment
+                            </button>
+                            <button class="btn btn-outline-secondary" onclick="viewAssignmentDetails('${assignment.id}')">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+                }).join('');
+                
+                grid.style.display = 'block';
+                emptyState.style.display = 'none';
+                updateAssignmentStats();
+            } catch (error) {
+                console.error('Error loading assignments:', error);
+                // Set default values on error
+                document.getElementById('totalAssignments').textContent = '0';
+                document.getElementById('pendingAssignments').textContent = '0';
             }
+        }
 
-            grid.innerHTML = physicsAssignments.map(assignment => {
+        function updateAssignmentStats() {
+            try {
+                const totalAssignments = physicsAssignments.length;
+                const pendingAssignments = physicsAssignments.filter(a => a.status === 'pending').length;
+                
+                document.getElementById('totalAssignments').textContent = totalAssignments;
+                document.getElementById('pendingAssignments').textContent = pendingAssignments;
+            } catch (error) {
+                console.error('Error updating assignment stats:', error);
+                // Set default values on error
+                document.getElementById('totalAssignments').textContent = '0';
+                document.getElementById('pendingAssignments').textContent = '0';
+            }
+        }
+
+        // Old function removed - assignments are always empty
                 // Handle both standard and published assessment formats
                 const title = assignment.title || assignment.name || 'Untitled Assignment';
                 const description = assignment.description || assignment.desc || 'No description available';
@@ -1098,14 +1132,27 @@
             }).join('');
             
             updateAssignmentStats();
+            } catch (error) {
+                console.error('Error loading assignments:', error);
+                // Fallback to sample data if there's an error
+                physicsAssignments = sampleAssignments;
+                updateAssignmentStats();
+            }
         }
 
         function updateAssignmentStats() {
-            const totalAssignments = physicsAssignments.length;
-            const pendingAssignments = physicsAssignments.filter(a => a.status === 'pending').length;
-            
-            document.getElementById('totalAssignments').textContent = totalAssignments;
-            document.getElementById('pendingAssignments').textContent = pendingAssignments;
+            try {
+                const totalAssignments = physicsAssignments.length;
+                const pendingAssignments = physicsAssignments.filter(a => a.status === 'pending').length;
+                
+                document.getElementById('totalAssignments').textContent = totalAssignments;
+                document.getElementById('pendingAssignments').textContent = pendingAssignments;
+            } catch (error) {
+                console.error('Error updating assignment stats:', error);
+                // Set default values on error
+                document.getElementById('totalAssignments').textContent = '0';
+                document.getElementById('pendingAssignments').textContent = '0';
+            }
         }
 
         // Question Creator Functions
@@ -1401,6 +1448,7 @@
     </script>
 </body>
 </html>
+
 
 
 

@@ -222,6 +222,68 @@
         .option-item.selected { border-color:#667eea; background:#f0f4ff; }
         .option-radio { margin-right:1rem; }
         .option-text { flex:1; font-size:1rem; }
+        
+        .expected-points {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .expected-points-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.75rem;
+        }
+        
+        .expected-points-list {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+        
+        .expected-points-list li {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #e9ecef;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-hint {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
         .question-navigation { display:flex; justify-content:space-between; align-items:center; }
         .progress-bar { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
         .timer { font-weight:600; color:#667eea; }
@@ -589,178 +651,10 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="js/notifications.js"></script>
     <script>
-        // Load quizzes from localStorage or use default data
-        let quizzes = JSON.parse(localStorage.getItem('studentQuizzes')) || [
-            {
-                id: 1,
-                title: "Basic Algebra Fundamentals",
-                description: "Test your understanding of basic algebraic concepts including variables, equations, and expressions.",
-                category: "algebra",
-                difficulty: "easy",
-                questions: 15,
-                timeLimit: 20,
-                completed: true,
-                score: 92,
-                progress: 100,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 2,
-                title: "Quadratic Equations",
-                description: "Practice solving quadratic equations using various methods including factoring, completing the square, and the quadratic formula.",
-                category: "algebra",
-                difficulty: "medium",
-                questions: 20,
-                timeLimit: 30,
-                completed: true,
-                score: 88,
-                progress: 100,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 3,
-                title: "Geometry Basics",
-                description: "Master the fundamentals of geometry including angles, triangles, circles, and basic proofs.",
-                category: "geometry",
-                difficulty: "easy",
-                questions: 18,
-                timeLimit: 25,
-                completed: true,
-                score: 95,
-                progress: 100,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 4,
-                title: "Trigonometry Introduction",
-                description: "Learn about sine, cosine, tangent, and their applications in right triangles.",
-                category: "geometry",
-                difficulty: "medium",
-                questions: 22,
-                timeLimit: 35,
-                completed: false,
-                score: 0,
-                progress: 0,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 5,
-                title: "Calculus Derivatives",
-                description: "Understand the concept of derivatives and practice finding derivatives of various functions.",
-                category: "calculus",
-                difficulty: "hard",
-                questions: 25,
-                timeLimit: 45,
-                completed: true,
-                score: 78,
-                progress: 100,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 6,
-                title: "Statistics and Probability",
-                description: "Learn about mean, median, mode, standard deviation, and basic probability concepts.",
-                category: "statistics",
-                difficulty: "medium",
-                questions: 20,
-                timeLimit: 30,
-                completed: false,
-                score: 0,
-                progress: 0,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 7,
-                title: "Linear Functions",
-                description: "Practice working with linear functions, slopes, and graphing straight lines.",
-                category: "algebra",
-                difficulty: "easy",
-                questions: 16,
-                timeLimit: 20,
-                completed: true,
-                score: 90,
-                progress: 100,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 8,
-                title: "Circle Theorems",
-                description: "Master the various theorems related to circles and their applications.",
-                category: "geometry",
-                difficulty: "hard",
-                questions: 24,
-                timeLimit: 40,
-                completed: false,
-                score: 0,
-                progress: 0,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 9,
-                title: "Integration Basics",
-                description: "Learn the fundamentals of integration and practice finding antiderivatives.",
-                category: "calculus",
-                difficulty: "hard",
-                questions: 28,
-                timeLimit: 50,
-                completed: true,
-                score: 82,
-                progress: 100,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 10,
-                title: "Data Analysis",
-                description: "Practice analyzing data sets, creating charts, and interpreting statistical information.",
-                category: "statistics",
-                difficulty: "medium",
-                questions: 19,
-                timeLimit: 25,
-                completed: false,
-                score: 0,
-                progress: 0,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 11,
-                title: "Polynomial Functions",
-                description: "Work with polynomial functions, their graphs, and factorization techniques.",
-                category: "algebra",
-                difficulty: "medium",
-                questions: 21,
-                timeLimit: 35,
-                completed: true,
-                score: 85,
-                progress: 100,
-                subject: "mathematics",
-                published: true
-            },
-            {
-                id: 12,
-                title: "Coordinate Geometry",
-                description: "Master coordinate geometry including distance, midpoint, and equation of lines.",
-                category: "geometry",
-                difficulty: "medium",
-                questions: 23,
-                timeLimit: 30,
-                completed: false,
-                score: 0,
-                progress: 0,
-                subject: "mathematics",
-                published: true
-            }
-        ];
+        // Load quizzes from localStorage (published by teachers)
+        let quizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
 
         let currentFilter = 'all';
         let filteredQuizzes = [...quizzes];
@@ -816,11 +710,12 @@
         });
 
         function loadQuizzes() {
-            // Load Mathematics quizzes from localStorage (published by teachers)
-            let mathematicsQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
-            
-            // Sample data for demonstration (only used if no published quizzes exist)
-            const sampleQuizzes = [
+            try {
+                // Load Mathematics quizzes from localStorage (published by teachers)
+                let mathematicsQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
+                
+                // Sample data for demonstration (only used if no published quizzes exist)
+                const sampleQuizzes = [
                 {
                     id: 1,
                     title: "Basic Algebra Fundamentals",
@@ -856,13 +751,13 @@
                 mathematicsQuizzes = sampleQuizzes;
             }
 
-            // Convert published quizzes to the format expected by the page
-            quizzes = mathematicsQuizzes.map(quiz => {
+                // Convert published quizzes to the format expected by the page
+                quizzes = mathematicsQuizzes.map(quiz => {
                 // Handle both standard and published quiz formats
                 const title = quiz.title || quiz.name || 'Untitled Quiz';
                 const description = quiz.description || quiz.desc || 'No description available';
                 const timeLimit = quiz.timeLimit || quiz.duration || 30;
-                const status = quiz.status || (quiz.completed ? 'completed' : 'available');
+                const status = (quiz.status === 'published' || quiz.status === 'pending') ? 'available' : (quiz.status || (quiz.completed ? 'completed' : 'available'));
                 const difficulty = quiz.difficulty || 'Medium';
                 const points = quiz.points || quiz.totalPoints || 30;
                 const questions = quiz.questions ? quiz.questions.length : (quiz.questions || 15);
@@ -969,6 +864,12 @@
             `).join('');
             
             quizGrid.innerHTML = quizzesHtml;
+            } catch (error) {
+                console.error('Error loading quizzes:', error);
+                // Fallback to sample data if there's an error
+                quizzes = sampleQuizzes;
+                updateStats();
+            }
         }
 
         function getDifficultyClass(difficulty) {
@@ -991,19 +892,43 @@
         }
 
         function updateStats() {
-            // Reload quizzes from localStorage to get latest data
-            const mathematicsQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
-            quizzes = mathematicsQuizzes;
+            try {
+                // Reload quizzes from localStorage to get latest data
+                const mathematicsQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
+                quizzes = mathematicsQuizzes;
             
-            const publishedQuizzes = quizzes.filter(quiz => 
-                quiz.published && (quiz.subject === 'mathematics' || quiz.category === 'quiz' || quiz.type === 'quiz')
-            );
+            console.log('=== DEBUGGING QUIZ STATS ===');
+            console.log('All quizzes:', quizzes);
+            console.log('Quiz details:', quizzes.map(q => ({ 
+                id: q.id, 
+                title: q.title, 
+                published: q.published, 
+                status: q.status, 
+                subject: q.subject, 
+                category: q.category, 
+                type: q.type 
+            })));
+            
+            const publishedQuizzes = quizzes.filter(quiz => {
+                const isPublished = quiz.published === true || quiz.status === 'published' || quiz.status === 'pending';
+                const isMathSubject = quiz.subject === 'mathematics' || quiz.category === 'quiz' || quiz.type === 'quiz';
+                console.log(`Quiz "${quiz.title}": published=${isPublished}, mathSubject=${isMathSubject}`);
+                return isPublished && isMathSubject;
+            });
             const totalQuizzes = publishedQuizzes.length;
             const completedQuizzes = publishedQuizzes.filter(q => q.completed).length;
             const pendingQuizzes = totalQuizzes - completedQuizzes;
             
             document.getElementById('totalQuizzes').textContent = totalQuizzes;
+            document.getElementById('completedQuizzes').textContent = completedQuizzes;
             document.getElementById('pendingQuizzes').textContent = pendingQuizzes;
+            } catch (error) {
+                console.error('Error updating stats:', error);
+                // Set default values on error
+                document.getElementById('totalQuizzes').textContent = '0';
+                document.getElementById('completedQuizzes').textContent = '0';
+                document.getElementById('pendingQuizzes').textContent = '0';
+            }
         }
 
         let currentQuiz = null;
@@ -1127,7 +1052,23 @@
             } else if (question.type === 'file') {
                 questionHtml += `
                     <div class="form-group">
-                        <input type="file" class="form-control" id="fileAnswer_${currentQuestionIndex}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        ${question.bulletPoints && question.bulletPoints.length > 0 ? `
+                            <div class="expected-points">
+                                <h5 class="expected-points-title">
+                                    <iconify-icon icon="material-symbols:format-list-bulleted"></iconify-icon>
+                                    Key Points to Include:
+                                </h5>
+                                <ul class="expected-points-list">
+                                    ${question.bulletPoints.map(point => `<li>${point}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        <div class="file-upload-area" onclick="document.getElementById('fileAnswer_${currentQuestionIndex}').click()">
+                            <iconify-icon icon="material-symbols:cloud-upload" class="upload-icon"></iconify-icon>
+                            <div class="upload-text">Click to upload or drag files here</div>
+                            <div class="upload-hint">Supports images, PDFs, and documents</div>
+                        </div>
+                        <input type="file" class="form-control" id="fileAnswer_${currentQuestionIndex}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display: none;">
                         <small class="text-muted">${question.fileRequirements || 'Upload your file here'}</small>
                     </div>
                 `;
@@ -1370,6 +1311,10 @@
                 quizzes[quizIndex].completedAt = new Date().toISOString();
                 quizzes[quizIndex].answers = userAnswers;
                 quizzes[quizIndex].studentId = 'student_001'; // Default student ID for now
+                
+                // Save updated quiz to localStorage
+                localStorage.setItem('mathematicsQuizzes', JSON.stringify(quizzes));
+                console.log('Quiz status updated and saved to localStorage:', quizzes[quizIndex]);
                 // Save to localStorage - update the full quizzes array, not just the filtered quizzes
                 const allQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
                 const globalQuizIndex = allQuizzes.findIndex(q => q.id === currentQuiz.id);

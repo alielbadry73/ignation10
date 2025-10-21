@@ -446,9 +446,42 @@
         });
         
         function loadWrongQuestions() {
-            // Load only english wrong questions
+            // Load all wrong questions from localStorage (including quizzes and exams)
             const allWrongQuestions = JSON.parse(localStorage.getItem('englishWrongQuestions')) || [];
+            // Don't filter out any questions - keep all wrong questions
             wrongQuestions = allWrongQuestions.filter(q => q.subject === 'english');
+            
+            // Only set activityType if it's not already set (preserve existing values)
+            wrongQuestions.forEach(question => {
+                if (!question.activityType) {
+                    const assignmentTitle = (question.assignmentTitle || '').toLowerCase();
+                    const questionType = (question.questionType || '').toLowerCase();
+                    const activityTitle = (question.activityTitle || '').toLowerCase();
+                    
+                    // Auto-assign activity type based on content - only if not already set
+                    if (assignmentTitle.includes('exam') || assignmentTitle.includes('final') || assignmentTitle.includes('midterm') || 
+                        questionType.includes('exam') || activityTitle.includes('exam')) {
+                        question.activityType = 'exams';
+                        question.source = 'exam';
+                    } else if (assignmentTitle.includes('quiz') || assignmentTitle.includes('test') || 
+                               questionType.includes('quiz') || activityTitle.includes('quiz')) {
+                        question.activityType = 'quizzes';
+                        question.source = 'quiz';
+                    } else if (assignmentTitle.includes('assignment') || assignmentTitle.includes('homework') || 
+                               assignmentTitle.includes('practice') || questionType.includes('assignment') || 
+                               questionType.includes('homework') || activityTitle.includes('assignment')) {
+                        question.activityType = 'assignments';
+                        question.source = 'assignment';
+                    } else {
+                        // Default to assignments if no clear indicator
+                        question.activityType = 'assignments';
+                        question.source = 'assignment';
+                    }
+                }
+            });
+            
+            // Save updated questions with activity types
+            localStorage.setItem('englishWrongQuestions', JSON.stringify(wrongQuestions));
             
             updateStats();
             displayFolders();
@@ -529,28 +562,28 @@
             
             let foldersHtml = '';
             
-            // Add predefined chapter folders (ch1, ch2, ch3)
-            const predefinedChapters = ['ch1', 'ch2', 'ch3'];
-            predefinedChapters.forEach(chapterId => {
-                const chapterName = chapterId.toUpperCase();
-                const count = wrongQuestions.filter(q => {
-                    if (q.folderId === chapterId) return true;
-                    if (!q.folderId && q.chapter) {
-                        const chapterLower = q.chapter.toLowerCase();
-                        return chapterLower.includes(chapterId) || 
-                               chapterLower.includes(chapterName.toLowerCase()) ||
-                               chapterLower === chapterName.toLowerCase();
-                    }
-                    return false;
+            // Add predefined activity type folders (Exams, Quizzes, Assignments)
+            const activityTypes = [
+                { id: 'exams', name: 'Exams', icon: 'material-symbols:quiz' },
+                { id: 'quizzes', name: 'Quizzes', icon: 'material-symbols:quiz' },
+                { id: 'assignments', name: 'Assignments', icon: 'material-symbols:assignment' }
+            ];
+            
+            activityTypes.forEach(activityType => {
+                // Get all questions (not just filtered ones) to count properly
+                const allQuestions = JSON.parse(localStorage.getItem('englishWrongQuestions')) || [];
+                const count = allQuestions.filter(q => {
+                    // Use auto-assigned activity type or fallback to manual categorization
+                    return q.activityType === activityType.id || q.source === activityType.id.slice(0, -1);
                 }).length;
                 
                 foldersHtml += `
-                    <div class="folder-item" onclick="openFolder('${chapterId}', '${chapterName}')">
+                    <div class="folder-item" onclick="openFolder('${activityType.id}', '${activityType.name}')">
                         <div class="folder-icon">
-                            <iconify-icon icon="material-symbols:folder"></iconify-icon>
+                            <iconify-icon icon="${activityType.icon}"></iconify-icon>
                         </div>
                         <div class="folder-content">
-                            <h4 class="folder-name">${chapterName}</h4>
+                            <h4 class="folder-name">${activityType.name}</h4>
                             <p class="folder-count">${count} question${count !== 1 ? 's' : ''}</p>
                         </div>
                     </div>
@@ -655,19 +688,37 @@
             
             let filteredQuestions = wrongQuestions;
             
-            // Apply chapter filter
+            // Apply activity type filter
             if (currentFolder) {
-                filteredQuestions = wrongQuestions.filter(q => q.chapter === currentFolder);
+                filteredQuestions = wrongQuestions.filter(q => {
+                    // Use auto-assigned activity type for predefined folders
+                    if (['exams', 'quizzes', 'assignments'].includes(currentFolder)) {
+                        return q.activityType === currentFolder;
+                    }
+                    
+                    // Check custom folders
+                    return q.folderId === currentFolder;
+                });
             }
             
             if (filteredQuestions.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <iconify-icon icon="material-symbols:search"></iconify-icon>
-                        <h3>No Questions Found</h3>
-                        <p>No wrong questions found for ${currentFolder}.</p>
-                    </div>
-                `;
+                if (!currentFolder) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <iconify-icon icon="material-symbols:folder-open"></iconify-icon>
+                            <h3>Select a Folder</h3>
+                            <p>Choose a folder above to view your wrong questions organized by activity type.</p>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <iconify-icon icon="material-symbols:search"></iconify-icon>
+                            <h3>No Questions Found</h3>
+                            <p>No wrong questions found for ${currentFolder}.</p>
+                        </div>
+                    `;
+                }
                 return;
             }
             

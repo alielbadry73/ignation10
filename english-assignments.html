@@ -447,10 +447,11 @@
     <script src="js/notifications.js"></script>
     <script>
         // Load English assignments from localStorage (published by teachers)
+        // Load English assignments from localStorage (published by teachers)
         let englishAssignments = JSON.parse(localStorage.getItem('englishAssignments') || '[]');
         
-        // Sample data for demonstration (only used if no published assignments exist)
-        const sampleAssignments = [
+        // No sample data - only show assignments created by teachers
+        const sampleAssignments = [];
             {
                 id: 1,
                 title: "Creative Writing: Short Story",
@@ -505,10 +506,8 @@
             // Reload assignments from localStorage to get latest published assessments
             englishAssignments = JSON.parse(localStorage.getItem('englishAssignments') || '[]');
             
-            // Use sample data if no published assignments exist
-            if (englishAssignments.length === 0) {
-                englishAssignments = sampleAssignments;
-            }
+            // Only show assignments created by teachers - no sample data
+            // englishAssignments will contain teacher-created assignments or be empty
 
             if (englishAssignments.length === 0) {
                 grid.style.display = 'none';
@@ -599,6 +598,9 @@
     </script>
 </body>
 </html>
+
+
+
 
 
 

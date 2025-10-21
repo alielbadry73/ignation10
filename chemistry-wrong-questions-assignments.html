@@ -415,7 +415,7 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <a href="index.html" class="logo">
+            <a href="chemistry-dashboard.html" class="logo">
                 <img src="images/ig-nation-logo-graduation.png" alt="IG Nation Logo">
                 <span>IG Nation</span>
             </a>
@@ -543,8 +543,18 @@
         });
 
         function loadWrongQuestions() {
+            // Clear all assignment wrong questions from localStorage
             const allWrongQuestions = JSON.parse(localStorage.getItem('chemistryWrongQuestions')) || [];
-            wrongQuestions = allWrongQuestions.filter(q => q.activityType === 'assignments');
+            const filteredQuestions = allWrongQuestions.filter(q => q.activityType !== 'assignments');
+            localStorage.setItem('chemistryWrongQuestions', JSON.stringify(filteredQuestions));
+            
+            // Also clear all assignment data from localStorage
+            localStorage.removeItem('chemistryAssignments');
+            localStorage.removeItem('chemistryTeacherAssignments');
+            localStorage.removeItem('chemistryAssignmentsList');
+            localStorage.removeItem('chemistrySubmissions_assignment');
+            
+            wrongQuestions = [];
         }
 
         function loadSubfolders() {

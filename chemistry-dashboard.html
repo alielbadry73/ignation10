@@ -174,10 +174,19 @@
 
         .dashboard-nav .nav-link:hover,
         .dashboard-nav .nav-link.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
             color: white;
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .dashboard-nav .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .dashboard-nav .nav-link:active {
+            transform: scale(0.95) translateY(-1px);
         }
 
         .welcome-section {
@@ -624,16 +633,57 @@
             margin-bottom: 1rem;
         }
 
+        .add-todo-form .form-control {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .add-todo-form .form-control:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 0.2rem rgba(139, 92, 246, 0.25);
+        }
+
+        .add-todo-form .btn {
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive adjustments for todo form */
+        @media (max-width: 768px) {
+            .add-todo-form .row {
+                margin: 0;
+            }
+            .add-todo-form .col-6,
+            .add-todo-form .col-12 {
+                padding: 0.25rem;
+            }
+        }
+
         .form-control {
             border: 2px solid rgba(102, 126, 234, 0.2);
             border-radius: 10px;
             padding: 0.75rem;
             transition: all 0.3s ease;
+            color: #1e293b !important;
+            background-color: #ffffff !important;
         }
 
         .form-control:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        
+        .form-control::placeholder {
+            color: #64748b !important;
+            opacity: 1;
+        }
+        
+        .form-control option {
+            color: #1e293b !important;
+            background-color: #ffffff !important;
         }
 
         .btn-primary {
@@ -1178,13 +1228,13 @@
                                 <a class="nav-link active" href="#progress">Progress</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#deadlines">Deadlines</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#flashcards">Flashcards</a>
+                                <a class="nav-link" href="#schedule">Schedule</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="#leaderboard">Leaderboard</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#flashcards">Flashcards</a>
                             </li>
                         </ul>
                     </div>
@@ -1421,7 +1471,7 @@
             </div>
 
             <!-- New Two-Column Layout: Schedule (Left) and Deadlines (Right) -->
-            <div class="row mb-5">
+            <div id="schedule" class="row mb-5">
                 <!-- Left Column - Schedule (50% width) -->
                 <div class="col-md-6 mb-4">
                     <div class="dashboard-card animate-on-scroll-left animate-delay-1" style="height: 100%;">
@@ -1549,7 +1599,7 @@
             </div>
 
             <!-- Bottom Row: Leaderboard (Left) and Wrong/Tricky Questions (Right) -->
-            <div class="row mb-5">
+            <div id="leaderboard" class="row mb-5">
                 <!-- Left Column - Leaderboard (50% width) -->
                 <div class="col-md-6 mb-4">
                             <div class="dashboard-card animate-on-scroll-left animate-delay-2">
@@ -1658,7 +1708,7 @@
             </div>
 
             <!-- Daily Practice and Flashcards Section -->
-            <div class="row mb-5">
+            <div id="flashcards" class="row mb-5">
                 <!-- Daily Practice Section (50% width) -->
                 <div class="col-md-6 mb-4">
                     <div class="dashboard-card animate-on-scroll" style="height: 100%; display: flex; flex-direction: column;">
@@ -1805,7 +1855,7 @@
                         <!-- Quick Access Buttons -->
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <button onclick="window.location.href='flashcards.html'" style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                                <button onclick="window.location.href='chemistry-flashcards.html'" style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
                                     <iconify-icon icon="material-symbols:style" style="font-size: 1.5rem;"></iconify-icon>
                                     Browse All Flashcards
                                 </button>
@@ -1888,6 +1938,13 @@
             }
             
             const todoList = document.getElementById('todoList');
+            
+            // Clear any "no tasks" message if it exists
+            const noTasksMessage = todoList.querySelector('div[style*="text-align: center"]');
+            if (noTasksMessage) {
+                noTasksMessage.remove();
+            }
+            
             const newTodo = document.createElement('div');
             newTodo.className = `todo-item ${priority}-priority`;
             newTodo.onclick = () => toggleTodo(newTodo);
@@ -1950,13 +2007,13 @@
                 });
             });
             
-            localStorage.setItem('mathematicsTodoList', JSON.stringify(todoData));
+            localStorage.setItem('chemistryTodoList', JSON.stringify(todoData));
         }
 
         // Load todos from localStorage
         function loadTodosFromLocalStorage() {
             const todoList = document.getElementById('todoList');
-            const savedTodos = localStorage.getItem('mathematicsTodoList');
+            const savedTodos = localStorage.getItem('chemistryTodoList');
             
             // Always clear the sample tasks first
             todoList.innerHTML = '';
@@ -2087,15 +2144,18 @@
         }
         
         function viewAllTodoLists() {
-            // Ensure course is saved before navigating
-            localStorage.setItem('lastViewedCourse', 'mathematics');
-            window.location.href = 'todolists.html';
+            // Navigate to course-specific todo lists page
+            window.location.href = 'chemistry-todolists.html';
+        }
+        
+        function clearTodoList() {
+            clearAllTodos();
         }
         
         function clearAllTodos() {
             if (confirm('⚠️ Are you sure you want to clear ALL tasks?\n\nThis will remove all tasks from your current to-do list. This action cannot be undone!')) {
                 // Save empty array to localStorage
-                localStorage.setItem('mathematicsTodoList', JSON.stringify([]));
+                localStorage.setItem('chemistryTodoList', JSON.stringify([]));
                 
                 // Reload the display
                 loadTodosFromLocalStorage();
@@ -3617,9 +3677,21 @@
         function scrollToSection(sectionId) {
             const element = document.getElementById(sectionId);
             if (element) {
-                element.scrollIntoView({
+                // Add a subtle highlight effect to the target section
+                element.style.transition = 'all 0.3s ease';
+                element.style.boxShadow = '0 0 20px rgba(139, 92, 246, 0.3)';
+                
+                // Smooth scroll to the element with offset for better positioning
+                const elementPosition = element.offsetTop - 100; // 100px offset from top
+                window.scrollTo({
+                    top: elementPosition,
                     behavior: 'smooth'
                 });
+                
+                // Remove highlight effect after animation
+                setTimeout(() => {
+                    element.style.boxShadow = '';
+                }, 1000);
             }
         }
 
@@ -3627,6 +3699,14 @@
         document.querySelectorAll('.dashboard-nav .nav-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
+                
+                // Add click animation effect
+                this.style.transform = 'scale(0.95)';
+                this.style.transition = 'transform 0.1s ease';
+                
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
                 
                 // Remove active class from all links
                 document.querySelectorAll('.dashboard-nav .nav-link').forEach(l => l.classList.remove('active'));
@@ -3736,21 +3816,21 @@
         <div class="todo-panel-content">
             <!-- Add Todo Form -->
             <div class="add-todo-form">
-                <div class="row">
-                    <div class="col-md-6 mb-2">
-                        <input type="text" class="form-control" id="newTodoInput" placeholder="Add a new task...">
+                <div class="row g-2">
+                    <div class="col-12 mb-2">
+                        <input type="text" class="form-control" id="newTodoInput" placeholder="Enter your new task here..." style="width: 100%;">
                     </div>
-                    <div class="col-md-3 mb-2">
-                        <select class="form-control" id="prioritySelect">
+                    <div class="col-8 mb-2">
+                        <select class="form-control" id="prioritySelect" style="width: 100%;">
                             <option value="low">Low Priority</option>
                             <option value="medium">Medium Priority</option>
                             <option value="high">High Priority</option>
                         </select>
                     </div>
-                    <div class="col-md-3 mb-2">
-                        <button class="btn btn-primary w-100" onclick="addTodo()">
+                    <div class="col-4 mb-2">
+                        <button class="btn btn-primary w-100" onclick="addTodo()" style="padding: 0.75rem 0.5rem; font-weight: 600; white-space: nowrap; font-size: 0.85rem;">
                             <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
-                            Add Task
+                            Add
                         </button>
                     </div>
                 </div>
@@ -3759,6 +3839,28 @@
             <!-- Todo List -->
             <div id="todoList" class="mt-4">
                 <!-- Todo items will be dynamically added here -->
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="row mt-4">
+                <div class="col-md-6 mb-2">
+                    <button class="btn btn-success w-100" onclick="saveTodoList()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:save" class="me-1"></iconify-icon>
+                        Save List
+                    </button>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <button class="btn btn-danger w-100" onclick="clearTodoList()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:clear-all" class="me-1"></iconify-icon>
+                        Clear List
+                    </button>
+                </div>
+                <div class="col-12 mb-2">
+                    <button class="btn btn-outline-primary w-100" onclick="viewAllTodoLists()" style="padding: 0.75rem 1rem; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:list" class="me-1"></iconify-icon>
+                        View All Todo Lists
+                    </button>
+                </div>
             </div>
         </div>
     </div>

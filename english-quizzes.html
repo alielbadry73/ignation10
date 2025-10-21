@@ -376,10 +376,11 @@
     <script src="js/notifications.js"></script>
     <script>
         // Load English quizzes from localStorage (published by teachers)
+        // Load English quizzes from localStorage (published by teachers)
         let englishQuizzes = JSON.parse(localStorage.getItem('englishQuizzes') || '[]');
         
-        // Sample data for demonstration (only used if no published quizzes exist)
-        const sampleQuizzes = [
+        // No sample data - only show quizzes created by teachers
+        const sampleQuizzes = [];
             {
                 id: 1,
                 title: "Grammar Fundamentals",
@@ -430,10 +431,8 @@
             // Reload quizzes from localStorage to get latest published quizzes
             englishQuizzes = JSON.parse(localStorage.getItem('englishQuizzes') || '[]');
             
-            // Use sample data if no published quizzes exist
-            if (englishQuizzes.length === 0) {
-                englishQuizzes = sampleQuizzes;
-            }
+            // Only show quizzes created by teachers - no sample data
+            // englishQuizzes will contain teacher-created quizzes or be empty
 
             if (englishQuizzes.length === 0) {
                 grid.style.display = 'none';
@@ -447,7 +446,7 @@
                 const title = quiz.title || quiz.name || 'Untitled Quiz';
                 const description = quiz.description || quiz.desc || 'No description available';
                 const timeLimit = quiz.timeLimit || quiz.duration || 30;
-                const status = quiz.status || 'available';
+                const status = (quiz.status === 'published' || quiz.status === 'pending') ? 'available' : (quiz.status || 'available');
                 const difficulty = quiz.difficulty || 'Medium';
                 const points = quiz.points || quiz.totalPoints || 30;
                 const questions = quiz.questions ? quiz.questions.length : (quiz.questions || 20);
@@ -567,6 +566,10 @@
     </script>
 </body>
 </html>
+
+
+
+
 
 
 

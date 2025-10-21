@@ -198,6 +198,35 @@
             color: #667eea;
         }
         
+        .expected-points {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .expected-points-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.75rem;
+        }
+        
+        .expected-points-list {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+        
+        .expected-points-list li {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
         .file-name {
             font-weight: 600;
             color: #333;
@@ -242,6 +271,11 @@
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
             outline: none;
+        }
+        
+        .text-answer::placeholder {
+            color: #999;
+            opacity: 1;
         }
         
         .file-upload-area {
@@ -758,6 +792,17 @@
                             `).join('')}
                         </div>
                     ` : ''}
+                    ${question.bulletPoints && question.bulletPoints.length > 0 ? `
+                        <div class="expected-points">
+                            <h4 class="expected-points-title">
+                                <iconify-icon icon="material-symbols:format-list-bulleted"></iconify-icon>
+                                Key Points to Include:
+                            </h4>
+                            <ul class="expected-points-list">
+                                ${question.bulletPoints.map(point => `<li>${point}</li>`).join('')}
+                            </ul>
+                        </div>
+                    ` : ''}
                 </div>
                 
                 <div class="answer-section">
@@ -1076,6 +1121,8 @@
     </script>
 </body>
 </html>
+
+
 
 
 

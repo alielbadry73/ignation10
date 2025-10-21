@@ -288,17 +288,30 @@
         }
         
         .question-card {
-            background: #f8f9fa;
-            border-radius: 8px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-radius: 12px;
             padding: 1.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             border: 1px solid #e9ecef;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
         
         .question-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
             border-color: #667eea;
         }
         
@@ -415,7 +428,7 @@
 <body>
     <header class="header">
         <div class="header-content">
-            <a href="index.html" class="logo">
+            <a href="mathematics-dashboard.html" class="logo">
                 <img src="images/ig-nation-logo-graduation.png" alt="IG Nation Logo">
                 <span>IG Nation</span>
             </a>
@@ -543,8 +556,19 @@
         });
 
         function loadWrongQuestions() {
+            // Clear all quiz wrong questions from localStorage
             const allWrongQuestions = JSON.parse(localStorage.getItem('mathematicsWrongQuestions')) || [];
+            console.log('All wrong questions:', allWrongQuestions);
+            
+            // Filter to show only quiz wrong questions
             wrongQuestions = allWrongQuestions.filter(q => q.activityType === 'quizzes');
+            console.log('Filtered quiz wrong questions:', wrongQuestions);
+            
+            // Don't clear actual quiz data - only clear wrong questions data
+            // localStorage.removeItem('mathematicsQuizzes'); // REMOVED - don't clear actual quizzes
+            // localStorage.removeItem('mathematicsTeacherQuizzes'); // REMOVED - don't clear actual quizzes
+            // localStorage.removeItem('mathematicsQuizzesList'); // REMOVED - don't clear actual quizzes
+            // localStorage.removeItem('mathematicsSubmissions_quiz'); // REMOVED - don't clear submissions
         }
 
         function loadSubfolders() {

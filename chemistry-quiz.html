@@ -203,6 +203,78 @@
             line-height: 1.6;
         }
         
+        /* Question Modal Styles */
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .question-header h5 {
+            margin: 0;
+            color: #8e44ad;
+            font-weight: 600;
+        }
+
+        .question-points {
+            background: linear-gradient(135deg, #8e44ad 0%, #9b59b6 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .question-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .form-check {
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-check:hover {
+            background: #f8f9fa;
+            border-color: #8e44ad;
+        }
+
+        .form-check-input:checked + .form-check-label {
+            color: #8e44ad;
+            font-weight: 600;
+        }
+
+        .timer {
+            font-weight: 600;
+            color: #8e44ad;
+        }
+
+        .question-navigation {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .question-navigation .btn {
+            min-width: 120px;
+        }
+        
         .quiz-progress {
             background: #f8f9fa;
             border-radius: 8px;
@@ -417,6 +489,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="js/notifications.js"></script>
     <script>
         // Sample chemistry quiz data
         const quizzes = [
@@ -704,6 +777,291 @@
                 alert('All quizzes have been deleted!');
             }
         }
+
+        // Quiz-taking functionality
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let startTime = null;
+        let timeLimit = null; // in minutes
+        let timeRemaining = null; // in seconds
+
+        function startQuiz(quizId) {
+            const quiz = quizzes.find(q => q.id === quizId);
+            if (!quiz) {
+                alert('Quiz not found!');
+                return;
+            }
+
+            if (confirm(`Start "${quiz.title}"?\n\nDuration: ${quiz.timeLimit} minutes\nQuestions: ${quiz.questions ? quiz.questions.length : 0}\nMax Score: ${quiz.maxScore} points\n\nYou cannot pause once started.`)) {
+                currentQuiz = quiz;
+                currentQuestionIndex = 0;
+                userAnswers = {};
+                startTime = new Date();
+                timeLimit = quiz.timeLimit; // in minutes
+
+                // Set modal title
+                document.getElementById('questionModalTitle').textContent = quiz.title;
+
+                // Setup timer display
+                if (timeLimit) {
+                    timeRemaining = timeLimit * 60; // convert to seconds
+                    document.getElementById('timeLimitInfo').style.display = 'inline';
+                    document.getElementById('timeLimit').textContent = timeLimit;
+                    document.getElementById('timeProgress').style.display = 'block';
+                    updateTimeProgress();
+                } else {
+                    document.getElementById('timeLimitInfo').style.display = 'none';
+                    document.getElementById('timeProgress').style.display = 'none';
+                }
+
+                // Load questions
+                loadQuestions();
+
+                // Start timer
+                startTimer();
+
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('questionModal'));
+                modal.show();
+            }
+        }
+
+        function loadQuestions() {
+            if (!currentQuiz || !currentQuiz.questions) return;
+
+            const totalQuestions = currentQuiz.questions.length;
+            document.getElementById('totalQuestions').textContent = totalQuestions;
+            document.getElementById('currentQuestionNum').textContent = currentQuestionIndex + 1;
+
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').style.display = currentQuestionIndex < totalQuestions - 1 ? 'inline-block' : 'none';
+            document.getElementById('submitBtn').style.display = currentQuestionIndex === totalQuestions - 1 ? 'inline-block' : 'none';
+
+            // Load current question
+            loadCurrentQuestion();
+        }
+
+        function loadCurrentQuestion() {
+            if (!currentQuiz || !currentQuiz.questions || !currentQuiz.questions[currentQuestionIndex]) return;
+
+            const question = currentQuiz.questions[currentQuestionIndex];
+            const container = document.getElementById('questionContainer');
+            
+            let questionHtml = `
+                <div class="question-card">
+                    <div class="question-header">
+                        <h5>Question ${currentQuestionIndex + 1}</h5>
+                        <span class="question-points">${question.points || 1} point${(question.points || 1) > 1 ? 's' : ''}</span>
+                    </div>
+                    <div class="question-content">
+                        <p>${question.questionText || question.text || 'No question text available'}</p>
+            `;
+
+            // Handle different question types
+            if (question.type === 'multiple-choice' && question.options) {
+                question.options.forEach((option, index) => {
+                    const isSelected = userAnswers[currentQuestionIndex] === index ? 'checked' : '';
+                    questionHtml += `
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="answer_${currentQuestionIndex}" id="option_${currentQuestionIndex}_${index}" value="${index}" ${isSelected} onchange="selectAnswer(${index})">
+                            <label class="form-check-label" for="option_${currentQuestionIndex}_${index}">
+                                ${option}
+                            </label>
+                        </div>
+                    `;
+                });
+            } else if (question.type === 'file-upload' || question.type === 'file-based') {
+                const allowedTypes = question.fileUploadSettings ? question.fileUploadSettings.allowedTypes.join(',') : 'pdf,doc,docx,jpg,jpeg,png';
+                const maxSize = question.fileUploadSettings ? question.fileUploadSettings.maxSize : 10;
+                questionHtml += `
+                    <div class="form-group">
+                        <input type="file" class="form-control" id="fileAnswer_${currentQuestionIndex}" accept=".${allowedTypes.replace(/,/g, ',.')}" onchange="handleFileUpload(this, ${maxSize})">
+                        <small class="text-muted">Allowed formats: ${allowedTypes.toUpperCase()} | Max size: ${maxSize}MB</small>
+                    </div>
+                `;
+            } else {
+                // Text/essay question
+                questionHtml += `
+                    <textarea class="form-control" id="textAnswer_${currentQuestionIndex}" rows="4" placeholder="Enter your answer here...">${userAnswers[currentQuestionIndex] || ''}</textarea>
+                `;
+            }
+
+            questionHtml += `
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = questionHtml;
+        }
+
+        function selectAnswer(answerIndex) {
+            userAnswers[currentQuestionIndex] = answerIndex;
+        }
+
+        function handleFileUpload(input, maxSize) {
+            const file = input.files[0];
+            if (file) {
+                if (file.size > maxSize * 1024 * 1024) {
+                    alert(`File size must be less than ${maxSize}MB`);
+                    input.value = '';
+                    return;
+                }
+                userAnswers[currentQuestionIndex] = file.name;
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestions();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < currentQuiz.questions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestions();
+            }
+        }
+
+        function submitQuiz() {
+            if (confirm('Are you sure you want to submit your quiz? You cannot change your answers after submission.')) {
+                // Calculate score
+                let score = 0;
+                let totalPoints = 0;
+                let hasManualGradingQuestions = false;
+
+                currentQuiz.questions.forEach((question, index) => {
+                    totalPoints += question.points || 1;
+                    
+                    if (question.type === 'multiple-choice') {
+                        if (userAnswers[index] === question.correctAnswer) {
+                            score += question.points || 1;
+                        }
+                    } else if (question.type === 'text' || question.type === 'essay' || question.type === 'file' || question.type === 'file-upload' || question.type === 'file-based') {
+                        hasManualGradingQuestions = true;
+                    }
+                });
+
+                const percentage = Math.round((score / totalPoints) * 100);
+                const timeSpent = Math.floor((new Date() - startTime) / 60000); // in minutes
+
+                // Update quiz status
+                const quizIndex = quizzes.findIndex(q => q.id === currentQuiz.id);
+                if (quizIndex !== -1) {
+                    quizzes[quizIndex].status = 'completed';
+                    quizzes[quizIndex].score = percentage;
+                    quizzes[quizIndex].completedDate = new Date().toISOString();
+                    quizzes[quizIndex].timeSpent = timeSpent;
+                    quizzes[quizIndex].userAnswers = userAnswers;
+                }
+
+                // Save to localStorage
+                localStorage.setItem('studentQuizzes', JSON.stringify(quizzes));
+
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('questionModal'));
+                modal.hide();
+
+                // Show results
+                let resultMessage = `Quiz completed!\n\nYour Score: ${percentage}%\nTime Spent: ${timeSpent} minutes\nQuestions Answered: ${Object.keys(userAnswers).length}/${currentQuiz.questions.length}`;
+                
+                if (hasManualGradingQuestions) {
+                    resultMessage += '\n\nNote: Some questions require manual grading. Your final score may be updated after review.';
+                }
+
+                alert(resultMessage);
+
+                // Reload quizzes
+                loadQuizzes();
+                updateStats();
+            }
+        }
+
+        function startTimer() {
+            if (!timeLimit) return;
+
+            const timerInterval = setInterval(() => {
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Time is up! Your quiz will be submitted automatically.');
+                    submitQuiz();
+                    return;
+                }
+
+                timeRemaining--;
+                updateTimerDisplay();
+                updateTimeProgress();
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('timer').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function updateTimeProgress() {
+            if (!timeLimit) return;
+            const progress = (timeRemaining / (timeLimit * 60)) * 100;
+            document.getElementById('timeProgressBar').style.width = progress + '%';
+        }
     </script>
+
+    <!-- Question Viewing Modal -->
+    <div class="modal fade" id="questionModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionModalTitle">Quiz Questions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="question-progress mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">0</span></span>
+                            <div class="timer-container">
+                                <span class="text-muted">Time: <span id="timer" class="timer">00:00</span></span>
+                                <span id="timeLimitInfo" class="text-muted ms-2" style="display: none;">/ <span id="timeLimit">60</span> min</span>
+                            </div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                        </div>
+                        <div id="timeProgress" class="mt-2" style="display: none;">
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-warning" id="timeProgressBar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="questionContainer">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                    
+                    <div class="question-navigation mt-4">
+                        <button class="btn btn-outline-secondary" id="prevBtn" onclick="previousQuestion()" disabled>
+                            <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                            Previous
+                        </button>
+                        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
+                            Next
+                            <iconify-icon icon="material-symbols:arrow-forward"></iconify-icon>
+                        </button>
+                        <button class="btn btn-success" id="submitBtn" onclick="submitQuiz()" style="display: none;">
+                            <iconify-icon icon="material-symbols:check"></iconify-icon>
+                            Submit Quiz
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

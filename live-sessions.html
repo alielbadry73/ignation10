@@ -139,10 +139,6 @@
             color: #1e40af;
         }
         
-        .status-recorded {
-            background: #d1fae5;
-            color: #059669;
-        }
         
         @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -305,7 +301,6 @@
         <div class="sessions-tabs">
             <button class="tab-btn active" onclick="switchTab('live')">Live Now</button>
             <button class="tab-btn" onclick="switchTab('upcoming')">Upcoming</button>
-            <button class="tab-btn" onclick="switchTab('recorded')">Recordings</button>
         </div>
         
         <div id="live-sessions" class="sessions-grid">
@@ -423,73 +418,6 @@
             </div>
         </div>
         
-        <div id="recorded-sessions" class="sessions-grid" style="display: none;">
-            <!-- Recorded Session 1 -->
-            <div class="session-card">
-                <span class="session-status status-recorded">📼 RECORDED</span>
-                <h3 class="session-title">Trigonometry Fundamentals</h3>
-                <div class="session-instructor">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Dr. Sarah Johnson</span>
-                </div>
-                <div class="session-date">
-                    <i class="bi bi-calendar"></i>
-                    <span>Recorded on Oct 7, 2025</span>
-                </div>
-                <p class="session-description">
-                    Complete overview of trigonometric functions, identities, and applications.
-                </p>
-                <div class="session-stats">
-                    <div class="stat-item">
-                        <i class="bi bi-play-circle"></i>
-                        <span>245 views</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="bi bi-clock"></i>
-                        <span>1h 25min</span>
-                    </div>
-                </div>
-                <div class="session-actions">
-                    <button class="btn-primary-custom" onclick="watchRecording('recorded1')">
-                        <i class="bi bi-play-fill"></i>
-                        Watch Recording
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Recorded Session 2 -->
-            <div class="session-card">
-                <span class="session-status status-recorded">📼 RECORDED</span>
-                <h3 class="session-title">Statistics & Probability</h3>
-                <div class="session-instructor">
-                    <i class="bi bi-person-circle"></i>
-                    <span>Prof. Michael Chen</span>
-                </div>
-                <div class="session-date">
-                    <i class="bi bi-calendar"></i>
-                    <span>Recorded on Oct 5, 2025</span>
-                </div>
-                <p class="session-description">
-                    Introduction to statistical analysis and probability distributions.
-                </p>
-                <div class="session-stats">
-                    <div class="stat-item">
-                        <i class="bi bi-play-circle"></i>
-                        <span>189 views</span>
-                    </div>
-                    <div class="stat-item">
-                        <i class="bi bi-clock"></i>
-                        <span>1h 40min</span>
-                    </div>
-                </div>
-                <div class="session-actions">
-                    <button class="btn-primary-custom" onclick="watchRecording('recorded2')">
-                        <i class="bi bi-play-fill"></i>
-                        Watch Recording
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
     
     <script>
@@ -501,15 +429,12 @@
             // Hide all sections
             document.getElementById('live-sessions').style.display = 'none';
             document.getElementById('upcoming-sessions').style.display = 'none';
-            document.getElementById('recorded-sessions').style.display = 'none';
             
             // Show selected section
             if (tab === 'live') {
                 document.getElementById('live-sessions').style.display = 'grid';
             } else if (tab === 'upcoming') {
                 document.getElementById('upcoming-sessions').style.display = 'grid';
-            } else if (tab === 'recorded') {
-                document.getElementById('recorded-sessions').style.display = 'grid';
             }
         }
         
@@ -521,12 +446,10 @@
             alert('📅 Registration Successful!\n\nYou will receive a reminder 15 minutes before the session starts.\n\nThe session link will be sent to your email.');
         }
         
-        function watchRecording(recordingId) {
-            alert('📼 Loading recording...\n\nYou will be able to watch the recorded session with playback controls.\n\nFeature coming soon!');
-        }
     </script>
 </body>
 </html>
+
 
 
 

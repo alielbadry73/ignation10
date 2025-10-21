@@ -843,38 +843,8 @@
     // Load Physics exams from localStorage (published by teachers)
     let physicsExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
     
-    // Sample data for demonstration (only used if no published exams exist)
-    const sampleExams = [
-        {
-            id: 1,
-            title: "Physics Midterm Exam",
-            description: "Comprehensive exam covering mechanics, thermodynamics, and electricity.",
-            date: "2025-01-25",
-            time: "09:00",
-            duration: "120",
-            status: "pending",
-            difficulty: "Hard",
-            points: 100,
-            questions: []
-        },
-        {
-            id: 2,
-            title: "Waves and Optics Final",
-            description: "Final exam on wave properties, interference, and optical systems.",
-            date: "2025-02-15",
-            time: "14:00",
-            duration: "90",
-            status: "pending",
-            difficulty: "Medium",
-            points: 80,
-            questions: []
-        }
-    ];
-
-    // Use sample data if no published exams exist
-    if (physicsExams.length === 0) {
-        physicsExams = sampleExams;
-    }
+    // No sample data - only show exams created by teachers
+    const sampleExams = [];
 
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Page loaded, starting exam loading...');
@@ -888,10 +858,8 @@
       // Reload exams from localStorage to get latest published exams
       physicsExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
       
-      // Use sample data if no published exams exist
-      if (physicsExams.length === 0) {
-        physicsExams = sampleExams;
-      }
+      // Only show exams created by teachers - no sample data
+      // physicsExams will contain teacher-created exams or be empty
 
       // Convert published exams to the format expected by the page
       exams = physicsExams.map(exam => {
@@ -1417,6 +1385,9 @@
         if (question.type === 'multiple-choice') {
           if (userAnswers[index] === question.correctAnswer) {
             score += question.points || 1;
+          } else {
+            // Student answered incorrectly - create wrong question entry
+            createWrongQuestionEntry(question, index, 'exam');
           }
         }
       });
@@ -1452,6 +1423,39 @@
       
       // Reload exams to show updated status
       loadExams();
+    }
+
+    // Function to automatically create wrong question entries
+    function createWrongQuestionEntry(question, questionIndex, activityType) {
+      const wrongQuestion = {
+        id: 'wrong_' + Date.now() + '_' + questionIndex,
+        questionId: question.id,
+        questionText: question.text, // This is the key field
+        studentAnswer: question.options && question.options[userAnswers[questionIndex]] ? 
+                      question.options[userAnswers[questionIndex]] : 
+                      userAnswers[questionIndex] || 'No answer provided',
+        correctAnswer: question.options && question.options[question.correctAnswer] ? 
+                      question.options[question.correctAnswer] : 
+                      question.correctAnswer || 'Correct answer not provided',
+        course: 'physics', // Get from exam context
+        subject: 'physics',
+        activityType: activityType + 's', // exams
+        source: 'exam',
+        difficulty: question.difficulty || 'Medium',
+        points: question.points || 1,
+        topic: question.topic || 'General',
+        chapter: question.chapter || 'General',
+        createdAt: new Date().toISOString(),
+        // Ensure proper categorization
+        inActivityFolder: true
+      };
+
+      // Save to wrong questions collection
+      const wrongQuestions = JSON.parse(localStorage.getItem('physicsWrongQuestions') || '[]');
+      wrongQuestions.push(wrongQuestion);
+      localStorage.setItem('physicsWrongQuestions', JSON.stringify(wrongQuestions));
+      
+      console.log('Created wrong question entry:', wrongQuestion);
     }
 
     function reviewExam(id) {

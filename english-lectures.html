@@ -600,15 +600,6 @@
                             </div>
                                 </div>
                             </div>
-                    <div class="submenu-item" onclick="openEnglishLectures()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #e3f2fd; border: 1px solid #2196f3;">
-                        <div style="display: flex; align-items: center;">
-                            <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
-                            <div>
-                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Lectures</h6>
-                                <small style="color: #666; font-size: 0.75rem;">Video Lessons & Tutorials</small>
-                            </div>
-                            </div>
-                        </div>
                     <div class="submenu-item" onclick="openEnglishProgress()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
                         <div style="display: flex; align-items: center;">
                             <iconify-icon icon="material-symbols:trending-up" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
@@ -633,15 +624,6 @@
                             <div>
                                 <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Badges</h6>
                                 <small style="color: #666; font-size: 0.75rem;">Achievements & Rewards</small>
-                            </div>
-                        </div>
-                                </div>
-                    <div class="submenu-item" onclick="openEnglishPastPapers()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
-                        <div style="display: flex; align-items: center;">
-                            <iconify-icon icon="material-symbols:description" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
-                            <div>
-                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Past Papers</h6>
-                                <small style="color: #666; font-size: 0.75rem;">Previous Exam Papers</small>
                             </div>
                         </div>
                                 </div>
@@ -706,11 +688,13 @@
         
         function openCourse(course) {
             if (course === 'mathematics') {
-                window.location.href = 'course-mathematics.html';
+                window.location.href = 'mathematics-dashboard.html';
             } else if (course === 'physics') {
-                window.location.href = 'course-physics.html';
+                window.location.href = 'physics-dashboard.html';
             } else if (course === 'chemistry') {
-                window.location.href = 'course-chemistry.html';
+                window.location.href = 'chemistry-dashboard.html';
+            } else if (course === 'english') {
+                window.location.href = 'english-dashboard.html';
             }
         }
         
@@ -759,6 +743,10 @@
         
         function openEnglishBadges() {
             window.location.href = 'english-badges.html';
+        }
+        
+        function openEnglishLiveSessions() {
+            window.location.href = 'english-live-sessions.html';
         }
         
         function openEnglishPastPapers() {
@@ -1568,40 +1556,8 @@
                 margin: 0 1rem 2rem 1rem !important;
             }
             
-            .nav-container {
-                flex-direction: column !important;
-                gap: 1rem !important;
-            }
-            
-            .nav-links {
-                justify-content: center !important;
-                width: 100% !important;
-                flex-wrap: wrap !important;
-            }
-            
-            .nav-actions {
-                justify-content: center !important;
-                width: 100% !important;
-            }
-            
-            .nav-link {
-                font-size: 0.75rem !important;
-                padding: 0.5rem 0.8rem !important;
-            }
         }
 
-        @media (max-width: 576px) {
-            .nav-links {
-                flex-direction: column !important;
-                width: 100% !important;
-            }
-            
-            .nav-link {
-                text-align: center !important;
-                width: 100% !important;
-                margin-bottom: 0.5rem !important;
-            }
-        }
 
         .lecture-content {
             padding: 1.5rem;
