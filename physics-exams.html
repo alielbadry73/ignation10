@@ -734,7 +734,7 @@
         </div>
         <div class="stat-item">
           <div class="stat-number" id="upcomingExams">0</div>
-          <div class="stat-label">Upcoming</div>
+          <div class="stat-label">Pending</div>
         </div>
       </div>
         </div>
@@ -775,7 +775,7 @@
                     
       <div class="filter-tabs" id="filterTabs">
         <button class="filter-tab active" onclick="filterExams('all',event)">All Exams</button>
-        <button class="filter-tab" onclick="filterExams('upcoming',event)">Upcoming</button>
+        <button class="filter-tab" onclick="filterExams('pending',event)">Pending</button>
         <button class="filter-tab" onclick="filterExams('completed',event)">Completed</button>
         <button class="filter-tab" onclick="filterExams('locked',event)">Locked</button>
       </div>
@@ -843,8 +843,148 @@
     // Load Physics exams from localStorage (published by teachers)
     let physicsExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
     
-    // No sample data - only show exams created by teachers
-    const sampleExams = [];
+    // Sample exam data to make exams accessible
+    const sampleExams = [
+      {
+        id: 'exam_1',
+        title: 'Physics Fundamentals Exam',
+        description: 'Comprehensive exam covering basic physics concepts including mechanics, thermodynamics, and waves.',
+        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: '09:00',
+        duration: 120,
+        status: 'pending',
+        difficulty: 'Medium',
+        points: 100,
+        questions: [
+          {
+            id: 'q1',
+            text: 'What is the SI unit of force?',
+            type: 'multiple-choice',
+            options: ['Newton', 'Joule', 'Watt', 'Pascal'],
+            correctAnswer: 0,
+            points: 10,
+            difficulty: 'Easy',
+            topic: 'Mechanics'
+          },
+          {
+            id: 'q2',
+            text: 'Which law states that energy cannot be created or destroyed?',
+            type: 'multiple-choice',
+            options: ['First Law of Thermodynamics', 'Second Law of Thermodynamics', 'Law of Conservation of Energy', 'Ohm\'s Law'],
+            correctAnswer: 2,
+            points: 10,
+            difficulty: 'Easy',
+            topic: 'Thermodynamics'
+          },
+          {
+            id: 'q3',
+            text: 'What is the speed of light in vacuum?',
+            type: 'multiple-choice',
+            options: ['3 × 10⁶ m/s', '3 × 10⁸ m/s', '3 × 10¹⁰ m/s', '3 × 10¹² m/s'],
+            correctAnswer: 1,
+            points: 10,
+            difficulty: 'Easy',
+            topic: 'Waves'
+          },
+          {
+            id: 'q4',
+            text: 'Which particle has no charge?',
+            type: 'multiple-choice',
+            options: ['Proton', 'Electron', 'Neutron', 'Alpha particle'],
+            correctAnswer: 2,
+            points: 10,
+            difficulty: 'Medium',
+            topic: 'Atomic Physics'
+          },
+          {
+            id: 'q5',
+            text: 'What is the relationship between frequency and wavelength?',
+            type: 'multiple-choice',
+            options: ['Directly proportional', 'Inversely proportional', 'No relationship', 'Exponentially related'],
+            correctAnswer: 1,
+            points: 10,
+            difficulty: 'Medium',
+            topic: 'Waves'
+          }
+        ]
+      },
+      {
+        id: 'exam_2',
+        title: 'Advanced Physics Concepts',
+        description: 'Challenging exam covering advanced physics topics including quantum mechanics and relativity.',
+        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: '14:00',
+        duration: 180,
+        status: 'pending',
+        difficulty: 'Hard',
+        points: 150,
+        questions: [
+          {
+            id: 'q6',
+            text: 'What is the uncertainty principle?',
+            type: 'multiple-choice',
+            options: ['Energy and time cannot be measured simultaneously', 'Position and momentum cannot be measured simultaneously', 'Mass and velocity are inversely related', 'Charge and field strength are proportional'],
+            correctAnswer: 1,
+            points: 15,
+            difficulty: 'Hard',
+            topic: 'Quantum Mechanics'
+          },
+          {
+            id: 'q7',
+            text: 'What happens to time in a strong gravitational field?',
+            type: 'multiple-choice',
+            options: ['Time speeds up', 'Time slows down', 'Time stops', 'Time becomes negative'],
+            correctAnswer: 1,
+            points: 15,
+            difficulty: 'Hard',
+            topic: 'Relativity'
+          },
+          {
+            id: 'q8',
+            text: 'What is the photoelectric effect?',
+            type: 'multiple-choice',
+            options: ['Emission of electrons when light hits a metal', 'Absorption of light by atoms', 'Reflection of light from surfaces', 'Refraction of light through materials'],
+            correctAnswer: 0,
+            points: 15,
+            difficulty: 'Medium',
+            topic: 'Quantum Mechanics'
+          }
+        ]
+      },
+      {
+        id: 'exam_3',
+        title: 'Physics Problem Solving',
+        description: 'Practical exam focusing on problem-solving skills and mathematical applications.',
+        dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+        time: '10:30',
+        duration: 90,
+        status: 'pending',
+        difficulty: 'Medium',
+        points: 80,
+        questions: [
+          {
+            id: 'q9',
+            text: 'A car accelerates from rest at 2 m/s² for 10 seconds. What is its final velocity?',
+            type: 'multiple-choice',
+            options: ['5 m/s', '10 m/s', '20 m/s', '40 m/s'],
+            correctAnswer: 2,
+            points: 20,
+            difficulty: 'Medium',
+            topic: 'Kinematics'
+          },
+          {
+            id: 'q10',
+            text: 'What is the kinetic energy of a 2 kg object moving at 5 m/s?',
+            type: 'multiple-choice',
+            options: ['10 J', '25 J', '50 J', '100 J'],
+            correctAnswer: 1,
+            points: 20,
+            difficulty: 'Medium',
+            topic: 'Energy'
+          }
+        ]
+      }
+    ];
 
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Page loaded, starting exam loading...');
@@ -858,18 +998,18 @@
       // Reload exams from localStorage to get latest published exams
       physicsExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
       
-      // Only show exams created by teachers - no sample data
-      // physicsExams will contain teacher-created exams or be empty
+      // If no teacher-created exams, use sample data
+      const examsToUse = physicsExams.length > 0 ? physicsExams : sampleExams;
 
       // Convert published exams to the format expected by the page
-      exams = physicsExams.map(exam => {
+      exams = examsToUse.map(exam => {
         // Handle both standard and published exam formats
         const title = exam.title || exam.name || 'Untitled Exam';
         const description = exam.description || exam.desc || 'No description available';
         const dueDate = exam.dueDate || exam.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
         const time = exam.time || '09:00';
         const duration = exam.timeLimit || exam.duration || 120;
-        const status = exam.status || 'pending';
+        const status = (exam.status === 'published' || exam.status === 'pending') ? 'pending' : (exam.status || 'pending');
         const difficulty = exam.difficulty || 'Medium';
         const points = exam.points || exam.totalPoints || 100;
         const questions = exam.questions || [];
@@ -1071,6 +1211,10 @@
             ${!isFileBased ? `<div class="detail-row"><span class="detail-label">Questions:</span><span class="detail-value">${questionsCount}</span></div>` : ''}
             <div class="detail-row"><span class="detail-label">Max Score:</span><span class="detail-value">${e.points}</span></div>
             <div class="detail-row"><span class="detail-label">Difficulty:</span><span class="detail-value">${e.difficulty}</span></div>
+            ${e.status === 'completed' ? `
+              <div class="detail-row"><span class="detail-label">Your Score:</span><span class="detail-value" style="color: #28a745; font-weight: 600;">${e.score || 0}/${e.totalPoints || e.points} (${e.percentage || 0}%)</span></div>
+              <div class="detail-row"><span class="detail-label">Completed:</span><span class="detail-value">${e.completedAt ? new Date(e.completedAt).toLocaleDateString() : 'Unknown'}</span></div>
+            ` : ''}
           </div>
           ${isFileBased && e.fileBased ? `
           <div class="exam-file-info">
@@ -1079,13 +1223,14 @@
           </div>
           ` : ''}
           <div class="homework-actions">
-            ${e.status === 'pending' ? `
+            ${(e.status === 'pending' || e.status === 'available') ? `
               <button class="btn btn-primary" onclick="startExam('${e.id}')">
                 <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
                 ${isFileBased ? 'Download & Start' : 'Start Exam'}
               </button>
             ` : e.status === 'completed' ? `
               <button class="btn btn-outline" onclick="reviewExam('${e.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>Review</button>
+              <button class="btn btn-primary" onclick="retakeExam('${e.id}')"><iconify-icon icon="material-symbols:refresh"></iconify-icon>Retake</button>
             ` : `
               <button class="btn btn-outline" disabled><iconify-icon icon="material-symbols:lock"></iconify-icon>Locked</button>
             `}
@@ -1098,7 +1243,7 @@
 
     function updateStats() {
       const total = exams.length;
-      const upcoming = exams.filter(e => e.status === 'upcoming').length;
+      const upcoming = exams.filter(e => e.status === 'upcoming' || e.status === 'pending').length;
       
       const totalEl = document.getElementById('totalExams');
       const upcomingEl = document.getElementById('upcomingExams');
@@ -1243,6 +1388,55 @@
       
       // Save answer
       userAnswers[currentQuestionIndex] = optionIndex;
+      
+      // Autocorrect functionality
+      if (currentExam && currentExam.questions && currentExam.questions[currentQuestionIndex]) {
+        const question = currentExam.questions[currentQuestionIndex];
+        if (question.type === 'multiple-choice' && question.correctAnswer !== undefined) {
+          // Show immediate feedback
+          showAutocorrectFeedback(optionIndex, question.correctAnswer);
+        }
+      }
+    }
+    
+    function showAutocorrectFeedback(selectedIndex, correctIndex) {
+      // Remove any existing feedback
+      document.querySelectorAll('.autocorrect-feedback').forEach(feedback => feedback.remove());
+      
+      const optionItems = document.querySelectorAll('.option-item');
+      const isCorrect = selectedIndex === correctIndex;
+      
+      // Mark correct answer
+      if (optionItems[correctIndex]) {
+        optionItems[correctIndex].classList.add('correct-answer');
+        const correctIcon = document.createElement('iconify-icon');
+        correctIcon.setAttribute('icon', 'material-symbols:check-circle');
+        correctIcon.style.color = '#28a745';
+        correctIcon.style.marginLeft = '8px';
+        correctIcon.className = 'autocorrect-feedback';
+        optionItems[correctIndex].appendChild(correctIcon);
+      }
+      
+      // Mark selected answer
+      if (optionItems[selectedIndex]) {
+        if (isCorrect) {
+          optionItems[selectedIndex].classList.add('correct-selected');
+        } else {
+          optionItems[selectedIndex].classList.add('incorrect-selected');
+          const incorrectIcon = document.createElement('iconify-icon');
+          incorrectIcon.setAttribute('icon', 'material-symbols:cancel');
+          incorrectIcon.style.color = '#dc3545';
+          incorrectIcon.style.marginLeft = '8px';
+          incorrectIcon.className = 'autocorrect-feedback';
+          optionItems[selectedIndex].appendChild(incorrectIcon);
+        }
+      }
+      
+      // Disable further selection
+      optionItems.forEach(item => {
+        item.style.pointerEvents = 'none';
+        item.style.opacity = '0.7';
+      });
     }
 
     function nextQuestion() {
@@ -1404,6 +1598,16 @@
         exams[examIndex].answers = userAnswers;
         exams[examIndex].totalPoints = totalPoints;
         exams[examIndex].score = score;
+        exams[examIndex].percentage = percentage;
+        
+        // Save updated exam to localStorage if it's a teacher-created exam
+        if (physicsExams.length > 0) {
+          const teacherExamIndex = physicsExams.findIndex(e => e.id === currentExam.id);
+          if (teacherExamIndex !== -1) {
+            physicsExams[teacherExamIndex] = exams[examIndex];
+            localStorage.setItem('physicsExams', JSON.stringify(physicsExams));
+          }
+        }
       }
       
       // Clear timer
@@ -1466,7 +1670,39 @@
       }
       
       // Show review modal with exam results
-      alert(`Exam Review: ${exam.title}\nScore: ${exam.score}/${exam.totalPoints}\nStatus: ${exam.status}`);
+      alert(`Exam Review: ${exam.title}\nScore: ${exam.score}/${exam.totalPoints} (${exam.percentage}%)\nStatus: ${exam.status}`);
+    }
+
+    function retakeExam(id) {
+      const exam = exams.find(e => e.id == id);
+      if (!exam) {
+        alert('Exam not found!');
+        return;
+      }
+      
+      if (confirm(`Retake "${exam.title}"? This will reset your previous attempt.`)) {
+        // Reset exam status to pending
+        const examIndex = exams.findIndex(e => e.id === id);
+        if (examIndex !== -1) {
+          exams[examIndex].status = 'pending';
+          delete exams[examIndex].completedAt;
+          delete exams[examIndex].answers;
+          delete exams[examIndex].score;
+          delete exams[examIndex].percentage;
+          
+          // Save updated exam to localStorage if it's a teacher-created exam
+          if (physicsExams.length > 0) {
+            const teacherExamIndex = physicsExams.findIndex(e => e.id === id);
+            if (teacherExamIndex !== -1) {
+              physicsExams[teacherExamIndex] = exams[examIndex];
+              localStorage.setItem('physicsExams', JSON.stringify(physicsExams));
+            }
+          }
+          
+          // Reload exams to show updated status
+          loadExams();
+        }
+      }
     }
 
     function searchExams(e) {

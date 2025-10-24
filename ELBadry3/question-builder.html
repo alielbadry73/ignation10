@@ -1,0 +1,1776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Question Builder | IG Nation</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Jost', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        .question-builder-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .back-btn {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .back-btn:hover {
+            background: #f8f9fa;
+            transform: translateY(-1px);
+        }
+        
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .question-type-selector {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .type-selector-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .question-types-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .question-type-card {
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .question-type-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+        }
+        
+        .question-type-card.active {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .type-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        
+        .type-name {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .type-description {
+            font-size: 0.875rem;
+            opacity: 0.8;
+        }
+        
+        .question-form-container {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .form-control {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        
+        .form-control-lg {
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .answer-options {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .answer-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .answer-option:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+        
+        .answer-option.correct {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+        
+        .answer-option input[type="radio"] {
+            margin-right: 0.75rem;
+            transform: scale(1.2);
+        }
+        
+        .answer-option input[type="checkbox"] {
+            margin-right: 0.75rem;
+            transform: scale(1.2);
+        }
+        
+        .answer-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 0.5rem;
+            font-size: 1rem;
+        }
+        
+        .answer-input:focus {
+            outline: none;
+        }
+        
+        .correct-badge {
+            background: #28a745;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+        
+        .add-option-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .add-option-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+        
+        .remove-option-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-option-btn:hover {
+            background: #c82333;
+        }
+        
+        .difficulty-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .difficulty-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .difficulty-btn:hover {
+            border-color: #667eea;
+        }
+        
+        .difficulty-btn.active {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+        }
+        
+        .difficulty-easy.active {
+            background: #28a745;
+            border-color: #28a745;
+        }
+        
+        .difficulty-medium.active {
+            background: #ffc107;
+            border-color: #ffc107;
+            color: #333;
+        }
+        
+        .difficulty-hard.active {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .tags-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .tag {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tag-remove {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .tag-input {
+            border: none;
+            background: transparent;
+            padding: 0.25rem;
+            font-size: 0.875rem;
+            min-width: 100px;
+        }
+        
+        .tag-input:focus {
+            outline: none;
+        }
+        
+        .question-preview {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .preview-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .preview-question {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .preview-options {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .preview-option {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .preview-option.correct {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #28a745;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .math-editor {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            background: white;
+            min-height: 100px;
+        }
+        
+        .math-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .math-btn {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .math-btn:hover {
+            background: #e9ecef;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #e9ecef;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .file-upload-area.dragover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+        
+        .uploaded-files {
+            margin-top: 1rem;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .file-remove {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+        }
+        
+        .question-bank {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .bank-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+        }
+        
+        .filter-select {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+            background: white;
+        }
+        
+        .questions-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .question-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .question-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);
+        }
+        
+        .question-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .question-type-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .question-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-primary {
+            background: transparent;
+            color: #667eea;
+            border: 1px solid #667eea;
+        }
+        
+        .btn-outline-primary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-outline-danger {
+            background: transparent;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+        }
+        
+        .btn-outline-danger:hover {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .toast {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 300px;
+        }
+        
+        .toast-success {
+            border-left: 4px solid #28a745;
+        }
+        
+        .toast-error {
+            border-left: 4px solid #dc3545;
+        }
+        
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+        
+        .toast-success .toast-icon {
+            color: #28a745;
+        }
+        
+        .toast-error .toast-icon {
+            color: #dc3545;
+        }
+        
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .question-types-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="question-builder-header">
+        <div class="header-left">
+            <button class="back-btn" onclick="window.history.back()">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+            </button>
+            <h1 class="page-title">Advanced Question Builder</h1>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="saveDraft()">
+                <iconify-icon icon="material-symbols:save"></iconify-icon>
+                Save Draft
+            </button>
+            <button class="btn btn-primary" onclick="previewQuestion()">
+                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                Preview
+            </button>
+            <button class="btn btn-success" onclick="saveQuestion()">
+                <iconify-icon icon="material-symbols:check"></iconify-icon>
+                Save Question
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Question Type Selector -->
+        <div class="question-type-selector">
+            <h2 class="type-selector-title">
+                <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                Select Question Type
+            </h2>
+            <div class="question-types-grid">
+                <div class="question-type-card" data-type="multiple-choice" onclick="selectQuestionType('multiple-choice')">
+                    <iconify-icon icon="material-symbols:radio-button-checked" class="type-icon"></iconify-icon>
+                    <div class="type-name">Multiple Choice</div>
+                    <div class="type-description">Single correct answer from multiple options</div>
+                </div>
+                <div class="question-type-card" data-type="multiple-select" onclick="selectQuestionType('multiple-select')">
+                    <iconify-icon icon="material-symbols:check-box" class="type-icon"></iconify-icon>
+                    <div class="type-name">Multiple Select</div>
+                    <div class="type-description">Multiple correct answers from options</div>
+                </div>
+                <div class="question-type-card" data-type="true-false" onclick="selectQuestionType('true-false')">
+                    <iconify-icon icon="material-symbols:toggle-on" class="type-icon"></iconify-icon>
+                    <div class="type-name">True/False</div>
+                    <div class="type-description">Binary choice between true or false</div>
+                </div>
+                <div class="question-type-card" data-type="short-answer" onclick="selectQuestionType('short-answer')">
+                    <iconify-icon icon="material-symbols:short-text" class="type-icon"></iconify-icon>
+                    <div class="type-name">Short Answer</div>
+                    <div class="type-description">Brief text response required</div>
+                </div>
+                <div class="question-type-card" data-type="essay" onclick="selectQuestionType('essay')">
+                    <iconify-icon icon="material-symbols:article" class="type-icon"></iconify-icon>
+                    <div class="type-name">Essay</div>
+                    <div class="type-description">Long-form written response</div>
+                </div>
+                <div class="question-type-card" data-type="fill-blank" onclick="selectQuestionType('fill-blank')">
+                    <iconify-icon icon="material-symbols:format-align-left" class="type-icon"></iconify-icon>
+                    <div class="type-name">Fill in the Blank</div>
+                    <div class="type-description">Complete missing words or phrases</div>
+                </div>
+                <div class="question-type-card" data-type="matching" onclick="selectQuestionType('matching')">
+                    <iconify-icon icon="material-symbols:swap-horiz" class="type-icon"></iconify-icon>
+                    <div class="type-name">Matching</div>
+                    <div class="type-description">Match items from two columns</div>
+                </div>
+                <div class="question-type-card" data-type="ordering" onclick="selectQuestionType('ordering')">
+                    <iconify-icon icon="material-symbols:sort" class="type-icon"></iconify-icon>
+                    <div class="type-name">Ordering</div>
+                    <div class="type-description">Arrange items in correct sequence</div>
+                </div>
+                <div class="question-type-card" data-type="numerical" onclick="selectQuestionType('numerical')">
+                    <iconify-icon icon="material-symbols:calculate" class="type-icon"></iconify-icon>
+                    <div class="type-name">Numerical</div>
+                    <div class="type-description">Numeric answer with tolerance</div>
+                </div>
+                <div class="question-type-card" data-type="file-upload" onclick="selectQuestionType('file-upload')">
+                    <iconify-icon icon="material-symbols:upload-file" class="type-icon"></iconify-icon>
+                    <div class="type-name">File Upload</div>
+                    <div class="type-description">Upload documents or images</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Form -->
+        <div class="question-form-container" id="questionForm" style="display: none;">
+            <form id="questionFormElement">
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:info"></iconify-icon>
+                        Basic Information
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label class="form-label">Question Text</label>
+                                <textarea class="form-control form-control-lg" id="questionText" rows="3" placeholder="Enter your question here..." required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Points</label>
+                                <input type="number" class="form-control" id="questionPoints" min="1" value="1" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Subject</label>
+                                <select class="form-control" id="questionSubject" required>
+                                    <option value="">Select Subject</option>
+                                    <option value="mathematics">Mathematics</option>
+                                    <option value="physics">Physics</option>
+                                    <option value="chemistry">Chemistry</option>
+                                    <option value="biology">Biology</option>
+                                    <option value="english">English</option>
+                                    <option value="history">History</option>
+                                    <option value="geography">Geography</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Chapter/Topic</label>
+                                <input type="text" class="form-control" id="questionChapter" placeholder="e.g., Chapter 3: Linear Functions">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Answer Options (for multiple choice/select) -->
+                <div class="form-section" id="answerOptionsSection" style="display: none;">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:list"></iconify-icon>
+                        Answer Options
+                    </h3>
+                    <div class="answer-options" id="answerOptions">
+                        <!-- Options will be added dynamically -->
+                    </div>
+                    <button type="button" class="add-option-btn" onclick="addAnswerOption()">
+                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                        Add Option
+                    </button>
+                </div>
+
+                <!-- Fill in the Blank Fields -->
+                <div class="form-section" id="fillBlankSection" style="display: none;">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:format-align-left"></iconify-icon>
+                        Blank Fields
+                    </h3>
+                    <div class="form-group">
+                        <label class="form-label">Text with Blanks</label>
+                        <textarea class="form-control" id="fillBlankText" rows="4" placeholder="Enter text with [blank] markers for fill-in-the-blank questions..."></textarea>
+                        <small class="text-muted">Use [blank] to mark where students should fill in answers</small>
+                    </div>
+                    <div id="blankAnswers">
+                        <!-- Blank answers will be added dynamically -->
+                    </div>
+                </div>
+
+                <!-- Matching Pairs -->
+                <div class="form-section" id="matchingSection" style="display: none;">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:swap-horiz"></iconify-icon>
+                        Matching Pairs
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="form-label">Left Column Items</label>
+                            <div id="leftColumnItems">
+                                <!-- Left items will be added dynamically -->
+                            </div>
+                            <button type="button" class="add-option-btn" onclick="addMatchingItem('left')">
+                                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                Add Left Item
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Right Column Items</label>
+                            <div id="rightColumnItems">
+                                <!-- Right items will be added dynamically -->
+                            </div>
+                            <button type="button" class="add-option-btn" onclick="addMatchingItem('right')">
+                                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                Add Right Item
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ordering Items -->
+                <div class="form-section" id="orderingSection" style="display: none;">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:sort"></iconify-icon>
+                        Ordering Items
+                    </h3>
+                    <div id="orderingItems">
+                        <!-- Ordering items will be added dynamically -->
+                    </div>
+                    <button type="button" class="add-option-btn" onclick="addOrderingItem()">
+                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                        Add Item
+                    </button>
+                </div>
+
+                <!-- Numerical Answer -->
+                <div class="form-section" id="numericalSection" style="display: none;">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+                        Numerical Answer
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Correct Answer</label>
+                                <input type="number" class="form-control" id="numericalAnswer" step="any" placeholder="Enter the correct numerical answer">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Tolerance (±)</label>
+                                <input type="number" class="form-control" id="numericalTolerance" step="any" placeholder="e.g., 0.1" value="0.1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- File Upload Settings -->
+                <div class="form-section" id="fileUploadSection" style="display: none;">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:upload-file"></iconify-icon>
+                        File Upload Settings
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Allowed File Types</label>
+                                <select class="form-control" id="allowedFileTypes" multiple>
+                                    <option value="pdf">PDF</option>
+                                    <option value="doc">DOC</option>
+                                    <option value="docx">DOCX</option>
+                                    <option value="jpg">JPG</option>
+                                    <option value="png">PNG</option>
+                                    <option value="gif">GIF</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="form-label">Max File Size (MB)</label>
+                                <input type="number" class="form-control" id="maxFileSize" value="10" min="1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Settings -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:settings"></iconify-icon>
+                        Additional Settings
+                    </h3>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Difficulty Level</label>
+                                <div class="difficulty-selector">
+                                    <button type="button" class="difficulty-btn difficulty-easy" data-difficulty="easy">Easy</button>
+                                    <button type="button" class="difficulty-btn difficulty-medium active" data-difficulty="medium">Medium</button>
+                                    <button type="button" class="difficulty-btn difficulty-hard" data-difficulty="hard">Hard</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Time Limit (seconds)</label>
+                                <input type="number" class="form-control" id="timeLimit" placeholder="Leave empty for no limit">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Tags</label>
+                                <div class="tags-input" id="tagsContainer">
+                                    <input type="text" class="tag-input" id="tagInput" placeholder="Add tags..." onkeypress="handleTagInput(event)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Explanation/Feedback</label>
+                        <textarea class="form-control" id="questionExplanation" rows="3" placeholder="Provide explanation or feedback for this question..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Question Preview -->
+                <div class="form-section">
+                    <h3 class="section-title">
+                        <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                        Preview
+                    </h3>
+                    <div class="question-preview" id="questionPreview">
+                        <div class="preview-title">Question Preview</div>
+                        <div class="preview-question">Select a question type and enter your question to see a preview here.</div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Question Bank -->
+        <div class="question-bank">
+            <div class="bank-header">
+                <h3>Question Bank</h3>
+                <button class="btn btn-primary" onclick="loadQuestionBank()">
+                    <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                    Refresh
+                </button>
+            </div>
+            <div class="search-box">
+                <input type="text" class="search-input" id="searchQuestions" placeholder="Search questions...">
+                <select class="filter-select" id="filterSubject">
+                    <option value="">All Subjects</option>
+                    <option value="mathematics">Mathematics</option>
+                    <option value="physics">Physics</option>
+                    <option value="chemistry">Chemistry</option>
+                    <option value="biology">Biology</option>
+                    <option value="english">English</option>
+                </select>
+                <select class="filter-select" id="filterType">
+                    <option value="">All Types</option>
+                    <option value="multiple-choice">Multiple Choice</option>
+                    <option value="multiple-select">Multiple Select</option>
+                    <option value="true-false">True/False</option>
+                    <option value="short-answer">Short Answer</option>
+                    <option value="essay">Essay</option>
+                </select>
+            </div>
+            <div class="questions-list" id="questionsList">
+                <!-- Questions will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        let currentQuestionType = null;
+        let questionBank = JSON.parse(localStorage.getItem('questionBank') || '[]');
+        let currentQuestion = {
+            id: null,
+            type: null,
+            text: '',
+            points: 1,
+            subject: '',
+            chapter: '',
+            difficulty: 'medium',
+            timeLimit: null,
+            tags: [],
+            explanation: '',
+            options: [],
+            correctAnswers: [],
+            fillBlanks: [],
+            matchingPairs: [],
+            orderingItems: [],
+            numericalAnswer: null,
+            numericalTolerance: 0.1,
+            fileUploadSettings: {
+                allowedTypes: ['pdf', 'doc', 'docx'],
+                maxSize: 10
+            }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuestionBank();
+            setupEventListeners();
+            checkReturnParameters();
+        });
+
+        function checkReturnParameters() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const returnTo = urlParams.get('returnTo');
+            const assessmentType = urlParams.get('assessmentType');
+            
+            if (returnTo && assessmentType) {
+                // Show a message that questions will be sent back to the teacher panel
+                const header = document.querySelector('.question-builder-header .header-left');
+                const returnMessage = document.createElement('div');
+                returnMessage.className = 'alert alert-info mb-0 ms-3';
+                returnMessage.innerHTML = `
+                    <iconify-icon icon="material-symbols:info"></iconify-icon>
+                    Questions created here will be sent to the ${assessmentType} in the teacher panel.
+                `;
+                header.appendChild(returnMessage);
+            }
+        }
+
+        function setupEventListeners() {
+            // Question text change
+            document.getElementById('questionText').addEventListener('input', updatePreview);
+            
+            // Difficulty selector
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.difficulty-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentQuestion.difficulty = this.dataset.difficulty;
+                });
+            });
+
+            // Search and filter
+            document.getElementById('searchQuestions').addEventListener('input', filterQuestions);
+            document.getElementById('filterSubject').addEventListener('change', filterQuestions);
+            document.getElementById('filterType').addEventListener('change', filterQuestions);
+        }
+
+        function selectQuestionType(type) {
+            currentQuestionType = type;
+            currentQuestion.type = type;
+            
+            // Update UI
+            document.querySelectorAll('.question-type-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // Show form
+            document.getElementById('questionForm').style.display = 'block';
+            
+            // Show/hide relevant sections
+            showRelevantSections(type);
+            
+            // Initialize question type specific elements
+            initializeQuestionType(type);
+            
+            updatePreview();
+        }
+
+        function showRelevantSections(type) {
+            // Hide all sections first
+            document.getElementById('answerOptionsSection').style.display = 'none';
+            document.getElementById('fillBlankSection').style.display = 'none';
+            document.getElementById('matchingSection').style.display = 'none';
+            document.getElementById('orderingSection').style.display = 'none';
+            document.getElementById('numericalSection').style.display = 'none';
+            document.getElementById('fileUploadSection').style.display = 'none';
+            
+            // Show relevant sections
+            if (['multiple-choice', 'multiple-select', 'true-false'].includes(type)) {
+                document.getElementById('answerOptionsSection').style.display = 'block';
+            } else if (type === 'fill-blank') {
+                document.getElementById('fillBlankSection').style.display = 'block';
+            } else if (type === 'matching') {
+                document.getElementById('matchingSection').style.display = 'block';
+            } else if (type === 'ordering') {
+                document.getElementById('orderingSection').style.display = 'block';
+            } else if (type === 'numerical') {
+                document.getElementById('numericalSection').style.display = 'block';
+            } else if (type === 'file-upload') {
+                document.getElementById('fileUploadSection').style.display = 'block';
+            }
+        }
+
+        function initializeQuestionType(type) {
+            if (type === 'multiple-choice' || type === 'multiple-select') {
+                initializeAnswerOptions(type);
+            } else if (type === 'true-false') {
+                initializeTrueFalse();
+            } else if (type === 'fill-blank') {
+                initializeFillBlank();
+            } else if (type === 'matching') {
+                initializeMatching();
+            } else if (type === 'ordering') {
+                initializeOrdering();
+            } else if (type === 'numerical') {
+                initializeNumerical();
+            } else if (type === 'file-upload') {
+                initializeFileUpload();
+            }
+        }
+
+        function initializeAnswerOptions(type) {
+            const container = document.getElementById('answerOptions');
+            container.innerHTML = '';
+            
+            // Add initial options
+            for (let i = 0; i < 4; i++) {
+                addAnswerOption();
+            }
+        }
+
+        function initializeTrueFalse() {
+            const container = document.getElementById('answerOptions');
+            container.innerHTML = `
+                <div class="answer-option">
+                    <input type="radio" name="correctAnswer" value="true" onchange="updateCorrectAnswer()">
+                    <input type="text" class="answer-input" value="True" readonly>
+                </div>
+                <div class="answer-option">
+                    <input type="radio" name="correctAnswer" value="false" onchange="updateCorrectAnswer()">
+                    <input type="text" class="answer-input" value="False" readonly>
+                </div>
+            `;
+        }
+
+        function initializeFillBlank() {
+            // This will be handled by the fillBlankText input
+        }
+
+        function initializeMatching() {
+            // Add initial matching items
+            addMatchingItem('left');
+            addMatchingItem('right');
+        }
+
+        function initializeOrdering() {
+            // Add initial ordering items
+            for (let i = 0; i < 3; i++) {
+                addOrderingItem();
+            }
+        }
+
+        function initializeNumerical() {
+            // Numerical inputs are already in the HTML
+        }
+
+        function initializeFileUpload() {
+            // File upload settings are already in the HTML
+        }
+
+        function addAnswerOption() {
+            const container = document.getElementById('answerOptions');
+            const optionCount = container.children.length;
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'answer-option';
+            optionDiv.innerHTML = `
+                <input type="${currentQuestionType === 'multiple-select' ? 'checkbox' : 'radio'}" 
+                       name="correctAnswer" 
+                       value="${optionCount}" 
+                       onchange="updateCorrectAnswer()">
+                <input type="text" class="answer-input" placeholder="Enter option text..." oninput="updatePreview()">
+                <button type="button" class="remove-option-btn" onclick="removeAnswerOption(this)">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                </button>
+            `;
+            container.appendChild(optionDiv);
+        }
+
+        function removeAnswerOption(button) {
+            const container = document.getElementById('answerOptions');
+            if (container.children.length > 2) {
+                button.parentElement.remove();
+                updatePreview();
+            }
+        }
+
+        function addMatchingItem(side) {
+            const container = document.getElementById(`${side}ColumnItems`);
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'answer-option';
+            itemDiv.innerHTML = `
+                <input type="text" class="answer-input" placeholder="Enter ${side} item..." oninput="updatePreview()">
+                <button type="button" class="remove-option-btn" onclick="removeMatchingItem(this)">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                </button>
+            `;
+            container.appendChild(itemDiv);
+        }
+
+        function removeMatchingItem(button) {
+            const container = button.parentElement.parentElement;
+            if (container.children.length > 1) {
+                button.parentElement.remove();
+                updatePreview();
+            }
+        }
+
+        function addOrderingItem() {
+            const container = document.getElementById('orderingItems');
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'answer-option';
+            itemDiv.innerHTML = `
+                <input type="text" class="answer-input" placeholder="Enter item to order..." oninput="updatePreview()">
+                <button type="button" class="remove-option-btn" onclick="removeOrderingItem(this)">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                </button>
+            `;
+            container.appendChild(itemDiv);
+        }
+
+        function removeOrderingItem(button) {
+            const container = document.getElementById('orderingItems');
+            if (container.children.length > 1) {
+                button.parentElement.remove();
+                updatePreview();
+            }
+        }
+
+        function updateCorrectAnswer() {
+            updatePreview();
+        }
+
+        function handleTagInput(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                addTag();
+            }
+        }
+
+        function addTag() {
+            const input = document.getElementById('tagInput');
+            const tag = input.value.trim();
+            if (tag && !currentQuestion.tags.includes(tag)) {
+                currentQuestion.tags.push(tag);
+                input.value = '';
+                updateTagsDisplay();
+            }
+        }
+
+        function updateTagsDisplay() {
+            const container = document.getElementById('tagsContainer');
+            const existingTags = container.querySelectorAll('.tag');
+            existingTags.forEach(tag => tag.remove());
+            
+            currentQuestion.tags.forEach(tag => {
+                const tagDiv = document.createElement('div');
+                tagDiv.className = 'tag';
+                tagDiv.innerHTML = `
+                    ${tag}
+                    <span class="tag-remove" onclick="removeTag('${tag}')">×</span>
+                `;
+                container.insertBefore(tagDiv, container.querySelector('.tag-input'));
+            });
+        }
+
+        function removeTag(tag) {
+            currentQuestion.tags = currentQuestion.tags.filter(t => t !== tag);
+            updateTagsDisplay();
+        }
+
+        function updatePreview() {
+            const preview = document.getElementById('questionPreview');
+            const questionText = document.getElementById('questionText').value;
+            
+            if (!questionText) {
+                preview.innerHTML = `
+                    <div class="preview-title">Question Preview</div>
+                    <div class="preview-question">Select a question type and enter your question to see a preview here.</div>
+                `;
+                return;
+            }
+            
+            let previewHTML = `
+                <div class="preview-title">Question Preview</div>
+                <div class="preview-question">${questionText}</div>
+            `;
+            
+            if (currentQuestionType === 'multiple-choice' || currentQuestionType === 'multiple-select') {
+                const options = document.querySelectorAll('#answerOptions .answer-input');
+                previewHTML += '<ul class="preview-options">';
+                options.forEach((option, index) => {
+                    const isChecked = document.querySelector(`input[name="correctAnswer"][value="${index}"]`).checked;
+                    previewHTML += `<li class="preview-option ${isChecked ? 'correct' : ''}">${option.value || `Option ${index + 1}`}</li>`;
+                });
+                previewHTML += '</ul>';
+            } else if (currentQuestionType === 'true-false') {
+                previewHTML += '<ul class="preview-options">';
+                const trueChecked = document.querySelector('input[name="correctAnswer"][value="true"]').checked;
+                const falseChecked = document.querySelector('input[name="correctAnswer"][value="false"]').checked;
+                previewHTML += `<li class="preview-option ${trueChecked ? 'correct' : ''}">True</li>`;
+                previewHTML += `<li class="preview-option ${falseChecked ? 'correct' : ''}">False</li>`;
+                previewHTML += '</ul>';
+            }
+            
+            preview.innerHTML = previewHTML;
+        }
+
+        function saveQuestion() {
+            // Collect form data
+            currentQuestion.text = document.getElementById('questionText').value;
+            currentQuestion.points = parseInt(document.getElementById('questionPoints').value);
+            currentQuestion.subject = document.getElementById('questionSubject').value;
+            currentQuestion.chapter = document.getElementById('questionChapter').value;
+            currentQuestion.timeLimit = document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null;
+            currentQuestion.explanation = document.getElementById('questionExplanation').value;
+            
+            // Collect question type specific data
+            if (currentQuestionType === 'multiple-choice' || currentQuestionType === 'multiple-select') {
+                collectAnswerOptions();
+            } else if (currentQuestionType === 'fill-blank') {
+                collectFillBlankData();
+            } else if (currentQuestionType === 'matching') {
+                collectMatchingData();
+            } else if (currentQuestionType === 'ordering') {
+                collectOrderingData();
+            } else if (currentQuestionType === 'numerical') {
+                collectNumericalData();
+            } else if (currentQuestionType === 'file-upload') {
+                collectFileUploadData();
+            }
+            
+            // Generate ID if new question
+            if (!currentQuestion.id) {
+                currentQuestion.id = Date.now().toString();
+            }
+            
+            // Save to question bank
+            const existingIndex = questionBank.findIndex(q => q.id === currentQuestion.id);
+            if (existingIndex >= 0) {
+                questionBank[existingIndex] = { ...currentQuestion };
+            } else {
+                questionBank.push({ ...currentQuestion });
+            }
+            
+            localStorage.setItem('questionBank', JSON.stringify(questionBank));
+            
+            showToast('Question saved successfully!', 'success');
+            loadQuestionBank();
+            
+            // Check if we should send the question back to the teacher panel
+            const urlParams = new URLSearchParams(window.location.search);
+            const returnTo = urlParams.get('returnTo');
+            const assessmentType = urlParams.get('assessmentType');
+            
+            if (returnTo && assessmentType) {
+                // Send question back to parent window
+                if (window.opener) {
+                    window.opener.postMessage({
+                        type: 'questionCreated',
+                        question: { ...currentQuestion },
+                        assessmentType: assessmentType
+                    }, '*');
+                }
+                showToast('Question added to ' + assessmentType + '!', 'success');
+            }
+            
+            resetForm();
+        }
+
+        function collectAnswerOptions() {
+            const options = [];
+            const correctAnswers = [];
+            
+            document.querySelectorAll('#answerOptions .answer-option').forEach((option, index) => {
+                const text = option.querySelector('.answer-input').value;
+                const isCorrect = option.querySelector('input[name="correctAnswer"]').checked;
+                
+                if (text) {
+                    options.push(text);
+                    if (isCorrect) {
+                        correctAnswers.push(index);
+                    }
+                }
+            });
+            
+            currentQuestion.options = options;
+            currentQuestion.correctAnswers = correctAnswers;
+        }
+
+        function collectFillBlankData() {
+            const text = document.getElementById('fillBlankText').value;
+            const blanks = [];
+            
+            // Extract blank positions and collect answers
+            const blankRegex = /\[blank\]/g;
+            let match;
+            while ((match = blankRegex.exec(text)) !== null) {
+                blanks.push({
+                    position: match.index,
+                    answer: '' // This would be filled by the teacher
+                });
+            }
+            
+            currentQuestion.fillBlanks = blanks;
+        }
+
+        function collectMatchingData() {
+            const leftItems = [];
+            const rightItems = [];
+            
+            document.querySelectorAll('#leftColumnItems .answer-input').forEach(input => {
+                if (input.value) leftItems.push(input.value);
+            });
+            
+            document.querySelectorAll('#rightColumnItems .answer-input').forEach(input => {
+                if (input.value) rightItems.push(input.value);
+            });
+            
+            currentQuestion.matchingPairs = {
+                left: leftItems,
+                right: rightItems
+            };
+        }
+
+        function collectOrderingData() {
+            const items = [];
+            document.querySelectorAll('#orderingItems .answer-input').forEach(input => {
+                if (input.value) items.push(input.value);
+            });
+            currentQuestion.orderingItems = items;
+        }
+
+        function collectNumericalData() {
+            currentQuestion.numericalAnswer = parseFloat(document.getElementById('numericalAnswer').value);
+            currentQuestion.numericalTolerance = parseFloat(document.getElementById('numericalTolerance').value);
+        }
+
+        function collectFileUploadData() {
+            const allowedTypes = Array.from(document.getElementById('allowedFileTypes').selectedOptions).map(option => option.value);
+            const maxSize = parseInt(document.getElementById('maxFileSize').value);
+            
+            currentQuestion.fileUploadSettings = {
+                allowedTypes,
+                maxSize
+            };
+        }
+
+        function loadQuestionBank() {
+            const container = document.getElementById('questionsList');
+            container.innerHTML = '';
+            
+            if (questionBank.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">No questions in the bank yet. Create your first question!</p>';
+                return;
+            }
+            
+            questionBank.forEach(question => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-item';
+                questionDiv.innerHTML = `
+                    <div class="question-meta">
+                        <span class="question-type-badge">${question.type.replace('-', ' ').toUpperCase()}</span>
+                        <span class="difficulty-badge difficulty-${question.difficulty}">${question.difficulty.toUpperCase()}</span>
+                        <span class="text-muted">${question.points} pts</span>
+                    </div>
+                    <div class="preview-question">${question.text}</div>
+                    <div class="question-actions">
+                        <button class="btn-sm btn-outline-primary" onclick="editQuestion('${question.id}')">
+                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            Edit
+                        </button>
+                        <button class="btn-sm btn-outline-primary" onclick="duplicateQuestion('${question.id}')">
+                            <iconify-icon icon="material-symbols:content-copy"></iconify-icon>
+                            Duplicate
+                        </button>
+                        <button class="btn-sm btn-outline-danger" onclick="deleteQuestion('${question.id}')">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            Delete
+                        </button>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function editQuestion(questionId) {
+            const question = questionBank.find(q => q.id === questionId);
+            if (!question) return;
+            
+            currentQuestion = { ...question };
+            selectQuestionType(question.type);
+            
+            // Populate form fields
+            document.getElementById('questionText').value = question.text;
+            document.getElementById('questionPoints').value = question.points;
+            document.getElementById('questionSubject').value = question.subject;
+            document.getElementById('questionChapter').value = question.chapter;
+            document.getElementById('timeLimit').value = question.timeLimit || '';
+            document.getElementById('questionExplanation').value = question.explanation;
+            
+            // Set difficulty
+            document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.difficulty === question.difficulty) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update tags
+            currentQuestion.tags = question.tags || [];
+            updateTagsDisplay();
+            
+            updatePreview();
+        }
+
+        function duplicateQuestion(questionId) {
+            const question = questionBank.find(q => q.id === questionId);
+            if (!question) return;
+            
+            const duplicatedQuestion = {
+                ...question,
+                id: Date.now().toString(),
+                text: question.text + ' (Copy)'
+            };
+            
+            questionBank.push(duplicatedQuestion);
+            localStorage.setItem('questionBank', JSON.stringify(questionBank));
+            loadQuestionBank();
+            showToast('Question duplicated successfully!', 'success');
+        }
+
+        function deleteQuestion(questionId) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                questionBank = questionBank.filter(q => q.id !== questionId);
+                localStorage.setItem('questionBank', JSON.stringify(questionBank));
+                loadQuestionBank();
+                showToast('Question deleted successfully!', 'success');
+            }
+        }
+
+        function filterQuestions() {
+            const searchTerm = document.getElementById('searchQuestions').value.toLowerCase();
+            const subjectFilter = document.getElementById('filterSubject').value;
+            const typeFilter = document.getElementById('filterType').value;
+            
+            const filteredQuestions = questionBank.filter(question => {
+                const matchesSearch = question.text.toLowerCase().includes(searchTerm);
+                const matchesSubject = !subjectFilter || question.subject === subjectFilter;
+                const matchesType = !typeFilter || question.type === typeFilter;
+                
+                return matchesSearch && matchesSubject && matchesType;
+            });
+            
+            // Update display
+            const container = document.getElementById('questionsList');
+            container.innerHTML = '';
+            
+            if (filteredQuestions.length === 0) {
+                container.innerHTML = '<p class="text-center text-muted">No questions match your filters.</p>';
+                return;
+            }
+            
+            filteredQuestions.forEach(question => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-item';
+                questionDiv.innerHTML = `
+                    <div class="question-meta">
+                        <span class="question-type-badge">${question.type.replace('-', ' ').toUpperCase()}</span>
+                        <span class="difficulty-badge difficulty-${question.difficulty}">${question.difficulty.toUpperCase()}</span>
+                        <span class="text-muted">${question.points} pts</span>
+                    </div>
+                    <div class="preview-question">${question.text}</div>
+                    <div class="question-actions">
+                        <button class="btn-sm btn-outline-primary" onclick="editQuestion('${question.id}')">
+                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            Edit
+                        </button>
+                        <button class="btn-sm btn-outline-primary" onclick="duplicateQuestion('${question.id}')">
+                            <iconify-icon icon="material-symbols:content-copy"></iconify-icon>
+                            Duplicate
+                        </button>
+                        <button class="btn-sm btn-outline-danger" onclick="deleteQuestion('${question.id}')">
+                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            Delete
+                        </button>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function saveDraft() {
+            // Save current form state as draft
+            const draft = {
+                type: currentQuestionType,
+                text: document.getElementById('questionText').value,
+                points: document.getElementById('questionPoints').value,
+                subject: document.getElementById('questionSubject').value,
+                chapter: document.getElementById('questionChapter').value,
+                timeLimit: document.getElementById('timeLimit').value,
+                explanation: document.getElementById('questionExplanation').value,
+                tags: currentQuestion.tags
+            };
+            
+            localStorage.setItem('questionDraft', JSON.stringify(draft));
+            showToast('Draft saved successfully!', 'success');
+        }
+
+        function previewQuestion() {
+            updatePreview();
+            showToast('Preview updated!', 'success');
+        }
+
+        function resetForm() {
+            document.getElementById('questionFormElement').reset();
+            currentQuestion = {
+                id: null,
+                type: null,
+                text: '',
+                points: 1,
+                subject: '',
+                chapter: '',
+                difficulty: 'medium',
+                timeLimit: null,
+                tags: [],
+                explanation: '',
+                options: [],
+                correctAnswers: [],
+                fillBlanks: [],
+                matchingPairs: [],
+                orderingItems: [],
+                numericalAnswer: null,
+                numericalTolerance: 0.1,
+                fileUploadSettings: {
+                    allowedTypes: ['pdf', 'doc', 'docx'],
+                    maxSize: 10
+                }
+            };
+            
+            currentQuestionType = null;
+            document.querySelectorAll('.question-type-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById('questionForm').style.display = 'none';
+            updatePreview();
+        }
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <iconify-icon icon="material-symbols:${type === 'success' ? 'check-circle' : 'error'}" class="toast-icon"></iconify-icon>
+                <span>${message}</span>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

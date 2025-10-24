@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fix Cart - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        body { padding: 20px; background: #f8f9fa; }
+        .fix-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: white; }
+        .cart-badge { background: #007bff; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+        .success { color: #28a745; }
+        .warning { color: #ffc107; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Cart Fix Tool</h1>
+        
+        <!-- Current Status -->
+        <div class="fix-section">
+            <h3>Current Cart Status</h3>
+            <p>Cart Count: <span class="cart-badge" id="cartCount">Loading...</span></p>
+            <p>Cart Items: <span id="cartItems">Loading...</span></p>
+            <p>Status: <span id="cartStatus">Loading...</span></p>
+        </div>
+        
+        <!-- Fix Actions -->
+        <div class="fix-section">
+            <h3>Fix Actions</h3>
+            <div class="d-grid gap-2">
+                <button class="btn btn-primary" onclick="fixCart()">🔧 Fix Cart (Recommended)</button>
+                <button class="btn btn-warning" onclick="clearAllData()">🧹 Clear All Cart Data</button>
+                <button class="btn btn-info" onclick="refreshStatus()">🔄 Refresh Status</button>
+                <button class="btn btn-success" onclick="testCart()">✅ Test Cart</button>
+            </div>
+        </div>
+        
+        <!-- Results -->
+        <div class="fix-section">
+            <h3>Fix Results</h3>
+            <div id="fixResults">Click "Fix Cart" to start the fix process</div>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="fix-section">
+            <h3>Instructions</h3>
+            <ol>
+                <li>Click "Fix Cart" to automatically fix the cart issue</li>
+                <li>If that doesn't work, try "Clear All Cart Data"</li>
+                <li>Click "Test Cart" to verify the fix worked</li>
+                <li>Navigate to other pages to confirm cart count is correct</li>
+            </ol>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        function fixCart() {
+            const results = [];
+            results.push('<h5>🔧 Starting cart fix...</h5>');
+            
+            try {
+                // Check current cart state
+                const cartData = localStorage.getItem('cart');
+                results.push(`<p>Current cart data: ${cartData || 'null'}</p>`);
+                
+                // Clear all cart-related data
+                localStorage.removeItem('cart');
+                localStorage.removeItem('favorites');
+                localStorage.removeItem('bookCart');
+                localStorage.removeItem('enrollCourse');
+                localStorage.removeItem('pendingCartAction');
+                
+                results.push('<p class="success">✅ Cleared all cart data from localStorage</p>');
+                
+                // Reset cart manager if available
+                if (window.cartManager) {
+                    window.cartManager.resetCart();
+                    results.push('<p class="success">✅ Reset cart manager</p>');
+                } else {
+                    results.push('<p class="warning">⚠️ Cart manager not available yet</p>');
+                }
+                
+                // Force update cart count
+                if (window.updateCartCount) {
+                    window.updateCartCount();
+                    results.push('<p class="success">✅ Updated cart count</p>');
+                }
+                
+                results.push('<p class="success">🎉 Cart fix completed!</p>');
+                
+            } catch (error) {
+                results.push(`<p class="error">❌ Error during fix: ${error.message}</p>`);
+            }
+            
+            document.getElementById('fixResults').innerHTML = results.join('');
+            refreshStatus();
+        }
+        
+        function clearAllData() {
+            const results = [];
+            results.push('<h5>🧹 Clearing all cart data...</h5>');
+            
+            try {
+                // Clear all possible cart-related keys
+                const keysToRemove = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key && (key.toLowerCase().includes('cart') || key.toLowerCase().includes('favorite'))) {
+                        keysToRemove.push(key);
+                    }
+                }
+                
+                keysToRemove.forEach(key => {
+                    localStorage.removeItem(key);
+                    results.push(`<p>Removed: ${key}</p>`);
+                });
+                
+                results.push('<p class="success">✅ All cart data cleared</p>');
+                
+                // Reset cart manager
+                if (window.cartManager) {
+                    window.cartManager.resetCart();
+                }
+                
+                results.push('<p class="success">🎉 All data cleared successfully!</p>');
+                
+            } catch (error) {
+                results.push(`<p class="error">❌ Error clearing data: ${error.message}</p>`);
+            }
+            
+            document.getElementById('fixResults').innerHTML = results.join('');
+            refreshStatus();
+        }
+        
+        function testCart() {
+            const results = [];
+            results.push('<h5>✅ Testing cart functionality...</h5>');
+            
+            try {
+                // Test adding an item
+                const testItem = {
+                    courseId: 'test-fix',
+                    id: 'test-fix',
+                    title: 'Test Fix Course',
+                    price: 99.99,
+                    instructor: 'Test Instructor',
+                    board: 'IGCSE',
+                    image: 'images/placeholder.jpg',
+                    description: 'This is a test course for fixing',
+                    quantity: 1
+                };
+                
+                if (window.cartManager) {
+                    const added = window.cartManager.addToCart(testItem);
+                    if (added) {
+                        results.push('<p class="success">✅ Successfully added test item to cart</p>');
+                        
+                        // Test removing the item
+                        setTimeout(() => {
+                            window.cartManager.removeFromCart('test-fix');
+                            results.push('<p class="success">✅ Successfully removed test item from cart</p>');
+                            results.push('<p class="success">🎉 Cart functionality is working correctly!</p>');
+                            document.getElementById('fixResults').innerHTML = results.join('');
+                            refreshStatus();
+                        }, 1000);
+                    } else {
+                        results.push('<p class="error">❌ Failed to add test item to cart</p>');
+                    }
+                } else {
+                    results.push('<p class="error">❌ Cart manager not available</p>');
+                }
+                
+            } catch (error) {
+                results.push(`<p class="error">❌ Error testing cart: ${error.message}</p>`);
+            }
+            
+            document.getElementById('fixResults').innerHTML = results.join('');
+        }
+        
+        function refreshStatus() {
+            try {
+                const cartData = localStorage.getItem('cart');
+                const cart = cartData ? JSON.parse(cartData) : [];
+                
+                document.getElementById('cartCount').textContent = cart.length;
+                document.getElementById('cartItems').textContent = cart.length;
+                
+                if (cart.length === 0) {
+                    document.getElementById('cartStatus').innerHTML = '<span class="success">✅ Cart is empty (correct)</span>';
+                } else {
+                    document.getElementById('cartStatus').innerHTML = `<span class="warning">⚠️ Cart has ${cart.length} items</span>`;
+                }
+                
+                // Update cart count if cart manager is available
+                if (window.cartManager) {
+                    document.getElementById('cartCount').textContent = window.cartManager.getCartCount();
+                }
+                
+            } catch (error) {
+                document.getElementById('cartStatus').innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+        
+        // Initialize status
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                refreshStatus();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

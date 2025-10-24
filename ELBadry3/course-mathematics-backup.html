@@ -1,0 +1,2289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics IGCSE - Course Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #F8F8F8;
+            min-height: 100vh;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: transparent;
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: none;
+            margin: 0;
+            position: relative;
+            top: 0;
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 1rem;
+            margin-left: 60px; /* Push content to the right to avoid menu icon overlap */
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.5rem;
+        }
+        
+        .welcome-subtext {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .logo-image {
+            height: 35px;
+            width: auto;
+            background: transparent;
+            border: none;
+            padding: 0;
+        }
+        
+        .notification-btn, .community-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .notification-btn:hover, .community-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification-btn::after, .community-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification-btn:hover::after, .community-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: white;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .profile-avatar:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-link {
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .profile-link:hover {
+            color: #333;
+        }
+        
+        /* Focus Mode Styling */
+        .focus-mode-btn {
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            background: rgba(40, 167, 69, 0.1);
+            border: 1px solid rgba(40, 167, 69, 0.3);
+            color: #28a745;
+        }
+        
+        .focus-mode-btn:hover {
+            background: rgba(40, 167, 69, 0.2);
+            border-color: rgba(40, 167, 69, 0.5);
+            color: #28a745;
+        }
+        
+        .focus-mode-btn.active {
+            background: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        /* Focus Mode Menu */
+        .focus-mode-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .focus-mode-menu.show {
+            display: flex;
+        }
+        
+        .focus-mode-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideInUp 0.4s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .focus-mode-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .focus-mode-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 0.5rem;
+        }
+        
+        .focus-mode-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .social-blocking-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title iconify-icon {
+            margin-right: 0.5rem;
+        }
+        
+        .social-platforms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .platform-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .platform-item:hover {
+            border-color: #28a745;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        }
+        
+        .platform-item.blocked {
+            border-color: #dc3545;
+            background: rgba(220, 53, 69, 0.05);
+        }
+        
+        .platform-item.blocked:hover {
+            border-color: #dc3545;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+        }
+        
+        .platform-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 0.5rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .platform-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .timer-section {
+            margin-bottom: 2rem;
+        }
+        
+        .timer-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timer-option {
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .timer-option:hover {
+            border-color: #28a745;
+            transform: translateY(-2px);
+        }
+        
+        .timer-option.selected {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .timer-duration {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .timer-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+        
+        .active-timer {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .active-timer.show {
+            display: block;
+            animation: pulse 2s infinite;
+        }
+        
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timer-status {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .timer-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-btn.start {
+            background: white;
+            color: #28a745;
+        }
+        
+        .timer-btn.pause {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        
+        .timer-btn.stop {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        .study-stats {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stats-title {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .view-all-stats {
+            color: #28a745;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .view-all-stats:hover {
+            color: #20c997;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #28a745;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+        
+        .focus-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .focus-btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .focus-btn.primary {
+            background: #28a745;
+            color: white;
+        }
+        
+        .focus-btn.primary:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .focus-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .focus-btn.secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Platform specific colors */
+        .facebook { background: #1877f2; }
+        .youtube { background: #ff0000; }
+        .tiktok { background: #000000; }
+        .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .twitter { background: #1da1f2; }
+        .snapchat { background: #fffc00; color: #000; }
+        .reddit { background: #ff4500; }
+        .discord { background: #5865f2; }
+        
+        .main-container {
+            padding: 2rem 0;
+        }
+        
+        .course-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            animation: slideInUp 0.6s ease forwards;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .course-card-header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .course-card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .course-card-body {
+            padding: 2rem;
+        }
+        
+        .progress-section {
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar-custom {
+            height: 10px;
+            background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-container {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .lesson-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #007bff;
+        }
+        
+        .lesson-card.completed {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .lesson-card.current {
+            background: #cce5ff;
+            border-color: #007bff;
+        }
+        
+        .lesson-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .lesson-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .lesson-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .lesson-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-current {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-pending {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+            color: white;
+        }
+        
+        .btn-outline-custom {
+            border: 2px solid #007bff;
+            color: #007bff;
+            background: transparent;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-custom:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+
+        /* Professional To-Do List Styling */
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #ffffff;
+            border: 1px solid #f1f3f4;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s ease;
+        }
+        
+        .todo-item:hover {
+            background-color: #f8f9fa;
+            transform: translateX(2px);
+            border-color: #dee2e6;
+        }
+        
+        .todo-item.completed {
+            opacity: 0.7;
+            background-color: #f8f9fa;
+        }
+        
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        
+        .todo-checkbox {
+            margin-right: 1rem;
+        }
+        
+        .todo-text {
+            flex: 1;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #212529;
+        }
+        
+        .todo-priority {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+        }
+        
+        .priority-high {
+            background-color: #dc3545;
+            color: white;
+        }
+        
+        .priority-medium {
+            background-color: #ffc107;
+            color: #212529;
+        }
+        
+        .priority-low {
+            background-color: #28a745;
+            color: white;
+        }
+
+        /* Professional Leaderboard Styling */
+        .leaderboard-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+        }
+        
+        .leaderboard-header {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+            padding: 1rem;
+        }
+        
+        .trophy-icon {
+            color: #6c757d;
+        }
+        
+        .leaderboard-stats {
+            font-size: 0.8rem;
+            color: #6c757d;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .reset-timer {
+            font-size: 0.75rem;
+            color: #dc3545;
+            font-weight: 500;
+        }
+        
+        .leaderboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+        
+        /* Professional Leaderboard List */
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .leaderboard-item.enhanced {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #ffffff;
+            border: 1px solid #f1f3f4;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .leaderboard-item.enhanced:hover {
+            background: #f8f9fa;
+            border-color: #dee2e6;
+        }
+        
+        .leaderboard-item.current-user {
+            background: #f8f9fa;
+            border-color: #6c757d;
+        }
+        
+        .rank-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background: #6c757d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .rank-badge.current {
+            background: #495057;
+        }
+        
+        .rank-badge.gold {
+            background: #ffd700;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .rank-badge.silver {
+            background: #c0c0c0;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .rank-badge.bronze {
+            background: #cd7f32;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .student-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            background: #6c757d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+        
+        .student-avatar.current {
+            background: #495057;
+        }
+        
+        .student-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .student-name {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #212529;
+            margin-bottom: 0.125rem;
+        }
+        
+        .student-class {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        .progress-container {
+            flex: 1;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 0.5rem;
+        }
+        
+        .progress-bar.enhanced {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+        
+        .points-badge {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #495057;
+            min-width: 50px;
+            text-align: right;
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .points-badge.current {
+            background: #e9ecef;
+            color: #495057;
+        }
+        
+        .user-indicator {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #495057;
+            color: white;
+            font-size: 0.6rem;
+            padding: 0.125rem 0.25rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .leaderboard-footer {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        /* Mathematics Submenu Styles */
+        .submenu-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submenu-option:active {
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .course-title {
+                font-size: 2rem;
+            }
+            
+            .course-tutor {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .submenu-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Welcome Message -->
+                <div class="col-md-6">
+                    <div class="welcome-section">
+                        <h4 class="welcome-text mb-0" id="welcomeMessage">Hello, User</h4>
+                        <small class="text-muted" id="welcomeSubtext">Welcome to your learning dashboard</small>
+                        </div>
+                    </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section">
+                            <a href="test-dashboard.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/nono.png" alt="IG Nation" class="logo-image">
+                            </a>
+                </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()" data-tooltip="Notifications">
+                                <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
+                                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Focus Mode Toggle -->
+                        <div class="focus-mode-section">
+                            <button class="btn btn-outline-success btn-sm focus-mode-btn" onclick="toggleFocusMode()" id="focusModeToggle">
+                                <iconify-icon icon="material-symbols:visibility-off" class="me-1"></iconify-icon>
+                                Focus Mode
+                            </button>
+                        </div>
+                        
+                        <!-- Community Button -->
+                        <div class="community-section">
+                            <button class="btn btn-primary btn-sm community-btn" onclick="openCommunity()" data-tooltip="Community">
+                                <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px;">
+                            </button>
+                        </div>
+                        
+                        <!-- Profile Section -->
+                        <div class="profile-section">
+                            <div class="dropdown">
+                                <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <div class="profile-avatar" id="headerProfileAvatar" data-tooltip="Profile">
+                                        <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 24px; height: 24px;">
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <!-- Profile Option -->
+                                    <li><a class="dropdown-item" href="student-info.html">
+                                        <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                        Profile
+                                    </a></li>
+                                    
+                                    <!-- How To Option -->
+                                    <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                        <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                        How To
+                                    </a></li>
+                                    
+                                    <li><hr class="dropdown-divider"></li>
+                                    
+                                    <!-- Logout Option -->
+                                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                        <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                        Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Focus Mode Menu -->
+    <div class="focus-mode-menu" id="focusModeMenu">
+        <div class="focus-mode-content">
+            <div class="focus-mode-header">
+                <h2 class="focus-mode-title">
+                    <iconify-icon icon="material-symbols:visibility-off" class="me-2"></iconify-icon>
+                    Focus Mode
+                </h2>
+                <p class="focus-mode-subtitle">Block distractions and boost your productivity</p>
+            </div>
+
+            <!-- Social Media Blocking Section -->
+            <div class="social-blocking-section">
+                <h3 class="section-title">
+                    <iconify-icon icon="material-symbols:block"></iconify-icon>
+                    Block Distracting Platforms
+                </h3>
+                <div class="social-platforms" id="socialPlatforms">
+                    <div class="platform-item" data-platform="facebook" onclick="togglePlatform(this)">
+                        <div class="platform-icon facebook">
+                            <iconify-icon icon="ic:baseline-facebook"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Facebook</span>
+                    </div>
+                    <div class="platform-item" data-platform="youtube" onclick="togglePlatform(this)">
+                        <div class="platform-icon youtube">
+                            <iconify-icon icon="mdi:youtube"></iconify-icon>
+                        </div>
+                        <span class="platform-name">YouTube</span>
+                    </div>
+                    <div class="platform-item" data-platform="tiktok" onclick="togglePlatform(this)">
+                        <div class="platform-icon tiktok">
+                            <iconify-icon icon="ic:baseline-tiktok"></iconify-icon>
+                        </div>
+                        <span class="platform-name">TikTok</span>
+                    </div>
+                    <div class="platform-item" data-platform="instagram" onclick="togglePlatform(this)">
+                        <div class="platform-icon instagram">
+                            <iconify-icon icon="mdi:instagram"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Instagram</span>
+                    </div>
+                    <div class="platform-item" data-platform="twitter" onclick="togglePlatform(this)">
+                        <div class="platform-icon twitter">
+                            <iconify-icon icon="mdi:twitter"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Twitter</span>
+                    </div>
+                    <div class="platform-item" data-platform="snapchat" onclick="togglePlatform(this)">
+                        <div class="platform-icon snapchat">
+                            <iconify-icon icon="mdi:snapchat"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Snapchat</span>
+                    </div>
+                    <div class="platform-item" data-platform="reddit" onclick="togglePlatform(this)">
+                        <div class="platform-icon reddit">
+                            <iconify-icon icon="mdi:reddit"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Reddit</span>
+                    </div>
+                    <div class="platform-item" data-platform="discord" onclick="togglePlatform(this)">
+                        <div class="platform-icon discord">
+                            <iconify-icon icon="ic:baseline-discord"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Discord</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer Section -->
+            <div class="timer-section">
+                <h3 class="section-title">
+                    <iconify-icon icon="material-symbols:timer"></iconify-icon>
+                    Focus Timer
+                </h3>
+                
+                <!-- Active Timer Display -->
+                <div class="active-timer" id="activeTimer">
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                    <div class="timer-status" id="timerStatus">Ready to focus</div>
+                    <div class="timer-controls">
+                        <button class="timer-btn start" id="startTimer" onclick="startTimer()">Start</button>
+                        <button class="timer-btn pause" id="pauseTimer" onclick="pauseTimer()" style="display: none;">Pause</button>
+                        <button class="timer-btn stop" id="stopTimer" onclick="stopTimer()" style="display: none;">Stop</button>
+                    </div>
+                </div>
+
+                <!-- Timer Options -->
+                <div class="timer-options">
+                    <div class="timer-option" data-duration="25" onclick="selectTimer(this)">
+                        <div class="timer-duration">25</div>
+                        <div class="timer-label">Pomodoro</div>
+                    </div>
+                    <div class="timer-option" data-duration="15" onclick="selectTimer(this)">
+                        <div class="timer-duration">15</div>
+                        <div class="timer-label">Short</div>
+                    </div>
+                    <div class="timer-option" data-duration="45" onclick="selectTimer(this)">
+                        <div class="timer-duration">45</div>
+                        <div class="timer-label">Long</div>
+                    </div>
+                    <div class="timer-option" data-duration="60" onclick="selectTimer(this)">
+                        <div class="timer-duration">60</div>
+                        <div class="timer-label">Deep</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Stats Section -->
+            <div class="study-stats">
+                <div class="stats-header">
+                    <h3 class="stats-title">Today's Focus</h3>
+                    <a href="#" class="view-all-stats" onclick="viewAllStats()">
+                        View All
+                        <iconify-icon icon="material-symbols:arrow-forward" class="ms-1"></iconify-icon>
+                    </a>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="todayFocus">0h</div>
+                        <div class="stat-label">Focused</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="todaySessions">0</div>
+                        <div class="stat-label">Sessions</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="todayBlocks">0</div>
+                        <div class="stat-label">Blocks</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="focus-actions">
+                <button class="focus-btn secondary" onclick="closeFocusMode()">Close</button>
+                <button class="focus-btn primary" onclick="startFocusSession()">Start Focus Session</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="course-content">
+            <!-- Mathematics Submenu -->
+            <div class="mathematics-submenu" style="background: white; border-radius: 15px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                <div class="submenu-header" style="text-align: center; margin-bottom: 1.5rem;">
+                    <h3 style="color: #333; font-weight: 700; margin-bottom: 0.5rem;">Mathematics Course</h3>
+                    <p style="color: #666; margin: 0;">Choose your learning path</p>
+                </div>
+                <div class="submenu-options" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                    <!-- Books Option -->
+                    <div class="submenu-option" onclick="navigateToSubmenu('books')" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                            <iconify-icon icon="material-symbols:menu-book"></iconify-icon>
+                        </div>
+                        <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Books</h5>
+                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Access textbooks and study materials</p>
+                    </div>
+                    
+                    <!-- Lectures Option -->
+                    <div class="submenu-option" onclick="navigateToSubmenu('lectures')" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                            <iconify-icon icon="material-symbols:play-circle"></iconify-icon>
+                        </div>
+                        <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Lectures</h5>
+                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Watch video lessons and tutorials</p>
+                    </div>
+                    
+                    <!-- Progress Option -->
+                    <div class="submenu-option" onclick="navigateToSubmenu('progress')" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 1.5rem; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3);">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">
+                            <iconify-icon icon="material-symbols:trending-up"></iconify-icon>
+                        </div>
+                        <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Track Your Progress</h5>
+                        <p style="margin: 0; opacity: 0.9; font-size: 0.9rem;">Monitor your learning journey</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Two Column Layout -->
+            <div class="row">
+                <!-- Left Column - Main Content -->
+                <div class="col-md-8">
+                    <!-- Course Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">75%</div>
+                    <div class="stat-label">Progress</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Lessons Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">4</div>
+                    <div class="stat-label">Lessons Remaining</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">85%</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+            </div>
+
+            <!-- Course Progress -->
+            <div class="course-card">
+                <div class="course-card-header">
+                    <h3 class="course-card-title">Course Progress</h3>
+                </div>
+                <div class="course-card-body">
+                    <div class="progress-section">
+                        <div class="progress-text">
+                            <span>Overall Progress</span>
+                            <span>75% Complete</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar-custom" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary-custom">
+                            <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                            Continue Learning
+                        </button>
+                        <button class="btn btn-outline-custom">
+                            <iconify-icon icon="material-symbols:quiz" class="me-2"></iconify-icon>
+                            Take Quiz
+                        </button>
+                        <button class="btn btn-outline-custom">
+                            <iconify-icon icon="material-symbols:assignment" class="me-2"></iconify-icon>
+                            View Assignments
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Lessons -->
+            <div class="course-card">
+                <div class="course-card-header">
+                    <h3 class="course-card-title">Course Lessons</h3>
+                </div>
+                <div class="course-card-body">
+                    <div class="lessons-grid">
+                        <div class="lesson-card completed">
+                            <div class="lesson-title">Introduction to Algebra</div>
+                            <div class="lesson-description">Learn the basics of algebraic expressions and equations</div>
+                            <div class="lesson-meta">
+                                <span>Duration: 45 min</span>
+                                <div class="lesson-status">
+                                    <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                                    <span class="status-badge status-completed">Completed</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-card completed">
+                            <div class="lesson-title">Linear Equations</div>
+                            <div class="lesson-description">Solving linear equations with one variable</div>
+                            <div class="lesson-meta">
+                                <span>Duration: 50 min</span>
+                                <div class="lesson-status">
+                                    <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                                    <span class="status-badge status-completed">Completed</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-card current">
+                            <div class="lesson-title">Quadratic Equations</div>
+                            <div class="lesson-description">Understanding and solving quadratic equations</div>
+                            <div class="lesson-meta">
+                                <span>Duration: 60 min</span>
+                                <div class="lesson-status">
+                                    <iconify-icon icon="material-symbols:play-circle"></iconify-icon>
+                                    <span class="status-badge status-current">Current</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-card">
+                            <div class="lesson-title">Trigonometry Basics</div>
+                            <div class="lesson-description">Introduction to trigonometric functions</div>
+                            <div class="lesson-meta">
+                                <span>Duration: 55 min</span>
+                                <div class="lesson-status">
+                                    <iconify-icon icon="material-symbols:lock"></iconify-icon>
+                                    <span class="status-badge status-pending">Locked</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-card">
+                            <div class="lesson-title">Geometry and Shapes</div>
+                            <div class="lesson-description">Properties of geometric shapes and calculations</div>
+                            <div class="lesson-meta">
+                                <span>Duration: 40 min</span>
+                                <div class="lesson-status">
+                                    <iconify-icon icon="material-symbols:lock"></iconify-icon>
+                                    <span class="status-badge status-pending">Locked</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="lesson-card">
+                            <div class="lesson-title">Statistics and Probability</div>
+                            <div class="lesson-description">Data analysis and probability concepts</div>
+                            <div class="lesson-meta">
+                                <span>Duration: 65 min</span>
+                                <div class="lesson-status">
+                                    <iconify-icon icon="material-symbols:lock"></iconify-icon>
+                                    <span class="status-badge status-pending">Locked</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="col-md-4">
+                <!-- Todo List Section -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:checklist" class="me-2"></iconify-icon>
+                            To-Do List
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="List name" id="todoListName">
+                        </div>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Add task..." id="newTaskInput">
+                                <select class="form-select" id="taskPriority" style="max-width: 120px;">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                                <button class="btn btn-primary" onclick="addTask()">
+                                    <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="todoList" style="max-height: 300px; overflow-y: auto;">
+                            <!-- Tasks will be loaded from localStorage -->
+                        </div>
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-success" onclick="saveTodoList()">
+                                <iconify-icon icon="material-symbols:save" class="me-1"></iconify-icon>
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Enhanced Leaderboard Section -->
+                <div class="card leaderboard-card">
+                    <div class="card-header leaderboard-header py-2">
+                        <h6 class="card-title mb-0">
+                            <iconify-icon icon="material-symbols:trophy" class="me-1 trophy-icon"></iconify-icon>
+                            Mathematics Leaderboard
+                        </h6>
+                        <div class="leaderboard-stats">
+                            <span class="total-students">24 students</span>
+                            <span class="reset-timer" id="resetTimer">• Resets in 12 days</span>
+                        </div>
+                    </div>
+                    <div class="card-body py-2">
+                        <div class="leaderboard-container">
+                            <!-- Professional Leaderboard List -->
+                            <div class="leaderboard-list">
+                                <div class="leaderboard-item enhanced" data-rank="1">
+                                    <div class="rank-badge gold">🥇</div>
+                                    <div class="student-avatar">AC</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Alex Chen</div>
+                                        <div class="student-class">Grade 11A</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 95%; background: #28a745;"></div>
+                                    </div>
+                                    <div class="points-badge">2,850</div>
+                                </div>
+                                
+                                <div class="leaderboard-item enhanced" data-rank="2">
+                                    <div class="rank-badge silver">🥈</div>
+                                    <div class="student-avatar">SJ</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Sarah Johnson</div>
+                                        <div class="student-class">Grade 11B</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 88%; background: #6c757d;"></div>
+                                    </div>
+                                    <div class="points-badge">2,640</div>
+                                </div>
+                                
+                                <div class="leaderboard-item enhanced" data-rank="3">
+                                    <div class="rank-badge bronze">🥉</div>
+                                    <div class="student-avatar">MB</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Michael Brown</div>
+                                        <div class="student-class">Grade 11A</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 82%; background: #fd7e14;"></div>
+                                    </div>
+                                    <div class="points-badge">2,460</div>
+                                </div>
+                                
+                                <div class="leaderboard-item enhanced current-user" data-rank="6">
+                                    <div class="rank-badge current">6</div>
+                                    <div class="student-avatar current">YO</div>
+                                    <div class="student-info">
+                                        <div class="student-name">You</div>
+                                        <div class="student-class">Grade 11A</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 65%; background: #6f42c1;"></div>
+                                    </div>
+                                    <div class="points-badge current">1,950</div>
+                                    <div class="user-indicator">You</div>
+                                </div>
+                            </div>
+                            
+                            <!-- View All Button -->
+                            <div class="leaderboard-footer">
+                                <button class="btn btn-outline-secondary btn-sm w-100" onclick="viewFullLeaderboard()">
+                                    <iconify-icon icon="material-symbols:visibility" class="me-1"></iconify-icon>
+                                    View Full Leaderboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Three Boxes Section: Quiz, Exam, Homework -->
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card h-100" onclick="window.location.href='quiz.html'" style="cursor: pointer; transition: all 0.3s ease;">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; color: #007bff;"></iconify-icon>
+                        </div>
+                        <h5 class="card-title">Quiz</h5>
+                        <p class="card-text">Test your knowledge with interactive quizzes</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary">5 Available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100" onclick="window.location.href='exam.html'" style="cursor: pointer; transition: all 0.3s ease;">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <iconify-icon icon="material-symbols:assignment" style="font-size: 3rem; color: #28a745;"></iconify-icon>
+                        </div>
+                        <h5 class="card-title">Exam</h5>
+                        <p class="card-text">Take comprehensive exams and assessments</p>
+                        <div class="mt-3">
+                            <span class="badge bg-success">3 Available</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100" onclick="window.location.href='homework.html'" style="cursor: pointer; transition: all 0.3s ease;">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <iconify-icon icon="material-symbols:home-work" style="font-size: 3rem; color: #ffc107;"></iconify-icon>
+                        </div>
+                        <h5 class="card-title">Homework</h5>
+                        <p class="card-text">Complete assignments and practice exercises</p>
+                        <div class="mt-3">
+                            <span class="badge bg-warning text-dark">7 Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+
+    <script>
+        // Mathematics Submenu Navigation
+        function navigateToSubmenu(option) {
+            switch(option) {
+                case 'books':
+                    window.location.href = 'mathematics-library.html';
+                    break;
+                case 'lectures':
+                    window.location.href = 'mathematics-lectures.html';
+                    break;
+                case 'progress':
+                    window.location.href = 'mathematics-progress.html';
+                    break;
+                default:
+                    console.log('Unknown submenu option:', option);
+            }
+        }
+
+        // Add click handlers for lesson cards
+        document.querySelectorAll('.lesson-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const lessonTitle = this.querySelector('.lesson-title').textContent;
+                const status = this.querySelector('.status-badge').textContent;
+                
+                if (status === 'Locked') {
+                    alert('This lesson is locked. Complete the previous lessons first.');
+                } else if (status === 'Completed') {
+                    alert(`Reviewing "${lessonTitle}" lesson...`);
+                } else if (status === 'Current') {
+                    alert(`Starting "${lessonTitle}" lesson...`);
+                }
+            });
+        });
+
+        // Add click handlers for action buttons
+        document.querySelectorAll('.btn-primary-custom, .btn-outline-custom').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.textContent.trim();
+                alert(`${action} clicked!`);
+            });
+        });
+
+        // Header functions
+        function openNotifications() {
+            window.location.href = 'notifications.html';
+        }
+        
+        function openCommunity() {
+            window.open('community.html', '_blank');
+        }
+        
+        function openHowToModal() {
+            window.location.href = 'platform-guide.html';
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userEmail');
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Todo List Functions
+        let todoLists = JSON.parse(localStorage.getItem('todoLists')) || {};
+        let currentListId = 'mathematics';
+        let currentListName = 'Mathematics Tasks';
+        
+        function addTask() {
+            const input = document.getElementById('newTaskInput');
+            const prioritySelect = document.getElementById('taskPriority');
+            if (!input || !prioritySelect) return;
+            
+            const taskText = input.value.trim();
+            if (!taskText) return;
+            
+            if (!todoLists[currentListId]) {
+                todoLists[currentListId] = { name: currentListName, tasks: [] };
+            }
+            
+            todoLists[currentListId].tasks.push({
+                text: taskText,
+                completed: false,
+                priority: prioritySelect.value,
+                createdAt: new Date().toISOString()
+            });
+            
+            localStorage.setItem('todoLists', JSON.stringify(todoLists));
+            input.value = '';
+            loadTodoList();
+        }
+
+        function loadTodoList() {
+            console.log('loadTodoList called');
+            const todoList = document.getElementById('todoList');
+            if (!todoList) {
+                console.error('todoList element not found');
+                return;
+            }
+            
+            const listData = todoLists[currentListId] || { name: currentListName, tasks: [] };
+            currentListName = listData.name;
+            console.log('List data:', listData);
+            
+            const nameInput = document.getElementById('todoListName');
+            if (nameInput) {
+                nameInput.value = currentListName;
+            }
+            
+            todoList.innerHTML = '';
+            
+            if (listData.tasks.length === 0) {
+                todoList.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <iconify-icon icon="material-symbols:checklist" class="fs-1 mb-3"></iconify-icon>
+                        <p>No tasks yet. Add one above!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            listData.tasks.forEach((task, index) => {
+                const todoItem = document.createElement('div');
+                todoItem.className = `todo-item ${task.completed ? 'completed' : ''}`;
+                todoItem.innerHTML = `
+                    <input type="checkbox" class="form-check-input todo-checkbox" ${task.completed ? 'checked' : ''} 
+                           onchange="toggleTask(${index})">
+                    <span class="todo-text">${task.text}</span>
+                    <span class="todo-priority priority-${task.priority || 'medium'}">${(task.priority || 'medium').toUpperCase()}</span>
+                `;
+                todoList.appendChild(todoItem);
+            });
+            console.log('Tasks loaded:', listData.tasks.length);
+        }
+        
+        function toggleTask(index) {
+            if (todoLists[currentListId] && todoLists[currentListId].tasks[index]) {
+                todoLists[currentListId].tasks[index].completed = !todoLists[currentListId].tasks[index].completed;
+                localStorage.setItem('todoLists', JSON.stringify(todoLists));
+                loadTodoList();
+            }
+        }
+        
+        function deleteTask(index) {
+            if (todoLists[currentListId] && todoLists[currentListId].tasks[index]) {
+                todoLists[currentListId].tasks.splice(index, 1);
+                localStorage.setItem('todoLists', JSON.stringify(todoLists));
+                loadTodoList();
+            }
+        }
+        
+        function setListName() {
+            const nameInput = document.getElementById('todoListName');
+            const newName = nameInput.value.trim();
+            
+            if (newName) {
+                currentListName = newName;
+                if (!todoLists[currentListId]) {
+                    todoLists[currentListId] = { name: currentListName, tasks: [] };
+                } else {
+                    todoLists[currentListId].name = currentListName;
+                }
+                localStorage.setItem('todoLists', JSON.stringify(todoLists));
+                console.log(`List name updated to "${newName}"`);
+            }
+        }
+        
+        function saveTodoList() {
+            if (!todoLists[currentListId] || todoLists[currentListId].tasks.length === 0) {
+                alert('No tasks to save!');
+                return;
+            }
+            
+            const listName = document.getElementById('todoListName').value.trim() || 'Mathematics Tasks';
+            todoLists[currentListId].name = listName;
+            localStorage.setItem('todoLists', JSON.stringify(todoLists));
+            alert(`Todo list "${listName}" saved successfully!`);
+        }
+        
+        // Leaderboard Functions
+        function initializeLeaderboard() {
+            // Animate progress bars on load
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.progress-bar.enhanced');
+                progressBars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.width = bar.style.width;
+                    }, index * 200);
+                });
+            }, 500);
+        }
+        
+        function initializeResetTimer() {
+            // Get the last reset date from localStorage or set to current date
+            let lastResetDate = localStorage.getItem('leaderboardLastReset');
+            if (!lastResetDate) {
+                lastResetDate = new Date().toISOString();
+                localStorage.setItem('leaderboardLastReset', lastResetDate);
+            }
+            
+            // Calculate days remaining
+            const lastReset = new Date(lastResetDate);
+            const now = new Date();
+            const daysSinceReset = Math.floor((now - lastReset) / (1000 * 60 * 60 * 24));
+            const daysRemaining = 14 - daysSinceReset;
+            
+            // Update the timer display
+            const timerElement = document.getElementById('resetTimer');
+            if (timerElement) {
+                if (daysRemaining > 0) {
+                    timerElement.textContent = `• Resets in ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''}`;
+                    timerElement.style.color = daysRemaining <= 3 ? '#dc3545' : '#6c757d';
+                } else {
+                    timerElement.textContent = '• Reset today!';
+                    timerElement.style.color = '#dc3545';
+                    localStorage.setItem('leaderboardLastReset', new Date().toISOString());
+                }
+            }
+        }
+        
+        function viewFullLeaderboard() {
+            // Create a modal for full leaderboard
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <iconify-icon icon="material-symbols:trophy" class="me-2"></iconify-icon>
+                                Full Mathematics Leaderboard
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="full-leaderboard">
+                                <div class="leaderboard-item enhanced" data-rank="1">
+                                    <div class="rank-badge" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);">1</div>
+                                    <div class="student-avatar" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #333;">AC</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Alex Chen</div>
+                                        <div class="student-class">Grade 11A • 2,850 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 95%; background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);"></div>
+                                    </div>
+                                    <div class="points-badge" style="background: rgba(255, 215, 0, 0.1); color: #FFA500;">2,850</div>
+                                </div>
+                                <div class="leaderboard-item enhanced" data-rank="2">
+                                    <div class="rank-badge" style="background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%);">2</div>
+                                    <div class="student-avatar" style="background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%); color: #333;">SJ</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Sarah Johnson</div>
+                                        <div class="student-class">Grade 11B • 2,640 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 88%; background: linear-gradient(90deg, #C0C0C0 0%, #A8A8A8 100%);"></div>
+                                    </div>
+                                    <div class="points-badge" style="background: rgba(192, 192, 192, 0.1); color: #A8A8A8;">2,640</div>
+                                </div>
+                                <div class="leaderboard-item enhanced" data-rank="3">
+                                    <div class="rank-badge" style="background: linear-gradient(135deg, #CD7F32 0%, #B8860B 100%);">3</div>
+                                    <div class="student-avatar" style="background: linear-gradient(135deg, #CD7F32 0%, #B8860B 100%); color: white;">MB</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Michael Brown</div>
+                                        <div class="student-class">Grade 11A • 2,460 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 82%; background: linear-gradient(90deg, #CD7F32 0%, #B8860B 100%);"></div>
+                                    </div>
+                                    <div class="points-badge" style="background: rgba(205, 127, 50, 0.1); color: #B8860B;">2,460</div>
+                                </div>
+                                <div class="leaderboard-item enhanced current-user" data-rank="6">
+                                    <div class="rank-badge current">6</div>
+                                    <div class="student-avatar current">YO</div>
+                                    <div class="student-info">
+                                        <div class="student-name">You</div>
+                                        <div class="student-class">Grade 11A • 1,950 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 65%; background: linear-gradient(90deg, #9C27B0 0%, #7B1FA2 100%);"></div>
+                                    </div>
+                                    <div class="points-badge current">1,950</div>
+                                    <div class="user-indicator">You</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            // Remove modal from DOM when hidden
+            modal.addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modal);
+            });
+        }
+
+        // Focus Mode Variables
+        let focusModeActive = false;
+        let blockedPlatforms = [];
+        let selectedTimerDuration = 25; // Default Pomodoro
+        let timerInterval = null;
+        let currentTime = 0;
+        let timerRunning = false;
+        let studyStats = {
+            todayFocus: 0,
+            todaySessions: 0,
+            todayBlocks: 0,
+            totalFocus: 0,
+            totalSessions: 0,
+            history: []
+        };
+        
+        // Focus Mode Functions
+        function toggleFocusMode() {
+            const menu = document.getElementById('focusModeMenu');
+            const toggle = document.getElementById('focusModeToggle');
+            
+            if (focusModeActive) {
+                closeFocusMode();
+            } else {
+                menu.classList.add('show');
+                toggle.classList.add('active');
+                focusModeActive = true;
+                loadStudyStats();
+            }
+        }
+        
+        function closeFocusMode() {
+            const menu = document.getElementById('focusModeMenu');
+            const toggle = document.getElementById('focusModeToggle');
+            
+            menu.classList.remove('show');
+            toggle.classList.remove('active');
+            focusModeActive = false;
+        }
+        
+        function togglePlatform(element) {
+            const platform = element.dataset.platform;
+            const isBlocked = element.classList.contains('blocked');
+            
+            if (isBlocked) {
+                element.classList.remove('blocked');
+                blockedPlatforms = blockedPlatforms.filter(p => p !== platform);
+            } else {
+                element.classList.add('blocked');
+                blockedPlatforms.push(platform);
+            }
+            
+            // Save blocked platforms
+            localStorage.setItem('blockedPlatforms', JSON.stringify(blockedPlatforms));
+        }
+        
+        function selectTimer(element) {
+            // Remove previous selection
+            document.querySelectorAll('.timer-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+            selectedTimerDuration = parseInt(element.dataset.duration);
+            currentTime = selectedTimerDuration * 60; // Convert to seconds
+            
+            // Update timer display
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(currentTime / 60);
+            const seconds = currentTime % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function startTimer() {
+            if (currentTime <= 0) {
+                currentTime = selectedTimerDuration * 60;
+            }
+            
+            timerRunning = true;
+            document.getElementById('startTimer').style.display = 'none';
+            document.getElementById('pauseTimer').style.display = 'inline-block';
+            document.getElementById('stopTimer').style.display = 'inline-block';
+            document.getElementById('activeTimer').classList.add('show');
+            document.getElementById('timerStatus').textContent = 'Focusing...';
+            
+            timerInterval = setInterval(() => {
+                currentTime--;
+                updateTimerDisplay();
+                
+                if (currentTime <= 0) {
+                    completeTimer();
+                }
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startTimer').style.display = 'inline-block';
+            document.getElementById('pauseTimer').style.display = 'none';
+            document.getElementById('timerStatus').textContent = 'Paused';
+        }
+        
+        function stopTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startTimer').style.display = 'inline-block';
+            document.getElementById('pauseTimer').style.display = 'none';
+            document.getElementById('stopTimer').style.display = 'none';
+            document.getElementById('activeTimer').classList.remove('show');
+            document.getElementById('timerStatus').textContent = 'Ready to focus';
+            currentTime = selectedTimerDuration * 60;
+            updateTimerDisplay();
+        }
+        
+        function completeTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            
+            // Update stats
+            studyStats.todaySessions++;
+            studyStats.totalSessions++;
+            studyStats.todayFocus += selectedTimerDuration;
+            studyStats.totalFocus += selectedTimerDuration;
+            
+            // Add to history
+            const session = {
+                date: new Date().toISOString().split('T')[0],
+                duration: selectedTimerDuration,
+                platforms: [...blockedPlatforms],
+                completed: true
+            };
+            studyStats.history.push(session);
+            
+            // Save stats
+            saveStudyStats();
+            updateStatsDisplay();
+            
+            // Show completion message
+            alert(`Great job! You focused for ${selectedTimerDuration} minutes.`);
+            
+            // Reset timer
+            stopTimer();
+        }
+        
+        function startFocusSession() {
+            if (blockedPlatforms.length === 0) {
+                alert('Please select at least one platform to block for focus mode.');
+                return;
+            }
+            
+            // Start the timer
+            startTimer();
+            
+            // Apply platform blocking (simulated)
+            applyPlatformBlocking();
+            
+            // Close the menu
+            closeFocusMode();
+            
+            // Show notification
+            showFocusNotification();
+        }
+        
+        function applyPlatformBlocking() {
+            // In a real implementation, this would use browser extensions or other methods
+            // For now, we'll simulate the blocking
+            console.log('Blocking platforms:', blockedPlatforms);
+        }
+        
+        function showFocusNotification() {
+            // Create a notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 3000;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <iconify-icon icon="material-symbols:visibility-off" style="margin-right: 0.5rem;"></iconify-icon>
+                    <div>
+                        <div style="font-weight: 600;">Focus Mode Active</div>
+                        <div style="font-size: 0.8rem; opacity: 0.9;">${blockedPlatforms.length} platforms blocked</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        function loadStudyStats() {
+            const saved = localStorage.getItem('studyStats');
+            if (saved) {
+                studyStats = JSON.parse(saved);
+            }
+            updateStatsDisplay();
+        }
+        
+        function saveStudyStats() {
+            localStorage.setItem('studyStats', JSON.stringify(studyStats));
+        }
+        
+        function updateStatsDisplay() {
+            document.getElementById('todayFocus').textContent = `${Math.floor(studyStats.todayFocus / 60)}h ${studyStats.todayFocus % 60}m`;
+            document.getElementById('todaySessions').textContent = studyStats.todaySessions;
+            document.getElementById('todayBlocks').textContent = blockedPlatforms.length;
+        }
+        
+        function viewAllStats() {
+            // Create a modal to show detailed stats
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                z-index: 3000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 20px; padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="color: #28a745; margin: 0;">Study Statistics</h2>
+                        <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                        <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #28a745;">${Math.floor(studyStats.totalFocus / 60)}h</div>
+                            <div style="color: #6c757d; font-size: 0.9rem;">Total Focus Time</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #28a745;">${studyStats.totalSessions}</div>
+                            <div style="color: #6c757d; font-size: 0.9rem;">Total Sessions</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #28a745;">${Math.floor(studyStats.totalFocus / studyStats.totalSessions) || 0}</div>
+                            <div style="color: #6c757d; font-size: 0.9rem;">Avg Session</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #333; margin-bottom: 1rem;">Recent Sessions</h3>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        ${studyStats.history.slice(-10).reverse().map(session => `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid #e9ecef;">
+                                <div>
+                                    <div style="font-weight: 600;">${session.duration} minutes</div>
+                                    <div style="font-size: 0.8rem; color: #6c757d;">${new Date(session.date).toLocaleDateString()}</div>
+                                </div>
+                                <div style="font-size: 0.8rem; color: #28a745;">${session.platforms.length} platforms blocked</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+        }
+        
+        function initializeFocusMode() {
+            // Load saved blocked platforms
+            const saved = localStorage.getItem('blockedPlatforms');
+            if (saved) {
+                blockedPlatforms = JSON.parse(saved);
+                // Update UI to show blocked platforms
+                blockedPlatforms.forEach(platform => {
+                    const element = document.querySelector(`[data-platform="${platform}"]`);
+                    if (element) {
+                        element.classList.add('blocked');
+                    }
+                });
+            }
+            
+            // Set default timer selection
+            const defaultTimer = document.querySelector('[data-duration="25"]');
+            if (defaultTimer) {
+                selectTimer(defaultTimer);
+            }
+            
+            // Load study stats
+            loadStudyStats();
+        }
+
+        // Make functions globally accessible
+        window.addTask = addTask;
+        window.saveTodoList = saveTodoList;
+        window.toggleTask = toggleTask;
+        window.deleteTask = deleteTask;
+        window.viewFullLeaderboard = viewFullLeaderboard;
+        window.navigateToSubmenu = navigateToSubmenu;
+        window.toggleFocusMode = toggleFocusMode;
+        window.togglePlatform = togglePlatform;
+        window.selectTimer = selectTimer;
+        window.startTimer = startTimer;
+        window.pauseTimer = pauseTimer;
+        window.stopTimer = stopTimer;
+        window.startFocusSession = startFocusSession;
+        window.closeFocusMode = closeFocusMode;
+        window.viewAllStats = viewAllStats;
+        
+        // Initialize all functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTodoList();
+            initializeLeaderboard();
+            initializeResetTimer();
+            initializeFocusMode();
+            
+            // Add event listeners
+            const newTaskInput = document.getElementById('newTaskInput');
+            if (newTaskInput) {
+                newTaskInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addTask();
+                    }
+                });
+            }
+            
+            // Add event listener for todo list name input
+            const todoListName = document.getElementById('todoListName');
+            if (todoListName) {
+                todoListName.addEventListener('blur', setListName);
+                todoListName.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        setListName();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

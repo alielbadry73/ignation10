@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - IG Nation Learning Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://unpkg.com/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .notification-item {
+            border-left: 4px solid #007bff;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .notification-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .notification-item.unread {
+            background-color: #f8f9ff;
+            border-left-color: #dc3545;
+        }
+        
+        .notification-item.read {
+            opacity: 0.7;
+        }
+        
+        .notification-badge {
+            position: relative;
+        }
+        
+        .notification-badge::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            background: #dc3545;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+        
+        .notification-type {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .type-assignment {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .type-quiz {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .type-exam {
+            background: #ffebee;
+            color: #d32f2f;
+        }
+        
+        .type-course {
+            background: #e8f5e8;
+            color: #388e3c;
+        }
+        
+        .type-system {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .notification-time {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+        
+        .filter-buttons {
+            margin-bottom: 2rem;
+        }
+        
+        .filter-btn {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .notification-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .notification-content.expanded {
+            max-height: 200px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="home.html">
+                <iconify-icon icon="material-symbols:school" class="me-2" style="font-size: 1.5rem;"></iconify-icon>
+                <span class="fw-bold">IG Nation</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">
+                            <iconify-icon icon="material-symbols:home" class="me-1"></iconify-icon>
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="courses.html">
+                            <iconify-icon icon="material-symbols:book" class="me-1"></iconify-icon>
+                            Courses
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">
+                            <iconify-icon icon="material-symbols:dashboard" class="me-1"></iconify-icon>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="notifications.html">
+                            <iconify-icon icon="material-symbols:notifications" class="me-1"></iconify-icon>
+                            Notifications
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="community.html">
+                            <iconify-icon icon="material-symbols:groups" class="me-1"></iconify-icon>
+                            Community
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <iconify-icon icon="material-symbols:account-circle" class="me-1"></iconify-icon>
+                            <span id="userName">Student</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
+                            <li><a class="dropdown-item" href="student-info.html">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" onclick="logout()">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="mb-0">
+                        <iconify-icon icon="material-symbols:notifications" class="me-2"></iconify-icon>
+                        Notifications
+                    </h2>
+                    <div>
+                        <button class="btn btn-outline-primary btn-sm me-2" onclick="markAllAsRead()">
+                            <iconify-icon icon="material-symbols:done-all" class="me-1"></iconify-icon>
+                            Mark All as Read
+                        </button>
+                        <button class="btn btn-outline-danger btn-sm" onclick="clearAllNotifications()">
+                            <iconify-icon icon="material-symbols:clear-all" class="me-1"></iconify-icon>
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Buttons -->
+                <div class="filter-buttons">
+                    <button class="btn btn-outline-primary filter-btn" onclick="filterNotifications('all')">
+                        All
+                    </button>
+                    <button class="btn btn-outline-primary filter-btn" onclick="filterNotifications('unread')">
+                        Unread
+                    </button>
+                    <button class="btn btn-outline-primary filter-btn" onclick="filterNotifications('assignment')">
+                        Assignments
+                    </button>
+                    <button class="btn btn-outline-primary filter-btn" onclick="filterNotifications('quiz')">
+                        Quizzes
+                    </button>
+                    <button class="btn btn-outline-primary filter-btn" onclick="filterNotifications('exam')">
+                        Exams
+                    </button>
+                    <button class="btn btn-outline-primary filter-btn" onclick="filterNotifications('course')">
+                        Courses
+                    </button>
+                    <button class="btn btn-outline-primary filter-btn" onclick="filterNotifications('system')">
+                        System
+                    </button>
+                </div>
+
+                <!-- Notifications List -->
+                <div id="notificationsList">
+                    <!-- Notifications will be loaded here -->
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-5" style="display: none;">
+                    <iconify-icon icon="material-symbols:notifications-off" style="font-size: 4rem; color: #6c757d;"></iconify-icon>
+                    <h4 class="mt-3 text-muted">No notifications</h4>
+                    <p class="text-muted">You're all caught up! Check back later for new updates.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Notifications System -->
+    <script>
+        // Sample notifications data
+        let notifications = [
+            {
+                id: 1,
+                type: 'assignment',
+                title: 'New Mathematics Assignment',
+                message: 'Assignment 3: Quadratic Equations is now available. Due date: Tomorrow at 11:59 PM',
+                timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2 hours ago
+                read: false,
+                course: 'Mathematics IGCSE',
+                actionUrl: 'mathematics-homework.html'
+            },
+            {
+                id: 2,
+                type: 'quiz',
+                title: 'Chemistry Quiz Results',
+                message: 'Your Chemistry Quiz 2 results are now available. You scored 85%!',
+                timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4 hours ago
+                read: false,
+                course: 'Chemistry IGCSE',
+                actionUrl: 'chemistry-quiz.html'
+            },
+            {
+                id: 3,
+                type: 'exam',
+                title: 'Physics Midterm Exam',
+                message: 'Physics Midterm Exam is scheduled for tomorrow at 2:00 PM. Don\'t forget to review your notes!',
+                timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000), // 6 hours ago
+                read: true,
+                course: 'Physics IGCSE',
+                actionUrl: 'physics-exams.html'
+            },
+            {
+                id: 4,
+                type: 'course',
+                title: 'New Course Available',
+                message: 'Biology IGCSE course is now available for enrollment. Start your journey in biological sciences!',
+                timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+                read: true,
+                course: 'Biology IGCSE',
+                actionUrl: 'course-details.html'
+            },
+            {
+                id: 5,
+                type: 'system',
+                title: 'Platform Maintenance',
+                message: 'Scheduled maintenance will occur tonight from 2:00 AM to 4:00 AM. The platform may be temporarily unavailable.',
+                timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+                read: true,
+                course: null,
+                actionUrl: null
+            },
+            {
+                id: 6,
+                type: 'assignment',
+                title: 'English Essay Feedback',
+                message: 'Your English essay "Climate Change" has been graded. Check your feedback in the assignment section.',
+                timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+                read: true,
+                course: 'English IGCSE',
+                actionUrl: 'homework.html'
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        // Initialize notifications
+        function initNotifications() {
+            // Load notifications from localStorage if available
+            const savedNotifications = localStorage.getItem('notifications');
+            if (savedNotifications) {
+                notifications = JSON.parse(savedNotifications);
+            } else {
+                // Save initial notifications to localStorage
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+            }
+            
+            updateUserName();
+            renderNotifications();
+            updateUnreadCount();
+        }
+
+        // Render notifications
+        function renderNotifications() {
+            const container = document.getElementById('notificationsList');
+            const emptyState = document.getElementById('emptyState');
+            
+            let filteredNotifications = notifications;
+            
+            if (currentFilter !== 'all') {
+                if (currentFilter === 'unread') {
+                    filteredNotifications = notifications.filter(n => !n.read);
+                } else {
+                    filteredNotifications = notifications.filter(n => n.type === currentFilter);
+                }
+            }
+            
+            if (filteredNotifications.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            // Sort by timestamp (newest first)
+            filteredNotifications.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            container.innerHTML = filteredNotifications.map(notification => `
+                <div class="card mb-3 notification-item ${notification.read ? 'read' : 'unread'}" 
+                     onclick="openNotification(${notification.id})">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="flex-grow-1">
+                                <div class="d-flex align-items-center mb-2">
+                                    <span class="notification-type type-${notification.type} me-2">
+                                        ${getTypeIcon(notification.type)} ${notification.type}
+                                    </span>
+                                    ${notification.course ? `<small class="text-muted">• ${notification.course}</small>` : ''}
+                                </div>
+                                <h6 class="mb-1">${notification.title}</h6>
+                                <p class="mb-2 text-muted">${notification.message}</p>
+                                <small class="notification-time">
+                                    ${formatTime(notification.timestamp)}
+                                </small>
+                            </div>
+                            ${!notification.read ? '<div class="notification-badge"></div>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get type icon
+        function getTypeIcon(type) {
+            const icons = {
+                assignment: '📝',
+                quiz: '🧠',
+                exam: '📊',
+                course: '📚',
+                system: '⚙️'
+            };
+            return icons[type] || '📢';
+        }
+
+        // Format timestamp
+        function formatTime(timestamp) {
+            const now = new Date();
+            const diff = now - new Date(timestamp);
+            const minutes = Math.floor(diff / (1000 * 60));
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            
+            if (minutes < 60) {
+                return `${minutes} minutes ago`;
+            } else if (hours < 24) {
+                return `${hours} hours ago`;
+            } else {
+                return `${days} days ago`;
+            }
+        }
+
+        // Open notification
+        function openNotification(id) {
+            const notification = notifications.find(n => n.id === id);
+            if (notification) {
+                // Mark as read
+                notification.read = true;
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                
+                // Navigate to action URL if available
+                if (notification.actionUrl) {
+                    window.location.href = notification.actionUrl;
+                } else {
+                    // Just re-render to update read status
+                    renderNotifications();
+                    updateUnreadCount();
+                }
+            }
+        }
+
+        // Filter notifications
+        function filterNotifications(filter) {
+            currentFilter = filter;
+            
+            // Update filter button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-outline-primary');
+            });
+            
+            event.target.classList.remove('btn-outline-primary');
+            event.target.classList.add('btn-primary');
+            
+            renderNotifications();
+        }
+
+        // Mark all as read
+        function markAllAsRead() {
+            notifications.forEach(notification => {
+                notification.read = true;
+            });
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+            renderNotifications();
+            updateUnreadCount();
+        }
+
+        // Clear all notifications
+        function clearAllNotifications() {
+            if (confirm('Are you sure you want to clear all notifications? This action cannot be undone.')) {
+                notifications = [];
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                renderNotifications();
+                updateUnreadCount();
+            }
+        }
+
+        // Update unread count (for other pages)
+        function updateUnreadCount() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            localStorage.setItem('unreadNotificationsCount', unreadCount);
+            
+            // Update notification badge in header if exists
+            const badge = document.querySelector('.notification-badge-count');
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'inline' : 'none';
+            }
+        }
+
+        // Update user name
+        function updateUserName() {
+            const userName = localStorage.getItem('userName') || 'Student';
+            document.getElementById('userName').textContent = userName;
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('userToken');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userRole');
+            window.location.href = 'index.html';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initNotifications);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

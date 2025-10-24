@@ -1616,12 +1616,15 @@
                                 </a>
                             </li>
                             <li style="margin-bottom: 12px;">
-                                <a href="contact.html" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;"
+                                <a href="#" style="color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.95rem; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px;"
                                    onmouseover="this.style.color='#ffd700'; this.style.transform='translateX(5px)'" 
                                    onmouseout="this.style.color='rgba(255,255,255,0.8)'; this.style.transform='translateX(0)'">
                                     <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 0.8rem;"></iconify-icon>
                                     Help Center
                                 </a>
+                            </li>
+                            <li style="margin-bottom: 12px;">
+                                <!-- FAQ removed -->
                             </li>
                         </ul>
                     </div>
@@ -1720,16 +1723,50 @@
         </div>
     </div>
 
+    <!-- Video Modal -->
+    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content" style="background: transparent; border: none;">
+                <div class="modal-header" style="border: none; padding: 0; position: absolute; right: 0; top: -40px; z-index: 1050;">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="font-size: 1.5rem; opacity: 1;"></button>
+                </div>
+                <div class="modal-body" style="padding: 0;">
+                    <div class="ratio ratio-16x9">
+                        <iframe id="demoVideo" src="" title="Demo Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Register Modal -->
     <div class="modal fade" id="registerModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Register Now</h5>
+                    <h5 class="modal-title">Register Now <small class="text-muted">(v2.0)</small></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div id="registerForm">
+                        <!-- USER TYPE SELECTION - FIRST -->
+                        <div class="mb-3" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #667eea; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.1);">
+                            <label for="userType" class="form-label" style="font-weight: 700; color: #667eea; font-size: 1.1rem;">
+                                <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                I am registering as a: *
+                            </label>
+                            <select class="form-select form-select-lg" id="userType" required style="border: 2px solid #667eea; font-size: 1.1rem; padding: 0.75rem;">
+                                <option value="">Please select your role</option>
+                                <option value="student">🎓 Student</option>
+                                <option value="parent">👨‍👩‍👧‍👦 Parent/Guardian</option>
+                                <option value="teacher">👨‍🏫 Teacher</option>
+                            </select>
+                            <div class="form-text mt-2" style="color: #667eea; font-weight: 500;">
+                                <iconify-icon icon="material-symbols:info" class="me-1"></iconify-icon>
+                                Choose your role to customize the registration form
+                            </div>
+                        </div>
+                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="firstName" class="form-label">First Name *</label>
@@ -1744,7 +1781,7 @@
                             <label for="email" class="form-label">Email Address *</label>
                             <input type="email" id="email" class="form-control" autocapitalize="off" autocorrect="off" spellcheck="false" required style="text-transform: lowercase;" oninput="this.value = this.value.toLowerCase()" onkeyup="this.value = this.value.toLowerCase()" onblur="this.value = this.value.toLowerCase()">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" id="studentPhoneSection">
                             <label for="phone" class="form-label">Student Phone Number</label>
                             <div class="row">
                                 <div class="col-4">
@@ -1837,8 +1874,8 @@
                             </div>
                             <div id="phoneError" class="text-danger" style="display: none; font-size: 0.875rem; margin-top: 0.25rem;">Not a valid phone number</div>
                         </div>
-                        <div class="mb-3">
-                            <label for="parentPhone" class="form-label">Parent/Guardian Phone Number *</label>
+                        <div class="mb-3" id="parentPhoneSection">
+                            <label for="parentPhone" class="form-label" id="parentPhoneLabel">Parent/Guardian Phone Number *</label>
                             <div class="row">
                                 <div class="col-4">
                                     <div class="custom-dropdown">
@@ -1928,7 +1965,7 @@
                                     <input type="tel" id="parentPhone" class="form-control" required placeholder="01xxxxxxxxx" onblur="validateMiddleEastPhone('parentPhone')">
                                 </div>
                             </div>
-                            <div class="form-text">Required for student registration and communication</div>
+                            <div class="form-text" id="parentPhoneText">Required for student registration and communication</div>
                             <div id="parentPhoneError" class="text-danger" style="display: none; font-size: 0.875rem; margin-top: 0.25rem;">Not a valid phone number</div>
                         </div>
                         <div class="mb-3">
@@ -2100,6 +2137,7 @@
     <script src="js/plugins.js"></script>
     <script src="js/script.js?v=4"></script>
     <script src="js/api.js"></script>
+    <script src="js/cart.js"></script>
     
     <!-- Scroll Animation Script -->
     <script>
@@ -2393,7 +2431,7 @@
     </style>
     
     <script>
-        // Global variables
+        // Global variables - cart and favorites are now managed by cart.js
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -3117,7 +3155,7 @@
                 price: '£299.00',
                 originalPrice: '£399.00',
                 rating: 4.9,
-                image: 'images/teacher1.png'
+                image: 'images/teacher1.PNG'
             },
             physics: {
                 title: 'IGCSE Physics (Extended)',
@@ -3126,7 +3164,7 @@
                 price: '£279.00',
                 originalPrice: '£349.00',
                 rating: 4.8,
-                image: 'images/teacher2.png'
+                image: 'images/teacher2.PNG'
             },
             english: {
                 title: 'IGCSE English Language',
@@ -3135,7 +3173,7 @@
                 price: '£249.00',
                 originalPrice: '£329.00',
                 rating: 4.9,
-                image: 'images/teacher3.png'
+                image: 'images/teacher3.PNG'
             }
         };
 
@@ -3273,28 +3311,46 @@
             }
         });
 
-        // Cart functions
+        // Cart functions - now using unified cart system
         function addToCart(courseId) {
             console.log('Adding to cart:', courseId);
             
-            // Check if already in cart
-            const existingItem = cart.find(item => item.courseId === courseId);
-            if (existingItem) {
-                showToast('This course is already in your cart!', 'warning');
+            const course = courses[courseId];
+            if (!course) {
+                showToast('Course not found!', 'error');
                 return;
             }
             
-            // Add to cart
-            cart.push({
+            const courseData = {
                 courseId: courseId,
-                quantity: 1,
-                addedAt: new Date().toISOString()
-            });
+                id: courseId,
+                title: course.title,
+                price: parseFloat(course.price.replace('£', '')),
+                instructor: course.instructor,
+                board: course.board,
+                image: course.image,
+                description: course.description,
+                quantity: 1
+            };
             
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-            updateCartModal();
-            showToast('Course added to cart!', 'success');
+            // Use unified cart system
+            if (window.cartManager) {
+                window.cartManager.addToCart(courseData);
+            } else {
+                // Fallback for when cart system isn't loaded yet
+                console.warn('Cart manager not available, using fallback');
+                const existingItem = cart.find(item => item.courseId === courseId);
+                if (existingItem) {
+                    showToast('This course is already in your cart!', 'warning');
+                    return;
+                }
+                
+                cart.push(courseData);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                updateCartModal();
+                showToast('Course added to cart!', 'success');
+            }
         }
 
         // Enroll in course function - redirects to checkout
@@ -3361,12 +3417,44 @@
         }
 
         function updateCartCount() {
-            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-            const cartBadge = document.getElementById('cartCount');
-            const cartModalCount = document.getElementById('cartModalCount');
+            // Use unified cart system if available
+            if (window.cartManager) {
+                window.cartManager.updateCartCount();
+            } else {
+                // Fallback for when cart system isn't loaded yet
+                const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+                const cartBadge = document.getElementById('cartCount');
+                const cartModalCount = document.getElementById('cartModalCount');
+                
+                if (cartBadge) cartBadge.textContent = cartCount;
+                if (cartModalCount) cartModalCount.textContent = cartCount;
+            }
+        }
+
+        // Function to get course by ID (handles both string and numeric IDs)
+        function getCourseById(courseId) {
+            // Try string-based lookup first (legacy)
+            let course = courses[courseId];
             
-            if (cartBadge) cartBadge.textContent = cartCount;
-            if (cartModalCount) cartModalCount.textContent = cartCount;
+            if (!course) {
+                // Try numeric ID mapping (from homenocourses.html)
+                switch(courseId) {
+                    case '115':
+                    case 115:
+                        course = courses.mathematics;
+                        break;
+                    case '116':
+                    case 116:
+                        course = courses.physics;
+                        break;
+                    case '117':
+                    case 117:
+                        course = courses.english;
+                        break;
+                }
+            }
+            
+            return course;
         }
 
         function updateCartModal() {
@@ -3383,8 +3471,11 @@
                 if (checkoutBtn) checkoutBtn.disabled = true;
             } else {
                 cartList.innerHTML = cart.map(item => {
-                    const course = courses[item.courseId];
-                    if (!course) return '';
+                    const course = getCourseById(item.courseId);
+                    if (!course) {
+                        console.log('Course not found for ID:', item.courseId);
+                        return '';
+                    }
                     
                     return `
                         <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
@@ -3663,6 +3754,26 @@
 
         // Login function - now uses API
         async function handleLoginClick() {
+            console.log('🔵 handleLoginClick called from INDEX.HTML inline script');
+            console.log('🔍 Current redirect flag:', window.loginRedirectPending);
+            
+            // Prevent multiple redirects
+            if (window.loginRedirectPending) {
+                console.log('⚠️ Redirect already pending, ignoring login attempt');
+                return;
+            }
+            
+            // Set redirect flag to prevent duplicates
+            window.loginRedirectPending = true;
+            console.log('🔒 Redirect flag set to:', window.loginRedirectPending);
+            
+            // Disable login button to prevent double clicks
+            const loginButton = document.querySelector('button[onclick="handleLoginClick()"]');
+            if (loginButton) {
+                loginButton.disabled = true;
+                loginButton.textContent = 'Logging in...';
+            }
+            
             const email = document.getElementById('loginEmail').value.toLowerCase().trim();
             const password = document.getElementById('loginPassword').value;
             
@@ -3786,124 +3897,158 @@
                 
                 // Check for pending orders first
                 try {
+                    console.log('🔍 Step 1: Checking order status for user ID:', data.user.id);
                     const orderStatusResponse = await fetch(`http://localhost:3000/api/orders/status/${data.user.id}`, {
                         headers: { 'Authorization': `Bearer ${data.token}` }
                     });
                     
+                    console.log('🔍 Step 2: Order status response received:', orderStatusResponse.status);
+                    
                     if (orderStatusResponse.ok) {
                         const orderStatus = await orderStatusResponse.json();
-                        console.log('📦 Order status:', orderStatus);
+                        console.log('📦 Step 3: Order status data:', orderStatus);
+                        console.log('   - Status:', orderStatus.status);
+                        console.log('   - Has Access:', orderStatus.hasAccess);
+                        console.log('   - Approved Orders:', orderStatus.approvedOrders);
+                        console.log('   - Pending Orders:', orderStatus.pendingOrders);
                         
                         // If user has pending orders, redirect to order processing page
-                        if (orderStatus.status === 'pending') {
-                            console.log('⏳ User has pending order, redirecting to order processing');
-                            setTimeout(() => {
-                                window.location.href = 'order-processing.html';
-                            }, 1500);
+                        if (orderStatus.status === 'pending' && orderStatus.approvedOrders === 0) {
+                            console.log('⏳ Step 4: User has pending order (no approved orders yet), performing immediate redirect');
+                            window.location.href = 'order-processing.html';
                             return;
                         }
                         
-                        // If user has approved order or active enrollments, redirect to student dashboard
-                        if (orderStatus.hasAccess || orderStatus.status === 'approved') {
-                            console.log('✅ User has access to courses, redirecting to student dashboard');
-                            setTimeout(() => {
-                                window.location.href = 'student-dashboard.html';
-                            }, 1500);
-                            return;
+                        // If user has approved order or active enrollments, redirect based on courses
+                        if (orderStatus.hasAccess || orderStatus.status === 'approved' || orderStatus.approvedOrders > 0) {
+                            console.log('✅ Step 4: User has access to courses, checking for specific course purchases');
+                            console.log('   - Condition check: hasAccess=' + orderStatus.hasAccess + ', status=' + orderStatus.status + ', approvedOrders=' + orderStatus.approvedOrders);
+                            
+                            // Check for specific course purchases and redirect accordingly
+                            try {
+                                console.log('🔍 Step 5: Fetching user orders by email:', data.user.email);
+                                
+                                // Use email-based endpoint which doesn't require admin access
+                                const orderDetailsResponse = await fetch(`http://localhost:3000/api/orders/by-email/${encodeURIComponent(data.user.email)}`);
+                                
+                                if (orderDetailsResponse.ok) {
+                                    const orderDetails = await orderDetailsResponse.json();
+                                    console.log('📋 User orders:', orderDetails);
+                                    
+                                    const userOrders = orderDetails.orders || [];
+                                    
+                                    let redirectUrl = 'homenocourses.html'; // Default
+                                    
+                                    // Check courses in each order
+                                    for (const order of userOrders) {
+                                        const courses = typeof order.courses === 'string' ? JSON.parse(order.courses) : order.courses;
+                                        console.log('📚 Checking courses:', courses);
+                                        
+                                        if (Array.isArray(courses)) {
+                                            // Handle array of course objects
+                                            const courseNames = courses.map(c => typeof c === 'string' ? c : (c.title || c.name || ''));
+                                            
+                                            if (courseNames.some(name => name.toLowerCase().includes('english'))) {
+                                                redirectUrl = 'english-dashboard.html';
+                                                console.log('✅ Redirecting to English dashboard');
+                                                break;
+                                            }
+                                            
+                                            if (courseNames.some(name => name.toLowerCase().includes('mathematics') || name.toLowerCase().includes('math'))) {
+                                                redirectUrl = 'mathematics-dashboard.html';
+                                                console.log('✅ Redirecting to Mathematics dashboard');
+                                                break;
+                                            }
+                                            
+                                            if (courseNames.some(name => name.toLowerCase().includes('physics'))) {
+                                                redirectUrl = 'physics-dashboard.html';
+                                                console.log('✅ Redirecting to Physics dashboard');
+                                                break;
+                                            }
+                                        } else if (typeof courses === 'string') {
+                                            // Handle single course string
+                                            if (courses.toLowerCase().includes('english')) {
+                                                redirectUrl = 'english-dashboard.html';
+                                                console.log('✅ Redirecting to English dashboard');
+                                                break;
+                                            }
+                                            
+                                            if (courses.toLowerCase().includes('mathematics') || courses.toLowerCase().includes('math')) {
+                                                redirectUrl = 'mathematics-dashboard.html';
+                                                console.log('✅ Redirecting to Mathematics dashboard');
+                                                break;
+                                            }
+                                            
+                                            if (courses.toLowerCase().includes('physics')) {
+                                                redirectUrl = 'physics-dashboard.html';
+                                                console.log('✅ Redirecting to Physics dashboard');
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    
+                                    console.log('🎯 Step 6: Final redirect URL:', redirectUrl);
+                                    console.log('🚀 Executing immediate redirect to:', redirectUrl);
+                                    window.location.href = redirectUrl;
+                                    return;
+                                } else {
+                                    console.log('⚠️ Failed to fetch orders:', orderDetailsResponse.status);
+                                    // Fall through to fallback redirection below
+                                }
+                            } catch (courseError) {
+                                console.error('❌ Error checking course details:', courseError);
+                                // Fall through to fallback redirection below
+                            }
+                            
+                            // Fallback to role-based redirection (only if above didn't succeed)
+                            console.log('📍 Using fallback redirection for role:', data.user.role);
+                            if (data.user.role === 'parent') {
+                                window.location.href = 'parent-dashboard.html';
+                                return;
+                            } else if (data.user.role === 'admin') {
+                                window.location.href = 'admin-panel.html';
+                                return;
+                            } else {
+                                console.log('🚀 Fallback redirect to homenocourses.html');
+                                window.location.href = 'homenocourses.html';
+                                return;
+                            }
                         }
+                        
+                        // If we reach here, user has no approved orders or access
+                        console.log('🏠 Step 7: User has no approved orders, performing immediate redirect');
+                        console.log('🔒 Setting redirect flag to prevent duplicates');
+                        window.loginRedirectPending = true;
+                        
+                        // Prevent back button issues
+                        window.history.replaceState(null, null, window.location.href);
+                        window.location.replace('homenocourses.html');
+                        return;
                     }
                 } catch (orderError) {
                     console.error('Error checking order status:', orderError);
-                    // Continue with normal flow if order check fails
-                }
-                
-                // Add immediate redirect fallback (in case enrollment sync fails)
-                setTimeout(() => {
-                    console.log('🔄 Immediate redirect fallback to home');
-                    try {
-                        window.open('http://localhost:3000/homenocourses.html', '_blank');
-                    } catch (e) {
-                        console.log('Popup blocked, using location.href');
-                        window.location.href = 'http://localhost:3000/homenocourses.html';
-                    }
-                }, 3000); // 3 second fallback
-                
-                // Sync enrollments from backend and redirect
-                try {
-                    const enrollResponse = await fetch('http://localhost:3000/api/my-enrollments', {
-                        headers: { 'Authorization': `Bearer ${data.token}` }
-                    });
+                    // If order check fails, redirect to homenocourses as fallback
+                    console.log('⚠️ Step 8 (Error): Order check failed, performing immediate redirect');
+                    console.log('🔒 Setting redirect flag to prevent duplicates');
+                    window.loginRedirectPending = true;
                     
-                    if (enrollResponse.ok) {
-                        const enrollmentData = await enrollResponse.json();
-                        console.log('📋 Raw enrollment data:', enrollmentData);
-                        
-                        // Handle different response formats
-                        let enrollments = [];
-                        if (enrollmentData.enrollments && Array.isArray(enrollmentData.enrollments)) {
-                            enrollments = enrollmentData.enrollments;
-                        } else if (Array.isArray(enrollmentData)) {
-                            enrollments = enrollmentData;
-                        }
-                        
-                        const enrolledCourseIds = enrollments.map(e => e.id || e.course_id);
-                        localStorage.setItem('enrolledCourses', JSON.stringify(enrolledCourseIds));
-                        
-                        console.log('✅ Synced enrollments:', enrolledCourseIds);
-                        
-                        // Redirect based on enrollments
-                        setTimeout(() => {
-                            console.log('🔄 Redirecting user...', { enrolledCourseIds });
-                            if (enrolledCourseIds.length > 0) {
-                                // User has courses - redirect to dashboard
-                                console.log('📊 User has courses, redirecting to dashboard');
-                                try {
-                                    window.open('http://localhost:3000/student-dashboard.html', '_blank');
-                                } catch (e) {
-                                    console.log('Popup blocked, using location.href');
-                                    window.location.href = 'http://localhost:3000/student-dashboard.html';
-                                }
-                            } else {
-                                // No courses yet - redirect to home
-                                console.log('🏠 User has no courses, redirecting to home');
-                                try {
-                                    window.open('http://localhost:3000/homenocourses.html', '_blank');
-                                } catch (e) {
-                                    console.log('Popup blocked, using location.href');
-                                    window.location.href = 'http://localhost:3000/homenocourses.html';
-                                }
-                            }
-                        }, 1000);
-                    } else {
-                        // If sync fails, just redirect to home
-                        console.log('⚠️ Enrollment sync failed, redirecting to home');
-                        setTimeout(() => {
-                            console.log('🏠 Fallback redirect to home');
-                            try {
-                                window.open('http://localhost:3000/homenocourses.html', '_blank');
-                            } catch (e) {
-                                console.log('Popup blocked, using location.href');
-                                window.location.href = 'http://localhost:3000/homenocourses.html';
-                            }
-                        }, 1000);
-                    }
-                } catch (error) {
-                    console.error('Error syncing enrollments:', error);
-                    // If sync fails, just redirect to home
-                    console.log('⚠️ Enrollment sync error, redirecting to home');
-                    setTimeout(() => {
-                        console.log('🏠 Error fallback redirect to home');
-                        try {
-                            window.open('http://localhost:3000/homenocourses.html', '_blank');
-                        } catch (e) {
-                            console.log('Popup blocked, using location.href');
-                            window.location.href = 'http://localhost:3000/homenocourses.html';
-                        }
-                    }, 1000);
+                    // Prevent back button issues
+                    window.history.replaceState(null, null, window.location.href);
+                    window.location.replace('homenocourses.html');
+                    return;
                 }
             } catch (error) {
                 console.error('Login error:', error);
                 showToast('Login failed: ' + error.message, 'error');
+                // Reset redirect flag on error to allow retry
+                window.loginRedirectPending = false;
+                
+                // Re-enable login button
+                const loginButton = document.querySelector('button[onclick="handleLoginClick()"]');
+                if (loginButton) {
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Login';
+                }
             }
         }
 
@@ -3917,10 +4062,25 @@
             const password = document.getElementById('password').value;
             const confirmPassword = document.getElementById('confirmPassword').value;
             const agreeTerms = document.getElementById('agreeTerms').checked;
+            const userType = document.getElementById('userType').value;
             
-            if (!firstName || !lastName || !email || !password || !parentPhone) {
-                showToast('Please fill in all required fields including parent phone number', 'warning');
+            if (!firstName || !lastName || !email || !password || !userType) {
+                showToast('Please fill in all required fields', 'warning');
                 return;
+            }
+            
+            // Only require parent phone for students, not for parents or teachers
+            if (userType === 'student' && !parentPhone) {
+                showToast('Please provide parent/guardian phone number', 'warning');
+                return;
+            }
+            
+            // For parents, the phone field becomes their own phone (optional)
+            // For teachers, parent phone is not required
+            if (userType === 'parent') {
+                // Parent phone field is optional for parents (it's their own phone)
+            } else if (userType === 'teacher') {
+                // Parent phone not required for teachers
             }
             
             if (password !== confirmPassword) {
@@ -3940,12 +4100,18 @@
             
             // Validate phone numbers
             if (phone && !validateMiddleEastPhone('phone')) {
-                showToast('Please enter a valid phone number for student phone', 'warning');
+                showToast('Please enter a valid phone number', 'warning');
                 return;
             }
             
-            if (!validateMiddleEastPhone('parentPhone')) {
+            // Validate parent phone for students, or own phone for parents
+            if (userType === 'student' && parentPhone && !validateMiddleEastPhone('parentPhone')) {
                 showToast('Please enter a valid phone number for parent/guardian phone', 'warning');
+                return;
+            }
+            
+            if (userType === 'parent' && parentPhone && !validateMiddleEastPhone('parentPhone')) {
+                showToast('Please enter a valid phone number', 'warning');
                 return;
             }
             
@@ -3968,8 +4134,10 @@
                         password,
                         phone,
                         phone_country: phoneCountry,
-                        parent_phone: parentPhone,
-                        parent_phone_country: parentPhoneCountry
+                        parent_phone: userType === 'student' ? parentPhone : (userType === 'parent' ? parentPhone : null),
+                        parent_phone_country: userType === 'student' ? parentPhoneCountry : (userType === 'parent' ? parentPhoneCountry : null),
+                        role: userType,
+                        userType: userType
                     })
                 });
                 
@@ -4078,9 +4246,61 @@
                 // Update UI
                 checkLoginState();
                 
-                // New users don't have courses yet - always redirect to home
-                setTimeout(() => {
-                    window.location.href = 'home.html';
+                // Check for existing orders and redirect accordingly
+                setTimeout(async () => {
+                    try {
+                        // Check if user is a parent - redirect to parent dashboard
+                        if (userType === 'parent') {
+                            console.log('✅ Parent registered, redirecting to parent dashboard');
+                            window.location.href = 'parent-dashboard.html';
+                            return;
+                        }
+                        
+                        const existingOrders = await api.getOrdersByEmail(email);
+                        let redirectUrl = 'homenocourses.html'; // Default to no courses page
+                        
+                        if (existingOrders.length > 0) {
+                            console.log('📋 Found existing orders for user:', existingOrders);
+                            
+                            // Check courses in existing orders
+                            for (const order of existingOrders) {
+                                const courses = typeof order.courses === 'string' ? JSON.parse(order.courses) : order.courses;
+                                
+                                if (courses.includes('IGCSE English Language') || 
+                                    courses.includes('English') || 
+                                    courses.some(course => course.toLowerCase().includes('english'))) {
+                                    redirectUrl = 'english-dashboard.html';
+                                    console.log('✅ Redirecting to English dashboard');
+                                    break;
+                                }
+                                
+                                if (courses.includes('IGCSE Mathematics') || 
+                                    courses.includes('Mathematics') || 
+                                    courses.some(course => course.toLowerCase().includes('mathematics'))) {
+                                    redirectUrl = 'mathematics-dashboard.html';
+                                    console.log('✅ Redirecting to Mathematics dashboard');
+                                    break;
+                                }
+                                
+                                if (courses.includes('IGCSE Physics') || 
+                                    courses.includes('Physics') || 
+                                    courses.some(course => course.toLowerCase().includes('physics'))) {
+                                    redirectUrl = 'physics-dashboard.html';
+                                    console.log('✅ Redirecting to Physics dashboard');
+                                    break;
+                                }
+                            }
+                        } else {
+                            console.log('🏠 No existing orders found, redirecting to homenocourses.html');
+                        }
+                        
+                        // Redirect to appropriate page
+                        window.location.href = redirectUrl;
+                    } catch (error) {
+                        console.error('Error checking orders:', error);
+                        // Fallback to no courses page
+                        window.location.href = 'homenocourses.html';
+                    }
                 }, 1500);
             } catch (error) {
                 console.error('Registration error:', error);
@@ -4158,6 +4378,11 @@
                 }
                 
                 showToast('Verification code sent to your email', 'success');
+                
+                // Show code in alert for development (when SMTP not configured)
+                if (data.devCode) {
+                    alert('📧 Email Service Not Configured\n\nYour verification code is:\n\n' + data.devCode + '\n\nPlease enter this code in the next step.');
+                }
                 
                 // Move to step 2
                 document.getElementById('forgotPasswordStep1').style.display = 'none';
@@ -4402,6 +4627,50 @@
         // Initialize course filtering when page loads
         $(document).ready(function() {
             initCourseFiltering();
+            
+            // Add event listener for userType change to show/hide phone fields
+            const userTypeSelect = document.getElementById('userType');
+            if (userTypeSelect) {
+                userTypeSelect.addEventListener('change', function() {
+                    const studentPhoneSection = document.getElementById('studentPhoneSection');
+                    const parentPhoneSection = document.getElementById('parentPhoneSection');
+                    const parentPhoneLabel = document.getElementById('parentPhoneLabel');
+                    const parentPhoneText = document.getElementById('parentPhoneText');
+                    
+                    // Handle student phone section visibility
+                    if (studentPhoneSection) {
+                        if (this.value === 'parent') {
+                            studentPhoneSection.style.display = 'none';
+                        } else {
+                            studentPhoneSection.style.display = 'block';
+                        }
+                    }
+                    
+                    // Handle parent phone section visibility and labels
+                    if (parentPhoneSection) {
+                        if (this.value === 'student') {
+                            parentPhoneSection.style.display = 'block';
+                            document.getElementById('parentPhone').required = true;
+                            if (parentPhoneLabel) parentPhoneLabel.textContent = 'Parent/Guardian Phone Number *';
+                            if (parentPhoneText) parentPhoneText.textContent = 'Required for student registration and communication';
+                        } else if (this.value === 'parent') {
+                            parentPhoneSection.style.display = 'block';
+                            document.getElementById('parentPhone').required = false;
+                            if (parentPhoneLabel) parentPhoneLabel.textContent = 'Your Phone Number';
+                            if (parentPhoneText) parentPhoneText.textContent = 'Optional - for account verification and communication';
+                            
+                            // Show a welcome message for parents
+                            showToast('Welcome! As a parent, you can monitor your child\'s progress and receive updates.', 'info');
+                        } else {
+                            parentPhoneSection.style.display = 'none';
+                            document.getElementById('parentPhone').required = false;
+                        }
+                    }
+                });
+                
+                // Trigger on page load to set initial state
+                userTypeSelect.dispatchEvent(new Event('change'));
+            }
         });
 
         // WhatsApp Chat Function
@@ -4417,38 +4686,11 @@
             showToast('Opening WhatsApp to chat with our staff...', 'success');
         }
 
-        // Video Modal Function
+        // Video Function - Open YouTube video directly in same tab
         function openVideoModal() {
-            const videoModal = new bootstrap.Modal(document.getElementById('videoModal'));
-            const videoIframe = document.getElementById('demoVideo');
-            
-            // Set the YouTube video URL with autoplay
-            videoIframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
-            
-            // Show the modal
-            videoModal.show();
-            
-            // Stop video when modal is closed
-            document.getElementById('videoModal').addEventListener('hidden.bs.modal', function () {
-                videoIframe.src = '';
-            });
+            // Open YouTube video directly in the same tab
+            window.location.href = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
         }
     </script>
-
-    <!-- Video Modal -->
-    <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content" style="background: transparent; border: none;">
-                <div class="modal-header" style="border: none; padding: 0; position: absolute; right: 0; top: -40px; z-index: 1050;">
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="font-size: 1.5rem; opacity: 1;"></button>
-                </div>
-                <div class="modal-body" style="padding: 0;">
-                    <div class="ratio ratio-16x9">
-                        <iframe id="demoVideo" src="" title="Demo Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

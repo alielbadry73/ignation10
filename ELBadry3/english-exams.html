@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Exams - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+
+        .utility-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-utility {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .btn-utility:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .exams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .exam-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .exam-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ff6b6b;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .exam-header {
+            margin-bottom: 1rem;
+        }
+
+        .exam-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .exam-type {
+            color: #667eea;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .exam-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .exam-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .exam-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: rgba(255, 107, 107, 0.05);
+            border-radius: 10px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .exam-progress {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 107, 107, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ff6b6b;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .exam-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-exam {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-start {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-start:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+
+        .btn-review {
+            background: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-review:hover {
+            background: rgba(255, 107, 107, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-locked {
+            background: #ddd;
+            color: #666;
+            cursor: not-allowed;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: white;
+        }
+
+        .empty-state iconify-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+            
+            .main-content {
+                padding: 0 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .exams-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .exam-card {
+                padding: 1.5rem;
+            }
+        }
+
+        .file-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .exam-file-info {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-left: 3px solid #10b981;
+        }
+
+        .exam-file-info iconify-icon {
+            color: #10b981;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="english-dashboard.html" class="logo">
+                <img src="https://ui-avatars.com/api/?name=IG+Nation&background=667eea&color=fff&size=40" alt="IG Nation">
+                IG Nation
+            </a>
+            <div class="utility-buttons">
+                <a href="#" class="btn-utility" onclick="navigateToNotifications()">
+                    <iconify-icon icon="material-symbols:notifications"></iconify-icon>
+                    Notifications
+                    <span class="notification-badge" id="notificationBadge">3</span>
+                </a>
+                <a href="#" class="btn-utility" onclick="navigateToProfile()">
+                    <iconify-icon icon="material-symbols:person"></iconify-icon>
+                    Profile
+                </a>
+                <a href="#" class="btn-utility" onclick="logout()">
+                    <iconify-icon icon="material-symbols:logout"></iconify-icon>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-title">
+            <h1>📋 English Exams</h1>
+            <p>Comprehensive assessments to test your language proficiency</p>
+        </div>
+
+        <div class="exams-grid" id="examsGrid">
+            <!-- Exams will be loaded here -->
+        </div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <iconify-icon icon="material-symbols:assignment"></iconify-icon>
+            <h3>No Exams Yet</h3>
+            <p>Your English exams will appear here once they are scheduled.</p>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        // Load English exams from localStorage (published by teachers)
+        // Load English exams from localStorage (published by teachers)
+        let englishExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
+        
+        // No sample data - only show exams created by teachers
+        const sampleExams = [];
+            {
+                id: 1,
+                title: "Midterm Examination",
+                type: "Midterm",
+                description: "Comprehensive exam covering grammar, vocabulary, reading comprehension, and writing skills.",
+                date: "2025-01-30",
+                duration: 120,
+                questions: 60,
+                maxScore: 100,
+                status: "upcoming",
+                progress: 0,
+                difficulty: "Medium",
+                topics: ["Grammar", "Vocabulary", "Reading", "Writing"]
+            },
+            {
+                id: 2,
+                title: "Final Examination",
+                type: "Final",
+                description: "Complete assessment of all English language skills covered in the course.",
+                date: "2025-02-15",
+                duration: 180,
+                questions: 80,
+                maxScore: 100,
+                status: "upcoming",
+                progress: 0,
+                difficulty: "Hard",
+                topics: ["All Skills"]
+            },
+            {
+                id: 3,
+                title: "Literature Analysis Test",
+                type: "Unit Test",
+                description: "Focused examination on literary analysis, themes, and critical thinking skills.",
+                date: "2025-01-20",
+                duration: 90,
+                questions: 25,
+                maxScore: 100,
+                status: "completed",
+                progress: 100,
+                difficulty: "Hard",
+                topics: ["Literature", "Analysis"]
+            }
+        ];
+
+        // Use sample data if no published exams exist
+        if (englishExams.length === 0) {
+            englishExams = sampleExams;
+        }
+
+        function loadExams() {
+            const grid = document.getElementById('examsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            // Reload exams from localStorage to get latest published exams
+            englishExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
+            
+            // Only show exams created by teachers - no sample data
+            // englishExams will contain teacher-created exams or be empty
+
+            if (englishExams.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            // Convert published exams to the format expected by the page
+            const processedExams = englishExams.map(exam => {
+                // Handle both standard and published exam formats
+                const title = exam.title || exam.name || 'Untitled Exam';
+                const description = exam.description || exam.desc || 'No description available';
+                const dueDate = exam.dueDate || exam.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const duration = exam.timeLimit || exam.duration || 120;
+                const status = exam.status || 'upcoming';
+                const difficulty = exam.difficulty || 'Medium';
+                const maxScore = exam.points || exam.totalPoints || exam.maxScore || 100;
+                const questions = exam.questions ? exam.questions.length : (exam.questions || 50);
+                const progress = exam.progress || (status === 'completed' ? 100 : 0);
+                const type = exam.type || 'Exam';
+                const topics = exam.topics || ['General'];
+                
+                return {
+                    id: exam.id,
+                    title: title,
+                    type: type,
+                    description: description,
+                    date: dueDate,
+                    duration: duration,
+                    questions: questions,
+                    maxScore: maxScore,
+                    status: status,
+                    progress: progress,
+                    difficulty: difficulty,
+                    topics: topics,
+                    // Check if it's a file-based exam
+                    assessmentType: exam.assessmentType,
+                    fileBased: exam.fileBased
+                };
+            });
+
+            grid.innerHTML = processedExams.map(exam => {
+                // Check if it's a file-based exam
+                const isFileBased = exam.assessmentType === 'file-based' || exam.fileBased;
+                
+                return `
+                <div class="exam-card">
+                    ${exam.status === 'upcoming' ? '<div class="exam-badge">Upcoming</div>' : 
+                      exam.status === 'completed' ? '<div class="exam-badge" style="background: #00b894;">Completed</div>' : 
+                      '<div class="exam-badge" style="background: #ddd; color: #666;">Locked</div>'}
+                    ${isFileBased ? '<div class="file-badge"><iconify-icon icon="material-symbols:upload-file"></iconify-icon> File-Based</div>' : ''}
+                    
+                    <div class="exam-header">
+                        <h3 class="exam-title">${exam.title}</h3>
+                        <div class="exam-type">${exam.type}</div>
+                    </div>
+                    
+                    <div class="exam-meta">
+                        <span><iconify-icon icon="material-symbols:event"></iconify-icon> ${new Date(exam.date).toLocaleDateString()}</span>
+                        <span><iconify-icon icon="material-symbols:star"></iconify-icon> ${exam.maxScore} pts</span>
+                    </div>
+                    
+                    <div class="exam-description">
+                        ${exam.description}
+                    </div>
+                    
+                    <div class="exam-details">
+                        <div class="detail-item">
+                            <iconify-icon icon="material-symbols:timer"></iconify-icon>
+                            ${exam.duration} minutes
+                        </div>
+                        ${!isFileBased ? `
+                        <div class="detail-item">
+                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                            ${exam.questions} questions
+                        </div>
+                        ` : ''}
+                        <div class="detail-item">
+                            <iconify-icon icon="material-symbols:psychology"></iconify-icon>
+                            ${exam.difficulty}
+                        </div>
+                        <div class="detail-item">
+                            <iconify-icon icon="material-symbols:school"></iconify-icon>
+                            ${exam.topics.join(', ')}
+                        </div>
+                    </div>
+                    
+                    ${isFileBased && exam.fileBased ? `
+                    <div class="exam-file-info">
+                        <iconify-icon icon="material-symbols:description"></iconify-icon>
+                        <span>Question File: ${exam.fileBased.questionFile.name}</span>
+                    </div>
+                    ` : ''}
+                    
+                    ${exam.status === 'completed' ? `
+                        <div class="exam-progress">
+                            <div class="progress-label">
+                                <span>Progress</span>
+                                <span>${exam.progress}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${exam.progress}%"></div>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="exam-actions">
+                        ${exam.status === 'upcoming' ? 
+                            `<a href="english-exam-detail.html?id=${exam.id}" class="btn-exam btn-start">
+                                ${isFileBased ? 'Download & View' : 'View Details'}
+                            </a>` :
+                            exam.status === 'completed' ?
+                            `<a href="english-exam-detail.html?id=${exam.id}" class="btn-exam btn-review">Review Results</a>` :
+                            `<button class="btn-exam btn-locked" disabled>Locked</button>`
+                        }
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function navigateToNotifications() {
+            showNotificationsModal();
+        }
+
+        function navigateToProfile() {
+            window.location.href = 'student-profile.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userLoggedIn');
+            window.location.href = 'index.html';
+        }
+
+        // Load exams when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExams();
+            updateNotificationBadge();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Flashcards - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Jost', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
+        }
+
+        .header h1 {
+            color: #10b981;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 1.5rem;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #059669);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .chapter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .chapter-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .chapter-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .chapter-info-item {
+            text-align: center;
+        }
+
+        .chapter-info-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .chapter-info-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+        }
+
+        .progress-bar-custom {
+            height: 8px;
+            background: rgba(16, 185, 129, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .forgotten-cards-banner {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .forgotten-cards-banner:hover {
+            transform: translateY(-5px);
+        }
+
+        .forgotten-cards-content h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+        }
+
+        .forgotten-cards-count {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            color: white;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="header">
+        <div class="container-fluid">
+            <!-- Top Header with Hamburger Menu and Navigation Buttons -->
+            <div class="row align-items-center" style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Button -->
+                        <button class="hamburger-menu-btn" onclick="toggleSidebar()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:menu" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                        </button>
+                        
+                        <!-- Page Title -->
+                        <h1 style="margin: 0; color: #10b981; font-weight: 700; font-size: 1.8rem;">
+                            <iconify-icon icon="material-symbols:science" style="margin-right: 0.5rem;"></iconify-icon>
+                            Physics Flashcards
+                        </h1>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="physics-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
+                        </a>
+                        
+                        <!-- Focus Mode Button -->
+                        <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Notifications Button -->
+                        <button class="nav-icon-btn" onclick="navigateToNotifications()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:notifications" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                            <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</span>
+                        </button>
+                        
+                        <!-- Community Button -->
+                        <button class="nav-icon-btn" onclick="navigateToCommunity()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Profile Button -->
+                        <button class="nav-icon-btn" onclick="navigateToProfile()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </header>
+
+    <!-- Sidebar Menu -->
+    <div id="sidebar" class="sidebar" style="position: fixed; top: 0; left: -350px; width: 350px; height: 100vh; background: white; box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); transition: left 0.3s ease; z-index: 1000; overflow-y: auto;">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header" style="padding: 1.5rem; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center;">
+            <h4 style="margin: 0; color: #333; font-weight: 700;">My Courses</h4>
+            <button onclick="toggleSidebar()" style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.5rem; padding: 0.25rem;" onmouseover="this.style.color='#333'" onmouseout="this.style.color='#666'">
+                <iconify-icon icon="material-symbols:close"></iconify-icon>
+            </button>
+        </div>
+
+        <!-- Sidebar Content -->
+        <div class="sidebar-content" style="padding: 1rem;">
+            <!-- Books Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='physics-library.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Books</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Textbooks & Study Materials</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Lectures Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='physics-lectures.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Lectures</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Video Lessons & Tutorials</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Track Progress Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="toggleSubmenu('progress')" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:trending-up" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Track Progress</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Monitor Learning Journey</div>
+                    </div>
+                    <iconify-icon id="progress-arrow" icon="material-symbols:keyboard-arrow-down" style="font-size: 1.2rem; color: #666; transition: transform 0.3s ease;"></iconify-icon>
+                </div>
+                <div id="progress-submenu" class="submenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem;">
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem;">Quiz Scores</div>
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem;">Assignment Grades</div>
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">Study Time</div>
+                </div>
+            </div>
+
+            <!-- Practice Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='coming-soon.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:fitness-center" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Practice on Topic</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Topic-based Practice</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Badges Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="toggleSubmenu('badges')" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:workspace-premium" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Badges</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Achievements & Rewards</div>
+                    </div>
+                    <iconify-icon id="badges-arrow" icon="material-symbols:keyboard-arrow-down" style="font-size: 1.2rem; color: #666; transition: transform 0.3s ease;"></iconify-icon>
+                </div>
+                <div id="badges-submenu" class="submenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem;">
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem;">Quiz Master</div>
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem;">Study Streak</div>
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">Top Performer</div>
+                </div>
+        </div>
+
+            <!-- Flashcards Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='physics-flashcards.html'" style="display: flex; align-items: center; padding: 1rem; background: #e8f5e8; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease; border: 2px solid #10b981;" onmouseover="this.style.background='#d4edda'" onmouseout="this.style.background='#e8f5e8'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:style" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #10b981; font-size: 1rem;">Flashcards</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #059669;">Interactive Study Cards</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #10b981;"></iconify-icon>
+                </div>
+        </div>
+
+            <!-- Past Papers Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='physics-past-papers.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:description" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Past Papers</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Exam Practice & Solutions</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Community Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='physics-community.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:groups" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Community</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Study Groups & Discussions</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;" onclick="toggleSidebar()"></div>
+
+    <div class="container" style="margin-top: 2rem;">
+        <!-- Statistics Row -->
+        <div class="stats-row animate-fade-in">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCards">0</div>
+                <div class="stat-label">Total Cards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="masteredCards">0</div>
+                <div class="stat-label">Mastered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="studyingCards">0</div>
+                <div class="stat-label">Studying</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="forgottenCardsCount">0</div>
+                <div class="stat-label">Need Review</div>
+            </div>
+        </div>
+
+        <!-- Forgotten Cards Banner -->
+        <div class="forgotten-cards-banner animate-fade-in" onclick="window.location.href='physics-flashcards-forgotten.html'" id="forgottenBanner" style="display: none;">
+            <div class="forgotten-cards-content">
+                <h2><iconify-icon icon="material-symbols:priority-high"></iconify-icon> Forgotten Cards</h2>
+                <p style="margin: 0;">Review cards you're having trouble with</p>
+            </div>
+            <div class="forgotten-cards-count" id="forgottenCountBanner">0</div>
+        </div>
+
+        <!-- Chapter Grid -->
+        <div class="chapter-grid" id="chapterGrid"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        // Physics chapters data
+        const chapters = [
+            { id: 1, title: 'Mechanics', icon: 'material-symbols:settings', cardsCount: 28, color: '#10b981' },
+            { id: 2, title: 'Electricity & Magnetism', icon: 'material-symbols:electrical-services', cardsCount: 32, color: '#059669' },
+            { id: 3, title: 'Waves & Sound', icon: 'material-symbols:graphic-eq', cardsCount: 25, color: '#f59e0b' },
+            { id: 4, title: 'Light & Optics', icon: 'material-symbols:lightbulb', cardsCount: 30, color: '#ef4444' },
+            { id: 5, title: 'Thermal Physics', icon: 'material-symbols:thermostat', cardsCount: 26, color: '#8b5cf6' },
+            { id: 6, title: 'Atomic Physics', icon: 'material-symbols:atom', cardsCount: 35, color: '#06b6d4' },
+            { id: 7, title: 'Nuclear Physics', icon: 'material-symbols:radioactive', cardsCount: 22, color: '#ec4899' },
+            { id: 8, title: 'Space Physics', icon: 'material-symbols:rocket-launch', cardsCount: 24, color: '#84cc16' }
+        ];
+
+        // Initialize flashcard progress in localStorage
+        function initializeFlashcardProgress() {
+            if (!localStorage.getItem('physicsFlashcardProgress')) {
+                const progress = {};
+                chapters.forEach(chapter => {
+                    progress[chapter.id] = {
+                        mastered: 0,
+                        studying: chapter.cardsCount,
+                        lastStudied: null
+                    };
+                });
+                localStorage.setItem('physicsFlashcardProgress', JSON.stringify(progress));
+            }
+        }
+
+        // Get flashcard progress
+        function getFlashcardProgress() {
+            return JSON.parse(localStorage.getItem('physicsFlashcardProgress') || '{}');
+        }
+
+        // Get forgotten cards
+        function getForgottenCards() {
+            return JSON.parse(localStorage.getItem('physicsForgottenCards') || '{}');
+        }
+
+        // Calculate statistics
+        function calculateStats() {
+            const progress = getFlashcardProgress();
+            const forgottenCards = getForgottenCards();
+            
+            let totalCards = 0;
+            let masteredCards = 0;
+            let studyingCards = 0;
+            let forgottenCount = 0;
+
+            chapters.forEach(chapter => {
+                totalCards += chapter.cardsCount;
+                if (progress[chapter.id]) {
+                    masteredCards += progress[chapter.id].mastered || 0;
+                    studyingCards += progress[chapter.id].studying || chapter.cardsCount;
+                }
+            });
+
+            // Count forgotten cards
+            Object.keys(forgottenCards).forEach(chapterId => {
+                if (Array.isArray(forgottenCards[chapterId])) {
+                    forgottenCount += forgottenCards[chapterId].length;
+                }
+            });
+
+            return { totalCards, masteredCards, studyingCards, forgottenCount };
+        }
+
+        // Update statistics display
+        function updateStats() {
+            const stats = calculateStats();
+            document.getElementById('totalCards').textContent = stats.totalCards;
+            document.getElementById('masteredCards').textContent = stats.masteredCards;
+            document.getElementById('studyingCards').textContent = stats.studyingCards;
+            document.getElementById('forgottenCardsCount').textContent = stats.forgottenCount;
+            document.getElementById('forgottenCountBanner').textContent = stats.forgottenCount;
+            
+            // Show/hide forgotten cards banner
+            if (stats.forgottenCount > 0) {
+                document.getElementById('forgottenBanner').style.display = 'flex';
+            } else {
+                document.getElementById('forgottenBanner').style.display = 'none';
+            }
+        }
+
+        // Render chapter cards
+        function renderChapters() {
+            const grid = document.getElementById('chapterGrid');
+            const progress = getFlashcardProgress();
+            const forgottenCards = getForgottenCards();
+
+            grid.innerHTML = chapters.map((chapter, index) => {
+                const chapterProgress = progress[chapter.id] || { mastered: 0, studying: chapter.cardsCount };
+                const masteredPercentage = Math.round((chapterProgress.mastered / chapter.cardsCount) * 100) || 0;
+                const forgottenCount = (forgottenCards[chapter.id] || []).length;
+
+                return `
+                    <div class="chapter-card animate-fade-in" style="animation-delay: ${index * 0.1}s" onclick="openChapter(${chapter.id})">
+                        <iconify-icon icon="${chapter.icon}" class="chapter-icon" style="color: ${chapter.color}"></iconify-icon>
+                        <div class="chapter-title">${chapter.title}</div>
+                        <div class="progress-bar-custom">
+                            <div class="progress-fill" style="width: ${masteredPercentage}%"></div>
+                        </div>
+                        <div class="chapter-info">
+                            <div class="chapter-info-item">
+                                <div class="chapter-info-number">${chapter.cardsCount}</div>
+                                <div class="chapter-info-label">Cards</div>
+                            </div>
+                            <div class="chapter-info-item">
+                                <div class="chapter-info-number">${chapterProgress.mastered}</div>
+                                <div class="chapter-info-label">Mastered</div>
+                            </div>
+                            <div class="chapter-info-item">
+                                <div class="chapter-info-number" style="color: ${forgottenCount > 0 ? '#ef4444' : '#10b981'}">${forgottenCount}</div>
+                                <div class="chapter-info-label">Forgotten</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Open chapter flashcards
+        function openChapter(chapterId) {
+            window.location.href = `physics-flashcards-chapter.html?chapter=${chapterId}`;
+        }
+
+        // Sidebar Menu Functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.style.left === '-350px' || sidebar.style.left === '') {
+                // Open sidebar
+                sidebar.style.left = '0';
+                overlay.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                // Close sidebar
+                sidebar.style.left = '-350px';
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+                
+                // Close all submenus when closing sidebar
+                closeAllSubmenus();
+            }
+        }
+
+        function toggleSubmenu(menuId) {
+            const submenu = document.getElementById(menuId + '-submenu');
+            const arrow = document.getElementById(menuId + '-arrow');
+            
+            if (submenu.style.display === 'none' || submenu.style.display === '') {
+                // Close all other submenus first
+                closeAllSubmenus();
+                
+                // Open this submenu
+                submenu.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                // Close this submenu
+                submenu.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function closeAllSubmenus() {
+            const submenus = document.querySelectorAll('.submenu');
+            const arrows = document.querySelectorAll('[id$="-arrow"]');
+            
+            submenus.forEach(submenu => {
+                submenu.style.display = 'none';
+            });
+            
+            arrows.forEach(arrow => {
+                arrow.style.transform = 'rotate(0deg)';
+            });
+        }
+
+        // Navigation functions
+        function navigateToFocusMode() {
+            console.log('Focus Mode button clicked');
+            window.location.href = 'focus-mode.html';
+        }
+
+        function navigateToNotifications() {
+            console.log('Notifications button clicked');
+            showNotificationsModal();
+        }
+
+        function navigateToCommunity() {
+            console.log('Community button clicked');
+            window.location.href = 'physics-community.html';
+        }
+
+        function navigateToProfile() {
+            console.log('Profile button clicked');
+            window.location.href = 'student-profile.html';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFlashcardProgress();
+            updateStats();
+            renderChapters();
+        });
+    </script>
+</body>
+</html>

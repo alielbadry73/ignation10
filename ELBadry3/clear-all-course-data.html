@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear All Course Data - Admin Tool</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .warning-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .warning-box h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-box p {
+            color: #856404;
+            margin: 0;
+        }
+
+        .course-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .course-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-clear {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-clear-mathematics {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .btn-clear-mathematics:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-clear-physics {
+            background: #4ecdc4;
+            color: white;
+        }
+
+        .btn-clear-physics:hover {
+            background: #3dbdb5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(78, 205, 196, 0.3);
+        }
+
+        .btn-clear-english {
+            background: #f7b731;
+            color: white;
+        }
+
+        .btn-clear-english:hover {
+            background: #f0a500;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(247, 183, 49, 0.3);
+        }
+
+        .btn-clear-all {
+            background: #e74c3c;
+            color: white;
+            font-size: 1.1rem;
+            padding: 1rem;
+        }
+
+        .btn-clear-all:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(231, 76, 60, 0.4);
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .data-info {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .data-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .data-item:last-child {
+            border-bottom: none;
+        }
+
+        .data-label {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .data-count {
+            font-weight: 600;
+            color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>🗑️ Clear All Course Data</h1>
+
+            <div class="warning-box">
+                <h4>⚠️ Warning!</h4>
+                <p>This will permanently delete all assignments, quizzes, and exams for the selected course(s). This action cannot be undone!</p>
+            </div>
+
+            <!-- Mathematics Section -->
+            <div class="course-section">
+                <h3>📐 Mathematics Course</h3>
+                <div class="data-info">
+                    <div class="data-item">
+                        <span class="data-label">Assignments:</span>
+                        <span class="data-count" id="mathAssignmentsCount">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Quizzes:</span>
+                        <span class="data-count" id="mathQuizzesCount">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Exams:</span>
+                        <span class="data-count" id="mathExamsCount">0</span>
+                    </div>
+                </div>
+                <button class="btn-clear btn-clear-mathematics mt-3" onclick="clearMathematicsData()">
+                    Clear Mathematics Data
+                </button>
+            </div>
+
+            <!-- Physics Section -->
+            <div class="course-section">
+                <h3>⚛️ Physics Course</h3>
+                <div class="data-info">
+                    <div class="data-item">
+                        <span class="data-label">Assignments:</span>
+                        <span class="data-count" id="physicsAssignmentsCount">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Quizzes:</span>
+                        <span class="data-count" id="physicsQuizzesCount">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Exams:</span>
+                        <span class="data-count" id="physicsExamsCount">0</span>
+                    </div>
+                </div>
+                <button class="btn-clear btn-clear-physics mt-3" onclick="clearPhysicsData()">
+                    Clear Physics Data
+                </button>
+            </div>
+
+            <!-- English Section -->
+            <div class="course-section">
+                <h3>📚 English Course</h3>
+                <div class="data-info">
+                    <div class="data-item">
+                        <span class="data-label">Assignments:</span>
+                        <span class="data-count" id="englishAssignmentsCount">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Quizzes:</span>
+                        <span class="data-count" id="englishQuizzesCount">0</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="data-label">Exams:</span>
+                        <span class="data-count" id="englishExamsCount">0</span>
+                    </div>
+                </div>
+                <button class="btn-clear btn-clear-english mt-3" onclick="clearEnglishData()">
+                    Clear English Data
+                </button>
+            </div>
+
+            <!-- Clear All Button -->
+            <button class="btn-clear btn-clear-all" onclick="clearAllData()">
+                🗑️ Clear ALL Courses Data
+            </button>
+
+            <div class="success-message" id="successMessage">
+                ✅ Data cleared successfully!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Update counts on page load
+        function updateCounts() {
+            // Mathematics
+            const mathAssignments = JSON.parse(localStorage.getItem('studentAssignments') || '[]');
+            const mathTeacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+            const mathAssignmentsList = JSON.parse(localStorage.getItem('assignmentsList') || '[]');
+            const mathQuizzes = JSON.parse(localStorage.getItem('studentQuizzes') || '[]');
+            const mathTeacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes') || '[]');
+            const mathExams = JSON.parse(localStorage.getItem('studentExams') || '[]');
+            const mathTeacherExams = JSON.parse(localStorage.getItem('teacherExams') || '[]');
+            
+            document.getElementById('mathAssignmentsCount').textContent = 
+                mathAssignments.length + mathTeacherAssignments.length + mathAssignmentsList.length;
+            document.getElementById('mathQuizzesCount').textContent = 
+                mathQuizzes.length + mathTeacherQuizzes.length;
+            document.getElementById('mathExamsCount').textContent = 
+                mathExams.length + mathTeacherExams.length;
+
+            // Physics
+            const physicsAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            const physicsTeacherAssignments = JSON.parse(localStorage.getItem('physicsTeacherAssignments') || '[]');
+            const physicsAssignmentsList = JSON.parse(localStorage.getItem('physicsAssignmentsList') || '[]');
+            const physicsQuizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const physicsTeacherQuizzes = JSON.parse(localStorage.getItem('physicsTeacherQuizzes') || '[]');
+            const physicsExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            
+            document.getElementById('physicsAssignmentsCount').textContent = 
+                physicsAssignments.length + physicsTeacherAssignments.length + physicsAssignmentsList.length;
+            document.getElementById('physicsQuizzesCount').textContent = 
+                physicsQuizzes.length + physicsTeacherQuizzes.length;
+            document.getElementById('physicsExamsCount').textContent = 
+                physicsExams.length;
+
+            // English
+            const englishAssignments = JSON.parse(localStorage.getItem('englishAssignments') || '[]');
+            const englishTeacherAssignments = JSON.parse(localStorage.getItem('englishTeacherAssignments') || '[]');
+            const englishAssignmentsList = JSON.parse(localStorage.getItem('englishAssignmentsList') || '[]');
+            const englishQuizzes = JSON.parse(localStorage.getItem('englishQuizzes') || '[]');
+            const englishTeacherQuizzes = JSON.parse(localStorage.getItem('englishTeacherQuizzes') || '[]');
+            const englishExams = JSON.parse(localStorage.getItem('englishExams') || '[]');
+            
+            document.getElementById('englishAssignmentsCount').textContent = 
+                englishAssignments.length + englishTeacherAssignments.length + englishAssignmentsList.length;
+            document.getElementById('englishQuizzesCount').textContent = 
+                englishQuizzes.length + englishTeacherQuizzes.length;
+            document.getElementById('englishExamsCount').textContent = 
+                englishExams.length;
+        }
+
+        function showSuccess() {
+            const msg = document.getElementById('successMessage');
+            msg.style.display = 'block';
+            setTimeout(() => {
+                msg.style.display = 'none';
+            }, 3000);
+            updateCounts();
+        }
+
+        function clearMathematicsData() {
+            if (confirm('Are you sure you want to clear ALL Mathematics data? This cannot be undone!')) {
+                localStorage.removeItem('studentAssignments');
+                localStorage.removeItem('teacherAssignments');
+                localStorage.removeItem('assignmentsList');
+                localStorage.removeItem('studentQuizzes');
+                localStorage.removeItem('teacherQuizzes');
+                localStorage.removeItem('quizzesList');
+                localStorage.removeItem('studentExams');
+                localStorage.removeItem('teacherExams');
+                localStorage.removeItem('examsList');
+                showSuccess();
+            }
+        }
+
+        function clearPhysicsData() {
+            if (confirm('Are you sure you want to clear ALL Physics data? This cannot be undone!')) {
+                localStorage.removeItem('physicsAssignments');
+                localStorage.removeItem('physicsTeacherAssignments');
+                localStorage.removeItem('physicsAssignmentsList');
+                localStorage.removeItem('physicsQuizzes');
+                localStorage.removeItem('physicsTeacherQuizzes');
+                localStorage.removeItem('physicsQuizzesList');
+                localStorage.removeItem('physicsExams');
+                localStorage.removeItem('physicsTeacherExams');
+                localStorage.removeItem('physicsExamsList');
+                showSuccess();
+            }
+        }
+
+        function clearEnglishData() {
+            if (confirm('Are you sure you want to clear ALL English data? This cannot be undone!')) {
+                localStorage.removeItem('englishAssignments');
+                localStorage.removeItem('englishTeacherAssignments');
+                localStorage.removeItem('englishAssignmentsList');
+                localStorage.removeItem('englishQuizzes');
+                localStorage.removeItem('englishTeacherQuizzes');
+                localStorage.removeItem('englishQuizzesList');
+                localStorage.removeItem('englishExams');
+                localStorage.removeItem('englishTeacherExams');
+                localStorage.removeItem('englishExamsList');
+                showSuccess();
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ FINAL WARNING ⚠️\n\nThis will delete ALL assignments, quizzes, and exams for ALL THREE courses!\n\nAre you absolutely sure?')) {
+                clearMathematicsData();
+                clearPhysicsData();
+                clearEnglishData();
+                alert('✅ All course data has been cleared!');
+            }
+        }
+
+        // Initialize counts on load
+        document.addEventListener('DOMContentLoaded', updateCounts);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

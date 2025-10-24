@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badges - Mathematics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1031;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .menu-toggle.active {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+        
+        .menu-icon {
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .welcome-text {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+        
+        .logo-image {
+            height: 40px;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        /* Profile Section Styling */
+        .profile-section {
+            position: relative;
+        }
+        
+        .profile-link {
+            background: none;
+            border: none;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .profile-avatar::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .profile-avatar:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .profile-dropdown {
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            padding: 0.5rem 0;
+            margin-top: 0.5rem;
+        }
+        
+        .profile-dropdown .dropdown-item {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.9rem;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .profile-dropdown .dropdown-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+        
+        .focus-mode-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .focus-mode-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .focus-mode-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .focus-mode-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .notification-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .notification-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .community-btn {
+            background: white;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .community-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .notification-btn::after, .community-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification-btn:hover::after, .community-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: white;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .profile-avatar:hover::after {
+            opacity: 1;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        /* Left Menu Bar Styling */
+        .left-menu {
+            position: fixed;
+            left: -300px;
+            top: 80px;
+            width: 300px;
+            height: calc(100vh - 80px);
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            border-right: 1px solid #e9ecef;
+            pointer-events: auto;
+        }
+        
+        .left-menu.open {
+            left: 0;
+        }
+        
+        .menu-content {
+            padding: 2rem 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .menu-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .menu-header h6 {
+            color: #333;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .btn-close-menu {
+            transition: all 0.3s ease;
+        }
+        
+        .btn-close-menu:hover {
+            color: #dc3545 !important;
+            transform: scale(1.1);
+        }
+        
+        .menu-courses {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .menu-course-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+        }
+        
+        .menu-course-item:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .course-icon-small {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.4rem;
+            color: white;
+        }
+        
+        .course-icon-small.math {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .course-icon-small.physics {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .course-icon-small.chemistry {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .course-info-small {
+            flex: 1;
+        }
+        
+        .course-name-small {
+            font-weight: 600;
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tutor-name {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .submenu-arrow {
+            color: #667eea;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .submenu-arrow.rotated {
+            transform: rotate(90deg);
+        }
+        
+        .mathematics-submenu {
+            margin-left: 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 2px solid #e9ecef;
+            padding-left: 1rem;
+        }
+        
+        .main-container {
+            padding: 2rem;
+        }
+        
+        .page-header {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .badge-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .badge-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        .badge-card.earned {
+            border-left: 4px solid #28a745;
+        }
+        
+        .badge-card.locked {
+            opacity: 0.6;
+            background: #f8f9fa;
+        }
+        
+        .badge-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+            color: white;
+            position: relative;
+        }
+        
+        .badge-icon.earned {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        
+        .badge-icon.locked {
+            background: linear-gradient(135deg, #6c757d 0%, #adb5bd 100%);
+        }
+        
+        .badge-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .badge-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        
+        .badge-progress {
+            margin-bottom: 1rem;
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 4px;
+        }
+        
+        .badge-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+        
+        .status-earned {
+            color: #28a745;
+            font-weight: 600;
+        }
+        
+        .status-locked {
+            color: #6c757d;
+        }
+        
+        .achievement-date {
+            color: #999;
+            font-size: 0.7rem;
+        }
+        
+        .badge-shine {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+            100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Menu Toggle and Welcome Message -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        
+                        <div class="welcome-section">
+                            <h4 class="welcome-text mb-0" id="welcomeMessage">Badges</h4>
+                            <small class="text-muted" id="welcomeSubtext">Achievements & Rewards</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section" style="margin-right: 2rem;">
+                            <a href="test-dashboard.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image">
+                            </a>
+                        </div>
+                        
+                        <!-- Focus Mode Toggle -->
+                        <div class="focus-mode-section">
+                            <button class="focus-mode-btn" onclick="toggleFocusMode()" id="focusModeToggle" data-tooltip="Focus Mode">
+                                <iconify-icon icon="material-symbols:visibility-off" style="width: 20px; height: 20px;"></iconify-icon>
+                            </button>
+                        </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()" data-tooltip="Notifications">
+                                <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
+                                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Community Button -->
+                        <div class="community-section">
+                            <button class="btn btn-primary btn-sm community-btn" onclick="openCommunity()" data-tooltip="Community">
+                                <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px;">
+                            </button>
+                        </div>
+                        
+                        <!-- Profile Section -->
+                        <div class="profile-section">
+                            <div class="dropdown">
+                                <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <div class="profile-avatar" id="headerProfileAvatar" data-tooltip="Profile">
+                                        <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 24px; height: 24px;">
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                        <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                        How to Use
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="#" onclick="logout()">
+                                        <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                        Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left Menu Bar -->
+    <div class="left-menu" id="leftMenu">
+        <div class="menu-content">
+            <div class="menu-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">My Courses</h6>
+                    <button class="btn-close-menu" onclick="closeMenu()" style="background: none; border: none; font-size: 1.5rem; color: #666; cursor: pointer; padding: 0;">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+            <div class="menu-courses">
+                <div class="menu-course-item" onclick="toggleMathematicsSubmenu()">
+                    <div class="course-icon-small math">
+                        <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Mathematics IGCSE</div>
+                        <div class="tutor-name">Mr. Johnson</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-down" id="mathematicsArrow" style="font-size: 1.2rem; color: #667eea; transition: transform 0.3s ease; margin-left: auto;"></iconify-icon>
+                </div>
+                <!-- Mathematics Submenu -->
+                <div class="mathematics-submenu" id="mathematicsSubmenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">
+                    <div class="submenu-item" onclick="openBooks()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Books</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Textbooks & Study Materials</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submenu-item" onclick="openLectures()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Lectures</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Video Lessons & Tutorials</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submenu-item" onclick="openProgress()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:trending-up" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Track Progress</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Monitor Learning Journey</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submenu-item" onclick="openPracticeTopic()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:exercise" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Practice on Topic</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Topic-based Practice</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submenu-item" onclick="openBadges()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:workspace-premium" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Badges</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Achievements & Rewards</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-course-item" onclick="openCourse('physics')">
+                    <div class="course-icon-small physics">
+                        <iconify-icon icon="material-symbols:science"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Physics IGCSE</div>
+                        <div class="tutor-name">Dr. Smith</div>
+                    </div>
+                </div>
+                <div class="menu-course-item" onclick="openCourse('chemistry')">
+                    <div class="course-icon-small chemistry">
+                        <iconify-icon icon="material-symbols:biotech"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Chemistry IGCSE</div>
+                        <div class="tutor-name">Prof. Brown</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 style="font-weight: 700; color: #333; margin-bottom: 0.5rem;">
+                        <iconify-icon icon="material-symbols:workspace-premium" class="me-2" style="color: #ffc107;"></iconify-icon>
+                        Mathematics Badges
+                    </h2>
+                    <p class="text-muted mb-0">Earn badges by completing achievements and reaching milestones</p>
+                </div>
+                <div>
+                    <span class="badge bg-primary fs-6">3 of 12 earned</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script>
+        function toggleMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const leftMenu = document.getElementById('leftMenu');
+            
+            menuToggle.classList.toggle('active');
+            leftMenu.classList.toggle('open');
+        }
+        
+        // Close menu when clicking outside
+        function closeMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const leftMenu = document.getElementById('leftMenu');
+            
+            menuToggle.classList.remove('active');
+            leftMenu.classList.remove('open');
+        }
+        
+        // Add click outside listener
+        document.addEventListener('click', function(event) {
+            const leftMenu = document.getElementById('leftMenu');
+            const menuToggle = document.getElementById('menuToggle');
+            
+            if (leftMenu && leftMenu.classList.contains('open')) {
+                // Check if click is outside the menu and toggle button
+                if (!leftMenu.contains(event.target) && !menuToggle.contains(event.target)) {
+                    closeMenu();
+                }
+            }
+        });
+        
+        function toggleMathematicsSubmenu() {
+            const submenu = document.getElementById('mathematicsSubmenu');
+            const arrow = document.getElementById('mathematicsArrow');
+            if (submenu) {
+                if (submenu.style.display === 'none' || submenu.style.display === '') {
+                    submenu.style.display = 'block';
+                    if (arrow) arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    submenu.style.display = 'none';
+                    if (arrow) arrow.style.transform = 'rotate(0deg)';
+                }
+            }
+        }
+        
+        function openBooks() {
+            window.location.href = 'mathematics-library.html';
+        }
+        
+        function openLectures() {
+            window.location.href = 'mathematics-lectures.html';
+        }
+        
+        function openProgress() {
+            window.location.href = 'mathematics-progress.html';
+        }
+        
+        function openPracticeTopic() {
+            window.location.href = 'mathematics-practice-topic.html';
+        }
+        
+        function openBadges() {
+            window.location.href = 'mathematics-badges.html';
+        }
+        
+        function openCourse(course) {
+            if (course === 'mathematics') {
+                window.location.href = 'course-mathematics.html';
+            } else if (course === 'physics') {
+                window.location.href = 'course-physics.html';
+            } else if (course === 'chemistry') {
+                window.location.href = 'course-chemistry.html';
+            }
+        }
+        
+        function toggleFocusMode() {
+            const toggle = document.getElementById('focusModeToggle');
+            toggle.classList.toggle('active');
+            console.log('Focus mode toggled');
+        }
+        
+        function openNotifications() {
+            window.location.href = 'notifications.html';
+        }
+        
+        function openCommunity() {
+            window.open('community.html', '_blank');
+        }
+        
+        function openHowToModal() {
+            window.location.href = 'platform-guide.html';
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

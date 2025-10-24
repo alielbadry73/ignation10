@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Publishing Functionality</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f9f9f9;
+        }
+        .test-section h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #5a6fd8;
+        }
+        .success {
+            background: #10b981;
+        }
+        .success:hover {
+            background: #059669;
+        }
+        .danger {
+            background: #ef4444;
+        }
+        .danger:hover {
+            background: #dc2626;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            border-radius: 4px;
+        }
+        .error {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+        }
+        pre {
+            background: #f3f4f6;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Publishing Functionality Test</h1>
+        
+        <div class="test-section">
+            <h3>📝 Test Assignment Publishing</h3>
+            <p>This will create test assignments for all three courses and publish them to localStorage.</p>
+            <button onclick="createTestAssignments()">Create Test Assignments</button>
+            <button onclick="createTestFileBasedAssignments()" class="success">Create File-Based Assignments</button>
+            <button onclick="clearAllData()" class="danger">Clear All Data</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Test Quiz Publishing</h3>
+            <p>This will create test quizzes for all three courses and publish them to localStorage.</p>
+            <button onclick="createTestQuizzes()">Create Test Quizzes</button>
+            <button onclick="createTestFileBasedQuizzes()" class="success">Create File-Based Quizzes</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🎯 Test Exam Publishing</h3>
+            <p>This will create test exams for all three courses and publish them to localStorage.</p>
+            <button onclick="createTestExams()">Create Test Exams</button>
+            <button onclick="createTestFileBasedExams()" class="success">Create File-Based Exams</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🔍 Check Results</h3>
+            <p>Check what's currently stored in localStorage for each course.</p>
+            <button onclick="checkEnglishData()">Check English Data</button>
+            <button onclick="checkMathematicsData()">Check Mathematics Data</button>
+            <button onclick="checkPhysicsData()">Check Physics Data</button>
+            <button onclick="checkAllData()">Check All Data</button>
+        </div>
+
+        <div class="test-section">
+            <h3>🌐 Navigate to Course Pages</h3>
+            <p>Open the course pages to verify that published assessments are visible.</p>
+            <button onclick="window.open('english-assignments.html', '_blank')">English Assignments</button>
+            <button onclick="window.open('mathematics-homework.html', '_blank')">Mathematics Homework</button>
+            <button onclick="window.open('physics-assignments.html', '_blank')">Physics Assignments</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script>
+        function showResult(message, isError = false) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `results ${isError ? 'error' : ''}`;
+            div.innerHTML = `<pre>${message}</pre>`;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+
+        function createTestAssignments() {
+            try {
+                const timestamp = Date.now();
+                
+                // English Assignments
+                const englishAssignments = [
+                    {
+                        id: `eng-assign-${timestamp}`,
+                        type: 'assignment',
+                        assessmentType: 'standard',
+                        title: 'Creative Writing Exercise',
+                        description: 'Write a 500-word creative story about a time traveler.',
+                        totalPoints: 50,
+                        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Medium',
+                        timeLimit: 60,
+                        status: 'published',
+                        subject: 'english',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('englishAssignments', JSON.stringify(englishAssignments));
+
+                // Mathematics Assignments
+                const mathematicsAssignments = [
+                    {
+                        id: `math-assign-${timestamp}`,
+                        type: 'assignment',
+                        assessmentType: 'standard',
+                        title: 'Algebra Problem Set',
+                        description: 'Solve 10 algebraic equations and show your work.',
+                        totalPoints: 75,
+                        dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Hard',
+                        timeLimit: 90,
+                        status: 'published',
+                        subject: 'mathematics',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('mathematicsAssignments', JSON.stringify(mathematicsAssignments));
+
+                // Physics Assignments
+                const physicsAssignments = [
+                    {
+                        id: `phys-assign-${timestamp}`,
+                        type: 'assignment',
+                        assessmentType: 'standard',
+                        title: 'Mechanics Lab Report',
+                        description: 'Analyze motion data and write a comprehensive lab report.',
+                        totalPoints: 60,
+                        dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Medium',
+                        timeLimit: 120,
+                        status: 'published',
+                        subject: 'physics',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('physicsAssignments', JSON.stringify(physicsAssignments));
+
+                showResult(`✅ Test assignments created successfully for all three courses!
+                
+English: ${englishAssignments[0].title}
+Mathematics: ${mathematicsAssignments[0].title}
+Physics: ${physicsAssignments[0].title}
+
+You can now check the course pages to see these assignments.`);
+            } catch (error) {
+                showResult(`❌ Error creating test assignments: ${error.message}`, true);
+            }
+        }
+
+        function createTestFileBasedAssignments() {
+            try {
+                const timestamp = Date.now();
+                
+                // English File-Based Assignment
+                const englishAssignments = [
+                    {
+                        id: `eng-file-assign-${timestamp}`,
+                        type: 'assignment',
+                        assessmentType: 'file-based',
+                        title: 'Literature Analysis Paper',
+                        description: 'Download the attached document and analyze the provided literary text. Upload your completed analysis.',
+                        totalPoints: 100,
+                        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Hard',
+                        timeLimit: null,
+                        status: 'published',
+                        subject: 'english',
+                        createdAt: new Date().toISOString(),
+                        fileBased: {
+                            questionFile: {
+                                name: 'Literature_Analysis_Questions.pdf',
+                                size: 2048576,
+                                type: 'application/pdf',
+                                lastModified: Date.now()
+                            },
+                            answerTemplate: {
+                                name: 'Analysis_Template.docx',
+                                size: 1536000,
+                                type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                lastModified: Date.now()
+                            }
+                        }
+                    }
+                ];
+                localStorage.setItem('englishAssignments', JSON.stringify(englishAssignments));
+
+                // Mathematics File-Based Assignment
+                const mathematicsAssignments = [
+                    {
+                        id: `math-file-assign-${timestamp}`,
+                        type: 'assignment',
+                        assessmentType: 'file-based',
+                        title: 'Calculus Problem Set',
+                        description: 'Download the problem set and solve all calculus problems. Submit your work as a PDF.',
+                        totalPoints: 80,
+                        dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Hard',
+                        timeLimit: null,
+                        status: 'published',
+                        subject: 'mathematics',
+                        createdAt: new Date().toISOString(),
+                        fileBased: {
+                            questionFile: {
+                                name: 'Calculus_Problems_2025.pdf',
+                                size: 3072000,
+                                type: 'application/pdf',
+                                lastModified: Date.now()
+                            }
+                        }
+                    }
+                ];
+                localStorage.setItem('mathematicsAssignments', JSON.stringify(mathematicsAssignments));
+
+                // Physics File-Based Assignment
+                const physicsAssignments = [
+                    {
+                        id: `phys-file-assign-${timestamp}`,
+                        type: 'assignment',
+                        assessmentType: 'file-based',
+                        title: 'Physics Lab Experiment',
+                        description: 'Download the lab manual and complete the experiment. Submit your lab report and data analysis.',
+                        totalPoints: 90,
+                        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Hard',
+                        timeLimit: null,
+                        status: 'published',
+                        subject: 'physics',
+                        createdAt: new Date().toISOString(),
+                        fileBased: {
+                            questionFile: {
+                                name: 'Physics_Lab_Manual.pdf',
+                                size: 4096000,
+                                type: 'application/pdf',
+                                lastModified: Date.now()
+                            },
+                            answerTemplate: {
+                                name: 'Lab_Report_Template.docx',
+                                size: 2048000,
+                                type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                lastModified: Date.now()
+                            }
+                        }
+                    }
+                ];
+                localStorage.setItem('physicsAssignments', JSON.stringify(physicsAssignments));
+
+                showResult(`✅ Test file-based assignments created successfully for all three courses!
+
+English: ${englishAssignments[0].title} (with template)
+Mathematics: ${mathematicsAssignments[0].title} (PDF only)
+Physics: ${physicsAssignments[0].title} (with template)
+
+These should show "File-Based" badges on the course pages.`);
+            } catch (error) {
+                showResult(`❌ Error creating test file-based assignments: ${error.message}`, true);
+            }
+        }
+
+        function createTestQuizzes() {
+            try {
+                const timestamp = Date.now();
+                
+                // English Quizzes
+                const englishQuizzes = [
+                    {
+                        id: `eng-quiz-${timestamp}`,
+                        type: 'quiz',
+                        assessmentType: 'standard',
+                        title: 'Grammar and Vocabulary Quiz',
+                        description: 'Test your knowledge of English grammar and vocabulary.',
+                        totalPoints: 40,
+                        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Medium',
+                        timeLimit: 30,
+                        status: 'published',
+                        subject: 'english',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('englishQuizzes', JSON.stringify(englishQuizzes));
+
+                // Mathematics Quizzes
+                const mathematicsQuizzes = [
+                    {
+                        id: `math-quiz-${timestamp}`,
+                        type: 'quiz',
+                        assessmentType: 'standard',
+                        title: 'Algebra Quick Quiz',
+                        description: 'Quick quiz on basic algebraic concepts.',
+                        totalPoints: 30,
+                        dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Easy',
+                        timeLimit: 20,
+                        status: 'published',
+                        subject: 'mathematics',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('mathematicsQuizzes', JSON.stringify(mathematicsQuizzes));
+
+                // Physics Quizzes
+                const physicsQuizzes = [
+                    {
+                        id: `phys-quiz-${timestamp}`,
+                        type: 'quiz',
+                        assessmentType: 'standard',
+                        title: 'Mechanics Quiz',
+                        description: 'Quiz on basic mechanics concepts.',
+                        totalPoints: 35,
+                        dueDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Medium',
+                        timeLimit: 25,
+                        status: 'published',
+                        subject: 'physics',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('physicsQuizzes', JSON.stringify(physicsQuizzes));
+
+                showResult(`✅ Test quizzes created successfully for all three courses!
+
+English: ${englishQuizzes[0].title}
+Mathematics: ${mathematicsQuizzes[0].title}
+Physics: ${physicsQuizzes[0].title}`);
+            } catch (error) {
+                showResult(`❌ Error creating test quizzes: ${error.message}`, true);
+            }
+        }
+
+        function createTestExams() {
+            try {
+                const timestamp = Date.now();
+                
+                // English Exams
+                const englishExams = [
+                    {
+                        id: `eng-exam-${timestamp}`,
+                        type: 'exam',
+                        assessmentType: 'standard',
+                        title: 'Midterm English Exam',
+                        description: 'Comprehensive exam covering literature, grammar, and writing.',
+                        totalPoints: 150,
+                        dueDate: new Date(Date.now() + 21 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Hard',
+                        timeLimit: 120,
+                        status: 'published',
+                        subject: 'english',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('englishExams', JSON.stringify(englishExams));
+
+                // Mathematics Exams
+                const mathematicsExams = [
+                    {
+                        id: `math-exam-${timestamp}`,
+                        type: 'exam',
+                        assessmentType: 'standard',
+                        title: 'Mathematics Final Exam',
+                        description: 'Final exam covering all topics from the semester.',
+                        totalPoints: 200,
+                        dueDate: new Date(Date.now() + 28 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Hard',
+                        timeLimit: 180,
+                        status: 'published',
+                        subject: 'mathematics',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('mathematicsExams', JSON.stringify(mathematicsExams));
+
+                // Physics Exams
+                const physicsExams = [
+                    {
+                        id: `phys-exam-${timestamp}`,
+                        type: 'exam',
+                        assessmentType: 'standard',
+                        title: 'Physics Comprehensive Exam',
+                        description: 'Comprehensive exam covering mechanics, thermodynamics, and electricity.',
+                        totalPoints: 180,
+                        dueDate: new Date(Date.now() + 35 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Hard',
+                        timeLimit: 150,
+                        status: 'published',
+                        subject: 'physics',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('physicsExams', JSON.stringify(physicsExams));
+
+                showResult(`✅ Test exams created successfully for all three courses!
+
+English: ${englishExams[0].title}
+Mathematics: ${mathematicsExams[0].title}
+Physics: ${physicsExams[0].title}`);
+            } catch (error) {
+                showResult(`❌ Error creating test exams: ${error.message}`, true);
+            }
+        }
+
+        function createTestFileBasedQuizzes() {
+            try {
+                const timestamp = Date.now();
+                
+                const englishQuizzes = [
+                    {
+                        id: `eng-file-quiz-${timestamp}`,
+                        type: 'quiz',
+                        assessmentType: 'file-based',
+                        title: 'Literature Analysis Quiz',
+                        description: 'Download the quiz document and complete the literature analysis questions.',
+                        totalPoints: 50,
+                        dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Medium',
+                        timeLimit: null,
+                        status: 'published',
+                        subject: 'english',
+                        createdAt: new Date().toISOString(),
+                        fileBased: {
+                            questionFile: {
+                                name: 'Literature_Quiz.pdf',
+                                size: 1024000,
+                                type: 'application/pdf',
+                                lastModified: Date.now()
+                            }
+                        }
+                    }
+                ];
+                localStorage.setItem('englishQuizzes', JSON.stringify(englishQuizzes));
+
+                showResult(`✅ Test file-based quiz created successfully!
+
+English: ${englishQuizzes[0].title} (File-Based)`);
+            } catch (error) {
+                showResult(`❌ Error creating test file-based quiz: ${error.message}`, true);
+            }
+        }
+
+        function createTestFileBasedExams() {
+            try {
+                const timestamp = Date.now();
+                
+                const mathematicsExams = [
+                    {
+                        id: `math-file-exam-${timestamp}`,
+                        type: 'exam',
+                        assessmentType: 'file-based',
+                        title: 'Advanced Mathematics Exam',
+                        description: 'Download the exam paper and solve all problems. Submit your complete solutions.',
+                        totalPoints: 150,
+                        dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+                        difficulty: 'Hard',
+                        timeLimit: null,
+                        status: 'published',
+                        subject: 'mathematics',
+                        createdAt: new Date().toISOString(),
+                        fileBased: {
+                            questionFile: {
+                                name: 'Advanced_Math_Exam.pdf',
+                                size: 5120000,
+                                type: 'application/pdf',
+                                lastModified: Date.now()
+                            }
+                        }
+                    }
+                ];
+                localStorage.setItem('mathematicsExams', JSON.stringify(mathematicsExams));
+
+                showResult(`✅ Test file-based exam created successfully!
+
+Mathematics: ${mathematicsExams[0].title} (File-Based)`);
+            } catch (error) {
+                showResult(`❌ Error creating test file-based exam: ${error.message}`, true);
+            }
+        }
+
+        function checkEnglishData() {
+            const assignments = JSON.parse(localStorage.getItem('englishAssignments') || '[]');
+            const quizzes = JSON.parse(localStorage.getItem('englishQuizzes') || '[]');
+            const exams = JSON.parse(localStorage.getItem('englishExams') || '[]');
+            
+            showResult(`📊 English Course Data:
+            
+Assignments: ${assignments.length}
+${assignments.map(a => `  - ${a.title} (${a.assessmentType || 'standard'})`).join('\n')}
+
+Quizzes: ${quizzes.length}
+${quizzes.map(q => `  - ${q.title} (${q.assessmentType || 'standard'})`).join('\n')}
+
+Exams: ${exams.length}
+${exams.map(e => `  - ${e.title} (${e.assessmentType || 'standard'})`).join('\n')}`);
+        }
+
+        function checkMathematicsData() {
+            const assignments = JSON.parse(localStorage.getItem('mathematicsAssignments') || '[]');
+            const quizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
+            const exams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+            
+            showResult(`📊 Mathematics Course Data:
+            
+Assignments: ${assignments.length}
+${assignments.map(a => `  - ${a.title} (${a.assessmentType || 'standard'})`).join('\n')}
+
+Quizzes: ${quizzes.length}
+${quizzes.map(q => `  - ${q.title} (${q.assessmentType || 'standard'})`).join('\n')}
+
+Exams: ${exams.length}
+${exams.map(e => `  - ${e.title} (${e.assessmentType || 'standard'})`).join('\n')}`);
+        }
+
+        function checkPhysicsData() {
+            const assignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            
+            showResult(`📊 Physics Course Data:
+            
+Assignments: ${assignments.length}
+${assignments.map(a => `  - ${a.title} (${a.assessmentType || 'standard'})`).join('\n')}
+
+Quizzes: ${quizzes.length}
+${quizzes.map(q => `  - ${q.title} (${q.assessmentType || 'standard'})`).join('\n')}
+
+Exams: ${exams.length}
+${exams.map(e => `  - ${e.title} (${e.assessmentType || 'standard'})`).join('\n')}`);
+        }
+
+        function checkAllData() {
+            checkEnglishData();
+            setTimeout(() => checkMathematicsData(), 100);
+            setTimeout(() => checkPhysicsData(), 200);
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear all assessment data? This action cannot be undone.')) {
+                const keys = [
+                    'englishAssignments', 'englishQuizzes', 'englishExams',
+                    'mathematicsAssignments', 'mathematicsQuizzes', 'mathematicsExams',
+                    'physicsAssignments', 'physicsQuizzes', 'physicsExams'
+                ];
+                
+                keys.forEach(key => localStorage.removeItem(key));
+                
+                showResult('🗑️ All assessment data cleared successfully!');
+            }
+        }
+
+        // Initialize with current data
+        document.addEventListener('DOMContentLoaded', function() {
+            showResult('🧪 Publishing Test Tool Ready!\n\nUse the buttons above to test the publishing functionality.\n\nCurrent localStorage keys:');
+            checkAllData();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

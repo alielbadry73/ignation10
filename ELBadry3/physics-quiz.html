@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Quizzes - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --light-color: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .quiz-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .quiz-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .quiz-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            border-color: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            border-color: #059669;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            border-color: #d97706;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-expired {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .no-quizzes {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .no-quizzes iconify-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .filter-tab:hover:not(.active) {
+            background: var(--light-color);
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .quiz-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .quiz-actions {
+                flex-direction: column;
+            }
+
+            .filter-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="quiz-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-2">Physics Quizzes</h1>
+                    <p class="mb-0 opacity-75">Test your knowledge with interactive physics quizzes</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <a href="physics-dashboard.html" class="btn btn-light">
+                        <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <div class="filter-tab active" onclick="filterQuizzes('all')">
+                <iconify-icon icon="material-symbols:all-inclusive"></iconify-icon>
+                All Quizzes
+            </div>
+            <div class="filter-tab" onclick="filterQuizzes('available')">
+                <iconify-icon icon="material-symbols:play-circle"></iconify-icon>
+                Available
+            </div>
+            <div class="filter-tab" onclick="filterQuizzes('completed')">
+                <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                Completed
+            </div>
+            <div class="filter-tab" onclick="filterQuizzes('expired')">
+                <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                Expired
+            </div>
+        </div>
+
+        <!-- Quizzes Container -->
+        <div id="quizzesContainer">
+            <!-- Quizzes will be loaded here -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        let allQuizzes = [];
+        let currentFilter = 'all';
+
+        // Load quizzes on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuizzes();
+        });
+
+        // Load quizzes from localStorage
+        function loadQuizzes() {
+            // Try new teacher dashboard system first
+            let rawData = localStorage.getItem('physicsAssessments');
+            
+            if (rawData) {
+                try {
+                    const assessments = JSON.parse(rawData);
+                    const quizAssessments = assessments.filter(assessment => 
+                        assessment.type === 'quiz' && assessment.status === 'published'
+                    );
+                    
+                    allQuizzes = quizAssessments.map(assessment => ({
+                        id: assessment.id,
+                        title: assessment.title,
+                        description: assessment.description,
+                        points: assessment.totalPoints,
+                        timeLimit: assessment.timeLimit,
+                        difficulty: assessment.difficulty,
+                        dueDate: assessment.dueDate,
+                        questions: assessment.questions || [],
+                        status: getQuizStatus(assessment),
+                        completedAt: getCompletedAt(assessment.id)
+                    }));
+                } catch (error) {
+                    console.error('Error parsing assessments:', error);
+                }
+            }
+            
+            // Fallback to old system
+            if (allQuizzes.length === 0) {
+                const oldData = localStorage.getItem('physicsAssignments');
+                if (oldData) {
+                    try {
+                        const assignments = JSON.parse(oldData);
+                        const quizAssignments = assignments.filter(assignment => 
+                            assignment.subject === 'physics' && assignment.published === true
+                        );
+                        
+                        allQuizzes = quizAssignments.map(assignment => ({
+                            id: assignment.id,
+                            title: assignment.title,
+                            description: assignment.description,
+                            points: assignment.points,
+                            timeLimit: assignment.timeLimit,
+                            difficulty: assignment.difficulty,
+                            dueDate: assignment.dueDate,
+                            questions: assignment.questions || [],
+                            status: getQuizStatus(assignment),
+                            completedAt: getCompletedAt(assignment.id)
+                        }));
+                    } catch (error) {
+                        console.error('Error parsing old assignments:', error);
+                    }
+                }
+            }
+            
+            displayQuizzes();
+        }
+
+        // Get quiz status
+        function getQuizStatus(quiz) {
+            const now = new Date();
+            const dueDate = new Date(quiz.dueDate);
+            
+            if (isCompleted(quiz.id)) {
+                return 'completed';
+            } else if (now > dueDate) {
+                return 'expired';
+            } else {
+                return 'available';
+            }
+        }
+
+        // Check if quiz is completed
+        function isCompleted(quizId) {
+            const completed = localStorage.getItem('completedQuizzes');
+            if (!completed) return false;
+            
+            const completedList = JSON.parse(completed);
+            return completedList.includes(quizId);
+        }
+
+        // Get completion date
+        function getCompletedAt(quizId) {
+            const completed = localStorage.getItem('quizCompletionDates');
+            if (!completed) return null;
+            
+            const completionDates = JSON.parse(completed);
+            return completionDates[quizId] || null;
+        }
+
+        // Display quizzes
+        function displayQuizzes() {
+            const container = document.getElementById('quizzesContainer');
+            
+            if (allQuizzes.length === 0) {
+                container.innerHTML = `
+                    <div class="no-quizzes">
+                        <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                        <h4>No quizzes available</h4>
+                        <p>Check back later for new physics quizzes!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const filteredQuizzes = filterQuizzesByStatus(allQuizzes, currentFilter);
+            
+            container.innerHTML = filteredQuizzes.map(quiz => `
+                <div class="quiz-card">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h3 class="quiz-title">${quiz.title}</h3>
+                            <p class="text-muted mb-0">${quiz.description || 'Test your physics knowledge'}</p>
+                        </div>
+                        <span class="status-badge status-${quiz.status}">
+                            ${quiz.status.charAt(0).toUpperCase() + quiz.status.slice(1)}
+                        </span>
+                    </div>
+                    
+                    <div class="quiz-meta">
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            <span>${quiz.timeLimit ? quiz.timeLimit + ' min' : 'No time limit'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:star"></iconify-icon>
+                            <span>${quiz.difficulty || 'Medium'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                            <span>${quiz.questions.length} questions</span>
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:grade"></iconify-icon>
+                            <span>${quiz.points} points</span>
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:event"></iconify-icon>
+                            <span>Due: ${new Date(quiz.dueDate).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="quiz-actions">
+                        ${getQuizActionButton(quiz)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get quiz action button based on status
+        function getQuizActionButton(quiz) {
+            switch (quiz.status) {
+                case 'available':
+                    return `
+                        <button class="btn btn-primary" onclick="startQuiz('${quiz.id}')">
+                            <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                            Start Quiz
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="previewQuiz('${quiz.id}')">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Preview
+                        </button>
+                    `;
+                case 'completed':
+                    return `
+                        <button class="btn btn-success" onclick="viewResults('${quiz.id}')">
+                            <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                            View Results
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="retakeQuiz('${quiz.id}')">
+                            <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                            Retake
+                        </button>
+                    `;
+                case 'expired':
+                    return `
+                        <button class="btn btn-warning" onclick="viewQuiz('${quiz.id}')">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            View Quiz
+                        </button>
+                    `;
+                default:
+                    return '';
+            }
+        }
+
+        // Filter quizzes by status
+        function filterQuizzesByStatus(quizzes, filter) {
+            if (filter === 'all') return quizzes;
+            return quizzes.filter(quiz => quiz.status === filter);
+        }
+
+        // Filter quizzes
+        function filterQuizzes(filter) {
+            currentFilter = filter;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            displayQuizzes();
+        }
+
+        // Start quiz
+        function startQuiz(quizId) {
+            const quiz = allQuizzes.find(q => q.id === quizId);
+            if (!quiz) return;
+            
+            // Store current quiz for the quiz taking page
+            localStorage.setItem('currentQuiz', JSON.stringify(quiz));
+            
+            // Redirect to quiz taking page (using English quiz page which has full question support)
+            window.location.href = `english-quiz.html?quizId=${quizId}&course=physics`;
+        }
+
+        // Preview quiz
+        function previewQuiz(quizId) {
+            const quiz = allQuizzes.find(q => q.id === quizId);
+            if (!quiz) return;
+            
+            // Show preview modal or redirect to preview page
+            alert(`Preview: ${quiz.title}\n\nQuestions: ${quiz.questions.length}\nTime Limit: ${quiz.timeLimit || 'No limit'} minutes\nPoints: ${quiz.points}`);
+        }
+
+        // View results
+        function viewResults(quizId) {
+            // Redirect to results page
+            window.location.href = `physics-quiz-results.html?quizId=${quizId}`;
+        }
+
+        // Retake quiz
+        function retakeQuiz(quizId) {
+            if (confirm('Are you sure you want to retake this quiz? Your previous score will be replaced.')) {
+                startQuiz(quizId);
+            }
+        }
+
+        // View quiz (for expired quizzes)
+        function viewQuiz(quizId) {
+            const quiz = allQuizzes.find(q => q.id === quizId);
+            if (!quiz) return;
+            
+            alert(`Quiz: ${quiz.title}\n\nThis quiz has expired and cannot be taken.`);
+        }
+    </script>
+</body>
+</html>

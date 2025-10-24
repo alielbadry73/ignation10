@@ -546,7 +546,7 @@
     <!-- Main Content -->
     <div class="main-content">
         <h1 class="page-title">Wrong Questions - Physics</h1>
-        <p class="page-subtitle">Review and practice physics questions you answered incorrectly. Questions are automatically organized by activity type (Exams, Quizzes, Assignments) for multiple choice questions.</p>
+        <p class="page-subtitle">Navigate to specific activity types to review and practice physics questions you answered incorrectly. Questions are organized by activity type for focused study.</p>
         
         <!-- Stats -->
         <div class="stats-grid">
@@ -580,9 +580,26 @@
             </div>
         </div>
         
-        <!-- Questions List -->
-        <div id="questionsList">
-            <!-- Questions will be loaded here -->
+        <!-- Instructions -->
+        <div class="instructions-section" style="background: white; border-radius: 12px; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-top: 2rem;">
+            <h3 style="color: #333; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <iconify-icon icon="material-symbols:info" style="color: #8b5cf6;"></iconify-icon>
+                How to Use Wrong Questions
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                    <h5 style="color: #333; margin-bottom: 0.5rem;">📁 Browse by Activity Type</h5>
+                    <p style="color: #666; margin: 0; font-size: 0.9rem;">Click on Assignments, Quizzes, or Exams folders above to view your wrong questions organized by activity type.</p>
+                </div>
+                <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #28a745;">
+                    <h5 style="color: #333; margin-bottom: 0.5rem;">🎯 Practice & Review</h5>
+                    <p style="color: #666; margin: 0; font-size: 0.9rem;">Each folder contains questions you answered incorrectly, allowing you to focus on specific areas for improvement.</p>
+                </div>
+                <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <h5 style="color: #333; margin-bottom: 0.5rem;">📊 Track Progress</h5>
+                    <p style="color: #666; margin: 0; font-size: 0.9rem;">Monitor your improvement by reviewing wrong questions and marking them as correct when you master them.</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -592,7 +609,6 @@
         let subfolders = [];
         let currentFolder = null;
         let currentSubfolder = null;
-        let draggedQuestion = null;
         
         console.log('=== SCRIPT LOADED ===');
         console.log('Physics wrong questions script is running');
@@ -605,7 +621,6 @@
             loadWrongQuestions();
             displayFolders();
             displayQuestions();
-            initializeDragAndDrop();
             console.log('=== PAGE LOAD COMPLETE ===');
         });
 
@@ -869,7 +884,7 @@
             const activitySubfolders = subfolders.filter(s => s.activityType === activityTypeId);
             
             if (activitySubfolders.length === 0) {
-                return '<div class="drop-zone" data-activity-type="' + activityTypeId + '" ondrop="dropQuestion(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Drop questions here to organize them</div>';
+                return '<div style="text-align: center; padding: 1rem; color: #666; font-style: italic;">No subfolders created yet</div>';
             }
             
             let subfoldersHtml = '';
@@ -890,14 +905,9 @@
                                 <iconify-icon icon="material-symbols:delete"></iconify-icon>
                             </button>
                         </div>
-                        <div class="drop-zone" data-subfolder-id="${subfolder.id}" ondrop="dropQuestion(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)" style="display: none;">
-                            Drop questions here
-                        </div>
                     </div>
                 `;
             });
-            
-            subfoldersHtml += '<div class="drop-zone" data-activity-type="' + activityTypeId + '" ondrop="dropQuestion(event)" ondragover="allowDrop(event)" ondragleave="dragLeave(event)">Drop questions here to organize them</div>';
             
             return subfoldersHtml;
         }
@@ -1027,138 +1037,9 @@
         }
         
         function displayQuestions() {
-            console.log('=== DISPLAYING QUESTIONS ===');
-            const container = document.getElementById('questionsList');
-            console.log('Container found:', container);
-            console.log('Wrong questions length:', wrongQuestions.length);
-            console.log('Wrong questions:', wrongQuestions);
-            console.log('Current folder:', currentFolder);
-            console.log('Current subfolder:', currentSubfolder);
-            
-            if (wrongQuestions.length === 0) {
-                console.log('No wrong questions found, showing empty state');
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <iconify-icon icon="material-symbols:quiz"></iconify-icon>
-                        <h3>No Wrong Questions Yet</h3>
-                        <p>Physics questions you answer incorrectly will appear here for review.</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let filteredQuestions = wrongQuestions;
-            
-            // Apply activity type filter
-            if (currentFolder) {
-                filteredQuestions = wrongQuestions.filter(q => {
-                    // Use auto-assigned activity type for predefined folders
-                    if (['exams', 'quizzes', 'assignments'].includes(currentFolder)) {
-                        return q.activityType === currentFolder;
-                    }
-                    
-                    // Check custom folders
-                    return q.folderId === currentFolder;
-                });
-            }
-            
-            // Apply subfolder filter
-            if (currentSubfolder) {
-                filteredQuestions = filteredQuestions.filter(q => q.subfolderId === currentSubfolder);
-            }
-            
-            if (filteredQuestions.length === 0) {
-                if (!currentFolder) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <iconify-icon icon="material-symbols:folder-open"></iconify-icon>
-                            <h3>Select a Folder</h3>
-                            <p>Choose a folder above to view your wrong questions organized by activity type.</p>
-                        </div>
-                    `;
-                } else {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <iconify-icon icon="material-symbols:search"></iconify-icon>
-                            <h3>No Questions Found</h3>
-                            <p>No wrong questions found for ${currentFolder}.</p>
-                        </div>
-                    `;
-                }
-                return;
-            }
-            
-            console.log('About to render', filteredQuestions.length, 'questions');
-            console.log('First question sample:', filteredQuestions[0]);
-            
-            container.innerHTML = filteredQuestions.map(question => {
-                console.log('Rendering question:', question.id);
-                return `
-                <div class="question-card draggable-question" draggable="true" data-question-id="${question.id}" ondragstart="dragStart(event)" ondragend="dragEnd(event)">
-                    <div class="question-header">
-                        <div class="question-text">${question.questionText || question.text || 'Question text not available'}</div>
-                        <div class="question-meta">
-                            ${question.chapter ? `<span class="chapter-badge">${question.chapter}</span>` : ''}
-                            <span class="attempts-badge">${question.attempts} attempt${question.attempts > 1 ? 's' : ''}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="question-details">
-                        <div class="detail-row">
-                            <span class="detail-label">Assignment:</span>
-                            <span class="detail-value">${question.assignmentTitle || question.activityTitle || 'Unknown Assignment'}</span>
-                        </div>
-                        ${question.chapter ? `
-                        <div class="detail-row">
-                            <span class="detail-label">Chapter:</span>
-                            <span class="detail-value">${question.chapter}</span>
-                        </div>
-                        ` : ''}
-                        <div class="detail-row">
-                            <span class="detail-label">Added:</span>
-                            <span class="detail-value">${new Date(question.addedAt).toLocaleDateString()}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Your Answer:</span>
-                            <span class="detail-value">${getStudentAnswer(question)}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label">Correct Answer:</span>
-                            <span class="detail-value">${getCorrectAnswer(question)}</span>
-                        </div>
-                    </div>
-                    
-                    ${question.options && question.options.length > 0 ? `
-                        <div class="options-list">
-                            <strong>Options:</strong>
-                            ${question.options.map((option, index) => `
-                                <div class="option-item ${index === question.correctAnswer ? 'correct' : index === question.userAnswer ? 'incorrect' : ''}">
-                                    <span class="option-number">${String.fromCharCode(65 + index)}.</span>
-                                    <span>${option}</span>
-                                    ${index === question.correctAnswer ? '<iconify-icon icon="material-symbols:check-circle" style="color: #28a745; margin-left: auto;"></iconify-icon>' : ''}
-                                    ${index === question.userAnswer && index !== question.correctAnswer ? '<iconify-icon icon="material-symbols:cancel" style="color: #dc3545; margin-left: auto;"></iconify-icon>' : ''}
-                                </div>
-                            `).join('')}
-                        </div>
-                    ` : ''}
-                    
-                    <div class="question-actions">
-                        <button class="btn btn-danger" onclick="removeQuestion('${question.id}')">
-                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
-                            Remove
-                        </button>
-                        <button class="btn btn-outline-secondary" onclick="markAsCorrect('${question.id}')">
-                            <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
-                            Mark Correct
-                        </button>
-                        <button class="btn btn-outline-secondary" onclick="moveToFolder('${question.id}')">
-                            <iconify-icon icon="material-symbols:drive-file-move"></iconify-icon>
-                            Move to Folder
-                        </button>
-                    </div>
-                </div>
-                `;
-            }).join('');
+            // Questions are now displayed in individual folder pages
+            // This function is kept for compatibility but doesn't display anything
+            console.log('Questions are now displayed in individual folder pages (assignments, quizzes, exams)');
         }
         
         function removeQuestion(questionId) {
@@ -1271,68 +1152,7 @@
             }
         }
         
-        // Drag and Drop Functions
-        function initializeDragAndDrop() {
-            document.addEventListener('dragenter', function(e) {
-                e.preventDefault();
-            });
-            
-            document.addEventListener('dragover', function(e) {
-                e.preventDefault();
-            });
-            
-            document.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-            });
-        }
-        
-        function dragStart(event) {
-            draggedQuestion = event.target.getAttribute('data-question-id');
-            event.target.classList.add('dragging');
-            event.dataTransfer.effectAllowed = 'move';
-            event.dataTransfer.setData('text/html', event.target.outerHTML);
-        }
-        
-        function dragEnd(event) {
-            event.target.classList.remove('dragging');
-            draggedQuestion = null;
-        }
-        
-        function allowDrop(event) {
-            event.preventDefault();
-            event.currentTarget.classList.add('drag-over');
-        }
-        
-        function dragLeave(event) {
-            event.currentTarget.classList.remove('drag-over');
-        }
-        
-        function dropQuestion(event) {
-            event.preventDefault();
-            event.currentTarget.classList.remove('drag-over');
-            
-            if (!draggedQuestion) return;
-            
-            const question = wrongQuestions.find(q => q.id === draggedQuestion);
-            if (!question) return;
-            
-            const activityType = event.currentTarget.getAttribute('data-activity-type');
-            const subfolderId = event.currentTarget.getAttribute('data-subfolder-id');
-            
-            if (subfolderId) {
-                question.subfolderId = subfolderId;
-                delete question.folderId;
-            } else if (activityType) {
-                question.activityType = activityType;
-                delete question.subfolderId;
-                delete question.folderId;
-            }
-            
-            localStorage.setItem('physicsWrongQuestions', JSON.stringify(wrongQuestions));
-            displayFolders();
-            displayQuestions();
-            alert('Question moved successfully!');
-        }
+        // Drag and Drop functionality removed - questions are now displayed in individual folder pages
     </script>
 </body>
 </html>

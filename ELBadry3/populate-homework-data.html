@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Populate Homework Data</title>
+</head>
+<body>
+    <h1>Populating English Homework Data...</h1>
+    <p>This page will create sample English homework assignments.</p>
+    
+    <script>
+        // English homework assignments data
+        const englishAssignments = [
+            {
+                id: 'eng-hw-001',
+                title: 'Creative Writing: Descriptive Essay',
+                description: 'Write a 500-word descriptive essay about your favorite place. Focus on using sensory details and vivid imagery to create a strong atmosphere.',
+                points: 25,
+                difficulty: 'medium',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'english',
+                published: true,
+                category: 'writing',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'Describe your favorite place using at least 5 sensory details (sight, sound, smell, touch, taste).',
+                        type: 'text',
+                        points: 10,
+                        sampleAnswer: 'Student should include vivid sensory descriptions',
+                        gradingNotes: 'Check for use of sensory language and descriptive vocabulary'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'Include at least 3 figurative language devices (metaphor, simile, personification).',
+                        type: 'text',
+                        points: 10,
+                        sampleAnswer: 'Student should demonstrate understanding of figurative language',
+                        gradingNotes: 'Mark for creativity and appropriateness of figurative language'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'Ensure your essay has a clear introduction, body paragraphs, and conclusion.',
+                        type: 'text',
+                        points: 5,
+                        sampleAnswer: 'Student should follow proper essay structure',
+                        gradingNotes: 'Check for logical organization and flow'
+                    }
+                ]
+            },
+            {
+                id: 'eng-hw-002',
+                title: 'Poetry Analysis: "The Road Not Taken"',
+                description: 'Analyze Robert Frost\'s poem "The Road Not Taken" focusing on theme, literary devices, and the poet\'s message about life choices.',
+                points: 30,
+                difficulty: 'hard',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'english',
+                published: true,
+                category: 'analysis',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'What is the central theme of the poem? Support your answer with evidence from the text.',
+                        type: 'text',
+                        points: 10,
+                        sampleAnswer: 'Theme about choices and their consequences',
+                        gradingNotes: 'Look for understanding of deeper meaning beyond literal interpretation'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'Identify and explain 3 literary devices used in the poem.',
+                        type: 'text',
+                        points: 15,
+                        sampleAnswer: 'Metaphor, imagery, symbolism',
+                        gradingNotes: 'Check for accurate identification and thoughtful explanation'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'How does the title relate to the poem\'s meaning?',
+                        type: 'text',
+                        points: 5,
+                        sampleAnswer: 'Title emphasizes the choice not made',
+                        gradingNotes: 'Look for understanding of the poem\'s irony'
+                    }
+                ]
+            },
+            {
+                id: 'eng-hw-003',
+                title: 'Grammar Practice: Complex Sentences',
+                description: 'Complete the exercises on complex sentences, focusing on subordinate clauses and proper punctuation.',
+                points: 15,
+                difficulty: 'easy',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'english',
+                published: true,
+                category: 'grammar',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'Combine the following simple sentences into complex sentences using appropriate subordinating conjunctions.',
+                        type: 'multiple-choice',
+                        points: 5,
+                        options: [
+                            'Although the weather was cold, we went for a walk.',
+                            'The weather was cold, we went for a walk.',
+                            'The weather was cold. We went for a walk.'
+                        ],
+                        correctAnswer: 0,
+                        gradingNotes: 'Look for proper use of subordinating conjunctions'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'Identify the subordinate clause in each sentence.',
+                        type: 'text',
+                        points: 5,
+                        sampleAnswer: 'Student should correctly identify dependent clauses',
+                        gradingNotes: 'Check for understanding of clause structure'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'Write 3 original complex sentences with different types of subordinate clauses.',
+                        type: 'text',
+                        points: 5,
+                        sampleAnswer: 'Student should demonstrate variety in clause types',
+                        gradingNotes: 'Check for creativity and grammatical accuracy'
+                    }
+                ]
+            },
+            {
+                id: 'eng-hw-004',
+                title: 'Reading Comprehension: Newspaper Article',
+                description: 'Read the provided newspaper article about climate change and answer comprehension questions, focusing on main ideas and supporting details.',
+                points: 20,
+                difficulty: 'medium',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'english',
+                published: true,
+                category: 'reading',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'What is the main idea of the article?',
+                        type: 'text',
+                        points: 8,
+                        sampleAnswer: 'Student should identify the central argument or message',
+                        gradingNotes: 'Look for accurate summarization of main points'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'List 3 supporting details that the author uses to support their main argument.',
+                        type: 'text',
+                        points: 9,
+                        sampleAnswer: 'Student should identify specific evidence from the text',
+                        gradingNotes: 'Check for accuracy and relevance of supporting details'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'What is the author\'s tone? Support your answer with evidence.',
+                        type: 'text',
+                        points: 3,
+                        sampleAnswer: 'Student should identify tone and provide textual evidence',
+                        gradingNotes: 'Look for understanding of author\'s attitude and mood'
+                    }
+                ]
+            },
+            {
+                id: 'eng-hw-005',
+                title: 'Vocabulary Building: Context Clues',
+                description: 'Practice using context clues to determine the meaning of unfamiliar words. Complete the vocabulary exercises using the provided passages.',
+                points: 18,
+                difficulty: 'medium',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'english',
+                published: true,
+                category: 'vocabulary',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'Use context clues to determine the meaning of the underlined word in each sentence.',
+                        type: 'multiple-choice',
+                        points: 6,
+                        options: [
+                            'To understand from context',
+                            'To look up in dictionary',
+                            'To guess randomly',
+                            'To ask someone else'
+                        ],
+                        correctAnswer: 0,
+                        gradingNotes: 'Check for understanding of context clue strategies'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'Write a sentence using each vocabulary word correctly.',
+                        type: 'text',
+                        points: 12,
+                        sampleAnswer: 'Student should demonstrate proper word usage',
+                        gradingNotes: 'Check for correct word usage and sentence structure'
+                    }
+                ]
+            }
+        ];
+
+        // Save to localStorage
+        localStorage.setItem('englishAssignments', JSON.stringify(englishAssignments));
+
+        // Display success message
+        document.body.innerHTML = `
+            <h1>✅ English Homework Data Created Successfully!</h1>
+            <p><strong>Created ${englishAssignments.length} homework assignments:</strong></p>
+            <ul>
+                ${englishAssignments.map(hw => `<li><strong>${hw.title}</strong> (${hw.points} points, ${hw.difficulty})</li>`).join('')}
+            </ul>
+            <p>You can now go to <a href="english-homework.html">english-homework.html</a> to see the assignments.</p>
+            <p>Data saved to localStorage as 'englishAssignments'.</p>
+        `;
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

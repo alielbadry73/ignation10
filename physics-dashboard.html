@@ -1504,7 +1504,7 @@
                 
                 <div class="col-md-3 mb-4">
                     <div class="modern-card text-center animate-on-scroll animate-delay-2 clickable-card" onclick="navigateToSection('exam')" style="cursor: pointer;">
-                        <img src="images/New folder/quiz.webp" alt="Exams" style="width: 80px; height: 80px; margin-bottom: 1rem; border-radius: 10px;">
+                        <img src="images/New folder/exam.webp" alt="Exams" style="width: 80px; height: 80px; margin-bottom: 1rem; border-radius: 10px;">
                         <h4 style="color: #1e293b; font-weight: 700; margin: 0;">Exams</h4>
                     </div>
                 </div>
@@ -1788,35 +1788,58 @@
                         
                         <!-- Statistics Row -->
                         <div class="row mx-3 mb-3 mt-3" style="font-size: 0.9rem;">
-                            <div class="col-4 text-center">
+                            <div class="col-3 text-center">
                                 <div class="stat-card" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); padding: 1rem; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
                                     <div style="font-size: 1.5rem; font-weight: 700; color: #667eea;" id="dailyPracticeStreak">0</div>
                                     <div style="color: #6c757d; font-weight: 600;">Day Streak</div>
                                 </div>
                             </div>
-                            <div class="col-4 text-center">
+                            <div class="col-3 text-center">
                                 <div class="stat-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); padding: 1rem; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
                                     <div style="font-size: 1.5rem; font-weight: 700; color: #10b981;" id="dailyPracticeSolved">0</div>
                                     <div style="color: #6c757d; font-weight: 600;">Solved</div>
                                 </div>
                             </div>
-                            <div class="col-4 text-center">
+                            <div class="col-3 text-center">
                                 <div class="stat-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1)); padding: 1rem; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
                                     <div style="font-size: 1.5rem; font-weight: 700; color: #f59e0b;" id="dailyPracticeAccuracy">0%</div>
                                     <div style="color: #6c757d; font-weight: 600;">Accuracy</div>
                                 </div>
                             </div>
+                            <div class="col-3 text-center">
+                                <div class="stat-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(124, 58, 237, 0.1)); padding: 1rem; border-radius: 12px; text-align: center; transition: all 0.3s ease;">
+                                    <div style="font-size: 1.5rem; font-weight: 700; color: #8b5cf6;" id="dailyPracticeAvailable">0</div>
+                                    <div style="color: #6c757d; font-weight: 600;">Available</div>
+                                </div>
+                            </div>
                         </div>
+                        
                         
                         <!-- Question Display Area - Takes remaining height -->
                         <div class="flex-grow-1 mx-3 mb-3" style="display: flex; flex-direction: column; min-height: 0;">
                             <div id="inlineQuestionContainer" style="display: none; flex: 1; display: flex; flex-direction: column;">
                                 <div class="question-card" style="background: linear-gradient(135deg, #f8fafc, #e2e8f0); border: 2px solid #e2e8f0; border-radius: 16px; padding: 1.5rem; flex: 1; display: flex; flex-direction: column; transition: all 0.3s ease; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-                                    <div class="d-flex align-items-center mb-3">
-                                        <div style="background: linear-gradient(135deg, #667eea, #764ba2); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                                            <iconify-icon icon="material-symbols:quiz" style="color: white; font-size: 1.2rem;"></iconify-icon>
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="d-flex align-items-center">
+                                            <div style="background: linear-gradient(135deg, #667eea, #764ba2); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                                                <iconify-icon icon="material-symbols:quiz" style="color: white; font-size: 1.2rem;"></iconify-icon>
+                                            </div>
+                                            <div>
+                                                <h6 style="margin: 0; color: #1e293b; font-weight: 600;">Today's Practice Question</h6>
+                                                <div id="questionCounter" style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem;">
+                                                    Question 1 of 1
+                                                </div>
+                                            </div>
                                         </div>
-                                        <h6 style="margin: 0; color: #1e293b; font-weight: 600;">Today's Practice Question</h6>
+                                        <div class="d-flex gap-2">
+                                            <button id="prevQuestionBtn" onclick="previousQuestion()" class="btn btn-outline-secondary btn-sm" style="display: none; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8rem;">
+                                                <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1rem;"></iconify-icon>
+                                            </button>
+                                            <button id="nextQuestionBtn" onclick="nextQuestion()" class="btn btn-primary btn-sm" style="display: none; border-radius: 8px; padding: 0.5rem 0.75rem; font-size: 0.8rem;">
+                                                Next
+                                                <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 1rem; margin-left: 0.25rem;"></iconify-icon>
+                                            </button>
+                                        </div>
                                     </div>
                                     
                                     <div id="inlineQuestionText" style="color: #1e293b; margin-bottom: 1.5rem; font-size: 1rem; line-height: 1.6; flex: 1; overflow-y: auto;">
@@ -3106,8 +3129,52 @@
 
         // Update daily practice statistics
         function updateDailyPracticeStats() {
-            // Get daily practice data from localStorage
-            const questions = JSON.parse(localStorage.getItem('physics_daily_practice_questions_student') || '[]');
+            // Get today's date in YYYY-MM-DD format
+            const today = new Date().toISOString().split('T')[0];
+            console.log('📅 Today\'s date:', today);
+            
+            // Get practice questions from teacher's storage
+            const allQuestions = JSON.parse(localStorage.getItem('physics_practice_questions') || '[]');
+            console.log('📚 All practice questions from teacher:', allQuestions);
+            
+            // Filter questions created today
+            const todaysQuestions = allQuestions.filter(question => {
+                if (!question.createdAt) return false;
+                const questionDate = new Date(question.createdAt).toISOString().split('T')[0];
+                console.log('📅 Question date:', questionDate, 'Today:', today, 'Match:', questionDate === today);
+                return questionDate === today;
+            });
+            
+            console.log('📝 Today\'s questions from teacher:', todaysQuestions);
+            
+            // Also get legacy student questions as fallback, but filter them by today's date too
+            const legacyQuestions = JSON.parse(localStorage.getItem('physics_daily_practice_questions_student') || '[]');
+            console.log('📚 All legacy questions:', legacyQuestions);
+            
+            const todaysLegacyQuestions = legacyQuestions.filter(question => {
+                if (!question.createdAt) return false;
+                const questionDate = new Date(question.createdAt).toISOString().split('T')[0];
+                console.log('📅 Legacy question date:', questionDate, 'Today:', today, 'Match:', questionDate === today);
+                return questionDate === today;
+            });
+            
+            console.log('📝 Today\'s legacy questions:', todaysLegacyQuestions);
+            
+            // Combine and remove duplicates based on question ID
+            const allTodaysQuestions = [...todaysQuestions];
+            todaysLegacyQuestions.forEach(legacyQuestion => {
+                // Only add if not already present (check by ID or question content)
+                const exists = allTodaysQuestions.some(existing => 
+                    existing.id === legacyQuestion.id || 
+                    (existing.question === legacyQuestion.question && existing.type === legacyQuestion.type)
+                );
+                if (!exists) {
+                    allTodaysQuestions.push(legacyQuestion);
+                }
+            });
+            
+            console.log('📝 All today\'s questions combined (deduplicated):', allTodaysQuestions);
+            
             const streak = parseInt(localStorage.getItem('physicsStreak') || '0');
             const solved = parseInt(localStorage.getItem('physicsQuestionsSolved') || '0');
             const correct = parseInt(localStorage.getItem('physicsCorrectAnswers') || '0');
@@ -3119,10 +3186,27 @@
             document.getElementById('dailyPracticeStreak').textContent = streak;
             document.getElementById('dailyPracticeSolved').textContent = solved;
             document.getElementById('dailyPracticeAccuracy').textContent = accuracy + '%';
+            document.getElementById('dailyPracticeAvailable').textContent = allTodaysQuestions.length;
+            
+            // Update questions overview text
+            const overviewText = document.getElementById('questionsOverviewText');
+            if (overviewText) {
+                if (allTodaysQuestions.length === 0) {
+                    overviewText.textContent = 'No questions available today';
+                } else if (allTodaysQuestions.length === 1) {
+                    overviewText.textContent = '1 question available for today';
+                } else {
+                    overviewText.textContent = `${allTodaysQuestions.length} questions available for today`;
+                }
+            }
             
             // Load inline question if available
-            loadInlineQuestion(questions);
+            loadInlineQuestion(allTodaysQuestions);
         }
+
+        // Global variables for question navigation
+        let currentQuestionIndex = 0;
+        let allTodaysQuestions = [];
 
         // Load inline question
         function loadInlineQuestion(questions) {
@@ -3131,66 +3215,190 @@
             const questionText = document.getElementById('inlineQuestionText');
             const answerContainer = document.getElementById('inlineAnswerContainer');
             
+            // Store questions globally and reset index
+            allTodaysQuestions = questions;
+            currentQuestionIndex = 0;
+            
             if (questions.length > 0) {
-                const firstQuestion = questions[0];
-                questionText.innerHTML = `
-                    <div style="margin-bottom: 1rem;">
-                        <div class="d-flex gap-2 mb-2">
-                            <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
-                                ${firstQuestion.difficulty}
-                            </span>
-                            <span style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
-                                ${firstQuestion.topic}
-                            </span>
-                            <span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
-                                ${firstQuestion.type || 'Multiple Choice'}
-                            </span>
-                        </div>
-                        <div style="font-size: 1.1rem; line-height: 1.6;">${firstQuestion.question}</div>
-                    </div>
-                `;
-                
-                // Create appropriate answer input based on question type
-                let answerHtml = '';
-                if (firstQuestion.type === 'multiple-choice' && firstQuestion.options && firstQuestion.options.length > 0) {
-                    // Multiple choice options
-                    answerHtml = `
-                        <div class="mb-3">
-                            <label class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Select your answer:</label>
-                            <div class="multiple-choice-options" style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                ${firstQuestion.options.map((option, index) => `
-                                    <label class="option-label" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 2px solid #e2e8f0; border-radius: 10px; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#667eea'" onmouseout="this.style.borderColor='#e2e8f0'">
-                                        <input type="radio" name="inlineAnswer" value="${option}" style="margin: 0;">
-                                        <span class="option-text" style="font-size: 0.95rem; color: #1e293b;">${option}</span>
-                                    </label>
-                                `).join('')}
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    // Short answer textarea
-                    answerHtml = `
-                        <div class="mb-3">
-                            <label class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Type your answer:</label>
-                            <textarea id="inlineAnswerInput" class="form-control" rows="3" placeholder="Type your answer here..." style="border: 2px solid #e2e8f0; border-radius: 10px; resize: vertical; font-size: 0.95rem; transition: all 0.3s ease;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'"></textarea>
-                        </div>
-                    `;
-                }
-                
-                // Update the answer container
-                const answerContainerDiv = document.querySelector('.mt-auto .row .col-md-8');
-                if (answerContainerDiv) {
-                    answerContainerDiv.innerHTML = answerHtml;
-                }
-                
-                // Store current question data for submission
-                window.currentInlineQuestion = firstQuestion;
-                
-                container.style.display = 'flex';
-                noQuestionsMessage.style.display = 'none';
+                displayCurrentQuestion();
             } else {
                 container.style.display = 'none';
                 noQuestionsMessage.style.display = 'flex';
+            }
+        }
+
+        // Display current question based on index
+        function displayCurrentQuestion() {
+            if (allTodaysQuestions.length === 0) return;
+            
+            const container = document.getElementById('inlineQuestionContainer');
+            const noQuestionsMessage = document.getElementById('noQuestionsMessage');
+            const questionText = document.getElementById('inlineQuestionText');
+            const answerContainer = document.getElementById('inlineAnswerContainer');
+            
+            const currentQuestion = allTodaysQuestions[currentQuestionIndex];
+            
+            // Update question counter
+            updateQuestionCounter();
+            
+            // Update navigation buttons
+            updateNavigationButtons();
+            
+            // Check if this question has been answered before
+            const questionId = currentQuestion.id || `question_${currentQuestionIndex}_${Date.now()}`;
+            const answeredQuestions = JSON.parse(localStorage.getItem('physicsAnsweredQuestions') || '[]');
+            const previousAnswer = answeredQuestions.find(q => q.questionId === questionId);
+            
+            // Handle different question field names from teacher vs student questions
+            const questionContent = currentQuestion.question || currentQuestion.questionText || currentQuestion.text || 'No question text available';
+            const difficulty = currentQuestion.difficulty || 'Medium';
+            const topic = currentQuestion.topic || 'General';
+            const questionType = currentQuestion.type || 'Multiple Choice';
+            
+            console.log('📝 Loading question:', {
+                questionContent,
+                difficulty,
+                topic,
+                questionType,
+                currentIndex: currentQuestionIndex,
+                totalQuestions: allTodaysQuestions.length,
+                fullQuestion: currentQuestion,
+                previousAnswer: previousAnswer
+            });
+            
+            questionText.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    <div class="d-flex gap-2 mb-2">
+                        <span style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                            ${difficulty}
+                        </span>
+                        <span style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                            ${topic}
+                        </span>
+                        <span style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">
+                            ${questionType}
+                        </span>
+                        ${previousAnswer ? `<span style="background: linear-gradient(135deg, #16a34a, #15803d); color: white; padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">Answered</span>` : ''}
+                    </div>
+                    <div style="font-size: 1.1rem; line-height: 1.6;">${questionContent}</div>
+                </div>
+            `;
+            
+            // Create appropriate answer input based on question type
+            let answerHtml = '';
+            if (currentQuestion.type === 'multiple-choice' && currentQuestion.options && currentQuestion.options.length > 0) {
+                // Multiple choice options
+                answerHtml = `
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Select your answer:</label>
+                        <div class="multiple-choice-options" style="display: flex; flex-direction: column; gap: 0.75rem;">
+                            ${currentQuestion.options.map((option, index) => {
+                                const isSelected = previousAnswer && previousAnswer.userAnswer === option;
+                                const isCorrect = previousAnswer && previousAnswer.isCorrect && previousAnswer.userAnswer === option;
+                                const isWrong = previousAnswer && !previousAnswer.isCorrect && previousAnswer.userAnswer === option;
+                                
+                                let borderColor = '#e2e8f0';
+                                let backgroundColor = 'transparent';
+                                
+                                if (previousAnswer) {
+                                    if (isCorrect) {
+                                        borderColor = '#16a34a';
+                                        backgroundColor = '#dcfce7';
+                                    } else if (isWrong) {
+                                        borderColor = '#dc2626';
+                                        backgroundColor = '#fef2f2';
+                                    }
+                                }
+                                
+                                return `
+                                    <label class="option-label" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border: 2px solid ${borderColor}; border-radius: 10px; cursor: ${previousAnswer ? 'default' : 'pointer'}; transition: all 0.3s ease; background: ${backgroundColor};" onmouseover="${previousAnswer ? '' : "this.style.borderColor='#667eea'"}" onmouseout="${previousAnswer ? '' : "this.style.borderColor='#e2e8f0'"}">
+                                        <input type="radio" name="inlineAnswer" value="${option}" style="margin: 0;" ${isSelected ? 'checked' : ''} ${previousAnswer ? 'disabled' : ''}>
+                                        <span class="option-text" style="font-size: 0.95rem; color: #1e293b;">${option}</span>
+                                    </label>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Short answer textarea
+                answerHtml = `
+                    <div class="mb-3">
+                        <label class="form-label" style="font-weight: 600; color: #1e293b; margin-bottom: 1rem;">Type your answer:</label>
+                        <textarea id="inlineAnswerInput" class="form-control" rows="3" placeholder="Type your answer here..." style="border: 2px solid #e2e8f0; border-radius: 10px; resize: vertical; font-size: 0.95rem; transition: all 0.3s ease;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e2e8f0'" ${previousAnswer ? 'readonly' : ''}>${previousAnswer ? previousAnswer.userAnswer : ''}</textarea>
+                    </div>
+                `;
+            }
+            
+            // Update the answer container
+            const answerContainerDiv = document.querySelector('.mt-auto .row .col-md-8');
+            if (answerContainerDiv) {
+                answerContainerDiv.innerHTML = answerHtml;
+            }
+            
+            // Store current question data for submission
+            window.currentInlineQuestion = currentQuestion;
+            
+            container.style.display = 'flex';
+            noQuestionsMessage.style.display = 'none';
+            
+            // If this question was previously answered, show the answer
+            if (previousAnswer) {
+                showInlineAnswer(previousAnswer.userAnswer, previousAnswer.isCorrect);
+            } else {
+                // Hide any previous answer display
+                const answerDisplay = document.getElementById('inlineAnswerDisplay');
+                if (answerDisplay) {
+                    answerDisplay.style.display = 'none';
+                }
+            }
+        }
+
+        // Update question counter display
+        function updateQuestionCounter() {
+            const counter = document.getElementById('questionCounter');
+            if (counter) {
+                counter.textContent = `Question ${currentQuestionIndex + 1} of ${allTodaysQuestions.length}`;
+            }
+        }
+
+        // Update navigation buttons visibility
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevQuestionBtn');
+            const nextBtn = document.getElementById('nextQuestionBtn');
+            
+            if (prevBtn) {
+                prevBtn.style.display = currentQuestionIndex > 0 ? 'block' : 'none';
+            }
+            
+            if (nextBtn) {
+                nextBtn.style.display = currentQuestionIndex < allTodaysQuestions.length - 1 ? 'block' : 'none';
+            }
+        }
+
+        // Navigate to next question
+        function nextQuestion() {
+            if (currentQuestionIndex < allTodaysQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayCurrentQuestion();
+                // Clear any previous answer display
+                const answerDisplay = document.getElementById('inlineAnswerDisplay');
+                if (answerDisplay) {
+                    answerDisplay.style.display = 'none';
+                }
+            }
+        }
+
+        // Navigate to previous question
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayCurrentQuestion();
+                // Clear any previous answer display
+                const answerDisplay = document.getElementById('inlineAnswerDisplay');
+                if (answerDisplay) {
+                    answerDisplay.style.display = 'none';
+                }
             }
         }
 
@@ -3198,6 +3406,16 @@
         function submitInlineAnswer() {
             if (!window.currentInlineQuestion) {
                 alert('No question available.');
+                return;
+            }
+
+            // Check if this question has already been answered
+            const questionId = window.currentInlineQuestion.id || `question_${currentQuestionIndex}_${Date.now()}`;
+            const answeredQuestions = JSON.parse(localStorage.getItem('physicsAnsweredQuestions') || '[]');
+            const previousAnswer = answeredQuestions.find(q => q.questionId === questionId);
+            
+            if (previousAnswer) {
+                alert('This question has already been answered.');
                 return;
             }
 
@@ -3212,7 +3430,34 @@
                     return;
                 }
                 answer = selectedOption.value;
-                isCorrect = answer === window.currentInlineQuestion.answer;
+                // Check against correctAnswer, answer, or correctAnswerIndex fields
+                const correctAnswerIndex = window.currentInlineQuestion.correctAnswer || 
+                                         window.currentInlineQuestion.answer || 
+                                         window.currentInlineQuestion.correctAnswerIndex;
+                console.log('🔍 Multiple Choice Answer Validation:');
+                console.log('Student answer:', answer);
+                console.log('Correct answer index:', correctAnswerIndex);
+                console.log('Question options:', window.currentInlineQuestion.options);
+                console.log('Question object:', window.currentInlineQuestion);
+                
+                // Convert correct answer index to actual option text
+                let correctAnswerText = '';
+                if (typeof correctAnswerIndex === 'string' && correctAnswerIndex.match(/^[A-D]$/)) {
+                    // If it's a letter (A, B, C, D), convert to index
+                    const letterIndex = correctAnswerIndex.charCodeAt(0) - 65; // A=0, B=1, C=2, D=3
+                    correctAnswerText = window.currentInlineQuestion.options[letterIndex] || '';
+                } else if (typeof correctAnswerIndex === 'number' || !isNaN(parseInt(correctAnswerIndex))) {
+                    // If it's a number, use as index
+                    const index = parseInt(correctAnswerIndex);
+                    correctAnswerText = window.currentInlineQuestion.options[index] || '';
+                } else {
+                    // If it's already text, use as is
+                    correctAnswerText = correctAnswerIndex;
+                }
+                
+                console.log('Correct answer text:', correctAnswerText);
+                isCorrect = answer === correctAnswerText;
+                console.log('Is correct:', isCorrect);
             } else {
                 // Handle short answer
                 const answerInput = document.getElementById('inlineAnswerInput');
@@ -3225,9 +3470,18 @@
                     alert('Please enter an answer before submitting.');
                     return;
                 }
-            // Simple answer checking (case-insensitive)
-                isCorrect = answer.toLowerCase().includes(window.currentInlineQuestion.answer.toLowerCase()) ||
-                             window.currentInlineQuestion.answer.toLowerCase().includes(answer.toLowerCase());
+                // Check against correctAnswer, answer, or correctAnswerIndex fields
+                const correctAnswer = window.currentInlineQuestion.correctAnswer || 
+                                    window.currentInlineQuestion.answer || 
+                                    window.currentInlineQuestion.correctAnswerIndex;
+                console.log('🔍 Short Answer Validation:');
+                console.log('Student answer:', answer);
+                console.log('Correct answer:', correctAnswer);
+                console.log('Question object:', window.currentInlineQuestion);
+                // Simple answer checking (case-insensitive)
+                isCorrect = answer.toLowerCase().includes(correctAnswer.toLowerCase()) ||
+                             correctAnswer.toLowerCase().includes(answer.toLowerCase());
+                console.log('Is correct:', isCorrect);
             }
 
             // Update statistics
@@ -3239,7 +3493,17 @@
             if (isCorrect) {
                 correct++;
                 streak++;
-                alert('✅ Correct! Well done!');
+                
+                // Check if there are more questions
+                if (currentQuestionIndex < allTodaysQuestions.length - 1) {
+                    alert('✅ Correct! Well done! Moving to next question...');
+                    // Auto-navigate to next question after a short delay
+                    setTimeout(() => {
+                        nextQuestion();
+                    }, 1500);
+                } else {
+                    alert('✅ Correct! Well done! You\'ve completed all questions for today!');
+                }
             } else {
                 streak = Math.max(0, streak - 1);
                 alert('❌ Not quite right. Check the answer below.');
@@ -3249,22 +3513,82 @@
             localStorage.setItem('physicsCorrectAnswers', correct.toString());
             localStorage.setItem('physicsStreak', streak.toString());
 
+            // Save the question state to localStorage so it persists on refresh
+            const questionState = {
+                questionId: questionId,
+                userAnswer: answer,
+                isCorrect: isCorrect,
+                timestamp: new Date().toISOString(),
+                questionIndex: currentQuestionIndex
+            };
+            
+            // Remove any existing answer for this question
+            const filteredAnswers = answeredQuestions.filter(q => q.questionId !== questionId);
+            
+            // Add the new answer
+            filteredAnswers.push(questionState);
+            
+            // Save back to localStorage
+            localStorage.setItem('physicsAnsweredQuestions', JSON.stringify(filteredAnswers));
+
             // Update statistics display
             updateDailyPracticeStats();
 
-            // Show answer
-            showInlineAnswer();
+            // Show answer with user's choice preserved
+            showInlineAnswer(answer, isCorrect);
         }
 
         // Show inline answer
-        function showInlineAnswer() {
+        function showInlineAnswer(userAnswer = '', isCorrect = false) {
             if (!window.currentInlineQuestion) return;
 
             const answerDisplay = document.getElementById('inlineAnswerDisplay');
             const correctAnswer = document.getElementById('inlineCorrectAnswer');
             const explanation = document.getElementById('inlineExplanation');
 
-            correctAnswer.textContent = window.currentInlineQuestion.answer;
+            // Display the correct answer text, not just the index
+            const correctAnswerIndex = window.currentInlineQuestion.correctAnswer || 
+                                     window.currentInlineQuestion.answer || 
+                                     window.currentInlineQuestion.correctAnswerIndex;
+            let correctAnswerText = '';
+            
+            if (window.currentInlineQuestion.type === 'multiple-choice' && window.currentInlineQuestion.options) {
+                if (typeof correctAnswerIndex === 'string' && correctAnswerIndex.match(/^[A-D]$/)) {
+                    // If it's a letter (A, B, C, D), convert to index
+                    const letterIndex = correctAnswerIndex.charCodeAt(0) - 65; // A=0, B=1, C=2, D=3
+                    correctAnswerText = window.currentInlineQuestion.options[letterIndex] || correctAnswerIndex;
+                } else if (typeof correctAnswerIndex === 'number' || !isNaN(parseInt(correctAnswerIndex))) {
+                    // If it's a number, use as index
+                    const index = parseInt(correctAnswerIndex);
+                    correctAnswerText = window.currentInlineQuestion.options[index] || correctAnswerIndex;
+                } else {
+                    // If it's already text, use as is
+                    correctAnswerText = correctAnswerIndex;
+                }
+            } else {
+                correctAnswerText = correctAnswerIndex;
+            }
+            
+            // Show both user's answer and correct answer
+            if (userAnswer) {
+                correctAnswer.innerHTML = `
+                    <div style="margin-bottom: 1rem;">
+                        <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">Your Answer:</div>
+                        <div style="padding: 0.75rem; border-radius: 8px; background: ${isCorrect ? '#dcfce7' : '#fef2f2'}; border: 2px solid ${isCorrect ? '#16a34a' : '#dc2626'}; color: ${isCorrect ? '#166534' : '#991b1b'}; font-weight: 600;">
+                            ${userAnswer}
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">Correct Answer:</div>
+                        <div style="padding: 0.75rem; border-radius: 8px; background: #dcfce7; border: 2px solid #16a34a; color: #166534; font-weight: 600;">
+                            ${correctAnswerText}
+                        </div>
+                    </div>
+                `;
+            } else {
+                correctAnswer.textContent = correctAnswerText;
+            }
+            
             explanation.textContent = window.currentInlineQuestion.explanation || 'No explanation provided.';
             
             answerDisplay.style.display = 'block';

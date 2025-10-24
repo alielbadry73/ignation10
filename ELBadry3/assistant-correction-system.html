@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistant Correction System - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+        }
+        
+        .correction-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .correction-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .correction-logo img {
+            height: 35px;
+            width: auto;
+            margin-right: 0.75rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .correction-logo:hover img {
+            transform: scale(1.05);
+        }
+        
+        .subject-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+        
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+        }
+        
+        .correction-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .correction-header-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .correction-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .correction-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .submission-filters {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .form-control {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        
+        .submissions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .submission-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .submission-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .submission-header {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .submission-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .submission-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
+        .submission-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-graded {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .submission-content {
+            padding: 1.5rem;
+        }
+        
+        .question-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .question-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .question-icon {
+            font-size: 1.2rem;
+            color: #667eea;
+        }
+        
+        .question-text {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .question-files {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: #e9ecef;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+        
+        .file-icon {
+            color: #667eea;
+        }
+        
+        .answer-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .answer-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .answer-icon {
+            font-size: 1.2rem;
+            color: #28a745;
+        }
+        
+        .student-answer {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .student-files {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .correction-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .correction-title-section {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .correction-icon {
+            font-size: 1.2rem;
+            color: #856404;
+        }
+        
+        .correction-form {
+            margin-bottom: 1rem;
+        }
+        
+        .correction-textarea {
+            width: 100%;
+            min-height: 100px;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 0.75rem;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+        
+        .correction-textarea:focus {
+            outline: none;
+            border-color: #856404;
+            box-shadow: 0 0 0 2px rgba(133, 100, 4, 0.1);
+        }
+        
+        .grading-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .grade-input {
+            width: 80px;
+            text-align: center;
+        }
+        
+        .max-grade {
+            color: #666;
+            font-size: 0.875rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+        
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: #333;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+        }
+        
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+        }
+        
+        .wrong-question-actions {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .wrong-question-title {
+            font-weight: 600;
+            color: #721c24;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .wrong-question-icon {
+            font-size: 1.2rem;
+            color: #721c24;
+        }
+        
+        .wrong-question-description {
+            color: #721c24;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+        
+        .wrong-question-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+        }
+        
+        .modal-title {
+            font-weight: 600;
+        }
+        
+        .btn-close {
+            filter: invert(1);
+        }
+        
+        .stats-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .empty-description {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <header class="correction-header">
+        <a href="index.html" class="correction-logo">
+            <img src="images/logo.png" alt="IG Nation Logo">
+            <span style="font-weight: 700; font-size: 1.2rem;">IG Nation</span>
+        </a>
+        <div class="subject-badge">Assistant Correction System</div>
+        <nav class="teacher-nav">
+            <a href="index.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:home"></iconify-icon>
+                Home
+            </a>
+            <a href="question-builder.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:add"></iconify-icon>
+                Create Questions
+            </a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="correction-container">
+            <!-- Header -->
+            <div class="correction-header-section">
+                <h1 class="correction-title">Assistant Correction System</h1>
+                <p class="correction-subtitle">Review and grade student submissions with automatic wrong question categorization</p>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-section">
+                <h3 class="form-label mb-3">Submission Statistics</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-submissions">0</div>
+                        <div class="stat-label">Total Submissions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="pending-submissions">0</div>
+                        <div class="stat-label">Pending Review</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="graded-submissions">0</div>
+                        <div class="stat-label">Graded</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="wrong-questions">0</div>
+                        <div class="stat-label">Wrong Questions</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="submission-filters">
+                <h3 class="form-label mb-3">Filter Submissions
+                    <button class="btn btn-outline-primary btn-sm ms-3" onclick="addTestWrongQuestion()" title="Add test wrong question">
+                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                        Add Test Question
+                    </button>
+                    <button class="btn btn-outline-success btn-sm ms-2" onclick="addTestTeacherPanelSubmission()" title="Add test teacher panel submission">
+                        <iconify-icon icon="material-symbols:assignment"></iconify-icon>
+                        Add Teacher Panel Submission
+                    </button>
+                </h3>
+                <div class="filter-row">
+                    <div class="form-group">
+                        <label class="form-label">Course:</label>
+                        <select class="form-control" id="course-filter" onchange="filterSubmissions()">
+                            <option value="">All Courses</option>
+                            <option value="mathematics">Mathematics</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Activity Type:</label>
+                        <select class="form-control" id="activity-filter" onchange="filterSubmissions()">
+                            <option value="">All Activities</option>
+                            <option value="assignment">Assignment</option>
+                            <option value="quiz">Quiz</option>
+                            <option value="exam">Exam</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status:</label>
+                        <select class="form-control" id="status-filter" onchange="filterSubmissions()">
+                            <option value="">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="graded">Graded</option>
+                            <option value="incorrect">Incorrect</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Student:</label>
+                        <input type="text" class="form-control" id="student-filter" placeholder="Search by student name..." oninput="filterSubmissions()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submissions Grid -->
+            <div id="submissions-container">
+                <div class="empty-state">
+                    <iconify-icon icon="material-symbols:assignment" class="empty-icon"></iconify-icon>
+                    <div class="empty-title">No Submissions Found</div>
+                    <div class="empty-description">No student submissions match your current filters</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Wrong Question Modal -->
+    <div class="modal fade" id="wrongQuestionModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add to Wrong Questions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Question Details:</label>
+                        <div id="wrong-question-details" class="question-text"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Student Answer:</label>
+                        <div id="wrong-student-answer" class="student-answer"></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Correction Notes:</label>
+                        <textarea class="form-control" id="wrong-question-notes" rows="3" placeholder="Add notes about why this question was marked wrong..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Difficulty Level:</label>
+                        <select class="form-control" id="wrong-question-difficulty">
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmAddToWrongQuestions()">
+                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                        Add to Wrong Questions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <script>
+        let allSubmissions = [];
+        let filteredSubmissions = [];
+        let currentSubmission = null;
+
+        // Sample data - in a real system, this would come from a database
+        const sampleSubmissions = [
+            {
+                id: 'sub_1',
+                studentName: 'Ahmed Mohamed',
+                studentId: 'ST001',
+                course: 'mathematics',
+                activityType: 'assignment',
+                activityTitle: 'Algebra Basics Assignment',
+                questionId: 'q_1',
+                questionText: 'Solve for x: 2x + 5 = 15',
+                questionType: 'text',
+                studentAnswer: 'x = 10',
+                correctAnswer: 'x = 5',
+                maxGrade: 10,
+                currentGrade: null,
+                status: 'pending',
+                submittedAt: new Date().toISOString(),
+                questionFiles: [],
+                studentFiles: []
+            },
+            {
+                id: 'sub_2',
+                studentName: 'Fatima Ali',
+                studentId: 'ST002',
+                course: 'physics',
+                activityType: 'quiz',
+                activityTitle: 'Force and Motion Quiz',
+                questionId: 'q_2',
+                questionText: 'What is the formula for kinetic energy?',
+                questionType: 'multiple-choice',
+                studentAnswer: 'KE = 1/2mv²',
+                correctAnswer: 'KE = 1/2mv²',
+                maxGrade: 5,
+                currentGrade: 5,
+                status: 'graded',
+                submittedAt: new Date(Date.now() - 86400000).toISOString(),
+                questionFiles: [],
+                studentFiles: [],
+                options: [
+                    { text: 'KE = mv²', isCorrect: false },
+                    { text: 'KE = 1/2mv²', isCorrect: true },
+                    { text: 'KE = mv', isCorrect: false },
+                    { text: 'KE = 2mv²', isCorrect: false }
+                ]
+            },
+            {
+                id: 'sub_3',
+                studentName: 'Mohamed Hassan',
+                studentId: 'ST003',
+                course: 'chemistry',
+                activityType: 'exam',
+                activityTitle: 'Chemical Reactions Exam',
+                questionId: 'q_3',
+                questionText: 'Balance the following chemical equation: H₂ + O₂ → H₂O',
+                questionType: 'text',
+                studentAnswer: 'H₂ + O₂ → H₂O',
+                correctAnswer: '2H₂ + O₂ → 2H₂O',
+                maxGrade: 15,
+                currentGrade: 5,
+                status: 'incorrect',
+                submittedAt: new Date(Date.now() - 172800000).toISOString(),
+                questionFiles: [],
+                studentFiles: []
+            }
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSubmissions();
+            updateStatistics();
+        });
+
+        function loadSubmissions() {
+            // Load sample submissions
+            allSubmissions = [...sampleSubmissions];
+            
+            // Load actual questions from teacher panel and create submissions
+            loadTeacherPanelQuestions();
+            
+            filteredSubmissions = [...allSubmissions];
+            displaySubmissions();
+        }
+
+        function loadTeacherPanelQuestions() {
+            // Load questions created from teacher panels for all courses
+            const courses = ['mathematics', 'physics', 'chemistry'];
+            
+            courses.forEach(course => {
+                const questions = JSON.parse(localStorage.getItem(`${course}Questions`) || '[]');
+                
+                questions.forEach(question => {
+                    // Create a sample submission for each question
+                    const submission = {
+                        id: `sub_${course}_${question.id}`,
+                        studentName: 'Sample Student',
+                        studentId: 'ST000',
+                        course: question.course,
+                        activityType: question.activityType,
+                        activityTitle: question.activityTitle || `${question.course} ${question.activityType}`,
+                        questionId: question.id,
+                        questionText: question.text,
+                        questionType: question.questionType,
+                        studentAnswer: getSampleStudentAnswer(question),
+                        correctAnswer: getCorrectAnswer(question),
+                        maxGrade: 10,
+                        currentGrade: null,
+                        status: 'pending',
+                        submittedAt: new Date().toISOString(),
+                        questionFiles: question.questionFiles || [],
+                        studentFiles: [],
+                        // Include the full question object for better data extraction
+                        questions: [question],
+                        question: question,
+                        // Image support
+                        questionImage: question.questionImage || null,
+                        studentAnswerImage: question.studentAnswerImage || null,
+                        correctAnswerImage: question.correctAnswerImage || null
+                    };
+                    
+                    allSubmissions.push(submission);
+                });
+            });
+        }
+
+        function getSampleStudentAnswer(question) {
+            // Generate a sample incorrect answer for demonstration
+            switch(question.questionType) {
+                case 'multiple-choice':
+                    if (question.options && question.options.length > 0) {
+                        // Find an incorrect option
+                        const incorrectOption = question.options.find(opt => !opt.isCorrect);
+                        return incorrectOption ? incorrectOption.text : 'Incorrect answer';
+                    }
+                    return 'Incorrect answer';
+                case 'text':
+                    return 'Sample incorrect text answer';
+                case 'file-upload':
+                    return 'sample_file.pdf';
+                default:
+                    return 'Sample answer';
+            }
+        }
+
+        function getCorrectAnswer(question) {
+            switch(question.questionType) {
+                case 'multiple-choice':
+                    if (question.options && question.options.length > 0) {
+                        const correctOption = question.options.find(opt => opt.isCorrect);
+                        return correctOption ? correctOption.text : 'Correct answer';
+                    }
+                    return 'Correct answer';
+                case 'text':
+                    return question.correctAnswer || 'Correct text answer';
+                case 'file-upload':
+                    return 'correct_file.pdf';
+                default:
+                    return 'Correct answer';
+            }
+        }
+
+        function filterSubmissions() {
+            const courseFilter = document.getElementById('course-filter').value;
+            const activityFilter = document.getElementById('activity-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+            const studentFilter = document.getElementById('student-filter').value.toLowerCase();
+
+            filteredSubmissions = allSubmissions.filter(submission => {
+                const matchesCourse = !courseFilter || submission.course === courseFilter;
+                const matchesActivity = !activityFilter || submission.activityType === activityFilter;
+                const matchesStatus = !statusFilter || submission.status === statusFilter;
+                const matchesStudent = !studentFilter || submission.studentName.toLowerCase().includes(studentFilter);
+
+                return matchesCourse && matchesActivity && matchesStatus && matchesStudent;
+            });
+
+            displaySubmissions();
+        }
+
+        function displaySubmissions() {
+            const container = document.getElementById('submissions-container');
+            
+            if (filteredSubmissions.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <iconify-icon icon="material-symbols:assignment" class="empty-icon"></iconify-icon>
+                        <div class="empty-title">No Submissions Found</div>
+                        <div class="empty-description">No student submissions match your current filters</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="submissions-grid">
+                    ${filteredSubmissions.map(submission => createSubmissionCard(submission)).join('')}
+                </div>
+            `;
+        }
+
+        function createSubmissionCard(submission) {
+            const statusClass = `status-${submission.status}`;
+            const statusText = submission.status.charAt(0).toUpperCase() + submission.status.slice(1);
+            
+            return `
+                <div class="submission-card">
+                    <div class="submission-header">
+                        <div class="submission-title">${submission.activityTitle}</div>
+                        <div class="submission-meta">
+                            <span>${submission.studentName} (${submission.studentId})</span>
+                            <span class="submission-status ${statusClass}">${statusText}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="submission-content">
+                        <div class="question-section">
+                            <div class="question-title">
+                                <iconify-icon icon="material-symbols:help" class="question-icon"></iconify-icon>
+                                Question
+                            </div>
+                            <div class="question-text">${submission.questionText}</div>
+                            ${submission.questionFiles.length > 0 ? `
+                                <div class="question-files">
+                                    ${submission.questionFiles.map(file => `
+                                        <div class="file-item">
+                                            <iconify-icon icon="material-symbols:description" class="file-icon"></iconify-icon>
+                                            <span>${file.name}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="answer-section">
+                            <div class="answer-title">
+                                <iconify-icon icon="material-symbols:person" class="answer-icon"></iconify-icon>
+                                Student Answer
+                            </div>
+                            <div class="student-answer">${submission.studentAnswer}</div>
+                            ${submission.studentFiles.length > 0 ? `
+                                <div class="student-files">
+                                    ${submission.studentFiles.map(file => `
+                                        <div class="file-item">
+                                            <iconify-icon icon="material-symbols:description" class="file-icon"></iconify-icon>
+                                            <span>${file.name}</span>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        ${submission.status === 'pending' ? `
+                            <div class="correction-section">
+                                <div class="correction-title-section">
+                                    <iconify-icon icon="material-symbols:edit" class="correction-icon"></iconify-icon>
+                                    Correction & Grading
+                                </div>
+                                <div class="correction-form">
+                                    <textarea class="correction-textarea" placeholder="Add correction notes and feedback..." id="correction-${submission.id}"></textarea>
+                                </div>
+                                <div class="grading-controls">
+                                    <label class="form-label">Grade:</label>
+                                    <input type="number" class="form-control grade-input" id="grade-${submission.id}" min="0" max="${submission.maxGrade}" step="0.5">
+                                    <span class="max-grade">/ ${submission.maxGrade}</span>
+                                </div>
+                                <div class="action-buttons">
+                                    <button class="btn btn-success btn-sm" onclick="gradeSubmission('${submission.id}', true)">
+                                        <iconify-icon icon="material-symbols:check"></iconify-icon>
+                                        Mark Correct
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="gradeSubmission('${submission.id}', false)">
+                                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                                        Mark Incorrect
+                                    </button>
+                                </div>
+                            </div>
+                        ` : submission.status === 'incorrect' ? `
+                            <div class="wrong-question-actions">
+                                <div class="wrong-question-title">
+                                    <iconify-icon icon="material-symbols:warning" class="wrong-question-icon"></iconify-icon>
+                                    Incorrect Answer
+                                </div>
+                                <div class="wrong-question-description">
+                                    This answer has been marked as incorrect. You can add it to the student's wrong questions collection for review.
+                                </div>
+                                <div class="wrong-question-buttons">
+                                    <button class="btn btn-danger btn-sm" onclick="showWrongQuestionModal('${submission.id}')">
+                                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                        Add to Wrong Questions
+                                    </button>
+                                    <button class="btn btn-warning btn-sm" onclick="regradeSubmission('${submission.id}')">
+                                        <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                        Regrade
+                                    </button>
+                                </div>
+                            </div>
+                        ` : `
+                            <div class="correction-section">
+                                <div class="correction-title-section">
+                                    <iconify-icon icon="material-symbols:check-circle" class="correction-icon"></iconify-icon>
+                                    Graded
+                                </div>
+                                <div class="student-answer">
+                                    <strong>Grade:</strong> ${submission.currentGrade}/${submission.maxGrade}
+                                    <br>
+                                    <strong>Status:</strong> ${statusText}
+                                </div>
+                                <div class="action-buttons">
+                                    <button class="btn btn-warning btn-sm" onclick="regradeSubmission('${submission.id}')">
+                                        <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                        Regrade
+                                    </button>
+                                </div>
+                            </div>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function gradeSubmission(submissionId, isCorrect) {
+            const submission = allSubmissions.find(s => s.id === submissionId);
+            if (!submission) return;
+
+            const gradeInput = document.getElementById(`grade-${submissionId}`);
+            const correctionText = document.getElementById(`correction-${submissionId}`).value;
+            const grade = parseFloat(gradeInput.value) || 0;
+
+            // Update submission
+            submission.currentGrade = grade;
+            submission.status = isCorrect ? 'graded' : 'incorrect';
+            submission.correctionNotes = correctionText;
+            submission.gradedAt = new Date().toISOString();
+
+            // Save to localStorage (in a real system, this would be sent to a server)
+            localStorage.setItem('submissions', JSON.stringify(allSubmissions));
+
+            // Update display
+            displaySubmissions();
+            updateStatistics();
+
+            if (!isCorrect) {
+                // Show option to add to wrong questions
+                setTimeout(() => {
+                    showWrongQuestionModal(submissionId);
+                }, 500);
+            }
+
+            alert(`Submission ${isCorrect ? 'graded successfully' : 'marked as incorrect'}!`);
+        }
+
+        function showWrongQuestionModal(submissionId) {
+            currentSubmission = allSubmissions.find(s => s.id === submissionId);
+            if (!currentSubmission) return;
+
+            document.getElementById('wrong-question-details').textContent = currentSubmission.questionText;
+            document.getElementById('wrong-student-answer').textContent = currentSubmission.studentAnswer;
+            document.getElementById('wrong-question-notes').value = currentSubmission.correctionNotes || '';
+            document.getElementById('wrong-question-difficulty').value = 'medium';
+
+            const modal = new bootstrap.Modal(document.getElementById('wrongQuestionModal'));
+            modal.show();
+        }
+
+        function confirmAddToWrongQuestions() {
+            if (!currentSubmission) return;
+
+            // Debug: Log the submission data to see what we're working with
+            console.log('Current submission data:', currentSubmission);
+
+            const notes = document.getElementById('wrong-question-notes').value;
+            const difficulty = document.getElementById('wrong-question-difficulty').value;
+
+            // Extract question data from submission, including nested question objects
+            const question = currentSubmission.questions && currentSubmission.questions.length > 0 ? 
+                currentSubmission.questions[0] : {};
+            
+            // Debug: Log the extracted question data
+            console.log('Extracted question data:', question);
+            
+            // Enhanced question text extraction - check more possible locations
+            const questionText = currentSubmission.questionText || 
+                                question.text || 
+                                question.questionText || 
+                                currentSubmission.question?.text ||
+                                currentSubmission.question?.questionText ||
+                                currentSubmission.questions?.[0]?.text ||
+                                currentSubmission.questions?.[0]?.questionText ||
+                                (currentSubmission.questions && currentSubmission.questions.length > 0 ? 
+                                    currentSubmission.questions[0].text || currentSubmission.questions[0].questionText : null) ||
+                                'Question text not available';
+            
+            // Debug: Log the extracted question text
+            console.log('Extracted question text:', questionText);
+            console.log('All possible question text sources:', {
+                currentSubmission_questionText: currentSubmission.questionText,
+                question_text: question.text,
+                question_questionText: question.questionText,
+                currentSubmission_question_text: currentSubmission.question?.text,
+                currentSubmission_question_questionText: currentSubmission.question?.questionText,
+                questions_0_text: currentSubmission.questions?.[0]?.text,
+                questions_0_questionText: currentSubmission.questions?.[0]?.questionText
+            });
+            
+            // Enhanced student answer extraction
+            const studentAnswer = currentSubmission.studentAnswer || 
+                                 question.studentAnswer || 
+                                 question.userAnswer || 
+                                 currentSubmission.answer ||
+                                 currentSubmission.userAnswer ||
+                                 currentSubmission.questions?.[0]?.studentAnswer ||
+                                 currentSubmission.questions?.[0]?.userAnswer ||
+                                 'No answer provided';
+            
+            // Enhanced correct answer extraction
+            const correctAnswer = currentSubmission.correctAnswer || 
+                                 question.correctAnswer || 
+                                 question.answer ||
+                                 currentSubmission.correctAnswer ||
+                                 currentSubmission.questions?.[0]?.correctAnswer ||
+                                 currentSubmission.questions?.[0]?.answer ||
+                                 'Correct answer not provided';
+
+            // Create wrong question entry with actual data
+            const wrongQuestion = {
+                id: 'wrong_' + Date.now(),
+                questionId: currentSubmission.questionId || question.id || 'unknown',
+                questionText: questionText,
+                studentAnswer: studentAnswer,
+                correctAnswer: correctAnswer,
+                course: currentSubmission.course || 'unknown',
+                activityType: getActivityTypeFolder(currentSubmission.activityType),
+                activityTitle: currentSubmission.activityTitle || 
+                               currentSubmission.assignmentTitle || 
+                               currentSubmission.quizTitle || 
+                               currentSubmission.examTitle || 
+                               currentSubmission.questions?.[0]?.activityTitle ||
+                               currentSubmission.questions?.[0]?.assignmentTitle ||
+                               question.activityTitle ||
+                               question.assignmentTitle ||
+                               'Unknown Assignment',
+                questionType: currentSubmission.questionType || question.type || 'text',
+                studentName: currentSubmission.studentName || 'Unknown Student',
+                studentId: currentSubmission.studentId || 'unknown',
+                difficulty: difficulty || 'medium',
+                notes: notes || '',
+                attempts: 1,
+                createdAt: new Date().toISOString(),
+                source: getActivityTypeFolder(currentSubmission.activityType),
+                subject: currentSubmission.course || 'unknown',
+                // Image support fields - extract from question object
+                questionImage: currentSubmission.questionImage || question.questionImage || question.image || null,
+                studentAnswerImage: currentSubmission.studentAnswerImage || question.studentAnswerImage || question.answerImage || null,
+                correctAnswerImage: currentSubmission.correctAnswerImage || question.correctAnswerImage || null,
+                // Multiple choice options if available
+                options: question.options || null,
+                userAnswer: question.userAnswer || null,
+                correctAnswerIndex: question.correctAnswer || null,
+                // Ensure the question is properly categorized and won't appear on main page
+                inActivityFolder: true
+            };
+
+            // Debug: Log the final wrong question object
+            console.log('Final wrong question object:', wrongQuestion);
+
+            // Save to wrong questions collection
+            const wrongQuestions = JSON.parse(localStorage.getItem(`${currentSubmission.course}WrongQuestions`) || '[]');
+            wrongQuestions.push(wrongQuestion);
+            localStorage.setItem(`${currentSubmission.course}WrongQuestions`, JSON.stringify(wrongQuestions));
+
+            // Close modal
+            bootstrap.Modal.getInstance(document.getElementById('wrongQuestionModal')).hide();
+
+            alert('Question added to wrong questions collection successfully!');
+        }
+
+        // Test function to add sample wrong questions with proper data
+        function addTestWrongQuestion() {
+            // Create multiple test questions with different types
+            const testQuestions = [
+                {
+                    id: 'question_' + Date.now(),
+                    course: 'physics',
+                    activityType: 'assignment',
+                    questionType: 'multiple-choice',
+                    text: 'What is the formula for kinetic energy?',
+                    options: [
+                        { text: 'KE = mv²', isCorrect: false },
+                        { text: 'KE = 1/2mv²', isCorrect: true },
+                        { text: 'KE = mv', isCorrect: false },
+                        { text: 'KE = 2mv²', isCorrect: false }
+                    ],
+                    correctAnswer: 1,
+                    explanation: 'Kinetic energy is calculated using KE = 1/2mv² where m is mass and v is velocity.',
+                    difficulty: 'medium',
+                    points: 5,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 'question_' + (Date.now() + 1),
+                    course: 'physics',
+                    activityType: 'quiz',
+                    questionType: 'text',
+                    text: 'Explain the difference between potential and kinetic energy.',
+                    correctAnswer: 'Potential energy is stored energy due to position, while kinetic energy is energy of motion.',
+                    difficulty: 'hard',
+                    points: 10,
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 'question_' + (Date.now() + 2),
+                    course: 'physics',
+                    activityType: 'exam',
+                    questionType: 'multiple-choice',
+                    text: 'Which of the following is a unit of power?',
+                    options: [
+                        { text: 'Joule', isCorrect: false },
+                        { text: 'Watt', isCorrect: true },
+                        { text: 'Newton', isCorrect: false },
+                        { text: 'Meter', isCorrect: false }
+                    ],
+                    correctAnswer: 1,
+                    difficulty: 'easy',
+                    points: 3,
+                    createdAt: new Date().toISOString()
+                }
+            ];
+
+            // Save questions to teacher panel
+            const questions = JSON.parse(localStorage.getItem('physicsQuestions') || '[]');
+            testQuestions.forEach(q => questions.push(q));
+            localStorage.setItem('physicsQuestions', JSON.stringify(questions));
+
+            // Create wrong question entries with proper data structure
+            const wrongQuestions = JSON.parse(localStorage.getItem('physicsWrongQuestions') || '[]');
+            
+            testQuestions.forEach((testQuestion, index) => {
+                let wrongQuestion;
+                
+                if (testQuestion.questionType === 'multiple-choice') {
+                    wrongQuestion = {
+                        id: 'wrong_' + (Date.now() + index),
+                        questionId: testQuestion.id,
+                        questionText: testQuestion.text, // This is the key field
+                        studentAnswer: testQuestion.options[0].text, // Wrong answer
+                        correctAnswer: testQuestion.options[1].text, // Correct answer
+                        course: testQuestion.course,
+                        activityType: testQuestion.activityType + 's', // assignments, quizzes, exams
+                        activityTitle: `Physics ${testQuestion.activityType.charAt(0).toUpperCase() + testQuestion.activityType.slice(1)} ${index + 1}`,
+                        questionType: testQuestion.questionType,
+                        studentName: 'Test Student',
+                        studentId: 'student_001',
+                        difficulty: testQuestion.difficulty,
+                        notes: `Student answered incorrectly on ${testQuestion.activityType}`,
+                        attempts: 1,
+                        createdAt: new Date().toISOString(),
+                        source: testQuestion.activityType,
+                        subject: testQuestion.course,
+                        // Multiple choice specific fields
+                        options: testQuestion.options,
+                        userAnswer: 0, // Student selected first option (incorrect)
+                        correctAnswerIndex: 1, // Correct answer is second option
+                        // Ensure proper categorization
+                        inActivityFolder: true
+                    };
+                } else {
+                    // Text question
+                    wrongQuestion = {
+                        id: 'wrong_' + (Date.now() + index),
+                        questionId: testQuestion.id,
+                        questionText: testQuestion.text, // This is the key field
+                        studentAnswer: 'This is an incorrect student answer that shows the concept was misunderstood.',
+                        correctAnswer: testQuestion.correctAnswer,
+                        course: testQuestion.course,
+                        activityType: testQuestion.activityType + 's',
+                        activityTitle: `Physics ${testQuestion.activityType.charAt(0).toUpperCase() + testQuestion.activityType.slice(1)} ${index + 1}`,
+                        questionType: testQuestion.questionType,
+                        studentName: 'Test Student',
+                        studentId: 'student_001',
+                        difficulty: testQuestion.difficulty,
+                        notes: `Student provided incomplete answer for ${testQuestion.activityType}`,
+                        attempts: 1,
+                        createdAt: new Date().toISOString(),
+                        source: testQuestion.activityType,
+                        subject: testQuestion.course,
+                        // Ensure proper categorization
+                        inActivityFolder: true
+                    };
+                }
+                
+                wrongQuestions.push(wrongQuestion);
+            });
+
+            localStorage.setItem('physicsWrongQuestions', JSON.stringify(wrongQuestions));
+
+            // Reload submissions to show the new questions
+            loadSubmissions();
+            displaySubmissions();
+
+            alert(`Created ${testQuestions.length} test questions with proper data structure! Check the physics wrong questions folders.`);
+        }
+
+        // Function to create a test submission that mimics teacher panel data
+        function addTestTeacherPanelSubmission() {
+            // Create a submission that mimics what would come from a teacher panel question
+            const teacherPanelSubmission = {
+                id: 'sub_teacher_panel_' + Date.now(),
+                studentName: 'Test Student',
+                studentId: 'ST000',
+                course: 'physics',
+                activityType: 'assignment',
+                activityTitle: 'utube', // This matches the assignment name you mentioned
+                questionId: 'q_teacher_panel_' + Date.now(),
+                questionText: 'What is the formula for kinetic energy?', // This should be extracted
+                questionType: 'multiple-choice',
+                studentAnswer: 'KE = mv²', // Wrong answer
+                correctAnswer: 'KE = 1/2mv²', // Correct answer
+                maxGrade: 10,
+                currentGrade: null,
+                status: 'pending',
+                submittedAt: new Date().toISOString(),
+                questionFiles: [],
+                studentFiles: [],
+                // Include the full question object as it would be from teacher panel
+                questions: [{
+                    id: 'q_teacher_panel_' + Date.now(),
+                    text: 'What is the formula for kinetic energy?', // This is the key field
+                    questionText: 'What is the formula for kinetic energy?', // Alternative field
+                    questionType: 'multiple-choice',
+                    options: [
+                        { text: 'KE = mv²', isCorrect: false },
+                        { text: 'KE = 1/2mv²', isCorrect: true },
+                        { text: 'KE = mv', isCorrect: false },
+                        { text: 'KE = 2mv²', isCorrect: false }
+                    ],
+                    correctAnswer: 1,
+                    activityTitle: 'utube',
+                    assignmentTitle: 'utube'
+                }],
+                question: {
+                    text: 'What is the formula for kinetic energy?',
+                    questionText: 'What is the formula for kinetic energy?',
+                    questionType: 'multiple-choice',
+                    options: [
+                        { text: 'KE = mv²', isCorrect: false },
+                        { text: 'KE = 1/2mv²', isCorrect: true },
+                        { text: 'KE = mv', isCorrect: false },
+                        { text: 'KE = 2mv²', isCorrect: false }
+                    ],
+                    correctAnswer: 1
+                }
+            };
+
+            // Add to submissions
+            allSubmissions.push(teacherPanelSubmission);
+            
+            // Save to localStorage
+            localStorage.setItem('submissions', JSON.stringify(allSubmissions));
+            
+            // Reload and display
+            loadSubmissions();
+            displaySubmissions();
+            
+            alert('Teacher panel test submission added! You can now grade it and test the wrong question extraction.');
+        }
+
+        function regradeSubmission(submissionId) {
+            const submission = allSubmissions.find(s => s.id === submissionId);
+            if (!submission) return;
+
+            submission.status = 'pending';
+            submission.currentGrade = null;
+            submission.correctionNotes = '';
+            submission.gradedAt = null;
+
+            localStorage.setItem('submissions', JSON.stringify(allSubmissions));
+            displaySubmissions();
+            updateStatistics();
+
+            alert('Submission marked for regrading!');
+        }
+
+        function updateStatistics() {
+            const total = allSubmissions.length;
+            const pending = allSubmissions.filter(s => s.status === 'pending').length;
+            const graded = allSubmissions.filter(s => s.status === 'graded').length;
+            const incorrect = allSubmissions.filter(s => s.status === 'incorrect').length;
+
+            document.getElementById('total-submissions').textContent = total;
+            document.getElementById('pending-submissions').textContent = pending;
+            document.getElementById('graded-submissions').textContent = graded;
+            document.getElementById('wrong-questions').textContent = incorrect;
+        }
+
+        // Helper function to map activity types to folder names
+        function getActivityTypeFolder(activityType) {
+            switch (activityType) {
+                case 'assignment':
+                    return 'assignments';
+                case 'quiz':
+                    return 'quizzes';
+                case 'exam':
+                    return 'exams';
+                default:
+                    return 'assignments'; // Default fallback
+            }
+        }
+    </script>
+</body>
+</html>

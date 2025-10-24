@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List Reset Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Todo List Reset Test</h1>
+        <p>This page demonstrates the todo list reset functionality after login.</p>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Test Todo Lists</h5>
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-primary mb-3" onclick="createTestTodos()">Create Test Todo Lists</button>
+                        <button class="btn btn-warning mb-3" onclick="showCurrentTodos()">Show Current Todos</button>
+                        <button class="btn btn-success mb-3" onclick="simulateLogin()">Simulate Login (Reset)</button>
+                        <div id="todoStatus" class="mt-3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Instructions</h5>
+                    </div>
+                    <div class="card-body">
+                        <ol>
+                            <li>Click "Create Test Todo Lists" to add some sample todos</li>
+                            <li>Click "Show Current Todos" to see what's stored</li>
+                            <li>Click "Simulate Login (Reset)" to reset todos after login</li>
+                            <li>Click "Show Current Todos" again to verify they're cleared</li>
+                        </ol>
+                        <p class="text-muted">This simulates the behavior implemented in the main website where todo lists are automatically reset after each login.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to reset todo lists after login (same as implemented in main site)
+        function resetTodoLists() {
+            // Clear all existing todo lists from localStorage
+            localStorage.removeItem('todoLists');
+            console.log('Todo lists reset after login');
+            updateStatus('Todo lists have been reset!', 'success');
+        }
+
+        // Create test todo lists
+        function createTestTodos() {
+            const testTodos = {
+                'list_1': {
+                    name: 'Work Tasks',
+                    tasks: [
+                        { text: 'Complete project report', completed: false, createdAt: new Date().toISOString() },
+                        { text: 'Attend team meeting', completed: true, createdAt: new Date().toISOString() },
+                        { text: 'Review code changes', completed: false, createdAt: new Date().toISOString() }
+                    ]
+                },
+                'list_2': {
+                    name: 'Personal Tasks',
+                    tasks: [
+                        { text: 'Buy groceries', completed: false, createdAt: new Date().toISOString() },
+                        { text: 'Call dentist', completed: false, createdAt: new Date().toISOString() }
+                    ]
+                },
+                'list_3': {
+                    name: 'Study Tasks',
+                    tasks: [
+                        { text: 'Read chapter 5', completed: true, createdAt: new Date().toISOString() },
+                        { text: 'Complete homework', completed: false, createdAt: new Date().toISOString() },
+                        { text: 'Prepare for exam', completed: false, createdAt: new Date().toISOString() }
+                    ]
+                }
+            };
+            
+            localStorage.setItem('todoLists', JSON.stringify(testTodos));
+            updateStatus('Test todo lists created successfully!', 'success');
+        }
+
+        // Show current todos
+        function showCurrentTodos() {
+            const todos = JSON.parse(localStorage.getItem('todoLists')) || {};
+            const statusDiv = document.getElementById('todoStatus');
+            
+            if (Object.keys(todos).length === 0) {
+                statusDiv.innerHTML = '<div class="alert alert-info">No todo lists found in localStorage.</div>';
+            } else {
+                let html = '<div class="alert alert-success"><h6>Current Todo Lists:</h6><ul>';
+                Object.entries(todos).forEach(([listId, listData]) => {
+                    html += `<li><strong>${listData.name}</strong> (${listData.tasks.length} tasks)`;
+                    html += '<ul>';
+                    listData.tasks.forEach(task => {
+                        html += `<li>${task.completed ? '✅' : '⏳'} ${task.text}</li>`;
+                    });
+                    html += '</ul></li>';
+                });
+                html += '</ul></div>';
+                statusDiv.innerHTML = html;
+            }
+        }
+
+        // Simulate login process
+        function simulateLogin() {
+            updateStatus('Simulating login process...', 'info');
+            
+            // Simulate the login process that would happen in the main site
+            setTimeout(() => {
+                // This is what happens after successful login
+                resetTodoLists();
+            }, 1000);
+        }
+
+        // Update status display
+        function updateStatus(message, type) {
+            const statusDiv = document.getElementById('todoStatus');
+            const alertClass = type === 'success' ? 'alert-success' : 
+                              type === 'info' ? 'alert-info' : 
+                              type === 'warning' ? 'alert-warning' : 'alert-danger';
+            
+            statusDiv.innerHTML = `<div class="alert ${alertClass}">${message}</div>`;
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStatus('Ready to test todo list reset functionality!', 'info');
+        });
+    </script>
+</body>
+</html>
+

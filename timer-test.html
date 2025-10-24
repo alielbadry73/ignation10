@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Test</title>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+<body>
+    <h1>Timer Test</h1>
+    <p>This is a test to verify that the timer counts down correctly.</p>
+    
+    <script src="assessment-timer.js"></script>
+    
+    <script>
+        // Test the timer with a 2-minute countdown
+        const timer = startAssessmentTimer(2, {
+            onTimeUp: () => {
+                alert('Time is up!');
+            },
+            onWarning: (message) => {
+                alert(message);
+            },
+            onProgressSave: (data) => {
+                console.log('Progress saved:', data);
+            }
+        });
+        
+        // Start the timer
+        timer.start();
+        
+        console.log('Timer started with 2 minutes countdown');
+    </script>
+</body>
+</html>

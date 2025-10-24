@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Progress Data</title>
+</head>
+<body>
+    <h1>Test Progress Data</h1>
+    <button onclick="testLocalStorage()">Test localStorage</button>
+    <button onclick="createSampleData()">Create Sample Data</button>
+    <button onclick="checkData()">Check Data</button>
+    <div id="output"></div>
+
+    <script>
+        function testLocalStorage() {
+            const output = document.getElementById('output');
+            output.innerHTML = '<h2>localStorage Test Results:</h2>';
+            
+            // Check if localStorage is available
+            if (typeof(Storage) !== "undefined") {
+                output.innerHTML += '<p>✅ localStorage is available</p>';
+            } else {
+                output.innerHTML += '<p>❌ localStorage is not available</p>';
+                return;
+            }
+            
+            // Check current data
+            const assignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            
+            output.innerHTML += `<p>Assignments: ${assignments.length} items</p>`;
+            output.innerHTML += `<p>Quizzes: ${quizzes.length} items</p>`;
+            output.innerHTML += `<p>Exams: ${exams.length} items</p>`;
+            
+            if (assignments.length > 0) {
+                output.innerHTML += '<h3>Sample Assignment:</h3>';
+                output.innerHTML += `<pre>${JSON.stringify(assignments[0], null, 2)}</pre>`;
+            }
+        }
+        
+        function createSampleData() {
+            const sampleAssignments = [
+                {
+                    id: 'assign_1',
+                    title: 'Newton\'s Laws Practice',
+                    description: 'Solve problems involving Newton\'s three laws of motion',
+                    dueDate: '2024-01-15',
+                    status: 'completed',
+                    score: 85,
+                    maxScore: 100
+                },
+                {
+                    id: 'assign_2',
+                    title: 'Kinematics Problems',
+                    description: 'Work on velocity and acceleration problems',
+                    dueDate: '2024-01-20',
+                    status: 'pending'
+                }
+            ];
+            
+            const sampleQuizzes = [
+                {
+                    id: 'quiz_1',
+                    title: 'Motion and Forces Quiz',
+                    description: 'Test your understanding of basic physics concepts',
+                    timeLimit: 30,
+                    status: 'completed',
+                    score: 78,
+                    maxScore: 100
+                },
+                {
+                    id: 'quiz_2',
+                    title: 'Energy and Momentum Quiz',
+                    description: 'Quiz on energy conservation and momentum',
+                    timeLimit: 25,
+                    status: 'published'
+                }
+            ];
+            
+            const sampleExams = [
+                {
+                    id: 'exam_1',
+                    title: 'Midterm Exam - Physics I',
+                    description: 'Comprehensive exam covering first half of semester',
+                    timeLimit: 120,
+                    status: 'completed',
+                    score: 88,
+                    maxScore: 100
+                }
+            ];
+            
+            localStorage.setItem('physicsAssignments', JSON.stringify(sampleAssignments));
+            localStorage.setItem('physicsQuizzes', JSON.stringify(sampleQuizzes));
+            localStorage.setItem('physicsExams', JSON.stringify(sampleExams));
+            
+            document.getElementById('output').innerHTML = '<p>✅ Sample data created successfully!</p>';
+        }
+        
+        function checkData() {
+            const assignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            
+            const output = document.getElementById('output');
+            output.innerHTML = '<h2>Current Data:</h2>';
+            output.innerHTML += `<p>Assignments: ${assignments.length}</p>`;
+            output.innerHTML += `<p>Quizzes: ${quizzes.length}</p>`;
+            output.innerHTML += `<p>Exams: ${exams.length}</p>`;
+            
+            // Show progress calculations
+            const assignmentCompleted = assignments.filter(a => a.status === 'completed' || a.status === 'submitted').length;
+            const quizCompleted = quizzes.filter(q => q.status === 'completed' || q.status === 'submitted').length;
+            const examCompleted = exams.filter(e => e.status === 'completed' || e.status === 'submitted').length;
+            
+            output.innerHTML += '<h3>Progress:</h3>';
+            output.innerHTML += `<p>Assignments: ${assignmentCompleted}/${assignments.length} completed</p>`;
+            output.innerHTML += `<p>Quizzes: ${quizCompleted}/${quizzes.length} completed</p>`;
+            output.innerHTML += `<p>Exams: ${examCompleted}/${exams.length} completed</p>`;
+        }
+    </script>
+</body>
+</html>

@@ -2155,7 +2155,7 @@
       }
     };
 
-    // Add to cart function
+    // Add to cart function - now using unified cart system
     function addToCart(courseId, silent = false) {
       console.log('🛒 addToCart called with courseId:', courseId, 'silent:', silent);
       
@@ -2165,33 +2165,44 @@
         return false;
       }
       
-      const existingItem = cart.find(item => item.courseId === courseId);
+      const courseData = {
+        courseId: courseId,
+        id: courseId,
+        title: course.title,
+        price: parseFloat(course.price.replace('£', '')),
+        instructor: course.instructor,
+        board: course.board,
+        image: course.image,
+        description: course.description,
+        quantity: 1
+      };
       
-      if (existingItem) {
-        // Course already in cart - don't add again
-        if (!silent) showToast('This course is already in your cart!', 'info');
-        return false;
+      // Use unified cart system
+      if (window.cartManager) {
+        const result = window.cartManager.addToCart(courseData);
+        if (result) {
+          addCartAnimations(courseId);
+        }
+        return result;
       } else {
-        // Add course to cart (quantity is always 1 for courses)
-        cart.push({
-          courseId: courseId,
-          id: courseId, // For checkout compatibility
-          title: course.title,
-          price: parseFloat(course.price.replace('£', '')), // Convert to number
-          instructor: course.instructor,
-          board: course.board,
-          image: course.image,
-          quantity: 1, // Always 1 - courses can't be purchased multiple times
-          addedAt: new Date().toISOString()
-        });
-        if (!silent) showToast('Course added to cart!', 'success');
+        // Fallback for when cart system isn't loaded yet
+        console.warn('Cart manager not available, using fallback');
+        const existingItem = cart.find(item => item.courseId === courseId);
+        
+        if (existingItem) {
+          if (!silent) showToast('This course is already in your cart!', 'info');
+          return false;
+        } else {
+          cart.push(courseData);
+          if (!silent) showToast('Course added to cart!', 'success');
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        addCartAnimations(courseId);
+        updateCartCount();
+        updateCartModal();
+        return true;
       }
-      
-      localStorage.setItem('cart', JSON.stringify(cart));
-      addCartAnimations(courseId);
-      updateCartCount();
-      updateCartModal();
-      return true;
     }
 
     // Enroll in course function - redirects to checkout
@@ -2279,15 +2290,21 @@
       }
     }
 
-    // Update cart count
+    // Update cart count - now using unified cart system
     function updateCartCount() {
-      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-      const cartBadge = document.getElementById('cartCount');
-      if (cartBadge) {
-        cartBadge.textContent = cartCount;
-        console.log('Cart count updated:', cartCount, 'Cart items:', cart);
+      // Use unified cart system if available
+      if (window.cartManager) {
+        window.cartManager.updateCartCount();
       } else {
-        console.log('Cart badge not found');
+        // Fallback for when cart system isn't loaded yet
+        const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+        const cartBadge = document.getElementById('cartCount');
+        if (cartBadge) {
+          cartBadge.textContent = cartCount;
+          console.log('Cart count updated:', cartCount, 'Cart items:', cart);
+        } else {
+          console.log('Cart badge not found');
+        }
       }
     }
 
@@ -2838,6 +2855,7 @@
 
   <script src="js/script.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/cart.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </body>
 

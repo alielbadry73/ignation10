@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Content Manager - IG Nation Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container-fluid {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .back-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            height: calc(100vh - 180px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #666;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .course-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .course-item {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .course-item:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .course-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Explorer Area */
+        .explorer-area {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+        }
+
+        .toolbar-btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .toolbar-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .toolbar-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb-nav {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: #555;
+            cursor: pointer;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .breadcrumb-item:hover {
+            background: #f3f4f6;
+            color: #667eea;
+        }
+
+        .breadcrumb-item.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .breadcrumb-separator {
+            color: #ccc;
+        }
+
+        /* File Explorer */
+        .file-explorer {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+            text-align: center;
+        }
+
+        .empty-state iconify-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Folder Grid */
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .folder-item, .file-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+            background: #f8f9fa;
+            position: relative;
+        }
+
+        .folder-item:hover, .file-item:hover {
+            background: #e9ecef;
+            border-color: #667eea;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .folder-item.selected, .file-item.selected {
+            background: #e7f0ff;
+            border-color: #667eea;
+        }
+
+        .folder-icon {
+            font-size: 3.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .folder-name, .file-name {
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+            word-break: break-word;
+            font-size: 0.9rem;
+        }
+
+        .file-info {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 0.25rem;
+        }
+
+        .item-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: none;
+            gap: 0.25rem;
+        }
+
+        .folder-item:hover .item-actions,
+        .file-item:hover .item-actions {
+            display: flex;
+        }
+
+        .action-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+            .action-btn.delete:hover {
+                background: #ef4444;
+                color: white;
+            }
+            
+            .action-btn.fix {
+                background: #f59e0b;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                width: 28px;
+                height: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            
+            .action-btn.fix:hover {
+                background: #d97706;
+                color: white;
+            }
+
+        .action-btn.edit:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .close-modal:hover {
+            background: #f3f4f6;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-cancel {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e9ecef;
+            background: white;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: #f3f4f6;
+        }
+
+        .btn-primary {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .file-upload-area {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9fa;
+        }
+
+        .file-upload-area.dragover {
+            border-color: #667eea;
+            background: #e7f0ff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Context Menu */
+        .context-menu {
+            position: fixed;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            padding: 0.5rem;
+            z-index: 10000;
+            min-width: 180px;
+        }
+
+        .context-menu-item {
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 500;
+        }
+
+        .context-menu-item:hover {
+            background: #f3f4f6;
+        }
+
+        .context-menu-divider {
+            height: 1px;
+            background: #e9ecef;
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <h1>📁 English Content Manager</h1>
+                <p style="margin: 0; color: #666; font-size: 0.9rem;">Manage English course videos and PDFs</p>
+            </div>
+            <a href="admin-panel.html" class="back-btn">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                Back to Admin Panel
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <h3>Quick Links</h3>
+                <ul class="course-list" id="courseList">
+                    <li class="course-item active">
+                        <iconify-icon icon="material-symbols:folder"></iconify-icon>
+                        All Content
+                    </li>
+                    <li class="course-item" onclick="window.location.href='admin-panel.html'">
+                        <iconify-icon icon="material-symbols:dashboard"></iconify-icon>
+                        Admin Panel
+                    </li>
+                    <li class="course-item" onclick="window.location.href='mathematics-content-manager.html'">
+                        <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+                        Mathematics Manager
+                    </li>
+                    <li class="course-item" onclick="window.location.href='physics-content-manager.html'">
+                        <iconify-icon icon="material-symbols:science"></iconify-icon>
+                        Physics Manager
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Explorer Area -->
+            <div class="explorer-area">
+                <!-- Toolbar -->
+                <div class="toolbar">
+                    <button class="toolbar-btn primary" onclick="createNewFolder()" title="Create a new folder (e.g., 'Teacher Content', 'Assistant Content')">
+                        <iconify-icon icon="material-symbols:create-new-folder"></iconify-icon>
+                        New Folder
+                    </button>
+                    <button class="toolbar-btn primary" onclick="uploadFile()" title="Upload video or PDF file">
+                        <iconify-icon icon="material-symbols:upload"></iconify-icon>
+                        Upload Files
+                    </button>
+                    <button class="toolbar-btn" onclick="createTeacherAssistantFolders()" title="Quick create Teacher and Assistant folders">
+                        <iconify-icon icon="material-symbols:auto-awesome"></iconify-icon>
+                        Quick Setup
+                    </button>
+                    <button class="toolbar-btn" onclick="goBack()" title="Go to parent folder">
+                        <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                        Back
+                    </button>
+                    <button class="toolbar-btn" onclick="refreshView()">
+                        <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                        Refresh
+                    </button>
+                    <button class="toolbar-btn" onclick="showHelp()" title="Show help guide">
+                        <iconify-icon icon="material-symbols:help"></iconify-icon>
+                        Help
+                    </button>
+                </div>
+
+                <!-- Breadcrumb -->
+                <div class="breadcrumb-nav" id="breadcrumb">
+                    <span class="breadcrumb-item active" onclick="navigateToBreadcrumb(0)">
+                        <iconify-icon icon="material-symbols:home"></iconify-icon>
+                        Mathematics
+                    </span>
+                </div>
+
+                <!-- File Explorer -->
+                <div class="file-explorer" id="fileExplorer">
+                    <div class="empty-state">
+                        <iconify-icon icon="material-symbols:folder-open"></iconify-icon>
+                        <h3>No folders or files yet</h3>
+                        <p>Create a folder or upload files to get started</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Data Structure
+        let contentData = {
+            english: {
+                name: 'English',
+                folders: [],
+                files: []
+            }
+        };
+
+        let currentCourse = 'english';
+        let currentPath = [];
+        let selectedItems = [];
+
+        // Load data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('englishContentData');
+            if (saved) {
+                contentData.english = JSON.parse(saved);
+            } else {
+                // Initialize with empty structure
+                contentData.english.folders = [];
+                contentData.english.files = [];
+                saveData();
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('englishContentData', JSON.stringify(contentData.english));
+        }
+
+        // Get current location
+        function getCurrentLocation() {
+            let location = contentData[currentCourse];
+            for (let folder of currentPath) {
+                location = location.folders.find(f => f.id === folder);
+            }
+            return location;
+        }
+
+        // Select course
+        function selectCourse(course) {
+            currentCourse = course;
+            currentPath = [];
+            selectedItems = [];
+            
+            // Update active state
+            document.querySelectorAll('.course-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            document.querySelector(`[data-course="${course}"]`).classList.add('active');
+            
+            renderView();
+        }
+
+        // Render breadcrumb
+        function renderBreadcrumb() {
+            const breadcrumb = document.getElementById('breadcrumb');
+            let html = `
+                <span class="breadcrumb-item ${currentPath.length === 0 ? 'active' : ''}" onclick="navigateToBreadcrumb(0)">
+                    <iconify-icon icon="material-symbols:home"></iconify-icon>
+                    ${contentData[currentCourse].name}
+                </span>
+            `;
+
+            let location = contentData[currentCourse];
+            for (let i = 0; i < currentPath.length; i++) {
+                const folder = location.folders.find(f => f.id === currentPath[i]);
+                location = folder;
+                html += `
+                    <span class="breadcrumb-separator">›</span>
+                    <span class="breadcrumb-item ${i === currentPath.length - 1 ? 'active' : ''}" onclick="navigateToBreadcrumb(${i + 1})">
+                        ${folder.name}
+                    </span>
+                `;
+            }
+
+            breadcrumb.innerHTML = html;
+        }
+
+        // Navigate to breadcrumb
+        function navigateToBreadcrumb(index) {
+            if (index === 0) {
+                currentPath = [];
+            } else {
+                currentPath = currentPath.slice(0, index);
+            }
+            renderView();
+        }
+
+        // Render view
+        function renderView() {
+            const explorer = document.getElementById('fileExplorer');
+            const location = getCurrentLocation();
+
+            renderBreadcrumb();
+
+            if (location.folders.length === 0 && location.files.length === 0) {
+                const isRoot = currentPath.length === 0;
+                explorer.innerHTML = `
+                    <div class="empty-state">
+                        <iconify-icon icon="material-symbols:folder-open"></iconify-icon>
+                        <h3>This folder is empty</h3>
+                        ${isRoot ? `
+                            <p style="margin-bottom: 1rem;">Get started by creating your first folder</p>
+                            <div style="background: #e7f0ff; padding: 1.5rem; border-radius: 12px; max-width: 600px; margin: 0 auto; text-align: left;">
+                                <h6 style="color: #667eea; font-weight: 700; margin-bottom: 1rem;">📋 Recommended Structure:</h6>
+                                <div style="font-family: monospace; color: #555; line-height: 1.8;">
+                                    📁 Unit 1 - Shakespeare (category: literature)<br>
+                                    &nbsp;&nbsp;├─ 📁 Teacher Content<br>
+                                    &nbsp;&nbsp;│&nbsp;&nbsp;├─ 🎥 Lecture 1.mp4<br>
+                                    &nbsp;&nbsp;│&nbsp;&nbsp;└─ 📄 Notes.pdf<br>
+                                    &nbsp;&nbsp;└─ 📁 Assistant Content<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ 🎥 Review Video.mp4<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─ 📄 Practice Problems.pdf
+                                </div>
+                                <p style="margin-top: 1rem; margin-bottom: 0; color: #666; font-size: 0.9rem;">
+                                    <strong>💡 Tip:</strong> Double-click folders to navigate inside them!
+                                </p>
+                            </div>
+                        ` : `
+                            <p>Click "New Folder" to create a subfolder or "Upload Files" to add content</p>
+                        `}
+                    </div>
+                `;
+                return;
+            }
+
+            let html = '<div class="folder-grid">';
+
+            // Render folders
+            location.folders.forEach(folder => {
+                const itemCount = (folder.folders?.length || 0) + (folder.files?.length || 0);
+                html += `
+                    <div class="folder-item" ondblclick="openFolder(${folder.id})" onclick="selectItem('folder-${folder.id}', event)" data-id="folder-${folder.id}" oncontextmenu="showContextMenu(event, 'folder', ${folder.id})">
+                        <div class="item-actions">
+                            <button class="action-btn edit" onclick="event.stopPropagation(); renameItem('folder', ${folder.id})">
+                                <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            </button>
+                            <button class="action-btn delete" onclick="event.stopPropagation(); deleteItem('folder', ${folder.id})">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                        <div class="folder-icon">📁</div>
+                        <div class="folder-name">${folder.name}</div>
+                        <div class="file-info">${itemCount} item${itemCount !== 1 ? 's' : ''}</div>
+                    </div>
+                `;
+            });
+
+            // Render files
+            if (location.files) {
+                location.files.forEach(file => {
+                    const icon = getFileIcon(file.type);
+                    const pdfIcon = file.pdfUrl ? '<iconify-icon icon="material-symbols:picture-as-pdf" style="color: #dc2626; font-size: 1.2rem; margin-left: 0.5rem;" title="PDF Available"></iconify-icon>' : '';
+                    html += `
+                        <div class="file-item" ondblclick="openFile(${file.id})" onclick="selectItem('file-${file.id}', event)" data-id="file-${file.id}" oncontextmenu="showContextMenu(event, 'file', ${file.id})">
+                            <div class="item-actions">
+                                <button class="action-btn edit" onclick="event.stopPropagation(); editFile(${file.id})">
+                                    <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                </button>
+                                ${file.pdfUrl ? '<button class="action-btn pdf" onclick="event.stopPropagation(); openPdf(\'' + file.pdfUrl + '\')" title="Open PDF"><iconify-icon icon="material-symbols:picture-as-pdf"></iconify-icon></button>' : ''}
+                                <button class="action-btn delete" onclick="event.stopPropagation(); deleteItem('file', ${file.id})">
+                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                </button>
+                            </div>
+                            <div class="folder-icon">${icon}</div>
+                            <div class="file-name">${file.name}${pdfIcon}</div>
+                            <div class="file-info">${file.type === 'video' ? '🎥 Video' : '📄 PDF'}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            html += '</div>';
+            explorer.innerHTML = html;
+        }
+
+        // Get file icon based on type
+        function getFileIcon(type) {
+            if (type === 'video' || type?.includes('video')) return '🎥';
+            if (type === 'pdf' || type?.includes('pdf')) return '📄';
+            if (type?.includes('image')) return '🖼️';
+            return '📎';
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        // Open folder
+        function openFolder(folderId) {
+            currentPath.push(folderId);
+            selectedItems = [];
+            renderView();
+        }
+
+        // Open file
+        function openFile(fileId) {
+            const location = getCurrentLocation();
+            const file = location.files.find(f => f.id === fileId);
+            if (file && file.url) {
+                if (file.type === 'video') {
+                    showVideoOptions(file);
+                } else {
+                    window.open(file.url, '_blank');
+                }
+            } else {
+                alert('File URL not found');
+            }
+        }
+        
+        // Show video opening options
+        function showVideoOptions(file) {
+            const modalHtml = `
+                <div class="modal-overlay" id="videoOptionsModal" onclick="if(event.target.id==='videoOptionsModal') closeVideoOptions()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 500px;">
+                        <div class="modal-header">
+                            <h3>📹 Open Video</h3>
+                            <button class="modal-close" onclick="closeVideoOptions()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>${file.name}</strong></p>
+                            <p style="color: #666; margin-bottom: 1.5rem;">How would you like to open this video?</p>
+                            <div class="video-options" style="display: flex; flex-direction: column; gap: 1rem;">
+                                <button class="btn btn-primary" onclick="openVideoInNewTab('${file.url}')" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; justify-content: center;">
+                                    <iconify-icon icon="material-symbols:open-in-new"></iconify-icon>
+                                    Open in New Tab
+                                </button>
+                                <button class="btn btn-outline-primary" onclick="openVideoInCurrentTab('${file.url}')" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; justify-content: center;">
+                                    <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                                    Open in Current Tab
+                                </button>
+                                ${file.pdfUrl ? `
+                                    <button class="btn btn-outline-danger" onclick="openPdf('${file.pdfUrl}')" style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; justify-content: center;">
+                                        <iconify-icon icon="material-symbols:picture-as-pdf"></iconify-icon>
+                                        View PDF Notes
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn-cancel" onclick="closeVideoOptions()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+        
+        function closeVideoOptions() {
+            const modal = document.getElementById('videoOptionsModal');
+            if (modal) modal.remove();
+        }
+        
+        function openVideoInNewTab(url) {
+            window.open(url, '_blank');
+            closeVideoOptions();
+        }
+        
+        function openVideoInCurrentTab(url) {
+            window.location.href = url;
+        }
+        
+        function openPdf(pdfUrl) {
+            if (pdfUrl) {
+                window.open(pdfUrl, '_blank');
+            }
+        }
+
+        // Handle PDF file upload
+        function handlePdfUpload(input) {
+            const file = input.files[0];
+            if (file) {
+                // Check file type
+                if (file.type !== 'application/pdf') {
+                    alert('Please select a PDF file.');
+                    input.value = '';
+                    return;
+                }
+                
+                // Check file size (limit to 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('File size must be less than 10MB.');
+                    input.value = '';
+                    return;
+                }
+                
+                // Convert file to base64 and store in localStorage
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64Content = e.target.result.split(',')[1]; // Remove data:application/pdf;base64, prefix
+                    const fileData = {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        content: base64Content,
+                        uploadedAt: new Date().toISOString()
+                    };
+                    
+                    localStorage.setItem(`uploaded_pdf_${file.name}`, JSON.stringify(fileData));
+                    
+                    // Show upload success message
+                    const container = input.closest('.form-group');
+                    const infoDiv = container.querySelector('.uploaded-pdf-info');
+                    const filenameSpan = container.querySelector('.pdf-filename');
+                    
+                    if (infoDiv && filenameSpan) {
+                        filenameSpan.textContent = file.name;
+                        infoDiv.style.display = 'block';
+                    }
+                    
+                    // Store the file for later processing
+                    input.uploadedFile = file;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Go back
+        function goBack() {
+            if (currentPath.length > 0) {
+                currentPath.pop();
+                selectedItems = [];
+                renderView();
+            }
+        }
+
+        // Select item
+        function selectItem(itemId, event) {
+            if (!event.ctrlKey && !event.metaKey) {
+                document.querySelectorAll('.folder-item, .file-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                selectedItems = [];
+            }
+
+            const element = document.querySelector(`[data-id="${itemId}"]`);
+            if (element) {
+                element.classList.toggle('selected');
+                const index = selectedItems.indexOf(itemId);
+                if (index > -1) {
+                    selectedItems.splice(index, 1);
+                } else {
+                    selectedItems.push(itemId);
+                }
+            }
+        }
+
+        // Create new folder
+        function createNewFolder() {
+            // Check if we're inside a folder (inherit category)
+            const isSubfolder = currentPath.length > 0;
+            let parentCategory = '';
+            
+            if (isSubfolder) {
+                // Get parent folder's category
+                let location = contentData[currentCourse];
+                for (let folderId of currentPath) {
+                    const folder = location.folders.find(f => f.id === folderId);
+                    if (folder && folder.category) {
+                        parentCategory = folder.category;
+                    }
+                    location = folder;
+                }
+            }
+            
+            const modalHtml = `
+                <div class="modal-overlay" id="createFolderModal" onclick="if(event.target.id==='createFolderModal') closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <div class="modal-header">
+                            <h3>📁 Create New Folder</h3>
+                            <button class="close-modal" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Folder Name</label>
+                            <input type="text" id="newFolderName" placeholder="${isSubfolder ? 'e.g., Teacher Content or Assistant Content' : 'e.g., Unit 1 - Shakespeare'}" class="form-control">
+                        </div>
+                        ${!isSubfolder ? `
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="folderCategory" class="form-control">
+                                <option value="">Select category...</option>
+                                <option value="literature">Literature</option>
+                                <option value="grammar">Grammar</option>
+                                <option value="writing">Writing</option>
+                                <option value="reading">Reading</option>
+                                <option value="speaking">Speaking</option>
+                            </select>
+                        </div>
+                        ` : `
+                        <div class="alert alert-info" style="background: #e7f0ff; border: 1px solid #667eea; border-radius: 8px; padding: 0.75rem; margin-bottom: 1rem;">
+                            <strong>📌 Category:</strong> ${parentCategory.charAt(0).toUpperCase() + parentCategory.slice(1)} (inherited from parent)
+                        </div>
+                        <input type="hidden" id="folderCategory" value="${parentCategory}">
+                        `}
+                        <div class="modal-actions">
+                            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                            <button class="btn-primary" onclick="saveNewFolder()">Create Folder</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+        
+        function saveNewFolder() {
+            const folderName = document.getElementById('newFolderName').value.trim();
+            const category = document.getElementById('folderCategory').value;
+            
+            if (!folderName) {
+                alert('Please enter a folder name');
+                return;
+            }
+            
+            if (!category) {
+                alert('Please select a category');
+                return;
+            }
+            
+            const location = getCurrentLocation();
+            if (!location.folders) location.folders = [];
+            
+            const newFolder = {
+                id: Date.now(),
+                name: folderName,
+                type: 'folder',
+                category: category,
+                created: new Date().toISOString(),
+                folders: [],
+                files: []
+            };
+            
+            // If this is a root-level folder, automatically create Teacher and Assistant subfolders
+            if (currentPath.length === 0) {
+                newFolder.folders = [
+                    {
+                        id: Date.now() + 1,
+                        name: 'Teacher Content',
+                        type: 'folder',
+                        category: category,
+                        created: new Date().toISOString(),
+                        folders: [],
+                        files: []
+                    },
+                    {
+                        id: Date.now() + 2,
+                        name: 'Assistant Content',
+                        type: 'folder',
+                        category: category,
+                        created: new Date().toISOString(),
+                        folders: [],
+                        files: []
+                    }
+                ];
+            }
+            
+            location.folders.push(newFolder);
+            saveData();
+            
+            // Only save to lecture page data if it's a root-level folder
+            if (currentPath.length === 0) {
+                saveFolderToLectures(newFolder);
+            }
+            
+            closeModal();
+            renderView();
+            
+            const message = currentPath.length === 0 
+                ? `✅ Folder "${folderName}" created under ${category} category with Teacher and Assistant folders!`
+                : `✅ Subfolder "${folderName}" created!`;
+            alert(message);
+        }
+        
+        function saveFolderToLectures(folder) {
+            // Save folder data so it appears in the lectures page (root folders only)
+            const lectureFolders = JSON.parse(localStorage.getItem('englishFolders') || '[]');
+            
+            // Check if folder already exists
+            const exists = lectureFolders.find(f => f.id === folder.id);
+            if (!exists) {
+                lectureFolders.push({
+                    id: folder.id,
+                    name: folder.name,
+                    category: folder.category,
+                    created: folder.created
+                });
+                localStorage.setItem('englishFolders', JSON.stringify(lectureFolders));
+            }
+        }
+
+        // Upload file
+        function uploadFile() {
+            const modalHtml = `
+                <div class="modal-overlay" id="uploadModal" onclick="if(event.target.id==='uploadModal') closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 800px; max-height: 90vh; display: flex; flex-direction: column;">
+                        <div class="modal-header">
+                            <h3>📤 Upload Files</h3>
+                            <button class="close-modal" onclick="closeModal()">×</button>
+                        </div>
+                        <div style="flex: 1; overflow-y: auto; padding: 0 2rem;">
+                            <div style="padding: 1rem; background: #e7f0ff; border-radius: 8px; margin-bottom: 1rem;">
+                                <strong>💡 Tip:</strong> Add multiple files by clicking "Add Another File" after each entry
+                            </div>
+                            <div id="fileFormsContainer">
+                            <div class="file-form-item" data-index="0" style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem; border: 2px solid #e9ecef;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                    <h5 style="margin: 0; color: #667eea;">📄 File #1</h5>
+                                </div>
+                                <div class="form-group">
+                                    <label>File Type</label>
+                                    <select class="file-type form-control">
+                                        <option value="video">🎥 Video</option>
+                                        <option value="pdf">📄 PDF</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>File Name</label>
+                                    <input type="text" class="file-name form-control" placeholder="Enter file name">
+                                </div>
+                                <div class="form-group">
+                                    <label>File URL (Google Drive, YouTube, etc.)</label>
+                                    <input type="url" class="file-url form-control" placeholder="https://...">
+                                    <small style="color: #666; margin-top: 0.5rem; display: block;">
+                                        For Google Drive: Share → Anyone with link → Copy link
+                                    </small>
+                                </div>
+                                <div class="form-group">
+                                    <label>PDF File (optional - for accompanying materials)</label>
+                                    <input type="file" class="pdf-upload form-control" accept=".pdf" onchange="handlePdfUpload(this)">
+                                    <small style="color: #666; margin-top: 0.25rem; display: block;">
+                                        Upload PDF file from your device
+                                    </small>
+                                    <div class="uploaded-pdf-info" style="display: none; margin-top: 0.5rem;">
+                                        <span class="badge bg-success">PDF uploaded</span>
+                                        <span class="pdf-filename" style="margin-left: 0.5rem;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                            <button class="btn-primary" onclick="addAnotherFileForm()" style="width: 100%; margin-bottom: 1rem; background: #10b981; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; color: white; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <iconify-icon icon="material-symbols:add-circle"></iconify-icon>
+                                Add Another File
+                            </button>
+                        </div>
+                        <div class="modal-actions" style="padding: 1rem 2rem; border-top: 1px solid #e9ecef; background: white;">
+                            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                            <button class="btn-primary" onclick="saveAllFiles()">
+                                <iconify-icon icon="material-symbols:upload"></iconify-icon>
+                                Upload All Files
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+        
+        let fileFormIndex = 1;
+        
+        function addAnotherFileForm() {
+            const container = document.getElementById('fileFormsContainer');
+            const newForm = `
+                <div class="file-form-item" data-index="${fileFormIndex}" style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem; border: 2px solid #e9ecef; position: relative;">
+                    <button onclick="removeFileForm(${fileFormIndex})" style="position: absolute; top: 0.5rem; right: 0.5rem; background: #ef4444; color: white; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;" title="Remove this file">
+                        ×
+                    </button>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h5 style="margin: 0; color: #667eea;">📄 File #${fileFormIndex + 1}</h5>
+                    </div>
+                    <div class="form-group">
+                        <label>File Type</label>
+                        <select class="file-type form-control">
+                            <option value="video">🎥 Video</option>
+                            <option value="pdf">📄 PDF</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>File Name</label>
+                        <input type="text" class="file-name form-control" placeholder="Enter file name">
+                    </div>
+                    <div class="form-group">
+                        <label>File URL</label>
+                        <input type="url" class="file-url form-control" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label>PDF File (optional - for accompanying materials)</label>
+                        <input type="file" class="pdf-upload form-control" accept=".pdf" onchange="handlePdfUpload(this)">
+                        <small style="color: #666; margin-top: 0.25rem; display: block;">
+                            Upload PDF file from your device
+                        </small>
+                        <div class="uploaded-pdf-info" style="display: none; margin-top: 0.5rem;">
+                            <span class="badge bg-success">PDF uploaded</span>
+                            <span class="pdf-filename" style="margin-left: 0.5rem;"></span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', newForm);
+            fileFormIndex++;
+        }
+        
+        function removeFileForm(index) {
+            const form = document.querySelector(`[data-index="${index}"]`);
+            if (form) form.remove();
+        }
+        
+        function saveAllFiles() {
+            const location = getCurrentLocation();
+            if (!location.files) location.files = [];
+            
+            const fileForms = document.querySelectorAll('.file-form-item');
+            let filesAdded = 0;
+            let errors = [];
+            
+            fileForms.forEach((form, index) => {
+                const fileName = form.querySelector('.file-name').value.trim();
+                const fileUrl = form.querySelector('.file-url').value.trim();
+                const fileType = form.querySelector('.file-type').value;
+                const pdfUpload = form.querySelector('.pdf-upload');
+                const pdfUrl = pdfUpload && pdfUpload.uploadedFile ? `uploaded:${pdfUpload.uploadedFile.name}` : '';
+                
+                if (!fileName || !fileUrl) {
+                    errors.push(`File #${index + 1}: Missing name or URL`);
+                    return;
+                }
+                
+                const newFile = {
+                    id: Date.now() + index,
+                    name: fileName,
+                    type: fileType,
+                    url: fileUrl,
+                    pdfUrl: pdfUrl || null,
+                    created: new Date().toISOString()
+                };
+                
+                location.files.push(newFile);
+                filesAdded++;
+            });
+            
+            if (errors.length > 0) {
+                alert('⚠️ Some files were skipped:\n\n' + errors.join('\n'));
+            }
+            
+            if (filesAdded > 0) {
+                saveData();
+                closeModal();
+                renderView();
+                fileFormIndex = 1; // Reset counter
+                alert(`✅ Successfully uploaded ${filesAdded} file${filesAdded > 1 ? 's' : ''}!`);
+            } else {
+                alert('❌ No files were uploaded. Please fill in file name and URL for at least one file.');
+            }
+        }
+
+        // Save file (legacy single file - kept for compatibility)
+        function saveFile() {
+            saveAllFiles();
+        }
+
+        // Validate file size input
+        function validateFileSize(input) {
+            const value = input.value.trim();
+            if (!value) {
+                input.style.borderColor = '';
+                return;
+            }
+            
+            const match = value.match(/(\d+\.?\d*)\s*(B|KB|MB|GB)/i);
+            if (match) {
+                input.style.borderColor = '#10b981'; // Green for valid
+            } else {
+                input.style.borderColor = '#ef4444'; // Red for invalid
+            }
+        }
+
+        // Parse file size string to bytes
+        function parseFileSize(sizeStr) {
+            if (!sizeStr) return 0;
+            
+            // Clean up the string
+            sizeStr = sizeStr.trim().toUpperCase();
+            
+            // Handle different formats
+            const patterns = [
+                /(\d+\.?\d*)\s*(B|KB|MB|GB)/,
+                /(\d+\.?\d*)(B|KB|MB|GB)/,
+                /(\d+\.?\d*)\s*(BYTES?|KILOBYTES?|MEGABYTES?|GIGABYTES?)/
+            ];
+            
+            let match = null;
+            for (const pattern of patterns) {
+                match = sizeStr.match(pattern);
+                if (match) break;
+            }
+            
+            if (!match) {
+                console.warn('Could not parse file size:', sizeStr);
+                return 0;
+            }
+            
+            const value = parseFloat(match[1]);
+            const unit = match[2].toUpperCase();
+            
+            // Handle full words
+            const unitMap = {
+                'B': 1, 'BYTE': 1, 'BYTES': 1,
+                'KB': 1024, 'KILOBYTE': 1024, 'KILOBYTES': 1024,
+                'MB': 1024*1024, 'MEGABYTE': 1024*1024, 'MEGABYTES': 1024*1024,
+                'GB': 1024*1024*1024, 'GIGABYTE': 1024*1024*1024, 'GIGABYTES': 1024*1024*1024
+            };
+            
+            const multiplier = unitMap[unit] || 1;
+            return Math.round(value * multiplier);
+        }
+
+        // Fix file size for files showing 0 B
+        function fixFileSize(fileId) {
+            const location = getCurrentLocation();
+            const file = location.files.find(f => f.id === fileId);
+            
+            if (!file) return;
+            
+            const modalHtml = `
+                <div class="modal-overlay" id="fixSizeModal" onclick="if(event.target.id==='fixSizeModal') closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 500px;">
+                        <div class="modal-header">
+                            <h3>🔧 Fix File Size</h3>
+                            <button class="modal-close" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>File:</strong> ${file.name}</p>
+                            <p><strong>Current Size:</strong> ${formatFileSize(file.size)}</p>
+                            <p>Enter the correct file size:</p>
+                            <div class="form-group">
+                                <label>File Size</label>
+                                <input type="text" id="fixFileSize" class="form-control" placeholder="e.g., 25 MB, 1.2 GB, 500 KB" oninput="validateFileSize(this)">
+                                <small style="color: #666; margin-top: 0.25rem; display: block;">
+                                    Examples: 25 MB, 1.2 GB, 500 KB, 2 GB
+                                </small>
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                            <button class="btn-primary" onclick="updateFileSize(${fileId})">Update Size</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+        
+        // Update file size
+        function updateFileSize(fileId) {
+            const newSize = document.getElementById('fixFileSize').value.trim();
+            const parsedSize = parseFileSize(newSize);
+            
+            if (parsedSize === 0 && newSize) {
+                alert('❌ Invalid file size format. Please use formats like: 25 MB, 1.2 GB, 500 KB');
+                return;
+            }
+            
+            const location = getCurrentLocation();
+            const file = location.files.find(f => f.id === fileId);
+            
+            if (file) {
+                file.size = parsedSize;
+                saveData();
+                closeModal();
+                renderView();
+                alert(`✅ File size updated to ${formatFileSize(parsedSize)}`);
+            }
+        }
+
+        // Edit file
+        function editFile(fileId) {
+            const location = getCurrentLocation();
+            const file = location.files.find(f => f.id === fileId);
+            
+            if (!file) return;
+
+            const sizeStr = file.size ? formatFileSize(file.size) : '';
+
+            const modalHtml = `
+                <div class="modal-overlay" id="editModal" onclick="if(event.target.id==='editModal') closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()">
+                        <div class="modal-header">
+                            <h3>Edit File</h3>
+                            <button class="close-modal" onclick="closeModal()">×</button>
+                        </div>
+                        <div class="form-group">
+                            <label>File Type</label>
+                            <select id="editFileType" class="form-control">
+                                <option value="video" ${file.type === 'video' ? 'selected' : ''}>Video</option>
+                                <option value="pdf" ${file.type === 'pdf' ? 'selected' : ''}>PDF</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>File Name</label>
+                            <input type="text" id="editFileName" value="${file.name}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>File URL</label>
+                            <input type="url" id="editFileUrl" value="${file.url || ''}" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>PDF File (optional - for accompanying materials)</label>
+                            <input type="file" id="editFilePdfUpload" accept=".pdf" class="form-control" onchange="handlePdfUpload(this)">
+                            <small style="color: #666; margin-top: 0.25rem; display: block;">
+                                Upload new PDF file from your device
+                            </small>
+                            ${file.pdfUrl ? `
+                                <div style="margin-top: 0.5rem;">
+                                    <span class="badge bg-info">Current PDF: ${file.pdfUrl.split('/').pop()}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                            <button class="btn-primary" onclick="updateFile(${fileId})">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        // Update file
+        function updateFile(fileId) {
+            const location = getCurrentLocation();
+            const file = location.files.find(f => f.id === fileId);
+            
+            if (!file) return;
+
+            file.name = document.getElementById('editFileName').value.trim();
+            file.type = document.getElementById('editFileType').value;
+            file.url = document.getElementById('editFileUrl').value.trim();
+            const pdfUpload = document.getElementById('editFilePdfUpload');
+            if (pdfUpload && pdfUpload.uploadedFile) {
+                file.pdfUrl = `uploaded:${pdfUpload.uploadedFile.name}`;
+            }
+            // Keep existing pdfUrl if no new file uploaded
+
+            saveData();
+            closeModal();
+            renderView();
+        }
+
+        // Rename item
+        function renameItem(type, itemId) {
+            const location = getCurrentLocation();
+            const item = type === 'folder' 
+                ? location.folders.find(f => f.id === itemId)
+                : location.files.find(f => f.id === itemId);
+
+            if (!item) return;
+
+            const newName = prompt(`Rename ${type}:`, item.name);
+            if (newName && newName.trim() && newName !== item.name) {
+                item.name = newName.trim();
+                saveData();
+                renderView();
+            }
+        }
+
+        // Delete item
+        function deleteItem(type, itemId) {
+            if (!confirm(`Are you sure you want to delete this ${type}?`)) return;
+
+            const location = getCurrentLocation();
+            
+            if (type === 'folder') {
+                const index = location.folders.findIndex(f => f.id === itemId);
+                if (index > -1) {
+                    const folder = location.folders[index];
+                    location.folders.splice(index, 1);
+                    
+                    // Remove from lectures page data
+                    const lectureFolders = JSON.parse(localStorage.getItem('englishFolders') || '[]');
+                    const lectureIndex = lectureFolders.findIndex(f => f.id === itemId);
+                    if (lectureIndex > -1) {
+                        lectureFolders.splice(lectureIndex, 1);
+                        localStorage.setItem('englishFolders', JSON.stringify(lectureFolders));
+                    }
+                }
+            } else {
+                const index = location.files.findIndex(f => f.id === itemId);
+                if (index > -1) {
+                    location.files.splice(index, 1);
+                }
+            }
+
+            saveData();
+            renderView();
+        }
+
+        // Close modal
+        function closeModal() {
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => modal.remove());
+        }
+
+        // Refresh view
+        function refreshView() {
+            renderView();
+        }
+
+        // Quick create Teacher and Assistant folders
+        function createTeacherAssistantFolders() {
+            if (currentPath.length === 0) {
+                alert('Please open a unit/chapter folder first, then use Quick Setup to create Teacher and Assistant folders inside it.');
+                return;
+            }
+            
+            if (!confirm('Create "Teacher Content" and "Assistant Content" folders in this location?')) {
+                return;
+            }
+            
+            const location = getCurrentLocation();
+            if (!location.folders) location.folders = [];
+            
+            // Get category from current location
+            let category = '';
+            let loc = contentData[currentCourse];
+            for (let folderId of currentPath) {
+                const folder = loc.folders.find(f => f.id === folderId);
+                if (folder && folder.category) {
+                    category = folder.category;
+                }
+                loc = folder;
+            }
+            
+            // Create Teacher Content folder
+            const teacherFolder = {
+                id: Date.now(),
+                name: 'Teacher Content',
+                type: 'folder',
+                category: category,
+                created: new Date().toISOString(),
+                folders: [],
+                files: []
+            };
+            
+            // Create Assistant Content folder
+            const assistantFolder = {
+                id: Date.now() + 1,
+                name: 'Assistant Content',
+                type: 'folder',
+                category: category,
+                created: new Date().toISOString(),
+                folders: [],
+                files: []
+            };
+            
+            location.folders.push(teacherFolder, assistantFolder);
+            saveData();
+            renderView();
+            
+            alert('✅ Created "Teacher Content" and "Assistant Content" folders!\n\nDouble-click each folder to add videos and PDFs.');
+        }
+        
+        // Show help guide
+        function showHelp() {
+            const helpHtml = `
+                <div class="modal-overlay" id="helpModal" onclick="if(event.target.id==='helpModal') closeModal()">
+                    <div class="modal-content" onclick="event.stopPropagation()" style="max-width: 700px;">
+                        <div class="modal-header">
+                            <h3>📚 How to Use Content Manager</h3>
+                            <button class="close-modal" onclick="closeModal()">×</button>
+                        </div>
+                        <div style="padding: 1.5rem; max-height: 60vh; overflow-y: auto;">
+                            <h5 style="color: #667eea; margin-bottom: 1rem;">🎯 Quick Guide</h5>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h6 style="font-weight: 700; margin-bottom: 0.5rem;">1️⃣ Create Main Folder</h6>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• Click "New Folder"</p>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• Enter name (e.g., "Unit 1 - Shakespeare")</p>
+                                <p style="color: #666;">• Select category (e.g., "Literature")</p>
+                            </div>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h6 style="font-weight: 700; margin-bottom: 0.5rem;">2️⃣ Navigate Into Folder</h6>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• <strong>Double-click</strong> any folder to open it</p>
+                                <p style="color: #666;">• You'll see the breadcrumb update at the top</p>
+                            </div>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h6 style="font-weight: 700; margin-bottom: 0.5rem;">3️⃣ Create Subfolders</h6>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• Inside any folder, click "New Folder"</p>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• Create: "Teacher Content", "Assistant Content"</p>
+                                <p style="color: #666;">• Category will be inherited from parent folder</p>
+                            </div>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h6 style="font-weight: 700; margin-bottom: 0.5rem;">4️⃣ Upload Files</h6>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• Navigate to desired folder</p>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• Click "Upload Files"</p>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• Add video (YouTube, Google Drive) or PDF links</p>
+                                <p style="color: #666;">• Fill in details and save</p>
+                            </div>
+                            
+                            <div style="margin-bottom: 1.5rem;">
+                                <h6 style="font-weight: 700; margin-bottom: 0.5rem;">5️⃣ Organize Content</h6>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• <strong>Right-click</strong> for quick options</p>
+                                <p style="color: #666; margin-bottom: 0.5rem;">• <strong>Hover</strong> to see edit/delete buttons</p>
+                                <p style="color: #666;">• Use breadcrumb to navigate back</p>
+                            </div>
+                            
+                            <div style="background: #e7f0ff; padding: 1rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                                <h6 style="font-weight: 700; color: #667eea; margin-bottom: 0.5rem;">💡 Pro Tip</h6>
+                                <p style="color: #555; margin: 0; font-size: 0.9rem;">Create a consistent structure across all categories:<br>
+                                <strong>Category → Chapter Folder → Teacher/Assistant Folders → Files</strong></p>
+                            </div>
+                        </div>
+                        <div class="modal-actions">
+                            <button class="btn-primary" onclick="closeModal()">Got it!</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.insertAdjacentHTML('beforeend', helpHtml);
+        }
+
+        // Context menu
+        function showContextMenu(event, type, itemId) {
+            event.preventDefault();
+            
+            // Remove existing context menu
+            const existing = document.querySelector('.context-menu');
+            if (existing) existing.remove();
+
+            const menuHtml = `
+                <div class="context-menu" style="left: ${event.clientX}px; top: ${event.clientY}px;">
+                    ${type === 'folder' ? `
+                        <div class="context-menu-item" onclick="openFolder(${itemId})">
+                            <iconify-icon icon="material-symbols:folder-open"></iconify-icon>
+                            Open
+                        </div>
+                    ` : `
+                        <div class="context-menu-item" onclick="openFile(${itemId})">
+                            <iconify-icon icon="material-symbols:open-in-new"></iconify-icon>
+                            Open
+                        </div>
+                    `}
+                    <div class="context-menu-item" onclick="renameItem('${type}', ${itemId})">
+                        <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                        Rename
+                    </div>
+                    ${type === 'file' ? `
+                        <div class="context-menu-item" onclick="editFile(${itemId})">
+                            <iconify-icon icon="material-symbols:settings"></iconify-icon>
+                            Edit Details
+                        </div>
+                    ` : ''}
+                    <div class="context-menu-divider"></div>
+                    <div class="context-menu-item" onclick="deleteItem('${type}', ${itemId})" style="color: #ef4444;">
+                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                        Delete
+                    </div>
+                </div>
+            `;
+
+            document.body.insertAdjacentHTML('beforeend', menuHtml);
+
+            // Close on click outside
+            setTimeout(() => {
+                document.addEventListener('click', function closeMenu() {
+                    const menu = document.querySelector('.context-menu');
+                    if (menu) menu.remove();
+                    document.removeEventListener('click', closeMenu);
+                });
+            }, 100);
+        }
+
+        // Initialize
+        loadData();
+        renderView();
+    </script>
+</body>
+</html>
+

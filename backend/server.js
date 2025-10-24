@@ -165,6 +165,26 @@ db.serialize(() => {
                     }
                 });
             }
+            
+            // Check for parent_id column
+            const hasParentId = cols && cols.some(c => c.name === 'parent_id');
+            if (!hasParentId) {
+                db.run(`ALTER TABLE users ADD COLUMN parent_id INTEGER`, (aErr) => {
+                    if (aErr && !aErr.message.includes('duplicate column name')) {
+                        console.error('Error adding parent_id column:', aErr);
+                    }
+                });
+            }
+            
+            // Check for student_id column
+            const hasStudentId = cols && cols.some(c => c.name === 'student_id');
+            if (!hasStudentId) {
+                db.run(`ALTER TABLE users ADD COLUMN student_id INTEGER`, (aErr) => {
+                    if (aErr && !aErr.message.includes('duplicate column name')) {
+                        console.error('Error adding student_id column:', aErr);
+                    }
+                });
+            }
         }
     });
 
@@ -399,6 +419,11 @@ app.post('/api/login', (req, res) => {
             if (err) return res.status(500).json({ success: false, message: 'Database error', error: 'Database error' });
             if (!row) return res.status(401).json({ success: false, message: 'Invalid credentials', error: 'Invalid credentials' });
 
+            // For users table, check if the role matches the requested userType
+            if (table === 'users' && row.role && row.role !== userType) {
+                return res.status(401).json({ success: false, message: 'Invalid credentials for this user type', error: 'Invalid credentials for this user type' });
+            }
+
             const stored = row.password || row.pass || row.passsword;
             if (stored && (stored.startsWith('$2a$') || stored.startsWith('$2b$') || stored.startsWith('$2y$'))) {
                 return bcrypt.compare(password, stored, (bErr, same) => {
@@ -409,7 +434,7 @@ app.post('/api/login', (req, res) => {
             }
             if (stored === password) {
                 // migrate to bcrypt asynchronously and return success
-                migratePlaintextToBcrypt(userType === 'teacher' ? 'teachers' : 'students', row, password);
+                migratePlaintextToBcrypt(userType === 'teacher' ? 'teachers' : 'users', row, password);
                 return sendSuccess(row, userType);
             }
             return res.status(401).json({ success: false, message: 'Invalid credentials', error: 'Invalid credentials' });
@@ -538,17 +563,29 @@ app.post('/api/register', (req, res) => {
                     console.error('Database error during registration:', err);
                     if (err.code === 'SQLITE_CONSTRAINT' || err.code === 'SQLITE_CONSTRAINT_UNIQUE') {
                         // Check if it's specifically an email constraint
-                        if (err.message && (err.message.includes('email') || err.message.includes('UNIQUE constraint failed: students.email'))) {
-                            return res.status(400).json({ success: false, message: 'This email address is already registered. Please use the login form instead.' });
+                        if (err.message && (err.message.includes('email') || err.message.includes('UNIQUE constraint failed: users.email') || err.message.includes('UNIQUE constraint failed: students.email'))) {
+                            return res.status(400).json({ 
+                                success: false, 
+                                error: 'This email address is already registered. Please use the login form instead or try a different email address.',
+                                code: 'EMAIL_EXISTS'
+                            });
                         }
                         // Check if it's a username constraint
-                        if (err.message && (err.message.includes('username') || err.message.includes('UNIQUE constraint failed: students.username'))) {
-                            return res.status(400).json({ success: false, message: 'This username is already taken. Please choose a different one.' });
+                        if (err.message && (err.message.includes('username') || err.message.includes('UNIQUE constraint failed: users.username') || err.message.includes('UNIQUE constraint failed: students.username'))) {
+                            return res.status(400).json({ 
+                                success: false, 
+                                error: 'This username is already taken. Please choose a different one.',
+                                code: 'USERNAME_EXISTS'
+                            });
                         }
-                        return res.status(400).json({ success: false, message: 'Username or email already exists' });
+                        return res.status(400).json({ 
+                            success: false, 
+                            error: 'This email address or username is already in use. Please try a different one or use the login form.',
+                            code: 'DUPLICATE_ENTRY'
+                        });
                     }
                     console.error('Database error:', err);
-                    return res.status(500).json({ success: false, message: 'Database error' });
+                    return res.status(500).json({ success: false, error: 'Database error during registration' });
                 }
 
                 // Return user object similar to login response
@@ -1255,6 +1292,109 @@ app.get('/api/admin/teachers', authenticateJWT, requireAdmin, (req, res) => {
     safeAll('teachers', res, (err, rows) => {
         if (err) return;
         return res.json(rows);
+    });
+});
+
+// GET /api/admin/parents
+app.get('/api/admin/parents', authenticateJWT, requireAdmin, (req, res) => {
+    // Query users table where role is 'parent'
+    db.all('SELECT * FROM users WHERE role = "parent"', (err, rows) => {
+        if (err) {
+            console.error('DB error selecting parents:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+        return res.json(rows || []);
+    });
+});
+
+// GET /api/admin/parents/:id
+app.get('/api/admin/parents/:id', authenticateJWT, requireAdmin, (req, res) => {
+    const parentId = req.params.id;
+    
+    // Get parent details
+    db.get('SELECT * FROM users WHERE id = ? AND role = "parent"', [parentId], (err, parent) => {
+        if (err) {
+            console.error('DB error selecting parent:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+        
+        if (!parent) {
+            return res.status(404).json({ success: false, error: 'Parent not found' });
+        }
+        
+        // Get children of this parent
+        db.all('SELECT * FROM users WHERE parent_id = ?', [parentId], (err, children) => {
+            if (err) {
+                console.error('DB error selecting children:', err);
+                return res.status(500).json({ success: false, error: 'Database error' });
+            }
+            
+            parent.children = children || [];
+            parent.children_count = children ? children.length : 0;
+            
+            return res.json(parent);
+        });
+    });
+});
+
+// DELETE /api/admin/parents/:id
+app.delete('/api/admin/parents/:id', authenticateJWT, requireAdmin, (req, res) => {
+    const parentId = req.params.id;
+    
+    // First, remove parent_id from children
+    db.run('UPDATE users SET parent_id = NULL WHERE parent_id = ?', [parentId], (err) => {
+        if (err) {
+            console.error('DB error updating children:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+        
+        // Then delete the parent
+        db.run('DELETE FROM users WHERE id = ? AND role = "parent"', [parentId], function(err) {
+            if (err) {
+                console.error('DB error deleting parent:', err);
+                return res.status(500).json({ success: false, error: 'Database error' });
+            }
+            
+            if (this.changes === 0) {
+                return res.status(404).json({ success: false, error: 'Parent not found' });
+            }
+            
+            return res.json({ success: true, message: 'Parent deleted successfully' });
+        });
+    });
+});
+
+// GET /api/admin/parents/export
+app.get('/api/admin/parents/export', authenticateJWT, requireAdmin, (req, res) => {
+    db.all('SELECT * FROM users WHERE role = "parent"', (err, rows) => {
+        if (err) {
+            console.error('DB error selecting parents for export:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+        
+        // Convert to CSV
+        if (rows.length === 0) {
+            return res.status(404).json({ success: false, error: 'No parents found' });
+        }
+        
+        const headers = ['ID', 'First Name', 'Last Name', 'Email', 'Phone', 'Registration Date', 'Last Login', 'Status'];
+        const csvData = [
+            headers.join(','),
+            ...rows.map(row => [
+                row.id,
+                `"${row.first_name || ''}"`,
+                `"${row.last_name || ''}"`,
+                `"${row.email || ''}"`,
+                `"${row.phone || ''}"`,
+                `"${row.created_at || ''}"`,
+                `"${row.last_login || ''}"`,
+                `"${row.status || 'inactive'}"`
+            ].join(','))
+        ].join('\n');
+        
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename="parents_export.csv"');
+        res.send(csvData);
     });
 });
 
@@ -2541,6 +2681,133 @@ app.get('/api/quizzes', (req, res) => {
 
 // Assistant Management API Endpoints
 
+// Teacher Assistant Management Endpoints (no admin required)
+// GET /api/teacher/assistants - Get assistants for a specific subject
+app.get('/api/teacher/assistants', authenticateJWT, (req, res) => {
+    const { subject } = req.query;
+    
+    if (!subject) {
+        return res.status(400).json({ success: false, error: 'Subject is required' });
+    }
+    
+    // Get assistants for the specific subject using existing table structure
+    db.all('SELECT id, first_name, last_name, email, subject, is_active, created_at FROM assistants WHERE subject = ?', [subject], (err, rows) => {
+        if (err) {
+            console.error('DB error selecting assistants:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+        
+        // Transform the data to match the expected format
+        const transformedRows = (rows || []).map(row => ({
+            id: row.id,
+            name: `${row.first_name} ${row.last_name}`.trim(),
+            email: row.email,
+            subject: row.subject,
+            status: row.is_active ? 'active' : 'inactive',
+            availability: 'Not specified', // Default since this column doesn't exist
+            phone: 'Not specified', // Default since this column doesn't exist
+            created_at: row.created_at
+        }));
+        
+        return res.json(transformedRows);
+    });
+});
+
+// POST /api/teacher/add-assistant - Add new assistant (teacher can add for their subject)
+app.post('/api/teacher/add-assistant', authenticateJWT, (req, res) => {
+    const { name, email, phone, subject, availability, status, qualifications, specializations, roleDescription, createdBy } = req.body;
+
+    if (!name || !email || !subject) {
+        return res.status(400).json({ success: false, error: 'Name, email, and subject are required' });
+    }
+
+    // Split name into first and last name
+    const nameParts = name.trim().split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    // Insert new assistant using existing table structure
+    db.run(`INSERT INTO assistants (first_name, last_name, email, subject, teacher_id, is_active, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)`,
+        [firstName, lastName, email, subject, req.user.id || 1, true],
+        function(err) {
+            if (err) {
+                if (err.message && err.message.includes('UNIQUE constraint failed')) {
+                    return res.status(400).json({ success: false, error: 'Assistant with this email already exists' });
+                }
+                console.error('DB error inserting assistant:', err);
+                return res.status(500).json({ success: false, error: 'Database error' });
+            }
+            return res.json({ success: true, id: this.lastID, message: 'Assistant added successfully' });
+        });
+});
+
+// PUT /api/teacher/assistants/:id - Update assistant
+app.put('/api/teacher/assistants/:id', authenticateJWT, (req, res) => {
+    const assistantId = req.params.id;
+    const { name, email, phone, availability, status, qualifications, specializations, roleDescription } = req.body;
+
+    if (!name || !email) {
+        return res.status(400).json({ success: false, error: 'Name and email are required' });
+    }
+
+    // Split name into first and last name
+    const nameParts = name.trim().split(' ');
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    // Update the assistant using existing table structure
+    db.run(`UPDATE assistants SET 
+            first_name = ?, last_name = ?, email = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?`,
+        [firstName, lastName, email, assistantId],
+        function(err) {
+            if (err) {
+                if (err.message && err.message.includes('UNIQUE constraint failed')) {
+                    return res.status(400).json({ success: false, error: 'Assistant with this email already exists' });
+                }
+                console.error('DB error updating assistant:', err);
+                return res.status(500).json({ success: false, error: 'Database error' });
+            }
+            if (this.changes === 0) {
+                return res.status(404).json({ success: false, error: 'Assistant not found' });
+            }
+            return res.json({ success: true, message: 'Assistant updated successfully' });
+        });
+});
+
+// DELETE /api/teacher/assistants/:id - Delete assistant
+app.delete('/api/teacher/assistants/:id', authenticateJWT, (req, res) => {
+    const assistantId = req.params.id;
+
+    // First, check if the table exists
+    db.all("PRAGMA table_info('assistants')", (err, columns) => {
+        if (err) {
+            console.error('Error getting table info:', err);
+            return res.status(500).json({ success: false, error: 'Database error' });
+        }
+
+        // If table doesn't exist, return not found
+        if (columns.length === 0) {
+            return res.status(404).json({ success: false, error: 'Assistant not found' });
+        }
+
+        // Delete the assistant
+        db.run('DELETE FROM assistants WHERE id = ?', [assistantId], function(err) {
+            if (err) {
+                console.error('DB error deleting assistant:', err);
+                return res.status(500).json({ success: false, error: 'Database error' });
+            }
+            if (this.changes === 0) {
+                return res.status(404).json({ success: false, error: 'Assistant not found' });
+            }
+            return res.json({ success: true, message: 'Assistant deleted successfully' });
+        });
+    });
+});
+
+// Admin Assistant Management API Endpoints
+
 // GET /api/admin/assistants - Get all assistants
 app.get('/api/admin/assistants', authenticateJWT, requireAdmin, (req, res) => {
     // Check if assistants table exists, if not create it
@@ -2564,13 +2831,30 @@ app.get('/api/admin/assistants', authenticateJWT, requireAdmin, (req, res) => {
             return res.status(500).json({ success: false, error: 'Database error' });
         }
 
-        // Fetch all assistants
-        db.all('SELECT * FROM assistants ORDER BY createdAt DESC', (err, rows) => {
+        // Fetch all assistants using existing table structure
+        db.all('SELECT * FROM assistants ORDER BY created_at DESC', (err, rows) => {
             if (err) {
                 console.error('Error fetching assistants:', err);
                 return res.status(500).json({ success: false, error: 'Database error' });
             }
-            res.json(rows || []);
+            
+            // Transform the data to match expected format
+            const transformedRows = (rows || []).map(row => ({
+                id: row.id,
+                name: `${row.first_name} ${row.last_name}`.trim(),
+                email: row.email,
+                phone: 'Not specified', // Default since this column doesn't exist
+                subject: row.subject,
+                availability: 'Not specified', // Default since this column doesn't exist
+                status: row.is_active ? 'active' : 'inactive',
+                qualifications: 'Not specified', // Default since this column doesn't exist
+                specializations: 'Not specified', // Default since this column doesn't exist
+                roleDescription: 'Not specified', // Default since this column doesn't exist
+                createdBy: 'teacher', // Default since this column doesn't exist
+                createdAt: row.created_at
+            }));
+            
+            res.json(transformedRows);
         });
     });
 });

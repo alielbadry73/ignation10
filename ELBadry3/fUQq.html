@@ -1,0 +1,3832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics IGCSE - Course Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        /* Professional Header Styling */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Ensure header starts at the very top with no gaps */
+        .dashboard-header {
+            margin: 0 !important;
+            padding: 1rem 0 !important;
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 999;
+        }
+        
+        /* Remove any default spacing from the first element */
+        .dashboard-header:first-child {
+            margin-top: 0 !important;
+        }
+        
+        /* Override any Bootstrap or other framework margins */
+        .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        
+        .row {
+            margin: 0 !important;
+        }
+        
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+        
+        .menu-toggle {
+            position: relative;
+            z-index: 1031;
+            background: #007bff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+        
+        .menu-icon {
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        /* Left Menu Bar Styling */
+        .left-menu {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: #ffffff;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            border-right: 1px solid #e9ecef;
+            pointer-events: auto;
+        }
+        
+        .left-menu.open {
+            left: 0;
+        }
+        
+        .menu-content {
+            padding: 2rem 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .menu-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .menu-header h6 {
+            color: #333;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .menu-courses {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .menu-course-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .menu-course-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .course-icon-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .course-icon-small.math {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .course-icon-small.physics {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .course-icon-small.chemistry {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .course-info-small {
+            flex: 1;
+        }
+        
+        .course-name-small {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tutor-name {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .welcome-text {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .welcome-subtext {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .logo-image {
+            height: 35px;
+            width: auto;
+            background: transparent;
+            border: none;
+            padding: 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .logo-image:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+        }
+        
+        .notification-btn, .community-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .notification-btn:hover, .community-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .notification-btn::after, .community-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification-btn:hover::after, .community-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: white;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .profile-avatar:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .profile-avatar::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .profile-avatar:hover::after {
+            opacity: 1;
+        }
+        
+        .profile-link {
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .profile-link:hover {
+            color: #333;
+        }
+        
+        /* Focus Mode Styling */
+        .focus-mode-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .focus-mode-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .focus-mode-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+        }
+        
+        .focus-mode-btn.active:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .focus-mode-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .focus-mode-btn:hover::after {
+            opacity: 1;
+        }
+        
+        /* Focus Mode Menu */
+        .focus-mode-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .focus-mode-menu.show {
+            display: flex;
+        }
+        
+        .focus-close-btn {
+            border-radius: 12px;
+            padding: 0.75rem;
+            font-weight: 500;
+            background: white;
+            color: #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-width: 48px;
+            min-height: 48px;
+        }
+        
+        .focus-close-btn:hover {
+            background: #e3f2fd;
+            color: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .focus-close-btn::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .focus-close-btn:hover::after {
+            opacity: 1;
+        }
+        
+        .focus-mode-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideInUp 0.4s ease;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .focus-mode-header {
+            margin-bottom: 2rem;
+        }
+        
+        .focus-mode-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #28a745;
+            margin-bottom: 0.5rem;
+        }
+        
+        .focus-mode-subtitle {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .social-blocking-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title iconify-icon {
+            margin-right: 0.5rem;
+        }
+        
+        .social-platforms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .platform-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .platform-item:hover {
+            border-color: #28a745;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        }
+        
+        .platform-item.blocked {
+            border-color: #dc3545;
+            background: rgba(220, 53, 69, 0.05);
+        }
+        
+        .platform-item.blocked:hover {
+            border-color: #dc3545;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+        }
+        
+        .platform-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 0.5rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+        
+        .platform-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .timer-section {
+            margin-bottom: 2rem;
+        }
+        
+        .timer-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timer-option {
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .timer-option:hover {
+            border-color: #28a745;
+            transform: translateY(-2px);
+        }
+        
+        .timer-option.selected {
+            border-color: #28a745;
+            background: rgba(40, 167, 69, 0.1);
+        }
+        
+        .timer-duration {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .timer-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+        
+        .active-timer {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .active-timer.show {
+            display: block;
+            animation: pulse 2s infinite;
+        }
+        
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timer-status {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        
+        .timer-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-btn.start {
+            background: white;
+            color: #28a745;
+        }
+        
+        .timer-btn.pause {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+        
+        .timer-btn.stop {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+        }
+        
+        .study-stats {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+        
+        .stats-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stats-title {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .view-all-stats {
+            color: #28a745;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .view-all-stats:hover {
+            color: #20c997;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #28a745;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: #6c757d;
+            margin-top: 0.25rem;
+        }
+        
+        .focus-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .focus-btn {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .focus-btn.primary {
+            background: #28a745;
+            color: white;
+        }
+        
+        .focus-btn.primary:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .focus-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .focus-btn.secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Platform specific colors */
+        .facebook { background: #1877f2; }
+        .youtube { background: #ff0000; }
+        .tiktok { background: #000000; }
+        .instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+        .twitter { background: #1da1f2; }
+        .snapchat { background: #fffc00; color: #000; }
+        .reddit { background: #ff4500; }
+        .discord { background: #5865f2; }
+        
+        
+        .course-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .course-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .course-tutor {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .tutor-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .tutor-info h6 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .tutor-info small {
+            opacity: 0.8;
+        }
+        
+        .back-btn {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .main-container {
+            padding: 2rem 0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .course-hero {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .course-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .course-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        
+        .course-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .course-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .activity-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .activity-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        .activity-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .activity-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .activity-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .activity-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .activity-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .course-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            animation: slideInUp 0.6s ease forwards;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .course-card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+        }
+        
+        .course-card-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .course-card-body {
+            padding: 2rem;
+        }
+        
+        .todo-container, .igcse-leaderboard {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .progress-section {
+            margin-bottom: 2rem;
+        }
+        
+        .progress-bar-custom {
+            height: 10px;
+            background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-container {
+            background: #e9ecef;
+            height: 10px;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .lesson-card {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .lesson-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #007bff;
+        }
+        
+        .lesson-card.completed {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .lesson-card.current {
+            background: #cce5ff;
+            border-color: #007bff;
+        }
+        
+        .lesson-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .lesson-description {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .lesson-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .lesson-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-current {
+            background: #cce5ff;
+            color: #004085;
+        }
+        
+        .status-pending {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+            color: white;
+        }
+        
+        .btn-outline-custom {
+            border: 2px solid #007bff;
+            color: #007bff;
+            background: transparent;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-custom:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile-Style To-Do List Styling */
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .todo-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .todo-item.completed {
+            opacity: 0.7;
+        }
+        
+        .todo-item.completed .todo-text {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        .todo-checkbox {
+            margin-right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            background: #f5f5f5;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .todo-checkbox:checked {
+            background: #667eea;
+            border-color: #667eea;
+        }
+        
+        .todo-checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .todo-text {
+            flex: 1;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #333;
+            margin-right: 0.5rem;
+        }
+        
+        .todo-priority {
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+        }
+        
+        .priority-high {
+            background-color: #ff4757;
+            color: white;
+        }
+        
+        .priority-medium {
+            background-color: #667eea;
+            color: white;
+        }
+        
+        .priority-low {
+            background-color: #2ed573;
+            color: white;
+        }
+        
+        .todo-delete {
+            color: #999;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0.25rem;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .todo-delete:hover {
+            color: #ff4757;
+            background: #f8f9fa;
+        }
+        
+        .progress-summary {
+            transition: all 0.3s ease;
+        }
+        
+        .progress-summary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+        
+        /* Layout for two columns */
+        .course-content {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        
+        .left-column {
+            flex: 1;
+        }
+        
+        .right-column {
+            flex: 0 0 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .course-content {
+                flex-direction: column;
+            }
+            
+            .right-column {
+                flex: 1;
+                width: 100%;
+            }
+        }
+        
+        /* Flashcard System Styling */
+        .flashcard-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .flashcard-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+        }
+        
+        .flashcard {
+            width: 300px;
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .flashcard-front {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .flashcard-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            transform: rotateY(180deg);
+        }
+        
+        .flashcard-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .flashcard-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+        
+        .flashcard-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+        
+        .flashcard-navigation {
+            margin-top: 1.5rem;
+        }
+        
+        .flashcard-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .study-stats .stat-item {
+            padding: 0.5rem;
+        }
+        
+        .study-stats .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .study-stats .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
+        }
+        
+        
+        /* Professional Leaderboard Styling */
+        .leaderboard-card {
+            background: #ffffff;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+        }
+        
+        .leaderboard-header {
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            color: #495057;
+            padding: 1rem;
+        }
+        
+        .trophy-icon {
+            color: #6c757d;
+        }
+        
+        .leaderboard-stats {
+            font-size: 0.8rem;
+            color: #6c757d;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .reset-timer {
+            font-size: 0.75rem;
+            color: #dc3545;
+            font-weight: 500;
+        }
+        
+        .leaderboard-container {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+        }
+        
+        /* Professional Leaderboard List */
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .leaderboard-item.enhanced {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: #ffffff;
+            border: 1px solid #f1f3f4;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .leaderboard-item.enhanced:hover {
+            background: #f8f9fa;
+            border-color: #dee2e6;
+        }
+        
+        .leaderboard-item.current-user {
+            background: #f8f9fa;
+            border-color: #6c757d;
+        }
+        
+        .rank-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background: #6c757d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+        
+        .rank-badge.current {
+            background: #495057;
+        }
+        
+        .rank-badge.gold {
+            background: #ffd700;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .rank-badge.silver {
+            background: #c0c0c0;
+            color: #333;
+            font-size: 1rem;
+        }
+        
+        .rank-badge.bronze {
+            background: #cd7f32;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .student-avatar {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            background: #6c757d;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+        
+        .student-avatar.current {
+            background: #495057;
+        }
+        
+        .student-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .student-name {
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: #212529;
+            margin-bottom: 0.125rem;
+        }
+        
+        .student-class {
+            font-size: 0.75rem;
+            color: #6c757d;
+        }
+        
+        .progress-container {
+            flex: 1;
+            height: 4px;
+            background: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+            margin: 0 0.5rem;
+        }
+        
+        .progress-bar.enhanced {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            position: relative;
+        }
+        
+        .points-badge {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #495057;
+            min-width: 50px;
+            text-align: right;
+            background: #f8f9fa;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .points-badge.current {
+            background: #e9ecef;
+            color: #495057;
+        }
+        
+        .user-indicator {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #495057;
+            color: white;
+            font-size: 0.6rem;
+            padding: 0.125rem 0.25rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        .leaderboard-footer {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .course-title {
+                font-size: 2rem;
+            }
+            
+            .course-tutor {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .lessons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <!-- Left Section: Menu Toggle and Welcome Message -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Toggle -->
+                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
+                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        </button>
+                        
+                        <div class="welcome-section">
+                            <h4 class="welcome-text mb-0" id="welcomeMessage">Welcome back, Alex!</h4>
+                            <small class="text-muted" id="welcomeSubtext">Mathematics Leaderboard Rank #6 • 1,950 points</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Section: Logo and Actions -->
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <!-- Logo -->
+                        <div class="logo-section" style="margin-right: 2rem;">
+                            <a href="test-dashboard.html" class="d-flex align-items-center text-decoration-none">
+                                <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image">
+                            </a>
+                </div>
+                        
+                        <!-- Focus Mode Toggle -->
+                        <div class="focus-mode-section">
+                            <button class="focus-mode-btn" onclick="toggleFocusMode()" id="focusModeToggle" data-tooltip="Focus Mode">
+                                <iconify-icon icon="material-symbols:visibility-off" style="width: 20px; height: 20px;"></iconify-icon>
+                            </button>
+                        </div>
+                        
+                        <!-- Notifications Button -->
+                        <div class="notifications-section">
+                            <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()" data-tooltip="Notifications">
+                                <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
+                                <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Community Button -->
+                        <div class="community-section">
+                            <button class="btn btn-primary btn-sm community-btn" onclick="openCommunity()" data-tooltip="Community">
+                                <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px;">
+                            </button>
+                        </div>
+                        
+                        <!-- Profile Section -->
+                        <div class="profile-section">
+                            <div class="dropdown">
+                                <a href="#" class="profile-link d-flex align-items-center" data-bs-toggle="dropdown">
+                                    <div class="profile-avatar" id="headerProfileAvatar" data-tooltip="Profile">
+                                        <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 24px; height: 24px;">
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                                    <!-- Profile Option -->
+                                    <li><a class="dropdown-item" href="student-info.html">
+                                        <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
+                                        Profile
+                                    </a></li>
+                                    
+                                    <!-- How To Option -->
+                                    <li><a class="dropdown-item" href="#" onclick="openHowToModal()">
+                                        <iconify-icon icon="material-symbols:help" class="me-2"></iconify-icon>
+                                        How To
+                                    </a></li>
+                                    
+                                    <li><hr class="dropdown-divider"></li>
+                                    
+                                    <!-- Logout Option -->
+                                    <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                        <iconify-icon icon="material-symbols:logout" class="me-2"></iconify-icon>
+                                        Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Focus Mode Menu -->
+    <div class="focus-mode-menu" id="focusModeMenu">
+        <div class="focus-mode-content">
+            <div class="focus-mode-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h2 class="focus-mode-title">
+                            <iconify-icon icon="material-symbols:visibility-off" class="me-2"></iconify-icon>
+                            Focus Mode
+                        </h2>
+                        <p class="focus-mode-subtitle">Block distractions and boost your productivity</p>
+                    </div>
+                    <button class="btn btn-outline-primary btn-sm focus-close-btn" onclick="closeFocusMode()" data-tooltip="Close">
+                        <iconify-icon icon="material-symbols:close" style="width: 20px; height: 20px;"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Social Media Blocking Section -->
+            <div class="social-blocking-section">
+                <h3 class="section-title">
+                    <iconify-icon icon="material-symbols:block"></iconify-icon>
+                    Block Distracting Platforms
+                </h3>
+                <div class="social-platforms" id="socialPlatforms">
+                    <div class="platform-item" data-platform="facebook" onclick="togglePlatform(this)">
+                        <div class="platform-icon facebook">
+                            <iconify-icon icon="ic:baseline-facebook"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Facebook</span>
+                    </div>
+                    <div class="platform-item" data-platform="youtube" onclick="togglePlatform(this)">
+                        <div class="platform-icon youtube">
+                            <iconify-icon icon="mdi:youtube"></iconify-icon>
+                        </div>
+                        <span class="platform-name">YouTube</span>
+                    </div>
+                    <div class="platform-item" data-platform="tiktok" onclick="togglePlatform(this)">
+                        <div class="platform-icon tiktok">
+                            <iconify-icon icon="ic:baseline-tiktok"></iconify-icon>
+                        </div>
+                        <span class="platform-name">TikTok</span>
+                    </div>
+                    <div class="platform-item" data-platform="instagram" onclick="togglePlatform(this)">
+                        <div class="platform-icon instagram">
+                            <iconify-icon icon="mdi:instagram"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Instagram</span>
+                    </div>
+                    <div class="platform-item" data-platform="twitter" onclick="togglePlatform(this)">
+                        <div class="platform-icon twitter">
+                            <iconify-icon icon="mdi:twitter"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Twitter</span>
+                    </div>
+                    <div class="platform-item" data-platform="snapchat" onclick="togglePlatform(this)">
+                        <div class="platform-icon snapchat">
+                            <iconify-icon icon="mdi:snapchat"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Snapchat</span>
+                    </div>
+                    <div class="platform-item" data-platform="reddit" onclick="togglePlatform(this)">
+                        <div class="platform-icon reddit">
+                            <iconify-icon icon="mdi:reddit"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Reddit</span>
+                    </div>
+                    <div class="platform-item" data-platform="discord" onclick="togglePlatform(this)">
+                        <div class="platform-icon discord">
+                            <iconify-icon icon="ic:baseline-discord"></iconify-icon>
+                        </div>
+                        <span class="platform-name">Discord</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timer Section -->
+            <div class="timer-section">
+                <h3 class="section-title">
+                    <iconify-icon icon="material-symbols:timer"></iconify-icon>
+                    Focus Timer
+                </h3>
+                
+                <!-- Active Timer Display -->
+                <div class="active-timer" id="activeTimer">
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+                    <div class="timer-status" id="timerStatus">Ready to focus</div>
+                    <div class="timer-controls">
+                        <button class="timer-btn start" id="startTimer" onclick="startTimer()">Start</button>
+                        <button class="timer-btn pause" id="pauseTimer" onclick="pauseTimer()" style="display: none;">Pause</button>
+                        <button class="timer-btn stop" id="stopTimer" onclick="stopTimer()" style="display: none;">Stop</button>
+                    </div>
+                </div>
+
+                <!-- Timer Options -->
+                <div class="timer-options">
+                    <div class="timer-option" data-duration="25" onclick="selectTimer(this)">
+                        <div class="timer-duration">25</div>
+                        <div class="timer-label">Pomodoro</div>
+                    </div>
+                    <div class="timer-option" data-duration="15" onclick="selectTimer(this)">
+                        <div class="timer-duration">15</div>
+                        <div class="timer-label">Short</div>
+                    </div>
+                    <div class="timer-option" data-duration="45" onclick="selectTimer(this)">
+                        <div class="timer-duration">45</div>
+                        <div class="timer-label">Long</div>
+                    </div>
+                    <div class="timer-option" data-duration="60" onclick="selectTimer(this)">
+                        <div class="timer-duration">60</div>
+                        <div class="timer-label">Deep</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Stats Section -->
+            <div class="study-stats">
+                <div class="stats-header">
+                    <h3 class="stats-title">Today's Focus</h3>
+                    <a href="#" class="view-all-stats" onclick="viewAllStats()">
+                        View All
+                        <iconify-icon icon="material-symbols:arrow-forward" class="ms-1"></iconify-icon>
+                    </a>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="todayFocus">0h</div>
+                        <div class="stat-label">Focused</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="todaySessions">0</div>
+                        <div class="stat-label">Sessions</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="todayBlocks">0</div>
+                        <div class="stat-label">Blocks</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="focus-actions">
+                <button class="focus-btn secondary" onclick="closeFocusMode()">Close</button>
+                <button class="focus-btn primary" onclick="startFocusSession()">Start Focus Session</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="course-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Academic Activities Section -->
+                <div class="academic-activities" style="margin-bottom: 2rem;">
+                    <div class="activities-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+                        <!-- Quiz Panel -->
+                        <div class="activity-card" style="background: #f8f6f0; border-radius: 16px; padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.1)'" onclick="openQuiz()">
+                            <div class="activity-illustration" style="margin-bottom: 1.5rem;">
+                                <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 8px 24px rgba(255, 107, 53, 0.3);">
+                                    <iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; color: white;"></iconify-icon>
+                </div>
+                </div>
+                            <h3 style="font-weight: 700; color: #333; margin-bottom: 0.5rem; font-size: 1.5rem;">Quiz</h3>
+                            <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Test your knowledge with interactive quizzes</p>
+                            <div class="activity-stats" style="display: flex; justify-content: space-between; background: rgba(255, 107, 53, 0.1); border-radius: 8px; padding: 0.75rem;">
+                                <div>
+                                    <div style="font-weight: 600; color: #ff6b35; font-size: 1.1rem;">12</div>
+                                    <div style="font-size: 0.8rem; color: #666;">Available</div>
+                </div>
+                                <div>
+                                    <div style="font-weight: 600; color: #ff6b35; font-size: 1.1rem;">8</div>
+                                    <div style="font-size: 0.8rem; color: #666;">Completed</div>
+                                </div>
+                </div>
+            </div>
+
+                        <!-- Exam Panel -->
+                        <div class="activity-card" style="background: white; border-radius: 16px; padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.1)'" onclick="openExam()">
+                            <div class="activity-illustration" style="margin-bottom: 1.5rem;">
+                                <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);">
+                                    <iconify-icon icon="material-symbols:assignment" style="font-size: 3rem; color: white;"></iconify-icon>
+                </div>
+                        </div>
+                            <h3 style="font-weight: 700; color: #333; margin-bottom: 0.5rem; font-size: 1.5rem;">Exam</h3>
+                            <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Comprehensive assessments and final exams</p>
+                            <div class="activity-stats" style="display: flex; justify-content: space-between; background: rgba(102, 126, 234, 0.1); border-radius: 8px; padding: 0.75rem;">
+                                <div>
+                                    <div style="font-weight: 600; color: #667eea; font-size: 1.1rem;">3</div>
+                                    <div style="font-size: 0.8rem; color: #666;">Available</div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; color: #667eea; font-size: 1.1rem;">1</div>
+                                    <div style="font-size: 0.8rem; color: #666;">Completed</div>
+                                </div>
+                        </div>
+                    </div>
+                    
+                        <!-- Homework Panel -->
+                        <div class="activity-card" style="background: #f0f8f0; border-radius: 16px; padding: 2rem; text-align: center; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 24px rgba(0, 0, 0, 0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.1)'" onclick="openHomework()">
+                            <div class="activity-illustration" style="margin-bottom: 1.5rem;">
+                                <div style="width: 120px; height: 120px; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 8px 24px rgba(40, 167, 69, 0.3);">
+                                    <iconify-icon icon="material-symbols:edit" style="font-size: 3rem; color: white;"></iconify-icon>
+                                </div>
+                            </div>
+                            <h3 style="font-weight: 700; color: #333; margin-bottom: 0.5rem; font-size: 1.5rem;">Homework</h3>
+                            <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Practice exercises and assignments</p>
+                            <div class="activity-stats" style="display: flex; justify-content: space-between; background: rgba(40, 167, 69, 0.1); border-radius: 8px; padding: 0.75rem;">
+                                <div>
+                                    <div style="font-weight: 600; color: #28a745; font-size: 1.1rem;">15</div>
+                                    <div style="font-size: 0.8rem; color: #666;">Available</div>
+                                </div>
+                                <div>
+                                    <div style="font-weight: 600; color: #28a745; font-size: 1.1rem;">11</div>
+                                    <div style="font-size: 0.8rem; color: #666;">Completed</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mathematics Submenu Section -->
+                <div class="mathematics-submenu" style="margin-bottom: 2rem;">
+                    <h4 style="font-weight: 700; color: #333; margin-bottom: 1.5rem; font-size: 1.3rem;">
+                        <iconify-icon icon="material-symbols:menu-book" class="me-2" style="color: #667eea;"></iconify-icon>
+                        Mathematics Resources
+                    </h4>
+                    <div class="submenu-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <!-- Books Component -->
+                        <div class="submenu-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.3)'" onclick="openBooks()">
+                            <div style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;">
+                                <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.8rem; color: white;"></iconify-icon>
+                            </div>
+                            <h5 style="font-weight: 600; color: white; margin-bottom: 0.5rem; font-size: 1.1rem;">Books</h5>
+                            <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.85rem; margin: 0;">Access textbooks and study materials</p>
+                        </div>
+                        
+                        <!-- Lectures Component -->
+                        <div class="submenu-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(240, 147, 251, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(240, 147, 251, 0.3)'" onclick="openLectures()">
+                            <div style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;">
+                                <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.8rem; color: white;"></iconify-icon>
+                            </div>
+                            <h5 style="font-weight: 600; color: white; margin-bottom: 0.5rem; font-size: 1.1rem;">Lectures</h5>
+                            <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.85rem; margin: 0;">Watch video lessons and tutorials</p>
+                        </div>
+                        
+                        <!-- Track Your Progress Component -->
+                        <div class="submenu-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 12px; padding: 1.5rem; text-align: center; box-shadow: 0 4px 12px rgba(79, 172, 254, 0.3); transition: transform 0.3s ease, box-shadow 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 8px 24px rgba(79, 172, 254, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(79, 172, 254, 0.3)'" onclick="openProgress()">
+                            <div style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center;">
+                                <iconify-icon icon="material-symbols:trending-up" style="font-size: 1.8rem; color: white;"></iconify-icon>
+                            </div>
+                            <h5 style="font-weight: 600; color: white; margin-bottom: 0.5rem; font-size: 1.1rem;">Track Your Progress</h5>
+                            <p style="color: rgba(255, 255, 255, 0.9); font-size: 0.85rem; margin: 0;">Monitor your learning journey</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Todo List Section -->
+                <div class="todo-container" style="max-width: 350px; background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <!-- Header -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div class="d-flex align-items-center">
+                            <iconify-icon icon="material-symbols:checklist" style="color: #667eea; font-size: 1.5rem; margin-right: 0.5rem;"></iconify-icon>
+                            <div>
+                                <input type="text" id="todoListName" class="todo-list-name-input" placeholder="My Task List" value="Mathematics Tasks" onblur="updateTodoListName()" onkeypress="if(event.key==='Enter') updateTodoListName()" style="
+                                    border: none;
+                                    background: transparent;
+                                    font-weight: 700;
+                                    color: #333;
+                                    font-size: 1.1rem;
+                                    padding: 0;
+                                    margin: 0;
+                                    outline: none;
+                                    width: 150px;
+                                ">
+                            </div>
+                        </div>
+                        <a href="todo-lists.html" class="btn btn-outline-primary btn-sm" style="border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.8rem; font-weight: 600;">
+                            View All
+                            <iconify-icon icon="material-symbols:arrow-forward" style="margin-left: 0.25rem;"></iconify-icon>
+                        </a>
+                    </div>
+                    
+                    <!-- Add Task Section -->
+                    <div class="add-task-section" style="margin-bottom: 1rem;">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="newTaskInput" placeholder="Add a new task..." style="
+                                border: 1px solid #e0e0e0;
+                                border-radius: 8px 0 0 8px;
+                                padding: 0.75rem;
+                                font-size: 0.9rem;
+                                outline: none;
+                                transition: border-color 0.3s ease;
+                            " onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e0e0e0'">
+                            <button class="btn btn-primary" onclick="addTask()" style="
+                                border-radius: 0 8px 8px 0;
+                                background: #667eea;
+                                border: 1px solid #667eea;
+                                padding: 0.75rem 1rem;
+                                transition: all 0.3s ease;
+                            " onmouseover="this.style.background='#5a6fd8'" onmouseout="this.style.background='#667eea'">
+                                <iconify-icon icon="material-symbols:add" style="width: 20px; height: 20px;"></iconify-icon>
+                        </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Summary -->
+                    <div class="progress-summary" style="background: #f8f9ff; border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                        <div class="d-flex align-items-center">
+                            <div class="progress-circle" id="progressCircle" style="width: 50px; height: 50px; margin-right: 1rem; position: relative;">
+                                <svg width="50" height="50" style="transform: rotate(-90deg);">
+                                    <circle cx="25" cy="25" r="20" stroke="#e0e0e0" stroke-width="3" fill="none"></circle>
+                                    <circle cx="25" cy="25" r="20" stroke="#667eea" stroke-width="3" fill="none" 
+                                            stroke-dasharray="126" stroke-dashoffset="126" id="progressBar" 
+                                            style="transition: stroke-dashoffset 0.3s ease;"></circle>
+                                </svg>
+                                <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 700; font-size: 0.8rem; color: #333;" id="progressText">0%</div>
+                            </div>
+                            <div>
+                                <h6 class="mb-1" style="font-weight: 700; color: #333; font-size: 0.9rem;" id="progressListName">Mathematics Tasks</h6>
+                                <p class="mb-0" style="color: #666; font-size: 0.8rem;">Complete your daily tasks</p>
+                    </div>
+                </div>
+            </div>
+
+                    <!-- Quick Stats -->
+                    <div class="quick-stats" style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                        <div class="stat-item" style="text-align: center;">
+                            <div class="stat-number" id="totalTasks" style="font-weight: 700; color: #667eea; font-size: 1.2rem;">0</div>
+                            <div class="stat-label" style="color: #666; font-size: 0.8rem;">Total Tasks</div>
+                </div>
+                        <div class="stat-item" style="text-align: center;">
+                            <div class="stat-number" id="completedTasks" style="font-weight: 700; color: #28a745; font-size: 1.2rem;">0</div>
+                            <div class="stat-label" style="color: #666; font-size: 0.8rem;">Completed</div>
+                        </div>
+                        <div class="stat-item" style="text-align: center;">
+                            <div class="stat-number" id="pendingTasks" style="font-weight: 700; color: #ffc107; font-size: 1.2rem;">0</div>
+                            <div class="stat-label" style="color: #666; font-size: 0.8rem;">Pending</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+            <!-- IGCSE Leaderboard Section -->
+            <div class="igcse-leaderboard" style="max-width: 350px; background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <!-- Header -->
+                <div class="leaderboard-header" style="margin-bottom: 1.5rem;">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="d-flex align-items-center">
+                            <iconify-icon icon="material-symbols:trophy" style="color: #667eea; font-size: 1.5rem; margin-right: 0.5rem;"></iconify-icon>
+                            <h5 class="mb-0" style="font-weight: 700; color: #333;">IGCSE Leaderboard</h5>
+                                </div>
+                        <div class="reset-countdown" id="resetCountdown" style="
+                            background: #f8f9ff;
+                            border: 1px solid #e0e0e0;
+                            border-radius: 8px;
+                            padding: 0.25rem 0.5rem;
+                            font-size: 0.75rem;
+                            color: #667eea;
+                            font-weight: 600;
+                        ">
+                            <iconify-icon icon="material-symbols:schedule" style="margin-right: 0.25rem;"></iconify-icon>
+                            <span id="daysRemaining">Loading...</span>
+                            </div>
+                    </div>
+                    <p class="mb-0" style="color: #666; font-size: 0.9rem;">Top performers this week</p>
+                        </div>
+                        
+                <!-- Top 3 Performers (Highlighted Cards) -->
+                <div class="top-performers" style="margin-bottom: 1.5rem;">
+                    <!-- Rank 1 - Sarah Chen -->
+                    <div class="top-performer-card" style="background: #f8f9ff; border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
+                        <div class="d-flex align-items-center">
+                            <div class="rank-icon" style="margin-right: 1rem;">
+                                <iconify-icon icon="material-symbols:trophy" style="color: #ffd700; font-size: 1.5rem;"></iconify-icon>
+                                </div>
+                            <div class="student-details" style="flex: 1;">
+                                <div class="student-avatar" style="width: 40px; height: 40px; background: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <span style="color: #1976d2; font-weight: 600; font-size: 0.9rem;">SC</span>
+                                </div>
+                                <div class="student-name" style="font-weight: 700; color: #333; font-size: 0.9rem;">Sarah Chen</div>
+                                <div class="student-subject" style="color: #666; font-size: 0.8rem;">Mathematics</div>
+                            </div>
+                            <div class="student-stats" style="text-align: right;">
+                                <div class="points" style="color: #667eea; font-weight: 700; font-size: 1rem;">2,840 pts</div>
+                                <div class="trend" style="display: flex; align-items: center; justify-content: flex-end; margin: 0.25rem 0;">
+                                    <iconify-icon icon="material-symbols:trending-up" style="color: #28a745; font-size: 0.8rem; margin-right: 0.25rem;"></iconify-icon>
+                                </div>
+                                <div class="streak" style="display: flex; align-items: center; justify-content: flex-end; color: #666; font-size: 0.75rem;">
+                                    <iconify-icon icon="material-symbols:star-outline" style="margin-right: 0.25rem;"></iconify-icon>
+                                    12 day streak
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        
+                    <!-- Rank 2 - Alex Thompson -->
+                    <div class="top-performer-card" style="background: #f8f9ff; border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
+                        <div class="d-flex align-items-center">
+                            <div class="rank-icon" style="margin-right: 1rem;">
+                                <iconify-icon icon="material-symbols:medal" style="color: #c0c0c0; font-size: 1.5rem;"></iconify-icon>
+                                </div>
+                            <div class="student-details" style="flex: 1;">
+                                <div class="student-avatar" style="width: 40px; height: 40px; background: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <span style="color: #1976d2; font-weight: 600; font-size: 0.9rem;">AT</span>
+                                </div>
+                                <div class="student-name" style="font-weight: 700; color: #333; font-size: 0.9rem;">Alex Thompson</div>
+                                <div class="student-subject" style="color: #666; font-size: 0.8rem;">Physics</div>
+                            </div>
+                            <div class="student-stats" style="text-align: right;">
+                                <div class="points" style="color: #667eea; font-weight: 700; font-size: 1rem;">2,785 pts</div>
+                                <div class="trend" style="display: flex; align-items: center; justify-content: flex-end; margin: 0.25rem 0;">
+                                    <iconify-icon icon="material-symbols:trending-up" style="color: #28a745; font-size: 0.8rem; margin-right: 0.25rem;"></iconify-icon>
+                                </div>
+                                <div class="streak" style="display: flex; align-items: center; justify-content: flex-end; color: #666; font-size: 0.75rem;">
+                                    <iconify-icon icon="material-symbols:star-outline" style="margin-right: 0.25rem;"></iconify-icon>
+                                    8 day streak
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        
+                    <!-- Rank 3 - Maya Patel -->
+                    <div class="top-performer-card" style="background: #f8f9ff; border-radius: 12px; padding: 1rem; margin-bottom: 0.75rem; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.1);">
+                        <div class="d-flex align-items-center">
+                            <div class="rank-icon" style="margin-right: 1rem;">
+                                <iconify-icon icon="material-symbols:medal" style="color: #cd7f32; font-size: 1.5rem;"></iconify-icon>
+                                </div>
+                            <div class="student-details" style="flex: 1;">
+                                <div class="student-avatar" style="width: 40px; height: 40px; background: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem;">
+                                    <span style="color: #1976d2; font-weight: 600; font-size: 0.9rem;">MP</span>
+                                </div>
+                                <div class="student-name" style="font-weight: 700; color: #333; font-size: 0.9rem;">Maya Patel</div>
+                                <div class="student-subject" style="color: #666; font-size: 0.8rem;">Chemistry</div>
+                            </div>
+                            <div class="student-stats" style="text-align: right;">
+                                <div class="points" style="color: #667eea; font-weight: 700; font-size: 1rem;">2,720 pts</div>
+                                <div class="trend" style="display: flex; align-items: center; justify-content: flex-end; margin: 0.25rem 0;">
+                                    <iconify-icon icon="material-symbols:trending-up" style="color: #28a745; font-size: 0.8rem; margin-right: 0.25rem;"></iconify-icon>
+                                </div>
+                                <div class="streak" style="display: flex; align-items: center; justify-content: flex-end; color: #666; font-size: 0.75rem;">
+                                    <iconify-icon icon="material-symbols:star-outline" style="margin-right: 0.25rem;"></iconify-icon>
+                                    15 day streak
+                                </div>
+                            </div>
+                        </div>
+                            </div>
+                        </div>
+                        
+                <!-- Lower Ranks (Standard List Items) -->
+                <div class="lower-ranks">
+                    <!-- Rank 4 - James Wilson -->
+                    <div class="rank-item" style="display: flex; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #f0f0f0;">
+                        <div class="rank-number" style="color: #333; font-weight: 600; margin-right: 1rem; min-width: 30px;">#4</div>
+                        <div class="student-avatar" style="width: 32px; height: 32px; background: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                            <span style="color: #1976d2; font-weight: 600; font-size: 0.8rem;">JW</span>
+                                </div>
+                        <div class="student-info" style="flex: 1;">
+                            <div class="student-name" style="font-weight: 600; color: #333; font-size: 0.9rem;">James Wilson</div>
+                            <div class="student-subject" style="color: #666; font-size: 0.8rem;">Biology</div>
+                            </div>
+                        <div class="student-stats" style="text-align: right;">
+                            <div class="points" style="color: #667eea; font-weight: 700; font-size: 0.9rem;">2,650 pts</div>
+                            <div class="trend-streak" style="display: flex; align-items: center; justify-content: flex-end; color: #666; font-size: 0.75rem; margin-top: 0.25rem;">
+                                <iconify-icon icon="material-symbols:trending-down" style="color: #dc3545; margin-right: 0.5rem;"></iconify-icon>
+                                <iconify-icon icon="material-symbols:star-outline" style="margin-right: 0.25rem;"></iconify-icon>
+                                6 day streak
+                        </div>
+                    </div>
+                </div>
+                    
+                    <!-- Rank 5 - Emma Rodriguez -->
+                    <div class="rank-item" style="display: flex; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #f0f0f0;">
+                        <div class="rank-number" style="color: #333; font-weight: 600; margin-right: 1rem; min-width: 30px;">#5</div>
+                        <div class="student-avatar" style="width: 32px; height: 32px; background: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                            <span style="color: #1976d2; font-weight: 600; font-size: 0.8rem;">ER</span>
+            </div>
+                        <div class="student-info" style="flex: 1;">
+                            <div class="student-name" style="font-weight: 600; color: #333; font-size: 0.9rem;">Emma Rodriguez</div>
+                            <div class="student-subject" style="color: #666; font-size: 0.8rem;">English</div>
+                        </div>
+                        <div class="student-stats" style="text-align: right;">
+                            <div class="points" style="color: #667eea; font-weight: 700; font-size: 0.9rem;">2,580 pts</div>
+                            <div class="trend-streak" style="display: flex; align-items: center; justify-content: flex-end; color: #666; font-size: 0.75rem; margin-top: 0.25rem;">
+                                <iconify-icon icon="material-symbols:trending-up" style="color: #28a745; margin-right: 0.5rem;"></iconify-icon>
+                                <iconify-icon icon="material-symbols:star-outline" style="margin-right: 0.25rem;"></iconify-icon>
+                                9 day streak
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Rank 6 - Ryan Kumar -->
+                    <div class="rank-item" style="display: flex; align-items: center; padding: 0.75rem 0;">
+                        <div class="rank-number" style="color: #333; font-weight: 600; margin-right: 1rem; min-width: 30px;">#6</div>
+                        <div class="student-avatar" style="width: 32px; height: 32px; background: #e3f2fd; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem;">
+                            <span style="color: #1976d2; font-weight: 600; font-size: 0.8rem;">RK</span>
+                        </div>
+                        <div class="student-info" style="flex: 1;">
+                            <div class="student-name" style="font-weight: 600; color: #333; font-size: 0.9rem;">Ryan Kumar</div>
+                            <div class="student-subject" style="color: #666; font-size: 0.8rem;">History</div>
+                        </div>
+                        <div class="student-stats" style="text-align: right;">
+                            <div class="points" style="color: #667eea; font-weight: 700; font-size: 0.9rem;">2,520 pts</div>
+                            <div class="trend-streak" style="display: flex; align-items: center; justify-content: flex-end; color: #666; font-size: 0.75rem; margin-top: 0.25rem;">
+                                <iconify-icon icon="material-symbols:trending-up" style="color: #28a745; margin-right: 0.5rem;"></iconify-icon>
+                                <iconify-icon icon="material-symbols:star-outline" style="margin-right: 0.25rem;"></iconify-icon>
+                                4 day streak
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left Menu Bar -->
+    <div class="left-menu" id="leftMenu">
+        <div class="menu-content">
+            <div class="menu-header">
+                <h6>My Courses</h6>
+            </div>
+            <div class="menu-courses">
+                <div class="menu-course-item" onclick="toggleMathematicsSubmenu()">
+                    <div class="course-icon-small math">
+                        <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Mathematics IGCSE</div>
+                        <div class="tutor-name">Mr. Johnson</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-down" id="mathematicsArrow" style="font-size: 1.2rem; color: #667eea; transition: transform 0.3s ease; margin-left: auto;"></iconify-icon>
+                </div>
+                
+                <!-- Mathematics Submenu -->
+                <div class="mathematics-submenu" id="mathematicsSubmenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">
+                    <div class="submenu-item" onclick="openBooks()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Books</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Textbooks & Study Materials</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submenu-item" onclick="openLectures()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Lectures</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Video Lessons & Tutorials</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="submenu-item" onclick="openProgress()" style="padding: 0.75rem; margin-bottom: 0.25rem; border-radius: 6px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
+                        <div style="display: flex; align-items: center;">
+                            <iconify-icon icon="material-symbols:trending-up" style="font-size: 1.2rem; color: #667eea; margin-right: 0.75rem;"></iconify-icon>
+                            <div>
+                                <h6 style="margin: 0; color: #333; font-weight: 500; font-size: 0.9rem;">Track Progress</h6>
+                                <small style="color: #666; font-size: 0.75rem;">Monitor Learning Journey</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-course-item" onclick="openCourse('physics')">
+                    <div class="course-icon-small physics">
+                        <iconify-icon icon="material-symbols:science"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Physics IGCSE</div>
+                        <div class="tutor-name">Dr. Smith</div>
+                    </div>
+                </div>
+                <div class="menu-course-item" onclick="openCourse('chemistry')">
+                    <div class="course-icon-small chemistry">
+                        <iconify-icon icon="material-symbols:biotech"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Chemistry IGCSE</div>
+                        <div class="tutor-name">Prof. Brown</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Compact Flashcard System (Bottom of Page) -->
+    <div class="compact-flashcard-section" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+        <div class="compact-flashcard-container" style="background: white; border-radius: 12px; padding: 1rem; box-shadow: 0 4px 20px rgba(0,0,0,0.15); max-width: 300px;">
+            <!-- Header -->
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0" style="font-weight: 600; color: #333;">
+                    <iconify-icon icon="material-symbols:quiz" class="me-1" style="color: #667eea;"></iconify-icon>
+                    Flashcards
+                </h6>
+                <div class="compact-controls">
+                    <button class="btn btn-outline-primary btn-sm" onclick="shuffleCards()" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;">
+                        <iconify-icon icon="material-symbols:shuffle" style="font-size: 0.8rem;"></iconify-icon>
+                    </button>
+                    <button class="btn btn-outline-success btn-sm" onclick="resetProgress()" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;">
+                        <iconify-icon icon="material-symbols:refresh" style="font-size: 0.8rem;"></iconify-icon>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Progress -->
+            <div class="mb-2">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <span style="font-size: 0.8rem; color: #666;">Progress</span>
+                    <span style="font-size: 0.8rem; color: #667eea; font-weight: 600;" id="flashcardProgress">0 / 10</span>
+                </div>
+                <div class="progress" style="height: 4px;">
+                    <div class="progress-bar" id="flashcardProgressBar" style="width: 0%; background: #667eea;"></div>
+                </div>
+            </div>
+            
+            <!-- Square Flashcard -->
+            <div class="square-flashcard-container" style="display: flex; justify-content: center; margin: 1rem 0;">
+                <div class="square-flashcard" id="flashcard" onclick="flipCard()" style="width: 120px; height: 120px; perspective: 1000px; cursor: pointer;">
+                    <div class="flashcard-inner" id="flashcardInner" style="position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d;">
+                        <div class="flashcard-front" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <div class="flashcard-content" style="padding: 0.5rem; text-align: center;">
+                                <div style="font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; opacity: 0.9;">Question</div>
+                                <div style="font-size: 0.8rem; line-height: 1.3;" id="questionText">Click to start!</div>
+                            </div>
+                        </div>
+                        <div class="flashcard-back" style="position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; transform: rotateY(180deg);">
+                            <div class="flashcard-content" style="padding: 0.5rem; text-align: center;">
+                                <div style="font-size: 0.7rem; font-weight: 600; margin-bottom: 0.5rem; opacity: 0.9;">Answer</div>
+                                <div style="font-size: 0.8rem; line-height: 1.3;" id="answerText">See answer</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Compact Navigation -->
+            <div class="compact-navigation" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                <button class="btn btn-outline-secondary btn-sm" onclick="previousCard()" id="prevBtn" disabled style="padding: 0.25rem 0.5rem; font-size: 0.7rem;">
+                    <iconify-icon icon="material-symbols:arrow-back" style="font-size: 0.8rem;"></iconify-icon>
+                </button>
+                
+                <div class="compact-actions" style="display: flex; gap: 0.25rem;">
+                    <button class="btn btn-danger btn-sm" onclick="markIncorrect()" id="incorrectBtn" style="display: none; padding: 0.25rem 0.5rem; font-size: 0.7rem;">
+                        <iconify-icon icon="material-symbols:close" style="font-size: 0.8rem;"></iconify-icon>
+                    </button>
+                    <button class="btn btn-success btn-sm" onclick="markCorrect()" id="correctBtn" style="display: none; padding: 0.25rem 0.5rem; font-size: 0.7rem;">
+                        <iconify-icon icon="material-symbols:check" style="font-size: 0.8rem;"></iconify-icon>
+                    </button>
+                    <button class="btn btn-warning btn-sm" onclick="addToForgotten()" id="forgottenBtn" style="display: none; padding: 0.25rem 0.5rem; font-size: 0.7rem;">
+                        <iconify-icon icon="material-symbols:bookmark-add" style="font-size: 0.8rem;"></iconify-icon>
+                    </button>
+                </div>
+                
+                <button class="btn btn-outline-primary btn-sm" onclick="nextCard()" id="nextBtn" style="padding: 0.25rem 0.5rem; font-size: 0.7rem;">
+                    <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 0.8rem;"></iconify-icon>
+                </button>
+            </div>
+            
+            <!-- Compact Stats -->
+            <div class="compact-stats" style="display: flex; justify-content: space-between; text-align: center; font-size: 0.7rem;">
+                <div>
+                    <div style="font-weight: 600; color: #28a745;" id="correctCount">0</div>
+                    <div style="color: #666;">Correct</div>
+                </div>
+                <div>
+                    <div style="font-weight: 600; color: #dc3545;" id="incorrectCount">0</div>
+                    <div style="color: #666;">Wrong</div>
+                </div>
+                <div>
+                    <div style="font-weight: 600; color: #ffc107;" id="forgottenCount">0</div>
+                    <div style="color: #666;">Forgotten</div>
+                </div>
+                <div>
+                    <div style="font-weight: 600; color: #667eea;" id="accuracy">0%</div>
+                    <div style="color: #666;">Accuracy</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+
+    <script>
+        // Add click handlers for lesson cards
+        document.querySelectorAll('.lesson-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const lessonTitle = this.querySelector('.lesson-title').textContent;
+                const status = this.querySelector('.status-badge').textContent;
+                
+                if (status === 'Locked') {
+                    alert('This lesson is locked. Complete the previous lessons first.');
+                } else if (status === 'Completed') {
+                    alert(`Reviewing "${lessonTitle}" lesson...`);
+                } else if (status === 'Current') {
+                    alert(`Starting "${lessonTitle}" lesson...`);
+                }
+            });
+        });
+
+        // Add click handlers for action buttons
+        document.querySelectorAll('.btn-primary-custom, .btn-outline-custom').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const action = this.textContent.trim();
+                alert(`${action} clicked!`);
+            });
+        });
+
+        // Todo List Functions
+        let todoLists = JSON.parse(localStorage.getItem('todoLists')) || {};
+        let currentListId = 'mathematics';
+        let currentListName = 'Mathematics Tasks';
+        
+        function addTask() {
+            const input = document.getElementById('newTaskInput');
+            if (!input) return;
+            
+            const taskText = input.value.trim();
+            if (!taskText) return;
+            
+            if (!todoLists[currentListId]) {
+                todoLists[currentListId] = { name: currentListName, tasks: [] };
+            }
+            
+            todoLists[currentListId].tasks.push({
+                text: taskText,
+                completed: false,
+                priority: 'medium',
+                createdAt: new Date().toISOString()
+            });
+            
+            localStorage.setItem('todoLists', JSON.stringify(todoLists));
+            input.value = '';
+            
+            loadTodoList();
+            updateProgressCircle();
+        }
+        
+        function updateTodoListName() {
+            const nameInput = document.getElementById('todoListName');
+            const progressName = document.getElementById('progressListName');
+            
+            if (nameInput && progressName) {
+                const newName = nameInput.value.trim() || 'My Task List';
+                progressName.textContent = newName;
+                currentListName = newName;
+                
+                if (!todoLists[currentListId]) {
+                    todoLists[currentListId] = { name: currentListName, tasks: [] };
+                } else {
+                    todoLists[currentListId].name = currentListName;
+                }
+                
+                localStorage.setItem('todoLists', JSON.stringify(todoLists));
+            }
+        }
+
+        function loadTodoList() {
+            console.log('loadTodoList called');
+            const todoList = document.getElementById('todoList');
+            if (!todoList) {
+                console.error('todoList element not found');
+                return;
+            }
+            
+            const listData = todoLists[currentListId] || { name: currentListName, tasks: [] };
+            currentListName = listData.name;
+            console.log('List data:', listData);
+            
+            const nameInput = document.getElementById('todoListName');
+            if (nameInput) {
+                nameInput.value = currentListName;
+            }
+            
+            todoList.innerHTML = '';
+            
+            if (listData.tasks.length === 0) {
+                todoList.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <iconify-icon icon="material-symbols:checklist" class="fs-1 mb-3"></iconify-icon>
+                        <p>No tasks yet. Add one above!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            listData.tasks.forEach((task, index) => {
+                const todoItem = document.createElement('div');
+                todoItem.className = `todo-item ${task.completed ? 'completed' : ''}`;
+                todoItem.innerHTML = `
+                    <input type="checkbox" class="todo-checkbox" ${task.completed ? 'checked' : ''} 
+                           onchange="toggleTask(${index})">
+                    <span class="todo-text">${task.text}</span>
+                    <span class="todo-priority priority-${task.priority || 'medium'}">${(task.priority || 'medium').toUpperCase()}</span>
+                    <iconify-icon icon="material-symbols:delete" class="todo-delete" onclick="deleteTask(${index})"></iconify-icon>
+                `;
+                todoList.appendChild(todoItem);
+            });
+            
+            // Update progress circle
+            updateProgressCircle();
+            console.log('Tasks loaded:', listData.tasks.length);
+        }
+        
+        function toggleTask(index) {
+            if (todoLists[currentListId] && todoLists[currentListId].tasks[index]) {
+                todoLists[currentListId].tasks[index].completed = !todoLists[currentListId].tasks[index].completed;
+                localStorage.setItem('todoLists', JSON.stringify(todoLists));
+                loadTodoList();
+                updateProgressCircle();
+            }
+        }
+        
+        function deleteTask(index) {
+            if (todoLists[currentListId] && todoLists[currentListId].tasks[index]) {
+                todoLists[currentListId].tasks.splice(index, 1);
+                localStorage.setItem('todoLists', JSON.stringify(todoLists));
+                loadTodoList();
+                updateProgressCircle();
+            }
+        }
+        
+        function setListName() {
+            const nameInput = document.getElementById('todoListName');
+            const newName = nameInput.value.trim();
+            
+            if (newName) {
+                currentListName = newName;
+                if (!todoLists[currentListId]) {
+                    todoLists[currentListId] = { name: currentListName, tasks: [] };
+                } else {
+                    todoLists[currentListId].name = currentListName;
+                }
+                localStorage.setItem('todoLists', JSON.stringify(todoLists));
+                // Update the list name in real-time without alert
+                console.log(`List name updated to "${newName}"`);
+            }
+        }
+        
+        function saveTodoList() {
+            if (!todoLists[currentListId] || todoLists[currentListId].tasks.length === 0) {
+                alert('No tasks to save!');
+                return;
+            }
+            
+            const listName = document.getElementById('todoListName').value.trim() || 'Mathematics Tasks';
+            todoLists[currentListId].name = listName;
+            localStorage.setItem('todoLists', JSON.stringify(todoLists));
+            alert(`Todo list "${listName}" saved successfully!`);
+        }
+        
+        function openTodoPage() {
+            window.open('todo-lists.html', '_blank');
+        }
+        
+        function focusNewTask() {
+            const addTaskInput = document.getElementById('addTaskInput');
+            const newTaskInput = document.getElementById('newTaskInput');
+            
+            if (addTaskInput && newTaskInput) {
+                addTaskInput.style.display = 'block';
+                newTaskInput.focus();
+            }
+        }
+        
+        function updateProgressCircle() {
+            const listData = todoLists[currentListId];
+            if (!listData || !listData.tasks.length) {
+                document.getElementById('progressText').textContent = '0%';
+                document.getElementById('progressBar').style.strokeDashoffset = '126';
+                updateQuickStats(0, 0, 0);
+                return;
+            }
+            
+            const completedTasks = listData.tasks.filter(task => task.completed).length;
+            const totalTasks = listData.tasks.length;
+            const pendingTasks = totalTasks - completedTasks;
+            const percentage = Math.round((completedTasks / totalTasks) * 100);
+            
+            const progressText = document.getElementById('progressText');
+            const progressBar = document.getElementById('progressBar');
+            
+            if (progressText && progressBar) {
+                progressText.textContent = percentage + '%';
+                const circumference = 126; // 2 * π * 20
+                const offset = circumference - (percentage / 100) * circumference;
+                progressBar.style.strokeDashoffset = offset;
+            }
+            
+            updateQuickStats(totalTasks, completedTasks, pendingTasks);
+        }
+        
+        function updateQuickStats(total, completed, pending) {
+            const totalTasksEl = document.getElementById('totalTasks');
+            const completedTasksEl = document.getElementById('completedTasks');
+            const pendingTasksEl = document.getElementById('pendingTasks');
+            
+            if (totalTasksEl) totalTasksEl.textContent = total;
+            if (completedTasksEl) completedTasksEl.textContent = completed;
+            if (pendingTasksEl) pendingTasksEl.textContent = pending;
+        }
+        
+        // Flashcard System
+        let flashcards = [
+            {
+                question: "What is the derivative of x²?",
+                answer: "2x"
+            },
+            {
+                question: "What is the integral of 2x?",
+                answer: "x² + C"
+            },
+            {
+                question: "What is the value of sin(90°)?",
+                answer: "1"
+            },
+            {
+                question: "What is the quadratic formula?",
+                answer: "x = (-b ± √(b² - 4ac)) / 2a"
+            },
+            {
+                question: "What is the area of a circle?",
+                answer: "πr²"
+            },
+            {
+                question: "What is the circumference of a circle?",
+                answer: "2πr"
+            },
+            {
+                question: "What is the Pythagorean theorem?",
+                answer: "a² + b² = c²"
+            },
+            {
+                question: "What is the slope formula?",
+                answer: "m = (y₂ - y₁) / (x₂ - x₁)"
+            },
+            {
+                question: "What is the distance formula?",
+                answer: "d = √((x₂ - x₁)² + (y₂ - y₁)²)"
+            },
+            {
+                question: "What is the midpoint formula?",
+                answer: "((x₁ + x₂)/2, (y₁ + y₂)/2)"
+            }
+        ];
+        
+        let currentCardIndex = 0;
+        let isFlipped = false;
+        let correctAnswers = 0;
+        let incorrectAnswers = 0;
+        let forgottenCards = 0;
+        let answeredCards = new Set();
+        let forgottenCardsSet = new Set();
+        
+        function initializeFlashcards() {
+            loadFlashcardData();
+            displayCurrentCard();
+            updateProgress();
+            updateStats();
+        }
+        
+        function displayCurrentCard() {
+            const card = flashcards[currentCardIndex];
+            document.getElementById('questionText').textContent = card.question;
+            document.getElementById('answerText').textContent = card.answer;
+            
+            // Reset card to front
+            const flashcard = document.getElementById('flashcard');
+            flashcard.classList.remove('flipped');
+            isFlipped = false;
+            
+            // Show/hide action buttons based on whether card is answered
+            const correctBtn = document.getElementById('correctBtn');
+            const incorrectBtn = document.getElementById('incorrectBtn');
+            const forgottenBtn = document.getElementById('forgottenBtn');
+            
+            if (answeredCards.has(currentCardIndex)) {
+                correctBtn.style.display = 'none';
+                incorrectBtn.style.display = 'none';
+                forgottenBtn.style.display = 'none';
+            } else {
+                correctBtn.style.display = 'inline-block';
+                incorrectBtn.style.display = 'inline-block';
+                forgottenBtn.style.display = 'inline-block';
+            }
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentCardIndex === 0;
+            document.getElementById('nextBtn').disabled = currentCardIndex === flashcards.length - 1;
+        }
+        
+        function flipCard() {
+            const flashcard = document.getElementById('flashcard');
+            isFlipped = !isFlipped;
+            flashcard.classList.toggle('flipped');
+        }
+        
+        function nextCard() {
+            if (currentCardIndex < flashcards.length - 1) {
+                currentCardIndex++;
+                displayCurrentCard();
+                updateProgress();
+            }
+        }
+        
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                displayCurrentCard();
+                updateProgress();
+            }
+        }
+        
+        function markCorrect() {
+            if (!answeredCards.has(currentCardIndex)) {
+                correctAnswers++;
+                answeredCards.add(currentCardIndex);
+                updateStats();
+                updateProgress();
+                
+                // Hide action buttons
+                document.getElementById('correctBtn').style.display = 'none';
+                document.getElementById('incorrectBtn').style.display = 'none';
+                document.getElementById('forgottenBtn').style.display = 'none';
+                
+                // Auto-advance to next card after a short delay
+                setTimeout(() => {
+                    if (currentCardIndex < flashcards.length - 1) {
+                        nextCard();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function markIncorrect() {
+            if (!answeredCards.has(currentCardIndex)) {
+                incorrectAnswers++;
+                answeredCards.add(currentCardIndex);
+                updateStats();
+                updateProgress();
+                
+                // Hide action buttons
+                document.getElementById('correctBtn').style.display = 'none';
+                document.getElementById('incorrectBtn').style.display = 'none';
+                document.getElementById('forgottenBtn').style.display = 'none';
+                
+                // Auto-advance to next card after a short delay
+                setTimeout(() => {
+                    if (currentCardIndex < flashcards.length - 1) {
+                        nextCard();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function shuffleCards() {
+            // Fisher-Yates shuffle algorithm
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            
+            // Reset progress
+            currentCardIndex = 0;
+            answeredCards.clear();
+            displayCurrentCard();
+            updateProgress();
+        }
+        
+        function resetProgress() {
+            currentCardIndex = 0;
+            correctAnswers = 0;
+            incorrectAnswers = 0;
+            forgottenCards = 0;
+            answeredCards.clear();
+            forgottenCardsSet.clear();
+            displayCurrentCard();
+            updateProgress();
+            updateStats();
+        }
+        
+        function updateProgress() {
+            const progress = Math.round((answeredCards.size / flashcards.length) * 100);
+            document.getElementById('flashcardProgress').textContent = `${answeredCards.size} / ${flashcards.length}`;
+            document.getElementById('flashcardProgressBar').style.width = `${progress}%`;
+        }
+        
+        function updateStats() {
+            const total = correctAnswers + incorrectAnswers;
+            const accuracy = total > 0 ? Math.round((correctAnswers / total) * 100) : 0;
+            
+            document.getElementById('correctCount').textContent = correctAnswers;
+            document.getElementById('incorrectCount').textContent = incorrectAnswers;
+            document.getElementById('forgottenCount').textContent = forgottenCards;
+            document.getElementById('accuracy').textContent = `${accuracy}%`;
+        }
+        
+        function addToForgotten() {
+            if (!answeredCards.has(currentCardIndex) && !forgottenCardsSet.has(currentCardIndex)) {
+                forgottenCards++;
+                forgottenCardsSet.add(currentCardIndex);
+                answeredCards.add(currentCardIndex);
+                updateStats();
+                updateProgress();
+                
+                // Hide action buttons
+                document.getElementById('correctBtn').style.display = 'none';
+                document.getElementById('incorrectBtn').style.display = 'none';
+                document.getElementById('forgottenBtn').style.display = 'none';
+                
+                // Auto-advance to next card after a short delay
+                setTimeout(() => {
+                    if (currentCardIndex < flashcards.length - 1) {
+                        nextCard();
+                    }
+                }, 1000);
+            }
+        }
+        
+        function loadFlashcardData() {
+            const saved = localStorage.getItem('flashcardProgress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                correctAnswers = data.correctAnswers || 0;
+                incorrectAnswers = data.incorrectAnswers || 0;
+                forgottenCards = data.forgottenCards || 0;
+                answeredCards = new Set(data.answeredCards || []);
+                forgottenCardsSet = new Set(data.forgottenCardsSet || []);
+            }
+        }
+        
+        function saveFlashcardData() {
+            const data = {
+                correctAnswers,
+                incorrectAnswers,
+                forgottenCards,
+                answeredCards: Array.from(answeredCards),
+                forgottenCardsSet: Array.from(forgottenCardsSet)
+            };
+            localStorage.setItem('flashcardProgress', JSON.stringify(data));
+        }
+        
+        
+        // Leaderboard Functions
+        function initializeLeaderboard() {
+            // Animate progress bars on load
+            setTimeout(() => {
+                const progressBars = document.querySelectorAll('.progress-bar.enhanced');
+                progressBars.forEach((bar, index) => {
+                    setTimeout(() => {
+                        bar.style.width = bar.style.width;
+                    }, index * 200);
+                });
+            }, 500);
+            
+            // Add hover effects to podium items
+            const podiumItems = document.querySelectorAll('.podium-item');
+            podiumItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.05)';
+                });
+                item.addEventListener('mouseleave', function() {
+                    if (this.classList.contains('first')) {
+                        this.style.transform = 'scale(1.1)';
+                    } else {
+                        this.style.transform = 'scale(1)';
+                    }
+                });
+            });
+        }
+        
+        function initializeResetTimer() {
+            // Get the last reset date from localStorage or set to current date
+            let lastResetDate = localStorage.getItem('leaderboardLastReset');
+            if (!lastResetDate) {
+                lastResetDate = new Date().toISOString();
+                localStorage.setItem('leaderboardLastReset', lastResetDate);
+            }
+            
+            // Calculate days remaining
+            const lastReset = new Date(lastResetDate);
+            const now = new Date();
+            const daysSinceReset = Math.floor((now - lastReset) / (1000 * 60 * 60 * 24));
+            const daysRemaining = 14 - daysSinceReset;
+            
+            // Update the timer display
+            const timerElement = document.getElementById('resetTimer');
+            const countdownElement = document.getElementById('daysRemaining');
+            
+            if (timerElement) {
+                if (daysRemaining > 0) {
+                    timerElement.textContent = `• Resets in ${daysRemaining} day${daysRemaining !== 1 ? 's' : ''}`;
+                    timerElement.style.color = daysRemaining <= 3 ? '#dc3545' : '#6c757d';
+                } else {
+                    timerElement.textContent = '• Reset today!';
+                    timerElement.style.color = '#dc3545';
+                    // Reset the leaderboard
+                    localStorage.setItem('leaderboardLastReset', new Date().toISOString());
+                }
+            }
+            
+            if (countdownElement) {
+                if (daysRemaining > 0) {
+                    countdownElement.textContent = `${daysRemaining} days left`;
+                    countdownElement.parentElement.style.color = daysRemaining <= 3 ? '#dc3545' : '#667eea';
+                } else {
+                    countdownElement.textContent = 'Reset today!';
+                    countdownElement.parentElement.style.color = '#dc3545';
+                }
+            }
+        }
+        
+        function showTopPerformersPopup() {
+            // Check if popup was already shown today
+            const lastPopupDate = localStorage.getItem('lastTopPerformersPopup');
+            const today = new Date().toDateString();
+            
+            if (lastPopupDate === today) {
+                return; // Don't show popup if already shown today
+            }
+            
+            // Create popup modal
+            const popup = document.createElement('div');
+            popup.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                animation: fadeIn 0.3s ease;
+            `;
+            
+            popup.innerHTML = `
+                <div style="
+                    background: white;
+                    border-radius: 20px;
+                    padding: 2rem;
+                    max-width: 500px;
+                    width: 90%;
+                    text-align: center;
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                    animation: slideInUp 0.4s ease;
+                ">
+                    <div style="margin-bottom: 1.5rem;">
+                        <iconify-icon icon="material-symbols:trophy" style="font-size: 3rem; color: #ffd700; margin-bottom: 1rem;"></iconify-icon>
+                        <h2 style="color: #333; font-weight: 700; margin-bottom: 0.5rem;">🏆 Top Performers</h2>
+                        <p style="color: #666; font-size: 1rem;">Congratulations to this week's top 3 students!</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 2rem;">
+                        <!-- 1st Place -->
+                        <div style="
+                            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+                            border-radius: 12px;
+                            padding: 1rem;
+                            margin-bottom: 0.75rem;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        ">
+                            <div style="display: flex; align-items: center;">
+                                <div style="
+                                    background: rgba(255, 255, 255, 0.3);
+                                    border-radius: 50%;
+                                    width: 40px;
+                                    height: 40px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    margin-right: 1rem;
+                                    font-weight: 700;
+                                    color: #333;
+                                ">1</div>
+                                <div>
+                                    <div style="font-weight: 700; color: #333; font-size: 1.1rem;">Sarah Chen</div>
+                                    <div style="color: #666; font-size: 0.9rem;">Grade 11A</div>
+                                </div>
+                            </div>
+                            <div style="font-weight: 700; color: #333; font-size: 1.2rem;">2,850 pts</div>
+                        </div>
+                        
+                        <!-- 2nd Place -->
+                        <div style="
+                            background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+                            border-radius: 12px;
+                            padding: 1rem;
+                            margin-bottom: 0.75rem;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        ">
+                            <div style="display: flex; align-items: center;">
+                                <div style="
+                                    background: rgba(255, 255, 255, 0.3);
+                                    border-radius: 50%;
+                                    width: 40px;
+                                    height: 40px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    margin-right: 1rem;
+                                    font-weight: 700;
+                                    color: #333;
+                                ">2</div>
+                                <div>
+                                    <div style="font-weight: 700; color: #333; font-size: 1.1rem;">Alex Johnson</div>
+                                    <div style="color: #666; font-size: 0.9rem;">Grade 11B</div>
+                                </div>
+                            </div>
+                            <div style="font-weight: 700; color: #333; font-size: 1.2rem;">2,650 pts</div>
+                        </div>
+                        
+                        <!-- 3rd Place -->
+                        <div style="
+                            background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+                            border-radius: 12px;
+                            padding: 1rem;
+                            margin-bottom: 0.75rem;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                        ">
+                            <div style="display: flex; align-items: center;">
+                                <div style="
+                                    background: rgba(255, 255, 255, 0.3);
+                                    border-radius: 50%;
+                                    width: 40px;
+                                    height: 40px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    margin-right: 1rem;
+                                    font-weight: 700;
+                                    color: white;
+                                ">3</div>
+                                <div>
+                                    <div style="font-weight: 700; color: #333; font-size: 1.1rem;">Emma Wilson</div>
+                                    <div style="color: #666; font-size: 0.9rem;">Grade 11A</div>
+                                </div>
+                            </div>
+                            <div style="font-weight: 700; color: #333; font-size: 1.2rem;">2,450 pts</div>
+                        </div>
+                    </div>
+                    
+                    <div style="
+                        background: #f8f9ff;
+                        border-radius: 12px;
+                        padding: 1rem;
+                        margin-bottom: 1.5rem;
+                    ">
+                        <div style="color: #667eea; font-weight: 600; margin-bottom: 0.5rem;">
+                            <iconify-icon icon="material-symbols:schedule" style="margin-right: 0.5rem;"></iconify-icon>
+                            Leaderboard resets every 14 days
+                        </div>
+                        <div style="color: #666; font-size: 0.9rem;">
+                            Keep studying to climb the ranks!
+                        </div>
+                    </div>
+                    
+                    <button onclick="closeTopPerformersPopup()" style="
+                        background: #667eea;
+                        color: white;
+                        border: none;
+                        border-radius: 12px;
+                        padding: 0.75rem 2rem;
+                        font-size: 1rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.background='#5a6fd8'" onmouseout="this.style.background='#667eea'">
+                        Continue Learning
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(popup);
+            
+            // Mark popup as shown today
+            localStorage.setItem('lastTopPerformersPopup', today);
+        }
+        
+        function closeTopPerformersPopup() {
+            const popup = document.querySelector('[style*="z-index: 10000"]');
+            if (popup) {
+                popup.remove();
+            }
+        }
+        
+        // Academic Activities Functions
+        function openQuiz() {
+            window.location.href = 'quiz.html';
+        }
+        
+        function openExam() {
+            window.location.href = 'exam.html';
+        }
+        
+        function openHomework() {
+            window.location.href = 'homework.html';
+        }
+        
+        function openBooks() {
+            window.location.href = 'mathematics-library.html';
+        }
+        
+        function openLectures() {
+            window.location.href = 'mathematics-lectures.html';
+        }
+        
+        function openProgress() {
+            window.location.href = 'mathematics-progress.html';
+        }
+        
+        function viewFullLeaderboard() {
+            // Create a modal for full leaderboard
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                <iconify-icon icon="material-symbols:trophy" class="me-2"></iconify-icon>
+                                Full Mathematics Leaderboard
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="full-leaderboard">
+                                <div class="leaderboard-item enhanced" data-rank="1">
+                                    <div class="rank-badge" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);">1</div>
+                                    <div class="student-avatar" style="background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); color: #333;">AC</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Alex Chen</div>
+                                        <div class="student-class">Grade 11A • 2,850 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 95%; background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);"></div>
+                                    </div>
+                                    <div class="points-badge" style="background: rgba(255, 215, 0, 0.1); color: #FFA500;">2,850</div>
+                                </div>
+                                <div class="leaderboard-item enhanced" data-rank="2">
+                                    <div class="rank-badge" style="background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%);">2</div>
+                                    <div class="student-avatar" style="background: linear-gradient(135deg, #C0C0C0 0%, #A8A8A8 100%); color: #333;">SJ</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Sarah Johnson</div>
+                                        <div class="student-class">Grade 11B • 2,640 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 88%; background: linear-gradient(90deg, #C0C0C0 0%, #A8A8A8 100%);"></div>
+                                    </div>
+                                    <div class="points-badge" style="background: rgba(192, 192, 192, 0.1); color: #A8A8A8;">2,640</div>
+                                </div>
+                                <div class="leaderboard-item enhanced" data-rank="3">
+                                    <div class="rank-badge" style="background: linear-gradient(135deg, #CD7F32 0%, #B8860B 100%);">3</div>
+                                    <div class="student-avatar" style="background: linear-gradient(135deg, #CD7F32 0%, #B8860B 100%); color: white;">MB</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Michael Brown</div>
+                                        <div class="student-class">Grade 11A • 2,460 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 82%; background: linear-gradient(90deg, #CD7F32 0%, #B8860B 100%);"></div>
+                                    </div>
+                                    <div class="points-badge" style="background: rgba(205, 127, 50, 0.1); color: #B8860B;">2,460</div>
+                                </div>
+                                <div class="leaderboard-item enhanced" data-rank="4">
+                                    <div class="rank-badge">4</div>
+                                    <div class="student-avatar">EW</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Emma Wilson</div>
+                                        <div class="student-class">Grade 11C • 2,340 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 78%; background: linear-gradient(90deg, #4CAF50 0%, #45a049 100%);"></div>
+                                    </div>
+                                    <div class="points-badge">2,340</div>
+                                </div>
+                                <div class="leaderboard-item enhanced" data-rank="5">
+                                    <div class="rank-badge">5</div>
+                                    <div class="student-avatar">DL</div>
+                                    <div class="student-info">
+                                        <div class="student-name">David Lee</div>
+                                        <div class="student-class">Grade 11B • 2,160 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 72%; background: linear-gradient(90deg, #2196F3 0%, #1976D2 100%);"></div>
+                                    </div>
+                                    <div class="points-badge">2,160</div>
+                                </div>
+                                <div class="leaderboard-item enhanced current-user" data-rank="6">
+                                    <div class="rank-badge current">6</div>
+                                    <div class="student-avatar current">YO</div>
+                                    <div class="student-info">
+                                        <div class="student-name">You</div>
+                                        <div class="student-class">Grade 11A • 1,950 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 65%; background: linear-gradient(90deg, #9C27B0 0%, #7B1FA2 100%);"></div>
+                                    </div>
+                                    <div class="points-badge current">1,950</div>
+                                    <div class="user-indicator">You</div>
+                                </div>
+                                <div class="leaderboard-item enhanced" data-rank="7">
+                                    <div class="rank-badge">7</div>
+                                    <div class="student-avatar">JS</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Jessica Smith</div>
+                                        <div class="student-class">Grade 11B • 1,820 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 58%; background: linear-gradient(90deg, #FF9800 0%, #F57C00 100%);"></div>
+                                    </div>
+                                    <div class="points-badge">1,820</div>
+                                </div>
+                                <div class="leaderboard-item enhanced" data-rank="8">
+                                    <div class="rank-badge">8</div>
+                                    <div class="student-avatar">RG</div>
+                                    <div class="student-info">
+                                        <div class="student-name">Ryan Garcia</div>
+                                        <div class="student-class">Grade 11C • 1,750 pts</div>
+                                    </div>
+                                    <div class="progress-container">
+                                        <div class="progress-bar enhanced" style="width: 55%; background: linear-gradient(90deg, #E91E63 0%, #C2185B 100%);"></div>
+                                    </div>
+                                    <div class="points-badge">1,750</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bsModal = new bootstrap.Modal(modal);
+            bsModal.show();
+            
+            // Remove modal from DOM when hidden
+            modal.addEventListener('hidden.bs.modal', function() {
+                document.body.removeChild(modal);
+            });
+        }
+        
+        // Make functions globally accessible
+        window.addTask = addTask;
+        window.saveTodoList = saveTodoList;
+        window.toggleTask = toggleTask;
+        window.deleteTask = deleteTask;
+        window.viewFullLeaderboard = viewFullLeaderboard;
+        
+        // Missing functions for buttons
+        function openNotifications() {
+            window.location.href = 'notifications.html';
+        }
+        
+        function openCommunity() {
+            window.open('community.html', '_blank');
+        }
+        
+        function openHowToModal() {
+            window.location.href = 'platform-guide.html';
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userEmail');
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Focus Mode Variables
+        let focusModeActive = false;
+        let blockedPlatforms = [];
+        let selectedTimerDuration = 25; // Default Pomodoro
+        let timerInterval = null;
+        let currentTime = 0;
+        let timerRunning = false;
+        let studyStats = {
+            todayFocus: 0,
+            todaySessions: 0,
+            todayBlocks: 0,
+            totalFocus: 0,
+            totalSessions: 0,
+            history: []
+        };
+        
+        // Focus Mode Functions
+        function toggleFocusMode() {
+            const menu = document.getElementById('focusModeMenu');
+            const toggle = document.getElementById('focusModeToggle');
+            
+            if (focusModeActive) {
+                closeFocusMode();
+            } else {
+                menu.classList.add('show');
+                toggle.classList.add('active');
+                focusModeActive = true;
+                loadStudyStats();
+            }
+        }
+        
+        function closeFocusMode() {
+            const menu = document.getElementById('focusModeMenu');
+            const toggle = document.getElementById('focusModeToggle');
+            
+            menu.classList.remove('show');
+            toggle.classList.remove('active');
+            focusModeActive = false;
+        }
+        
+        function togglePlatform(element) {
+            const platform = element.dataset.platform;
+            const isBlocked = element.classList.contains('blocked');
+            
+            if (isBlocked) {
+                element.classList.remove('blocked');
+                blockedPlatforms = blockedPlatforms.filter(p => p !== platform);
+            } else {
+                element.classList.add('blocked');
+                blockedPlatforms.push(platform);
+            }
+            
+            // Save blocked platforms
+            localStorage.setItem('blockedPlatforms', JSON.stringify(blockedPlatforms));
+        }
+        
+        function selectTimer(element) {
+            // Remove previous selection
+            document.querySelectorAll('.timer-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+            selectedTimerDuration = parseInt(element.dataset.duration);
+            currentTime = selectedTimerDuration * 60; // Convert to seconds
+            
+            // Update timer display
+            updateTimerDisplay();
+        }
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(currentTime / 60);
+            const seconds = currentTime % 60;
+            document.getElementById('timerDisplay').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function startTimer() {
+            if (currentTime <= 0) {
+                currentTime = selectedTimerDuration * 60;
+            }
+            
+            timerRunning = true;
+            document.getElementById('startTimer').style.display = 'none';
+            document.getElementById('pauseTimer').style.display = 'inline-block';
+            document.getElementById('stopTimer').style.display = 'inline-block';
+            document.getElementById('activeTimer').classList.add('show');
+            document.getElementById('timerStatus').textContent = 'Focusing...';
+            
+            timerInterval = setInterval(() => {
+                currentTime--;
+                updateTimerDisplay();
+                
+                if (currentTime <= 0) {
+                    completeTimer();
+                }
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startTimer').style.display = 'inline-block';
+            document.getElementById('pauseTimer').style.display = 'none';
+            document.getElementById('timerStatus').textContent = 'Paused';
+        }
+        
+        function stopTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startTimer').style.display = 'inline-block';
+            document.getElementById('pauseTimer').style.display = 'none';
+            document.getElementById('stopTimer').style.display = 'none';
+            document.getElementById('activeTimer').classList.remove('show');
+            document.getElementById('timerStatus').textContent = 'Ready to focus';
+            currentTime = selectedTimerDuration * 60;
+            updateTimerDisplay();
+        }
+        
+        function completeTimer() {
+            timerRunning = false;
+            clearInterval(timerInterval);
+            
+            // Update stats
+            studyStats.todaySessions++;
+            studyStats.totalSessions++;
+            studyStats.todayFocus += selectedTimerDuration;
+            studyStats.totalFocus += selectedTimerDuration;
+            
+            // Add to history
+            const session = {
+                date: new Date().toISOString().split('T')[0],
+                duration: selectedTimerDuration,
+                platforms: [...blockedPlatforms],
+                completed: true
+            };
+            studyStats.history.push(session);
+            
+            // Save stats
+            saveStudyStats();
+            updateStatsDisplay();
+            
+            // Show completion message
+            alert(`Great job! You focused for ${selectedTimerDuration} minutes.`);
+            
+            // Reset timer
+            stopTimer();
+        }
+        
+        function startFocusSession() {
+            if (blockedPlatforms.length === 0) {
+                alert('Please select at least one platform to block for focus mode.');
+                return;
+            }
+            
+            // Start the timer
+            startTimer();
+            
+            // Apply platform blocking (simulated)
+            applyPlatformBlocking();
+            
+            // Close the menu
+            closeFocusMode();
+            
+            // Show notification
+            showFocusNotification();
+        }
+        
+        function applyPlatformBlocking() {
+            console.log('Blocking platforms:', blockedPlatforms);
+            
+            // Create a blocking overlay for each blocked platform
+            blockedPlatforms.forEach(platform => {
+                const blockedUrls = {
+                    'facebook': ['facebook.com', 'fb.com', 'm.facebook.com'],
+                    'youtube': ['youtube.com', 'youtu.be', 'm.youtube.com'],
+                    'tiktok': ['tiktok.com', 'vm.tiktok.com'],
+                    'instagram': ['instagram.com', 'instagr.am'],
+                    'twitter': ['twitter.com', 'x.com', 't.co'],
+                    'snapchat': ['snapchat.com', 'snap.com'],
+                    'reddit': ['reddit.com', 'redd.it'],
+                    'discord': ['discord.com', 'discordapp.com'],
+                    'netflix': ['netflix.com'],
+                    'twitch': ['twitch.tv']
+                };
+                
+                if (blockedUrls[platform]) {
+                    blockedUrls[platform].forEach(url => {
+                        // Check if current page matches blocked URL
+                        if (window.location.hostname.includes(url.replace('www.', ''))) {
+                            showBlockedPage(platform);
+                        }
+                    });
+                }
+            });
+        }
+        
+        function showBlockedPage(platform) {
+            // Create a full-screen blocking overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'focus-blocking-overlay';
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                z-index: 999999;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            `;
+            
+            overlay.innerHTML = `
+                <div style="text-align: center; max-width: 500px; padding: 2rem;">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🚫</div>
+                    <h1 style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700;">Focus Mode Active</h1>
+                    <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+                        This website is blocked during your focus session to help you stay productive.
+                    </p>
+                    <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem;">
+                        <h3 style="margin-bottom: 1rem;">Blocked Platform: ${platform.charAt(0).toUpperCase() + platform.slice(1)}</h3>
+                        <p style="opacity: 0.8;">Focus on your studies and return to this site after your session ends.</p>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button onclick="goBackToStudy()" style="
+                            background: rgba(255,255,255,0.2);
+                            border: 2px solid rgba(255,255,255,0.3);
+                            color: white;
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 8px;
+                            font-size: 1rem;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.2)'">
+                            Return to Study
+                        </button>
+                        <button onclick="disableFocusMode()" style="
+                            background: rgba(255,255,255,0.9);
+                            border: none;
+                            color: #667eea;
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 8px;
+                            font-size: 1rem;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.background='white'" onmouseout="this.style.background='rgba(255,255,255,0.9)'">
+                            Disable Focus Mode
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(overlay);
+            
+            // Prevent scrolling
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function goBackToStudy() {
+            // Redirect to the mathematics course page
+            window.location.href = 'course-mathematics.html';
+        }
+        
+        function disableFocusMode() {
+            // Remove the blocking overlay
+            const overlay = document.getElementById('focus-blocking-overlay');
+            if (overlay) {
+                overlay.remove();
+            }
+            
+            // Restore scrolling
+            document.body.style.overflow = 'auto';
+            
+            // Disable focus mode
+            focusModeActive = false;
+            blockedPlatforms = [];
+            
+            // Update the focus mode button
+            const focusBtn = document.querySelector('.focus-mode-btn');
+            if (focusBtn) {
+                focusBtn.textContent = 'Focus Mode';
+                focusBtn.style.background = '#667eea';
+            }
+            
+            // Show notification
+            showFocusNotification('Focus Mode Disabled', 'You can now access all websites.');
+        }
+        
+        function showFocusNotification(title = 'Focus Mode Activated', message = 'Selected platforms are now blocked.') {
+            // Create a notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                z-index: 3000;
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center;">
+                    <iconify-icon icon="material-symbols:visibility-off" style="margin-right: 0.5rem;"></iconify-icon>
+                    <div>
+                        <div style="font-weight: 600;">${title}</div>
+                        <div style="font-size: 0.8rem; opacity: 0.9;">${message}</div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        function loadStudyStats() {
+            const saved = localStorage.getItem('studyStats');
+            if (saved) {
+                studyStats = JSON.parse(saved);
+            }
+            updateStatsDisplay();
+        }
+        
+        function saveStudyStats() {
+            localStorage.setItem('studyStats', JSON.stringify(studyStats));
+        }
+        
+        function updateStatsDisplay() {
+            document.getElementById('todayFocus').textContent = `${Math.floor(studyStats.todayFocus / 60)}h ${studyStats.todayFocus % 60}m`;
+            document.getElementById('todaySessions').textContent = studyStats.todaySessions;
+            document.getElementById('todayBlocks').textContent = blockedPlatforms.length;
+        }
+        
+        function viewAllStats() {
+            // Create a modal to show detailed stats
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                z-index: 3000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            `;
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 20px; padding: 2rem; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="color: #28a745; margin: 0;">Study Statistics</h2>
+                        <button onclick="this.closest('.modal').remove()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
+                        <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #28a745;">${Math.floor(studyStats.totalFocus / 60)}h</div>
+                            <div style="color: #6c757d; font-size: 0.9rem;">Total Focus Time</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #28a745;">${studyStats.totalSessions}</div>
+                            <div style="color: #6c757d; font-size: 0.9rem;">Total Sessions</div>
+                        </div>
+                        <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 10px;">
+                            <div style="font-size: 2rem; font-weight: 700; color: #28a745;">${Math.floor(studyStats.totalFocus / studyStats.totalSessions) || 0}</div>
+                            <div style="color: #6c757d; font-size: 0.9rem;">Avg Session</div>
+                        </div>
+                    </div>
+                    
+                    <h3 style="color: #333; margin-bottom: 1rem;">Recent Sessions</h3>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        ${studyStats.history.slice(-10).reverse().map(session => `
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid #e9ecef;">
+                                <div>
+                                    <div style="font-weight: 600;">${session.duration} minutes</div>
+                                    <div style="font-size: 0.8rem; color: #6c757d;">${new Date(session.date).toLocaleDateString()}</div>
+                                </div>
+                                <div style="font-size: 0.8rem; color: #28a745;">${session.platforms.length} platforms blocked</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            modal.className = 'modal';
+            document.body.appendChild(modal);
+        }
+        
+        function initializeFocusMode() {
+            // Load saved blocked platforms
+            const saved = localStorage.getItem('blockedPlatforms');
+            if (saved) {
+                blockedPlatforms = JSON.parse(saved);
+                // Update UI to show blocked platforms
+                blockedPlatforms.forEach(platform => {
+                    const element = document.querySelector(`[data-platform="${platform}"]`);
+                    if (element) {
+                        element.classList.add('blocked');
+                    }
+                });
+            }
+            
+            // Check if focus mode is active and we're on a blocked site
+            const focusModeSettings = localStorage.getItem('focusModeSettings');
+            if (focusModeSettings) {
+                const settings = JSON.parse(focusModeSettings);
+                if (settings.active && blockedPlatforms.length > 0) {
+                    applyPlatformBlocking();
+                }
+            }
+            
+            // Set default timer selection
+            const defaultTimer = document.querySelector('[data-duration="25"]');
+            if (defaultTimer) {
+                selectTimer(defaultTimer);
+            }
+            
+            // Load study stats
+            loadStudyStats();
+        }
+        
+        
+        // Menu toggle functionality
+        function toggleMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const leftMenu = document.getElementById('leftMenu');
+            
+            menuToggle.classList.toggle('active');
+            leftMenu.classList.toggle('open');
+        }
+        
+        // Course navigation functions
+        function openCourse(course) {
+            if (course === 'mathematics') {
+                window.location.href = 'course-mathematics.html';
+            } else if (course === 'physics') {
+                window.location.href = 'course-physics.html';
+            } else if (course === 'chemistry') {
+                window.location.href = 'course-chemistry.html';
+            }
+        }
+        
+        // Initialize all functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTodoList();
+            
+        // Initialize focus mode
+        initializeFocusMode();
+        
+        // Initialize leaderboard animations
+        initializeLeaderboard();
+        
+        // Initialize reset timer
+        initializeResetTimer();
+        
+        // Initialize flashcards
+        initializeFlashcards();
+        
+        // Show top performers popup
+        showTopPerformersPopup();
+            
+            // Add event listeners
+            const newTaskInput = document.getElementById('newTaskInput');
+            if (newTaskInput) {
+                newTaskInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addTask();
+                    }
+                });
+            }
+            
+            // Add event listener for todo list name input
+            const todoListName = document.getElementById('todoListName');
+            if (todoListName) {
+                todoListName.addEventListener('blur', setListName);
+                todoListName.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        setListName();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

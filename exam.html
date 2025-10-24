@@ -733,10 +733,8 @@
         
         // Exam action functions
         function startExam(examId) {
-            const exam = exams.find(e => e.id === examId);
-            if (exam) {
-                alert(`Starting exam: ${exam.title}\n\nDuration: ${exam.duration} minutes\nQuestions: ${exam.questions.length}\n\nExam functionality will be implemented soon!`);
-            }
+            // Redirect to exam-taking page with timer functionality
+            window.location.href = 'exam-taking.html';
         }
 
         function continueExam(examId) {

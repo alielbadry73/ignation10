@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Exams - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --light-color: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        .exam-header {
+            background: linear-gradient(135deg, var(--warning-color) 0%, #d97706 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .exam-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .exam-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .exam-card.upcoming {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .exam-card.available {
+            border-left: 4px solid var(--success-color);
+        }
+
+        .exam-card.completed {
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .exam-card.expired {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .exam-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .exam-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .exam-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background: #5a6fd8;
+            border-color: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            border-color: #059669;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            border-color: #d97706;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-upcoming {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-completed {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .status-expired {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .no-exams {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-secondary);
+        }
+
+        .no-exams iconify-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-tab {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-tab.active {
+            background: var(--warning-color);
+            color: white;
+            border-color: var(--warning-color);
+        }
+
+        .filter-tab:hover:not(.active) {
+            background: var(--light-color);
+            border-color: var(--warning-color);
+        }
+
+        .exam-timer {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .exam-timer.upcoming {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .exam-timer.available {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .exam-timer.expired {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 768px) {
+            .exam-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .exam-actions {
+                flex-direction: column;
+            }
+
+            .filter-tabs {
+                flex-direction: column;
+            }
+
+            .exam-timer {
+                position: static;
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="exam-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="mb-2">Physics Exams</h1>
+                    <p class="mb-0 opacity-75">Formal examinations for comprehensive physics assessment</p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <a href="physics-dashboard.html" class="btn btn-light">
+                        <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <div class="filter-tab active" onclick="filterExams('all')">
+                <iconify-icon icon="material-symbols:all-inclusive"></iconify-icon>
+                All Exams
+            </div>
+            <div class="filter-tab" onclick="filterExams('upcoming')">
+                <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                Upcoming
+            </div>
+            <div class="filter-tab" onclick="filterExams('available')">
+                <iconify-icon icon="material-symbols:play-circle"></iconify-icon>
+                Available
+            </div>
+            <div class="filter-tab" onclick="filterExams('completed')">
+                <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                Completed
+            </div>
+            <div class="filter-tab" onclick="filterExams('expired')">
+                <iconify-icon icon="material-symbols:event-busy"></iconify-icon>
+                Expired
+            </div>
+        </div>
+
+        <!-- Exams Container -->
+        <div id="examsContainer">
+            <!-- Exams will be loaded here -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        let allExams = [];
+        let currentFilter = 'all';
+
+        // Load exams on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExams();
+        });
+
+        // Load exams from localStorage
+        function loadExams() {
+            // Try new teacher dashboard system first
+            let rawData = localStorage.getItem('physicsAssessments');
+            
+            if (rawData) {
+                try {
+                    const assessments = JSON.parse(rawData);
+                    const examAssessments = assessments.filter(assessment => 
+                        assessment.type === 'exam' && assessment.status === 'published'
+                    );
+                    
+                    allExams = examAssessments.map(assessment => ({
+                        id: assessment.id,
+                        title: assessment.title,
+                        description: assessment.description,
+                        points: assessment.totalPoints,
+                        timeLimit: assessment.timeLimit,
+                        difficulty: assessment.difficulty,
+                        dueDate: assessment.dueDate,
+                        questions: assessment.questions || [],
+                        status: getExamStatus(assessment),
+                        completedAt: getCompletedAt(assessment.id),
+                        startDate: assessment.startDate || assessment.dueDate
+                    }));
+                } catch (error) {
+                    console.error('Error parsing assessments:', error);
+                }
+            }
+            
+            // Fallback to old system
+            if (allExams.length === 0) {
+                const oldData = localStorage.getItem('physicsAssignments');
+                if (oldData) {
+                    try {
+                        const assignments = JSON.parse(oldData);
+                        const examAssignments = assignments.filter(assignment => 
+                            assignment.subject === 'physics' && assignment.published === true
+                        );
+                        
+                        allExams = examAssignments.map(assignment => ({
+                            id: assignment.id,
+                            title: assignment.title,
+                            description: assignment.description,
+                            points: assignment.points,
+                            timeLimit: assignment.timeLimit,
+                            difficulty: assignment.difficulty,
+                            dueDate: assignment.dueDate,
+                            questions: assignment.questions || [],
+                            status: getExamStatus(assignment),
+                            completedAt: getCompletedAt(assignment.id),
+                            startDate: assignment.dueDate
+                        }));
+                    } catch (error) {
+                        console.error('Error parsing old assignments:', error);
+                    }
+                }
+            }
+            
+            displayExams();
+        }
+
+        // Get exam status
+        function getExamStatus(exam) {
+            const now = new Date();
+            const startDate = new Date(exam.startDate || exam.dueDate);
+            const dueDate = new Date(exam.dueDate);
+            
+            if (isCompleted(exam.id)) {
+                return 'completed';
+            } else if (now < startDate) {
+                return 'upcoming';
+            } else if (now > dueDate) {
+                return 'expired';
+            } else {
+                return 'available';
+            }
+        }
+
+        // Check if exam is completed
+        function isCompleted(examId) {
+            const completed = localStorage.getItem('completedExams');
+            if (!completed) return false;
+            
+            const completedList = JSON.parse(completed);
+            return completedList.includes(examId);
+        }
+
+        // Get completion date
+        function getCompletedAt(examId) {
+            const completed = localStorage.getItem('examCompletionDates');
+            if (!completed) return null;
+            
+            const completionDates = JSON.parse(completed);
+            return completionDates[examId] || null;
+        }
+
+        // Display exams
+        function displayExams() {
+            const container = document.getElementById('examsContainer');
+            
+            if (allExams.length === 0) {
+                container.innerHTML = `
+                    <div class="no-exams">
+                        <iconify-icon icon="material-symbols:school"></iconify-icon>
+                        <h4>No exams available</h4>
+                        <p>Check back later for new physics exams!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const filteredExams = filterExamsByStatus(allExams, currentFilter);
+            
+            container.innerHTML = filteredExams.map(exam => `
+                <div class="exam-card ${exam.status}">
+                    <div class="exam-timer ${exam.status}">
+                        ${getExamTimerText(exam)}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h3 class="exam-title">${exam.title}</h3>
+                            <p class="text-muted mb-0">${exam.description || 'Comprehensive physics examination'}</p>
+                        </div>
+                        <span class="status-badge status-${exam.status}">
+                            ${exam.status.charAt(0).toUpperCase() + exam.status.slice(1)}
+                        </span>
+                    </div>
+                    
+                    <div class="exam-meta">
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            <span>${exam.timeLimit ? exam.timeLimit + ' min' : 'No time limit'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:star"></iconify-icon>
+                            <span>${exam.difficulty || 'Medium'}</span>
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                            <span>${exam.questions.length} questions</span>
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:grade"></iconify-icon>
+                            <span>${exam.points} points</span>
+                        </div>
+                        <div class="meta-item">
+                            <iconify-icon icon="material-symbols:event"></iconify-icon>
+                            <span>Due: ${new Date(exam.dueDate).toLocaleDateString()}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="exam-actions">
+                        ${getExamActionButton(exam)}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Get exam timer text
+        function getExamTimerText(exam) {
+            const now = new Date();
+            const startDate = new Date(exam.startDate || exam.dueDate);
+            const dueDate = new Date(exam.dueDate);
+            
+            if (exam.status === 'upcoming') {
+                const diffTime = startDate - now;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return `Starts in ${diffDays} day${diffDays !== 1 ? 's' : ''}`;
+            } else if (exam.status === 'available') {
+                const diffTime = dueDate - now;
+                const diffHours = Math.ceil(diffTime / (1000 * 60 * 60));
+                return `${diffHours} hours left`;
+            } else if (exam.status === 'expired') {
+                return 'Expired';
+            } else if (exam.status === 'completed') {
+                return 'Completed';
+            }
+            return '';
+        }
+
+        // Get exam action button based on status
+        function getExamActionButton(exam) {
+            switch (exam.status) {
+                case 'upcoming':
+                    return `
+                        <button class="btn btn-warning" disabled>
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            Not Yet Available
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="previewExam('${exam.id}')">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Preview
+                        </button>
+                    `;
+                case 'available':
+                    return `
+                        <button class="btn btn-primary" onclick="startExam('${exam.id}')">
+                            <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                            Start Exam
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="previewExam('${exam.id}')">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Preview
+                        </button>
+                    `;
+                case 'completed':
+                    return `
+                        <button class="btn btn-success" onclick="viewResults('${exam.id}')">
+                            <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                            View Results
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="reviewExam('${exam.id}')">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Review
+                        </button>
+                    `;
+                case 'expired':
+                    return `
+                        <button class="btn btn-danger" disabled>
+                            <iconify-icon icon="material-symbols:event-busy"></iconify-icon>
+                            Expired
+                        </button>
+                        <button class="btn btn-outline-secondary" onclick="reviewExam('${exam.id}')">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Review
+                        </button>
+                    `;
+                default:
+                    return '';
+            }
+        }
+
+        // Filter exams by status
+        function filterExamsByStatus(exams, filter) {
+            if (filter === 'all') return exams;
+            return exams.filter(exam => exam.status === filter);
+        }
+
+        // Filter exams
+        function filterExams(filter) {
+            currentFilter = filter;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            displayExams();
+        }
+
+        // Start exam
+        function startExam(examId) {
+            const exam = allExams.find(e => e.id === examId);
+            if (!exam) return;
+            
+            // Show confirmation dialog
+            if (!confirm(`Are you sure you want to start this exam?\n\nTitle: ${exam.title}\nTime Limit: ${exam.timeLimit || 'No limit'} minutes\nQuestions: ${exam.questions.length}\n\nOnce started, you cannot pause the exam.`)) {
+                return;
+            }
+            
+            // Store current exam for the exam taking page
+            localStorage.setItem('currentExam', JSON.stringify(exam));
+            
+            // Redirect to exam taking page (using English exam page which has full question support)
+            window.location.href = `english-exam.html?examId=${examId}&course=physics`;
+        }
+
+        // Preview exam
+        function previewExam(examId) {
+            const exam = allExams.find(e => e.id === examId);
+            if (!exam) return;
+            
+            // Show preview modal or redirect to preview page
+            alert(`Preview: ${exam.title}\n\nQuestions: ${exam.questions.length}\nTime Limit: ${exam.timeLimit || 'No limit'} minutes\nPoints: ${exam.points}\n\nNote: This is a preview only. You cannot submit answers.`);
+        }
+
+        // View results
+        function viewResults(examId) {
+            // Redirect to results page
+            window.location.href = `physics-exam-results.html?examId=${examId}`;
+        }
+
+        // Review exam
+        function reviewExam(examId) {
+            const exam = allExams.find(e => e.id === examId);
+            if (!exam) return;
+            
+            alert(`Review: ${exam.title}\n\nThis exam is no longer available for taking, but you can review the questions and your answers.`);
+        }
+    </script>
+</body>
+</html>

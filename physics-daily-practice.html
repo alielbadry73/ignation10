@@ -6,1539 +6,1043 @@
     <title>Physics Daily Practice - IG Nation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="js/notifications.js"></script>
     <style>
         * {
             box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: 'Jost', sans-serif;
+            background: #F8F8F8;
             margin: 0;
             padding: 0;
+            line-height: 1.6;
         }
 
-        .header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
+        /* Dashboard Header Styles */
+        .dashboard-header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
 
-        .header-content {
-            display: flex;
-            justify-content: space-between;
+        .dashboard-header .container-fluid {
+            padding: 0;
+        }
+
+        .dashboard-header .row {
+            margin: 0;
             align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            min-height: 70px;
         }
 
-        .logo {
+        .dashboard-nav {
             display: flex;
             align-items: center;
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-            font-size: 1.5rem;
-        }
-
-        .logo img {
-            height: 40px;
-            margin-right: 0.5rem;
-        }
-
-        .utility-buttons {
-            display: flex;
             gap: 1rem;
-            align-items: center;
         }
 
-        .btn-utility {
-            background: rgba(102, 126, 234, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.2);
-            color: #667eea;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+        .dashboard-nav .nav-link {
+            color: #333;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             transition: all 0.3s ease;
         }
 
-        .btn-utility:hover {
+        .dashboard-nav .nav-link:hover {
+            background: #f8f9fa;
+            color: #667eea;
+        }
+
+        .dashboard-nav .nav-link.active {
             background: #667eea;
             color: white;
-            transform: translateY(-2px);
+        }
+
+        .dashboard-nav .nav-link:active {
+            background: #5a6fd8;
+            color: white;
         }
 
         .main-content {
-            max-width: 900px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+            padding: 0;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 4rem 0;
+            color: white;
         }
 
         .page-title {
-            color: white;
             text-align: center;
             margin-bottom: 3rem;
         }
 
         .page-title h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .page-title p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        .question-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .question-number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .difficulty-badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .difficulty-easy {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .difficulty-medium {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .difficulty-hard {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .question-text {
             font-size: 1.3rem;
-            color: #333;
-            line-height: 1.8;
-            margin-bottom: 2rem;
+            color: rgba(255,255,255,0.9);
+            opacity: 1;
+            font-weight: 400;
         }
 
-        .answer-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .answer-label {
-            font-weight: 600;
-            color: #667eea;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .answer-input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #e9ecef;
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .answer-input:focus {
-            border-color: #667eea;
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
+        /* Progress Overview Cards */
+        .progress-overview {
             margin-top: 2rem;
         }
 
-        .btn-action {
-            flex: 1;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-skip {
-            background: rgba(102, 126, 234, 0.1);
-            color: #667eea;
-            border: 2px solid rgba(102, 126, 234, 0.2);
-        }
-
-        .btn-skip:hover {
-            background: rgba(102, 126, 234, 0.2);
-        }
-
-        .video-section {
-            margin-top: 2rem;
-            border-top: 2px solid #f0f0f0;
-            padding-top: 2rem;
-        }
-
-        .video-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        .video-container {
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .streak-badge {
-            background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: white;
-        }
-
-        .empty-state iconify-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.7;
-        }
-
-        .question-management-section {
-            background: rgba(255, 255, 255, 0.95);
+        .progress-card {
+            background: rgba(255,255,255,0.15);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .management-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .management-header h3 {
-            color: #333;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .btn-create-question {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 1rem 1.5rem;
-            font-weight: 600;
-            cursor: pointer;
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
             transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .progress-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.25);
+        }
+
+        .progress-card .progress-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .progress-card .progress-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+            color: white;
+        }
+
+        .progress-card .progress-info p {
+            margin: 0.5rem 0 0 0;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Sections */
+        .quick-actions-section,
+        .practice-folders-section {
+            padding: 4rem 0;
+        }
+
+        .quick-actions-section {
+            background: #f8f9fa;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h3 {
+            color: #1e293b;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+
+        .section-header p {
+            color: #64748b;
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Wrong Questions Folder Styles */
+        .wrong-questions-folder {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 5px solid #ef4444;
+        }
+
+        .wrong-questions-folder:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .folder-content {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
-        }
-
-        .btn-create-question:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
-        }
-
-        /* Question Creator Modal Styles */
-        .question-creator-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+            justify-content: space-between;
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 2000;
-            backdrop-filter: blur(5px);
         }
 
-        .question-creator-modal.show {
+        .folder-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .folder-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
         }
 
-        .modal-content {
+        .folder-details h4 {
+            color: #1e293b;
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .folder-details p {
+            color: #64748b;
+            margin: 0.5rem 0 0 0;
+            font-size: 0.9rem;
+        }
+
+        .folder-stats {
+            background: rgba(239, 68, 68, 0.1);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .stats-number {
+            color: #ef4444;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .stats-label {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin: 0.25rem 0 0 0;
+        }
+
+        .folder-arrow {
+            font-size: 1.5rem;
+            color: #cbd5e1;
+            transition: all 0.3s ease;
+        }
+
+        .wrong-questions-folder:hover .folder-arrow {
+            color: #ef4444;
+            transform: translateX(5px);
+        }
+
+
+        /* Practice Folders Section */
+        .practice-folders-section {
+            margin-top: 0;
+            padding: 0;
+        }
+
+        .folders-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .folder-card {
             background: white;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 800px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            position: relative;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
         }
 
-        .modal-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1.5rem 2rem;
-            border-radius: 16px 16px 0 0;
+        .folder-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+
+        .folder-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .folder-card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .folder-card-title {
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .folder-card-stats {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f0f0f0;
         }
 
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin: 0;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 8px;
-            transition: background 0.3s ease;
-        }
-
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .modal-body {
-            padding: 2rem;
-        }
-
-        .form-section {
-            margin-bottom: 2rem;
-        }
-
-        .section-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-
-        .form-control {
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 0.75rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            width: 100%;
-        }
-
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            outline: none;
-        }
-
-        .question-input-section {
-            border: 2px dashed #e9ecef;
-            border-radius: 12px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            margin-bottom: 1rem;
-        }
-
-        .question-input-section:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.05);
-        }
-
-        .question-input-section.has-content {
-            border-color: #28a745;
-            background: rgba(40, 167, 69, 0.05);
-        }
-
-        .upload-area {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .upload-icon {
-            font-size: 3rem;
+        .folder-question-count {
             color: #667eea;
-        }
-
-        .upload-text {
-            color: #666;
-            font-size: 1.1rem;
-        }
-
-        .upload-hint {
-            color: #999;
+            font-weight: 600;
             font-size: 0.9rem;
         }
 
-        .file-input {
-            display: none;
-        }
-
-        .uploaded-content {
-            display: none;
+        .folder-questions-preview {
             margin-top: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
-        .uploaded-content.show {
-            display: block;
-        }
-
-        .uploaded-image {
-            max-width: 100%;
-            max-height: 300px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .remove-content {
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 0.25rem 0.5rem;
-            cursor: pointer;
-            margin-top: 0.5rem;
-        }
-
-        .answer-type-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .answer-type-card {
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .answer-type-card:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
-        }
-
-        .answer-type-card.active {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .answer-type-icon {
-            font-size: 2rem;
-            margin-bottom: 0.75rem;
-            display: block;
-        }
-
-        .answer-type-name {
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .answer-type-description {
-            font-size: 0.875rem;
-            opacity: 0.8;
-        }
-
-        .bullet-points-section {
-            display: none;
-        }
-
-        .bullet-points-section.show {
-            display: block;
-        }
-
-        .bullet-point-input {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .bullet-point-input input {
-            flex: 1;
-        }
-
-        .add-bullet-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .add-bullet-btn:hover {
-            background: #5a6fd8;
-            transform: translateY(-1px);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 2rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 8px;
-            padding: 0.75rem 2rem;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            border: none;
-            border-radius: 8px;
-            padding: 0.75rem 2rem;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            background: #5a6268;
-            transform: translateY(-2px);
-        }
-
-        .question-preview {
+        .question-preview-item {
             background: #f8f9fa;
             border-radius: 8px;
-            padding: 1.5rem;
-            margin-top: 1rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid #667eea;
+            transition: all 0.2s ease;
         }
 
-        .preview-title {
-            font-weight: 600;
+        .question-preview-item:hover {
+            background: #e9ecef;
+            transform: translateX(4px);
+        }
+
+        .question-preview-text {
+            font-size: 0.85rem;
             color: #333;
-            margin-bottom: 1rem;
-        }
-
-        .preview-question {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .preview-answer-type {
-            font-size: 0.9rem;
-            color: #666;
-            font-style: italic;
-        }
-
-        .multiple-choice-options {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-top: 1rem;
-        }
-
-        .option-label {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 1rem;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: white;
-        }
-
-        .option-label:hover {
-            border-color: #667eea;
-            background: rgba(102, 126, 234, 0.05);
-        }
-
-        .option-label input[type="radio"] {
             margin: 0;
+            line-height: 1.4;
         }
 
-        .option-text {
-            flex: 1;
-            font-size: 1rem;
+        .question-preview-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #666;
         }
 
-        .multiple-choice-section {
-            display: none;
-        }
-
-        .multiple-choice-section.show {
-            display: block;
-        }
-
-        .file-upload-section {
-            display: none;
-        }
-
-        .file-upload-section.show {
-            display: block;
-        }
-
-        .btn-delete {
-            background: #dc3545 !important;
-            color: white !important;
-            border: none;
-            border-radius: 8px;
-            padding: 0.5rem 1rem;
+        .question-type-badge {
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
             font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
         }
 
-        .btn-delete:hover {
-            background: #c82333 !important;
-            transform: translateY(-2px);
+        .question-difficulty-badge {
+            background: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
         }
 
+        .empty-folder-state {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .empty-folder-state iconify-icon {
+            font-size: 3rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .header-content {
-                padding: 0 1rem;
-            }
-
-            .main-content {
-                padding: 0 1rem;
-            }
-
             .page-title h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
 
-            .question-card {
-                padding: 1.5rem;
+            .progress-overview .row {
+                margin: 0 -0.5rem;
             }
 
-            .action-buttons {
+            .progress-overview .col-md-3 {
+                padding: 0 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            .progress-card {
+                padding: 1rem;
+            }
+
+            .progress-card .progress-info h3 {
+                font-size: 1.5rem;
+            }
+
+            .section-header h3 {
+                font-size: 1.5rem;
+            }
+
+            .folders-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .activity-item {
+                padding: 1rem;
+            }
+
+            .activity-stats {
                 flex-direction: column;
+                gap: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <a href="physics-dashboard.html" class="logo">
-                <img src="https://ui-avatars.com/api/?name=IG+Nation&background=667eea&color=fff&size=40" alt="IG Nation">
-                IG Nation
-            </a>
-            <div class="utility-buttons">
-                <a href="physics-dashboard.html" class="btn-utility">
-                    <iconify-icon icon="material-symbols:dashboard"></iconify-icon>
-                    Dashboard
-                </a>
-                <a href="student-profile.html" class="btn-utility">
-                    <iconify-icon icon="material-symbols:person"></iconify-icon>
-                    Profile
-                </a>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-6">
+                    <div class="dashboard-nav">
+                        <!-- Hamburger Menu Button -->
+                        <button class="hamburger-menu-btn" onclick="toggleSidebar()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:menu" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                        </button>
+                        
+                        <!-- Page Title -->
+                        <h2 style="margin: 0; color: #333; font-weight: 700; font-size: 1.5rem;">Physics Daily Practice</h2>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="student-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
+                        </a>
+                        
+                        <!-- Focus Mode Button -->
+                        <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Notifications Button -->
+                        <button class="nav-icon-btn" onclick="showNotificationsModal()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:notifications" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                            <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</span>
+                        </button>
+                        
+                        <!-- Community Button -->
+                        <button class="nav-icon-btn" onclick="navigateToCommunity()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Profile Button -->
+                        <button class="nav-icon-btn" onclick="navigateToProfile()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
         <div class="page-title">
             <h1>🎯 Physics Daily Practice</h1>
-            <p>Sharpen your skills with daily practice questions</p>
+                    <p>Sharpen your skills with daily practice questions and track your progress</p>
         </div>
 
-        <div class="streak-badge">
-            <iconify-icon icon="material-symbols:local-fire-department"></iconify-icon>
-            5 Day Streak!
-        </div>
+                <!-- Progress Overview Cards -->
+                <div class="progress-overview">
+                    <div class="row g-4">
+                        <div class="col-md-3">
+                            <div class="progress-card">
+                                <div class="progress-icon">
+                                    <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                                </div>
+                                <div class="progress-info">
+                                    <h3 id="totalQuestionsToday">0</h3>
+                                    <p>Questions Today</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="progress-card">
+                                <div class="progress-icon">
+                                    <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                                </div>
+                                <div class="progress-info">
+                                    <h3 id="correctAnswersToday">0</h3>
+                                    <p>Correct Today</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="progress-card">
+                                <div class="progress-icon">
+                                    <iconify-icon icon="material-symbols:trending-up"></iconify-icon>
+                                </div>
+                                <div class="progress-info">
+                                    <h3 id="streakDays">0</h3>
+                                    <p>Day Streak</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="progress-card">
+                                <div class="progress-icon">
+                                    <iconify-icon icon="material-symbols:star"></iconify-icon>
+                                </div>
+                                <div class="progress-info">
+                                    <h3 id="accuracyRate">0%</h3>
+                                    <p>Accuracy Rate</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <div class="question-management-section">
-            <div class="management-header">
-                <h3>Daily Practice Questions Management</h3>
-                <button class="btn-create-question" onclick="openQuestionCreator()">
-                    <iconify-icon icon="material-symbols:add"></iconify-icon>
-                    Create Question
-                </button>
+        <!-- Practice Questions Folders Section -->
+        <section class="practice-folders-section">
+            <div class="container">
+            <div class="section-header">
+                    <h3>📚 Practice Question Folders</h3>
+                    <p>Organized practice questions by topics and difficulty levels</p>
+            </div>
+            
+            <div id="foldersContainer" class="folders-container">
+                <!-- Folders will be loaded here -->
             </div>
         </div>
+        </section>
 
-        <div id="questionContainer">
-            <!-- Questions will be loaded here -->
-        </div>
+        <!-- Wrong Questions Section -->
+        <section class="quick-actions-section">
+            <div class="container">
+                <div class="row g-4 justify-content-center">
+                    <div class="col-md-8">
+                        <!-- Wrong Questions Folder -->
+                        <div class="wrong-questions-folder" onclick="navigateToWrongQuestions()">
+                            <div class="folder-content">
+                                <div class="folder-info">
+                                    <div class="folder-icon">
+                                        <iconify-icon icon="material-symbols:close-rounded"></iconify-icon>
+                                    </div>
+                                    <div class="folder-details">
+                                        <h4>Review Wrong Questions</h4>
+                                        <p>Learn from your mistakes and improve</p>
+                                    </div>
+                                </div>
+                                <div class="folder-stats">
+                                    <div class="stats-number" id="wrongQuestionsCount">0</div>
+                                    <div class="stats-label">Questions to review</div>
+                                </div>
+                                <iconify-icon icon="material-symbols:arrow-forward-rounded" class="folder-arrow"></iconify-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <div class="empty-state" id="emptyState" style="display: none;">
-            <iconify-icon icon="material-symbols:assignment"></iconify-icon>
-            <h3>No Practice Questions Yet</h3>
-            <p>Your physics practice questions will appear here once you create them.</p>
-        </div>
+
     </main>
 
-    <!-- Question Creator Modal -->
-    <div class="question-creator-modal" id="questionCreatorModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Create Physics Question</h2>
-                <button class="modal-close" onclick="closeQuestionCreator()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form id="questionForm">
-                    <!-- Question Input Section -->
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
-                            Question Content
-                        </h3>
-                        <div class="question-input-section" id="questionInputSection" onclick="document.getElementById('questionFileInput').click()">
-                            <div class="upload-area" id="uploadArea">
-                                <iconify-icon icon="material-symbols:cloud-upload" class="upload-icon"></iconify-icon>
-                                <div class="upload-text">Upload Image or Enter Text</div>
-                                <div class="upload-hint">Click to upload an image or type your question below</div>
-                            </div>
-                            <input type="file" id="questionFileInput" class="file-input" accept="image/*" onchange="handleQuestionFileUpload(event)">
-                            <div class="uploaded-content" id="uploadedContent">
-                                <!-- Uploaded content will appear here -->
-                            </div>
-                        </div>
-                        <textarea class="form-control" id="questionText" rows="4" placeholder="Or type your question here..." oninput="handleTextInput()"></textarea>
-                    </div>
-
-                    <!-- Answer Type Selection -->
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <iconify-icon icon="material-symbols:settings"></iconify-icon>
-                            Answer Type
-                        </h3>
-                        <div class="answer-type-selector">
-                            <div class="answer-type-card active" data-type="bullet-points" onclick="selectAnswerType('bullet-points')">
-                                <iconify-icon icon="material-symbols:format-list-bulleted" class="answer-type-icon"></iconify-icon>
-                                <div class="answer-type-name">Bullet Points</div>
-                                <div class="answer-type-description">Students answer with bullet points</div>
-                            </div>
-                            <div class="answer-type-card" data-type="file-upload" onclick="selectAnswerType('file-upload')">
-                                <iconify-icon icon="material-symbols:upload-file" class="answer-type-icon"></iconify-icon>
-                                <div class="answer-type-name">File Upload</div>
-                                <div class="answer-type-description">Students upload PDF or image</div>
-                            </div>
-                            <div class="answer-type-card" data-type="multiple-choice" onclick="selectAnswerType('multiple-choice')">
-                                <iconify-icon icon="material-symbols:quiz" class="answer-type-icon"></iconify-icon>
-                                <div class="answer-type-name">Multiple Choice</div>
-                                <div class="answer-type-description">Students select from options</div>
-                            </div>
-                            <div class="answer-type-card" data-type="short-answer" onclick="selectAnswerType('short-answer')">
-                                <iconify-icon icon="material-symbols:short-text" class="answer-type-icon"></iconify-icon>
-                                <div class="answer-type-name">Short Answer</div>
-                                <div class="answer-type-description">Students write brief answers</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bullet Points Section -->
-                    <div class="form-section bullet-points-section show" id="bulletPointsSection">
-                        <h3 class="section-title">
-                            <iconify-icon icon="material-symbols:format-list-bulleted"></iconify-icon>
-                            Expected Key Points
-                        </h3>
-                        <div class="form-group">
-                            <label class="form-label">Add key points that students should include in their answer:</label>
-                            <div id="bulletPointsList">
-                                <!-- Bullet points will be added here -->
-                            </div>
-                            <button type="button" class="add-bullet-btn" onclick="addBulletPoint()">
-                                <iconify-icon icon="material-symbols:add"></iconify-icon>
-                                Add Key Point
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Multiple Choice Section -->
-                    <div class="form-section multiple-choice-section" id="multipleChoiceSection">
-                        <h3 class="section-title">
-                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
-                            Multiple Choice Options
-                        </h3>
-                        <div class="form-group">
-                            <label class="form-label">Add answer options:</label>
-                            <div id="multipleChoiceOptions">
-                                <!-- Options will be added here -->
-                            </div>
-                            <button type="button" class="add-bullet-btn" onclick="addMultipleChoiceOption()">
-                                <iconify-icon icon="material-symbols:add"></iconify-icon>
-                                Add Option
-                            </button>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Correct Answer</label>
-                            <select class="form-control" id="correctAnswer">
-                                <option value="">Select correct answer</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- File Upload Section -->
-                    <div class="form-section file-upload-section" id="fileUploadSection">
-                        <h3 class="section-title">
-                            <iconify-icon icon="material-symbols:upload-file"></iconify-icon>
-                            File Upload Settings
-                        </h3>
-                        <div class="form-group">
-                            <label class="form-label">Allowed File Types</label>
-                            <select class="form-control" id="allowedFileTypes" multiple>
-                                <option value="pdf" selected>PDF</option>
-                                <option value="doc">DOC</option>
-                                <option value="docx" selected>DOCX</option>
-                                <option value="jpg" selected>JPG</option>
-                                <option value="png" selected>PNG</option>
-                                <option value="gif">GIF</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Max File Size (MB)</label>
-                            <input type="number" class="form-control" id="maxFileSize" value="10" min="1">
-                        </div>
-                    </div>
-
-                    <!-- Additional Settings -->
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <iconify-icon icon="material-symbols:settings"></iconify-icon>
-                            Additional Settings
-                        </h3>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Points</label>
-                                    <input type="number" class="form-control" id="questionPoints" min="1" value="1" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">Time Limit (minutes)</label>
-                                    <input type="number" class="form-control" id="timeLimit" placeholder="Optional">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Difficulty</label>
-                            <select class="form-control" id="questionDifficulty">
-                                <option value="easy">Easy</option>
-                                <option value="medium" selected>Medium</option>
-                                <option value="hard">Hard</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Topic</label>
-                            <input type="text" class="form-control" id="questionTopic" placeholder="e.g., Mechanics, Electricity, Waves">
-                        </div>
-                    </div>
-
-                    <!-- Question Preview -->
-                    <div class="form-section">
-                        <h3 class="section-title">
-                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
-                            Preview
-                        </h3>
-                        <div class="question-preview" id="questionPreview">
-                            <div class="preview-title">Question Preview</div>
-                            <div class="preview-question">Enter your question content to see a preview here.</div>
-                            <div class="preview-answer-type">Answer type: <span id="answerTypePreview">Bullet Points</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Action Buttons -->
-                    <div class="modal-actions">
-                        <button type="button" class="btn-secondary" onclick="resetQuestionForm()">
-                            Reset
-                        </button>
-                        <button type="button" class="btn-primary" onclick="saveQuestion()">
-                            <iconify-icon icon="material-symbols:save"></iconify-icon>
-                            Save Question
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // Question Creator Variables
-        let currentAnswerType = 'bullet-points';
-        let questionContent = {
-            type: 'text', // 'text' or 'image'
-            content: '',
-            filename: ''
-        };
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadWrongQuestionsCount();
+            loadPracticeFolders();
+            loadProgressStats();
+        });
 
-        function loadDailyQuestions() {
-            const questions = JSON.parse(localStorage.getItem('physics_daily_practice_questions') || '[]');
-            
-            if (questions.length === 0) {
-                document.getElementById('emptyState').style.display = 'block';
-                document.getElementById('questionContainer').style.display = 'none';
+        // Header navigation functions
+        function toggleSidebar() {
+            // Toggle sidebar functionality
+            console.log('Toggle sidebar');
+        }
+
+        function navigateToFocusMode() {
+            window.location.href = 'focus-mode.html';
+        }
+
+        function navigateToNotifications() {
+            window.location.href = 'notifications.html';
+        }
+
+        function navigateToCommunity() {
+            window.location.href = 'physics-community.html';
+        }
+
+        function navigateToProfile() {
+            window.location.href = 'student-profile.html';
+        }
+
+        // Wrong Questions functionality
+        function navigateToWrongQuestions() {
+            window.location.href = 'physics-wrong-questions.html';
+        }
+
+        function loadWrongQuestionsCount() {
+            try {
+                // Load wrong questions from localStorage
+                const wrongQuestionsData = localStorage.getItem('physics_wrong_questions') || '[]';
+                const wrongQuestions = JSON.parse(wrongQuestionsData);
+                
+                // Update the count display
+                const countElement = document.getElementById('wrongQuestionsCount');
+                if (countElement) {
+                    countElement.textContent = wrongQuestions.length;
+                }
+                
+                console.log('Wrong questions count loaded:', wrongQuestions.length);
+            } catch (error) {
+                console.error('Error loading wrong questions count:', error);
+                // Set count to 0 if there's an error
+                const countElement = document.getElementById('wrongQuestionsCount');
+                if (countElement) {
+                    countElement.textContent = '0';
+                }
+            }
+        }
+
+        // Practice Folders Functions
+        function loadPracticeFolders() {
+            try {
+                // Load folders from localStorage
+                const foldersData = localStorage.getItem('physics_practice_folders') || '[]';
+                const folders = JSON.parse(foldersData);
+                
+                // Load questions from localStorage
+                const questionsData = localStorage.getItem('physics_practice_questions') || '[]';
+                const questions = JSON.parse(questionsData);
+                
+                console.log('📁 Loaded folders:', folders.length);
+                console.log('📝 Loaded questions:', questions.length);
+                
+                displayPracticeFolders(folders, questions);
+            } catch (error) {
+                console.error('Error loading practice folders:', error);
+                displayEmptyState();
+            }
+        }
+
+        function displayPracticeFolders(folders, questions) {
+            const container = document.getElementById('foldersContainer');
+            if (!container) return;
+
+            if (folders.length === 0) {
+                displayEmptyState();
                 return;
             }
 
-            const container = document.getElementById('questionContainer');
-            container.innerHTML = '';
-
-            questions.forEach((question, index) => {
-                const questionCard = document.createElement('div');
-                questionCard.className = 'question-card';
+            let html = '';
+            
+            folders.forEach(folder => {
+                const folderQuestions = questions.filter(q => q.folderId === folder.id);
                 
-                let answerSection = '';
-                if (question.type === 'multiple-choice') {
-                    answerSection = `
-                        <div class="answer-section">
-                            <label class="answer-label">Select your answer:</label>
-                            <div class="multiple-choice-options">
-                                ${question.options.map((option, optIndex) => `
-                                    <label class="option-label">
-                                        <input type="radio" name="answer${index}" value="${option}">
-                                        <span class="option-text">${option}</span>
-                                    </label>
-                                `).join('')}
+                html += `
+                    <div class="folder-card" onclick="viewFolderQuestions('${folder.id}', '${folder.name}')">
+                        <div class="folder-card-header">
+                            <div class="folder-card-icon" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white;">
+                                <iconify-icon icon="material-symbols:folder"></iconify-icon>
                             </div>
+                            <h4 class="folder-card-title">${folder.name}</h4>
                         </div>
-                    `;
-                } else if (question.type === 'file-upload') {
-                    answerSection = `
-                        <div class="answer-section">
-                            <label class="answer-label">Upload your answer:</label>
-                            <input type="file" class="form-control" id="fileInput${index}" accept="${question.fileUploadSettings.allowedTypes.map(type => '.' + type).join(',')}">
-                            <small class="text-muted">Allowed types: ${question.fileUploadSettings.allowedTypes.join(', ')} | Max size: ${question.fileUploadSettings.maxSize}MB</small>
+                        
+                        <div class="folder-card-stats">
+                            <span class="folder-question-count">${folderQuestions.length} question${folderQuestions.length !== 1 ? 's' : ''}</span>
+                            <iconify-icon icon="material-symbols:arrow-forward" style="color: #ccc;"></iconify-icon>
                         </div>
-                    `;
-                } else if (question.type === 'short-answer') {
-                    answerSection = `
-                        <div class="answer-section">
-                            <label class="answer-label">Your Answer:</label>
-                            <input type="text" class="answer-input" id="answerInput${index}" placeholder="Type your answer here...">
-                        </div>
-                    `;
-                } else {
-                    answerSection = `
-                        <div class="answer-section">
-                            <label class="answer-label">Your Answer:</label>
-                            <textarea class="answer-input" id="answerInput${index}" rows="4" placeholder="Type your answer here..."></textarea>
-                        </div>
-                    `;
-                }
-
-                questionCard.innerHTML = `
-                    <div class="question-header">
-                        <div class="question-number">Question ${index + 1}</div>
-                        <div class="difficulty-badge difficulty-${question.difficulty.toLowerCase()}">
-                            ${question.difficulty}
-                        </div>
-                    </div>
-
-                    <div class="question-text">
-                        <strong>Topic:</strong> ${question.topic || 'General'}<br><br>
-                        ${question.questionContent && question.questionContent.type === 'image' ? 
-                            `<img src="${question.questionContent.content}" alt="Question Image" style="max-width: 100%; height: auto; margin: 1rem 0; border-radius: 8px;">` : 
-                            question.questionText || question.question
-                        }
-                    </div>
-
-                    ${answerSection}
-
-                    <div class="action-buttons">
-                        <button class="btn-action btn-submit" onclick="submitAnswer(${index})">
-                            <iconify-icon icon="material-symbols:check"></iconify-icon>
-                            Submit Answer
-                        </button>
-                        <button class="btn-action btn-show" onclick="showAnswer(${index})">
-                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
-                            Show Answer
-                        </button>
-                        <button class="btn-action btn-explanation" onclick="showExplanation(${index})">
-                            <iconify-icon icon="material-symbols:help"></iconify-icon>
-                            Explanation
-                        </button>
-                        <button class="btn-action btn-delete" onclick="deleteQuestion(${index})" style="background: #dc3545; color: white;">
-                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
-                            Delete
-                        </button>
-                    </div>
-
-                    <div id="answerSection${index}" style="display: none;">
-                        <div class="answer-display">
-                            <strong>Correct Answer:</strong> ${question.correctAnswer || question.answer || 'No answer provided'}
-                        </div>
-                    </div>
-
-                    <div id="explanationSection${index}" style="display: none;">
-                        <div class="explanation-display">
-                            <strong>Explanation:</strong> ${question.explanation || 'No explanation provided.'}
-                        </div>
-                    </div>
-
-                    <div class="feedback-section" id="feedbackSection${index}" style="display: none;">
-                        <div class="feedback-header">
-                            <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
-                            Feedback
-                        </div>
-                        <div id="feedbackContent${index}"></div>
+                        
+                        ${folderQuestions.length > 0 ? `
+                            <div class="folder-questions-preview">
+                                ${folderQuestions.slice(0, 3).map(question => `
+                                    <div class="question-preview-item">
+                                        <p class="question-preview-text">${truncateText(question.question || question.questionText, 60)}</p>
+                                        <div class="question-preview-meta">
+                                            <span class="question-type-badge">${question.type || 'multiple-choice'}</span>
+                                            <span class="question-difficulty-badge">${question.difficulty || 'Medium'}</span>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                ${folderQuestions.length > 3 ? `<p style="text-align: center; color: #666; font-size: 0.8rem; margin: 0.5rem 0 0 0;">+${folderQuestions.length - 3} more questions</p>` : ''}
+                            </div>
+                        ` : `
+                            <div class="empty-folder-state">
+                                <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                                <p>No questions in this folder</p>
+                            </div>
+                        `}
                     </div>
                 `;
-                container.appendChild(questionCard);
             });
+            
+            container.innerHTML = html;
         }
 
-        function submitAnswer(questionIndex) {
-            const questions = JSON.parse(localStorage.getItem('physics_daily_practice_questions') || '[]');
-            const currentQuestion = questions[questionIndex];
+        function displayEmptyState() {
+            const container = document.getElementById('foldersContainer');
+            if (!container) return;
             
-            let answer = '';
-            let isCorrect = false;
+            container.innerHTML = `
+                <div class="empty-folder-state" style="grid-column: 1 / -1;">
+                    <iconify-icon icon="material-symbols:folder-open"></iconify-icon>
+                    <h4>No Practice Folders Found</h4>
+                    <p>Practice questions folders will appear here when created by teachers.</p>
+                </div>
+            `;
+        }
+
+        function viewFolderQuestions(folderId, folderName) {
+            // Load questions for this folder
+            const questionsData = localStorage.getItem('physics_practice_questions') || '[]';
+            const allQuestions = JSON.parse(questionsData);
+            const folderQuestions = allQuestions.filter(q => q.folderId === folderId);
             
-            if (currentQuestion.type === 'multiple-choice') {
-                const selectedOption = document.querySelector(`input[name="answer${questionIndex}"]:checked`);
-                if (!selectedOption) {
-                    alert('Please select an answer before submitting.');
-                    return;
-                }
-                answer = selectedOption.value;
-                isCorrect = answer === currentQuestion.correctAnswer;
-            } else if (currentQuestion.type === 'file-upload') {
-                const fileInput = document.getElementById(`fileInput${questionIndex}`);
-                if (!fileInput.files[0]) {
-                    alert('Please upload a file before submitting.');
-                    return;
-                }
-                answer = `File uploaded: ${fileInput.files[0].name}`;
-                isCorrect = true; // For file uploads, we assume correct if file is uploaded
-            } else {
-                const answerElement = document.getElementById(`answerInput${questionIndex}`);
-                answer = answerElement.value.trim();
-                
-                if (!answer) {
-                    alert('Please enter an answer before submitting.');
-                    return;
-                }
-                
-                if (currentQuestion.type === 'bullet-points') {
-                    // Check if answer contains key points
-                    isCorrect = checkBulletPointsAnswer(answer, currentQuestion.bulletPoints);
-                } else {
-                    // Simple answer checking (case-insensitive, flexible matching)
-                    isCorrect = checkAnswer(answer, currentQuestion.correctAnswer || currentQuestion.answer);
-                }
+            console.log(`📁 Viewing folder: ${folderName}`, folderQuestions);
+            
+            // Create a modal to display questions
+            const modalHtml = `
+                <div id="folderQuestionsModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease;" onclick="if(event.target.id==='folderQuestionsModal') closeFolderModal()">
+                    <div style="background: white; border-radius: 16px; max-width: 800px; width: 90%; max-height: 85vh; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);" onclick="event.stopPropagation()">
+                        <div style="padding: 1.5rem; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.5rem; color: white;">📁 ${folderName}</h3>
+                                <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.9);">${folderQuestions.length} question${folderQuestions.length !== 1 ? 's' : ''}</p>
+                            </div>
+                            <button onclick="closeFolderModal()" style="background: rgba(255,255,255,0.2); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center;">×</button>
+                        </div>
+                        <div style="padding: 1rem; max-height: 60vh; overflow-y: auto;">
+                            ${folderQuestions.length > 0 ? folderQuestions.map((question, index) => `
+                                <div style="padding: 1rem; border-radius: 12px; margin-bottom: 0.75rem; cursor: pointer; transition: all 0.2s; border: 1px solid #e9ecef; background: white;" onmouseover="this.style.background='#f9fafb'; this.style.transform='translateX(4px)'; this.style.borderColor='#667eea'" onmouseout="this.style.background='white'; this.style.transform='translateX(0)'; this.style.borderColor='#e9ecef'" onclick="startQuestionPractice('${question.id}')">
+                                    <div style="display: flex; align-items: start; gap: 0.75rem;">
+                                        <div style="font-size: 1.8rem; width: 40px; text-align: center;">📝</div>
+                                        <div style="flex: 1;">
+                                            <div style="font-weight: 600; color: #333; margin-bottom: 0.25rem;">Question ${index + 1}</div>
+                                            <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">${question.question || question.questionText || 'No question text'}</div>
+                                            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                                <span style="background: #667eea; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">${question.type || 'multiple-choice'}</span>
+                                                <span style="background: #f59e0b; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">${question.difficulty || 'Medium'}</span>
+                                                ${question.topic ? `<span style="background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">${question.topic}</span>` : ''}
+                                            </div>
+                                            <div style="font-size: 0.75rem; color: #999;">Click to practice this question</div>
+                                        </div>
+                                        <iconify-icon icon="material-symbols:chevron-right" style="font-size: 1.2rem; color: #ccc;"></iconify-icon>
+                                    </div>
+                                </div>
+                            `).join('') : '<div style="text-align: center; padding: 3rem; color: #666;">No questions in this folder</div>'}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function closeFolderModal() {
+            const modal = document.getElementById('folderQuestionsModal');
+            if (modal) modal.remove();
+        }
+
+        function startQuestionPractice(questionId) {
+            // Load the specific question and start practice
+            const questionsData = localStorage.getItem('physics_practice_questions') || '[]';
+            const allQuestions = JSON.parse(questionsData);
+            const question = allQuestions.find(q => q.id === questionId);
+            
+            if (question) {
+                console.log('🎯 Starting practice for question:', question);
+                // Close folder modal first
+                closeFolderModal();
+                // Open question practice window
+                openQuestionPracticeWindow(question);
             }
+        }
+
+        function openQuestionPracticeWindow(question) {
+            // Create question practice modal
+            const modalHtml = `
+                <div id="questionPracticeModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 10000; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease;" onclick="if(event.target.id==='questionPracticeModal') closeQuestionPracticeModal()">
+                    <div style="background: white; border-radius: 16px; max-width: 600px; width: 90%; max-height: 90vh; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);" onclick="event.stopPropagation()">
+                        <div style="padding: 1.5rem; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div>
+                                <h3 style="margin: 0; font-size: 1.5rem; color: white;">📝 Practice Question</h3>
+                                <p style="margin: 0; font-size: 0.85rem; color: rgba(255,255,255,0.9);">${question.type || 'Multiple Choice'} • ${question.difficulty || 'Medium'}</p>
+                            </div>
+                            <button onclick="closeQuestionPracticeModal()" style="background: rgba(255,255,255,0.2); border: none; width: 30px; height: 30px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center;">×</button>
+                        </div>
+                        <div style="padding: 1.5rem; max-height: 70vh; overflow-y: auto;">
+                            ${generateQuestionContent(question)}
+                        </div>
+                    </div>
+                </div>
+            `;
             
-            const feedbackSection = document.getElementById(`feedbackSection${questionIndex}`);
-            const feedbackContent = document.getElementById(`feedbackContent${questionIndex}`);
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+        }
+
+        function generateQuestionContent(question) {
+            const questionText = question.question || question.questionText || 'No question text available';
+            const questionType = question.type || 'multiple-choice';
+            const difficulty = question.difficulty || 'Medium';
+            const topic = question.topic || 'General';
+            
+            let content = `
+                <div style="margin-bottom: 1.5rem;">
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                        <span style="background: #667eea; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">${questionType}</span>
+                        <span style="background: #f59e0b; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">${difficulty}</span>
+                        <span style="background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 600;">${topic}</span>
+                    </div>
+                    <h4 style="color: #333; margin-bottom: 1rem; line-height: 1.5;">${questionText}</h4>
+            `;
+
+            if (questionType === 'multiple-choice' && question.options) {
+                content += `
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Select your answer:</p>
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                `;
+                
+                question.options.forEach((option, index) => {
+                    const optionLetter = String.fromCharCode(65 + index); // A, B, C, D
+                    content += `
+                        <label style="display: flex; align-items: center; padding: 0.75rem; border: 2px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; background: white;" onmouseover="this.style.borderColor='#667eea'; this.style.backgroundColor='#f8f9ff'" onmouseout="this.style.borderColor='#e9ecef'; this.style.backgroundColor='white'">
+                            <input type="radio" name="questionAnswer" value="${optionLetter}" style="margin-right: 0.75rem; accent-color: #667eea;">
+                            <span style="font-weight: 500; color: #333;">${optionLetter}. ${option}</span>
+                        </label>
+                    `;
+                });
+                
+                content += `
+                        </div>
+                    </div>
+                `;
+            } else if (questionType === 'short-answer') {
+                content += `
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Your answer:</p>
+                        <textarea id="shortAnswerInput" placeholder="Type your answer here..." style="width: 100%; padding: 0.75rem; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1rem; resize: vertical; min-height: 80px; font-family: inherit;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e9ecef'"></textarea>
+                    </div>
+                `;
+            } else if (questionType === 'bullet-points') {
+                content += `
+                    <div style="margin-bottom: 1.5rem;">
+                        <p style="font-weight: 600; margin-bottom: 0.75rem; color: #333;">Your answer (bullet points):</p>
+                        <textarea id="bulletPointsInput" placeholder="Enter your bullet points here..." style="width: 100%; padding: 0.75rem; border: 2px solid #e9ecef; border-radius: 8px; font-size: 1rem; resize: vertical; min-height: 100px; font-family: inherit;" onfocus="this.style.borderColor='#667eea'" onblur="this.style.borderColor='#e9ecef'"></textarea>
+                    </div>
+                `;
+            }
+
+            content += `
+                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <button onclick="submitQuestionAnswer('${question.id}')" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 1rem;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        Submit Answer
+                    </button>
+                    <button onclick="showQuestionAnswer('${question.id}')" style="background: transparent; color: #667eea; border: 2px solid #667eea; padding: 0.75rem 2rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 1rem;" onmouseover="this.style.backgroundColor='#667eea'; this.style.color='white'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#667eea'">
+                        Show Answer
+                    </button>
+                </div>
+                
+                <div id="answerDisplay" style="margin-top: 1.5rem; padding: 1rem; background: #f8f9fa; border-radius: 8px; display: none;">
+                    <h5 style="color: #333; margin-bottom: 0.75rem;">Answer & Explanation:</h5>
+                    <div id="answerContent"></div>
+                </div>
+            `;
+
+            return content;
+        }
+
+        function submitQuestionAnswer(questionId) {
+            const questionsData = localStorage.getItem('physics_practice_questions') || '[]';
+            const allQuestions = JSON.parse(questionsData);
+            const question = allQuestions.find(q => q.id === questionId);
+            
+            if (!question) return;
+
+            const questionType = question.type || 'multiple-choice';
+            let userAnswer = '';
+            let isCorrect = false;
+
+            if (questionType === 'multiple-choice') {
+                const selectedOption = document.querySelector('input[name="questionAnswer"]:checked');
+                if (!selectedOption) {
+                    alert('Please select an answer!');
+                    return;
+                }
+                userAnswer = selectedOption.value;
+                const correctAnswer = question.correctAnswer || question.answer;
+                isCorrect = userAnswer === correctAnswer;
+            } else if (questionType === 'short-answer') {
+                const textarea = document.getElementById('shortAnswerInput');
+                userAnswer = textarea.value.trim();
+                if (!userAnswer) {
+                    alert('Please enter your answer!');
+                    return;
+                }
+                const correctAnswer = question.correctAnswer || question.answer;
+                isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
+            } else if (questionType === 'bullet-points') {
+                const textarea = document.getElementById('bulletPointsInput');
+                userAnswer = textarea.value.trim();
+                if (!userAnswer) {
+                    alert('Please enter your answer!');
+                    return;
+                }
+                const correctAnswer = question.correctAnswer || question.answer;
+                isCorrect = userAnswer.toLowerCase().includes(correctAnswer.toLowerCase());
+            }
+
+            // Show result
+            const answerDisplay = document.getElementById('answerDisplay');
+            const answerContent = document.getElementById('answerContent');
+            
+            answerDisplay.style.display = 'block';
             
             if (isCorrect) {
-                feedbackSection.className = 'feedback-section feedback-correct';
-                feedbackContent.innerHTML = `
-                    <div class="feedback-header">
-                        <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
-                        Correct! 🎉
+                answerContent.innerHTML = `
+                    <div style="color: #10b981; font-weight: 600; margin-bottom: 0.5rem;">
+                        ✅ Correct! Well done!
                     </div>
-                    <p><strong>Your answer:</strong> ${answer}</p>
-                    <p><strong>Explanation:</strong> ${currentQuestion.explanation || 'No explanation provided.'}</p>
+                    <div style="color: #333;">
+                        <strong>Your answer:</strong> ${userAnswer}<br>
+                        <strong>Correct answer:</strong> ${question.correctAnswer || question.answer}
+                        ${question.explanation ? `<br><br><strong>Explanation:</strong> ${question.explanation}` : ''}
+                    </div>
                 `;
             } else {
-                feedbackSection.className = 'feedback-section feedback-incorrect';
-                feedbackContent.innerHTML = `
-                    <div class="feedback-header">
-                        <iconify-icon icon="material-symbols:cancel"></iconify-icon>
-                        Not quite right
+                answerContent.innerHTML = `
+                    <div style="color: #ef4444; font-weight: 600; margin-bottom: 0.5rem;">
+                        ❌ Incorrect. Keep practicing!
                     </div>
-                    <p><strong>Your answer:</strong> ${answer}</p>
-                    <p><strong>Correct answer:</strong> ${currentQuestion.correctAnswer || currentQuestion.answer || 'No answer provided'}</p>
-                    <p><strong>Explanation:</strong> ${currentQuestion.explanation || 'No explanation provided.'}</p>
-                `;
-            }
-            
-            feedbackSection.style.display = 'block';
-            feedbackSection.scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function showAnswer(questionIndex) {
-            const answerSection = document.getElementById(`answerSection${questionIndex}`);
-            const explanationSection = document.getElementById(`explanationSection${questionIndex}`);
-            
-            answerSection.style.display = 'block';
-            explanationSection.style.display = 'none';
-        }
-
-        function showExplanation(questionIndex) {
-            const answerSection = document.getElementById(`answerSection${questionIndex}`);
-            const explanationSection = document.getElementById(`explanationSection${questionIndex}`);
-            
-            explanationSection.style.display = 'block';
-            answerSection.style.display = 'none';
-        }
-
-        function checkAnswer(userAnswer, correctAnswer) {
-            // Normalize answers for comparison
-            const normalize = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
-            return normalize(userAnswer) === normalize(correctAnswer);
-        }
-
-        function checkBulletPointsAnswer(answer, expectedPoints) {
-            if (!expectedPoints || expectedPoints.length === 0) return true;
-            
-            const answerLower = answer.toLowerCase();
-            const matchedPoints = expectedPoints.filter(point => 
-                answerLower.includes(point.toLowerCase())
-            );
-            
-            // Consider correct if at least 50% of key points are mentioned
-            return matchedPoints.length >= Math.ceil(expectedPoints.length * 0.5);
-        }
-
-        // Question Creator Functions
-        function openQuestionCreator() {
-            document.getElementById('questionCreatorModal').classList.add('show');
-            initializeQuestionCreator();
-        }
-
-        function closeQuestionCreator() {
-            document.getElementById('questionCreatorModal').classList.remove('show');
-            resetQuestionForm();
-        }
-
-        function initializeQuestionCreator() {
-            updatePreview();
-            addBulletPoint(); // Add initial bullet point
-        }
-
-        function selectAnswerType(type) {
-            currentAnswerType = type;
-            
-            // Update UI
-            document.querySelectorAll('.answer-type-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            document.querySelector(`[data-type="${type}"]`).classList.add('active');
-            
-            // Show/hide relevant sections
-            document.getElementById('bulletPointsSection').classList.toggle('show', type === 'bullet-points');
-            document.getElementById('multipleChoiceSection').classList.toggle('show', type === 'multiple-choice');
-            document.getElementById('fileUploadSection').classList.toggle('show', type === 'file-upload');
-            
-            updatePreview();
-        }
-
-        function handleQuestionFileUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            
-            if (!file.type.startsWith('image/')) {
-                showToast('Please select an image file', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                questionContent = {
-                    type: 'image',
-                    content: e.target.result,
-                    filename: file.name
-                };
-                
-                displayUploadedContent();
-                updatePreview();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function handleTextInput() {
-            const text = document.getElementById('questionText').value.trim();
-            if (text) {
-                questionContent = {
-                    type: 'text',
-                    content: text,
-                    filename: ''
-                };
-                
-                document.getElementById('questionInputSection').classList.add('has-content');
-            } else {
-                document.getElementById('questionInputSection').classList.remove('has-content');
-            }
-            
-            updatePreview();
-        }
-
-        function displayUploadedContent() {
-            const container = document.getElementById('uploadedContent');
-            const uploadArea = document.getElementById('uploadArea');
-            
-            if (questionContent.type === 'image') {
-                container.innerHTML = `
-                    <img src="${questionContent.content}" alt="Question Image" class="uploaded-image">
-                    <div>
-                        <button type="button" class="remove-content" onclick="removeQuestionContent()">
-                            <iconify-icon icon="material-symbols:close"></iconify-icon>
-                            Remove Image
-                        </button>
+                    <div style="color: #333;">
+                        <strong>Your answer:</strong> ${userAnswer}<br>
+                        <strong>Correct answer:</strong> ${question.correctAnswer || question.answer}
+                        ${question.explanation ? `<br><br><strong>Explanation:</strong> ${question.explanation}` : ''}
                     </div>
                 `;
-                uploadArea.style.display = 'none';
-                container.classList.add('show');
+            }
+
+            // Disable submit button
+            const submitBtn = document.querySelector('button[onclick="submitQuestionAnswer(\'' + questionId + '\')"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.5';
+                submitBtn.style.cursor = 'not-allowed';
             }
         }
 
-        function removeQuestionContent() {
-            questionContent = { type: 'text', content: '', filename: '' };
-            document.getElementById('questionText').value = '';
-            document.getElementById('questionFileInput').value = '';
-            document.getElementById('uploadedContent').classList.remove('show');
-            document.getElementById('uploadArea').style.display = 'flex';
-            document.getElementById('questionInputSection').classList.remove('has-content');
-            updatePreview();
-        }
+        function showQuestionAnswer(questionId) {
+            const questionsData = localStorage.getItem('physics_practice_questions') || '[]';
+            const allQuestions = JSON.parse(questionsData);
+            const question = allQuestions.find(q => q.id === questionId);
+            
+            if (!question) return;
 
-        function addBulletPoint() {
-            const container = document.getElementById('bulletPointsList');
-            const pointCount = container.children.length + 1;
-            const pointDiv = document.createElement('div');
-            pointDiv.className = 'bullet-point-input';
-            pointDiv.innerHTML = `
-                <input type="text" class="form-control" placeholder="Key point ${pointCount}..." oninput="updatePreview()">
-                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeBulletPoint(this)">
-                    <iconify-icon icon="material-symbols:close"></iconify-icon>
-                </button>
+            const answerDisplay = document.getElementById('answerDisplay');
+            const answerContent = document.getElementById('answerContent');
+            
+            answerDisplay.style.display = 'block';
+            
+            answerContent.innerHTML = `
+                <div style="color: #333;">
+                    <strong>Correct answer:</strong> ${question.correctAnswer || question.answer}
+                    ${question.explanation ? `<br><br><strong>Explanation:</strong> ${question.explanation}` : ''}
+                </div>
             `;
-            container.appendChild(pointDiv);
-            updatePreview();
-        }
 
-        function removeBulletPoint(button) {
-            const container = document.getElementById('bulletPointsList');
-            if (container.children.length > 1) {
-                button.parentElement.remove();
-                updatePreview();
+            // Disable submit button
+            const submitBtn = document.querySelector('button[onclick="submitQuestionAnswer(\'' + questionId + '\')"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.5';
+                submitBtn.style.cursor = 'not-allowed';
             }
         }
 
-        function addMultipleChoiceOption() {
-            const container = document.getElementById('multipleChoiceOptions');
-            const optionCount = container.children.length + 1;
-            const optionDiv = document.createElement('div');
-            optionDiv.className = 'bullet-point-input';
-            optionDiv.innerHTML = `
-                <input type="text" class="form-control" placeholder="Option ${optionCount}..." oninput="updateMultipleChoicePreview()">
-                <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeMultipleChoiceOption(this)">
-                    <iconify-icon icon="material-symbols:close"></iconify-icon>
-                </button>
-            `;
-            container.appendChild(optionDiv);
-            updateMultipleChoicePreview();
+        function closeQuestionPracticeModal() {
+            const modal = document.getElementById('questionPracticeModal');
+            if (modal) modal.remove();
         }
 
-        function removeMultipleChoiceOption(button) {
-            const container = document.getElementById('multipleChoiceOptions');
-            if (container.children.length > 1) {
-                button.parentElement.remove();
-                updateMultipleChoicePreview();
+        function truncateText(text, maxLength) {
+            if (!text) return 'No question text';
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        // Progress Statistics Functions
+        function loadProgressStats() {
+            try {
+                // Load today's progress data
+                const today = new Date().toDateString();
+                const progressData = JSON.parse(localStorage.getItem('physics_daily_progress') || '{}');
+                const todayProgress = progressData[today] || {
+                    questionsAnswered: 0,
+                    correctAnswers: 0,
+                    streakDays: 0,
+                    accuracyRate: 0
+                };
+
+                // Update progress cards
+                document.getElementById('totalQuestionsToday').textContent = todayProgress.questionsAnswered;
+                document.getElementById('correctAnswersToday').textContent = todayProgress.correctAnswers;
+                document.getElementById('streakDays').textContent = todayProgress.streakDays;
+                document.getElementById('accuracyRate').textContent = todayProgress.accuracyRate + '%';
+
+                console.log('Progress stats loaded:', todayProgress);
+            } catch (error) {
+                console.error('Error loading progress stats:', error);
             }
         }
 
-        function updateMultipleChoicePreview() {
-            const options = Array.from(document.querySelectorAll('#multipleChoiceOptions input')).map(input => input.value.trim()).filter(val => val);
-            const correctAnswerSelect = document.getElementById('correctAnswer');
-            
-            correctAnswerSelect.innerHTML = '<option value="">Select correct answer</option>';
-            options.forEach((option, index) => {
-                const optionElement = document.createElement('option');
-                optionElement.value = option;
-                optionElement.textContent = option;
-                correctAnswerSelect.appendChild(optionElement);
-            });
-        }
 
-        function updatePreview() {
-            const preview = document.getElementById('questionPreview');
-            const answerTypePreview = document.getElementById('answerTypePreview');
-            
-            let questionText = 'Enter your question content to see a preview here.';
-            
-            if (questionContent.type === 'text' && questionContent.content) {
-                questionText = questionContent.content;
-            } else if (questionContent.type === 'image' && questionContent.content) {
-                questionText = '[Image Question]';
-            }
-            
-            preview.innerHTML = `
-                <div class="preview-title">Question Preview</div>
-                <div class="preview-question">${questionText}</div>
-                <div class="preview-answer-type">Answer type: <span id="answerTypePreview">${getAnswerTypeName(currentAnswerType)}</span></div>
-            `;
-        }
 
-        function getAnswerTypeName(type) {
-            const names = {
-                'bullet-points': 'Bullet Points',
-                'file-upload': 'File Upload',
-                'multiple-choice': 'Multiple Choice',
-                'short-answer': 'Short Answer'
-            };
-            return names[type] || type;
-        }
-
-        function saveQuestion() {
-            // Validate form
-            if (!questionContent.content && !document.getElementById('questionText').value.trim()) {
-                showToast('Please enter question content or upload an image', 'error');
-                return;
-            }
-            
-            // Collect form data
-            const questionData = {
-                id: Date.now().toString(),
-                type: currentAnswerType,
-                questionContent: questionContent,
-                questionText: document.getElementById('questionText').value.trim(),
-                points: parseInt(document.getElementById('questionPoints').value),
-                timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
-                difficulty: document.getElementById('questionDifficulty').value,
-                topic: document.getElementById('questionTopic').value || 'General',
-                bulletPoints: [],
-                options: [],
-                correctAnswer: '',
-                fileUploadSettings: {
-                    allowedTypes: Array.from(document.getElementById('allowedFileTypes').selectedOptions).map(option => option.value),
-                    maxSize: parseInt(document.getElementById('maxFileSize').value)
-                },
-                createdAt: new Date().toISOString(),
-                subject: 'physics'
-            };
-            
-            // Collect bullet points if applicable
-            if (currentAnswerType === 'bullet-points') {
-                document.querySelectorAll('#bulletPointsList input').forEach(input => {
-                    if (input.value.trim()) {
-                        questionData.bulletPoints.push(input.value.trim());
-                    }
-                });
-            }
-            
-            // Collect multiple choice options if applicable
-            if (currentAnswerType === 'multiple-choice') {
-                document.querySelectorAll('#multipleChoiceOptions input').forEach(input => {
-                    if (input.value.trim()) {
-                        questionData.options.push(input.value.trim());
-                    }
-                });
-                questionData.correctAnswer = document.getElementById('correctAnswer').value;
-            }
-            
-            // Save question to localStorage
-            let questions = JSON.parse(localStorage.getItem('physics_daily_practice_questions') || '[]');
-            questions.push(questionData);
-            localStorage.setItem('physics_daily_practice_questions', JSON.stringify(questions));
-            
-            showToast('Question saved successfully!', 'success');
-            
-            // Reset form after a delay
-            setTimeout(() => {
-                closeQuestionCreator();
-                loadDailyQuestions(); // Refresh the questions display
-            }, 2000);
-        }
-
-        function resetQuestionForm() {
-            document.getElementById('questionForm').reset();
-            questionContent = { type: 'text', content: '', filename: '' };
-            document.getElementById('questionText').value = '';
-            document.getElementById('questionFileInput').value = '';
-            document.getElementById('uploadedContent').classList.remove('show');
-            document.getElementById('uploadArea').style.display = 'flex';
-            document.getElementById('questionInputSection').classList.remove('has-content');
-            
-            // Reset bullet points
-            document.getElementById('bulletPointsList').innerHTML = '';
-            addBulletPoint();
-            
-            // Reset multiple choice options
-            document.getElementById('multipleChoiceOptions').innerHTML = '';
-            addMultipleChoiceOption();
-            
-            // Reset answer type
-            selectAnswerType('bullet-points');
-            
-            updatePreview();
-        }
-
-        function deleteQuestion(questionIndex) {
-            if (confirm('Are you sure you want to delete this question?')) {
-                let questions = JSON.parse(localStorage.getItem('physics_daily_practice_questions') || '[]');
-                questions.splice(questionIndex, 1);
-                localStorage.setItem('physics_daily_practice_questions', JSON.stringify(questions));
-                loadDailyQuestions();
-                showToast('Question deleted successfully!', 'success');
-            }
-        }
-
-        function showToast(message, type = 'success') {
-            // Create toast element
-            const toast = document.createElement('div');
-            toast.className = `toast toast-${type}`;
-            toast.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: white;
-                border: 1px solid #e9ecef;
-                border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-                padding: 1rem;
-                margin-bottom: 1rem;
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                min-width: 300px;
-                z-index: 9999;
-                border-left: 4px solid ${type === 'success' ? '#28a745' : '#dc3545'};
-            `;
-            
-            toast.innerHTML = `
-                <iconify-icon icon="material-symbols:${type === 'success' ? 'check-circle' : 'error'}" style="color: ${type === 'success' ? '#28a745' : '#dc3545'}; font-size: 1.25rem;"></iconify-icon>
-                <span>${message}</span>
-                <button onclick="this.parentElement.remove()" style="background: none; border: none; font-size: 1.25rem; cursor: pointer; margin-left: auto;">×</button>
-            `;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                if (toast.parentElement) {
-                    toast.remove();
-                }
-            }, 5000);
-        }
-
-        // Load questions on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadDailyQuestions();
-            
-            // Close modal when clicking outside
-            document.getElementById('questionCreatorModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    closeQuestionCreator();
-                }
-            });
-        });
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

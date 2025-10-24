@@ -268,6 +268,10 @@
                             <i class="bi bi-person-badge me-2"></i>
                             Teachers
                         </a>
+                        <a class="nav-link" href="#" onclick="showSection('parents', this)">
+                            <i class="bi bi-people-fill me-2"></i>
+                            Parents
+                        </a>
                         <a class="nav-link" href="#" onclick="showSection('assistants', this)">
                             <i class="bi bi-person-plus me-2"></i>
                             Assistants
@@ -675,6 +679,83 @@
                                         </tbody>
                                     </table>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Parents Section -->
+                    <div id="parents-section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Parent Management</h5>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-outline-primary btn-sm" onclick="loadParents()">
+                                        <i class="bi bi-arrow-clockwise"></i> Refresh
+                                    </button>
+                                    <button class="btn btn-success btn-sm" onclick="exportParents()">
+                                        <i class="bi bi-download"></i> Export
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- Search and Filter -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                            <input type="text" class="form-control" id="parentSearchInput" placeholder="Search parents by name, email, or phone..." onkeyup="filterParents()">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="parentStatusFilter" onchange="filterParents()">
+                                            <option value="">All Status</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select class="form-select" id="parentSortBy" onchange="sortParents()">
+                                            <option value="name">Sort by Name</option>
+                                            <option value="email">Sort by Email</option>
+                                            <option value="created_at">Sort by Registration Date</option>
+                                            <option value="last_login">Sort by Last Login</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Parents Table -->
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Children Count</th>
+                                                <th>Registration Date</th>
+                                                <th>Last Login</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="parentsTableBody">
+                                            <tr>
+                                                <td colspan="9" class="text-center text-muted py-4">
+                                                    <i class="bi bi-people-fill fs-1"></i>
+                                                    <p class="mt-2">Loading parents...</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Pagination -->
+                                <nav aria-label="Parents pagination">
+                                    <ul class="pagination justify-content-center" id="parentsPagination">
+                                        <!-- Pagination will be generated here -->
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
@@ -1298,6 +1379,9 @@
                     break;
                 case 'teachers':
                     loadTeachers();
+                    break;
+                case 'parents':
+                    loadParents();
                     break;
                 case 'assistants':
                     loadAssistants();
@@ -2527,13 +2611,49 @@
             const savedToken = localStorage.getItem('adminToken');
             
             if (isLoggedIn === 'true' && savedToken) {
-                // Restore auth token from localStorage
-                authToken = savedToken;
-                console.log('✅ Auth token restored from localStorage');
-                document.getElementById('mainContent').style.display = 'block';
-                initializeAdminPanel();
+                // Test the token by making a simple API call
+                testAdminToken(savedToken);
             } else {
                 // Clear any invalid data
+                localStorage.removeItem('adminLoggedIn');
+                localStorage.removeItem('adminToken');
+                authToken = null;
+                
+                const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                loginModal.show();
+                document.getElementById('mainContent').style.display = 'none';
+            }
+        }
+
+        async function testAdminToken(token) {
+            try {
+                // Test the token with a simple API call
+                const response = await fetch('/api/admin/students', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Token is valid
+                    authToken = token;
+                    console.log('✅ Auth token validated successfully');
+                    document.getElementById('mainContent').style.display = 'block';
+                    initializeAdminPanel();
+                } else {
+                    // Token is invalid
+                    console.log('❌ Auth token validation failed, clearing stored data');
+                    localStorage.removeItem('adminLoggedIn');
+                    localStorage.removeItem('adminToken');
+                    authToken = null;
+                    
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                    document.getElementById('mainContent').style.display = 'none';
+                }
+            } catch (error) {
+                console.log('❌ Auth token validation error, clearing stored data');
                 localStorage.removeItem('adminLoggedIn');
                 localStorage.removeItem('adminToken');
                 authToken = null;
@@ -2861,6 +2981,303 @@
             } catch (error) {
                 console.error('Error deleting teacher:', error);
                 showToast('Error deleting teacher', 'error');
+            }
+        }
+
+        // Parent Management Functions
+        let currentParentId = null;
+        let allParents = [];
+        let filteredParents = [];
+
+        async function loadParents() {
+            try {
+                console.log('Loading parents from database...');
+                const response = await fetch('/api/admin/parents', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                allParents = await response.json();
+                filteredParents = [...allParents];
+                displayParents(filteredParents);
+                
+                console.log(`Loaded ${allParents.length} parents`);
+            } catch (error) {
+                console.error('Error loading parents:', error);
+                document.getElementById('parentsTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center text-danger py-4">
+                            <i class="bi bi-exclamation-triangle fs-1"></i>
+                            <p class="mt-2">Error loading parents: ${error.message}</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function displayParents(parents) {
+            const tbody = document.getElementById('parentsTableBody');
+            
+            if (parents.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center text-muted py-4">
+                            <i class="bi bi-people-fill fs-1"></i>
+                            <p class="mt-2">No parents found</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = parents.map(parent => `
+                <tr>
+                    <td>${parent.id}</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-sm bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 32px; height: 32px; font-size: 14px;">
+                                ${parent.first_name ? parent.first_name.charAt(0).toUpperCase() : 'P'}
+                            </div>
+                            <div>
+                                <strong>${parent.first_name || ''} ${parent.last_name || ''}</strong>
+                            </div>
+                        </div>
+                    </td>
+                    <td>${parent.email || 'N/A'}</td>
+                    <td>${parent.phone || 'N/A'}</td>
+                    <td>
+                        <span class="badge bg-info">${parent.children_count || 0}</span>
+                    </td>
+                    <td>${parent.created_at ? new Date(parent.created_at).toLocaleDateString() : 'N/A'}</td>
+                    <td>${parent.last_login ? new Date(parent.last_login).toLocaleDateString() : 'Never'}</td>
+                    <td>
+                        <span class="badge ${parent.status === 'active' ? 'bg-success' : 'bg-secondary'}">
+                            ${parent.status || 'inactive'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-primary btn-sm" onclick="viewParent(${parent.id})" title="View Details">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm" onclick="editParent(${parent.id})" title="Edit">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="deleteParent(${parent.id})" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterParents() {
+            const searchTerm = document.getElementById('parentSearchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('parentStatusFilter').value;
+            
+            filteredParents = allParents.filter(parent => {
+                const matchesSearch = !searchTerm || 
+                    (parent.first_name && parent.first_name.toLowerCase().includes(searchTerm)) ||
+                    (parent.last_name && parent.last_name.toLowerCase().includes(searchTerm)) ||
+                    (parent.email && parent.email.toLowerCase().includes(searchTerm)) ||
+                    (parent.phone && parent.phone.includes(searchTerm));
+                
+                const matchesStatus = !statusFilter || parent.status === statusFilter;
+                
+                return matchesSearch && matchesStatus;
+            });
+            
+            displayParents(filteredParents);
+        }
+
+        function sortParents() {
+            const sortBy = document.getElementById('parentSortBy').value;
+            
+            filteredParents.sort((a, b) => {
+                switch(sortBy) {
+                    case 'name':
+                        const nameA = `${a.first_name || ''} ${a.last_name || ''}`.toLowerCase();
+                        const nameB = `${b.first_name || ''} ${b.last_name || ''}`.toLowerCase();
+                        return nameA.localeCompare(nameB);
+                    case 'email':
+                        return (a.email || '').localeCompare(b.email || '');
+                    case 'created_at':
+                        return new Date(b.created_at || 0) - new Date(a.created_at || 0);
+                    case 'last_login':
+                        return new Date(b.last_login || 0) - new Date(a.last_login || 0);
+                    default:
+                        return 0;
+                }
+            });
+            
+            displayParents(filteredParents);
+        }
+
+        async function viewParent(parentId) {
+            try {
+                const response = await fetch(`/api/admin/parents/${parentId}`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const parent = await response.json();
+                
+                // Create and show parent details modal
+                showParentDetailsModal(parent);
+                
+            } catch (error) {
+                console.error('Error loading parent details:', error);
+                alert('Error loading parent details: ' + error.message);
+            }
+        }
+
+        function showParentDetailsModal(parent) {
+            const modalHtml = `
+                <div class="modal fade" id="parentDetailsModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Parent Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary">Personal Information</h6>
+                                        <p><strong>Name:</strong> ${parent.first_name || ''} ${parent.last_name || ''}</p>
+                                        <p><strong>Email:</strong> ${parent.email || 'N/A'}</p>
+                                        <p><strong>Phone:</strong> ${parent.phone || 'N/A'}</p>
+                                        <p><strong>Status:</strong> 
+                                            <span class="badge ${parent.status === 'active' ? 'bg-success' : 'bg-secondary'}">
+                                                ${parent.status || 'inactive'}
+                                            </span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-primary">Account Information</h6>
+                                        <p><strong>Registration Date:</strong> ${parent.created_at ? new Date(parent.created_at).toLocaleDateString() : 'N/A'}</p>
+                                        <p><strong>Last Login:</strong> ${parent.last_login ? new Date(parent.last_login).toLocaleDateString() : 'Never'}</p>
+                                        <p><strong>Children Count:</strong> ${parent.children_count || 0}</p>
+                                    </div>
+                                </div>
+                                
+                                ${parent.children && parent.children.length > 0 ? `
+                                    <hr>
+                                    <h6 class="text-primary">Children</h6>
+                                    <div class="table-responsive">
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Email</th>
+                                                    <th>Grade</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${parent.children.map(child => `
+                                                    <tr>
+                                                        <td>${child.first_name || ''} ${child.last_name || ''}</td>
+                                                        <td>${child.email || 'N/A'}</td>
+                                                        <td>${child.grade || 'N/A'}</td>
+                                                        <td>
+                                                            <span class="badge ${child.status === 'active' ? 'bg-success' : 'bg-secondary'}">
+                                                                ${child.status || 'inactive'}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                `).join('')}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="editParent(${parent.id})">Edit Parent</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Remove existing modal if any
+            const existingModal = document.getElementById('parentDetailsModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            const modal = new bootstrap.Modal(document.getElementById('parentDetailsModal'));
+            modal.show();
+        }
+
+        async function editParent(parentId) {
+            // Close details modal if open
+            const detailsModal = document.getElementById('parentDetailsModal');
+            if (detailsModal) {
+                const modal = bootstrap.Modal.getInstance(detailsModal);
+                if (modal) modal.hide();
+            }
+            
+            // For now, just show an alert - you can implement edit functionality later
+            alert('Edit parent functionality will be implemented soon!');
+        }
+
+        async function deleteParent(parentId) {
+            if (!confirm('Are you sure you want to delete this parent? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/admin/parents/${parentId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                alert('Parent deleted successfully!');
+                loadParents(); // Refresh the list
+                
+            } catch (error) {
+                console.error('Error deleting parent:', error);
+                alert('Error deleting parent: ' + error.message);
+            }
+        }
+
+        async function exportParents() {
+            try {
+                const response = await fetch('/api/admin/parents/export', {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `parents_export_${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+            } catch (error) {
+                console.error('Error exporting parents:', error);
+                alert('Error exporting parents: ' + error.message);
             }
         }
 

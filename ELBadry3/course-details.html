@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Course Details - IG Nation</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <!-- Temporarily removed CSP to allow Iconify API access -->
+  <!-- <meta http-equiv="Content-Security-Policy" content="connect-src 'self' https://cdn.jsdelivr.net https://api.simplesvg.com https://code.iconify.design https://api.iconify.design https://api.unisvg.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com;"> -->
+</head>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+<link rel="stylesheet" type="text/css" href="icomoon/icomoon.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+  integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="css/vendor.css">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap"
+  rel="stylesheet">
+
+<style>
+    body {
+        background-color: #F8F8F8;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+</style>
+
+</head>
+
+<body>
+
+  <!-- Top Utility Bar -->
+  <div class="top-utility-bar" style="position:relative; height:70px;">
+    <div class="container-fluid" style="position:relative; height:100%;">
+      
+      <!-- Centered Logo -->
+      <div style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);">
+        <a href="#" id="logoLink">
+          <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height:55px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: all 0.3s ease;">
+        </a>
+      </div>
+
+      <!-- Right-aligned Utility Links -->
+      <div style="position:absolute; right:20px; top:50%; transform:translateY(-50%); display:flex; align-items:center; gap:20px; font-size:14px;">
+        
+        <!-- User Name Display -->
+        <div id="userNameDisplay" style="display:none;">
+          <span class="text-primary fw-bold" id="displayUserName">User</span>
+        </div>
+
+        <!-- Cart Button -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#cartModal" style="text-decoration:none; color:#000; display:flex; align-items:center; position:relative;">
+          <iconify-icon icon="material-symbols:shopping-cart" style="margin-right:5px;"></iconify-icon>
+          Cart <span class="badge bg-primary ms-1" id="cartCount">0</span>
+        </a>
+
+        <!-- Favorites -->
+        <a href="#" class="utility-link" data-bs-toggle="modal" data-bs-target="#favoritesModal" style="text-decoration:none; color:#000; display:flex; align-items:center;">
+          <iconify-icon icon="material-symbols:favorite" style="margin-right:5px;"></iconify-icon>
+          Favorites
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navigation Bar -->
+  <nav class="main-navigation">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-7">
+          <ul class="nav-menu d-flex list-unstyled mb-0">
+            <li class="nav-item">
+              <a href="index.html" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="courses.html" class="nav-link">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a href="about.html" class="nav-link">About Us</a>
+            </li>
+            <li class="nav-item">
+              <a href="contact.html" class="nav-link">Contact Us</a>
+            </li>
+            <li class="nav-item">
+              <!-- FAQ removed -->
+            </li>
+          </ul>
+        </div>
+        <div class="col-5">
+          <div class="d-flex justify-content-end align-items-center gap-2">
+            <a href="#" class="btn btn-outline-secondary login-btn" data-bs-toggle="modal" data-bs-target="#loginModal" style="font-size: 14px; padding: 8px 16px;">
+              <iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>
+              Login
+            </a>
+            <a href="#" class="btn btn-primary register-btn" data-bs-toggle="modal" data-bs-target="#registerModal" style="font-size: 14px; padding: 8px 16px;">
+              <iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>
+              Register Now
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Course Details Section -->
+  <section id="course-details" class="padding-medium">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <!-- Video Trial Section -->
+          <div class="card mb-4">
+            <div class="card-body">
+              <h4 class="card-title mb-3">
+                <iconify-icon icon="material-symbols:play-circle" class="me-2 text-primary"></iconify-icon>
+                Course Preview
+              </h4>
+              <div class="video-container" style="position: relative; width: 100%; height: 400px; background: #000; border-radius: 10px; overflow: hidden;">
+                <div class="video-placeholder" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white;">
+                  <iconify-icon icon="material-symbols:play-circle" style="font-size: 4rem; margin-bottom: 1rem; opacity: 0.8;"></iconify-icon>
+                  <h5>Course Trial Video</h5>
+                  <p class="text-muted">Click to watch a preview of this course</p>
+                  <button class="btn btn-primary btn-lg" onclick="playVideo()" style="border-radius: 25px; padding: 12px 30px;">
+                    <iconify-icon icon="material-symbols:play-arrow" class="me-2"></iconify-icon>
+                    Watch Preview
+                  </button>
+                </div>
+                <div class="video-player" id="videoPlayer" style="display: none; width: 100%; height: 100%;">
+                  <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div id="courseContent">
+            <!-- Course content will be loaded here -->
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="course-sidebar">
+            <div class="card">
+              <div class="card-body">
+                <div id="courseImage"></div>
+                <div class="course-price-section mt-3">
+                  <h3 id="coursePrice" class="text-primary"></h3>
+                  <p id="courseOriginalPrice" class="text-muted text-decoration-line-through"></p>
+                </div>
+                <div class="d-grid gap-2 mt-3">
+                  <button class="btn btn-warning purchase-now-btn" id="purchaseNowBtn">
+                    <iconify-icon icon="material-symbols:flash-on" class="me-2"></iconify-icon>
+                    Purchase Now
+                  </button>
+                  <button class="btn btn-primary add-to-cart-btn" id="addToCartBtn">
+                    <iconify-icon icon="material-symbols:add-shopping-cart" class="me-2"></iconify-icon>
+                    Add to Cart
+                  </button>
+                  <button class="btn btn-outline-danger favorite-btn" id="favoriteBtn">
+                    <iconify-icon icon="mdi:heart-outline" class="me-2"></iconify-icon>
+                    Add to Favorites
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cart Modal -->
+  <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">
+            <iconify-icon icon="material-symbols:shopping-cart" class="me-2 text-primary"></iconify-icon>
+            Your Cart
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="cartList">
+            <div class="text-center text-muted py-4">
+              <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+              <p>Your cart is empty. Start adding courses to your cart!</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+          <button type="button" class="btn btn-primary" id="checkoutBtn" disabled>Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Modal -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="checkoutModalLabel">
+            <iconify-icon icon="material-symbols:payment" class="me-2 text-primary"></iconify-icon>
+            Checkout
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="checkoutForm">
+            <!-- Personal Information -->
+            <div class="mb-4">
+              <h6 class="text-primary mb-3">Personal Information</h6>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label for="checkoutFirstName" class="form-label">First Name *</label>
+                    <input type="text" class="form-control" id="checkoutFirstName" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group mb-3">
+                    <label for="checkoutLastName" class="form-label">Last Name *</label>
+                    <input type="text" class="form-control" id="checkoutLastName" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group mb-3">
+                <label for="checkoutEmail" class="form-label">Email Address *</label>
+                <input type="email" class="form-control" id="checkoutEmail" required>
+              </div>
+              <div class="form-group mb-3">
+                <label for="checkoutPhone" class="form-label">Phone Number *</label>
+                <input type="tel" class="form-control" id="checkoutPhone" required>
+              </div>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="mb-4">
+              <h6 class="text-primary mb-3">Payment Method</h6>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-check payment-option">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="instapay" value="instapay">
+                    <label class="form-check-label" for="instapay">
+                      <div class="payment-card">
+                        <iconify-icon icon="material-symbols:account-balance" class="fs-3 text-primary"></iconify-icon>
+                        <div>
+                          <strong>InstaPay</strong>
+                          <small class="d-block text-muted">Bank Transfer</small>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-check payment-option">
+                    <input class="form-check-input" type="radio" name="paymentMethod" id="vodafoneCash" value="vodafoneCash">
+                    <label class="form-check-label" for="vodafoneCash">
+                      <div class="payment-card">
+                        <iconify-icon icon="material-symbols:phone-android" class="fs-3 text-success"></iconify-icon>
+                        <div>
+                          <strong>Vodafone Cash</strong>
+                          <small class="d-block text-muted">Mobile Payment</small>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Details -->
+            <div class="mb-4" id="paymentDetails" style="display: none;">
+              <h6 class="text-primary mb-3">Payment Details</h6>
+              <div id="instapayDetails" class="payment-details" style="display: none;">
+                <div class="alert alert-info">
+                  <h6>InstaPay Transfer Details:</h6>
+                  <p><strong>Bank:</strong> National Bank of Egypt</p>
+                  <p><strong>Account Name:</strong> IG Nation Education</p>
+                  <p><strong>Account Number:</strong> 1234567890</p>
+                  <p><strong>Amount:</strong> <span id="instapayAmount"></span></p>
+                </div>
+              </div>
+              <div id="vodafoneCashDetails" class="payment-details" style="display: none;">
+                <div class="alert alert-success">
+                  <h6>Vodafone Cash Details:</h6>
+                  <p><strong>Phone Number:</strong> 01027500835</p>
+                  <p><strong>Amount:</strong> <span id="vodafoneAmount"></span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Screenshot Upload -->
+            <div class="mb-4" id="screenshotUpload" style="display: none;">
+              <h6 class="text-primary mb-3">Upload Payment Screenshot</h6>
+              <div class="form-group">
+                <label for="paymentScreenshot" class="form-label">Payment Screenshot *</label>
+                <input type="file" class="form-control" id="paymentScreenshot" accept="image/*" required>
+                <div class="form-text">Please upload a clear screenshot of your payment confirmation.</div>
+              </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="mb-4">
+              <h6 class="text-primary mb-3">Order Summary</h6>
+              <div id="orderSummary"></div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-success" id="submitOrderBtn" disabled>Submit Order</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Favorites Modal -->
+  <div class="modal fade" id="favoritesModal" tabindex="-1" aria-labelledby="favoritesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="favoritesModalLabel">
+            <iconify-icon icon="material-symbols:favorite" class="me-2 text-danger"></iconify-icon>
+            Your Favorite Courses
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="favoritesList">
+            <div class="text-center text-muted py-4">
+              <iconify-icon icon="material-symbols:favorite-outline" class="fs-1 mb-3"></iconify-icon>
+              <p>No favorite courses yet. Start adding courses to your favorites!</p>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" id="clearFavorites">Clear All Favorites</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="loginModalLabel">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm" class="form-group flex-wrap p-3">
+            <div class="form-input col-lg-12 my-4">
+              <label for="loginEmail" class="form-label fs-6 text-uppercase fw-bold text-black">Email Address</label>
+              <input type="email" id="loginEmail" name="email" placeholder="Email" class="form-control ps-3" autocapitalize="none" autocorrect="off" spellcheck="false">
+            </div>
+            <div class="form-input col-lg-12 my-4">
+              <label for="loginPassword" class="form-label fs-6 text-uppercase fw-bold text-black">Password</label>
+              <input type="password" id="loginPassword" placeholder="Password" class="form-control ps-3" autocomplete="new-password" autocapitalize="none" autocorrect="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly')">
+            </div>
+            <label class="py-3">
+              <input type="checkbox" class="d-inline">
+              <span class="label-body text-black">Remember Me</span>
+            </label>
+            <div class="d-grid my-3">
+              <button class="btn btn-primary px-5 py-3">Log In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Register Modal -->
+  <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="registerModalLabel">Register Now</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="registerForm" class="form-group flex-wrap p-3">
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-input my-3">
+                  <label for="firstName" class="form-label fs-6 text-uppercase fw-bold text-black">First Name: *</label>
+                  <input type="text" id="firstName" name="firstName" placeholder="First Name" class="form-control ps-3" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-input my-3">
+                  <label for="lastName" class="form-label fs-6 text-uppercase fw-bold text-black">Last Name: *</label>
+                  <input type="text" id="lastName" name="lastName" placeholder="Last Name" class="form-control ps-3" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-input my-3">
+                  <label for="email" class="form-label fs-6 text-uppercase fw-bold text-black">Email: *</label>
+                  <input type="email" id="email" name="email" placeholder="Email Address" class="form-control ps-3" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-input my-3">
+              <label for="password" class="form-label fs-6 text-uppercase fw-bold text-black">Password: *</label>
+              <input type="password" id="password" name="password" placeholder="Password" class="form-control ps-3" required>
+            </div>
+            <div class="d-grid my-3">
+              <button class="btn btn-primary px-5 py-3">Register Now</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery-1.11.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"></script>
+  <script src="js/plugins.js"></script>
+  <script src="js/script.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+  <!-- Custom Styles -->
+  <style>
+    .purchase-now-btn {
+      background: linear-gradient(135deg, #ff6b35, #f7931e) !important;
+      border: none !important;
+      color: white !important;
+      font-weight: 600 !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3) !important;
+    }
+    
+    .purchase-now-btn:hover {
+      background: linear-gradient(135deg, #e55a2b, #e0841a) !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4) !important;
+      color: white !important;
+    }
+    
+    .purchase-now-btn:active {
+      transform: translateY(0) !important;
+      box-shadow: 0 2px 10px rgba(255, 107, 53, 0.3) !important;
+    }
+    
+    .purchase-now-btn:focus {
+      box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.5) !important;
+    }
+  </style>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+    // Check login state and update UI
+    function checkLoginState() {
+        const isLoggedIn = localStorage.getItem('userLoggedIn');
+        const userName = localStorage.getItem('userName');
+        
+        if (isLoggedIn) {
+            // Show user name in utility bar
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            const displayUserName = document.getElementById('displayUserName');
+            if (userNameDisplay && displayUserName) {
+                userNameDisplay.style.display = 'block';
+                displayUserName.textContent = userName || 'User';
+            }
+            
+            // Hide login and register buttons, show logout
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+            
+            if (loginBtn) {
+                loginBtn.style.display = 'none';
+            }
+            
+            if (registerBtn) {
+                registerBtn.innerHTML = `<iconify-icon icon="material-symbols:logout" class="me-1"></iconify-icon>Logout`;
+                registerBtn.classList.remove('btn-primary');
+                registerBtn.classList.add('btn-outline-danger');
+                registerBtn.setAttribute('onclick', 'logout()');
+                registerBtn.removeAttribute('data-bs-target');
+            }
+        } else {
+            // Hide user name in utility bar
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            if (userNameDisplay) {
+                userNameDisplay.style.display = 'none';
+            }
+            
+            // Show login and register buttons
+            const loginBtn = document.querySelector('.login-btn');
+            const registerBtn = document.querySelector('.register-btn');
+            
+            if (loginBtn) {
+                loginBtn.style.display = 'inline-block';
+                loginBtn.innerHTML = `<iconify-icon icon="material-symbols:login" class="me-1"></iconify-icon>Login`;
+                loginBtn.classList.remove('btn-success');
+                loginBtn.classList.add('btn-outline-secondary');
+                loginBtn.setAttribute('data-bs-target', '#loginModal');
+                loginBtn.removeAttribute('onclick');
+            }
+            
+            if (registerBtn) {
+                registerBtn.style.display = 'inline-block';
+                registerBtn.innerHTML = `<iconify-icon icon="material-symbols:person-add" class="me-1"></iconify-icon>Register Now`;
+                registerBtn.classList.remove('btn-outline-danger');
+                registerBtn.classList.add('btn-primary');
+                registerBtn.setAttribute('data-bs-target', '#registerModal');
+                registerBtn.removeAttribute('onclick');
+            }
+        }
+    }
+
+    // Logout function
+    function logout() {
+        localStorage.removeItem('userLoggedIn');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        showToast('Logged out successfully', 'info');
+        checkLoginState();
+    }
+
+    // Course data
+    const courses = {
+      mathematics: {
+        title: 'IGCSE Mathematics (Extended)',
+        instructor: 'Dr. Sarah Mitchell',
+        board: 'Cambridge Board',
+        price: '£299.00',
+        originalPrice: '£399.00',
+        image: 'images/teacher1.png',
+        description: 'Comprehensive IGCSE Mathematics course covering all extended topics including algebra, geometry, trigonometry, and statistics. Perfect for students aiming for top grades.',
+        duration: '12 weeks',
+        level: 'Extended',
+        topics: ['Algebra', 'Geometry', 'Trigonometry', 'Statistics', 'Probability', 'Functions']
+      },
+      physics: {
+        title: 'IGCSE Physics (Extended)',
+        instructor: 'Prof. Michael Chen',
+        board: 'Edexcel Board',
+        price: '£279.00',
+        originalPrice: '£349.00',
+        image: 'images/teacher2.png',
+        description: 'Master IGCSE Physics with our comprehensive course covering mechanics, electricity, waves, and modern physics. Expert instruction for excellent results.',
+        duration: '10 weeks',
+        level: 'Extended',
+        topics: ['Mechanics', 'Electricity', 'Waves', 'Modern Physics', 'Thermodynamics', 'Optics']
+      },
+      english: {
+        title: 'IGCSE English Language',
+        instructor: 'Dr. Emily Rodriguez',
+        board: 'Cambridge Board',
+        price: '£249.00',
+        originalPrice: '£329.00',
+        image: 'images/teacher3.png',
+        description: 'Excel in IGCSE English Language with our structured approach to reading, writing, and comprehension. Build confidence and achieve your best grade.',
+        duration: '8 weeks',
+        level: 'Extended',
+        topics: ['Reading Comprehension', 'Creative Writing', 'Essay Writing', 'Grammar', 'Vocabulary', 'Speaking Skills']
+      }
+    };
+
+    // Global variables
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let currentCourseId = null;
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Course details page loaded');
+      checkLoginState();
+      // Get course ID from URL
+      const urlParams = new URLSearchParams(window.location.search);
+      currentCourseId = urlParams.get('course');
+      console.log('Current course ID:', currentCourseId);
+      
+      // Set logo link based on course
+      const logoLink = document.getElementById('logoLink');
+      if (currentCourseId && courses[currentCourseId]) {
+        const dashboardMap = {
+          'mathematics': 'mathematics-dashboard.html',
+          'physics': 'physics-dashboard.html',
+          'chemistry': 'chemistry-dashboard.html',
+          'english': 'english-dashboard.html'
+        };
+        if (dashboardMap[currentCourseId]) {
+          logoLink.href = dashboardMap[currentCourseId];
+        } else {
+          logoLink.href = 'index.html';
+        }
+      } else {
+        logoLink.href = 'index.html';
+      }
+      
+      // Test if buttons exist
+      console.log('Testing button existence:');
+      console.log('Purchase Now button:', document.getElementById('purchaseNowBtn'));
+      console.log('Add to Cart button:', document.getElementById('addToCartBtn'));
+      console.log('Favorite button:', document.getElementById('favoriteBtn'));
+      
+      if (currentCourseId && courses[currentCourseId]) {
+        console.log('Course found, loading details...');
+        loadCourseDetails(currentCourseId);
+        setupEventListeners();
+        updateCartCount();
+        updateFavoritesModal();
+      } else {
+        console.log('Course not found, redirecting to home...');
+        // Redirect to home if course not found
+        window.location.href = 'index.html';
+      }
+    });
+
+    function loadCourseDetails(courseId) {
+      const course = courses[courseId];
+      const courseContent = document.getElementById('courseContent');
+      const courseImage = document.getElementById('courseImage');
+      const coursePrice = document.getElementById('coursePrice');
+      const courseOriginalPrice = document.getElementById('courseOriginalPrice');
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      const favoriteBtn = document.getElementById('favoriteBtn');
+      
+      // Debug: Check if elements exist
+      console.log('Course elements found:', {
+        courseImage: !!courseImage,
+        coursePrice: !!coursePrice,
+        courseOriginalPrice: !!courseOriginalPrice,
+        addToCartBtn: !!addToCartBtn,
+        favoriteBtn: !!favoriteBtn
+      });
+
+      // Update course content
+      courseContent.innerHTML = `
+        <div class="course-header mb-4">
+          <h1 class="display-5 fw-bold">${course.title}</h1>
+          <div class="instructor-info mb-3">
+            <p class="mb-1"><strong>Instructor:</strong> ${course.instructor}</p>
+            <p class="mb-1"><strong>Board:</strong> ${course.board}</p>
+            <p class="mb-1"><strong>Duration:</strong> ${course.duration}</p>
+            <p class="mb-1"><strong>Level:</strong> ${course.level}</p>
+          </div>
+          <div class="course-rating d-flex align-items-center mb-3">
+            <iconify-icon icon="clarity:star-solid" class="text-primary me-1"></iconify-icon>
+            <iconify-icon icon="clarity:star-solid" class="text-primary me-1"></iconify-icon>
+            <iconify-icon icon="clarity:star-solid" class="text-primary me-1"></iconify-icon>
+            <iconify-icon icon="clarity:star-solid" class="text-primary me-1"></iconify-icon>
+            <iconify-icon icon="clarity:star-solid" class="text-primary me-1"></iconify-icon>
+            <span class="rating-text ms-2">(4.9)</span>
+          </div>
+        </div>
+        
+        <div class="course-description mb-4">
+          <h4>Course Description</h4>
+          <p class="lead">${course.description}</p>
+        </div>
+        
+        <div class="course-topics mb-4">
+          <h4>What You'll Learn</h4>
+          <div class="row">
+            ${course.topics.map(topic => `
+              <div class="col-md-6 mb-2">
+                <div class="d-flex align-items-center">
+                  <iconify-icon icon="material-symbols:check-circle" class="text-success me-2"></iconify-icon>
+                  <span>${topic}</span>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      // Update sidebar
+      if (courseImage) {
+        courseImage.innerHTML = `<img src="${course.image}" alt="${course.title}" class="img-fluid rounded">`;
+      }
+      if (coursePrice) {
+        coursePrice.textContent = course.price;
+      }
+      if (courseOriginalPrice) {
+        courseOriginalPrice.textContent = course.originalPrice;
+      }
+
+      // Set up buttons
+      const purchaseNowBtn = document.getElementById('purchaseNowBtn');
+      if (purchaseNowBtn) {
+        purchaseNowBtn.setAttribute('data-course', courseId);
+      }
+      
+      if (addToCartBtn) {
+        addToCartBtn.setAttribute('data-course', courseId);
+      }
+      
+      if (favoriteBtn) {
+        favoriteBtn.setAttribute('data-course', courseId);
+        // Update favorite button state
+        updateFavoriteButton(favoriteBtn, courseId);
+      } else {
+        console.warn('Favorite button not found');
+      }
+    }
+
+    function setupEventListeners() {
+      console.log('Setting up event listeners...');
+      
+      // Purchase Now button
+      const purchaseNowBtn = document.getElementById('purchaseNowBtn');
+      if (purchaseNowBtn) {
+        console.log('Purchase Now button found, adding event listener');
+        purchaseNowBtn.addEventListener('click', function() {
+          console.log('Purchase Now button clicked');
+          purchaseNow(currentCourseId);
+        });
+      } else {
+        console.error('Purchase Now button not found!');
+      }
+
+      // Add to cart button
+      const addToCartBtn = document.getElementById('addToCartBtn');
+      if (addToCartBtn) {
+        console.log('Add to Cart button found, adding event listener');
+        addToCartBtn.addEventListener('click', function() {
+          console.log('Add to Cart button clicked');
+          addToCart(currentCourseId);
+        });
+      } else {
+        console.error('Add to Cart button not found!');
+      }
+
+      // Favorite button
+      const favoriteBtn = document.getElementById('favoriteBtn');
+      if (favoriteBtn) {
+        console.log('Favorite button found, adding event listener');
+        favoriteBtn.addEventListener('click', function() {
+          console.log('Favorite button clicked');
+          toggleFavorite(currentCourseId);
+        });
+      } else {
+        console.error('Favorite button not found!');
+      }
+
+      // Checkout button
+      document.getElementById('checkoutBtn').addEventListener('click', function() {
+        showCheckoutModal();
+      });
+
+      // Payment method change
+      document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          updatePaymentDetails();
+        });
+      });
+
+      // Submit order button
+      document.getElementById('submitOrderBtn').addEventListener('click', function() {
+        submitOrder();
+      });
+    }
+
+    function purchaseNow(courseId) {
+      console.log('purchaseNow function called with courseId:', courseId);
+      const isLoggedIn = localStorage.getItem('userLoggedIn');
+      const authToken = localStorage.getItem('authToken');
+      
+      console.log('🔍 Purchase Now - Login check:', {
+        userLoggedIn: isLoggedIn,
+        authToken: authToken ? 'Set' : 'Not Set',
+        courseId: courseId
+      });
+      
+      if (!isLoggedIn || !authToken) {
+        console.log('❌ User not logged in, showing login modal');
+        showToast('Please log in to purchase courses', 'warning');
+        // Open login modal
+        const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+        loginModal.show();
+        return;
+      }
+      
+      console.log('✅ User is logged in - proceeding with purchase');
+      
+      const course = courses[courseId];
+      if (!course) {
+        showToast('Course not found!', 'error');
+        return;
+      }
+      
+      // Check if already enrolled
+      let enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses')) || [];
+      if (enrolledCourses.includes(courseId)) {
+        showToast('You are already enrolled in this course!', 'info');
+        return;
+      }
+      
+      // Check if course is already in cart
+      const existingItem = cart.find(item => item.courseId === courseId);
+      if (existingItem) {
+        showToast('This course is already in your cart!', 'info');
+        // Still redirect to checkout so user can complete the purchase
+        setTimeout(() => {
+          window.location.href = 'checkout.html';
+        }, 1500);
+        return;
+      }
+      
+      // Add course to cart with full details for checkout
+      const courseData = {
+        courseId: courseId,
+        id: courseId, // For checkout compatibility
+        title: course.title,
+        price: parseFloat(course.price.replace('£', '')), // Convert to number
+        instructor: course.instructor,
+        board: course.board,
+        image: course.image,
+        quantity: 1,
+        addedAt: new Date().toISOString()
+      };
+      
+      // Clear existing cart and add only this specific course
+      cart = [courseData];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      // Update cart count immediately
+      updateCartCount();
+      
+      showToast(`Preparing ${course.title} for checkout...`, 'success');
+      
+      // Redirect to checkout page with course parameter
+      setTimeout(() => {
+        window.location.href = `checkout.html?course=${courseId}`;
+      }, 1500);
+    }
+
+    function addToCart(courseId) {
+      console.log('🛒 addToCart function called with courseId:', courseId);
+      
+      const course = courses[courseId];
+      if (!course) {
+        showToast('Course not found!', 'error');
+        return false;
+      }
+      
+      const existingItem = cart.find(item => item.courseId === courseId);
+      
+      if (existingItem) {
+        console.log('❌ Course already in cart - cannot add duplicate');
+        showToast('This course is already in your cart!', 'info');
+        return false;
+      } else {
+        console.log('✅ Adding course to cart');
+        cart.push({
+          courseId: courseId,
+          id: courseId,
+          title: course.title,
+          price: parseFloat(course.price.replace('£', '')),
+          instructor: course.instructor,
+          board: course.board,
+          image: course.image,
+          quantity: 1, // Always 1 - courses can't be purchased multiple times
+          addedAt: new Date().toISOString()
+        });
+        showToast('✅ Course added to cart!', 'success');
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      updateCartModal();
+      console.log('Cart updated:', cart);
+      return true;
+    }
+
+    function toggleFavorite(courseId) {
+      console.log('❤️ toggleFavorite called with courseId:', courseId);
+      const index = favorites.indexOf(courseId);
+      
+      if (index === -1) {
+        favorites.push(courseId);
+        showToast('✅ Course added to favorites!', 'success');
+        console.log('Added to favorites. Current favorites:', favorites);
+      } else {
+        favorites.splice(index, 1);
+        showToast('Removed from favorites', 'info');
+        console.log('Removed from favorites. Current favorites:', favorites);
+      }
+      
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+      updateFavoriteButton(document.getElementById('favoriteBtn'), courseId);
+      updateFavoritesModal();
+    }
+
+    function updateFavoriteButton(button, courseId) {
+      if (!button) {
+        console.warn('updateFavoriteButton: button is null');
+        return;
+      }
+      
+      const icon = button.querySelector('iconify-icon');
+      if (favorites.includes(courseId)) {
+        button.classList.add('favorited');
+        if (icon) {
+          icon.setAttribute('icon', 'mdi:heart');
+        }
+        button.innerHTML = '<iconify-icon icon="mdi:heart" class="me-2"></iconify-icon>Remove from Favorites';
+      } else {
+        button.classList.remove('favorited');
+        if (icon) {
+          icon.setAttribute('icon', 'mdi:heart-outline');
+        }
+        button.innerHTML = '<iconify-icon icon="mdi:heart-outline" class="me-2"></iconify-icon>Add to Favorites';
+      }
+    }
+
+    function updateCartCount() {
+      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+      const cartBadge = document.getElementById('cartCount');
+      if (cartBadge) {
+        cartBadge.textContent = cartCount;
+      }
+    }
+
+    function updateCartModal() {
+      const cartList = document.getElementById('cartList');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      
+      if (cart.length === 0) {
+        cartList.innerHTML = `
+          <div class="text-center text-muted py-4">
+            <iconify-icon icon="material-symbols:shopping-cart-outline" class="fs-1 mb-3"></iconify-icon>
+            <p>Your cart is empty. Start adding courses to your cart!</p>
+          </div>
+        `;
+        checkoutBtn.disabled = true;
+      } else {
+        cartList.innerHTML = cart.map(item => {
+          const course = courses[item.courseId];
+          return `
+            <div class="cart-item d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+              <div class="d-flex align-items-center">
+                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                <div>
+                  <div class="course-title fw-bold">${course.title}</div>
+                  <div class="course-instructor text-muted small">${course.instructor} - ${course.board}</div>
+                  <div class="course-price text-primary fw-bold">${course.price} <span class="text-muted">x${item.quantity}</span></div>
+                </div>
+              </div>
+              <button class="btn btn-outline-danger btn-sm remove-cart" onclick="removeFromCart('${item.courseId}')">
+                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+              </button>
+            </div>
+          `;
+        }).join('');
+        checkoutBtn.disabled = false;
+      }
+    }
+
+    function removeFromCart(courseId) {
+      cart = cart.filter(item => item.courseId !== courseId);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      updateCartModal();
+      showToast('Course removed from cart');
+    }
+
+    function updateFavoritesModal() {
+      const favoritesList = document.getElementById('favoritesList');
+      
+      if (favorites.length === 0) {
+        favoritesList.innerHTML = `
+          <div class="text-center text-muted py-4">
+            <iconify-icon icon="material-symbols:favorite-outline" class="fs-1 mb-3"></iconify-icon>
+            <p>No favorite courses yet. Start adding courses to your favorites!</p>
+          </div>
+        `;
+      } else {
+        favoritesList.innerHTML = favorites.map(courseId => {
+          const course = courses[courseId];
+          return `
+            <div class="favorite-item d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+              <div class="d-flex align-items-center">
+                <img src="${course.image}" alt="${course.title}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                <div>
+                  <div class="course-title fw-bold">${course.title}</div>
+                  <div class="course-instructor text-muted small">${course.instructor} - ${course.board}</div>
+                  <div class="course-price text-primary fw-bold">${course.price}</div>
+                </div>
+              </div>
+              <button class="btn btn-outline-danger btn-sm remove-favorite" onclick="removeFavorite('${courseId}')">
+                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+              </button>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    function removeFavorite(courseId) {
+      const index = favorites.indexOf(courseId);
+      if (index !== -1) {
+        favorites.splice(index, 1);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        updateFavoritesModal();
+        showToast('Course removed from favorites');
+      }
+    }
+
+    function showCheckoutModal() {
+      const checkoutModal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+      updateOrderSummary();
+      checkoutModal.show();
+    }
+
+    function updateOrderSummary() {
+      const orderSummary = document.getElementById('orderSummary');
+      let total = 0;
+      
+      const summaryHTML = cart.map(item => {
+        const course = courses[item.courseId];
+        const itemTotal = parseFloat(course.price.replace('£', '')) * item.quantity;
+        total += itemTotal;
+        
+        return `
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span>${course.title} x${item.quantity}</span>
+            <span>£${itemTotal.toFixed(2)}</span>
+          </div>
+        `;
+      }).join('') + `
+        <hr>
+        <div class="d-flex justify-content-between align-items-center fw-bold">
+          <span>Total</span>
+          <span>£${total.toFixed(2)}</span>
+        </div>
+      `;
+      
+      orderSummary.innerHTML = summaryHTML;
+      
+      // Update payment amounts
+      document.getElementById('instapayAmount').textContent = `£${total.toFixed(2)}`;
+      document.getElementById('vodafoneAmount').textContent = `£${total.toFixed(2)}`;
+    }
+
+    function updatePaymentDetails() {
+      const paymentDetails = document.getElementById('paymentDetails');
+      const screenshotUpload = document.getElementById('screenshotUpload');
+      const instapayDetails = document.getElementById('instapayDetails');
+      const vodafoneCashDetails = document.getElementById('vodafoneCashDetails');
+      const submitOrderBtn = document.getElementById('submitOrderBtn');
+      
+      const selectedPayment = document.querySelector('input[name="paymentMethod"]:checked');
+      
+      if (selectedPayment) {
+        paymentDetails.style.display = 'block';
+        screenshotUpload.style.display = 'block';
+        submitOrderBtn.disabled = false;
+        
+        if (selectedPayment.value === 'instapay') {
+          instapayDetails.style.display = 'block';
+          vodafoneCashDetails.style.display = 'none';
+        } else if (selectedPayment.value === 'vodafoneCash') {
+          instapayDetails.style.display = 'none';
+          vodafoneCashDetails.style.display = 'block';
+        }
+      } else {
+        paymentDetails.style.display = 'none';
+        screenshotUpload.style.display = 'none';
+        submitOrderBtn.disabled = true;
+      }
+    }
+
+    function submitOrder() {
+      const form = document.getElementById('checkoutForm');
+      const formData = new FormData(form);
+      
+      // Validate form
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      
+      // Get payment screenshot
+      const screenshot = document.getElementById('paymentScreenshot').files[0];
+      if (!screenshot) {
+        showToast('Please upload a payment screenshot', 'warning');
+        return;
+      }
+      
+      // Simulate order submission
+      showToast('Order submitted successfully! We will verify your payment and contact you soon.', 'success');
+      
+      // Close modal
+      const checkoutModal = bootstrap.Modal.getInstance(document.getElementById('checkoutModal'));
+      checkoutModal.hide();
+      
+      // Clear cart
+      cart = [];
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      updateCartModal();
+    }
+
+    function showToast(message, type = 'info') {
+      const toastContainer = document.getElementById('toastContainer');
+      const toastId = 'toast-' + Date.now();
+      
+      let icon = 'material-symbols:info';
+      let title = 'Notification';
+      let bgClass = 'bg-primary';
+      
+      if (type === 'warning') {
+        icon = 'material-symbols:warning';
+        title = 'Warning!';
+        bgClass = 'bg-warning';
+      } else if (type === 'success') {
+        icon = 'material-symbols:check-circle';
+        title = 'Success!';
+        bgClass = 'bg-success';
+      } else if (message.includes('favorite') || message.includes('Favorite')) {
+        icon = 'material-symbols:favorite';
+        title = 'Favorite Updated!';
+        bgClass = 'bg-danger';
+      } else if (message.includes('cart') || message.includes('Cart')) {
+        icon = 'material-symbols:shopping-cart';
+        title = 'Cart Updated!';
+        bgClass = 'bg-success';
+      }
+      
+      const toastHTML = `
+        <div class="toast" id="${toastId}" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header ${bgClass} text-white">
+            <iconify-icon icon="${icon}" class="me-2"></iconify-icon>
+            <strong class="me-auto">${title}</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            ${message}
+          </div>
+        </div>
+      `;
+      
+      toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+      
+      const toastElement = document.getElementById(toastId);
+      const toast = new bootstrap.Toast(toastElement, {
+        autohide: true,
+        delay: 3000
+      });
+      
+      toast.show();
+      
+      toastElement.addEventListener('hidden.bs.toast', function() {
+        toastElement.remove();
+      });
+    }
+
+    // Test functions for debugging
+    window.testButtons = function() {
+      console.log('Testing button functions...');
+      console.log('Current course ID:', currentCourseId);
+      console.log('Purchase Now function:', typeof purchaseNow);
+      console.log('Add to Cart function:', typeof addToCart);
+      console.log('Toggle Favorite function:', typeof toggleFavorite);
+      
+      // Test if buttons exist
+      const purchaseBtn = document.getElementById('purchaseNowBtn');
+      const cartBtn = document.getElementById('addToCartBtn');
+      const favBtn = document.getElementById('favoriteBtn');
+      
+      console.log('Button elements:');
+      console.log('Purchase Now:', purchaseBtn);
+      console.log('Add to Cart:', cartBtn);
+      console.log('Favorite:', favBtn);
+      
+      if (purchaseBtn) {
+        console.log('Purchase Now button clickable:', !purchaseBtn.disabled);
+      }
+      if (cartBtn) {
+        console.log('Add to Cart button clickable:', !cartBtn.disabled);
+      }
+      if (favBtn) {
+        console.log('Favorite button clickable:', !favBtn.disabled);
+      }
+    };
+
+    // Video player function
+    function playVideo() {
+      const placeholder = document.querySelector('.video-placeholder');
+      const player = document.getElementById('videoPlayer');
+      
+      if (placeholder && player) {
+        placeholder.style.display = 'none';
+        player.style.display = 'block';
+      }
+    }
+
+    // Test function to verify buttons work
+    window.testButtons = function() {
+      console.log('🧪 Testing button functionality...');
+      
+      const purchaseBtn = document.getElementById('purchaseNowBtn');
+      const cartBtn = document.getElementById('addToCartBtn');
+      const favBtn = document.getElementById('favoriteBtn');
+      
+      console.log('Button elements:', {
+        purchaseNow: purchaseBtn,
+        addToCart: cartBtn,
+        favorite: favBtn
+      });
+      
+      if (purchaseBtn) {
+        console.log('✅ Purchase Now button found');
+        purchaseBtn.click();
+      } else {
+        console.log('❌ Purchase Now button not found');
+      }
+    };
+
+    // Make functions globally available for testing
+    window.purchaseNow = purchaseNow;
+    window.addToCart = addToCart;
+    window.toggleFavorite = toggleFavorite;
+    window.playVideo = playVideo;
+  </script>
+
+  <style>
+    .payment-option {
+      margin-bottom: 1rem;
+    }
+    
+    .payment-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .payment-card:hover {
+      border-color: #007bff;
+      background-color: #f8f9fa;
+    }
+    
+    .form-check-input:checked + .form-check-label .payment-card {
+      border-color: #007bff;
+      background-color: #e7f3ff;
+    }
+    
+    .course-sidebar .card {
+      position: sticky;
+      top: 100px;
+    }
+    
+    .instructor-info {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+  </style>
+</body>
+
+</html>

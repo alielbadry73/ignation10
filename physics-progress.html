@@ -339,6 +339,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <!-- Main Content -->
@@ -482,15 +483,15 @@
                         <div class="col-6">
                             <div style="text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 12px; color: white;">
                                 <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">Quiz Average</div>
-                                <div style="font-size: 2.5rem; font-weight: 700;" id="avgQuizGrade">--</div>
-                                <div style="font-size: 0.8rem; opacity: 0.8;">out of 100</div>
+                                <div style="font-size: 2.5rem; font-weight: 700;" id="avgQuizGrade">0/0 (0%)</div>
+                                <div style="font-size: 0.8rem; opacity: 0.8;" id="quizAverageText">No quizzes completed</div>
                             </div>
                         </div>
                         <div class="col-6">
                             <div style="text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 12px; color: white;">
                                 <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">Exam Average</div>
-                                <div style="font-size: 2.5rem; font-weight: 700;" id="avgExamGrade">--</div>
-                                <div style="font-size: 0.8rem; opacity: 0.8;">out of 100</div>
+                                <div style="font-size: 2.5rem; font-weight: 700;" id="avgExamGrade">0/0 (0%)</div>
+                                <div style="font-size: 0.8rem; opacity: 0.8;" id="examAverageText">No exams completed</div>
                             </div>
                         </div>
                     </div>
@@ -499,7 +500,18 @@
                     <div class="mb-3">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span style="color: #64748b; font-weight: 600;">Recent Quizzes</span>
-                            <button class="btn btn-sm btn-outline-primary" onclick="showAllQuizGrades()">View All</button>
+                            <div>
+                                <button class="btn btn-sm btn-outline-secondary me-2" onclick="loadProgressData(); loadRecentGrades(); updateQuizAndExamAverages(); updatePerformanceBarChart();" title="Refresh Progress">
+                                    <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                                </button>
+                                <button class="btn btn-sm btn-outline-warning me-2" onclick="resetProgressData()" title="Reset to Sample Data">
+                                    <iconify-icon icon="material-symbols:restart-alt"></iconify-icon>
+                                </button>
+                                <button class="btn btn-sm btn-outline-info me-2" onclick="testProgressUpdate()" title="Test Progress Update">
+                                    <iconify-icon icon="material-symbols:bug-report"></iconify-icon>
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" onclick="showAllQuizGrades()">View All</button>
+                            </div>
                         </div>
                         <div id="recentQuizGrades" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                             <!-- Recent quiz grades will be loaded here -->
@@ -516,59 +528,36 @@
                     </div>
                 </div>
 
-                <!-- Wrong Questions & Flashcards Review Section -->
+                <!-- Performance Bar Chart Section -->
                 <div class="progress-section">
                     <h3 style="color: #1e293b; font-weight: 700; margin-bottom: 1.5rem;">
-                        <iconify-icon icon="material-symbols:folder-open" class="me-2" style="color: #ef4444;"></iconify-icon>
-                        Review Your Mistakes
+                        <iconify-icon icon="material-symbols:analytics" class="me-2" style="color: #667eea;"></iconify-icon>
+                        Performance Overview
                     </h3>
                     
-                    <div class="row">
-                        <!-- Wrong Questions Folder -->
-                        <div class="col-md-6 mb-4">
-                            <div style="border: 2px solid #ef4444; border-radius: 15px; padding: 2rem; background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(239, 68, 68, 0.1)); cursor: pointer; transition: all 0.3s ease;" onclick="openWrongQuestionsFolder('Physics')" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 24px rgba(239, 68, 68, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 1.5rem;">
-                                        <iconify-icon icon="material-symbols:quiz" style="font-size: 2rem; color: white;"></iconify-icon>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin: 0; color: #1e293b; font-weight: 700;">Wrong Questions Folder</h4>
-                                        <p style="margin: 0.5rem 0 0 0; font-size: 0.95rem; color: #64748b;">Review questions you got wrong</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top: 1px solid rgba(239, 68, 68, 0.2);">
-                                    <div>
-                                        <div style="font-size: 2rem; font-weight: 700; color: #ef4444;" id="wrongQuestionsCount">0</div>
-                                        <div style="font-size: 0.9rem; color: #64748b;">Questions to Review</div>
-                                    </div>
-                                    <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 2rem; color: #ef4444;"></iconify-icon>
-                                </div>
-                            </div>
+                    <!-- Individual Quiz Performance Bars -->
+                    <div style="margin-bottom: 2rem;">
+                        <h5 style="color: #374151; font-weight: 600; margin-bottom: 1rem;">
+                            <iconify-icon icon="material-symbols:quiz" class="me-2" style="color: #3b82f6;"></iconify-icon>
+                            Quiz Performance
+                        </h5>
+                        <div id="individualQuizBars">
+                            <!-- Individual quiz bars will be loaded here -->
                         </div>
+                    </div>
 
-                        <!-- Wrong Flashcards -->
-                        <div class="col-md-6 mb-4">
-                            <div style="border: 2px solid #f59e0b; border-radius: 15px; padding: 2rem; background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(245, 158, 11, 0.1)); cursor: pointer; transition: all 0.3s ease;" onclick="openWrongFlashcards('Physics')" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 24px rgba(245, 158, 11, 0.2)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
-                                <div class="d-flex align-items-center mb-3">
-                                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-right: 1.5rem;">
-                                        <iconify-icon icon="material-symbols:style" style="font-size: 2rem; color: white;"></iconify-icon>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin: 0; color: #1e293b; font-weight: 700;">Wrong Flashcards</h4>
-                                        <p style="margin: 0.5rem 0 0 0; font-size: 0.95rem; color: #64748b;">Review concepts you struggled with</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between align-items-center mt-3 pt-3" style="border-top: 1px solid rgba(245, 158, 11, 0.2);">
-                                    <div>
-                                        <div style="font-size: 2rem; font-weight: 700; color: #f59e0b;" id="wrongFlashcardsCount">0</div>
-                                        <div style="font-size: 0.9rem; color: #64748b;">Flashcards to Review</div>
-                                    </div>
-                                    <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 2rem; color: #f59e0b;"></iconify-icon>
-                                </div>
-                            </div>
+                    <!-- Individual Exam Performance Bars -->
+                    <div>
+                        <h5 style="color: #374151; font-weight: 600; margin-bottom: 1rem;">
+                            <iconify-icon icon="material-symbols:assignment" class="me-2" style="color: #8b5cf6;"></iconify-icon>
+                            Exam Performance
+                        </h5>
+                        <div id="individualExamBars">
+                            <!-- Individual exam bars will be loaded here -->
                         </div>
                     </div>
                 </div>
+
             </div>
             
             <!-- Right Column -->
@@ -792,6 +781,720 @@
         function toggleFocusMode() {
             alert('Focus Mode feature coming soon!');
         }
+
+        // Load and update progress data
+        function loadProgressData() {
+            console.log('Loading progress data...');
+            
+            // Load assignments data
+            let assignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            console.log('Current assignments in localStorage:', assignments);
+            if (assignments.length === 0) {
+                console.log('No assignments found, creating sample data...');
+                assignments = createSampleAssignments();
+                localStorage.setItem('physicsAssignments', JSON.stringify(assignments));
+                console.log('Sample assignments created:', assignments);
+            }
+            updateAssignmentProgress(assignments);
+            
+            // Load quizzes data
+            let quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            console.log('Current quizzes in localStorage:', quizzes);
+            if (quizzes.length === 0) {
+                console.log('No quizzes found, creating sample data...');
+                quizzes = createSampleQuizzes();
+                localStorage.setItem('physicsQuizzes', JSON.stringify(quizzes));
+                console.log('Sample quizzes created:', quizzes);
+            }
+            updateQuizProgress(quizzes);
+            
+            // Load exams data
+            let exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            console.log('Current exams in localStorage:', exams);
+            if (exams.length === 0) {
+                console.log('No exams found, creating sample data...');
+                exams = createSampleExams();
+                localStorage.setItem('physicsExams', JSON.stringify(exams));
+                console.log('Sample exams created:', exams);
+            }
+            updateExamProgress(exams);
+            
+            // Show alert if no data was found initially
+            const totalItems = assignments.length + quizzes.length + exams.length;
+            if (totalItems === 0) {
+                alert('No progress data found! Sample data has been created. Please refresh the page.');
+            }
+        }
+
+        // Create sample data for demonstration
+        function createSampleAssignments() {
+            return [
+                {
+                    id: 'assign_1',
+                    title: 'Newton\'s Laws Practice',
+                    description: 'Solve problems involving Newton\'s three laws of motion',
+                    dueDate: '2024-01-15',
+                    status: 'completed',
+                    score: 85,
+                    maxScore: 100
+                },
+                {
+                    id: 'assign_2',
+                    title: 'Kinematics Problems',
+                    description: 'Work on velocity and acceleration problems',
+                    dueDate: '2024-01-20',
+                    status: 'pending'
+                },
+                {
+                    id: 'assign_3',
+                    title: 'Energy and Work',
+                    description: 'Calculate work, kinetic and potential energy',
+                    dueDate: '2024-01-25',
+                    status: 'published'
+                }
+            ];
+        }
+
+        function createSampleQuizzes() {
+            return [
+                {
+                    id: 'quiz_1',
+                    title: 'Motion and Forces Quiz',
+                    description: 'Test your understanding of basic physics concepts',
+                    timeLimit: 30,
+                    status: 'completed',
+                    score: 78,
+                    maxScore: 100
+                },
+                {
+                    id: 'quiz_2',
+                    title: 'Energy and Momentum Quiz',
+                    description: 'Quiz on energy conservation and momentum',
+                    timeLimit: 25,
+                    status: 'completed',
+                    score: 92,
+                    maxScore: 100
+                },
+                {
+                    id: 'quiz_3',
+                    title: 'Waves and Oscillations',
+                    description: 'Understanding wave properties and simple harmonic motion',
+                    timeLimit: 35,
+                    status: 'published'
+                }
+            ];
+        }
+
+        function createSampleExams() {
+            return [
+                {
+                    id: 'exam_1',
+                    title: 'Midterm Exam - Physics I',
+                    description: 'Comprehensive exam covering first half of semester',
+                    timeLimit: 120,
+                    status: 'completed',
+                    score: 88,
+                    maxScore: 100
+                },
+                {
+                    id: 'exam_2',
+                    title: 'Final Exam - Physics I',
+                    description: 'Final comprehensive exam',
+                    timeLimit: 180,
+                    status: 'published'
+                }
+            ];
+        }
+
+        function updateAssignmentProgress(assignments) {
+            console.log('Updating assignment progress with data:', assignments);
+            const total = assignments.length;
+            const completed = assignments.filter(a => a.status === 'completed' || a.status === 'submitted').length;
+            const pending = assignments.filter(a => a.status === 'pending' || a.status === 'published').length;
+            const late = assignments.filter(a => a.status === 'late').length;
+            
+            console.log(`Assignment stats - Total: ${total}, Completed: ${completed}, Pending: ${pending}, Late: ${late}`);
+            
+            // Update assignment progress
+            const homeworkScoreElement = document.getElementById('homeworkScore');
+            const homeworkDoneElement = document.getElementById('homeworkDone');
+            const homeworkPendingElement = document.getElementById('homeworkPending');
+            const homeworkLateElement = document.getElementById('homeworkLate');
+            const homeworkProgressElement = document.getElementById('homeworkProgress');
+            
+            if (homeworkScoreElement) homeworkScoreElement.textContent = `${completed}/${total}`;
+            if (homeworkDoneElement) homeworkDoneElement.textContent = completed;
+            if (homeworkPendingElement) homeworkPendingElement.textContent = pending;
+            if (homeworkLateElement) homeworkLateElement.textContent = late;
+            
+            // Update progress bar
+            const progressPercent = total > 0 ? (completed / total) * 100 : 0;
+            if (homeworkProgressElement) homeworkProgressElement.style.width = `${progressPercent}%`;
+            
+            console.log(`Assignments: ${completed}/${total} completed (${progressPercent.toFixed(1)}%)`);
+        }
+
+        function updateQuizProgress(quizzes) {
+            console.log('Updating quiz progress with data:', quizzes);
+            const total = quizzes.length;
+            const completed = quizzes.filter(q => q.status === 'completed' || q.status === 'submitted').length;
+            const pending = quizzes.filter(q => q.status === 'pending' || q.status === 'published').length;
+            const late = quizzes.filter(q => q.status === 'late').length;
+            
+            console.log(`Quiz stats - Total: ${total}, Completed: ${completed}, Pending: ${pending}, Late: ${late}`);
+            
+            // Update quiz progress
+            const quizScoreElement = document.getElementById('quizScore');
+            const quizDoneElement = document.getElementById('quizDone');
+            const quizPendingElement = document.getElementById('quizPending');
+            const quizLateElement = document.getElementById('quizLate');
+            const quizProgressElement = document.getElementById('quizProgress');
+            
+            if (quizScoreElement) quizScoreElement.textContent = `${completed}/${total}`;
+            if (quizDoneElement) quizDoneElement.textContent = completed;
+            if (quizPendingElement) quizPendingElement.textContent = pending;
+            if (quizLateElement) quizLateElement.textContent = late;
+            
+            // Update progress bar
+            const progressPercent = total > 0 ? (completed / total) * 100 : 0;
+            if (quizProgressElement) quizProgressElement.style.width = `${progressPercent}%`;
+            
+            console.log(`Quizzes: ${completed}/${total} completed (${progressPercent.toFixed(1)}%)`);
+        }
+
+        function updateExamProgress(exams) {
+            console.log('Updating exam progress with data:', exams);
+            const total = exams.length;
+            const completed = exams.filter(e => e.status === 'completed' || e.status === 'submitted').length;
+            const pending = exams.filter(e => e.status === 'pending' || e.status === 'published').length;
+            const late = exams.filter(e => e.status === 'late').length;
+            
+            console.log(`Exam stats - Total: ${total}, Completed: ${completed}, Pending: ${pending}, Late: ${late}`);
+            
+            // Update exam progress
+            const examScoreElement = document.getElementById('examScore');
+            const examDoneElement = document.getElementById('examDone');
+            const examPendingElement = document.getElementById('examPending');
+            const examLateElement = document.getElementById('examLate');
+            const examProgressElement = document.getElementById('examProgress');
+            
+            if (examScoreElement) examScoreElement.textContent = `${completed}/${total}`;
+            if (examDoneElement) examDoneElement.textContent = completed;
+            if (examPendingElement) examPendingElement.textContent = pending;
+            if (examLateElement) examLateElement.textContent = late;
+            
+            // Update progress bar
+            const progressPercent = total > 0 ? (completed / total) * 100 : 0;
+            if (examProgressElement) examProgressElement.style.width = `${progressPercent}%`;
+            
+            console.log(`Exams: ${completed}/${total} completed (${progressPercent.toFixed(1)}%)`);
+        }
+
+        // Load recent quiz and exam grades
+        function loadRecentGrades() {
+            console.log('Loading recent grades...');
+            
+            // Load recent quiz grades - get the most recent completed quiz
+            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const completedQuizzes = quizzes.filter(q => q.status === 'completed' || q.status === 'submitted')
+                .sort((a, b) => new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0))
+                .slice(0, 1); // Get only the most recent one
+            updateRecentQuizGrades(completedQuizzes);
+            
+            // Load recent exam grades - get the most recent completed exam
+            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            const completedExams = exams.filter(e => e.status === 'completed' || e.status === 'submitted')
+                .sort((a, b) => new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0))
+                .slice(0, 1); // Get only the most recent one
+            updateRecentExamGrades(completedExams);
+        }
+
+        function updateRecentQuizGrades(quizzes) {
+            const container = document.getElementById('recentQuizGrades');
+            if (quizzes.length === 0) {
+                container.innerHTML = '<span style="color: #64748b; font-style: italic;">No completed quizzes yet</span>';
+                return;
+            }
+            
+            const quiz = quizzes[0]; // Get the most recent quiz
+            const score = quiz.score || quiz.points || quiz.grade || 0;
+            const maxScore = quiz.maxScore || quiz.maxPoints || quiz.totalPoints || 1;
+            const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+            const gradeColor = percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444';
+            
+            const quizDate = quiz.date ? new Date(quiz.date).toLocaleDateString() : 'Recent';
+            
+            container.innerHTML = `
+                <div style="background: ${gradeColor}; color: white; padding: 1rem; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">${quiz.title || 'Quiz'}</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">${score}/${maxScore}</div>
+                    <div style="font-size: 1rem; font-weight: 600;">${percentage}%</div>
+                    <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem;">${quizDate}</div>
+                </div>
+            `;
+        }
+
+        function updateRecentExamGrades(exams) {
+            const container = document.getElementById('recentExamGrades');
+            if (exams.length === 0) {
+                container.innerHTML = '<span style="color: #64748b; font-style: italic;">No completed exams yet</span>';
+                return;
+            }
+            
+            const exam = exams[0]; // Get the most recent exam
+            const score = exam.score || exam.points || exam.grade || 0;
+            const maxScore = exam.maxScore || exam.maxPoints || exam.totalPoints || 100;
+            const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+            const gradeColor = percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444';
+            
+            const examDate = exam.date ? new Date(exam.date).toLocaleDateString() : 'Recent';
+            
+            container.innerHTML = `
+                <div style="background: ${gradeColor}; color: white; padding: 1rem; border-radius: 12px; text-align: center;">
+                    <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">${exam.title || 'Exam'}</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">${score}/${maxScore}</div>
+                    <div style="font-size: 1rem; font-weight: 600;">${percentage}%</div>
+                    <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem;">${examDate}</div>
+                </div>
+            `;
+        }
+
+        // Reset progress data to sample data
+        function resetProgressData() {
+            if (confirm('This will reset all progress data to sample data. Are you sure?')) {
+                console.log('Resetting progress data...');
+                
+                // Clear existing data
+                localStorage.removeItem('physicsAssignments');
+                localStorage.removeItem('physicsQuizzes');
+                localStorage.removeItem('physicsExams');
+                
+                // Force reload with sample data
+                loadProgressData();
+                loadRecentGrades();
+                updateQuizAndExamAverages();
+                updatePerformanceBarChart();
+                
+                alert('Progress data has been reset to sample data!');
+            }
+        }
+
+        // Calculate and update quiz and exam averages
+        function updateQuizAndExamAverages() {
+            console.log('Updating quiz and exam averages...');
+            
+            // Check all localStorage keys to find quiz scores
+            console.log('All localStorage keys:', Object.keys(localStorage));
+            
+            // Look for quiz results/scores in different localStorage keys
+            const possibleQuizKeys = [
+                'physicsQuizResults',
+                'physicsQuizScores', 
+                'quizResults',
+                'quizScores',
+                'studentQuizResults',
+                'completedQuizzes',
+                'quizAttempts',
+                'physicsGradedSubmissions',
+                'physicsSubmissions',
+                'physicsPendingGrading',
+                'physicsStudentResults',
+                'physicsQuizAttempts',
+                'physicsCompletedQuizzes',
+                'studentPhysicsQuizzes',
+                'physicsQuizGrades',
+                'physicsQuizAnswers',
+                'physicsQuizResponses'
+            ];
+            
+            let quizScores = [];
+            possibleQuizKeys.forEach(key => {
+                const data = localStorage.getItem(key);
+                if (data) {
+                    try {
+                        const parsed = JSON.parse(data);
+                        console.log(`Found data in ${key}:`, parsed);
+                        if (Array.isArray(parsed)) {
+                            quizScores = quizScores.concat(parsed);
+                        }
+                    } catch (e) {
+                        console.log(`Could not parse ${key}:`, e);
+                    }
+                }
+            });
+            
+            console.log('Found quiz scores:', quizScores);
+            
+            // Let's also check if there are any quiz scores stored in the quiz objects themselves
+            // Maybe the scores are stored as properties in the quiz definitions
+            if (quizScores.length === 0) {
+                console.log('No separate quiz scores found, checking quiz definitions for scores...');
+                const quizDefinitions = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+                const completedQuizzesWithScores = quizDefinitions.filter(q => 
+                    q.status === 'completed' && 
+                    (q.score !== undefined || q.grade !== undefined || q.points !== undefined || q.finalScore !== undefined)
+                );
+                console.log('Completed quizzes with scores:', completedQuizzesWithScores);
+                if (completedQuizzesWithScores.length > 0) {
+                    quizScores = completedQuizzesWithScores;
+                    console.log('Using quiz definitions with scores:', quizScores);
+                }
+            }
+            
+            // Also search for any localStorage keys that contain "physics" and "quiz"
+            const allKeys = Object.keys(localStorage);
+            const physicsQuizKeys = allKeys.filter(key => 
+                key.toLowerCase().includes('physics') && 
+                (key.toLowerCase().includes('quiz') || key.toLowerCase().includes('exam') || key.toLowerCase().includes('submission') || key.toLowerCase().includes('grade'))
+            );
+            console.log('Physics-related keys:', physicsQuizKeys);
+            
+            // Check these keys for quiz/exam data
+            physicsQuizKeys.forEach(key => {
+                const data = localStorage.getItem(key);
+                if (data) {
+                    try {
+                        const parsed = JSON.parse(data);
+                        console.log(`Found data in ${key}:`, parsed);
+                        if (Array.isArray(parsed) && parsed.length > 0) {
+                            // Check if this looks like quiz/exam data
+                            const firstItem = parsed[0];
+                            console.log(`First item in ${key}:`, firstItem);
+                            console.log(`First item keys:`, Object.keys(firstItem));
+                            
+                            // Check if this is assignment data (has assignmentId) vs quiz data
+                            if (firstItem && firstItem.assignmentId) {
+                                console.log(`This is assignment data in ${key}, skipping for quiz/exam calculation`);
+                            } else if (firstItem && (firstItem.score !== undefined || firstItem.grade !== undefined || firstItem.points !== undefined)) {
+                                console.log(`This looks like quiz/exam data: ${key}`);
+                                if (key.toLowerCase().includes('quiz')) {
+                                    quizScores = quizScores.concat(parsed);
+                                } else if (key.toLowerCase().includes('exam')) {
+                                    // examScores will be declared later, so we'll handle this differently
+                                    console.log(`Found exam data in ${key}, will process later`);
+                                }
+                            }
+                        }
+                    } catch (e) {
+                        console.log(`Could not parse ${key}:`, e);
+                    }
+                }
+            });
+            
+            // Load quizzes data
+            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const completedQuizzes = quizzes.filter(q => q.status === 'completed' || q.status === 'submitted');
+            
+            // Look for exam results/scores in different localStorage keys
+            const possibleExamKeys = [
+                'physicsExamResults',
+                'physicsExamScores', 
+                'examResults',
+                'examScores',
+                'studentExamResults',
+                'completedExams',
+                'examAttempts',
+                'physicsGradedSubmissions',
+                'physicsSubmissions',
+                'physicsPendingGrading',
+                'physicsStudentResults',
+                'physicsExamAttempts',
+                'physicsCompletedExams',
+                'studentPhysicsExams',
+                'physicsExamGrades',
+                'physicsExamAnswers',
+                'physicsExamResponses'
+            ];
+            
+            let examScores = [];
+            possibleExamKeys.forEach(key => {
+                const data = localStorage.getItem(key);
+                if (data) {
+                    try {
+                        const parsed = JSON.parse(data);
+                        console.log(`Found data in ${key}:`, parsed);
+                        if (Array.isArray(parsed)) {
+                            examScores = examScores.concat(parsed);
+                        }
+                    } catch (e) {
+                        console.log(`Could not parse ${key}:`, e);
+                    }
+                }
+            });
+            
+            console.log('Found exam scores:', examScores);
+            
+            // Let's also check if there are any exam scores stored in the exam objects themselves
+            // Maybe the scores are stored as properties in the exam definitions
+            if (examScores.length === 0) {
+                console.log('No separate exam scores found, checking exam definitions for scores...');
+                const examDefinitions = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+                const completedExamsWithScores = examDefinitions.filter(e => 
+                    e.status === 'completed' && 
+                    (e.score !== undefined || e.grade !== undefined || e.points !== undefined || e.finalScore !== undefined)
+                );
+                console.log('Completed exams with scores:', completedExamsWithScores);
+                if (completedExamsWithScores.length > 0) {
+                    examScores = completedExamsWithScores;
+                    console.log('Using exam definitions with scores:', examScores);
+                }
+            }
+            
+            // Load exams data
+            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            const completedExams = exams.filter(e => e.status === 'completed' || e.status === 'submitted');
+            
+            // Calculate quiz total points
+            if (completedQuizzes.length > 0 || quizScores.length > 0) {
+                console.log('Completed quizzes data:', completedQuizzes);
+                console.log('Found quiz scores data:', quizScores);
+                
+                // Use quiz scores if available, otherwise use completed quizzes
+                const dataToUse = quizScores.length > 0 ? quizScores : completedQuizzes;
+                console.log('Using data:', dataToUse);
+                
+                const totalQuizPoints = dataToUse.reduce((sum, quiz) => {
+                    // Try multiple possible score properties
+                    const score = quiz.score || quiz.points || quiz.grade || quiz.userScore || quiz.earnedPoints || quiz.result || quiz.finalScore || 0;
+                    console.log(`Quiz "${quiz.title || quiz.name || quiz.id || quiz.quizTitle}" - All properties:`, quiz);
+                    console.log(`Quiz "${quiz.title || quiz.name || quiz.id || quiz.quizTitle}" - Score found: ${score}`);
+                    return sum + (parseInt(score) || 0);
+                }, 0);
+                
+                const totalQuizMaxPoints = dataToUse.reduce((sum, quiz) => {
+                    // Try multiple possible max score properties
+                    const maxScore = quiz.maxScore || quiz.maxPoints || quiz.totalPoints || quiz.total || quiz.maximumScore || quiz.totalPossible || quiz.totalScore || 1;
+                    console.log(`Quiz "${quiz.title || quiz.name || quiz.id || quiz.quizTitle}" - Max Score found: ${maxScore}`);
+                    return sum + (parseInt(maxScore) || 1);
+                }, 0);
+                
+                const quizPercentage = totalQuizMaxPoints > 0 ? Math.round((totalQuizPoints / totalQuizMaxPoints) * 100) : 0;
+                document.getElementById('avgQuizGrade').textContent = `${totalQuizPoints}/${totalQuizMaxPoints} (${quizPercentage}%)`;
+                document.getElementById('quizAverageText').textContent = `${dataToUse.length} quiz${dataToUse.length !== 1 ? 'es' : ''} completed`;
+                
+                console.log(`Quiz total points: ${totalQuizPoints}/${totalQuizMaxPoints} (${quizPercentage}%) - ${dataToUse.length} quizzes`);
+            } else {
+                document.getElementById('avgQuizGrade').textContent = '0/0 (0%)';
+                document.getElementById('quizAverageText').textContent = 'No quizzes completed';
+            }
+            
+            // Calculate exam total points
+            if (completedExams.length > 0 || examScores.length > 0) {
+                console.log('Completed exams data:', completedExams);
+                console.log('Found exam scores data:', examScores);
+                
+                // Use exam scores if available, otherwise use completed exams
+                const dataToUse = examScores.length > 0 ? examScores : completedExams;
+                console.log('Using exam data:', dataToUse);
+                
+                const totalExamPoints = dataToUse.reduce((sum, exam) => {
+                    // Try multiple possible score properties
+                    const score = exam.score || exam.points || exam.grade || exam.userScore || exam.earnedPoints || exam.result || exam.finalScore || 0;
+                    console.log(`Exam "${exam.title || exam.name || exam.id || exam.examTitle}" - All properties:`, exam);
+                    console.log(`Exam "${exam.title || exam.name || exam.id || exam.examTitle}" - Score found: ${score}`);
+                    return sum + (parseInt(score) || 0);
+                }, 0);
+                
+                const totalExamMaxPoints = dataToUse.reduce((sum, exam) => {
+                    // Try multiple possible max score properties
+                    const maxScore = exam.maxScore || exam.maxPoints || exam.totalPoints || exam.total || exam.maximumScore || exam.totalPossible || exam.totalScore || 10;
+                    console.log(`Exam "${exam.title || exam.name || exam.id || exam.examTitle}" - Max Score found: ${maxScore}`);
+                    return sum + (parseInt(maxScore) || 10);
+                }, 0);
+                
+                const examPercentage = totalExamMaxPoints > 0 ? Math.round((totalExamPoints / totalExamMaxPoints) * 100) : 0;
+                document.getElementById('avgExamGrade').textContent = `${totalExamPoints}/${totalExamMaxPoints} (${examPercentage}%)`;
+                document.getElementById('examAverageText').textContent = `${dataToUse.length} exam${dataToUse.length !== 1 ? 's' : ''} completed`;
+                
+                console.log(`Exam total points: ${totalExamPoints}/${totalExamMaxPoints} (${examPercentage}%) - ${dataToUse.length} exams`);
+            } else {
+                document.getElementById('avgExamGrade').textContent = '0/0 (0%)';
+                document.getElementById('examAverageText').textContent = 'No exams completed';
+            }
+        }
+
+        // Update performance bar chart with individual bars for each quiz and exam
+        function updatePerformanceBarChart() {
+            console.log('Updating performance bar chart...');
+            
+            // Get quiz data - filter out assignment submissions
+            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const actualQuizzes = quizzes.filter(quiz => !quiz.assignmentId); // Filter out assignment submissions
+            
+            // Get exam data - filter out assignment submissions
+            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            const actualExams = exams.filter(exam => !exam.assignmentId); // Filter out assignment submissions
+            
+            // Create individual quiz bars
+            updateIndividualQuizBars(actualQuizzes);
+            
+            // Create individual exam bars
+            updateIndividualExamBars(actualExams);
+        }
+
+        // Update individual quiz bars as a single bar chart
+        function updateIndividualQuizBars(quizzes) {
+            const container = document.getElementById('individualQuizBars');
+            if (!container) return;
+            
+            if (quizzes.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 2rem;">No quizzes available</div>';
+                return;
+            }
+            
+            // Create a single bar chart with quiz names on x-axis and percentages on y-axis
+            const maxHeight = 200; // Maximum height for the chart
+            
+            let html = `
+                <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: end; justify-content: space-between; height: ${maxHeight}px; border-bottom: 2px solid #e5e7eb; border-left: 2px solid #e5e7eb; padding: 1rem 0 0 1rem; margin-bottom: 1rem;">
+            `;
+            
+            // Calculate percentages and create bars
+            quizzes.forEach((quiz, index) => {
+                const isCompleted = quiz.status === 'completed' || quiz.status === 'submitted';
+                const score = quiz.score || quiz.points || quiz.grade || 0;
+                const maxScore = quiz.maxScore || quiz.maxPoints || quiz.totalPoints || 1;
+                const percentage = isCompleted ? Math.round((score / maxScore) * 100) : 0;
+                
+                // Color coding based on percentage
+                const barColor = isCompleted ? 
+                    (percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444') : '#e5e7eb';
+                
+                // Calculate bar height based on percentage
+                const barHeight = (percentage / 100) * (maxHeight - 40); // 40px for padding
+                
+                // Truncate quiz title if too long
+                const quizTitle = quiz.title || `Quiz ${index + 1}`;
+                const displayTitle = quizTitle.length > 8 ? quizTitle.substring(0, 8) + '...' : quizTitle;
+                
+                html += `
+                    <div style="display: flex; flex-direction: column; align-items: center; margin: 0 2px; flex: 1;">
+                        <div style="display: flex; align-items: end; height: ${maxHeight - 40}px;">
+                            <div style="
+                                background: ${barColor}; 
+                                width: 30px; 
+                                height: ${Math.max(barHeight, 4)}px; 
+                                border-radius: 4px 4px 0 0; 
+                                transition: height 0.8s ease;
+                                position: relative;
+                            " title="${quizTitle}: ${percentage}%">
+                            </div>
+                        </div>
+                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #6b7280; text-align: center; transform: rotate(-45deg); white-space: nowrap;">
+                            ${displayTitle}
+                        </div>
+                        <div style="margin-top: 1.5rem; font-size: 0.7rem; color: #374151; font-weight: 600;">
+                            ${percentage}%
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                    </div>
+                    <!-- Y-axis labels -->
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: #6b7280;">
+                        <span>0%</span>
+                        <span>25%</span>
+                        <span>50%</span>
+                        <span>75%</span>
+                        <span>100%</span>
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+
+        // Update individual exam bars
+        function updateIndividualExamBars(exams) {
+            const container = document.getElementById('individualExamBars');
+            if (!container) return;
+            
+            if (exams.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #6b7280; padding: 2rem;">No exams available</div>';
+                return;
+            }
+            
+            let html = '';
+            exams.forEach((exam, index) => {
+                const isCompleted = exam.status === 'completed' || exam.status === 'submitted';
+                const score = exam.score || exam.points || exam.grade || 0;
+                const maxScore = exam.maxScore || exam.maxPoints || exam.totalPoints || 100;
+                const percentage = isCompleted ? Math.round((score / maxScore) * 100) : 0;
+                const barColor = isCompleted ? 
+                    (percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444') : '#e5e7eb';
+                
+                html += `
+                    <div style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                            <span style="font-weight: 600; color: #374151;">${exam.title || `Exam ${index + 1}`}</span>
+                            <span style="font-weight: 700; color: ${barColor};">
+                                ${isCompleted ? `${score}/${maxScore} (${percentage}%)` : 'Not Completed'}
+                            </span>
+                        </div>
+                        <div style="background: #e5e7eb; border-radius: 6px; height: 12px; overflow: hidden;">
+                            <div style="background: ${barColor}; height: 100%; width: ${percentage}%; transition: width 0.8s ease; border-radius: 6px;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: #6b7280;">
+                            <span>${isCompleted ? 'Completed' : 'Pending'}</span>
+                            <span>${exam.date ? new Date(exam.date).toLocaleDateString() : 'No date'}</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Load progress data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM Content Loaded - Initializing progress data...');
+            setTimeout(function() {
+                loadProgressData();
+                loadRecentGrades();
+                updateQuizAndExamAverages();
+                updatePerformanceBarChart();
+            }, 100); // Small delay to ensure all elements are ready
+        });
+
+        // Also try to load immediately if DOM is already ready
+        if (document.readyState === 'loading') {
+            console.log('Document still loading...');
+        } else {
+            console.log('Document already loaded - loading progress data immediately...');
+            setTimeout(function() {
+                loadProgressData();
+                loadRecentGrades();
+            }, 100);
+        }
+
+        // Test function to manually check and update progress
+        function testProgressUpdate() {
+            console.log('=== TESTING PROGRESS UPDATE ===');
+            
+            // Check if DOM elements exist
+            const elements = [
+                'homeworkScore', 'homeworkDone', 'homeworkPending', 'homeworkLate', 'homeworkProgress',
+                'quizScore', 'quizDone', 'quizPending', 'quizLate', 'quizProgress',
+                'examScore', 'examDone', 'examPending', 'examLate', 'examProgress'
+            ];
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                console.log(`Element ${id}:`, element ? 'EXISTS' : 'NOT FOUND');
+            });
+            
+            // Force update with sample data
+            console.log('Forcing update with sample data...');
+            loadProgressData();
+            loadRecentGrades();
+            updateQuizAndExamAverages();
+        }
+
+        // Make test function available globally
+        window.testProgressUpdate = testProgressUpdate;
     </script>
 
     <!-- Modals for Grade Charts -->
@@ -836,41 +1539,12 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             loadCourseProgressData('physics');
-            loadWrongQuestionsData('physics');
-            loadWrongFlashcardsData('physics');
             loadGoals('physics');
             generateCalendar();
         });
         
-        function showAllQuizGrades() {
-            window.showAllQuizGrades('physics');
-        }
-
-        function showAllExamGrades() {
-            window.showAllExamGrades('physics');
-        }
+        // Removed problematic recursive functions that were causing infinite loops
         
-        // Load wrong questions count
-        function loadWrongQuestionsData(courseName) {
-            const wrongQuestions = JSON.parse(localStorage.getItem(`${courseName}WrongQuestions`) || '[]');
-            document.getElementById('wrongQuestionsCount').textContent = wrongQuestions.length;
-        }
-        
-        // Load wrong flashcards count
-        function loadWrongFlashcardsData(courseName) {
-            const wrongFlashcards = JSON.parse(localStorage.getItem(`${courseName}WrongFlashcards`) || '[]');
-            document.getElementById('wrongFlashcardsCount').textContent = wrongFlashcards.length;
-        }
-        
-        // Open wrong questions folder
-        function openWrongQuestionsFolder(courseName) {
-            window.location.href = 'wrong-questions.html';
-        }
-        
-        // Open wrong flashcards
-        function openWrongFlashcards(courseName) {
-            window.location.href = 'incorrect-flashcards.html';
-        }
     </script>
 </body>
 </html>

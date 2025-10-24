@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Past Papers 2020 - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        body {
+            background-color: #F8F8F8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* English Dashboard Header */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
+        }
+
+        .dashboard-header .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .dashboard-header .row {
+            margin: 0 !important;
+        }
+
+        .dashboard-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        .dashboard-nav .nav-link {
+            color: #333;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-nav .nav-link:hover,
+        .dashboard-nav .nav-link.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .dashboard-nav .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .dashboard-nav .nav-link:hover::before {
+            left: 100%;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+            background-color: #F8F8F8;
+            min-height: 100vh;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* PDF Grid */
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .pdf-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pdf-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pdf-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .pdf-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .pdf-icon iconify-icon {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .pdf-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .pdf-year {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .pdf-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-pdf {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            color: white;
+        }
+
+        .btn-preview {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+
+        .btn-preview:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .pdf-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- English Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <!-- Top Header with Hamburger Menu and Navigation Buttons -->
+            <div class="row" style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Button -->
+                        <button class="hamburger-menu-btn" onclick="toggleSidebar()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:menu" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                        </button>
+                        
+                        <!-- Personalized Greeting -->
+                        <div class="personalized-greeting" onclick="toggleBadgesBar()" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.9); border-radius: 25px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
+                            <div class="greeting-content">
+                                <div class="greeting-text" id="greetingText" style="font-weight: 600; color: #333; font-size: 0.9rem;">Good afternoon, Alex!</div>
+                                <div class="ranking-info" style="font-size: 0.75rem; color: #666; display: flex; align-items: center; gap: 0.3rem;">
+                                    <span id="studentRanking">#2 in class</span>
+                                    <span>•</span>
+                                    <span id="totalPoints" style="color: #667eea; font-weight: 600;">0 points</span>
+                                    <span>•</span>
+                                    <span id="earnedBadges">3 badges</span>
+                                </div>
+                            </div>
+                            <div class="sample-badges" style="display: flex; gap: 0.2rem;">
+                                <div class="badge-sample" style="width: 24px; height: 24px; background: linear-gradient(135deg, #ffd700, #ffed4e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #333; font-weight: bold;">1</div>
+                                <div class="badge-sample" style="width: 24px; height: 24px; background: linear-gradient(135deg, #c0c0c0, #e5e5e5); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #333; font-weight: bold;">2</div>
+                                <div class="badge-sample" style="width: 24px; height: 24px; background: linear-gradient(135deg, #cd7f32, #daa520); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: white; font-weight: bold;">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="student-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
+                        </a>
+                        
+                        <!-- Focus Mode Button -->
+                        <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Notifications Button -->
+                        <button class="nav-icon-btn" onclick="navigateToNotifications()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:notifications" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                            <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</span>
+                        </button>
+                        
+                        <!-- Community Button -->
+                        <button class="nav-icon-btn" onclick="navigateToCommunity()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Profile Button -->
+                        <button class="nav-icon-btn" onclick="navigateToProfile()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <div class="row">
+                <div class="col-12">
+                    <nav class="dashboard-nav">
+                        <div class="nav nav-pills justify-content-center">
+                            <a class="nav-link" href="english-dashboard.html">
+                                <iconify-icon icon="material-symbols:dashboard" style="margin-right: 0.5rem;"></iconify-icon>
+                                Dashboard
+                            </a>
+                            <a class="nav-link" href="english-lectures.html">
+                                <iconify-icon icon="material-symbols:play-circle" style="margin-right: 0.5rem;"></iconify-icon>
+                                Lectures
+                            </a>
+                            <a class="nav-link" href="english-progress.html">
+                                <iconify-icon icon="material-symbols:trending-up" style="margin-right: 0.5rem;"></iconify-icon>
+                                Progress
+                            </a>
+                            <a class="nav-link" href="english-practice.html">
+                                <iconify-icon icon="material-symbols:quiz" style="margin-right: 0.5rem;"></iconify-icon>
+                                Practice
+                            </a>
+                            <a class="nav-link active" href="english-past-papers.html">
+                                <iconify-icon icon="material-symbols:description" style="margin-right: 0.5rem;"></iconify-icon>
+                                Past Papers
+                            </a>
+                            <a class="nav-link" href="english-badges.html">
+                                <iconify-icon icon="material-symbols:workspace-premium" style="margin-right: 0.5rem;"></iconify-icon>
+                                Badges
+                            </a>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1 class="page-title">English Past Papers 2020</h1>
+                <p class="page-subtitle">Access IGCSE English exam papers from 2020 to practice and prepare for your upcoming exams</p>
+            </div>
+
+            <div class="pdf-grid">
+                
+                <div class="pdf-card">
+                    <div class="pdf-icon">
+                        <iconify-icon icon="material-symbols:description"></iconify-icon>
+                    </div>
+                    <h3 class="pdf-title">IGCSE English Paper 1</h3>
+                    <p class="pdf-year">2020 • Reading</p>
+                    <div class="pdf-actions">
+                        <a href="#" class="btn-pdf btn-download">
+                            <iconify-icon icon="material-symbols:download"></iconify-icon>
+                            Download
+                        </a>
+                        <a href="#" class="btn-pdf btn-preview">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Preview
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="pdf-card">
+                    <div class="pdf-icon">
+                        <iconify-icon icon="material-symbols:description"></iconify-icon>
+                    </div>
+                    <h3 class="pdf-title">IGCSE English Paper 2</h3>
+                    <p class="pdf-year">2020 • Writing</p>
+                    <div class="pdf-actions">
+                        <a href="#" class="btn-pdf btn-download">
+                            <iconify-icon icon="material-symbols:download"></iconify-icon>
+                            Download
+                        </a>
+                        <a href="#" class="btn-pdf btn-preview">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Preview
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="pdf-card">
+                    <div class="pdf-icon">
+                        <iconify-icon icon="material-symbols:description"></iconify-icon>
+                    </div>
+                    <h3 class="pdf-title">IGCSE English Paper 3</h3>
+                    <p class="pdf-year">2020 • Poetry & Prose</p>
+                    <div class="pdf-actions">
+                        <a href="#" class="btn-pdf btn-download">
+                            <iconify-icon icon="material-symbols:download"></iconify-icon>
+                            Download
+                        </a>
+                        <a href="#" class="btn-pdf btn-preview">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Preview
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="pdf-card">
+                    <div class="pdf-icon">
+                        <iconify-icon icon="material-symbols:description"></iconify-icon>
+                    </div>
+                    <h3 class="pdf-title">IGCSE English Paper 4</h3>
+                    <p class="pdf-year">2020 • Drama & Unseen</p>
+                    <div class="pdf-actions">
+                        <a href="#" class="btn-pdf btn-download">
+                            <iconify-icon icon="material-symbols:download"></iconify-icon>
+                            Download
+                        </a>
+                        <a href="#" class="btn-pdf btn-preview">
+                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                            Preview
+                        </a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function navigateToFocusMode() {
+            window.location.href = 'focus-mode.html';
+        }
+
+        function navigateToNotifications() {
+            window.location.href = 'notifications.html';
+        }
+
+        function navigateToCommunity() {
+            window.location.href = 'community.html';
+        }
+
+        function navigateToProfile() {
+            window.location.href = 'profile.html';
+        }
+
+        function toggleBadgesBar() {
+            window.location.href = 'badges.html';
+        }
+
+        function toggleSidebar() {
+            // Sidebar functionality if needed
+        }
+    </script>
+</body>
+</html>

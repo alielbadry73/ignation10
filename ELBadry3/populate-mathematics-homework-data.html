@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Populate Mathematics Homework Data</title>
+</head>
+<body>
+    <h1>Populating Mathematics Homework Data...</h1>
+    <p>This page will create sample Mathematics homework assignments.</p>
+    
+    <script>
+        // Mathematics homework assignments data
+        const mathematicsAssignments = [
+            {
+                id: 'math-hw-001',
+                title: 'Algebra: Solving Linear Equations',
+                description: 'Solve the following linear equations. Show all your work step by step and check your answers by substitution.',
+                points: 20,
+                difficulty: 'medium',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'mathematics',
+                published: true,
+                category: 'algebra',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'Solve for x: 3x + 7 = 22',
+                        type: 'text',
+                        points: 5,
+                        sampleAnswer: 'x = 5',
+                        gradingNotes: 'Check for correct algebraic manipulation and final answer'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'Solve for y: 2y - 8 = 12',
+                        type: 'text',
+                        points: 5,
+                        sampleAnswer: 'y = 10',
+                        gradingNotes: 'Verify step-by-step solution process'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'Solve for z: 4(z + 3) = 28',
+                        type: 'text',
+                        points: 10,
+                        sampleAnswer: 'z = 4',
+                        gradingNotes: 'Check for proper distribution and solving process'
+                    }
+                ]
+            },
+            {
+                id: 'math-hw-002',
+                title: 'Geometry: Area and Perimeter',
+                description: 'Calculate the area and perimeter of various shapes. Round your answers to 2 decimal places where necessary.',
+                points: 25,
+                difficulty: 'easy',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'mathematics',
+                published: true,
+                category: 'geometry',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'Find the area and perimeter of a rectangle with length 8cm and width 5cm.',
+                        type: 'text',
+                        points: 8,
+                        sampleAnswer: 'Area = 40 cm², Perimeter = 26 cm',
+                        gradingNotes: 'Check formulas and calculations'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'Calculate the area of a circle with radius 7cm. Use π = 3.14',
+                        type: 'text',
+                        points: 9,
+                        sampleAnswer: 'Area = 153.86 cm²',
+                        gradingNotes: 'Verify πr² formula and calculation'
+                    },
+                    {
+                        id: 'q3',
+                        text: 'Find the area of a triangle with base 12cm and height 8cm.',
+                        type: 'text',
+                        points: 8,
+                        sampleAnswer: 'Area = 48 cm²',
+                        gradingNotes: 'Check ½ × base × height formula'
+                    }
+                ]
+            },
+            {
+                id: 'math-hw-003',
+                title: 'Statistics: Mean, Median, Mode',
+                description: 'Calculate the mean, median, and mode for the given data sets. Show all calculations clearly.',
+                points: 22,
+                difficulty: 'medium',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'mathematics',
+                published: true,
+                category: 'statistics',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'Find the mean, median, and mode of: 5, 7, 3, 9, 7, 2, 7, 1',
+                        type: 'text',
+                        points: 11,
+                        sampleAnswer: 'Mean = 5.125, Median = 6, Mode = 7',
+                        gradingNotes: 'Check data organization and calculations'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'The heights (in cm) of 8 students are: 165, 170, 155, 162, 168, 159, 171, 163. Find the median height.',
+                        type: 'text',
+                        points: 11,
+                        sampleAnswer: 'Median = 163.5 cm',
+                        gradingNotes: 'Verify data sorting and median calculation'
+                    }
+                ]
+            },
+            {
+                id: 'math-hw-004',
+                title: 'Trigonometry: Sine and Cosine',
+                description: 'Use trigonometric ratios to find missing sides and angles in right-angled triangles.',
+                points: 30,
+                difficulty: 'hard',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'mathematics',
+                published: true,
+                category: 'trigonometry',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'In a right triangle, if the hypotenuse is 10cm and one angle is 30°, find the lengths of the other two sides.',
+                        type: 'text',
+                        points: 15,
+                        sampleAnswer: 'Opposite = 5cm, Adjacent = 8.66cm',
+                        gradingNotes: 'Check use of sin 30° = 0.5 and cos 30° = √3/2'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'A ladder 6m long leans against a wall. If the ladder makes an angle of 60° with the ground, how high up the wall does it reach?',
+                        type: 'text',
+                        points: 15,
+                        sampleAnswer: 'Height = 5.2m',
+                        gradingNotes: 'Verify sin 60° calculation and final answer'
+                    }
+                ]
+            },
+            {
+                id: 'math-hw-005',
+                title: 'Probability: Tree Diagrams',
+                description: 'Use tree diagrams to solve probability problems. Show your tree diagram and calculate the probabilities.',
+                points: 28,
+                difficulty: 'hard',
+                status: 'pending',
+                dueDate: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString(),
+                subject: 'mathematics',
+                published: true,
+                category: 'probability',
+                questions: [
+                    {
+                        id: 'q1',
+                        text: 'A bag contains 3 red balls and 2 blue balls. Two balls are drawn without replacement. Draw a tree diagram and find the probability that both balls are red.',
+                        type: 'text',
+                        points: 14,
+                        sampleAnswer: 'P(both red) = 3/10',
+                        gradingNotes: 'Check tree diagram and probability calculations'
+                    },
+                    {
+                        id: 'q2',
+                        text: 'A coin is flipped three times. Draw a tree diagram and find the probability of getting exactly two heads.',
+                        type: 'text',
+                        points: 14,
+                        sampleAnswer: 'P(exactly 2 heads) = 3/8',
+                        gradingNotes: 'Verify tree diagram and probability calculation'
+                    }
+                ]
+            }
+        ];
+
+        // Save to localStorage
+        localStorage.setItem('mathematicsAssignments', JSON.stringify(mathematicsAssignments));
+
+        // Display success message
+        document.body.innerHTML = `
+            <h1>✅ Mathematics Homework Data Created Successfully!</h1>
+            <p><strong>Created ${mathematicsAssignments.length} homework assignments:</strong></p>
+            <ul>
+                ${mathematicsAssignments.map(hw => `<li><strong>${hw.title}</strong> (${hw.points} points, ${hw.difficulty})</li>`).join('')}
+            </ul>
+            <p>You can now go to <a href="mathematics-homework.html">mathematics-homework.html</a> to see the assignments.</p>
+            <p>Data saved to localStorage as 'mathematicsAssignments'.</p>
+        `;
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

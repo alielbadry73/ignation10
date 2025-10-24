@@ -1038,8 +1038,11 @@
 
         function loadDailyQuestions() {
             const questions = JSON.parse(localStorage.getItem('chemistry_daily_practice_questions') || '[]');
+            console.log('🔍 Loading daily questions - Count:', questions.length);
+            console.log('🔍 Questions data:', questions);
             
             if (questions.length === 0) {
+                console.log('📭 No questions found, showing empty state');
                 document.getElementById('emptyState').style.display = 'block';
                 document.getElementById('questionContainer').style.display = 'none';
                 return;
@@ -1049,6 +1052,7 @@
             container.innerHTML = '';
 
             questions.forEach((question, index) => {
+                console.log(`🔍 Rendering question ${index + 1}:`, question);
                 const questionCard = document.createElement('div');
                 questionCard.className = 'question-card';
                 
@@ -1149,7 +1153,10 @@
                     </div>
                 `;
                 container.appendChild(questionCard);
+                console.log(`✅ Question ${index + 1} added to container`);
             });
+            
+            console.log(`🎉 Finished loading ${questions.length} questions`);
         }
 
         function submitAnswer(questionIndex) {
@@ -1456,7 +1463,7 @@
             
             // Collect form data
             const questionData = {
-                id: Date.now().toString(),
+                id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 9),
                 type: currentAnswerType,
                 questionContent: questionContent,
                 questionText: document.getElementById('questionText').value.trim(),
@@ -1496,13 +1503,20 @@
             
             // Save question to localStorage
             let questions = JSON.parse(localStorage.getItem('chemistry_daily_practice_questions') || '[]');
+            console.log('🔍 Before saving - Current questions count:', questions.length);
+            console.log('🔍 Question to be saved:', questionData);
+            
             questions.push(questionData);
             localStorage.setItem('chemistry_daily_practice_questions', JSON.stringify(questions));
+            
+            console.log('✅ After saving - New questions count:', questions.length);
+            console.log('✅ All questions:', questions);
             
             showToast('Question saved successfully!', 'success');
             
             // Reset form after a delay
             setTimeout(() => {
+                console.log('🔄 Resetting form and refreshing questions display');
                 closeQuestionCreator();
                 loadDailyQuestions(); // Refresh the questions display
             }, 2000);
@@ -1592,6 +1606,7 @@
     </script>
 </body>
 </html>
+
 
 
 

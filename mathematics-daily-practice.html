@@ -1718,7 +1718,7 @@
             
             // Collect form data
             const questionData = {
-                id: Date.now().toString(),
+                id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 9),
                 type: currentAnswerType,
                 questionContent: questionContent,
                 questionText: document.getElementById('questionText').value.trim(),

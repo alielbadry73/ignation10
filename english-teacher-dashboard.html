@@ -1155,6 +1155,69 @@
             </div>
         </div>
 
+        <!-- Practice Questions & Live Sessions Section -->
+        <div class="row mb-5">
+            <!-- Practice Questions Card -->
+            <div class="col-md-6 mb-4">
+                <div class="modern-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <iconify-icon icon="material-symbols:quiz" class="me-2"></iconify-icon>
+                            Practice Questions
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary" onclick="openPracticeQuestionModal()">
+                                <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
+                                Create
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="viewAllPracticeQuestions()">
+                                <iconify-icon icon="material-symbols:visibility" class="me-1"></iconify-icon>
+                                View All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="practiceQuestionsPreview">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                Loading practice questions...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Sessions Card -->
+            <div class="col-md-6 mb-4">
+                <div class="modern-card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <iconify-icon icon="material-symbols:video-call" class="me-2"></iconify-icon>
+                            Live Sessions
+                        </h5>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-primary" onclick="openLiveSessionModal()">
+                                <iconify-icon icon="material-symbols:video-call" class="me-1"></iconify-icon>
+                                Start Session
+                            </button>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="viewAllLiveSessions()">
+                                <iconify-icon icon="material-symbols:visibility" class="me-1"></iconify-icon>
+                                View All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="liveSessionsPreview">
+                            <div class="loading">
+                                <div class="spinner"></div>
+                                Loading live sessions...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Main Content Tabs -->
         <div class="content-tabs">
             <div class="tab-nav">
@@ -1579,6 +1642,180 @@
             </div>
                                         </div>
                                     </div>
+                                    
+    <!-- Practice Questions Modal -->
+    <div class="modal fade" id="practiceQuestionModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:quiz" style="margin-right: 0.5rem;"></iconify-icon>
+                        Practice Questions
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="practiceQuestionForm">
+                        <!-- Question Type Selection -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold mb-3">Question Type</label>
+                            <div class="question-types">
+                                <button type="button" class="btn btn-outline-primary question-type active" data-type="multiple-choice" onclick="selectPracticeQuestionType('multiple-choice')">
+                                    <iconify-icon icon="material-symbols:check-box"></iconify-icon>
+                                    Multiple Choice
+                                </button>
+                                <button type="button" class="btn btn-outline-primary question-type" data-type="short-answer" onclick="selectPracticeQuestionType('short-answer')">
+                                    <iconify-icon icon="material-symbols:short-text"></iconify-icon>
+                                    Short Answer
+                                </button>
+                                <button type="button" class="btn btn-outline-primary question-type" data-type="file-based" onclick="selectPracticeQuestionType('file-based')">
+                                    <iconify-icon icon="material-symbols:upload-file"></iconify-icon>
+                                    File-Based
+                                </button>
+                                <button type="button" class="btn btn-outline-primary question-type" data-type="bullet-points" onclick="selectPracticeQuestionType('bullet-points')">
+                                    <iconify-icon icon="material-symbols:format-list-bulleted"></iconify-icon>
+                                    Bullet Points
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Question Creator -->
+                        <div class="question-creator mb-4">
+                            <div class="d-flex align-items-end gap-3 mb-3">
+                                <div class="flex-grow-1">
+                                    <label class="form-label fw-bold">Question Content</label>
+                                    <textarea class="form-control" id="practiceQuestionText" rows="3" placeholder="Enter your question here..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="form-label fw-bold">Points</label>
+                                    <input type="number" class="form-control" id="practiceQuestionPoints" value="10" min="1" max="100">
+                                </div>
+                                <div>
+                                    <label class="form-label fw-bold">Difficulty</label>
+                                    <select class="form-control" id="practiceQuestionDifficulty">
+                                        <option value="Easy">Easy</option>
+                                        <option value="Medium" selected>Medium</option>
+                                        <option value="Hard">Hard</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label fw-bold">Topic</label>
+                                    <input type="text" class="form-control" id="practiceQuestionTopic" placeholder="Topic">
+                                </div>
+                            </div>
+
+                            <!-- Answer Options (Dynamic based on type) -->
+                            <div id="practiceAnswerOptions">
+                                <!-- Multiple Choice Options -->
+                                <div id="practiceMultipleChoiceOptions" class="answer-options">
+                                    <label class="form-label fw-bold">Answer Options</label>
+                                    <div id="practiceMultipleChoiceList">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <input type="text" class="form-control me-2" placeholder="Option A">
+                                            <input type="radio" name="practiceCorrectAnswer" value="A" class="me-2">
+                                            <label class="form-label mb-0">Correct</label>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <input type="text" class="form-control me-2" placeholder="Option B">
+                                            <input type="radio" name="practiceCorrectAnswer" value="B" class="me-2">
+                                            <label class="form-label mb-0">Correct</label>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addPracticeOption()">
+                                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                        Add Option
+                                    </button>
+                                </div>
+
+                                <!-- Short Answer Options -->
+                                <div id="practiceShortAnswerOptions" class="answer-options" style="display: none;">
+                                    <label class="form-label fw-bold">Expected Answer</label>
+                                    <input type="text" class="form-control" id="practiceExpectedAnswer" placeholder="Enter expected answer">
+                                </div>
+
+                                <!-- File-Based Options -->
+                                <div id="practiceFileBasedOptions" class="answer-options" style="display: none;">
+                                    <label class="form-label fw-bold">File Upload Settings</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Allowed File Types</label>
+                                            <select class="form-control" id="practiceAllowedFileTypes" multiple>
+                                                <option value="jpg">JPG</option>
+                                                <option value="png">PNG</option>
+                                                <option value="pdf">PDF</option>
+                                                <option value="doc">DOC</option>
+                                                <option value="docx">DOCX</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Max File Size (MB)</label>
+                                            <input type="number" class="form-control" id="practiceMaxFileSize" value="5" min="1" max="50">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bullet Points Options -->
+                                <div id="practiceBulletPointsOptions" class="answer-options" style="display: none;">
+                                    <label class="form-label fw-bold">Expected Bullet Points</label>
+                                    <div id="practiceBulletPointsList">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <input type="text" class="form-control me-2" placeholder="Bullet point 1">
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePracticeBulletPoint(this)">
+                                                <iconify-icon icon="material-symbols:close"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addPracticeBulletPoint()">
+                                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                        Add Bullet Point
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Time Limit -->
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Time Limit (minutes)</label>
+                                    <input type="number" class="form-control" id="practiceTimeLimit" placeholder="Optional" min="1" max="120">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Explanation</label>
+                                    <textarea class="form-control" id="practiceQuestionExplanation" rows="2" placeholder="Optional explanation for the answer"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Questions List -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="mb-0">Created Questions</h6>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-success" onclick="savePracticeQuestion()">
+                                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                                        Save Question
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="addPracticeQuestion()">
+                                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                        Add Another
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="practiceQuestionsList" class="questions-list">
+                                <!-- Questions will be added here -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveAllPracticeQuestions()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Save All Questions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
                                     
     <!-- Start Live Session Modal -->
     <div class="modal fade" id="liveSessionModal" tabindex="-1">
@@ -2044,6 +2281,8 @@
             loadAssessments();
             updateStats();
             loadDailyQuestions();
+            loadPracticeQuestions();
+            loadLiveSessions();
             
             // Add event listener for publish button
             document.getElementById('publishBtn').addEventListener('click', function() {
@@ -3695,15 +3934,20 @@
 
         // Daily Practice Questions Functions
         function loadDailyQuestions() {
-            const questionsData = localStorage.getItem('englishDailyQuestions');
+            // Use consistent storage key with underscores
+            const questionsData = localStorage.getItem('english_daily_practice_questions');
             englishDailyQuestions = questionsData ? JSON.parse(questionsData) : [];
+            console.log('🔍 Loading daily questions for card:', englishDailyQuestions.length, 'questions');
+            console.log('🔍 Questions data:', englishDailyQuestions);
             displayDailyQuestions();
         }
 
         function displayDailyQuestions() {
             const container = document.getElementById('dailyQuestionsPreview');
+            console.log('🔍 Displaying daily questions:', englishDailyQuestions.length, 'questions');
             
             if (englishDailyQuestions.length === 0) {
+                console.log('📭 No questions found, showing empty state');
                 container.innerHTML = `
                     <div class="text-center py-3">
                         <iconify-icon icon="material-symbols:quiz" style="font-size: 2rem; color: #6c757d;"></iconify-icon>
@@ -3716,25 +3960,33 @@
 
             // Show preview of recent questions (max 3)
             const recentQuestions = englishDailyQuestions.slice(-3);
-            container.innerHTML = recentQuestions.map((question, index) => `
-                <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
-                    <div class="flex-grow-1">
-                        <h6 class="mb-1" style="font-size: 0.9rem;">${question.question.substring(0, 50)}${question.question.length > 50 ? '...' : ''}</h6>
-                        <div class="d-flex gap-2">
-                            <span class="badge bg-primary" style="font-size: 0.7rem;">${question.type}</span>
-                            <span class="badge bg-secondary" style="font-size: 0.7rem;">${question.difficulty}</span>
+            container.innerHTML = recentQuestions.map((question, index) => {
+                // Handle different question data structures
+                const questionText = question.question || question.questionText || question.title || 'No question text';
+                const questionType = question.type || 'unknown';
+                const difficulty = question.difficulty || 'unknown';
+                const actualIndex = englishDailyQuestions.length - recentQuestions.length + index;
+                
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1" style="font-size: 0.9rem;">${questionText.substring(0, 50)}${questionText.length > 50 ? '...' : ''}</h6>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary" style="font-size: 0.7rem;">${questionType}</span>
+                                <span class="badge bg-secondary" style="font-size: 0.7rem;">${difficulty}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editDailyQuestion(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:edit" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteDailyQuestion(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
                         </div>
                     </div>
-                    <div class="d-flex gap-1">
-                        <button class="btn btn-sm btn-outline-primary" onclick="editDailyQuestion(${englishDailyQuestions.length - recentQuestions.length + index})" style="padding: 0.25rem 0.5rem;">
-                            <iconify-icon icon="material-symbols:edit" style="font-size: 0.8rem;"></iconify-icon>
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="deleteDailyQuestion(${englishDailyQuestions.length - recentQuestions.length + index})" style="padding: 0.25rem 0.5rem;">
-                            <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
-                        </button>
-                    </div>
-                </div>
-            `).join('') + `
+                `;
+            }).join('') + `
                 ${englishDailyQuestions.length > 3 ? `
                     <div class="text-center mt-2">
                         <small class="text-muted">+${englishDailyQuestions.length - 3} more questions</small>
@@ -3832,7 +4084,7 @@
             
             // Add or update question
             englishDailyQuestions.push(question);
-            localStorage.setItem('englishDailyQuestions', JSON.stringify(englishDailyQuestions));
+            localStorage.setItem('english_daily_practice_questions', JSON.stringify(englishDailyQuestions));
             
             showToast('Daily question saved successfully!', 'success');
             displayDailyQuestions();
@@ -3849,7 +4101,7 @@
         function deleteDailyQuestion(index) {
             if (confirm('Are you sure you want to delete this daily question?')) {
                 englishDailyQuestions.splice(index, 1);
-                localStorage.setItem('englishDailyQuestions', JSON.stringify(englishDailyQuestions));
+                localStorage.setItem('english_daily_practice_questions', JSON.stringify(englishDailyQuestions));
                 displayDailyQuestions();
                 showToast('Daily question deleted successfully', 'success');
             }
@@ -3860,6 +4112,447 @@
             const modal = new bootstrap.Modal(document.getElementById('dailyPracticeModal'));
             modal.show();
             loadDailyPracticeQuestions();
+            
+            // Refresh the card display when modal is closed
+            modal._element.addEventListener('hidden.bs.modal', function() {
+                console.log('🔄 Modal closed, refreshing card display...');
+                loadDailyQuestions();
+            });
+        }
+
+        // Practice Questions Functions
+        let practiceQuestions = [];
+        let currentPracticeQuestionType = 'multiple-choice';
+
+        function loadPracticeQuestions() {
+            const questionsData = localStorage.getItem('english_practice_questions');
+            practiceQuestions = questionsData ? JSON.parse(questionsData) : [];
+            console.log('🔍 Loading practice questions for card:', practiceQuestions.length, 'questions');
+            displayPracticeQuestions();
+        }
+
+        function displayPracticeQuestions() {
+            const container = document.getElementById('practiceQuestionsPreview');
+            console.log('🔍 Displaying practice questions:', practiceQuestions.length, 'questions');
+            
+            if (practiceQuestions.length === 0) {
+                console.log('📭 No practice questions found, showing empty state');
+                container.innerHTML = `
+                    <div class="text-center py-3">
+                        <iconify-icon icon="material-symbols:quiz" style="font-size: 2rem; color: #6c757d;"></iconify-icon>
+                        <p class="text-muted mt-2 mb-0">No practice questions yet</p>
+                        <small class="text-muted">Click "Create" to get started</small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show preview of recent questions (max 3)
+            const recentQuestions = practiceQuestions.slice(-3);
+            container.innerHTML = recentQuestions.map((question, index) => {
+                const questionText = question.question || question.questionText || question.title || 'No question text';
+                const questionType = question.type || 'unknown';
+                const difficulty = question.difficulty || 'unknown';
+                const actualIndex = practiceQuestions.length - recentQuestions.length + index;
+                
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1" style="font-size: 0.9rem;">${questionText.substring(0, 50)}${questionText.length > 50 ? '...' : ''}</h6>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary" style="font-size: 0.7rem;">${questionType}</span>
+                                <span class="badge bg-secondary" style="font-size: 0.7rem;">${difficulty}</span>
+                                <span class="badge bg-info" style="font-size: 0.7rem;">${question.points || 0} pts</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editPracticeQuestion(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:edit" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deletePracticeQuestion(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `
+                ${practiceQuestions.length > 3 ? `
+                    <div class="text-center mt-2">
+                        <small class="text-muted">+${practiceQuestions.length - 3} more questions</small>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        function openPracticeQuestionModal() {
+            const modal = new bootstrap.Modal(document.getElementById('practiceQuestionModal'));
+            modal.show();
+            loadPracticeQuestions();
+            
+            // Refresh the card display when modal is closed
+            modal._element.addEventListener('hidden.bs.modal', function() {
+                console.log('🔄 Practice modal closed, refreshing card display...');
+                loadPracticeQuestions();
+            });
+        }
+
+        function viewAllPracticeQuestions() {
+            // Open modal and show all questions
+            openPracticeQuestionModal();
+        }
+
+        function selectPracticeQuestionType(type) {
+            currentPracticeQuestionType = type;
+            document.querySelectorAll('.question-type').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.question-type').classList.add('active');
+            
+            // Show/hide appropriate answer options
+            document.querySelectorAll('.answer-options').forEach(option => option.style.display = 'none');
+            
+            switch(type) {
+                case 'multiple-choice':
+                    document.getElementById('practiceMultipleChoiceOptions').style.display = 'block';
+                    break;
+                case 'short-answer':
+                    document.getElementById('practiceShortAnswerOptions').style.display = 'block';
+                    break;
+                case 'file-based':
+                    document.getElementById('practiceFileBasedOptions').style.display = 'block';
+                    break;
+                case 'bullet-points':
+                    document.getElementById('practiceBulletPointsOptions').style.display = 'block';
+                    break;
+            }
+        }
+
+        function addPracticeOption() {
+            const container = document.getElementById('practiceMultipleChoiceList');
+            const optionCount = container.children.length;
+            const optionLetter = String.fromCharCode(65 + optionCount);
+            
+            const optionHtml = `
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Option ${optionLetter}">
+                    <input type="radio" name="practiceCorrectAnswer" value="${optionLetter}" class="me-2">
+                    <label class="form-label mb-0">Correct</label>
+                    <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="removePracticeOption(this)">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', optionHtml);
+        }
+
+        function removePracticeOption(button) {
+            button.closest('.d-flex').remove();
+        }
+
+        function addPracticeBulletPoint() {
+            const container = document.getElementById('practiceBulletPointsList');
+            const pointCount = container.children.length + 1;
+            
+            const pointHtml = `
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Bullet point ${pointCount}">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePracticeBulletPoint(this)">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', pointHtml);
+        }
+
+        function removePracticeBulletPoint(button) {
+            button.closest('.d-flex').remove();
+        }
+
+        function addPracticeQuestion() {
+            const questionText = document.getElementById('practiceQuestionText').value;
+            const points = parseInt(document.getElementById('practiceQuestionPoints').value);
+            const difficulty = document.getElementById('practiceQuestionDifficulty').value;
+            const topic = document.getElementById('practiceQuestionTopic').value;
+            const timeLimit = document.getElementById('practiceTimeLimit').value;
+            const explanation = document.getElementById('practiceQuestionExplanation').value;
+            
+            if (!questionText || !topic) {
+                showToast('Please fill in question content and topic', 'error');
+                return;
+            }
+            
+            const question = {
+                id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 9),
+                question: questionText,
+                type: currentPracticeQuestionType,
+                difficulty: difficulty,
+                topic: topic,
+                points: points,
+                timeLimit: timeLimit ? parseInt(timeLimit) : null,
+                explanation: explanation,
+                createdAt: new Date().toISOString(),
+                subject: 'english'
+            };
+            
+            // Add type-specific data
+            if (currentPracticeQuestionType === 'multiple-choice') {
+                const options = [];
+                const optionInputs = document.querySelectorAll('#practiceMultipleChoiceList input[type="text"]');
+                optionInputs.forEach(input => {
+                    if (input.value.trim()) {
+                        options.push(input.value.trim());
+                    }
+                });
+                
+                const correctAnswer = document.querySelector('input[name="practiceCorrectAnswer"]:checked');
+                if (!correctAnswer || options.length < 2) {
+                    showToast('Please provide at least 2 options and select the correct answer', 'error');
+                    return;
+                }
+                
+                question.options = options;
+                question.correctAnswer = correctAnswer.value;
+            } else if (currentPracticeQuestionType === 'short-answer') {
+                const expectedAnswer = document.getElementById('practiceExpectedAnswer').value;
+                if (!expectedAnswer.trim()) {
+                    showToast('Please provide an expected answer', 'error');
+                    return;
+                }
+                question.expectedAnswer = expectedAnswer;
+            } else if (currentPracticeQuestionType === 'file-based') {
+                const allowedTypes = Array.from(document.getElementById('practiceAllowedFileTypes').selectedOptions).map(option => option.value);
+                const maxSize = parseInt(document.getElementById('practiceMaxFileSize').value);
+                
+                question.fileUploadSettings = {
+                    allowedTypes: allowedTypes,
+                    maxSize: maxSize
+                };
+            } else if (currentPracticeQuestionType === 'bullet-points') {
+                const bulletPoints = [];
+                const bulletInputs = document.querySelectorAll('#practiceBulletPointsList input[type="text"]');
+                bulletInputs.forEach(input => {
+                    if (input.value.trim()) {
+                        bulletPoints.push(input.value.trim());
+                    }
+                });
+                
+                if (bulletPoints.length === 0) {
+                    showToast('Please provide at least one bullet point', 'error');
+                    return;
+                }
+                
+                question.bulletPoints = bulletPoints;
+            }
+            
+            // Add to questions list
+            addQuestionToList(question);
+            
+            // Clear form
+            clearPracticeQuestionForm();
+            
+            showToast('Question added successfully!', 'success');
+        }
+
+        function addQuestionToList(question) {
+            const container = document.getElementById('practiceQuestionsList');
+            const questionHtml = `
+                <div class="question-item p-3 border rounded mb-2" data-id="${question.id}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${question.question}</h6>
+                            <div class="d-flex gap-2 mb-2">
+                                <span class="badge bg-primary">${question.type}</span>
+                                <span class="badge bg-secondary">${question.difficulty}</span>
+                                <span class="badge bg-info">${question.points} pts</span>
+                                <span class="badge bg-success">${question.topic}</span>
+                            </div>
+                            <small class="text-muted">Created: ${new Date(question.createdAt).toLocaleString()}</small>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editPracticeQuestionFromList('${question.id}')">
+                                <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="removePracticeQuestionFromList('${question.id}')">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', questionHtml);
+        }
+
+        function clearPracticeQuestionForm() {
+            document.getElementById('practiceQuestionForm').reset();
+            document.getElementById('practiceQuestionPoints').value = 10;
+            document.getElementById('practiceQuestionDifficulty').value = 'Medium';
+            
+            // Reset answer options
+            document.querySelectorAll('.answer-options').forEach(option => option.style.display = 'none');
+            document.getElementById('practiceMultipleChoiceOptions').style.display = 'block';
+            
+            // Reset multiple choice options
+            const container = document.getElementById('practiceMultipleChoiceList');
+            container.innerHTML = `
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Option A">
+                    <input type="radio" name="practiceCorrectAnswer" value="A" class="me-2">
+                    <label class="form-label mb-0">Correct</label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Option B">
+                    <input type="radio" name="practiceCorrectAnswer" value="B" class="me-2">
+                    <label class="form-label mb-0">Correct</label>
+                </div>
+            `;
+            
+            // Reset bullet points
+            const bulletContainer = document.getElementById('practiceBulletPointsList');
+            bulletContainer.innerHTML = `
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Bullet point 1">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePracticeBulletPoint(this)">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                </div>
+            `;
+        }
+
+        function savePracticeQuestion() {
+            addPracticeQuestion();
+        }
+
+        function saveAllPracticeQuestions() {
+            const questionElements = document.querySelectorAll('#practiceQuestionsList .question-item');
+            if (questionElements.length === 0) {
+                showToast('No questions to save', 'warning');
+                return;
+            }
+            
+            // Get all questions from the list
+            const questions = [];
+            questionElements.forEach(element => {
+                const questionId = element.dataset.id;
+                const question = practiceQuestions.find(q => q.id === questionId);
+                if (question) {
+                    questions.push(question);
+                }
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('english_practice_questions', JSON.stringify(questions));
+            practiceQuestions = questions;
+            
+            showToast(`Successfully saved ${questions.length} practice questions!`, 'success');
+            
+            // Refresh card display
+            loadPracticeQuestions();
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('practiceQuestionModal'));
+            modal.hide();
+        }
+
+        function editPracticeQuestion(index) {
+            openPracticeQuestionModal();
+            // TODO: Load question data for editing
+        }
+
+        function deletePracticeQuestion(index) {
+            if (confirm('Are you sure you want to delete this practice question?')) {
+                practiceQuestions.splice(index, 1);
+                localStorage.setItem('english_practice_questions', JSON.stringify(practiceQuestions));
+                displayPracticeQuestions();
+                showToast('Practice question deleted successfully', 'success');
+            }
+        }
+
+        function editPracticeQuestionFromList(questionId) {
+            // TODO: Load question data for editing
+            showToast('Edit functionality coming soon', 'info');
+        }
+
+        function removePracticeQuestionFromList(questionId) {
+            if (confirm('Are you sure you want to remove this question?')) {
+                document.querySelector(`[data-id="${questionId}"]`).remove();
+                showToast('Question removed from list', 'success');
+            }
+        }
+
+        // Live Sessions Functions
+        function loadLiveSessions() {
+            const sessionsData = localStorage.getItem('englishLiveSessions');
+            const liveSessions = sessionsData ? JSON.parse(sessionsData) : [];
+            console.log('🔍 Loading live sessions for card:', liveSessions.length, 'sessions');
+            displayLiveSessions(liveSessions);
+        }
+
+        function displayLiveSessions(sessions) {
+            const container = document.getElementById('liveSessionsPreview');
+            console.log('🔍 Displaying live sessions:', sessions.length, 'sessions');
+            
+            if (sessions.length === 0) {
+                console.log('📭 No live sessions found, showing empty state');
+                container.innerHTML = `
+                    <div class="text-center py-3">
+                        <iconify-icon icon="material-symbols:video-call" style="font-size: 2rem; color: #6c757d;"></iconify-icon>
+                        <p class="text-muted mt-2 mb-0">No live sessions yet</p>
+                        <small class="text-muted">Click "Start Session" to get started</small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show preview of recent sessions (max 3)
+            const recentSessions = sessions.slice(-3);
+            container.innerHTML = recentSessions.map((session, index) => {
+                const actualIndex = sessions.length - recentSessions.length + index;
+                
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1" style="font-size: 0.9rem;">${session.title}</h6>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary" style="font-size: 0.7rem;">${session.topic}</span>
+                                <span class="badge bg-secondary" style="font-size: 0.7rem;">${session.duration}min</span>
+                                <span class="badge bg-info" style="font-size: 0.7rem;">${session.status}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="joinLiveSession('${session.meetingId}')" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:video-call" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteLiveSession(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `
+                ${sessions.length > 3 ? `
+                    <div class="text-center mt-2">
+                        <small class="text-muted">+${sessions.length - 3} more sessions</small>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        function viewAllLiveSessions() {
+            // Open modal and show all sessions
+            openLiveSessionModal();
+        }
+
+        function joinLiveSession(meetingId) {
+            showToast(`Joining session ${meetingId}...`, 'info');
+            // TODO: Implement actual join functionality
+        }
+
+        function deleteLiveSession(index) {
+            if (confirm('Are you sure you want to delete this live session?')) {
+                let sessions = JSON.parse(localStorage.getItem('englishLiveSessions') || '[]');
+                sessions.splice(index, 1);
+                localStorage.setItem('englishLiveSessions', JSON.stringify(sessions));
+                displayLiveSessions(sessions);
+                showToast('Live session deleted successfully', 'success');
+            }
         }
 
         // Open Live Session Modal
@@ -4382,6 +5075,8 @@
             }
 
             localStorage.setItem('english_daily_practice_questions', JSON.stringify(questions));
+            console.log('💾 Saved questions to localStorage:', questions.length, 'questions');
+            console.log('💾 Questions data:', questions);
             showToast(`Successfully saved ${questions.length} daily practice questions!`, 'success');
             
             // Reset button state
@@ -4389,6 +5084,10 @@
             saveBtn.disabled = false;
             
             loadDailyPracticeQuestions();
+            
+            // Also refresh the card display
+            console.log('🔄 Refreshing card display after save...');
+            loadDailyQuestions();
         }
 
         // Publish daily practice questions to student dashboard
@@ -4533,6 +5232,8 @@
             // Also save to student-facing storage for the student dashboard
             localStorage.setItem('english_daily_practice_questions_student', JSON.stringify(questions));
             
+            console.log('📤 Published questions to localStorage:', questions.length, 'questions');
+            console.log('📤 Questions data:', questions);
             showToast(`Successfully published ${questions.length} daily practice questions to course!`, 'success');
             
             // Reset button state
@@ -4540,6 +5241,10 @@
             publishBtn.disabled = false;
             
             loadDailyPracticeQuestions();
+            
+            // Also refresh the card display
+            console.log('🔄 Refreshing card display after publish...');
+            loadDailyQuestions();
         }
 
         // Save currently creating questions to localStorage
@@ -4953,6 +5658,7 @@
             if (confirm('Are you sure you want to clear all daily practice questions? This action cannot be undone.')) {
                 localStorage.removeItem('english_daily_practice_questions');
                 loadDailyPracticeQuestions();
+                loadDailyQuestions(); // Also refresh the card display
                 showToast('All questions cleared!', 'success');
             }
         }

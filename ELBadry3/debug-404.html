@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug 404 Error - WorldCourse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .error {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        .success {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        .warning {
+            color: #f57c00;
+            font-weight: bold;
+        }
+        button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #1565c0;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Debug 404 Error Tool</h1>
+    
+    <div class="debug-section">
+        <h2>Current Browser State</h2>
+        <p><strong>Current URL:</strong> <span id="currentUrl"></span></p>
+        <p><strong>User Agent:</strong> <span id="userAgent"></span></p>
+        <p><strong>Timestamp:</strong> <span id="timestamp"></span></p>
+    </div>
+
+    <div class="debug-section">
+        <h2>LocalStorage Analysis</h2>
+        <div id="localStorageInfo"></div>
+        <button onclick="analyzeLocalStorage()">Analyze LocalStorage</button>
+        <button onclick="clearLocalStorage()">Clear All LocalStorage</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>SessionStorage Analysis</h2>
+        <div id="sessionStorageInfo"></div>
+        <button onclick="analyzeSessionStorage()">Analyze SessionStorage</button>
+        <button onclick="clearSessionStorage()">Clear All SessionStorage</button>
+    </div>
+
+    <div class="debug-section">
+        <h2>Cache Clearing</h2>
+        <button onclick="clearAllCaches()">Clear All Caches</button>
+        <button onclick="forceReload()">Force Reload Page</button>
+        <div id="cacheResults"></div>
+    </div>
+
+    <div class="debug-section">
+        <h2>Test URL Generation</h2>
+        <button onclick="testUrlGeneration()">Test URL Generation</button>
+        <div id="urlTestResults"></div>
+    </div>
+
+    <script>
+        // Initialize debug info
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('userAgent').textContent = navigator.userAgent;
+        document.getElementById('timestamp').textContent = new Date().toLocaleString();
+
+        function analyzeLocalStorage() {
+            const info = document.getElementById('localStorageInfo');
+            let html = '<h3>LocalStorage Contents:</h3>';
+            
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                const value = localStorage.getItem(key);
+                html += `<div style="margin: 10px 0;"><strong>${key}:</strong></div>`;
+                
+                try {
+                    const parsed = JSON.parse(value);
+                    html += `<pre>${JSON.stringify(parsed, null, 2)}</pre>`;
+                    
+                    // Check for old URL patterns
+                    if (JSON.stringify(parsed).includes('mathematics-') && 
+                        JSON.stringify(parsed).includes('-teacher.html')) {
+                        html += '<div class="error">⚠️ Found old URL pattern in this data!</div>';
+                    }
+                } catch (e) {
+                    html += `<div>${value}</div>`;
+                }
+            }
+            
+            if (localStorage.length === 0) {
+                html += '<div class="success">✅ LocalStorage is empty</div>';
+            }
+            
+            info.innerHTML = html;
+        }
+
+        function analyzeSessionStorage() {
+            const info = document.getElementById('sessionStorageInfo');
+            let html = '<h3>SessionStorage Contents:</h3>';
+            
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                const value = sessionStorage.getItem(key);
+                html += `<div style="margin: 10px 0;"><strong>${key}:</strong></div>`;
+                
+                try {
+                    const parsed = JSON.parse(value);
+                    html += `<pre>${JSON.stringify(parsed, null, 2)}</pre>`;
+                } catch (e) {
+                    html += `<div>${value}</div>`;
+                }
+            }
+            
+            if (sessionStorage.length === 0) {
+                html += '<div class="success">✅ SessionStorage is empty</div>';
+            }
+            
+            info.innerHTML = html;
+        }
+
+        function clearLocalStorage() {
+            localStorage.clear();
+            document.getElementById('localStorageInfo').innerHTML = 
+                '<div class="success">✅ LocalStorage cleared successfully</div>';
+        }
+
+        function clearSessionStorage() {
+            sessionStorage.clear();
+            document.getElementById('sessionStorageInfo').innerHTML = 
+                '<div class="success">✅ SessionStorage cleared successfully</div>';
+        }
+
+        function clearAllCaches() {
+            const results = document.getElementById('cacheResults');
+            let html = '<h3>Cache Clearing Results:</h3>';
+            
+            try {
+                // Clear localStorage
+                localStorage.clear();
+                html += '<div class="success">✅ LocalStorage cleared</div>';
+                
+                // Clear sessionStorage
+                sessionStorage.clear();
+                html += '<div class="success">✅ SessionStorage cleared</div>';
+                
+                // Clear any cached data
+                if ('caches' in window) {
+                    caches.keys().then(names => {
+                        names.forEach(name => {
+                            caches.delete(name);
+                        });
+                    });
+                    html += '<div class="success">✅ Browser caches cleared</div>';
+                } else {
+                    html += '<div class="warning">⚠️ Cache API not available</div>';
+                }
+                
+                html += '<div class="success">✅ All caches cleared! Please refresh the page.</div>';
+                
+            } catch (error) {
+                html += `<div class="error">❌ Error clearing caches: ${error.message}</div>`;
+            }
+            
+            results.innerHTML = html;
+        }
+
+        function forceReload() {
+            // Force reload without cache
+            window.location.reload(true);
+        }
+
+        function testUrlGeneration() {
+            const results = document.getElementById('urlTestResults');
+            let html = '<h3>URL Generation Test:</h3>';
+            
+            const testCases = [
+                { topic: 'algebra', chapter: 'Chapter 1: Linear Equations', type: 'teacher' },
+                { topic: 'geometry', chapter: 'Chapter 2: Angles & Lines', type: 'assistant' },
+                { topic: 'calculus', chapter: 'Chapter 3: Integrals', type: 'teacher' }
+            ];
+            
+            testCases.forEach((testCase, index) => {
+                const url = `mathematics-content.html?category=${testCase.topic}&folder=${encodeURIComponent(testCase.chapter)}&type=${testCase.type}`;
+                html += `<div style="margin: 10px 0;"><strong>Test ${index + 1}:</strong></div>`;
+                html += `<div style="background: #f0f0f0; padding: 10px; border-radius: 4px; font-family: monospace;">${url}</div>`;
+                html += `<a href="${url}" target="_blank" style="color: #1976d2;">Test this URL</a><br><br>`;
+            });
+            
+            results.innerHTML = html;
+        }
+
+        // Auto-analyze on page load
+        window.addEventListener('load', function() {
+            analyzeLocalStorage();
+            analyzeSessionStorage();
+        });
+    </script>
+</body>
+</html>
+
+

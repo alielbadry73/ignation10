@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Assignments - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 0.5rem;
+        }
+
+        .utility-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-utility {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .btn-utility:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .assignment-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .assignment-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 50%;
+        }
+        
+        .assignment-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(118, 75, 162, 0.03);
+            border-radius: 50%;
+        }
+        
+        .hero-left {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-left h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 0.35rem 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .hero-left p {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        .assignment-stats {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            background: #f8fafc;
+            padding: 1rem 1.75rem;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            background: #f1f5f9;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #667eea;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .assignments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .assignment-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .assignment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .assignment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .assignment-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .assignment-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background: #ffeaa7;
+            color: #d63031;
+        }
+
+        .status-completed {
+            background: #55efc4;
+            color: #00b894;
+        }
+
+        .status-overdue {
+            background: #fab1a0;
+            color: #e17055;
+        }
+
+        .file-badge {
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-left: 0.5rem;
+        }
+
+        .assignment-file-info {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.75rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-left: 3px solid #10b981;
+        }
+
+        .assignment-file-info iconify-icon {
+            color: #10b981;
+        }
+
+        .assignment-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .assignment-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .assignment-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-assignment {
+            flex: 1;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-start {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-start:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+
+        .btn-view {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-view:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: white;
+        }
+
+        .empty-state iconify-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 0 1rem;
+            }
+            
+            .main-content {
+                padding: 0 1rem;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+            
+            .assignments-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .assignment-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="english-dashboard.html" class="logo">
+                <img src="https://ui-avatars.com/api/?name=IG+Nation&background=667eea&color=fff&size=40" alt="IG Nation">
+                IG Nation
+            </a>
+            <div class="utility-buttons">
+                <a href="course-assistants-chat.html?course=english" class="btn-utility" style="background: linear-gradient(135deg, #10b981, #059669); color: white;">
+                    <iconify-icon icon="material-symbols:chat"></iconify-icon>
+                    Ask Assistant
+                </a>
+                <a href="#" class="btn-utility" onclick="navigateToNotifications()">
+                    <iconify-icon icon="material-symbols:notifications"></iconify-icon>
+                    Notifications
+                    <span class="notification-badge" id="notificationBadge">3</span>
+                </a>
+                <a href="#" class="btn-utility" onclick="navigateToProfile()">
+                    <iconify-icon icon="material-symbols:person"></iconify-icon>
+                    Profile
+                </a>
+                <a href="#" class="btn-utility" onclick="logout()">
+                    <iconify-icon icon="material-symbols:logout"></iconify-icon>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="assignment-hero">
+            <div class="hero-left">
+                <h2>English Assignments</h2>
+                <p>Complete your assignments and enhance your language skills</p>
+            </div>
+            <div class="assignment-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalAssignments">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="pendingAssignments">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="assignments-grid" id="assignmentsGrid">
+            <!-- Assignments will be loaded here -->
+        </div>
+
+        <div class="empty-state" id="emptyState" style="display: none;">
+            <iconify-icon icon="material-symbols:assignment"></iconify-icon>
+            <h3>No Assignments Yet</h3>
+            <p>Your English assignments will appear here once they are assigned.</p>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        // Load English assignments from localStorage (published by teachers)
+        // Load English assignments from localStorage (published by teachers)
+        let englishAssignments = JSON.parse(localStorage.getItem('englishAssignments') || '[]');
+        
+        // No sample data - only show assignments created by teachers
+        const sampleAssignments = [];
+            {
+                id: 1,
+                title: "Creative Writing: Short Story",
+                description: "Write a 1000-word short story incorporating themes of friendship and adventure.",
+                dueDate: "2025-01-18",
+                points: 60,
+                status: "pending",
+                difficulty: "Medium",
+                estimatedTime: "3 hours"
+            },
+            {
+                id: 2,
+                title: "Poetry Analysis",
+                description: "Analyze the themes, literary devices, and meaning in selected poems.",
+                dueDate: "2025-01-22",
+                points: 45,
+                status: "completed",
+                difficulty: "Hard",
+                estimatedTime: "2.5 hours"
+            },
+            {
+                id: 3,
+                title: "Grammar Exercises",
+                description: "Complete exercises on verb tenses, conditionals, and reported speech.",
+                dueDate: "2025-01-15",
+                points: 30,
+                status: "overdue",
+                difficulty: "Easy",
+                estimatedTime: "1 hour"
+            },
+            {
+                id: 4,
+                title: "Research Essay",
+                description: "Write a 1500-word research essay on climate change and its global impact.",
+                dueDate: "2025-01-28",
+                points: 80,
+                status: "pending",
+                difficulty: "Hard",
+                estimatedTime: "4 hours"
+            }
+        ];
+
+        // Use sample data if no published assignments exist
+        if (englishAssignments.length === 0) {
+            englishAssignments = sampleAssignments;
+        }
+
+        function loadAssignments() {
+            const grid = document.getElementById('assignmentsGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            // Reload assignments from localStorage to get latest published assessments
+            englishAssignments = JSON.parse(localStorage.getItem('englishAssignments') || '[]');
+            
+            // Only show assignments created by teachers - no sample data
+            // englishAssignments will contain teacher-created assignments or be empty
+
+            if (englishAssignments.length === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            grid.innerHTML = englishAssignments.map(assignment => {
+                // Handle both standard and published assessment formats
+                const title = assignment.title || assignment.name || 'Untitled Assignment';
+                const description = assignment.description || assignment.desc || 'No description available';
+                const dueDate = assignment.dueDate || assignment.deadline || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const points = assignment.points || assignment.totalPoints || 100;
+                const status = assignment.status || 'pending';
+                const difficulty = assignment.difficulty || 'Medium';
+                const estimatedTime = assignment.estimatedTime || assignment.timeLimit ? `${assignment.timeLimit} minutes` : 'No time limit';
+                
+                // Check if it's a file-based assessment
+                const isFileBased = assignment.assessmentType === 'file-based' || assignment.fileBased;
+                
+                return `
+                <div class="assignment-card">
+                    <div class="assignment-header">
+                        <h3 class="assignment-title">${title}</h3>
+                        <span class="assignment-status status-${status}">
+                            ${status.charAt(0).toUpperCase() + status.slice(1)}
+                        </span>
+                        ${isFileBased ? '<span class="file-badge"><iconify-icon icon="material-symbols:upload-file"></iconify-icon> File-Based</span>' : ''}
+                    </div>
+                    
+                    <div class="assignment-meta">
+                        <span><iconify-icon icon="material-symbols:schedule"></iconify-icon> Due: ${new Date(dueDate).toLocaleDateString()}</span>
+                        <span><iconify-icon icon="material-symbols:star"></iconify-icon> ${points} pts</span>
+                    </div>
+                    
+                    <div class="assignment-description">
+                        ${description}
+                    </div>
+                    
+                    <div class="assignment-meta">
+                        <span><iconify-icon icon="material-symbols:psychology"></iconify-icon> ${difficulty}</span>
+                        <span><iconify-icon icon="material-symbols:timer"></iconify-icon> ${estimatedTime}</span>
+                    </div>
+                    
+                    ${isFileBased && assignment.fileBased ? `
+                    <div class="assignment-file-info">
+                        <iconify-icon icon="material-symbols:description"></iconify-icon>
+                        <span>Question File: ${assignment.fileBased.questionFile.name}</span>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="assignment-actions">
+                        ${status === 'pending' ? 
+                            `<a href="english-assignment-detail.html?id=${assignment.id}" class="btn-assignment btn-start">
+                                ${isFileBased ? 'Download & Start' : 'Start Assignment'}
+                            </a>` :
+                            `<a href="english-assignment-detail.html?id=${assignment.id}" class="btn-assignment btn-view">View Assignment</a>`
+                        }
+                    </div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function navigateToNotifications() {
+            showNotificationsModal();
+        }
+
+        function navigateToProfile() {
+            window.location.href = 'student-profile.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('userLoggedIn');
+            window.location.href = 'index.html';
+        }
+
+        // Load assignments when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAssignments();
+            updateNotificationBadge();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

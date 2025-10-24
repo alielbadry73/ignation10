@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Blocked | IG Nation</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Jost', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .blocked-container {
+            text-align: center;
+            max-width: 600px;
+            padding: 3rem;
+            animation: fadeInUp 0.6s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        .logo {
+            width: 150px;
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .blocked-icon {
+            font-size: 8rem;
+            margin-bottom: 2rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ef4444, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        p {
+            font-size: 1.3rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .site-blocked {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .info-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .info-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(255,255,255,0.9);
+        }
+        
+        .info-item i {
+            font-size: 1.5rem;
+            color: #667eea;
+        }
+        
+        .btn-return {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1.25rem 3rem;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-return:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="blocked-container">
+        <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" class="logo">
+        
+        <div class="blocked-icon">🚫</div>
+        
+        <h1>Website Blocked</h1>
+        
+        <div class="site-blocked" id="blockedSiteName">
+            This website is currently blocked
+        </div>
+        
+        <p>This website has been blocked during your focus session to help you stay concentrated on your studies.</p>
+        
+        <div class="info-box">
+            <h3>🎯 Blocked by IG Nation Focus Mode</h3>
+            <div class="info-item">
+                <span>📚</span>
+                <span>Helping students achieve their academic goals</span>
+            </div>
+            <div class="info-item">
+                <span>⏱️</span>
+                <span>Stay focused and maximize your study time</span>
+            </div>
+            <div class="info-item">
+                <span>🎓</span>
+                <span>Excellence through dedication and focus</span>
+            </div>
+        </div>
+        
+        <p style="margin-top: 2rem; font-size: 1rem; color: rgba(255,255,255,0.6);">
+            This blocking is active while you're in Focus Mode.<br>
+            Return to your studies or exit Focus Mode to access this site.
+        </p>
+        
+        <a href="student-dashboard.html" class="btn-return">
+            Return to Dashboard
+        </a>
+    </div>
+    
+    <script>
+        // Get blocked site from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const blockedSite = urlParams.get('site');
+        
+        if (blockedSite) {
+            document.getElementById('blockedSiteName').textContent = blockedSite + ' is blocked';
+            document.title = `${blockedSite} Blocked | IG Nation`;
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgotten Flashcards - Physics - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Jost', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
+        }
+
+        .header h1 {
+            color: #ef4444;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .page-title p {
+            font-size: 1.2rem;
+            color: #64748b;
+            opacity: 1;
+        }
+
+        .stats-section {
+            margin-bottom: 3rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.1);
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #ef4444;
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ef4444;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #6c757d;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .controls-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-forgotten {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-forgotten:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6b7280, #4b5563);
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(107, 114, 128, 0.3);
+            color: white;
+        }
+
+        .flashcard-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .flashcard {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 3px solid #ef4444;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(239, 68, 68, 0.2);
+        }
+
+        .flashcard-header {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .difficulty-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .difficulty-easy {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .difficulty-medium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .difficulty-hard {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .flashcard-content {
+            text-align: center;
+            width: 100%;
+        }
+
+        .flashcard-question {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .flashcard-answer {
+            font-size: 1.2rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .flashcard-answer.show {
+            display: block;
+        }
+
+        .flashcard-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn-action {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-show-answer {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+        }
+
+        .btn-show-answer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-correct {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+
+        .btn-correct:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-incorrect {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        .btn-incorrect:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .progress-text {
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: #f1f5f9;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .empty-state iconify-icon {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .chapter-filter {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            border-color: #ef4444;
+            background: #ef4444;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .page-title h1 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .controls-row {
+                flex-direction: column;
+            }
+
+            .flashcard {
+                padding: 2rem 1rem;
+                min-height: 300px;
+            }
+
+            .flashcard-question {
+                font-size: 1.2rem;
+            }
+
+            .flashcard-answer {
+                font-size: 1rem;
+            }
+
+            .flashcard-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn-action {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="header">
+        <div class="container-fluid">
+            <div class="row align-items-center" style="padding: 0.5rem 0;">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Back Button -->
+                        <button onclick="goBack()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                        </button>
+                        
+                        <!-- Page Title -->
+                        <h1 style="margin: 0; color: #ef4444; font-weight: 700; font-size: 1.8rem;">
+                            <iconify-icon icon="material-symbols:priority-high" style="margin-right: 0.5rem;"></iconify-icon>
+                            Forgotten Flashcards
+                        </h1>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="physics-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
+                        </a>
+                        
+                        <!-- Focus Mode Button -->
+                        <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)')" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1>🔴 Forgotten Flashcards</h1>
+            <p>Review and master the cards you're having trouble with</p>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <iconify-icon icon="material-symbols:priority-high" class="stat-icon"></iconify-icon>
+                    <div class="stat-number" id="totalForgotten">0</div>
+                    <div class="stat-label">Total Forgotten</div>
+                </div>
+                <div class="stat-card">
+                    <iconify-icon icon="material-symbols:quiz" class="stat-icon"></iconify-icon>
+                    <div class="stat-number" id="reviewedToday">0</div>
+                    <div class="stat-label">Reviewed Today</div>
+                </div>
+                <div class="stat-card">
+                    <iconify-icon icon="material-symbols:check-circle" class="stat-icon"></iconify-icon>
+                    <div class="stat-number" id="masteredToday">0</div>
+                    <div class="stat-label">Mastered Today</div>
+                </div>
+                <div class="stat-card">
+                    <iconify-icon icon="material-symbols:trending-up" class="stat-icon"></iconify-icon>
+                    <div class="stat-number" id="improvementRate">0%</div>
+                    <div class="stat-label">Improvement Rate</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="controls-section">
+            <div class="controls-row">
+                <button class="btn-forgotten" onclick="startReviewSession()">
+                    <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                    Start Review Session
+                </button>
+                <button class="btn-secondary" onclick="resetForgottenCards()">
+                    <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                    Reset All Cards
+                </button>
+                <button class="btn-secondary" onclick="exportForgottenCards()">
+                    <iconify-icon icon="material-symbols:download"></iconify-icon>
+                    Export Cards
+                </button>
+            </div>
+        </div>
+
+        <!-- Chapter Filter -->
+        <div class="chapter-filter" id="chapterFilter">
+            <!-- Filter buttons will be generated here -->
+        </div>
+
+        <!-- Progress Section -->
+        <div class="progress-section" id="progressSection" style="display: none;">
+            <div class="progress-header">
+                <div class="progress-title">Review Progress</div>
+                <div class="progress-text" id="progressText">0 / 0</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <!-- Flashcard Container -->
+        <div class="flashcard-container" id="flashcardContainer">
+            <!-- Flashcards will be loaded here -->
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        // Physics chapters data
+        const chapters = [
+            { id: 1, title: 'Mechanics', icon: 'material-symbols:settings', color: '#10b981' },
+            { id: 2, title: 'Electricity & Magnetism', icon: 'material-symbols:electrical-services', color: '#059669' },
+            { id: 3, title: 'Waves & Sound', icon: 'material-symbols:graphic-eq', color: '#f59e0b' },
+            { id: 4, title: 'Light & Optics', icon: 'material-symbols:lightbulb', color: '#ef4444' },
+            { id: 5, title: 'Thermal Physics', icon: 'material-symbols:thermostat', color: '#8b5cf6' },
+            { id: 6, title: 'Atomic Physics', icon: 'material-symbols:atom', color: '#06b6d4' },
+            { id: 7, title: 'Nuclear Physics', icon: 'material-symbols:radioactive', color: '#ec4899' },
+            { id: 8, title: 'Space Physics', icon: 'material-symbols:rocket-launch', color: '#84cc16' }
+        ];
+
+        let currentReviewSession = [];
+        let currentCardIndex = 0;
+        let currentFilter = 'all';
+
+        // Sample forgotten cards data
+        const sampleForgottenCards = {
+            1: [
+                {
+                    id: 1,
+                    question: "What is Newton's First Law of Motion?",
+                    answer: "An object at rest stays at rest and an object in motion stays in motion with the same speed and in the same direction unless acted upon by an unbalanced force.",
+                    difficulty: "medium",
+                    topic: "Newton's Laws"
+                },
+                {
+                    id: 2,
+                    question: "Define kinetic energy and give its formula.",
+                    answer: "Kinetic energy is the energy an object possesses due to its motion. Formula: KE = ½mv²",
+                    difficulty: "easy",
+                    topic: "Energy"
+                }
+            ],
+            2: [
+                {
+                    id: 3,
+                    question: "What is Ohm's Law?",
+                    answer: "Ohm's Law states that the current through a conductor between two points is directly proportional to the voltage across the two points. V = IR",
+                    difficulty: "medium",
+                    topic: "Electricity"
+                }
+            ],
+            3: [
+                {
+                    id: 4,
+                    question: "What is the relationship between frequency and wavelength?",
+                    answer: "Frequency and wavelength are inversely proportional. As frequency increases, wavelength decreases. f = v/λ",
+                    difficulty: "hard",
+                    topic: "Waves"
+                }
+            ]
+        };
+
+        // Initialize forgotten cards if not exists
+        function initializeForgottenCards() {
+            if (!localStorage.getItem('physicsForgottenCards')) {
+                localStorage.setItem('physicsForgottenCards', JSON.stringify(sampleForgottenCards));
+            }
+        }
+
+        // Get forgotten cards
+        function getForgottenCards() {
+            return JSON.parse(localStorage.getItem('physicsForgottenCards') || '{}');
+        }
+
+        // Get review session data
+        function getReviewSessionData() {
+            return JSON.parse(localStorage.getItem('physicsReviewSessionData') || '{}');
+        }
+
+        // Save review session data
+        function saveReviewSessionData(data) {
+            localStorage.setItem('physicsReviewSessionData', JSON.stringify(data));
+        }
+
+        // Calculate statistics
+        function calculateStats() {
+            const forgottenCards = getForgottenCards();
+            const reviewData = getReviewSessionData();
+            
+            let totalForgotten = 0;
+            Object.values(forgottenCards).forEach(cards => {
+                if (Array.isArray(cards)) {
+                    totalForgotten += cards.length;
+                }
+            });
+
+            const today = new Date().toDateString();
+            const todayData = reviewData[today] || { reviewed: 0, mastered: 0 };
+
+            return {
+                totalForgotten,
+                reviewedToday: todayData.reviewed || 0,
+                masteredToday: todayData.mastered || 0,
+                improvementRate: totalForgotten > 0 ? Math.round(((todayData.mastered || 0) / totalForgotten) * 100) : 0
+            };
+        }
+
+        // Update statistics display
+        function updateStats() {
+            const stats = calculateStats();
+            document.getElementById('totalForgotten').textContent = stats.totalForgotten;
+            document.getElementById('reviewedToday').textContent = stats.reviewedToday;
+            document.getElementById('masteredToday').textContent = stats.masteredToday;
+            document.getElementById('improvementRate').textContent = stats.improvementRate + '%';
+        }
+
+        // Generate chapter filter buttons
+        function generateChapterFilter() {
+            const filterContainer = document.getElementById('chapterFilter');
+            const forgottenCards = getForgottenCards();
+            
+            let html = '<button class="filter-btn active" onclick="filterByChapter(\'all\')">All Chapters</button>';
+            
+            chapters.forEach(chapter => {
+                const cardCount = (forgottenCards[chapter.id] || []).length;
+                if (cardCount > 0) {
+                    html += `<button class="filter-btn" onclick="filterByChapter(${chapter.id})">${chapter.title} (${cardCount})</button>`;
+                }
+            });
+            
+            filterContainer.innerHTML = html;
+        }
+
+        // Filter cards by chapter
+        function filterByChapter(chapterId) {
+            currentFilter = chapterId;
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Load filtered cards
+            loadForgottenCards();
+        }
+
+        // Load forgotten cards
+        function loadForgottenCards() {
+            const forgottenCards = getForgottenCards();
+            const container = document.getElementById('flashcardContainer');
+            
+            let cardsToShow = [];
+            
+            if (currentFilter === 'all') {
+                Object.values(forgottenCards).forEach(cards => {
+                    if (Array.isArray(cards)) {
+                        cardsToShow = cardsToShow.concat(cards);
+                    }
+                });
+            } else {
+                cardsToShow = forgottenCards[currentFilter] || [];
+            }
+            
+            if (cardsToShow.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                        <h3>No Forgotten Cards!</h3>
+                        <p>Great job! You don't have any forgotten cards to review.</p>
+                        <button class="btn-forgotten" onclick="window.location.href='physics-flashcards.html'">
+                            <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                            Back to Flashcards
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            currentReviewSession = cardsToShow;
+            currentCardIndex = 0;
+            
+            // Show progress section
+            document.getElementById('progressSection').style.display = 'block';
+            
+            // Display first card
+            displayCurrentCard();
+        }
+
+        // Display current card
+        function displayCurrentCard() {
+            if (currentCardIndex >= currentReviewSession.length) {
+                // Review session complete
+                document.getElementById('flashcardContainer').innerHTML = `
+                    <div class="empty-state">
+                        <iconify-icon icon="material-symbols:celebration"></iconify-icon>
+                        <h3>Review Session Complete!</h3>
+                        <p>You've reviewed all forgotten cards. Great work!</p>
+                        <button class="btn-forgotten" onclick="startReviewSession()">
+                            <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                            Review Again
+                        </button>
+                    </div>
+                `;
+                document.getElementById('progressSection').style.display = 'none';
+                return;
+            }
+            
+            const card = currentReviewSession[currentCardIndex];
+            const container = document.getElementById('flashcardContainer');
+            
+            const difficultyClass = card.difficulty === 'easy' ? 'difficulty-easy' : 
+                                  card.difficulty === 'medium' ? 'difficulty-medium' : 'difficulty-hard';
+            
+            container.innerHTML = `
+                <div class="flashcard">
+                    <div class="flashcard-header">
+                        <span class="difficulty-badge ${difficultyClass}">${card.difficulty.toUpperCase()}</span>
+                    </div>
+                    <div class="flashcard-content">
+                        <div class="flashcard-question">${card.question}</div>
+                        <div class="flashcard-answer" id="flashcardAnswer">${card.answer}</div>
+                        <div class="flashcard-actions" id="flashcardActions">
+                            <button class="btn-action btn-show-answer" onclick="showAnswer()">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                Show Answer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Update progress
+            updateProgress();
+        }
+
+        // Show answer
+        function showAnswer() {
+            document.getElementById('flashcardAnswer').classList.add('show');
+            document.getElementById('flashcardActions').innerHTML = `
+                <button class="btn-action btn-correct" onclick="markCardCorrect()">
+                    <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                    I Got It Right
+                </button>
+                <button class="btn-action btn-incorrect" onclick="markCardIncorrect()">
+                    <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    Still Need Practice
+                </button>
+            `;
+        }
+
+        // Mark card as correct
+        function markCardCorrect() {
+            const card = currentReviewSession[currentCardIndex];
+            
+            // Remove from forgotten cards
+            removeFromForgottenCards(card);
+            
+            // Update review session data
+            updateReviewSessionData(true);
+            
+            // Move to next card
+            currentCardIndex++;
+            displayCurrentCard();
+        }
+
+        // Mark card as incorrect
+        function markCardIncorrect() {
+            const card = currentReviewSession[currentCardIndex];
+            
+            // Update review session data
+            updateReviewSessionData(false);
+            
+            // Move to next card
+            currentCardIndex++;
+            displayCurrentCard();
+        }
+
+        // Remove card from forgotten cards
+        function removeFromForgottenCards(card) {
+            const forgottenCards = getForgottenCards();
+            
+            Object.keys(forgottenCards).forEach(chapterId => {
+                if (Array.isArray(forgottenCards[chapterId])) {
+                    forgottenCards[chapterId] = forgottenCards[chapterId].filter(c => c.id !== card.id);
+                }
+            });
+            
+            localStorage.setItem('physicsForgottenCards', JSON.stringify(forgottenCards));
+        }
+
+        // Update review session data
+        function updateReviewSessionData(mastered) {
+            const reviewData = getReviewSessionData();
+            const today = new Date().toDateString();
+            
+            if (!reviewData[today]) {
+                reviewData[today] = { reviewed: 0, mastered: 0 };
+            }
+            
+            reviewData[today].reviewed++;
+            if (mastered) {
+                reviewData[today].mastered++;
+            }
+            
+            saveReviewSessionData(reviewData);
+            updateStats();
+        }
+
+        // Update progress display
+        function updateProgress() {
+            const progress = currentCardIndex + 1;
+            const total = currentReviewSession.length;
+            const percentage = (progress / total) * 100;
+            
+            document.getElementById('progressText').textContent = `${progress} / ${total}`;
+            document.getElementById('progressFill').style.width = percentage + '%';
+        }
+
+        // Start review session
+        function startReviewSession() {
+            currentCardIndex = 0;
+            loadForgottenCards();
+        }
+
+        // Reset all forgotten cards
+        function resetForgottenCards() {
+            if (confirm('Are you sure you want to reset all forgotten cards? This action cannot be undone.')) {
+                localStorage.removeItem('physicsForgottenCards');
+                localStorage.removeItem('physicsReviewSessionData');
+                initializeForgottenCards();
+                updateStats();
+                generateChapterFilter();
+                loadForgottenCards();
+            }
+        }
+
+        // Export forgotten cards
+        function exportForgottenCards() {
+            const forgottenCards = getForgottenCards();
+            const dataStr = JSON.stringify(forgottenCards, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'physics-forgotten-cards.json';
+            link.click();
+        }
+
+        // Navigation functions
+        function goBack() {
+            window.location.href = 'physics-flashcards.html';
+        }
+
+        function navigateToFocusMode() {
+            window.location.href = 'focus-mode.html';
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeForgottenCards();
+            updateStats();
+            generateChapterFilter();
+            loadForgottenCards();
+        });
+    </script>
+</body>
+</html>
+

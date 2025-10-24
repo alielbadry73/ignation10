@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Todo Lists - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Floating Background Elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        /* Header - Same as student dashboard */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
+        }
+
+        .dashboard-header .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .dashboard-header .row {
+            margin: 0 !important;
+        }
+
+        /* Navigation - Same styling as student dashboard */
+        .dashboard-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        .dashboard-nav .nav-link {
+            color: #333;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-nav .nav-link:hover,
+        .dashboard-nav .nav-link.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .welcome-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 5px;
+        }
+
+        .welcome-subtext {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 1rem 0 3rem 0;
+            margin-top: 20px;
+        }
+
+        /* Cards */
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+        }
+
+        .dashboard-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+            border-radius: 50%;
+        }
+
+        .card-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Todo List Styles */
+        .todo-item {
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 14px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 5px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            font-size: 1.05rem;
+        }
+
+        .todo-item:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateX(8px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+            border-left-color: #10b981;
+        }
+
+        .todo-item.high-priority {
+            border-left-color: #ef4444;
+        }
+
+        .todo-item.medium-priority {
+            border-left-color: #f59e0b;
+        }
+
+        .todo-item.low-priority {
+            border-left-color: #10b981;
+        }
+
+        .todo-checkbox {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            border: 2.5px solid #667eea;
+            margin-right: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .todo-checkbox.checked {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.3);
+        }
+        
+        .container {
+            max-width: 1400px;
+        }
+
+        /* Back to Dashboard Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: #64748b;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .empty-state-subtext {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem 0;
+            }
+
+            .dashboard-card {
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .dashboard-nav .nav-link {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            .back-button {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Dashboard Button -->
+    <button class="back-button" id="backArrowButton" title="Back to Dashboard">
+        <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1.8rem; color: #667eea; font-weight: bold;"></iconify-icon>
+    </button>
+
+    <!-- Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="dashboard-nav">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#saved-todos">Saved Todos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#actions">Actions</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="welcome-section text-center">
+                        <h4 class="welcome-text">My Saved Todo Lists</h4>
+                        <small class="welcome-subtext">View and manage your saved tasks</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <div class="welcome-section text-center" style="margin-bottom: 2rem;">
+                <h1 class="welcome-text" id="pageTitle" style="color: white; font-size: 2.8rem; font-weight: 800; text-shadow: 0 4px 12px rgba(0,0,0,0.3); letter-spacing: -0.5px;">📋 My Todo List</h1>
+                <small class="welcome-subtext" id="pageSubtitle" style="color: rgba(255,255,255,0.95); font-size: 1.15rem; font-weight: 500;">Manage your tasks for this course</small>
+            </div>
+
+            <!-- Single Course TodoList -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="dashboard-card animate-on-scroll">
+                        <h3 class="card-title" id="courseTitle" style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #e5e7eb; padding-bottom: 1.5rem; margin-bottom: 2rem;">
+                            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                <div class="card-icon" id="courseIcon">
+                                    <iconify-icon icon="material-symbols:checklist"></iconify-icon>
+                                </div>
+                                <span id="courseName" style="font-size: 1.6rem;">My Todos</span>
+                            </div>
+                            <div id="todoCount" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">0</div>
+                        </h3>
+                        
+                        <div id="todoListContainer" style="min-height: 300px;">
+                            <!-- Todos will be loaded here -->
+                        </div>
+
+                        <div class="row mt-5">
+                            <div class="col-md-4 mb-3">
+                                <button class="btn btn-primary w-100" id="backToDashboard">
+                                    <iconify-icon icon="material-symbols:dashboard" class="me-2" style="font-size: 1.3rem;"></iconify-icon>
+                                    Back to Dashboard
+                                </button>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <button class="btn btn-danger w-100" onclick="clearAllTasks()">
+                                    <iconify-icon icon="material-symbols:delete-sweep" class="me-2" style="font-size: 1.3rem;"></iconify-icon>
+                                    Clear All Tasks
+                                </button>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <button class="btn btn-success w-100" onclick="window.location.href='all-todolists.html'">
+                                    <iconify-icon icon="material-symbols:view-list" class="me-2" style="font-size: 1.3rem;"></iconify-icon>
+                                    View All Courses
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        let currentCourse = 'mathematics'; // default
+        let storageKey = 'mathematicsSavedTodoLists'; // Changed to plural for array
+        let dashboardLink = 'mathematics-dashboard.html';
+        
+        // Detect course from referrer or localStorage
+        function detectCourse() {
+            const referrer = document.referrer.toLowerCase();
+            const lastCourse = localStorage.getItem('lastViewedCourse');
+            
+            console.log('🔍 Detecting course...');
+            console.log('   Referrer:', referrer);
+            console.log('   Last viewed course:', lastCourse);
+            
+            let detectedCourse = 'mathematics'; // default
+            
+            if (referrer.includes('physics')) {
+                detectedCourse = 'physics';
+                console.log('✅ Course detected from referrer: physics');
+            } else if (referrer.includes('english')) {
+                detectedCourse = 'english';
+                console.log('✅ Course detected from referrer: english');
+            } else if (referrer.includes('mathematics')) {
+                detectedCourse = 'mathematics';
+                console.log('✅ Course detected from referrer: mathematics');
+            } else if (lastCourse) {
+                detectedCourse = lastCourse;
+                console.log('✅ Course detected from localStorage:', lastCourse);
+            } else {
+                console.log('⚠️ Using default course: mathematics');
+            }
+            
+            // Save the detected course back to localStorage for future visits
+            localStorage.setItem('lastViewedCourse', detectedCourse);
+            
+            return detectedCourse;
+        }
+        
+        // Load saved todos on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            currentCourse = detectCourse();
+            
+            // Set course-specific variables
+            if (currentCourse === 'physics') {
+                storageKey = 'physicsSavedTodoLists'; // Changed to plural
+                dashboardLink = 'physics-dashboard.html';
+                document.getElementById('pageTitle').innerHTML = '📋 Physics Todo Lists';
+                document.getElementById('pageSubtitle').innerHTML = 'Manage your Physics course task lists';
+                document.getElementById('courseName').innerHTML = 'Physics Todos';
+                document.getElementById('courseIcon').innerHTML = '<iconify-icon icon="material-symbols:science" style="color: #4ecdc4;"></iconify-icon>';
+                document.getElementById('courseTitle').style.color = '#4ecdc4';
+                document.getElementById('todoCount').style.background = '#4ecdc4';
+            } else if (currentCourse === 'english') {
+                storageKey = 'englishSavedTodoLists'; // Changed to plural
+                dashboardLink = 'english-dashboard.html';
+                document.getElementById('pageTitle').innerHTML = '📋 English Todo Lists';
+                document.getElementById('pageSubtitle').innerHTML = 'Manage your English course task lists';
+                document.getElementById('courseName').innerHTML = 'English Todos';
+                document.getElementById('courseIcon').innerHTML = '<iconify-icon icon="material-symbols:book" style="color: #f7b731;"></iconify-icon>';
+                document.getElementById('courseTitle').style.color = '#f7b731';
+                document.getElementById('todoCount').style.background = '#f7b731';
+            } else {
+                storageKey = 'mathematicsSavedTodoLists'; // Changed to plural
+                dashboardLink = 'mathematics-dashboard.html';
+                document.getElementById('pageTitle').innerHTML = '📋 Mathematics Todo Lists';
+                document.getElementById('pageSubtitle').innerHTML = 'Manage your Mathematics course task lists';
+                document.getElementById('courseName').innerHTML = 'Mathematics Todos';
+                document.getElementById('courseIcon').innerHTML = '<iconify-icon icon="material-symbols:calculate" style="color: #667eea;"></iconify-icon>';
+                document.getElementById('courseTitle').style.color = '#667eea';
+                document.getElementById('todoCount').style.background = '#667eea';
+            }
+            
+            // Set up both back buttons to redirect to correct dashboard
+            document.getElementById('backToDashboard').onclick = () => window.location.href = dashboardLink;
+            document.getElementById('backArrowButton').onclick = () => window.location.href = dashboardLink;
+            
+            loadCourseTodos();
+            animateOnScroll();
+        });
+
+        function loadCourseTodos() {
+            console.log('📋 Loading todo lists for:', currentCourse);
+            console.log('   Storage key:', storageKey);
+            
+            const savedLists = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            console.log('   Found', savedLists.length, 'saved list(s)');
+            
+            const todoListContainer = document.getElementById('todoListContainer');
+            const countBadge = document.getElementById('todoCount');
+            
+            if (savedLists.length === 0) {
+                todoListContainer.innerHTML = `
+                    <div class="empty-state" style="padding: 3rem 2rem; text-align: center;">
+                        <iconify-icon icon="material-symbols:task-alt" style="font-size: 4rem; color: #d1d5db; margin-bottom: 1rem;"></iconify-icon>
+                        <div style="color: #64748b; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">No todo lists saved yet</div>
+                        <small style="color: #94a3b8; font-size: 0.9rem;">Go back to the dashboard to create and save your first todo list!</small>
+                    </div>
+                `;
+                countBadge.textContent = '0';
+                return;
+            }
+            
+            countBadge.textContent = savedLists.length;
+            
+            // Create 2-column grid (changed from 3 for better layout)
+            const gridContainer = document.createElement('div');
+            gridContainer.style.cssText = `
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+                margin-top: 1.5rem;
+            `;
+            
+            // Responsive adjustments
+            const addResponsiveStyles = () => {
+                const mediaQuery992 = window.matchMedia('(max-width: 992px)');
+                const mediaQuery576 = window.matchMedia('(max-width: 576px)');
+                if (mediaQuery576.matches) {
+                    gridContainer.style.gridTemplateColumns = '1fr';
+                    gridContainer.style.gap = '1.5rem';
+                } else if (mediaQuery992.matches) {
+                    gridContainer.style.gridTemplateColumns = '1fr';
+                    gridContainer.style.gap = '1.5rem';
+                }
+            };
+            addResponsiveStyles();
+            window.addEventListener('resize', addResponsiveStyles);
+            
+            savedLists.forEach((list, listIndex) => {
+                const listCard = document.createElement('div');
+                listCard.style.cssText = `
+                    background: white;
+                    border-radius: 18px;
+                    padding: 2rem;
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+                    border-top: 5px solid ${getCourseColor(currentCourse)};
+                    transition: all 0.3s ease;
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
+                `;
+                
+                listCard.onmouseover = () => {
+                    listCard.style.transform = 'translateY(-8px)';
+                    listCard.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.18)';
+                };
+                listCard.onmouseout = () => {
+                    listCard.style.transform = 'translateY(0)';
+                    listCard.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.12)';
+                };
+                
+                // List header
+                const listHeader = document.createElement('div');
+                listHeader.style.cssText = `
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-bottom: 1rem;
+                    padding-bottom: 1rem;
+                    border-bottom: 2px solid #f1f5f9;
+                `;
+                
+                listHeader.innerHTML = `
+                    <div style="flex: 1;">
+                        <h5 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 1.3rem; margin-bottom: 0.5rem;">${list.name}</h5>
+                        <p style="margin: 0; color: #64748b; font-size: 0.9rem; font-weight: 500;">${new Date(list.createdAt).toLocaleDateString()}</p>
+                    </div>
+                    <button onclick="deleteList(${listIndex})" style="background: #fee2e2; border: none; color: #ef4444; padding: 0.6rem; border-radius: 10px; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#fecaca'" onmouseout="this.style.background='#fee2e2'" title="Delete this list">
+                        <iconify-icon icon="material-symbols:delete" style="font-size: 1.3rem;"></iconify-icon>
+                    </button>
+                `;
+                
+                listCard.appendChild(listHeader);
+                
+                // Tasks container
+                const tasksContainer = document.createElement('div');
+                tasksContainer.style.cssText = 'flex: 1; overflow-y: auto; max-height: 400px;';
+                
+                list.tasks.forEach((todo, todoIndex) => {
+                    const todoItem = document.createElement('div');
+                    todoItem.style.cssText = `
+                        padding: 1.25rem;
+                        margin-bottom: 0.75rem;
+                        background: rgba(255, 255, 255, 0.8);
+                        border-radius: 12px;
+                        border-left: 5px solid ${todo.priority === 'high' ? '#ef4444' : todo.priority === 'medium' ? '#f59e0b' : '#10b981'};
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+                    `;
+                    
+                    todoItem.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <div onclick="toggleTaskInList(${listIndex}, ${todoIndex})" style="width: 24px; height: 24px; border: 2.5px solid ${todo.completed ? getCourseColor(currentCourse) : '#cbd5e1'}; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; background: ${todo.completed ? getCourseColor(currentCourse) : 'transparent'}; flex-shrink: 0;">
+                                ${todo.completed ? '<iconify-icon icon="material-symbols:check" style="color: white; font-size: 1rem;"></iconify-icon>' : ''}
+                            </div>
+                            <div style="flex: 1; font-size: 1.05rem; color: #1e293b; font-weight: 500; ${todo.completed ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${todo.text}</div>
+                        </div>
+                    `;
+                    
+                    tasksContainer.appendChild(todoItem);
+                });
+                
+                listCard.appendChild(tasksContainer);
+                
+                // List footer with stats
+                const listFooter = document.createElement('div');
+                const completedCount = list.tasks.filter(t => t.completed).length;
+                listFooter.style.cssText = `
+                    margin-top: 1rem;
+                    padding-top: 1rem;
+                    border-top: 1px solid #f1f5f9;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                `;
+                
+                listFooter.innerHTML = `
+                    <div style="font-size: 0.95rem; color: #64748b; font-weight: 600;">
+                        <iconify-icon icon="material-symbols:check-circle" style="color: ${getCourseColor(currentCourse)}; font-size: 1.1rem;"></iconify-icon>
+                        ${completedCount}/${list.tasks.length} done
+                    </div>
+                    <div style="font-size: 0.95rem; color: #64748b; font-weight: 600;">
+                        ${list.tasks.length} tasks
+                    </div>
+                `;
+                
+                listCard.appendChild(listFooter);
+                gridContainer.appendChild(listCard);
+            });
+            
+            todoListContainer.innerHTML = '';
+            todoListContainer.appendChild(gridContainer);
+        }
+
+        function toggleTaskInList(listIndex, taskIndex) {
+            const savedLists = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            if (savedLists[listIndex] && savedLists[listIndex].tasks[taskIndex]) {
+                savedLists[listIndex].tasks[taskIndex].completed = !savedLists[listIndex].tasks[taskIndex].completed;
+                localStorage.setItem(storageKey, JSON.stringify(savedLists));
+                loadCourseTodos();
+            }
+        }
+        
+        function deleteList(listIndex) {
+            if (confirm('⚠️ Are you sure you want to delete this entire todo list?\n\nThis will remove all tasks in this list. This action cannot be undone!')) {
+                const savedLists = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                if (savedLists[listIndex]) {
+                    savedLists.splice(listIndex, 1);
+                    localStorage.setItem(storageKey, JSON.stringify(savedLists));
+                    loadCourseTodos();
+                    
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.style.cssText = 'position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; padding: 1rem 1.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3); z-index: 10000; animation: slideInRight 0.3s ease;';
+                    successMsg.innerHTML = '<iconify-icon icon="material-symbols:delete" style="margin-right: 0.5rem;"></iconify-icon>Todo list deleted successfully!';
+                    document.body.appendChild(successMsg);
+                    
+                    setTimeout(() => successMsg.remove(), 2000);
+                }
+            }
+        }
+        
+        function getCourseColor(course) {
+            const colors = {
+                'mathematics': '#667eea',
+                'physics': '#4ecdc4',
+                'english': '#f7b731'
+            };
+            return colors[course] || '#667eea';
+        }
+        
+        function clearAllTasks() {
+            const courseName = currentCourse.charAt(0).toUpperCase() + currentCourse.slice(1);
+            if (confirm(`⚠️ Are you sure you want to clear ALL todo lists for ${courseName}?\n\nThis will delete all saved todo lists. This action cannot be undone!`)) {
+                // Clear all saved todo lists
+                localStorage.removeItem(storageKey);
+                
+                // Also clear the dashboard todo list for this course
+                const dashboardKey = currentCourse + 'TodoList';
+                localStorage.removeItem(dashboardKey);
+                
+                // Reload the page
+                loadCourseTodos();
+                
+                // Show success message
+                const successMsg = document.createElement('div');
+                successMsg.style.cssText = 'position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 1rem 1.5rem; border-radius: 10px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); z-index: 10000; animation: slideInRight 0.3s ease;';
+                successMsg.innerHTML = '<iconify-icon icon="material-symbols:check-circle" style="margin-right: 0.5rem;"></iconify-icon>All todo lists cleared successfully!';
+                document.body.appendChild(successMsg);
+                
+                setTimeout(() => successMsg.remove(), 2000);
+            }
+        }
+
+
+        // Navigation functionality
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        document.querySelectorAll('.dashboard-nav .nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.dashboard-nav .nav-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id], div[id]');
+            const navLinks = document.querySelectorAll('.dashboard-nav .nav-link');
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Animation on scroll
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        }
+    </script>
+</body>
+</html>
+

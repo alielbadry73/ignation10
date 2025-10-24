@@ -570,37 +570,6 @@
                 </p>
             </div>
 
-            <!-- Summary Cards -->
-            <div class="summary-grid animate-on-scroll">
-                <div class="summary-card primary">
-                    <div class="summary-icon">
-                        <iconify-icon icon="material-symbols:family-restroom"></iconify-icon>
-                    </div>
-                    <div class="summary-number" id="totalChildren">0</div>
-                    <div class="summary-label">Children Enrolled</div>
-                </div>
-                <div class="summary-card success">
-                    <div class="summary-icon">
-                        <iconify-icon icon="material-symbols:school"></iconify-icon>
-                    </div>
-                    <div class="summary-number" id="totalCourses">0</div>
-                    <div class="summary-label">Total Courses</div>
-                </div>
-                <div class="summary-card warning">
-                    <div class="summary-icon">
-                        <iconify-icon icon="material-symbols:assignment"></iconify-icon>
-                    </div>
-                    <div class="summary-number" id="totalEnrollments">0</div>
-                    <div class="summary-label">Active Enrollments</div>
-                </div>
-                <div class="summary-card info">
-                    <div class="summary-icon">
-                        <iconify-icon icon="material-symbols:trending-up"></iconify-icon>
-                    </div>
-                    <div class="summary-number" id="progressScore">0%</div>
-                    <div class="summary-label">Overall Progress</div>
-                </div>
-            </div>
 
             <!-- Children Section -->
             <div class="dashboard-card animate-on-scroll">
@@ -614,6 +583,7 @@
                     <!-- Children will be loaded here -->
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -734,15 +704,8 @@
             const data = await response.json();
             const summary = data.summary;
 
-            // Update summary cards
-            document.getElementById('totalChildren').textContent = summary.total_children || 0;
-            document.getElementById('totalCourses').textContent = summary.total_courses || 0;
-            document.getElementById('totalEnrollments').textContent = summary.total_enrollments || 0;
-            
-            // Calculate progress percentage (simplified)
-            const progress = summary.total_enrollments > 0 ? 
-                Math.min(100, Math.round((summary.total_enrollments / (summary.total_courses || 1)) * 100)) : 0;
-            document.getElementById('progressScore').textContent = `${progress}%`;
+            // Summary cards were removed, so we just log the data for debugging
+            console.log('Dashboard summary loaded:', summary);
         }
 
         // Load children data
@@ -822,6 +785,7 @@
         function showLinkStudentModal() {
             document.getElementById('linkStudentModal').classList.add('active');
         }
+
 
         // Close modal
         function closeModal(modalId) {
@@ -973,6 +937,13 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
 
 
 

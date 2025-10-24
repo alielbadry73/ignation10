@@ -211,6 +211,83 @@
             color: white;
         }
 
+        /* Forgotten Cards Action Card */
+        .forgotten-cards-action-card {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(239, 68, 68, 0.3);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .forgotten-cards-action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(239, 68, 68, 0.4);
+        }
+
+        .action-card-content {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            color: white;
+        }
+
+        .action-card-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-card-text {
+            flex: 1;
+        }
+
+        .action-card-text h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .action-card-text p {
+            margin: 0;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .action-card-button {
+            flex-shrink: 0;
+        }
+
+        .btn-forgotten-action {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-forgotten-action:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            color: white;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -451,6 +528,31 @@
             <div class="forgotten-cards-count" id="forgottenCountBanner">0</div>
         </div>
 
+        <!-- Forgotten Cards Action Button -->
+        <div class="container" style="margin-bottom: 2rem;">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="forgotten-cards-action-card" id="forgottenActionCard" style="display: none;">
+                        <div class="action-card-content">
+                            <div class="action-card-icon">
+                                <iconify-icon icon="material-symbols:priority-high" style="font-size: 2rem; color: white;"></iconify-icon>
+                            </div>
+                            <div class="action-card-text">
+                                <h3>📚 Review Forgotten Cards</h3>
+                                <p>You have <strong id="forgottenCountAction">0</strong> cards that need review. Practice them to improve your retention!</p>
+                            </div>
+                            <div class="action-card-button">
+                                <button class="btn-forgotten-action" onclick="window.location.href='physics-flashcards-forgotten.html'">
+                                    <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                                    Start Review
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Chapter Grid -->
         <div class="chapter-grid" id="chapterGrid"></div>
     </div>
@@ -531,12 +633,15 @@
             document.getElementById('studyingCards').textContent = stats.studyingCards;
             document.getElementById('forgottenCardsCount').textContent = stats.forgottenCount;
             document.getElementById('forgottenCountBanner').textContent = stats.forgottenCount;
+            document.getElementById('forgottenCountAction').textContent = stats.forgottenCount;
             
             // Show/hide forgotten cards banner
             if (stats.forgottenCount > 0) {
                 document.getElementById('forgottenBanner').style.display = 'flex';
+                document.getElementById('forgottenActionCard').style.display = 'block';
             } else {
                 document.getElementById('forgottenBanner').style.display = 'none';
+                document.getElementById('forgottenActionCard').style.display = 'none';
             }
         }
 

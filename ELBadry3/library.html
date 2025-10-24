@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library | IG Nation</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Jost', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+        }
+        
+        /* Dashboard Header - Same as student dashboard */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
+        }
+        
+        .library-content {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .page-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+        }
+        
+        .book-cover {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+        
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .book-author {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .book-category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <!-- Top Header with Navigation Buttons -->
+            <div class="row align-items-center" style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Button -->
+                        <button class="hamburger-menu-btn" onclick="window.history.back()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="index.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
+                        </a>
+                        
+                        <!-- Focus Mode Button -->
+                        <button class="nav-icon-btn" onclick="window.location.href='focus-mode.html'" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Cart Button -->
+                        <button class="nav-icon-btn" onclick="viewCart()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:shopping-cart" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                            <span id="cartBadge" class="badge bg-danger" style="position: absolute; top: -5px; right: -5px; font-size: 0.7rem; display: none;">0</span>
+                        </button>
+                        
+                        <!-- Notifications Button -->
+                        <button class="nav-icon-btn" onclick="window.location.href='student-dashboard.html#notifications'" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:notifications" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Library Content -->
+    <div class="library-content">
+        <h1 class="page-title">📚 Library</h1>
+        <p class="page-subtitle">Access your course materials, textbooks, and study resources</p>
+        
+        <!-- Course Navigation -->
+        <div style="margin-bottom: 3rem;">
+            <h2 style="font-size: 1.8rem; color: #333; margin-bottom: 1.5rem; text-align: center;">Browse by Subject</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+                <!-- Mathematics -->
+                <a href="mathematics-library.html" style="text-decoration: none; color: inherit;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 20px rgba(102,126,234,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <iconify-icon icon="material-symbols:calculate" style="font-size: 3rem; margin-bottom: 1rem;"></iconify-icon>
+                        <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Mathematics</h3>
+                        <p style="opacity: 0.9; font-size: 0.9rem;">Algebra, Geometry, Calculus</p>
+                    </div>
+                </a>
+                
+                <!-- Physics -->
+                <a href="physics-library.html" style="text-decoration: none; color: inherit;">
+                    <div style="background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%); color: white; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 20px rgba(245,87,108,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <iconify-icon icon="material-symbols:science" style="font-size: 3rem; margin-bottom: 1rem;"></iconify-icon>
+                        <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Physics</h3>
+                        <p style="opacity: 0.9; font-size: 0.9rem;">Mechanics, Electricity, Waves</p>
+                    </div>
+                </a>
+                
+                <!-- Chemistry -->
+                <a href="chemistry-library.html" style="text-decoration: none; color: inherit;">
+                    <div style="background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%); color: white; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 20px rgba(0,242,254,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <iconify-icon icon="material-symbols:science" style="font-size: 3rem; margin-bottom: 1rem;"></iconify-icon>
+                        <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Chemistry</h3>
+                        <p style="opacity: 0.9; font-size: 0.9rem;">Atoms, Molecules, Reactions</p>
+                    </div>
+                </a>
+                
+                <!-- Biology -->
+                <a href="biology-library.html" style="text-decoration: none; color: inherit;">
+                    <div style="background: linear-gradient(135deg, #38f9d7 0%, #43e97b 100%); color: white; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 20px rgba(56,249,215,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <iconify-icon icon="material-symbols:eco" style="font-size: 3rem; margin-bottom: 1rem;"></iconify-icon>
+                        <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">Biology</h3>
+                        <p style="opacity: 0.9; font-size: 0.9rem;">Cells, Genetics, Evolution</p>
+                    </div>
+                </a>
+                
+                <!-- English -->
+                <a href="english-library.html" style="text-decoration: none; color: inherit;">
+                    <div style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 20px rgba(250,112,154,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <iconify-icon icon="material-symbols:menu-book" style="font-size: 3rem; margin-bottom: 1rem;"></iconify-icon>
+                        <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">English</h3>
+                        <p style="opacity: 0.9; font-size: 0.9rem;">Language & Literature</p>
+                    </div>
+                </a>
+                
+                <!-- History -->
+                <a href="history-library.html" style="text-decoration: none; color: inherit;">
+                    <div style="background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%); color: white; border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 8px 20px rgba(139,92,246,0.3)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        <iconify-icon icon="material-symbols:history-edu" style="font-size: 3rem; margin-bottom: 1rem;"></iconify-icon>
+                        <h3 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">History</h3>
+                        <p style="opacity: 0.9; font-size: 0.9rem;">World Events & Analysis</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <!-- Library Options -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+            <!-- Soft Copy Section -->
+            <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 3px solid #667eea;">
+                <h2 style="font-size: 1.8rem; color: #667eea; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="bi bi-file-earmark-pdf"></i>
+                    Digital Library (Soft Copy)
+                </h2>
+                <p style="color: #666; margin-bottom: 1.5rem;">Download PDF textbooks and study materials instantly</p>
+                <button onclick="showSoftCopySection()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 0.75rem 2rem; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">
+                    <i class="bi bi-download me-2"></i>
+                    Browse PDF Library
+                </button>
+            </div>
+            
+            <!-- Hard Copy Section -->
+            <div style="background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 3px solid #22c55e;">
+                <h2 style="font-size: 1.8rem; color: #22c55e; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem;">
+                    <i class="bi bi-book"></i>
+                    Physical Library (Hard Copy)
+                </h2>
+                <p style="color: #666; margin-bottom: 1.5rem;">Visit our library or order physical books</p>
+                <button onclick="showHardCopySection()" style="background: linear-gradient(135deg, #22c55e 0%, #059669 100%); color: white; border: none; padding: 0.75rem 2rem; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%;">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    Library Locations
+                </button>
+            </div>
+        </div>
+        
+        <!-- Soft Copy PDFs Section (Hidden by default) -->
+        <div id="softCopySection" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem; color: #333;">📄 Available PDF Books</h2>
+                <button onclick="hideSoftCopySection()" style="background: #e9ecef; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+                    <i class="bi bi-x-lg"></i> Close
+                </button>
+            </div>
+            <div class="books-grid" id="pdfBooksGrid"></div>
+        </div>
+        
+        <!-- Hard Copy Library Section (Hidden by default) -->
+        <div id="hardCopySection" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 style="font-size: 2rem; color: #333;">📍 Library Locations</h2>
+                <button onclick="hideHardCopySection()" style="background: #e9ecef; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">
+                    <i class="bi bi-x-lg"></i> Close
+                </button>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <!-- Main Library -->
+                <div style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.5rem; color: #333; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="bi bi-building" style="color: #667eea;"></i>
+                        IG Nation Main Library
+                    </h3>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong style="color: #666;">📍 Address:</strong>
+                        <p style="color: #333; margin: 0.5rem 0;">123 Education Street, Learning District<br>Cairo, Egypt 11511</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong style="color: #666;">📞 Phone:</strong>
+                        <p style="color: #333; margin: 0.5rem 0;">+20 2 1234 5678</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong style="color: #666;">🕐 Opening Hours:</strong>
+                        <p style="color: #333; margin: 0.5rem 0;">
+                            Monday - Friday: 8:00 AM - 8:00 PM<br>
+                            Saturday: 9:00 AM - 5:00 PM<br>
+                            Sunday: Closed
+                        </p>
+                    </div>
+                    
+                    <button onclick="window.open('https://maps.google.com/?q=30.0444,31.2357', '_blank')" style="background: #667eea; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600;">
+                        <i class="bi bi-map me-2"></i>
+                        View on Google Maps
+                    </button>
+                </div>
+                
+                <!-- Branch Library -->
+                <div style="background: white; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.08);">
+                    <h3 style="font-size: 1.5rem; color: #333; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <i class="bi bi-building" style="color: #22c55e;"></i>
+                        IG Nation Branch Library
+                    </h3>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong style="color: #666;">📍 Address:</strong>
+                        <p style="color: #333; margin: 0.5rem 0;">456 Knowledge Avenue, Academic City<br>Alexandria, Egypt 21500</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong style="color: #666;">📞 Phone:</strong>
+                        <p style="color: #333; margin: 0.5rem 0;">+20 3 9876 5432</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <strong style="color: #666;">🕐 Opening Hours:</strong>
+                        <p style="color: #333; margin: 0.5rem 0;">
+                            Monday - Friday: 9:00 AM - 7:00 PM<br>
+                            Saturday: 10:00 AM - 4:00 PM<br>
+                            Sunday: Closed
+                        </p>
+                    </div>
+                    
+                    <button onclick="window.open('https://maps.google.com/?q=31.2001,29.9187', '_blank')" style="background: #22c55e; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600;">
+                        <i class="bi bi-map me-2"></i>
+                        View on Google Maps
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // PDF Books Data with pricing
+        const pdfBooks = [
+            {
+                id: 'math-complete-guide',
+                title: 'IGCSE Mathematics Complete Guide',
+                author: 'Cambridge International',
+                subject: 'Mathematics',
+                pages: 456,
+                size: '12.5 MB',
+                price: 29.99,
+                originalPrice: 39.99,
+                discount: 25,
+                description: 'Comprehensive guide covering all IGCSE Mathematics topics with detailed explanations, worked examples, and practice questions.',
+                url: '/pdfs/math-complete-guide.pdf',
+                color: '#667eea',
+                rating: 4.8,
+                reviews: 156,
+                isNew: true
+            },
+            {
+                id: 'physics-textbook',
+                title: 'IGCSE Physics Textbook',
+                author: 'Cambridge International',
+                subject: 'Physics',
+                pages: 389,
+                size: '10.2 MB',
+                price: 27.99,
+                originalPrice: 34.99,
+                discount: 20,
+                description: 'Complete physics textbook with interactive diagrams, practical experiments, and comprehensive problem sets.',
+                url: '/pdfs/physics-textbook.pdf',
+                color: '#f5576c',
+                rating: 4.7,
+                reviews: 134,
+                isNew: false
+            },
+            {
+                id: 'chemistry-workbook',
+                title: 'IGCSE Chemistry Workbook',
+                author: 'Cambridge International',
+                subject: 'Chemistry',
+                pages: 325,
+                size: '8.7 MB',
+                price: 24.99,
+                originalPrice: 29.99,
+                discount: 17,
+                description: 'Interactive workbook with step-by-step solutions, lab experiments, and self-assessment quizzes.',
+                url: '/pdfs/chemistry-workbook.pdf',
+                color: '#00f2fe',
+                rating: 4.6,
+                reviews: 98,
+                isNew: false
+            },
+            {
+                id: 'biology-student-book',
+                title: 'IGCSE Biology Student Book',
+                author: 'Cambridge International',
+                subject: 'Biology',
+                pages: 412,
+                size: '11.3 MB',
+                price: 26.99,
+                originalPrice: 32.99,
+                discount: 18,
+                description: 'Student-friendly biology book with colorful diagrams, case studies, and exam preparation tips.',
+                url: '/pdfs/biology-student-book.pdf',
+                color: '#38f9d7',
+                rating: 4.5,
+                reviews: 87,
+                isNew: true
+            },
+            {
+                id: 'english-language',
+                title: 'IGCSE English Language',
+                author: 'Cambridge International',
+                subject: 'English',
+                pages: 298,
+                size: '7.4 MB',
+                price: 22.99,
+                originalPrice: 27.99,
+                discount: 18,
+                description: 'Complete English language course with writing guides, reading comprehension, and speaking practice.',
+                url: '/pdfs/english-language.pdf',
+                color: '#fa709a',
+                rating: 4.4,
+                reviews: 112,
+                isNew: false
+            },
+            {
+                id: 'math-revision-notes',
+                title: 'Mathematics Revision Notes',
+                author: 'IG Nation',
+                subject: 'Mathematics',
+                pages: 156,
+                size: '4.2 MB',
+                price: 14.99,
+                originalPrice: 19.99,
+                discount: 25,
+                description: 'Condensed revision notes with key formulas, shortcuts, and exam strategies for quick review.',
+                url: '/pdfs/math-revision-notes.pdf',
+                color: '#667eea',
+                rating: 4.9,
+                reviews: 203,
+                isNew: false
+            },
+            {
+                id: 'physics-formulas',
+                title: 'Physics Formula Sheet',
+                author: 'IG Nation',
+                subject: 'Physics',
+                pages: 24,
+                size: '1.8 MB',
+                price: 9.99,
+                originalPrice: 12.99,
+                discount: 23,
+                description: 'Essential physics formulas and equations with clear explanations and unit conversions.',
+                url: '/pdfs/physics-formulas.pdf',
+                color: '#f5576c',
+                rating: 4.8,
+                reviews: 145,
+                isNew: false
+            },
+            {
+                id: 'chemistry-practical',
+                title: 'Chemistry Practical Guide',
+                author: 'IG Nation',
+                subject: 'Chemistry',
+                pages: 87,
+                size: '3.5 MB',
+                price: 12.99,
+                originalPrice: 16.99,
+                discount: 24,
+                description: 'Step-by-step practical experiments with safety guidelines and expected results.',
+                url: '/pdfs/chemistry-practical.pdf',
+                color: '#00f2fe',
+                rating: 4.7,
+                reviews: 76,
+                isNew: true
+            },
+            {
+                id: 'english-literature',
+                title: 'IGCSE English Literature',
+                author: 'Cambridge International',
+                subject: 'English',
+                pages: 334,
+                size: '9.1 MB',
+                price: 25.99,
+                originalPrice: 31.99,
+                discount: 19,
+                description: 'Comprehensive literature guide with analysis of poems, novels, and plays for IGCSE exams.',
+                url: '/pdfs/english-literature.pdf',
+                color: '#fa709a',
+                rating: 4.6,
+                reviews: 89,
+                isNew: false
+            },
+            {
+                id: 'history-textbook',
+                title: 'IGCSE History Textbook',
+                author: 'Cambridge International',
+                subject: 'History',
+                pages: 378,
+                size: '10.8 MB',
+                price: 28.99,
+                originalPrice: 35.99,
+                discount: 19,
+                description: 'Complete history course covering major events, timelines, and historical analysis techniques.',
+                url: '/pdfs/history-textbook.pdf',
+                color: '#8b5cf6',
+                rating: 4.5,
+                reviews: 67,
+                isNew: true
+            }
+        ];
+        
+        function showSoftCopySection() {
+            document.getElementById('softCopySection').style.display = 'block';
+            document.getElementById('hardCopySection').style.display = 'none';
+            
+            renderPDFBooks();
+        }
+        
+        function hideSoftCopySection() {
+            document.getElementById('softCopySection').style.display = 'none';
+        }
+        
+        function showHardCopySection() {
+            document.getElementById('hardCopySection').style.display = 'block';
+            document.getElementById('softCopySection').style.display = 'none';
+        }
+        
+        function hideHardCopySection() {
+            document.getElementById('hardCopySection').style.display = 'none';
+        }
+        
+        function renderPDFBooks() {
+            const grid = document.getElementById('pdfBooksGrid');
+            grid.innerHTML = pdfBooks.map(book => `
+                <div class="book-card" style="position: relative;">
+                    ${book.isNew ? '<div style="position: absolute; top: 10px; right: 10px; background: #10b981; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600; z-index: 2;">NEW</div>' : ''}
+                    <div class="book-cover" style="background: linear-gradient(135deg, ${book.color}, ${adjustColor(book.color)}); position: relative;">
+                        <i class="bi bi-file-earmark-pdf" style="font-size: 4rem;"></i>
+                        ${book.discount > 0 ? `<div style="position: absolute; top: 10px; left: 10px; background: #ef4444; color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.7rem; font-weight: 600;">-${book.discount}%</div>` : ''}
+                    </div>
+                    <div class="book-title">${book.title}</div>
+                    <div class="book-author">${book.author}</div>
+                    
+                    <!-- Rating -->
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin: 0.5rem 0;">
+                        <div style="display: flex; gap: 2px;">
+                            ${Array.from({length: 5}, (_, i) => 
+                                `<i class="bi bi-star${i < Math.floor(book.rating) ? '-fill' : ''}" style="color: #ffd700; font-size: 0.8rem;"></i>`
+                            ).join('')}
+                        </div>
+                        <span style="color: #666; font-size: 0.8rem;">${book.rating} (${book.reviews})</span>
+                    </div>
+                    
+                    <!-- Book Details -->
+                    <div style="display: flex; justify-content: space-between; margin: 0.75rem 0; color: #666; font-size: 0.85rem;">
+                        <span><i class="bi bi-file-text me-1"></i>${book.pages} pages</span>
+                        <span><i class="bi bi-hdd me-1"></i>${book.size}</span>
+                    </div>
+                    
+                    <!-- Pricing -->
+                    <div style="margin: 0.75rem 0;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                            <span style="font-size: 1.2rem; font-weight: 700; color: #10b981;">£${book.price}</span>
+                            ${book.originalPrice > book.price ? `<span style="font-size: 0.9rem; color: #94a3b8; text-decoration: line-through;">£${book.originalPrice}</span>` : ''}
+                        </div>
+                    </div>
+                    
+                    <span class="book-category" style="background: ${book.color}; margin-bottom: 1rem;">${book.subject}</span>
+                    
+                    <!-- Action Buttons -->
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <button onclick="addBookToCart('${book.id}')" style="flex: 1; background: ${book.color}; color: white; border: none; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 0.9rem;" onmouseover="this.style.transform='translateY(-2px)'; this.style.opacity='0.9'" onmouseout="this.style.transform='translateY(0)'; this.style.opacity='1'">
+                            <i class="bi bi-cart-plus me-1"></i>
+                            Add to Cart
+                        </button>
+                        <button onclick="viewBookDetails('${book.id}')" style="background: white; color: ${book.color}; border: 2px solid ${book.color}; padding: 0.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 0.9rem;" onmouseover="this.style.background=this.style.color; this.style.color='white'" onmouseout="this.style.background='white'; this.style.color=this.style.borderColor">
+                            <i class="bi bi-eye me-1"></i>
+                            Preview
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function adjustColor(color) {
+            // Simple color adjustment for gradient
+            return color + '90';
+        }
+        
+        // Shopping Cart
+        let cart = JSON.parse(localStorage.getItem('bookCart') || '[]');
+        
+        function addBookToCart(bookId) {
+            const book = pdfBooks.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const existingItem = cart.find(item => item.id === bookId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: book.id,
+                    title: book.title,
+                    author: book.author,
+                    price: book.price,
+                    subject: book.subject,
+                    quantity: 1,
+                    type: 'book'
+                });
+            }
+            
+            localStorage.setItem('bookCart', JSON.stringify(cart));
+            updateCartDisplay();
+            showToast(`${book.title} added to cart!`, 'success');
+        }
+        
+        function updateCartDisplay() {
+            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            const cartBadge = document.getElementById('cartBadge');
+            if (cartBadge) {
+                cartBadge.textContent = cartCount;
+                cartBadge.style.display = cartCount > 0 ? 'inline' : 'none';
+            }
+        }
+        
+        function viewBookDetails(bookId) {
+            const book = pdfBooks.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const modal = document.getElementById('bookDetailsModal');
+            if (!modal) {
+                createBookDetailsModal();
+            }
+            
+            // Update modal content
+            document.getElementById('bookTitle').textContent = book.title;
+            document.getElementById('bookAuthor').textContent = book.author;
+            document.getElementById('bookSubject').textContent = book.subject;
+            document.getElementById('bookPages').textContent = book.pages;
+            document.getElementById('bookSize').textContent = book.size;
+            document.getElementById('bookDescription').textContent = book.description;
+            document.getElementById('bookPrice').textContent = `£${book.price}`;
+            document.getElementById('bookOriginalPrice').textContent = book.originalPrice > book.price ? `£${book.originalPrice}` : '';
+            document.getElementById('bookDiscount').textContent = book.discount > 0 ? `${book.discount}% OFF` : '';
+            document.getElementById('bookRating').textContent = book.rating;
+            document.getElementById('bookReviews').textContent = book.reviews;
+            
+            // Update rating stars
+            const ratingStars = document.getElementById('bookRatingStars');
+            ratingStars.innerHTML = Array.from({length: 5}, (_, i) => 
+                `<i class="bi bi-star${i < Math.floor(book.rating) ? '-fill' : ''}" style="color: #ffd700;"></i>`
+            ).join('');
+            
+            // Show modal
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+        }
+        
+        function createBookDetailsModal() {
+            const modalHTML = `
+                <div class="modal fade" id="bookDetailsModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Book Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="book-cover" style="background: linear-gradient(135deg, #667eea, #764ba2); height: 300px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                            <i class="bi bi-file-earmark-pdf" style="font-size: 4rem; color: white;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h4 id="bookTitle"></h4>
+                                        <p class="text-muted" id="bookAuthor"></p>
+                                        
+                                        <div class="mb-3">
+                                            <span class="badge bg-primary" id="bookSubject"></span>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <div id="bookRatingStars" class="mb-2"></div>
+                                            <span id="bookRating"></span> stars (<span id="bookReviews"></span> reviews)
+                                        </div>
+                                        
+                                        <div class="row mb-3">
+                                            <div class="col-6">
+                                                <strong>Pages:</strong> <span id="bookPages"></span>
+                                            </div>
+                                            <div class="col-6">
+                                                <strong>Size:</strong> <span id="bookSize"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <strong>Description:</strong>
+                                            <p id="bookDescription" class="mt-2"></p>
+                                        </div>
+                                        
+                                        <div class="d-flex align-items-center gap-3 mb-3">
+                                            <div>
+                                                <span class="h4 text-success mb-0" id="bookPrice"></span>
+                                                <span class="text-muted text-decoration-line-through ms-2" id="bookOriginalPrice"></span>
+                                            </div>
+                                            <span class="badge bg-danger" id="bookDiscount"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="addBookToCartFromModal()">
+                                    <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                                </button>
+                                <button type="button" class="btn btn-success" onclick="buyNow()">
+                                    <i class="bi bi-credit-card me-2"></i>Buy Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+        
+        function addBookToCartFromModal() {
+            const bookTitle = document.getElementById('bookTitle').textContent;
+            const book = pdfBooks.find(b => b.title === bookTitle);
+            if (book) {
+                addBookToCart(book.id);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('bookDetailsModal'));
+                modal.hide();
+            }
+        }
+        
+        function buyNow() {
+            const bookTitle = document.getElementById('bookTitle').textContent;
+            const book = pdfBooks.find(b => b.title === bookTitle);
+            if (book) {
+                addBookToCart(book.id);
+                // Redirect to checkout with book cart
+                window.location.href = 'checkout.html?type=books';
+            }
+        }
+        
+        function showToast(message, type = 'info') {
+            const toastHTML = `
+                <div class="toast align-items-center text-white bg-${type === 'success' ? 'success' : 'info'} border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+            
+            let toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.id = 'toastContainer';
+                toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+                toastContainer.style.zIndex = '9999';
+                document.body.appendChild(toastContainer);
+            }
+            
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            const toastElement = toastContainer.lastElementChild;
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+            
+            // Remove toast element after it's hidden
+            toastElement.addEventListener('hidden.bs.toast', () => {
+                toastElement.remove();
+            });
+        }
+        
+        function downloadPDF(url, title) {
+            alert(`📥 Downloading: ${title}\n\nNote: This is a demo. In production, the PDF would be downloaded from:\n${url}\n\nFeature coming soon!`);
+        }
+        
+        function viewCart() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty!', 'info');
+                return;
+            }
+            
+            const modal = document.getElementById('cartModal');
+            if (!modal) {
+                createCartModal();
+            }
+            
+            // Update cart content
+            updateCartModal();
+            
+            // Show modal
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+        }
+        
+        function createCartModal() {
+            const modalHTML = `
+                <div class="modal fade" id="cartModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <i class="bi bi-cart me-2"></i>Shopping Cart
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="cartItems"></div>
+                                <div id="cartTotal" class="mt-3 p-3 bg-light rounded">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h5 class="mb-0">Total:</h5>
+                                        <h5 class="mb-0 text-success" id="cartTotalAmount">£0.00</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                                <button type="button" class="btn btn-success" onclick="proceedToCheckout()">
+                                    <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+        }
+        
+        function updateCartModal() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotalAmount = document.getElementById('cartTotalAmount');
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center text-muted">Your cart is empty</p>';
+                cartTotalAmount.textContent = '£0.00';
+                return;
+            }
+            
+            let total = 0;
+            cartItems.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-3 p-3 border rounded">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="bi bi-file-earmark-pdf text-white"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">${item.title}</h6>
+                                <small class="text-muted">${item.author} - ${item.subject}</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity('${item.id}', -1)">-</button>
+                                <span class="px-2">${item.quantity}</span>
+                                <button class="btn btn-sm btn-outline-secondary" onclick="updateQuantity('${item.id}', 1)">+</button>
+                            </div>
+                            <div class="text-end">
+                                <div class="fw-bold">£${itemTotal.toFixed(2)}</div>
+                                <small class="text-muted">£${item.price} each</small>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart('${item.id}')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            cartTotalAmount.textContent = `£${total.toFixed(2)}`;
+        }
+        
+        function updateQuantity(itemId, change) {
+            const item = cart.find(item => item.id === itemId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(item => item.id !== itemId);
+                }
+                localStorage.setItem('bookCart', JSON.stringify(cart));
+                updateCartDisplay();
+                updateCartModal();
+            }
+        }
+        
+        function removeFromCart(itemId) {
+            cart = cart.filter(item => item.id !== itemId);
+            localStorage.setItem('bookCart', JSON.stringify(cart));
+            updateCartDisplay();
+            updateCartModal();
+            showToast('Item removed from cart', 'info');
+        }
+        
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty!', 'info');
+                return;
+            }
+            
+            // Store book cart in localStorage for checkout page
+            localStorage.setItem('bookCart', JSON.stringify(cart));
+            
+            // Redirect to checkout
+            window.location.href = 'checkout.html?type=books';
+        }
+        
+        // Initialize cart display on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartDisplay();
+        });
+        
+    </script>
+</body>
+</html>
+

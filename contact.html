@@ -546,12 +546,18 @@
       }
     };
 
-    // Update cart count
+    // Update cart count - now using unified cart system
     function updateCartCount() {
-      const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-      const cartBadge = document.getElementById('cartCount');
-      if (cartBadge) {
-        cartBadge.textContent = cartCount;
+      // Use unified cart system if available
+      if (window.cartManager) {
+        window.cartManager.updateCartCount();
+      } else {
+        // Fallback for when cart system isn't loaded yet
+        const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+        const cartBadge = document.getElementById('cartCount');
+        if (cartBadge) {
+          cartBadge.textContent = cartCount;
+        }
       }
     }
 
@@ -621,6 +627,7 @@
   </script>
 
   <script src="js/script.js"></script>
+  <script src="js/cart.js"></script>
   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
 </body>
 

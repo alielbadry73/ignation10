@@ -1,0 +1,2898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Course | IG Nation</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Jost', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Global Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Intersection Observer Animation Classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .animate-on-scroll-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-on-scroll-left.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .animate-on-scroll-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-on-scroll-right.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .animate-on-scroll-scale {
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .animate-on-scroll-scale.animated {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Delay Classes */
+        .animate-delay-1 { transition-delay: 0.1s; }
+        .animate-delay-2 { transition-delay: 0.2s; }
+        .animate-delay-3 { transition-delay: 0.3s; }
+        .animate-delay-4 { transition-delay: 0.4s; }
+        .animate-delay-5 { transition-delay: 0.5s; }
+
+        /* Header - Same as course-mathematics page */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
+        }
+
+        .dashboard-header .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .dashboard-header .row {
+            margin: 0 !important;
+        }
+
+        /* Navigation - Same styling as course-mathematics */
+        .dashboard-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        .dashboard-nav .nav-link {
+            color: #333;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-nav .nav-link:hover,
+        .dashboard-nav .nav-link.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+
+        .welcome-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .welcome-subtext {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+            margin-top: 80px;
+        }
+
+        /* Cards */
+        .dashboard-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .dashboard-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+        }
+
+        .dashboard-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+            border-radius: 50%;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Modern Cards from Math Course */
+        .modern-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .modern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .modern-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            border-radius: 50%;
+        }
+
+        .modern-card::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.08), rgba(118, 75, 162, 0.08));
+            border-radius: 50%;
+        }
+
+        /* Progress Circles */
+        .progress-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 0 auto 1rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+
+        .progress-circle::before {
+            content: '';
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            position: absolute;
+        }
+
+        .progress-value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1e293b;
+            z-index: 1;
+        }
+
+        /* Todo List Styles */
+        .todo-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .todo-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(5px);
+        }
+
+        .todo-item.completed {
+            opacity: 0.6;
+            text-decoration: line-through;
+            border-left-color: #10b981;
+        }
+
+        .todo-item.high-priority {
+            border-left-color: #ef4444;
+        }
+
+        .todo-item.medium-priority {
+            border-left-color: #f59e0b;
+        }
+
+        .todo-item.low-priority {
+            border-left-color: #10b981;
+        }
+
+        .todo-checkbox {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 2px solid #667eea;
+            margin-right: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .todo-checkbox.checked {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        /* Deadline Styles */
+        .deadline-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-left: 4px solid #ef4444;
+            transition: all 0.3s ease;
+        }
+
+        .deadline-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(5px);
+        }
+
+        .deadline-item.urgent {
+            border-left-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .deadline-item.warning {
+            border-left-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .deadline-item.normal {
+            border-left-color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .deadline-title {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .deadline-time {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .deadline-subject {
+            font-size: 0.75rem;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Leaderboard Styles */
+        .leaderboard-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(5px);
+        }
+
+        .leaderboard-item.rank-1 {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+            border: 2px solid #ffd700;
+        }
+
+        .leaderboard-item.rank-2 {
+            background: linear-gradient(135deg, rgba(192, 192, 192, 0.2), rgba(192, 192, 192, 0.1));
+            border: 2px solid #c0c0c0;
+        }
+
+        .leaderboard-item.rank-3 {
+            background: linear-gradient(135deg, rgba(205, 127, 50, 0.2), rgba(205, 127, 50, 0.1));
+            border: 2px solid #cd7f32;
+        }
+
+        .rank-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .rank-1 .rank-number {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1e293b;
+        }
+
+        .rank-2 .rank-number {
+            background: linear-gradient(135deg, #c0c0c0, #e5e5e5);
+            color: #1e293b;
+        }
+
+        .rank-3 .rank-number {
+            background: linear-gradient(135deg, #cd7f32, #daa520);
+        }
+
+        .rank-number:not(.rank-1):not(.rank-2):not(.rank-3) {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .student-info {
+            flex: 1;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .student-score {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .student-points {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        /* Add Todo Form */
+        .add-todo-form {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 10px;
+            padding: 0.75rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Save Todo Button */
+        .save-todo-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border: none;
+            border-radius: 10px;
+            padding: 0.75rem 2rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            margin-top: 1rem;
+        }
+
+        .save-todo-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            color: white;
+        }
+
+        .save-todo-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Clickable Cards */
+        .clickable-card {
+            transition: all 0.3s ease;
+        }
+
+        .clickable-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .clickable-card:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem 0;
+            }
+            
+            .dashboard-card {
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .progress-circle {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .progress-value {
+                font-size: 1rem;
+            }
+            
+            /* Hamburger menu responsive */
+            .hamburger-menu-btn {
+                width: 40px !important;
+                height: 40px !important;
+            }
+            
+            .hamburger-menu-btn iconify-icon {
+                font-size: 1.3rem !important;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hamburger-menu-btn {
+                width: 38px !important;
+                height: 38px !important;
+            }
+            
+            .hamburger-menu-btn iconify-icon {
+                font-size: 1.2rem !important;
+            }
+        }
+
+        /* Navigation Icon Buttons */
+        .nav-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Focus Mode Styles */
+        .focus-mode .dashboard-nav {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .focus-mode .welcome-section {
+            opacity: 0.5;
+        }
+
+        .focus-mode .leaderboard-item {
+            opacity: 0.4;
+        }
+
+        .focus-mode .todo-item {
+            opacity: 0.4;
+        }
+
+        /* Responsive Design for Icon Buttons */
+        @media (max-width: 1200px) {
+            .nav-icon-btn {
+                width: 40px !important;
+                height: 40px !important;
+            }
+            
+            .nav-icon-btn iconify-icon {
+                font-size: 1.1rem !important;
+            }
+            
+            .nav-icon-btn img {
+                width: 18px !important;
+                height: 18px !important;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-icon-btn {
+                width: 38px !important;
+                height: 38px !important;
+            }
+            
+            .nav-icon-btn iconify-icon {
+                font-size: 1rem !important;
+            }
+            
+            .nav-icon-btn img {
+                width: 16px !important;
+                height: 16px !important;
+            }
+            
+            .personalized-greeting {
+                padding: 0.4rem 0.8rem !important;
+            }
+            
+            .personalized-greeting .greeting-text {
+                font-size: 0.8rem !important;
+            }
+            
+            .personalized-greeting .ranking-info {
+                font-size: 0.7rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-icon-btn {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            
+            .nav-icon-btn iconify-icon {
+                font-size: 0.9rem !important;
+            }
+            
+            .nav-icon-btn img {
+                width: 14px !important;
+                height: 14px !important;
+            }
+            
+            .personalized-greeting {
+                padding: 0.3rem 0.6rem !important;
+            }
+            
+            .personalized-greeting .greeting-text {
+                font-size: 0.75rem !important;
+            }
+            
+            .personalized-greeting .ranking-info {
+                font-size: 0.65rem !important;
+            }
+            
+            .personalized-greeting .sample-badges {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-icon-btn {
+                width: 34px !important;
+                height: 34px !important;
+            }
+            
+            .nav-icon-btn iconify-icon {
+                font-size: 0.8rem !important;
+            }
+            
+            .nav-icon-btn img {
+                width: 12px !important;
+                height: 12px !important;
+            }
+            
+            .personalized-greeting {
+                padding: 0.25rem 0.5rem !important;
+            }
+            
+            .personalized-greeting .greeting-text {
+                font-size: 0.7rem !important;
+            }
+            
+            .personalized-greeting .ranking-info {
+                font-size: 0.6rem !important;
+            }
+        }
+
+
+        /* Section Headers */
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Dashboard Header -->
+    <header class="dashboard-header">
+        <div class="container-fluid">
+            <!-- Top Header with Hamburger Menu and Navigation Buttons -->
+            <div class="row align-items-center" style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="col-6">
+                    <div class="d-flex align-items-center">
+                        <!-- Hamburger Menu Button -->
+                        <button class="hamburger-menu-btn" onclick="toggleSidebar()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:menu" style="font-size: 1.5rem; color: #333;"></iconify-icon>
+                        </button>
+                        
+                        <!-- Personalized Greeting -->
+                        <div class="personalized-greeting" onclick="toggleBadgesBar()" style="cursor: pointer; display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.9); border-radius: 25px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
+                            <div class="greeting-content">
+                                <div class="greeting-text" id="greetingText" style="font-weight: 600; color: #333; font-size: 0.9rem;">Good afternoon, Alex!</div>
+                                <div class="ranking-info" style="font-size: 0.75rem; color: #666; display: flex; align-items: center; gap: 0.3rem;">
+                                    <span id="studentRanking">#2 in class</span>
+                                    <span>•</span>
+                                    <span id="totalPoints" style="color: #667eea; font-weight: 600;">0 points</span>
+                                    <span>•</span>
+                                    <span id="earnedBadges">3 badges</span>
+                                </div>
+                            </div>
+                            <div class="sample-badges" style="display: flex; gap: 0.2rem;">
+                                <div class="badge-sample" style="width: 24px; height: 24px; background: linear-gradient(135deg, #ffd700, #ffed4e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #333; font-weight: bold;">1</div>
+                                <div class="badge-sample" style="width: 24px; height: 24px; background: linear-gradient(135deg, #c0c0c0, #e5e5e5); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #333; font-weight: bold;">2</div>
+                                <div class="badge-sample" style="width: 24px; height: 24px; background: linear-gradient(135deg, #cd7f32, #daa520); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: white; font-weight: bold;">3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="student-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
+                        </a>
+                        
+                        <!-- Focus Mode Button -->
+                        <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Notifications Button -->
+                        <button class="nav-icon-btn" onclick="navigateToNotifications()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:notifications" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                            <span id="notificationBadge" style="position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-weight: 700;">0</span>
+                        </button>
+                        
+                        <!-- Community Button -->
+                        <button class="nav-icon-btn" onclick="navigateToCommunity()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                        
+                        <!-- Profile Button -->
+                        <button class="nav-icon-btn" onclick="navigateToProfile()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Navigation -->
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="dashboard-nav">
+                        <ul class="nav justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#progress">Progress</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#deadlines">Deadlines</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#todos">Todo List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#flashcards">Flashcards</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#leaderboard">Leaderboard</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Menu -->
+    <div id="sidebar" class="sidebar" style="position: fixed; top: 0; left: -350px; width: 350px; height: 100vh; background: white; box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); transition: left 0.3s ease; z-index: 1000; overflow-y: auto;">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header" style="padding: 1.5rem; border-bottom: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center;">
+            <h4 style="margin: 0; color: #333; font-weight: 700;">My Courses</h4>
+            <button onclick="toggleSidebar()" style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.5rem; padding: 0.25rem;" onmouseover="this.style.color='#333'" onmouseout="this.style.color='#666'">
+                <iconify-icon icon="material-symbols:close"></iconify-icon>
+            </button>
+        </div>
+        
+        <!-- Sidebar Content -->
+        <div class="sidebar-content" style="padding: 1rem;">
+            <!-- Books Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='mathematics-library.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:menu-book" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Books</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Textbooks & Study Materials</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Lectures Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='mathematics-lectures.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:play-circle" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Lectures</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Video Lessons & Tutorials</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Track Progress Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="toggleSubmenu('progress')" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:trending-up" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Track Progress</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Monitor Learning Journey</div>
+                    </div>
+                    <iconify-icon id="progress-arrow" icon="material-symbols:keyboard-arrow-down" style="font-size: 1.2rem; color: #666; transition: transform 0.3s ease;"></iconify-icon>
+                </div>
+                <div id="progress-submenu" class="submenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem;">
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem;">Quiz Scores</div>
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem;">Assignment Grades</div>
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">Study Time</div>
+                </div>
+            </div>
+
+            <!-- Practice Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='coming-soon.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:fitness-center" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Practice on Topic</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Topic-based Practice</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+            
+            <!-- Live Sessions Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="window.location.href='live-sessions.html'" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:video-camera-front" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Live Sessions</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Interactive Learning Sessions</div>
+                    </div>
+                    <iconify-icon icon="material-symbols:keyboard-arrow-right" style="font-size: 1.2rem; color: #666;"></iconify-icon>
+                </div>
+            </div>
+
+            <!-- Badges Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="toggleSubmenu('badges')" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:workspace-premium" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Badges</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Achievements & Rewards</div>
+                    </div>
+                    <iconify-icon id="badges-arrow" icon="material-symbols:keyboard-arrow-down" style="font-size: 1.2rem; color: #666; transition: transform 0.3s ease;"></iconify-icon>
+                </div>
+                <div id="badges-submenu" class="submenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem;">
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem;">Quiz Master</div>
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem;">Study Streak</div>
+                    <div class="submenu-item" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem;">Top Performer</div>
+                </div>
+            </div>
+
+            <!-- Live Sessions Section (duplicate to match student-dashboard) -->
+            
+            <!-- Past Papers Section -->
+            <div class="menu-section">
+                <div class="menu-item" onclick="toggleSubmenu('papers')" style="display: flex; align-items: center; padding: 1rem; background: #f8f9fa; border-radius: 12px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e9ecef'" onmouseout="this.style.background='#f8f9fa'">
+                    <div class="menu-icon" style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                        <iconify-icon icon="material-symbols:description" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                    </div>
+                    <div class="menu-text" style="flex: 1;">
+                        <div class="menu-title" style="font-weight: 600; color: #333; font-size: 1rem;">Past Papers</div>
+                        <div class="menu-subtitle" style="font-size: 0.8rem; color: #666;">Previous Exam Papers & Solutions</div>
+                    </div>
+                    <iconify-icon id="papers-arrow" icon="material-symbols:keyboard-arrow-down" style="font-size: 1.2rem; color: #666; transition: transform 0.3s ease;"></iconify-icon>
+                </div>
+                <div id="papers-submenu" class="submenu" style="display: none; margin-left: 1rem; margin-bottom: 0.5rem;">
+                    <div class="submenu-item" onclick="window.location.href='past-papers-2025.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2025 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='past-papers-2024.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2024 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='past-papers-2023.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2023 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='past-papers-2022.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2022 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='past-papers-2021.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2021 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='past-papers-2020.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2020 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='past-papers-2019.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; margin-bottom: 0.25rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2019 Papers</div>
+                    <div class="submenu-item" onclick="window.location.href='past-papers-2018.html'" style="padding: 0.75rem; color: #666; font-size: 0.9rem; border-left: 2px solid #e9ecef; padding-left: 1rem; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#f8f9fa'; this.style.color='#667eea'" onmouseout="this.style.background='transparent'; this.style.color='#666'">2018 Papers</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebarOverlay" class="sidebar-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; display: none;" onclick="toggleSidebar()"></div>
+
+    <!-- Badges Bar (Hidden by default) -->
+    <div id="badgesBar" class="badges-bar" style="display: none; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px); padding: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 style="margin: 0; color: #333; font-weight: 600;">Alex's Earned Badges</h6>
+                        <button onclick="toggleBadgesBar()" style="background: none; border: none; color: #666; cursor: pointer; font-size: 1.2rem;" onmouseover="this.style.color='#333'" onmouseout="this.style.color='#666'">
+                            <iconify-icon icon="material-symbols:close"></iconify-icon>
+                        </button>
+                    </div>
+                    <div class="badges-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                        <!-- Gold Badge -->
+                        <div class="badge-item" style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.7); border-radius: 15px; border: 2px solid #ffd700;">
+                            <div class="badge-icon" style="width: 50px; height: 50px; background: linear-gradient(135deg, #ffd700, #ffed4e); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.5rem; box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);">🏆</div>
+                            <div class="badge-name" style="font-weight: 600; color: #333; font-size: 0.85rem;">Quiz Master</div>
+                            <div class="badge-desc" style="font-size: 0.75rem; color: #666;">Complete 5+ quizzes</div>
+                        </div>
+                        
+                        <!-- Silver Badge -->
+                        <div class="badge-item" style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.7); border-radius: 15px; border: 2px solid #c0c0c0;">
+                            <div class="badge-icon" style="width: 50px; height: 50px; background: linear-gradient(135deg, #c0c0c0, #e5e5e5); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.5rem; box-shadow: 0 4px 12px rgba(192, 192, 192, 0.3);">🎯</div>
+                            <div class="badge-name" style="font-weight: 600; color: #333; font-size: 0.85rem;">Assignment Ace</div>
+                            <div class="badge-desc" style="font-size: 0.75rem; color: #666;">Score 90%+ on assignments</div>
+                        </div>
+                        
+                        <!-- Bronze Badge -->
+                        <div class="badge-item" style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.7); border-radius: 15px; border: 2px solid #cd7f32;">
+                            <div class="badge-icon" style="width: 50px; height: 50px; background: linear-gradient(135deg, #cd7f32, #daa520); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.5rem; box-shadow: 0 4px 12px rgba(205, 127, 50, 0.3);">📚</div>
+                            <div class="badge-name" style="font-weight: 600; color: #333; font-size: 0.85rem;">Study Streak</div>
+                            <div class="badge-desc" style="font-size: 0.75rem; color: #666;">Study 7 days in a row</div>
+                        </div>
+                        
+                        <!-- Achievement Badge -->
+                        <div class="badge-item" style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.7); border-radius: 15px; border: 2px solid #10b981;">
+                            <div class="badge-icon" style="width: 50px; height: 50px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 0.5rem; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">⭐</div>
+                            <div class="badge-name" style="font-weight: 600; color: #333; font-size: 0.85rem;">Top Performer</div>
+                            <div class="badge-desc" style="font-size: 0.75rem; color: #666;">Rank in top 3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="section-header animate-on-scroll">
+                <h1 class="section-title">
+                    Your Learning <span class="gradient-text">Dashboard</span>
+                </h1>
+            </div>
+
+            <!-- Progress Cards from Math Course Page -->
+            <div id="progress" class="row mb-5">
+                <div class="col-12">
+                    <h3 class="mb-4 animate-on-scroll animate-delay-1" style="color: #1e293b; font-weight: 700;">
+                        <iconify-icon icon="material-symbols:trending-up" class="me-2" style="color: #667eea;"></iconify-icon>
+                        Your Progress Overview
+                    </h3>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="modern-card text-center animate-on-scroll animate-delay-1 clickable-card" onclick="navigateToSection('quiz')" style="cursor: pointer;">
+                        <img src="images/New folder/quiz.webp" alt="Quizzes" style="width: 80px; height: 80px; margin-bottom: 1rem; border-radius: 10px;">
+                        <h4 style="color: #1e293b; font-weight: 700; margin: 0;">Quizzes</h4>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4">
+                    <div class="modern-card text-center animate-on-scroll animate-delay-2 clickable-card" onclick="navigateToSection('exam')" style="cursor: pointer;">
+                        <img src="images/New folder/quiz.webp" alt="Exams" style="width: 80px; height: 80px; margin-bottom: 1rem; border-radius: 10px;">
+                        <h4 style="color: #1e293b; font-weight: 700; margin: 0;">Exams</h4>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4">
+                    <div class="modern-card text-center animate-on-scroll animate-delay-3 clickable-card" onclick="navigateToSection('assignment')" style="cursor: pointer;">
+                        <img src="images/New folder/homework.webp" alt="Assignments" style="width: 80px; height: 80px; margin-bottom: 1rem; border-radius: 10px;">
+                        <h4 style="color: #1e293b; font-weight: 700; margin: 0;">Assignments</h4>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 mb-4">
+                    <div class="modern-card text-center animate-on-scroll animate-delay-4 clickable-card" onclick="navigateToSection('progress')" style="cursor: pointer;">
+                        <img src="images/New folder/tracj.webp" alt="Track Your Progress" style="width: 80px; height: 80px; margin-bottom: 1rem; border-radius: 10px;">
+                        <h4 style="color: #1e293b; font-weight: 700; margin: 0;">Track Your Progress</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Left Column -->
+                <div class="col-lg-8">
+                    <!-- Upcoming Deadlines -->
+                    <div id="deadlines" class="row mb-4">
+                        <div class="col-12">
+                            <div class="dashboard-card animate-on-scroll-left animate-delay-1">
+                                <h3 class="card-title">
+                                    <div class="card-icon">
+                                        <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                                    </div>
+                                    Upcoming Deadlines
+                                </h3>
+                                <div id="deadlinesList">
+                                    <!-- Deadlines will be dynamically generated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Todo List -->
+                    <div id="todos" class="row mb-4">
+                        <div class="col-12">
+                            <div class="dashboard-card animate-on-scroll-left animate-delay-2">
+                                <h3 class="card-title">
+                                    <div class="card-icon">
+                                        <iconify-icon icon="material-symbols:checklist"></iconify-icon>
+                                    </div>
+                                    My Todo List
+                                </h3>
+                                
+                                <!-- Add Todo Form -->
+                                <div class="add-todo-form">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-2">
+                                            <input type="text" class="form-control" id="newTodoInput" placeholder="Add a new task...">
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <select class="form-control" id="prioritySelect">
+                                                <option value="low">Low Priority</option>
+                                                <option value="medium">Medium Priority</option>
+                                                <option value="high">High Priority</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 mb-2">
+                                            <button class="btn btn-primary w-100" onclick="addTodo()">
+                                                <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
+                                                Add Task
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="todoList">
+                                    <div class="todo-item high-priority" onclick="toggleTodo(this)">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex: 1;">
+                                                <div class="todo-checkbox checked"></div>
+                                                <div>
+                                                    <div style="font-weight: 600; color: #1e293b;">Complete Algebra Assignment</div>
+                                                    <small style="color: #64748b;">High Priority • Due Tomorrow</small>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="todo-item medium-priority" onclick="toggleTodo(this)">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex: 1;">
+                                                <div class="todo-checkbox"></div>
+                                                <div>
+                                                    <div style="font-weight: 600; color: #1e293b;">Review Physics Formulas</div>
+                                                    <small style="color: #64748b;">Medium Priority • Due in 2 days</small>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="todo-item low-priority" onclick="toggleTodo(this)">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex: 1;">
+                                                <div class="todo-checkbox checked"></div>
+                                                <div>
+                                                    <div style="font-weight: 600; color: #1e293b; text-decoration: line-through;">Update Study Schedule</div>
+                                                    <small style="color: #64748b;">Low Priority • Completed</small>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="todo-item medium-priority" onclick="toggleTodo(this)">
+                                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                                            <div style="display: flex; align-items: center; flex: 1;">
+                                                <div class="todo-checkbox"></div>
+                                                <div>
+                                                    <div style="font-weight: 600; color: #1e293b;">Practice Calculus Problems</div>
+                                                    <small style="color: #64748b;">Medium Priority • Due in 3 days</small>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Save Todo List Button -->
+                                <div class="row mt-3">
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-success save-todo-btn" onclick="saveTodoList()">
+                                            <iconify-icon icon="material-symbols:save" class="me-1"></iconify-icon>
+                                            Save Todo List
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flashcards Section -->
+                    <div id="flashcards" class="row mb-4">
+                        <div class="col-12">
+                            <div class="dashboard-card animate-on-scroll-left animate-delay-3">
+                                <h3 class="card-title">
+                                    <div class="card-icon">
+                                        <iconify-icon icon="material-symbols:style"></iconify-icon>
+                                    </div>
+                                    Mathematics Flashcards
+                                </h3>
+                                <p style="color: #6c757d; margin-bottom: 1.5rem;">
+                                    Study with interactive flashcards and track your progress across all chapters
+                                </p>
+                                
+                                <!-- Flashcard Stats -->
+                                <div class="row mb-4">
+                                    <div class="col-6 col-md-3 mb-3">
+                                        <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                                            <div style="font-size: 2rem; font-weight: 700; color: #667eea;" id="flashcardTotal">0</div>
+                                            <div style="font-size: 0.85rem; color: #6c757d; font-weight: 600;">Total Cards</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 mb-3">
+                                        <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                                            <div style="font-size: 2rem; font-weight: 700; color: #10b981;" id="flashcardMastered">0</div>
+                                            <div style="font-size: 0.85rem; color: #6c757d; font-weight: 600;">Mastered</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 mb-3">
+                                        <div style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.1)); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                                            <div style="font-size: 2rem; font-weight: 700; color: #f59e0b;" id="flashcardStudying">0</div>
+                                            <div style="font-size: 0.85rem; color: #6c757d; font-weight: 600;">Studying</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-3 mb-3">
+                                        <div style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1)); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                                            <div style="font-size: 2rem; font-weight: 700; color: #ef4444;" id="flashcardForgotten">0</div>
+                                            <div style="font-size: 0.85rem; color: #6c757d; font-weight: 600;">Need Review</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Access Buttons -->
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <button onclick="window.location.href='flashcards.html'" style="width: 100%; background: linear-gradient(135deg, #667eea, #764ba2); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);">
+                                            <iconify-icon icon="material-symbols:style" style="font-size: 1.5rem;"></iconify-icon>
+                                            Browse All Flashcards
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <button onclick="window.location.href='flashcards-forgotten.html'" style="width: 100%; background: linear-gradient(135deg, #ef4444, #dc2626); border: none; color: white; padding: 1rem; border-radius: 12px; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 0.5rem; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);" id="reviewForgottenBtn">
+                                            <iconify-icon icon="material-symbols:priority-high" style="font-size: 1.5rem;"></iconify-icon>
+                                            Review Forgotten Cards (<span id="forgottenCountBtn">0</span>)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Recent Chapters -->
+                                <div class="mt-4">
+                                    <h4 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; margin-bottom: 1rem;">
+                                        <iconify-icon icon="material-symbols:history" style="vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>
+                                        Quick Access Chapters
+                                    </h4>
+                                    <div class="row" id="quickAccessChapters">
+                                        <!-- Will be populated dynamically -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="col-lg-4">
+                    <!-- Leaderboard -->
+                    <div id="leaderboard" class="dashboard-card animate-on-scroll-right animate-delay-1">
+                        <h3 class="card-title">
+                            <div class="card-icon">
+                                <iconify-icon icon="material-symbols:leaderboard"></iconify-icon>
+                            </div>
+                            Class Leaderboard
+                        </h3>
+                        <div id="leaderboardList">
+                            <div class="leaderboard-item rank-1">
+                                <div class="rank-number">1</div>
+                                <div class="student-avatar">SJ</div>
+                                <div class="student-info">
+                                    <div class="student-name">Sarah Johnson</div>
+                                    <div class="student-score">Mathematics • Physics</div>
+                                </div>
+                                <div class="student-points">2,850</div>
+                            </div>
+                            <div class="leaderboard-item rank-2">
+                                <div class="rank-number">2</div>
+                                <div class="student-avatar">MR</div>
+                                <div class="student-info">
+                                    <div class="student-name">Maria Rodriguez</div>
+                                    <div class="student-score">Chemistry • Biology</div>
+                                </div>
+                                <div class="student-points">2,650</div>
+                            </div>
+                            <div class="leaderboard-item rank-3">
+                                <div class="rank-number">3</div>
+                                <div class="student-avatar">DK</div>
+                                <div class="student-info">
+                                    <div class="student-name">David Kim</div>
+                                    <div class="student-score">Mathematics • Chemistry</div>
+                                </div>
+                                <div class="student-points">2,420</div>
+                            </div>
+                            <div class="leaderboard-item">
+                                <div class="rank-number">4</div>
+                                <div class="student-avatar">AC</div>
+                                <div class="student-info">
+                                    <div class="student-name">Alex Chen</div>
+                                    <div class="student-score">Mathematics • Physics</div>
+                                </div>
+                                <div class="student-points">2,180</div>
+                            </div>
+                            <div class="leaderboard-item">
+                                <div class="rank-number">5</div>
+                                <div class="student-avatar">EW</div>
+                                <div class="student-info">
+                                    <div class="student-name">Emma Wilson</div>
+                                    <div class="student-score">Biology • Chemistry</div>
+                                </div>
+                                <div class="student-points">2,050</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.animate-on-scroll, .animate-on-scroll-right, .animate-on-scroll-left, .animate-on-scroll-scale').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Todo List Functions
+        function toggleTodo(element) {
+            const checkbox = element.querySelector('.todo-checkbox');
+            const title = element.querySelector('div[style*="font-weight: 600"]');
+            
+            if (checkbox.classList.contains('checked')) {
+                checkbox.classList.remove('checked');
+                element.classList.remove('completed');
+                title.style.textDecoration = 'none';
+            } else {
+                checkbox.classList.add('checked');
+                element.classList.add('completed');
+                title.style.textDecoration = 'line-through';
+            }
+            
+            // Save changes to localStorage immediately
+            saveTodosToLocalStorage();
+        }
+
+        function addTodo() {
+            const input = document.getElementById('newTodoInput');
+            const priority = document.getElementById('prioritySelect').value;
+            const todoText = input.value.trim();
+            
+            if (todoText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+            
+            const todoList = document.getElementById('todoList');
+            const newTodo = document.createElement('div');
+            newTodo.className = `todo-item ${priority}-priority`;
+            newTodo.onclick = () => toggleTodo(newTodo);
+            
+            const priorityText = priority.charAt(0).toUpperCase() + priority.slice(1);
+            
+            newTodo.innerHTML = `
+                <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                    <div style="display: flex; align-items: center; flex: 1;">
+                        <div class="todo-checkbox"></div>
+                        <div>
+                            <div style="font-weight: 600; color: #1e293b;">${todoText}</div>
+                            <small style="color: #64748b;">${priorityText} Priority • Just added</small>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                        <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                    </button>
+                </div>
+            `;
+            
+            todoList.insertBefore(newTodo, todoList.firstChild);
+            input.value = '';
+            
+            // Add animation
+            newTodo.style.opacity = '0';
+            newTodo.style.transform = 'translateY(-20px)';
+            setTimeout(() => {
+                newTodo.style.transition = 'all 0.3s ease';
+                newTodo.style.opacity = '1';
+                newTodo.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Save to localStorage immediately
+            saveTodosToLocalStorage();
+        }
+
+        // Allow Enter key to add todo
+        document.getElementById('newTodoInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addTodo();
+            }
+        });
+
+        // Save todos to localStorage
+        function saveTodosToLocalStorage() {
+            const todoItems = document.querySelectorAll('#todoList .todo-item');
+            const todoData = [];
+            
+            todoItems.forEach(item => {
+                const checkbox = item.querySelector('.todo-checkbox');
+                const title = item.querySelector('div[style*="font-weight: 600"]');
+                const priority = item.classList.contains('high-priority') ? 'high' : 
+                               item.classList.contains('medium-priority') ? 'medium' : 'low';
+                
+                todoData.push({
+                    text: title.textContent.trim(),
+                    completed: checkbox.classList.contains('checked'),
+                    priority: priority
+                });
+            });
+            
+            localStorage.setItem('dashboardTodos', JSON.stringify(todoData));
+        }
+
+        // Load todos from localStorage
+        function loadTodosFromLocalStorage() {
+            const savedTodos = localStorage.getItem('dashboardTodos');
+            if (savedTodos) {
+                const todos = JSON.parse(savedTodos);
+                const todoList = document.getElementById('todoList');
+                
+                // Clear existing todos
+                todoList.innerHTML = '';
+                
+                // Load saved todos
+                todos.forEach(todo => {
+                    const todoItem = document.createElement('div');
+                    todoItem.className = `todo-item ${todo.priority}-priority ${todo.completed ? 'completed' : ''}`;
+                    todoItem.onclick = () => toggleTodo(todoItem);
+                    
+                    const priorityText = todo.priority.charAt(0).toUpperCase() + todo.priority.slice(1);
+                    const statusText = todo.completed ? 'Completed' : 'Pending';
+                    
+                    todoItem.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                            <div style="display: flex; align-items: center; flex: 1;">
+                                <div class="todo-checkbox ${todo.completed ? 'checked' : ''}"></div>
+                                <div>
+                                    <div style="font-weight: 600; color: #1e293b;">${todo.text}</div>
+                                    <small style="color: #64748b;">${priorityText} Priority • ${statusText}</small>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-danger" onclick="event.stopPropagation(); removeTodoItem(this)" style="padding: 0.25rem 0.5rem; margin-left: 0.5rem;">
+                                <iconify-icon icon="material-symbols:delete-outline" style="font-size: 1rem;"></iconify-icon>
+                            </button>
+                        </div>
+                    `;
+                    
+                    todoList.appendChild(todoItem);
+                });
+            }
+        }
+
+        function saveTodoList() {
+            // Use the same function we already have
+            saveTodosToLocalStorage();
+            
+            // Copy to the savedTodoList key for the todolists page
+            const dashboardTodos = localStorage.getItem('dashboardTodos');
+            if (dashboardTodos) {
+                localStorage.setItem('savedTodoList', dashboardTodos);
+            }
+            
+            // Show success message
+            const saveBtn = document.querySelector('.save-todo-btn');
+            const originalText = saveBtn.innerHTML;
+            saveBtn.innerHTML = '<iconify-icon icon="material-symbols:check" class="me-1"></iconify-icon>Saved!';
+            saveBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            
+            setTimeout(() => {
+                saveBtn.innerHTML = originalText;
+                saveBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            }, 2000);
+            
+            // Redirect to todolists page after a short delay
+            setTimeout(() => {
+                window.location.href = 'todolists.html';
+            }, 1500);
+        }
+
+        function removeTodoItem(button) {
+            const todoItem = button.closest('.todo-item');
+            
+            // Add fade out animation
+            todoItem.style.transition = 'all 0.3s ease';
+            todoItem.style.opacity = '0';
+            todoItem.style.transform = 'translateX(20px)';
+            
+            // Remove after animation
+            setTimeout(() => {
+                todoItem.remove();
+                // Save to localStorage after removal
+                saveTodosToLocalStorage();
+            }, 300);
+        }
+
+        // Update welcome message based on time
+        function updateWelcomeMessage() {
+            // Function disabled - welcome section was removed from header
+            // This prevents the JavaScript error
+            return;
+        }
+
+        // Add floating animation to progress circles
+        document.querySelectorAll('.progress-circle').forEach(circle => {
+            circle.style.animation = 'pulse 2s ease-in-out infinite';
+        });
+
+        // Function to load deadlines from localStorage
+        function loadDeadlinesFromPages() {
+            const deadlines = [];
+            
+            console.log('Loading deadlines from pages...');
+            
+            // Load assignments from localStorage (check both keys)
+            const studentAssignments = JSON.parse(localStorage.getItem('studentAssignments') || '[]');
+            const teacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+            const assignmentsList = JSON.parse(localStorage.getItem('assignmentsList') || '[]');
+            
+            // Create sample data if none exists
+            if (studentAssignments.length === 0 && teacherAssignments.length === 0 && assignmentsList.length === 0) {
+                console.log('No assignments found, creating sample assignments...');
+                const sampleAssignments = [
+                    {
+                        id: 'sample-assignment-1',
+                        title: 'Algebra Fundamentals',
+                        description: 'Complete exercises 1-15 from Chapter 3',
+                        dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days from now
+                        status: 'pending',
+                        subject: 'mathematics',
+                        published: true,
+                        questions: [
+                            {
+                                id: 'q1',
+                                text: 'Solve for x: 2x + 5 = 13',
+                                type: 'text',
+                                points: 10
+                            }
+                        ]
+                    },
+                    {
+                        id: 'sample-assignment-2',
+                        title: 'Geometry Problems',
+                        description: 'Complete the triangle calculations',
+                        dueDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
+                        status: 'pending',
+                        subject: 'mathematics',
+                        published: true,
+                        questions: [
+                            {
+                                id: 'q1',
+                                text: 'Find the area of a triangle with base 8 and height 6',
+                                type: 'text',
+                                points: 10
+                            }
+                        ]
+                    }
+                ];
+                localStorage.setItem('studentAssignments', JSON.stringify(sampleAssignments));
+                console.log('Sample assignments created');
+                
+                // Reload assignments data
+                studentAssignments.push(...sampleAssignments);
+            }
+            
+            // Combine all assignment sources, prioritizing studentAssignments
+            let allAssignments = [...studentAssignments];
+            teacherAssignments.forEach(teacherAssignment => {
+                // Only add if not already in studentAssignments
+                if (!allAssignments.find(a => a.id === teacherAssignment.id)) {
+                    allAssignments.push(teacherAssignment);
+                }
+            });
+            if (allAssignments.length === 0) {
+                allAssignments = assignmentsList;
+            }
+            
+            console.log('Assignments found:', allAssignments.length, allAssignments);
+            
+            allAssignments.forEach(assignment => {
+                // Handle multiple completion status formats for assignments
+                const isNotCompleted = (
+                    assignment.status !== 'completed' && 
+                    assignment.status !== 'graded' &&
+                    assignment.completed !== true &&
+                    assignment.status !== 'submitted'
+                );
+                
+                if (assignment.dueDate && isNotCompleted) {
+                    const daysUntil = calculateDaysUntil(assignment.dueDate);
+                    if (daysUntil >= 0) { // Only show future or today's deadlines
+                        console.log('Adding assignment to deadlines:', assignment.title);
+                        deadlines.push({
+                            type: 'Assignment',
+                            subject: assignment.subject || 'Mathematics',
+                            title: assignment.title,
+                            dueDate: assignment.dueDate,
+                            daysUntil: daysUntil
+                        });
+                    }
+                }
+            });
+            
+            // Load quizzes from localStorage (check both keys)
+            const studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes') || '[]');
+            const teacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes') || '[]');
+            const quizzesList = JSON.parse(localStorage.getItem('quizzesList') || '[]');
+            
+            // Create sample quizzes if none exist
+            if (studentQuizzes.length === 0 && teacherQuizzes.length === 0 && quizzesList.length === 0) {
+                console.log('No quizzes found, creating sample quizzes...');
+                const sampleQuizzes = [
+                    {
+                        id: 'sample-quiz-1',
+                        title: 'Basic Algebra Quiz',
+                        description: 'Test your understanding of basic algebraic concepts',
+                        dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days from now
+                        status: 'available',
+                        published: true,
+                        subject: 'mathematics',
+                        completed: false,
+                        questions: [
+                            {
+                                id: 'q1',
+                                text: 'What is 2x + 3x?',
+                                type: 'multiple-choice',
+                                options: ['5x', '6x', '5', '6'],
+                                correctAnswer: 0,
+                                points: 5
+                            }
+                        ]
+                    }
+                ];
+                localStorage.setItem('studentQuizzes', JSON.stringify(sampleQuizzes));
+                console.log('Sample quizzes created');
+                
+                // Reload quizzes data
+                studentQuizzes.push(...sampleQuizzes);
+            }
+            
+            // Combine all quiz sources, prioritizing studentQuizzes
+            let allQuizzes = [...studentQuizzes];
+            teacherQuizzes.forEach(teacherQuiz => {
+                // Only add if not already in studentQuizzes
+                if (!allQuizzes.find(q => q.id === teacherQuiz.id)) {
+                    allQuizzes.push(teacherQuiz);
+                }
+            });
+            if (allQuizzes.length === 0) {
+                allQuizzes = quizzesList;
+            }
+            
+            console.log('Quizzes found:', allQuizzes.length, allQuizzes);
+            
+            allQuizzes.forEach(quiz => {
+                // Check if quiz is published and not completed
+                // Handle multiple completion status formats
+                const isNotCompleted = (
+                    quiz.completed === false || 
+                    quiz.completed === undefined || 
+                    quiz.status === 'pending' ||
+                    quiz.status === 'available' ||
+                    (quiz.status && quiz.status !== 'completed' && quiz.status !== 'graded') ||
+                    !quiz.status  // If no status field, assume not completed
+                );
+                
+                const isPublished = quiz.published === true || quiz.status === 'available';
+                
+                // If no dueDate is set, create one based on published date or current date
+                let dueDate = quiz.dueDate;
+                if (!dueDate && isPublished) {
+                    // If published but no due date, set due date to 7 days from published date or now
+                    const publishedDate = quiz.publishedDate ? new Date(quiz.publishedDate) : new Date();
+                    dueDate = new Date(publishedDate.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+                }
+                
+                console.log('Quiz:', quiz.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'completed field:', quiz.completed, 'status field:', quiz.status);
+                
+                if (dueDate && isPublished && isNotCompleted) {
+                    const daysUntil = calculateDaysUntil(dueDate);
+                    if (daysUntil >= 0) {
+                        console.log('Adding quiz to deadlines:', quiz.title);
+                        deadlines.push({
+                            type: 'Quiz',
+                            subject: quiz.subject || 'Mathematics',
+                            title: quiz.title,
+                            dueDate: dueDate,
+                            daysUntil: daysUntil
+                        });
+                    }
+                }
+            });
+            
+            // Load exams from localStorage (check both keys)
+            const studentExams = JSON.parse(localStorage.getItem('studentExams') || '[]');
+            const teacherExams = JSON.parse(localStorage.getItem('teacherExams') || '[]');
+            const examsList = JSON.parse(localStorage.getItem('examsList') || '[]');
+            
+            // Create sample exams if none exist
+            if (studentExams.length === 0 && teacherExams.length === 0 && examsList.length === 0) {
+                console.log('No exams found, creating sample exams...');
+                const sampleExams = [
+                    {
+                        id: 'sample-exam-1',
+                        title: 'Mathematics Midterm Exam',
+                        description: 'Comprehensive exam covering chapters 1-5',
+                        dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+                        status: 'available',
+                        published: true,
+                        subject: 'mathematics',
+                        completed: false,
+                        questions: [
+                            {
+                                id: 'q1',
+                                text: 'Solve the quadratic equation: x² + 5x + 6 = 0',
+                                type: 'text',
+                                points: 15
+                            }
+                        ]
+                    }
+                ];
+                localStorage.setItem('studentExams', JSON.stringify(sampleExams));
+                console.log('Sample exams created');
+                
+                // Reload exams data
+                studentExams.push(...sampleExams);
+            }
+            
+            // Combine all exam sources, prioritizing studentExams
+            let allExams = [...studentExams];
+            teacherExams.forEach(teacherExam => {
+                // Only add if not already in studentExams
+                if (!allExams.find(e => e.id === teacherExam.id)) {
+                    allExams.push(teacherExam);
+                }
+            });
+            if (allExams.length === 0) {
+                allExams = examsList;
+            }
+            
+            console.log('Exams found:', allExams.length, allExams);
+            
+            allExams.forEach(exam => {
+                // Check if exam is published and not completed
+                // Handle multiple completion status formats
+                const isNotCompleted = (
+                    exam.completed === false || 
+                    exam.completed === undefined || 
+                    exam.status === 'pending' ||
+                    exam.status === 'available' ||
+                    (exam.status && exam.status !== 'completed' && exam.status !== 'graded') ||
+                    !exam.status  // If no status field, assume not completed
+                );
+                
+                const isPublished = exam.published === true || exam.status === 'available';
+                
+                // If no dueDate is set, create one based on published date or current date
+                let dueDate = exam.dueDate;
+                if (!dueDate && isPublished) {
+                    // If published but no due date, set due date to 7 days from published date or now
+                    const publishedDate = exam.publishedDate ? new Date(exam.publishedDate) : new Date();
+                    dueDate = new Date(publishedDate.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString();
+                }
+                
+                console.log('Exam:', exam.title, 'has dueDate:', dueDate, 'published:', isPublished, 'not completed:', isNotCompleted, 'completed field:', exam.completed, 'status field:', exam.status);
+                
+                if (dueDate && isPublished && isNotCompleted) {
+                    const daysUntil = calculateDaysUntil(dueDate);
+                    if (daysUntil >= 0) {
+                        console.log('Adding exam to deadlines:', exam.title);
+                        deadlines.push({
+                            type: 'Exam',
+                            subject: exam.subject || 'Mathematics',
+                            title: exam.title,
+                            dueDate: dueDate,
+                            daysUntil: daysUntil
+                        });
+                    }
+                }
+            });
+            
+            console.log('Total deadlines found:', deadlines.length);
+            console.log('Final deadlines array:', deadlines);
+            return deadlines;
+        }
+        
+        // Function to calculate days until deadline
+        function calculateDaysUntil(dueDate) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const deadline = new Date(dueDate);
+            deadline.setHours(0, 0, 0, 0);
+            const diffTime = deadline - today;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        // Function to determine deadline urgency class
+        function getDeadlineClass(daysUntil) {
+            if (daysUntil === 0) return 'urgent';      // Red - Today
+            if (daysUntil <= 3) return 'warning';      // Yellow - 1-3 days
+            return 'normal';                            // Green - More than 3 days
+        }
+
+        // Function to format deadline time
+        function formatDeadlineTime(daysUntil) {
+            const today = new Date();
+            const deadlineDate = new Date(today);
+            deadlineDate.setDate(today.getDate() + daysUntil);
+            
+            const options = { month: 'short', day: 'numeric', year: 'numeric' };
+            const dateStr = deadlineDate.toLocaleDateString('en-US', options);
+            
+            if (daysUntil === 0) return 'Due: Today at 11:59 PM';
+            if (daysUntil === 1) return 'Due: Tomorrow at 11:59 PM';
+            if (daysUntil <= 3) return `Due: in ${daysUntil} days (${dateStr})`;
+            if (daysUntil <= 7) return `Due: in ${daysUntil} days (${dateStr})`;
+            if (daysUntil <= 14) return `Due: in ${Math.ceil(daysUntil / 7)} week${daysUntil > 7 ? 's' : ''} (${dateStr})`;
+            return `Due: ${dateStr}`;
+        }
+
+        // Function to get type icon
+        function getTypeIcon(type) {
+            const icons = {
+                'Assignment': 'material-symbols:assignment',
+                'Quiz': 'material-symbols:quiz',
+                'Exam': 'material-symbols:school'
+            };
+            return icons[type] || 'material-symbols:event';
+        }
+
+        // Function to get action button for each deadline type
+        function getActionButton(type, title) {
+            const buttonStyle = `
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                border: none;
+                color: white;
+                padding: 0.5rem 1rem;
+                border-radius: 8px;
+                font-size: 0.85rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                gap: 0.3rem;
+                box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+            `;
+            
+            const hoverStyle = `
+                transform: translateY(-2px);
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            `;
+            
+            const buttonId = `actionBtn_${type}_${title.replace(/\s+/g, '_')}`;
+            
+            switch(type) {
+                case 'Assignment':
+                    return `
+                        <button id="${buttonId}" style="${buttonStyle}" 
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(102, 126, 234, 0.3)'"
+                                onclick="startAssignment('${title}')">
+                            <iconify-icon icon="material-symbols:play-arrow" style="font-size: 1rem;"></iconify-icon>
+                            Start
+                        </button>
+                    `;
+                case 'Quiz':
+                    return `
+                        <button id="${buttonId}" style="${buttonStyle}" 
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(102, 126, 234, 0.3)'"
+                                onclick="startQuiz('${title}')">
+                            <iconify-icon icon="material-symbols:quiz" style="font-size: 1rem;"></iconify-icon>
+                            Take Quiz
+                        </button>
+                    `;
+                case 'Exam':
+                    return `
+                        <button id="${buttonId}" style="${buttonStyle}" 
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(102, 126, 234, 0.3)'"
+                                onclick="startExam('${title}')">
+                            <iconify-icon icon="material-symbols:school" style="font-size: 1rem;"></iconify-icon>
+                            Take Exam
+                        </button>
+                    `;
+                default:
+                    return '';
+            }
+        }
+
+        // Function to render deadlines
+        function renderDeadlines() {
+            const deadlinesList = document.getElementById('deadlinesList');
+            deadlinesList.innerHTML = '';
+            
+            // Load deadlines from localStorage
+            const deadlineData = loadDeadlinesFromPages();
+            
+            // Check if there are no deadlines
+            if (deadlineData.length === 0) {
+                deadlinesList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: #6c757d;">
+                        <iconify-icon icon="material-symbols:check-circle" style="font-size: 3rem; color: #10b981; margin-bottom: 1rem;"></iconify-icon>
+                        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">All caught up!</p>
+                        <p style="font-size: 0.9rem;">No upcoming deadlines at the moment.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort deadlines by days until due
+            const sortedDeadlines = [...deadlineData].sort((a, b) => a.daysUntil - b.daysUntil);
+            
+            sortedDeadlines.forEach((deadline, index) => {
+                const deadlineClass = getDeadlineClass(deadline.daysUntil);
+                const timeText = formatDeadlineTime(deadline.daysUntil);
+                const icon = getTypeIcon(deadline.type);
+                
+                const deadlineItem = document.createElement('div');
+                deadlineItem.className = `deadline-item ${deadlineClass}`;
+                deadlineItem.style.opacity = '0';
+                deadlineItem.style.transform = 'translateY(20px)';
+                
+                deadlineItem.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <iconify-icon icon="${icon}" style="font-size: 1.5rem; color: ${
+                            deadlineClass === 'urgent' ? '#ef4444' : 
+                            deadlineClass === 'warning' ? '#f59e0b' : '#10b981'
+                        };"></iconify-icon>
+                        <div style="flex: 1;">
+                            <div class="deadline-subject">${deadline.subject} • ${deadline.type}</div>
+                            <div class="deadline-title">${deadline.title}</div>
+                            <div class="deadline-time">${timeText}</div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            ${getActionButton(deadline.type, deadline.title)}
+                        </div>
+                    </div>
+                `;
+                
+                deadlinesList.appendChild(deadlineItem);
+                
+                // Add animation
+                setTimeout(() => {
+                    deadlineItem.style.transition = 'all 0.3s ease';
+                    deadlineItem.style.opacity = '1';
+                    deadlineItem.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
+
+        // Simulate real-time updates
+        function updateDeadlines() {
+            const deadlineItems = document.querySelectorAll('.deadline-item');
+            deadlineItems.forEach(item => {
+                // Add subtle animation every few seconds
+                setTimeout(() => {
+                    item.style.transform = 'translateX(0)';
+                    item.style.transition = 'transform 0.3s ease';
+                }, Math.random() * 2000);
+            });
+        }
+
+        // Update deadlines every 5 seconds
+        setInterval(updateDeadlines, 5000);
+
+        // Function to start assignment
+        function startAssignment(title) {
+            console.log('Starting assignment:', title);
+            
+            // Find the assignment by title
+            const studentAssignments = JSON.parse(localStorage.getItem('studentAssignments') || '[]');
+            const teacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+            const assignmentsList = JSON.parse(localStorage.getItem('assignmentsList') || '[]');
+            
+            // Combine all assignment sources
+            let allAssignments = [...studentAssignments];
+            teacherAssignments.forEach(teacherAssignment => {
+                if (!allAssignments.find(a => a.id === teacherAssignment.id)) {
+                    allAssignments.push(teacherAssignment);
+                }
+            });
+            if (allAssignments.length === 0) {
+                allAssignments = assignmentsList;
+            }
+            
+            const assignment = allAssignments.find(a => a.title === title);
+            
+            if (assignment) {
+                // Redirect to homework page with the assignment ID
+                window.location.href = `mathematics-homework.html?start=${assignment.id}`;
+            } else {
+                // If not found, just go to homework page
+                window.location.href = 'mathematics-homework.html';
+            }
+        }
+
+        // Function to start quiz
+        function startQuiz(title) {
+            console.log('Starting quiz:', title);
+            
+            // Find the quiz by title
+            const studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes') || '[]');
+            const teacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes') || '[]');
+            const quizzesList = JSON.parse(localStorage.getItem('quizzesList') || '[]');
+            
+            // Combine all quiz sources
+            let allQuizzes = [...studentQuizzes];
+            teacherQuizzes.forEach(teacherQuiz => {
+                if (!allQuizzes.find(q => q.id === teacherQuiz.id)) {
+                    allQuizzes.push(teacherQuiz);
+                }
+            });
+            if (allQuizzes.length === 0) {
+                allQuizzes = quizzesList;
+            }
+            
+            const quiz = allQuizzes.find(q => q.title === title);
+            
+            if (quiz) {
+                // Redirect to quiz page with the quiz ID
+                window.location.href = `mathematics-quiz.html?start=${quiz.id}`;
+            } else {
+                // If not found, just go to quiz page
+                window.location.href = 'mathematics-quiz.html';
+            }
+        }
+
+        // Function to start exam
+        function startExam(title) {
+            console.log('Starting exam:', title);
+            
+            // Find the exam by title
+            const studentExams = JSON.parse(localStorage.getItem('studentExams') || '[]');
+            const teacherExams = JSON.parse(localStorage.getItem('teacherExams') || '[]');
+            const examsList = JSON.parse(localStorage.getItem('examsList') || '[]');
+            
+            // Combine all exam sources
+            let allExams = [...studentExams];
+            teacherExams.forEach(teacherExam => {
+                if (!allExams.find(e => e.id === teacherExam.id)) {
+                    allExams.push(teacherExam);
+                }
+            });
+            if (allExams.length === 0) {
+                allExams = examsList;
+            }
+            
+            const exam = allExams.find(e => e.title === title);
+            
+            if (exam) {
+                // Redirect to exam page with the exam ID
+                window.location.href = `mathematics-exam.html?start=${exam.id}`;
+            } else {
+                // If not found, just go to exam page
+                window.location.href = 'mathematics-exam.html';
+            }
+        }
+
+        // Add click effects to cards
+        document.querySelectorAll('.dashboard-card, .modern-card').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+
+        // Initialize page when DOM is loaded
+        // Flashcard functionality
+        function updateFlashcardStats() {
+            const chapters = [
+                { id: 1, title: 'Algebra Basics', icon: 'material-symbols:calculate', cardsCount: 25 },
+                { id: 2, title: 'Quadratic Equations', icon: 'material-symbols:functions', cardsCount: 30 },
+                { id: 3, title: 'Geometry Fundamentals', icon: 'material-symbols:pentagon', cardsCount: 28 },
+                { id: 4, title: 'Trigonometry', icon: 'material-symbols:show-chart', cardsCount: 35 },
+                { id: 5, title: 'Calculus Introduction', icon: 'material-symbols:analytics', cardsCount: 40 },
+                { id: 6, title: 'Statistics & Probability', icon: 'material-symbols:bar-chart', cardsCount: 32 },
+                { id: 7, title: 'Linear Functions', icon: 'material-symbols:timeline', cardsCount: 22 },
+                { id: 8, title: 'Circle Theorems', icon: 'material-symbols:circle', cardsCount: 26 }
+            ];
+
+            const progress = JSON.parse(localStorage.getItem('flashcardProgress') || '{}');
+            const forgottenCards = JSON.parse(localStorage.getItem('forgottenCards') || '{}');
+            
+            let totalCards = 0;
+            let masteredCards = 0;
+            let studyingCards = 0;
+            let forgottenCount = 0;
+
+            chapters.forEach(chapter => {
+                totalCards += chapter.cardsCount;
+                if (progress[chapter.id]) {
+                    masteredCards += progress[chapter.id].mastered || 0;
+                }
+            });
+
+            studyingCards = totalCards - masteredCards;
+
+            // Count forgotten cards
+            Object.keys(forgottenCards).forEach(chapterId => {
+                if (Array.isArray(forgottenCards[chapterId])) {
+                    forgottenCount += forgottenCards[chapterId].length;
+                }
+            });
+
+            // Update UI
+            document.getElementById('flashcardTotal').textContent = totalCards;
+            document.getElementById('flashcardMastered').textContent = masteredCards;
+            document.getElementById('flashcardStudying').textContent = studyingCards;
+            document.getElementById('flashcardForgotten').textContent = forgottenCount;
+            document.getElementById('forgottenCountBtn').textContent = forgottenCount;
+
+            // Hide forgotten button if no forgotten cards
+            if (forgottenCount === 0) {
+                document.getElementById('reviewForgottenBtn').style.display = 'none';
+            } else {
+                document.getElementById('reviewForgottenBtn').style.display = 'flex';
+            }
+
+            // Populate quick access chapters (show first 4 chapters)
+            const quickAccessContainer = document.getElementById('quickAccessChapters');
+            quickAccessContainer.innerHTML = chapters.slice(0, 4).map(chapter => {
+                const chapterProgress = progress[chapter.id] || { mastered: 0 };
+                const masteredPercentage = Math.round((chapterProgress.mastered / chapter.cardsCount) * 100) || 0;
+                
+                return `
+                    <div class="col-6 col-md-3 mb-3">
+                        <div onclick="window.location.href='flashcards-chapter.html?chapter=${chapter.id}'" style="background: white; border: 2px solid rgba(102, 126, 234, 0.2); border-radius: 15px; padding: 1rem; text-align: center; cursor: pointer; transition: all 0.3s ease; height: 100%;">
+                            <iconify-icon icon="${chapter.icon}" style="font-size: 2.5rem; color: #667eea; margin-bottom: 0.5rem;"></iconify-icon>
+                            <div style="font-size: 0.85rem; font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">${chapter.title}</div>
+                            <div style="font-size: 0.75rem; color: #6c757d;">${masteredPercentage}% Mastered</div>
+                            <div style="height: 4px; background: rgba(102, 126, 234, 0.2); border-radius: 10px; margin-top: 0.5rem; overflow: hidden;">
+                                <div style="height: 100%; background: linear-gradient(135deg, #667eea, #764ba2); width: ${masteredPercentage}%; transition: width 0.3s ease;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Add hover effect via inline styles
+            quickAccessContainer.querySelectorAll('[onclick]').forEach(el => {
+                el.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.boxShadow = '0 8px 25px rgba(102, 126, 234, 0.2)';
+                    this.style.borderColor = '#667eea';
+                });
+                el.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                    this.style.borderColor = 'rgba(102, 126, 234, 0.2)';
+                });
+            });
+        }
+
+        // Function to update greeting with student name
+        function updateGreeting() {
+            const userName = localStorage.getItem('userName');
+            const greetingEl = document.getElementById('greetingText');
+            
+            if (userName && greetingEl) {
+                // Get current hour to determine greeting
+                const hour = new Date().getHours();
+                let greeting = 'Good evening';
+                
+                if (hour < 12) {
+                    greeting = 'Good morning';
+                } else if (hour < 18) {
+                    greeting = 'Good afternoon';
+                }
+                
+                // Extract first name
+                const firstName = userName.split(' ')[0];
+                greetingEl.textContent = `${greeting}, ${firstName}!`;
+            }
+        }
+        
+        // Function to count unread notifications
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update greeting with student name
+            updateGreeting();
+            
+            // Load todos from localStorage
+            loadTodosFromLocalStorage();
+            
+            // Render deadlines
+            renderDeadlines();
+            
+            // Update flashcard stats
+            updateFlashcardStats();
+            
+            // Initialize and render leaderboard
+            initializeStudentData();
+            renderLeaderboard();
+            
+            // Update Alex's profile information
+            updateAlexProfile();
+            
+            // Listen for localStorage changes (when assignments/quizzes/exams are completed)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'mathematicsAssignments' || e.key === 'mathematicsQuizzes' || e.key === 'mathematicsExams') {
+                    console.log('Detected change in', e.key, '- updating points');
+                    updateAlexProfile();
+                    renderLeaderboard();
+                }
+            });
+            
+            // Poll for changes every 2 seconds (for same-tab updates)
+            setInterval(() => {
+                updateAlexProfile();
+            }, 2000);
+        });
+
+        // Initialize student data structure
+        function initializeStudentData() {
+            // Check if student data already exists
+            let students = JSON.parse(localStorage.getItem('mathematicsStudents') || '[]');
+            
+            // If no students exist, create some default students
+            if (students.length === 0) {
+                students = [
+                    {
+                        id: 'student_001',
+                        name: 'Sarah Johnson',
+                        email: 'sarah.johnson@school.edu',
+                        totalPoints: 2850,
+                        quizPoints: 1200,
+                        assignmentPoints: 950,
+                        examPoints: 700,
+                        completedQuizzes: 8,
+                        completedAssignments: 6,
+                        completedExams: 3,
+                        registeredDate: '2024-09-01',
+                        lastActive: new Date().toISOString()
+                    },
+                    {
+                        id: 'student_002',
+                        name: 'Alex Chen',
+                        email: 'alex.chen@school.edu',
+                        totalPoints: 2650,
+                        quizPoints: 1100,
+                        assignmentPoints: 900,
+                        examPoints: 650,
+                        completedQuizzes: 7,
+                        completedAssignments: 5,
+                        completedExams: 3,
+                        registeredDate: '2024-09-02',
+                        lastActive: new Date().toISOString()
+                    },
+                    {
+                        id: 'student_003',
+                        name: 'Maria Rodriguez',
+                        email: 'maria.rodriguez@school.edu',
+                        totalPoints: 2420,
+                        quizPoints: 1000,
+                        assignmentPoints: 820,
+                        examPoints: 600,
+                        completedQuizzes: 6,
+                        completedAssignments: 4,
+                        completedExams: 2,
+                        registeredDate: '2024-09-03',
+                        lastActive: new Date().toISOString()
+                    },
+                    {
+                        id: 'student_004',
+                        name: 'David Kim',
+                        email: 'david.kim@school.edu',
+                        totalPoints: 2180,
+                        quizPoints: 900,
+                        assignmentPoints: 780,
+                        examPoints: 500,
+                        completedQuizzes: 5,
+                        completedAssignments: 4,
+                        completedExams: 2,
+                        registeredDate: '2024-09-04',
+                        lastActive: new Date().toISOString()
+                    },
+                    {
+                        id: 'student_005',
+                        name: 'Emma Wilson',
+                        email: 'emma.wilson@school.edu',
+                        totalPoints: 2050,
+                        quizPoints: 850,
+                        assignmentPoints: 700,
+                        examPoints: 500,
+                        completedQuizzes: 4,
+                        completedAssignments: 3,
+                        completedExams: 2,
+                        registeredDate: '2024-09-05',
+                        lastActive: new Date().toISOString()
+                    }
+                ];
+                
+                localStorage.setItem('mathematicsStudents', JSON.stringify(students));
+                console.log('Initialized default student data with Alex as #2');
+            }
+        }
+
+        // Function to calculate student points from completed work
+        function calculateStudentPoints(studentId) {
+            let totalPoints = 0;
+            let quizPoints = 0;
+            let assignmentPoints = 0;
+            let examPoints = 0;
+            let completedQuizzes = 0;
+            let completedAssignments = 0;
+            let completedExams = 0;
+
+            // Calculate quiz points from all quiz storage keys
+            const studentQuizzes = JSON.parse(localStorage.getItem('studentQuizzes') || '[]');
+            const teacherQuizzes = JSON.parse(localStorage.getItem('teacherQuizzes') || '[]');
+            const mathematicsQuizzes = JSON.parse(localStorage.getItem('mathematicsQuizzes') || '[]');
+            
+            console.log('Calculating points - All quizzes:', [...studentQuizzes, ...teacherQuizzes, ...mathematicsQuizzes]);
+            
+            [...studentQuizzes, ...teacherQuizzes, ...mathematicsQuizzes].forEach(quiz => {
+                // Check if quiz is completed by current student
+                if (quiz.completed === true && quiz.score !== undefined) {
+                    const points = Math.round((quiz.score / 100) * (quiz.points || (quiz.questions ? quiz.questions.length * 10 : 50)));
+                    console.log(`Quiz "${quiz.title}" earned ${points} points`);
+                    quizPoints += points;
+                    totalPoints += points;
+                    completedQuizzes++;
+                }
+            });
+
+            // Calculate assignment points from all assignment storage keys
+            const studentAssignments = JSON.parse(localStorage.getItem('studentAssignments') || '[]');
+            const teacherAssignments = JSON.parse(localStorage.getItem('teacherAssignments') || '[]');
+            const mathematicsAssignments = JSON.parse(localStorage.getItem('mathematicsAssignments') || '[]');
+            
+            console.log('Calculating points - All assignments:', [...studentAssignments, ...teacherAssignments, ...mathematicsAssignments]);
+            
+            [...studentAssignments, ...teacherAssignments, ...mathematicsAssignments].forEach(assignment => {
+                console.log(`Checking assignment: "${assignment.title}" - status: ${assignment.status}, completed: ${assignment.completed}, score: ${assignment.score}, totalScore: ${assignment.totalScore}, points: ${assignment.points}`);
+                // Check if assignment is completed
+                if ((assignment.status === 'completed' || assignment.completed === true) && assignment.score !== undefined) {
+                    // Calculate points based on the assignment's point value
+                    let points = 0;
+                    
+                    if (assignment.points) {
+                        // If assignment has a points field, use it directly
+                        points = assignment.points;
+                    } else if (assignment.totalScore && assignment.score !== undefined) {
+                        // Calculate percentage and multiply by default points
+                        const percentage = assignment.score / assignment.totalScore;
+                        points = Math.round(percentage * 75); // Default 75 points for assignments
+                    } else if (assignment.questions) {
+                        // Calculate based on number of questions
+                        const percentage = assignment.score / 100;
+                        points = Math.round(percentage * assignment.questions.length * 15);
+                    } else {
+                        // Fallback: use score as points directly
+                        points = assignment.score || 0;
+                    }
+                    
+                    console.log(`Assignment "${assignment.title}" earned ${points} points (score: ${assignment.score}/${assignment.totalScore || 100})`);
+                    assignmentPoints += points;
+                    totalPoints += points;
+                    completedAssignments++;
+                }
+            });
+
+            // Calculate exam points from all exam storage keys
+            const studentExams = JSON.parse(localStorage.getItem('studentExams') || '[]');
+            const teacherExams = JSON.parse(localStorage.getItem('teacherExams') || '[]');
+            const mathematicsExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+            
+            console.log('Calculating points - All exams:', [...studentExams, ...teacherExams, ...mathematicsExams]);
+            
+            [...studentExams, ...teacherExams, ...mathematicsExams].forEach(exam => {
+                // Check if exam is completed
+                if ((exam.status === 'completed' || exam.completed === true) && exam.score !== undefined) {
+                    const points = Math.round((exam.score / 100) * (exam.points || (exam.questions ? exam.questions.length * 20 : 100)));
+                    console.log(`Exam "${exam.title}" earned ${points} points`);
+                    examPoints += points;
+                    totalPoints += points;
+                    completedExams++;
+                }
+            });
+            
+            console.log('Total points calculated:', {totalPoints, quizPoints, assignmentPoints, examPoints, completedQuizzes, completedAssignments, completedExams});
+
+            return {
+                totalPoints,
+                quizPoints,
+                assignmentPoints,
+                examPoints,
+                completedQuizzes,
+                completedAssignments,
+                completedExams
+            };
+        }
+
+        // Function to render the leaderboard
+        function renderLeaderboard() {
+            const leaderboardList = document.getElementById('leaderboardList');
+            let students = JSON.parse(localStorage.getItem('mathematicsStudents') || '[]');
+            
+            // Update student points based on completed work
+            students = students.map(student => {
+                const pointsData = calculateStudentPoints(student.id);
+                return {
+                    ...student,
+                    ...pointsData,
+                    lastActive: new Date().toISOString()
+                };
+            });
+
+            // Sort students by total points (descending)
+            students.sort((a, b) => b.totalPoints - a.totalPoints);
+
+            // Save updated student data
+            localStorage.setItem('mathematicsStudents', JSON.stringify(students));
+
+            // Generate leaderboard HTML
+            const leaderboardHtml = students.map((student, index) => {
+                const rank = index + 1;
+                const rankClass = rank <= 3 ? `rank-${rank}` : '';
+                const initials = student.name.split(' ').map(n => n[0]).join('');
+                
+                // Get subject info (for now, all students are in Mathematics)
+                const subjects = 'Mathematics';
+                
+                return `
+                    <div class="leaderboard-item ${rankClass}">
+                        <div class="rank-number">${rank}</div>
+                        <div class="student-avatar">${initials}</div>
+                        <div class="student-info">
+                            <div class="student-name">${student.name}</div>
+                            <div class="student-score">${subjects} • ${student.completedQuizzes + student.completedAssignments + student.completedExams} completed</div>
+                        </div>
+                        <div class="student-points">${student.totalPoints.toLocaleString()}</div>
+                    </div>
+                `;
+            }).join('');
+
+            leaderboardList.innerHTML = leaderboardHtml;
+        }
+
+        // Sidebar Menu Functions
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.style.left === '-350px' || sidebar.style.left === '') {
+                // Open sidebar
+                sidebar.style.left = '0';
+                overlay.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            } else {
+                // Close sidebar
+                sidebar.style.left = '-350px';
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restore scrolling
+                
+                // Close all submenus when closing sidebar
+                closeAllSubmenus();
+            }
+        }
+
+        function toggleSubmenu(menuId) {
+            const submenu = document.getElementById(menuId + '-submenu');
+            const arrow = document.getElementById(menuId + '-arrow');
+            
+            if (submenu.style.display === 'none' || submenu.style.display === '') {
+                // Close other submenus first
+                closeAllSubmenus();
+                
+                // Open this submenu
+                submenu.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+            } else {
+                // Close this submenu
+                submenu.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function closeAllSubmenus() {
+            const submenus = ['books', 'lectures', 'progress', 'practice', 'badges', 'papers'];
+            
+            submenus.forEach(menuId => {
+                const submenu = document.getElementById(menuId + '-submenu');
+                const arrow = document.getElementById(menuId + '-arrow');
+                
+                if (submenu) {
+                    submenu.style.display = 'none';
+                }
+                if (arrow) {
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        }
+
+        // Close sidebar when clicking outside (overlay)
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const hamburgerBtn = document.querySelector('.hamburger-menu-btn');
+            
+            // Check if click is outside sidebar and not on hamburger button
+            if (!sidebar.contains(event.target) && !hamburgerBtn.contains(event.target)) {
+                if (sidebar.style.left === '0') {
+                    toggleSidebar();
+                }
+            }
+        });
+
+        // Close sidebar on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const sidebar = document.getElementById('sidebar');
+                if (sidebar.style.left === '0') {
+                    toggleSidebar();
+                }
+            }
+        });
+
+        // Badges Bar Functions
+        function toggleBadgesBar() {
+            const badgesBar = document.getElementById('badgesBar');
+            if (badgesBar.style.display === 'none') {
+                badgesBar.style.display = 'block';
+                // Smooth slide down animation
+                badgesBar.style.opacity = '0';
+                badgesBar.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    badgesBar.style.transition = 'all 0.3s ease';
+                    badgesBar.style.opacity = '1';
+                    badgesBar.style.transform = 'translateY(0)';
+                }, 10);
+            } else {
+                // Smooth slide up animation
+                badgesBar.style.transition = 'all 0.3s ease';
+                badgesBar.style.opacity = '0';
+                badgesBar.style.transform = 'translateY(-20px)';
+                setTimeout(() => {
+                    badgesBar.style.display = 'none';
+                }, 300);
+            }
+        }
+
+        // Global function accessible from other pages to trigger points update
+        window.updateStudentPoints = function() {
+            if (typeof updateAlexProfile === 'function') {
+                updateAlexProfile();
+            }
+            if (typeof renderLeaderboard === 'function') {
+                renderLeaderboard();
+            }
+        };
+
+        // Function to update Alex's ranking and badges
+        function updateAlexProfile() {
+            const students = JSON.parse(localStorage.getItem('mathematicsStudents') || '[]');
+            
+            // Find Alex in the students list (assuming Alex is the first student or has a specific ID)
+            let alex = students.find(student => student.name.toLowerCase().includes('alex')) || students[0];
+            
+            if (alex) {
+                // Recalculate Alex's points from completed work
+                const pointsData = calculateStudentPoints(alex.id);
+                alex = {
+                    ...alex,
+                    ...pointsData
+                };
+                
+                // Update the student in the array and save
+                const alexIndex = students.findIndex(s => s.id === alex.id);
+                if (alexIndex !== -1) {
+                    students[alexIndex] = alex;
+                    localStorage.setItem('mathematicsStudents', JSON.stringify(students));
+                }
+                
+                // Calculate ranking
+                const sortedStudents = [...students].sort((a, b) => b.totalPoints - a.totalPoints);
+                const alexRank = sortedStudents.findIndex(student => student.id === alex.id) + 1;
+                
+                // Update ranking display
+                const rankingElement = document.getElementById('studentRanking');
+                if (rankingElement) {
+                    rankingElement.textContent = `#${alexRank} in class`;
+                }
+                
+                // Update total points display
+                const totalPointsElement = document.getElementById('totalPoints');
+                if (totalPointsElement) {
+                    totalPointsElement.textContent = `${alex.totalPoints} points`;
+                }
+                
+                console.log('Updated Alex profile - Points:', alex.totalPoints, 'Rank:', alexRank);
+                
+                // Calculate earned badges based on achievements
+                let earnedBadges = 0;
+                let badgeDescriptions = [];
+                
+                // Quiz Master Badge (complete 5+ quizzes)
+                if (alex.completedQuizzes >= 5) {
+                    earnedBadges++;
+                    badgeDescriptions.push('Quiz Master');
+                }
+                
+                // Assignment Ace Badge (complete assignments with high scores)
+                if (alex.completedAssignments >= 3) {
+                    earnedBadges++;
+                    badgeDescriptions.push('Assignment Ace');
+                }
+                
+                // Study Streak Badge (active recently)
+                const lastActive = new Date(alex.lastActive);
+                const daysSinceActive = (new Date() - lastActive) / (1000 * 60 * 60 * 24);
+                if (daysSinceActive <= 7) {
+                    earnedBadges++;
+                    badgeDescriptions.push('Study Streak');
+                }
+                
+                // Top Performer Badge (rank in top 3)
+                if (alexRank <= 3) {
+                    earnedBadges++;
+                    badgeDescriptions.push('Top Performer');
+                }
+                
+                // Update badges count
+                const badgesElement = document.getElementById('earnedBadges');
+                if (badgesElement) {
+                    badgesElement.textContent = `${earnedBadges} badges`;
+                }
+                
+                console.log(`Alex's Profile Updated: Rank #${alexRank}, ${earnedBadges} badges earned`);
+            }
+        }
+
+        // Navigation Button Functions
+        function navigateToProfile() {
+            console.log('Profile button clicked');
+            
+            // Get actual user info from localStorage
+            const userName = localStorage.getItem('userName') || 'Student';
+            const userEmail = localStorage.getItem('userEmail') || 'student@example.com';
+            
+            // Calculate total points from completed work
+            const pointsData = calculateStudentPoints();
+            const totalPoints = pointsData.totalPoints || 0;
+            
+            // Create profile dropdown menu
+            const dropdownHtml = `
+                <div id="profileDropdown" style="position: fixed; top: 70px; right: 20px; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 1rem; z-index: 9999; min-width: 250px; animation: fadeIn 0.3s ease;">
+                    <div style="border-bottom: 1px solid #e9ecef; padding-bottom: 0.75rem; margin-bottom: 0.75rem;">
+                        <div style="font-weight: 600; color: #333; font-size: 1.1rem;">${userName}</div>
+                        <div style="font-size: 0.85rem; color: #666;">${userEmail}</div>
+                        <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem;">
+                            <span style="background: #667eea; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">${totalPoints} pts</span>
+                            <span style="background: #22c55e; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.75rem;">Active</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                        <button onclick="event.stopPropagation(); window.location.href='student-profile.html'" style="width: 100%; text-align: left; padding: 0.75rem; background: transparent; border: none; cursor: pointer; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='transparent'">
+                            <iconify-icon icon="material-symbols:person" style="font-size: 1.2rem; color: #667eea;"></iconify-icon>
+                            <span>My Profile</span>
+                        </button>
+                        <button onclick="event.stopPropagation(); handleLogout()" style="width: 100%; text-align: left; padding: 0.75rem; background: transparent; border: none; cursor: pointer; border-radius: 8px; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; color: #ef4444;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background='transparent'">
+                            <iconify-icon icon="material-symbols:logout" style="font-size: 1.2rem;"></iconify-icon>
+                            <span>Logout</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Remove existing dropdown if any
+            const existing = document.getElementById('profileDropdown');
+            if (existing) {
+                existing.remove();
+                return;
+            }
+            
+            // Add dropdown to page
+            document.body.insertAdjacentHTML('beforeend', dropdownHtml);
+            
+            // Close on outside click
+            setTimeout(() => {
+                document.addEventListener('click', function closeDropdown(e) {
+                    const dropdown = document.getElementById('profileDropdown');
+                    if (dropdown && !dropdown.contains(e.target)) {
+                        dropdown.remove();
+                        document.removeEventListener('click', closeDropdown);
+                    }
+                }, {once: false});
+            }, 100);
+        }
+        
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('userName');
+                localStorage.removeItem('userId');
+                localStorage.removeItem('userLoggedIn');
+                window.location.href = 'index.html';
+            }
+        }
+
+        function navigateToCommunity() {
+            console.log('Community button clicked');
+            window.location.href = 'community.html';
+        }
+
+        function navigateToNotifications() {
+            console.log('Notifications button clicked');
+            showNotificationsModal();
+        }
+
+        function navigateToFocusMode() {
+            console.log('Focus Mode button clicked');
+            showFocusModeModal();
+        }
+        
+        function showFocusModeModal() {
+            const modalHtml = `
+                <div id="focusModeModal" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.95); z-index: 99999; display: flex; align-items: center; justify-content: center; animation: fadeIn 0.3s ease;">
+                    <iframe src="focus-mode.html" style="width: 95vw; height: 95vh; border: none; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.5);"></iframe>
+                    <button onclick="closeFocusMode()" style="position: absolute; top: 2rem; right: 2rem; background: rgba(255,255,255,0.9); border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.5rem; color: #333; box-shadow: 0 4px 12px rgba(0,0,0,0.3); transition: all 0.3s;" onmouseover="this.style.background='white'; this.style.transform='scale(1.1)'" onmouseout="this.style.background='rgba(255,255,255,0.9)'; this.style.transform='scale(1)'">
+                        ×
+                    </button>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeFocusMode() {
+            const modal = document.getElementById('focusModeModal');
+            if (modal) {
+                modal.remove();
+            }
+            document.body.style.overflow = 'auto';
+        }
+
+        // Navigation function for progress cards
+        function navigateToSection(section) {
+            // Map section types to specific pages
+            const pageMap = {
+                'quiz': 'mathematics-quiz.html',
+                'exam': 'mathematics-exam.html',
+                'assignment': 'mathematics-homework.html',
+                'progress': 'course-mathematics.html'
+            };
+            
+            // Get the URL for the section
+            const url = pageMap[section] || 'course-mathematics.html';
+            
+            // Redirect to the appropriate page
+            window.location.href = url;
+        }
+
+        // Navigation functionality - Same as course-mathematics page
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Navigation active state - Same as course-mathematics page
+        document.querySelectorAll('.dashboard-nav .nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all links
+                document.querySelectorAll('.dashboard-nav .nav-link').forEach(l => l.classList.remove('active'));
+                
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Scroll to section
+                const targetId = this.getAttribute('href').substring(1);
+                scrollToSection(targetId);
+            });
+        });
+
+        // Update navigation active state on scroll - Same as course-mathematics page
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id], div[id]');
+            const navLinks = document.querySelectorAll('.dashboard-nav .nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+

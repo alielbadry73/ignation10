@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Physics Wrong Questions - Quizzes - IG Nation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
     <style>
+        /* Updated styles v2.0 - Enhanced to match Quiz Questions page */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f8f9fa;
@@ -887,79 +891,119 @@
                 return;
             }
 
-            container.innerHTML = filteredQuestions.map(question => `
-                <div class="question-card">
-                    <div class="question-header">
-                        <div class="question-text">
-                            <iconify-icon icon="mdi:help-circle" style="color: #667eea; margin-right: 0.5rem;"></iconify-icon>
-                            ${question.questionText || 'Question text not available'}
-                        </div>
-                        <div class="question-meta">
-                            ${question.chapter ? `<span class="chapter-badge">
-                                <iconify-icon icon="mdi:book-open" style="margin-right: 0.25rem;"></iconify-icon>
-                                ${question.chapter}
-                            </span>` : ''}
-                            ${question.difficulty ? `<span class="difficulty-badge">
-                                <iconify-icon icon="mdi:trending-up" style="margin-right: 0.25rem;"></iconify-icon>
-                                ${question.difficulty}
-                            </span>` : ''}
-                            ${question.points ? `<span class="points-badge">
-                                <iconify-icon icon="mdi:star" style="margin-right: 0.25rem;"></iconify-icon>
-                                ${question.points} pts
-                            </span>` : ''}
-                            <span class="attempts-badge">
-                                <iconify-icon icon="mdi:repeat" style="margin-right: 0.25rem;"></iconify-icon>
-                                ${question.attempts || 1} attempt${(question.attempts || 1) > 1 ? 's' : ''}
-                            </span>
-                        </div>
-                    </div>
-                    
-                    <div class="question-details">
-                        <div class="detail-row">
-                            <span class="detail-label">
-                                <iconify-icon icon="mdi:quiz" style="color: #667eea;"></iconify-icon>
-                                Quiz:
-                            </span>
-                            <span class='detail-value'>${question.activityTitle || question.assignmentTitle || 'Unknown Quiz'}</span>
-                        </div>
-                        
-                        <div class="answer-comparison">
-                            <div class="answer-box student-answer">
-                                <div class="answer-label">
-                                    <iconify-icon icon="mdi:account" style="color: #e53e3e;"></iconify-icon>
-                                    Your Answer
-                                </div>
-                                <div>${question.studentAnswer || 'No answer provided'}</div>
-                            </div>
-                            <div class="answer-box correct-answer">
-                                <div class="answer-label">
-                                    <iconify-icon icon="mdi:check-circle" style="color: #38a169;"></iconify-icon>
-                                    Correct Answer
-                                </div>
-                                <div>${question.correctAnswer || 'Correct answer not provided'}</div>
+            // Force all questions to use the enhanced question card styling
+            container.innerHTML = filteredQuestions.map((question, index) => {
+                console.log(`🔍 Rendering quiz question ${index + 1}:`, question);
+                console.log('🔍 Question type:', question.questionType);
+                console.log('🔍 Has options:', !!question.options);
+                console.log('🔍 Options:', question.options);
+                console.log('🔍 Student answer:', question.studentAnswer);
+                console.log('🔍 Correct answer:', question.correctAnswer);
+                
+                // Always use enhanced question card display for all questions
+                const questionHtml = `
+                    <div class="question-card">
+                        <div class="question-header">
+                            <div class="question-text">${question.questionText || question.question || question.text || 'Question text not available'}</div>
+                            <div class="question-meta">
+                                <span class="chapter-badge">Quiz: ${question.activityTitle || question.quizTitle || question.quizName || 'Unknown Quiz'}</span>
+                                <span class="attempts-badge">${question.attempts || 1} attempt${(question.attempts || 1) > 1 ? 's' : ''}</span>
+                                <span class="difficulty-badge">${question.difficulty || 'Medium'}</span>
+                                <span class="points-badge">${question.points || 1} pts</span>
                             </div>
                         </div>
                         
-                        ${question.notes ? `
-                            <div class="detail-row">
-                                <span class="detail-label">
-                                    <iconify-icon icon="mdi:note-text" style="color: #6c757d;"></iconify-icon>
-                                    Notes:
+                        <div class="question-details">
+                            ${question.questionImage ? `
+                                <img src="${question.questionImage}" alt="Question Image" class="question-image" onclick="openImageModal('${question.questionImage}', 'Question Image')" style="width: 100%; max-width: 600px; height: auto; border-radius: 8px; margin: 1rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s ease;">
+                            ` : ''}
+                            
+                            ${question.questionType === 'multiple-choice' && question.options && question.options.length > 0 ? `
+                                <div class="question-options">
+                                    ${question.options.map((option, optionIndex) => {
+                                        const isStudentSelected = question.userAnswer === optionIndex || question.studentAnswer === optionIndex;
+                                        const isCorrectAnswer = question.correctAnswerIndex === optionIndex || question.correctAnswer === optionIndex;
+                                        let optionClass = 'option-item';
+                                        let statusBadge = '';
+                                        let optionStyle = 'display: flex; align-items: center; margin-bottom: 1rem; padding: 1rem; border: 2px solid #e9ecef; border-radius: 8px; transition: all 0.3s ease;';
+                                        
+                                        if (isStudentSelected && isCorrectAnswer) {
+                                            optionClass += ' student-selected correct-answer';
+                                            optionStyle += ' border-color: #16a34a; background: #f0fdf4;';
+                                            statusBadge = '<span class="option-status correct" style="margin-left: 1rem; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; background: #dcfce7; color: #16a34a;">Your Answer & Correct</span>';
+                                        } else if (isStudentSelected) {
+                                            optionClass += ' student-selected';
+                                            optionStyle += ' border-color: #dc2626; background: #fef2f2;';
+                                            statusBadge = '<span class="option-status incorrect" style="margin-left: 1rem; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; background: #fee2e2; color: #dc2626;">Your Answer</span>';
+                                        } else if (isCorrectAnswer) {
+                                            optionClass += ' correct-answer';
+                                            optionStyle += ' border-color: #16a34a; background: #f0fdf4;';
+                                            statusBadge = '<span class="option-status correct" style="margin-left: 1rem; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; background: #dcfce7; color: #16a34a;">Correct Answer</span>';
+                                        }
+                                        
+                                        return `
+                                            <div class="${optionClass}" style="${optionStyle}">
+                                                <input type="radio" class="option-radio" ${isStudentSelected ? 'checked' : ''} disabled style="margin-right: 1rem; transform: scale(1.2);">
+                                                <span class="option-text" style="flex: 1; font-size: 1rem; font-weight: 500;">${option.text || option}</span>
+                                                ${statusBadge}
+                                            </div>
+                                        `;
+                                    }).join('')}
+                                </div>
+                            ` : `
+                                <div class="answer-section student-answer" style="margin-top: 2rem; padding: 1.5rem; border-radius: 8px; border: 2px solid #fca5a5; background: #fef2f2;">
+                                    <div class="answer-label student" style="font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; color: #dc2626;">
+                                        <iconify-icon icon="material-symbols:person"></iconify-icon>
+                                        Your Answer
+                                    </div>
+                                    <div class="answer-content" style="font-size: 1.1rem; line-height: 1.6;">
+                                        ${question.studentAnswerImage ? `
+                                            <img src="${question.studentAnswerImage}" alt="Your Answer" class="answer-image" onclick="openImageModal('${question.studentAnswerImage}', 'Your Answer')" style="width: 100%; max-width: 400px; height: auto; border-radius: 6px; margin-top: 1rem; cursor: pointer; transition: transform 0.3s ease;">
+                                        ` : `
+                                            ${question.studentAnswer || 'No answer provided'}
+                                        `}
+                                    </div>
+                                </div>
+                                
+                                <div class="answer-section correct-answer" style="margin-top: 2rem; padding: 1.5rem; border-radius: 8px; border: 2px solid #86efac; background: #f0fdf4;">
+                                    <div class="answer-label correct" style="font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; color: #16a34a;">
+                                        <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+                                        Correct Answer
+                                    </div>
+                                    <div class="answer-content" style="font-size: 1.1rem; line-height: 1.6;">
+                                        ${question.correctAnswerImage ? `
+                                            <img src="${question.correctAnswerImage}" alt="Correct Answer" class="answer-image" onclick="openImageModal('${question.correctAnswerImage}', 'Correct Answer')" style="width: 100%; max-width: 400px; height: auto; border-radius: 6px; margin-top: 1rem; cursor: pointer; transition: transform 0.3s ease;">
+                                        ` : `
+                                            ${question.correctAnswer || 'Correct answer not provided'}
+                                        `}
+                                    </div>
+                                </div>
+                            `}
+                            
+                            ${question.notes ? `
+                                <div class="detail-row" style="margin-top: 1.5rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
+                                    <span class="detail-label" style="font-weight: 600; color: #495057; margin-right: 1rem;">
+                                        <iconify-icon icon="material-symbols:note" style="margin-right: 0.5rem;"></iconify-icon>
+                                        Notes:
+                                    </span>
+                                    <span class="detail-value" style="color: #6c757d;">${question.notes}</span>
+                                </div>
+                            ` : ''}
+                            
+                            <div class="detail-row" style="margin-top: 1rem; padding: 0.75rem; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #6c757d;">
+                                <span class="detail-label" style="font-weight: 600; color: #495057; margin-right: 1rem;">
+                                    <iconify-icon icon="material-symbols:calendar-today" style="margin-right: 0.5rem;"></iconify-icon>
+                                    Added:
                                 </span>
-                                <span class="detail-value">${question.notes}</span>
+                                <span class="detail-value" style="color: #6c757d;">${question.createdAt ? new Date(question.createdAt).toLocaleDateString() : 'Unknown'}</span>
                             </div>
-                        ` : ''}
-                        
-                        <div class="detail-row">
-                            <span class="detail-label">
-                                <iconify-icon icon="mdi:calendar" style="color: #6c757d;"></iconify-icon>
-                                Added:
-                            </span>
-                            <span class="detail-value">${question.createdAt ? new Date(question.createdAt).toLocaleDateString() : 'Unknown'}</span>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+                
+                console.log(`✅ Generated HTML for quiz question ${index + 1}`);
+                return questionHtml;
+            }).join('');
         }
 
         function showCreateSubfolderModal() {

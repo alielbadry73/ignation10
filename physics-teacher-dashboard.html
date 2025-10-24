@@ -1342,13 +1342,15 @@
                     <h6>Add Assistant</h6>
                     <p>Assign course assistant</p>
                 </button>
-                <button class="action-btn" onclick="openDailyPracticeModal()">
-                    <iconify-icon icon="material-symbols:quiz"></iconify-icon>
-                    <h6>Daily Practice</h6>
-                    <p>Create practice questions</p>
+                <button class="action-btn primary" onclick="openPracticeQuestionModal()">
+                    <iconify-icon icon="material-symbols:edit-note"></iconify-icon>
+                    <h6>Practice Questions</h6>
+                    <p>Create today's questions</p>
                 </button>
             </div>
         </div>
+
+
 
         <!-- Main Content Tabs -->
         <div class="content-tabs">
@@ -1578,7 +1580,8 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label">Time Limit (minutes)</label>
-                                            <input type="number" class="form-control" id="timeLimit" placeholder="Optional">
+                                            <input type="number" class="form-control" id="timeLimit" placeholder="Optional" min="1" max="180">
+                                            <small class="form-text text-muted">Leave empty for no time limit. Max 180 minutes (3 hours).</small>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -1772,7 +1775,7 @@
 </div>
 
 <!-- Add Assistant Modal -->
-    <div class="modal fade" id="addAssistantModal" tabindex="-1">
+    <div class="modal fade" id="addAssistantModal" tabindex="-1" style="z-index: 1060;">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -1797,14 +1800,6 @@
                             <input type="tel" class="form-control" id="assistantPhone" placeholder="e.g., +1 (555) 123-4567">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Qualifications</label>
-                            <textarea class="form-control" id="assistantQualifications" rows="3" placeholder="e.g., PhD in Physics, 4 years research experience"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Specializations</label>
-                            <input type="text" class="form-control" id="assistantSpecializations" placeholder="e.g., Mechanics, Thermodynamics, Electricity, Optics">
-                        </div>
-                        <div class="mb-3">
                             <label class="form-label">Availability</label>
                             <select class="form-control" id="assistantAvailability" required>
                                 <option value="">Select availability</option>
@@ -1814,10 +1809,6 @@
                                 <option value="evenings">Evenings only</option>
                             </select>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Role Description</label>
-                            <textarea class="form-control" id="assistantRoleDescription" rows="3" placeholder="Describe the assistant's responsibilities and duties"></textarea>
-                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -1825,6 +1816,257 @@
                     <button type="button" class="btn btn-primary" onclick="submitAssistant()">
                         <iconify-icon icon="material-symbols:person-add"></iconify-icon>
                         Add Assistant
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Practice Questions Modal -->
+    <div class="modal fade" id="practiceQuestionModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <iconify-icon icon="material-symbols:quiz" style="margin-right: 0.5rem;"></iconify-icon>
+                        Practice Questions
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <ul class="nav nav-tabs mb-4" id="practiceQuestionTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="create-tab" data-bs-toggle="tab" data-bs-target="#create-pane" type="button" role="tab" aria-controls="create-pane" aria-selected="true">
+                                <iconify-icon icon="material-symbols:add" class="me-1"></iconify-icon>
+                                Create Questions
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="view-tab" data-bs-toggle="tab" data-bs-target="#view-pane" type="button" role="tab" aria-controls="view-pane" aria-selected="false">
+                                <iconify-icon icon="material-symbols:visibility" class="me-1"></iconify-icon>
+                                View All Questions
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Tab Content -->
+                    <div class="tab-content" id="practiceQuestionTabContent">
+                        <!-- Create Questions Tab -->
+                        <div class="tab-pane fade show active" id="create-pane" role="tabpanel" aria-labelledby="create-tab">
+                            <form id="practiceQuestionForm">
+                                <!-- Question Type Selection -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold mb-3">Question Type</label>
+                                    <div class="question-types">
+                                        <button type="button" class="btn btn-outline-primary question-type active" data-type="multiple-choice" onclick="selectPracticeQuestionType('multiple-choice')">
+                                            <iconify-icon icon="material-symbols:check-box"></iconify-icon>
+                                            Multiple Choice
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary question-type" data-type="short-answer" onclick="selectPracticeQuestionType('short-answer')">
+                                            <iconify-icon icon="material-symbols:short-text"></iconify-icon>
+                                            Short Answer
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary question-type" data-type="file-based" onclick="selectPracticeQuestionType('file-based')">
+                                            <iconify-icon icon="material-symbols:upload-file"></iconify-icon>
+                                            File-Based
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary question-type" data-type="bullet-points" onclick="selectPracticeQuestionType('bullet-points')">
+                                            <iconify-icon icon="material-symbols:format-list-bulleted"></iconify-icon>
+                                            Bullet Points
+                                        </button>
+                                    </div>
+                                </div>
+
+                        <!-- Question Creator -->
+                        <div class="question-creator mb-4">
+                            <div class="d-flex align-items-end gap-3 mb-3">
+                                <div class="flex-grow-1">
+                                    <label class="form-label fw-bold">Question Content</label>
+                                    <textarea class="form-control" id="practiceQuestionText" rows="3" placeholder="Enter your question here..."></textarea>
+                                </div>
+                                <div>
+                                    <label class="form-label fw-bold">Points</label>
+                                    <input type="number" class="form-control" id="practiceQuestionPoints" value="10" min="1" max="100">
+                                </div>
+                                <div>
+                                    <label class="form-label fw-bold">Difficulty</label>
+                                    <select class="form-control" id="practiceQuestionDifficulty">
+                                        <option value="Easy">Easy</option>
+                                        <option value="Medium" selected>Medium</option>
+                                        <option value="Hard">Hard</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-label fw-bold">Topic</label>
+                                    <input type="text" class="form-control" id="practiceQuestionTopic" placeholder="Topic">
+                                </div>
+                                <div>
+                                    <label class="form-label fw-bold">Folder</label>
+                                    <div class="input-group">
+                                        <select class="form-select" id="practiceQuestionFolder">
+                                            <option value="">Select a folder...</option>
+                                        </select>
+                                        <button class="btn btn-outline-secondary" type="button" onclick="createNewFolder()">
+                                            <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Answer Options (Dynamic based on type) -->
+                            <div id="practiceAnswerOptions">
+                                <!-- Multiple Choice Options -->
+                                <div id="practiceMultipleChoiceOptions" class="answer-options">
+                                    <label class="form-label fw-bold">Answer Options</label>
+                                    <div id="practiceMultipleChoiceList">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <input type="text" class="form-control me-2" placeholder="Option A">
+                                            <input type="radio" name="practiceCorrectAnswer" value="A" class="me-2">
+                                            <label class="form-label mb-0">Correct</label>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <input type="text" class="form-control me-2" placeholder="Option B">
+                                            <input type="radio" name="practiceCorrectAnswer" value="B" class="me-2">
+                                            <label class="form-label mb-0">Correct</label>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addPracticeOption()">
+                                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                        Add Option
+                                    </button>
+                                </div>
+
+                                <!-- Short Answer Options -->
+                                <div id="practiceShortAnswerOptions" class="answer-options" style="display: none;">
+                                    <label class="form-label fw-bold">Expected Answer</label>
+                                    <input type="text" class="form-control" id="practiceExpectedAnswer" placeholder="Enter expected answer">
+                                </div>
+
+                                <!-- File-Based Options -->
+                                <div id="practiceFileBasedOptions" class="answer-options" style="display: none;">
+                                    <label class="form-label fw-bold">File Upload Settings</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Allowed File Types</label>
+                                            <select class="form-control" id="practiceAllowedFileTypes" multiple>
+                                                <option value="jpg">JPG</option>
+                                                <option value="png">PNG</option>
+                                                <option value="pdf">PDF</option>
+                                                <option value="doc">DOC</option>
+                                                <option value="docx">DOCX</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Max File Size (MB)</label>
+                                            <input type="number" class="form-control" id="practiceMaxFileSize" value="5" min="1" max="50">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Bullet Points Options -->
+                                <div id="practiceBulletPointsOptions" class="answer-options" style="display: none;">
+                                    <label class="form-label fw-bold">Expected Bullet Points</label>
+                                    <div id="practiceBulletPointsList">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <input type="text" class="form-control me-2" placeholder="Bullet point 1">
+                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePracticeBulletPoint(this)">
+                                                <iconify-icon icon="material-symbols:close"></iconify-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addPracticeBulletPoint()">
+                                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                        Add Bullet Point
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Time Limit -->
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Time Limit (minutes)</label>
+                                    <input type="number" class="form-control" id="practiceTimeLimit" placeholder="Optional" min="1" max="180">
+                                    <small class="form-text text-muted">Leave empty for no time limit. Max 180 minutes (3 hours).</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Explanation</label>
+                                    <textarea class="form-control" id="practiceQuestionExplanation" rows="2" placeholder="Optional explanation for the answer"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Questions List -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="mb-0">Created Questions</h6>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-success" onclick="savePracticeQuestion()">
+                                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                                        Save Question
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="addPracticeQuestion()">
+                                        <iconify-icon icon="material-symbols:add"></iconify-icon>
+                                        Add Another
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="practiceQuestionsList" class="questions-list">
+                                <!-- Questions will be added here -->
+                            </div>
+                        </div>
+                    </form>
+                        </div>
+
+                        <!-- View All Questions Tab -->
+                        <div class="tab-pane fade" id="view-pane" role="tabpanel" aria-labelledby="view-tab">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="mb-0">All Practice Questions</h6>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="refreshAllQuestions()">
+                                        <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                                        Refresh
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="forceRefreshAllQuestions()">
+                                        <iconify-icon icon="material-symbols:sync"></iconify-icon>
+                                        Force Refresh
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="syncToStudentDashboard()">
+                                        <iconify-icon icon="material-symbols:upload"></iconify-icon>
+                                        Sync to Students
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" onclick="addTestQuestion()">
+                                        <iconify-icon icon="material-symbols:bug-report"></iconify-icon>
+                                        Add Test Question
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-warning" onclick="fillFormAndTest()">
+                                        <iconify-icon icon="material-symbols:build"></iconify-icon>
+                                        Fill Form & Test
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" onclick="createNewFolder()">
+                                        <iconify-icon icon="material-symbols:create-new-folder"></iconify-icon>
+                                        New Folder
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="clearAllPracticeQuestions()">
+                                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                        Clear All
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="allQuestionsList" class="questions-list">
+                                <div class="text-center py-4">
+                                    <div class="spinner"></div>
+                                    <p class="text-muted mt-2">Loading questions...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveAllPracticeQuestions()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Save All Questions
                     </button>
                 </div>
             </div>
@@ -2355,10 +2597,14 @@
 
         // Initialize dashboard
         document.addEventListener('DOMContentLoaded', function() {
+            loadFolders();
             loadPhysicsData();
             loadAssessments();
             updateStats();
             loadSessionSchedules();
+            loadDailyQuestions();
+            loadPracticeQuestions();
+            loadLiveSessions();
             
             // Add event listener for publish button
             document.getElementById('publishBtn').addEventListener('click', function() {
@@ -3422,8 +3668,263 @@
         }
 
         // Show course assistants
-        function showCourseAssistants() {
-            showToast('Course Assistants feature coming soon', 'info');
+        async function showCourseAssistants() {
+            try {
+                // Fetch assistants from backend using teacher endpoint
+                const response = await fetch('/api/teacher/assistants?subject=physics', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token') || 'demo-token'}`
+                    }
+                });
+
+                if (response.ok) {
+                    const assistants = await response.json();
+                    
+                    // Show assistants modal
+                    showAssistantsModal(assistants);
+                } else {
+                    // Fallback to localStorage data
+                    const localAssistants = JSON.parse(localStorage.getItem('physicsAssistants')) || [];
+                    showAssistantsModal(localAssistants);
+                }
+            } catch (error) {
+                console.error('Error loading assistants:', error);
+                // Fallback to localStorage data
+                const localAssistants = JSON.parse(localStorage.getItem('physicsAssistants')) || [];
+                showAssistantsModal(localAssistants);
+            }
+        }
+
+        // Show assistants modal
+        function showAssistantsModal(assistants) {
+            const modalHtml = `
+                <div class="modal fade" id="assistantsModal" tabindex="-1">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <iconify-icon icon="material-symbols:people" style="margin-right: 0.5rem;"></iconify-icon>
+                                    Physics Course Assistants
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6>Assistant Management</h6>
+                                    <button class="btn btn-primary btn-sm" onclick="openAddAssistantModal()">
+                                        <iconify-icon icon="material-symbols:person-add"></iconify-icon>
+                                        Add New Assistant
+                                    </button>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Availability</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            ${assistants.length > 0 ? assistants.map(assistant => `
+                                                <tr>
+                                                    <td>${assistant.name}</td>
+                                                    <td>${assistant.email}</td>
+                                                    <td>${assistant.phone || 'N/A'}</td>
+                                                    <td>
+                                                        <span class="badge bg-info">${assistant.availability}</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge ${assistant.status === 'active' ? 'bg-success' : assistant.status === 'pending' ? 'bg-warning' : 'bg-secondary'}">
+                                                            ${assistant.status}
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-outline-primary" onclick="viewAssistantDetails(${assistant.id})">
+                                                            <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-success" onclick="editAssistant(${assistant.id})">
+                                                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-outline-danger" onclick="removeAssistant(${assistant.id})">
+                                                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            `).join('') : `
+                                                <tr>
+                                                    <td colspan="6" class="text-center text-muted">No assistants found</td>
+                                                </tr>
+                                            `}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Remove existing modal if any
+            const existingModal = document.getElementById('assistantsModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('assistantsModal'));
+            modal.show();
+        }
+
+        // View assistant details
+        function viewAssistantDetails(assistantId) {
+            // Get assistant data from localStorage or backend
+            const assistants = JSON.parse(localStorage.getItem('physicsAssistants')) || [];
+            const assistant = assistants.find(a => a.id == assistantId);
+            
+            if (!assistant) {
+                showToast('Assistant not found', 'error');
+                return;
+            }
+
+            const detailsHtml = `
+                <div class="modal fade" id="assistantDetailsModal" tabindex="-1">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">
+                                    <iconify-icon icon="material-symbols:person" style="margin-right: 0.5rem;"></iconify-icon>
+                                    Assistant Details
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6>Personal Information</h6>
+                                        <p><strong>Name:</strong> ${assistant.name}</p>
+                                        <p><strong>Email:</strong> ${assistant.email}</p>
+                                        <p><strong>Phone:</strong> ${assistant.phone || 'N/A'}</p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6>Professional Information</h6>
+                                        <p><strong>Availability:</strong> <span class="badge bg-info">${assistant.availability}</span></p>
+                                        <p><strong>Status:</strong> <span class="badge ${assistant.status === 'active' ? 'bg-success' : 'bg-warning'}">${assistant.status}</span></p>
+                                        <p><strong>Subject:</strong> ${assistant.subject}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" onclick="editAssistant(${assistant.id})">Edit Assistant</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Remove existing modal if any
+            const existingModal = document.getElementById('assistantDetailsModal');
+            if (existingModal) {
+                existingModal.remove();
+            }
+
+            // Add modal to body
+            document.body.insertAdjacentHTML('beforeend', detailsHtml);
+
+            // Show modal
+            const modal = new bootstrap.Modal(document.getElementById('assistantDetailsModal'));
+            modal.show();
+        }
+
+        // Edit assistant
+        async function editAssistant(assistantId) {
+            try {
+                // First try to get from localStorage
+                const assistants = JSON.parse(localStorage.getItem('physicsAssistants')) || [];
+                let assistant = assistants.find(a => a.id == assistantId);
+                
+                // If not found in localStorage, try to get from database
+                if (!assistant) {
+                    const response = await fetch('/api/teacher/assistants?subject=physics', {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token') || 'demo-token'}`
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const dbAssistants = await response.json();
+                        assistant = dbAssistants.find(a => a.id == assistantId);
+                    }
+                }
+                
+                if (!assistant) {
+                    showToast('Assistant not found', 'error');
+                    return;
+                }
+
+                // Pre-fill the add assistant modal with existing data
+                document.getElementById('assistantName').value = assistant.name;
+                document.getElementById('assistantEmail').value = assistant.email;
+                document.getElementById('assistantPhone').value = assistant.phone || '';
+                document.getElementById('assistantAvailability').value = assistant.availability || 'full-time';
+
+                // Show the add assistant modal (which will work as edit modal)
+                const modalElement = document.getElementById('addAssistantModal');
+                // Ensure this modal appears on top of any other modals
+                modalElement.style.zIndex = '1070';
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+
+                // Change the modal title to indicate editing
+                document.querySelector('#addAssistantModal .modal-title').innerHTML = `
+                    <iconify-icon icon="material-symbols:edit" style="margin-right: 0.5rem;"></iconify-icon>
+                    Edit Assistant - ${assistant.name}
+                `;
+            } catch (error) {
+                console.error('Error loading assistant for editing:', error);
+                showToast('Error loading assistant', 'error');
+            }
+        }
+
+        // Remove assistant
+        async function removeAssistant(assistantId) {
+            if (!confirm('Are you sure you want to remove this assistant?')) {
+                return;
+            }
+
+            try {
+                // Remove from backend using teacher endpoint
+                const response = await fetch(`/api/teacher/assistants/${assistantId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token') || 'demo-token'}`
+                    }
+                });
+
+                // Remove from localStorage
+                let assistants = JSON.parse(localStorage.getItem('physicsAssistants')) || [];
+                assistants = assistants.filter(a => a.id != assistantId);
+                localStorage.setItem('physicsAssistants', JSON.stringify(assistants));
+
+                showToast('Assistant removed successfully', 'success');
+                
+                // Refresh the assistants modal if it's open
+                const assistantsModal = document.getElementById('assistantsModal');
+                if (assistantsModal && assistantsModal.style.display !== 'none') {
+                    showCourseAssistants();
+                }
+            } catch (error) {
+                console.error('Error removing assistant:', error);
+                showToast('Error removing assistant', 'error');
+            }
         }
 
         // Weekly Schedule Functions
@@ -4163,6 +4664,1041 @@
             ];
         }
 
+        // Practice Questions Functions
+        let practiceQuestions = [];
+        let currentPracticeQuestionType = 'multiple-choice';
+        let practiceFolders = [];
+
+        function loadPracticeQuestions() {
+            const questionsData = localStorage.getItem('physics_practice_questions');
+            practiceQuestions = questionsData ? JSON.parse(questionsData) : [];
+            console.log('🔍 Loading practice questions for card:', practiceQuestions.length, 'questions');
+            displayPracticeQuestions();
+        }
+
+        function displayPracticeQuestions() {
+            const container = document.getElementById('practiceQuestionsPreview');
+            console.log('🔍 Displaying today\'s practice questions');
+            
+            // Check if container exists (card was removed from dashboard)
+            if (!container) {
+                console.log('📭 Practice questions card container not found (card removed from dashboard)');
+                return;
+            }
+            
+            // Get today's practice questions from localStorage
+            const todayQuestions = JSON.parse(localStorage.getItem('physics_daily_practice_questions') || '[]');
+            console.log('🔍 Today\'s practice questions:', todayQuestions.length, 'questions');
+            
+            if (todayQuestions.length === 0) {
+                console.log('📭 No today\'s practice questions found, showing empty state');
+                container.innerHTML = `
+                    <div class="text-center py-3">
+                        <iconify-icon icon="material-symbols:today" style="font-size: 2rem; color: #6c757d;"></iconify-icon>
+                        <p class="text-muted mt-2 mb-0">No practice questions for today</p>
+                        <small class="text-muted">Create daily practice questions to see them here</small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show preview of today's questions (max 3)
+            const recentQuestions = todayQuestions.slice(-3);
+            container.innerHTML = recentQuestions.map((question, index) => {
+                const questionText = question.question || question.questionText || question.title || 'No question text';
+                const questionType = question.type || 'unknown';
+                const difficulty = question.difficulty || 'unknown';
+                const actualIndex = todayQuestions.length - recentQuestions.length + index;
+                
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1" style="font-size: 0.9rem;">${questionText.substring(0, 50)}${questionText.length > 50 ? '...' : ''}</h6>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary" style="font-size: 0.7rem;">${questionType}</span>
+                                <span class="badge bg-secondary" style="font-size: 0.7rem;">${difficulty}</span>
+                                <span class="badge bg-info" style="font-size: 0.7rem;">${question.points || 0} pts</span>
+                                <span class="badge bg-success" style="font-size: 0.7rem;">Today</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editDailyQuestion(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:edit" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteDailyQuestion(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `
+                ${todayQuestions.length > 3 ? `
+                    <div class="text-center mt-2">
+                        <small class="text-muted">+${todayQuestions.length - 3} more today's questions</small>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        function openPracticeQuestionModal() {
+            const modal = new bootstrap.Modal(document.getElementById('practiceQuestionModal'));
+            modal.show();
+            loadPracticeQuestions();
+            
+            // Add event listener for view tab
+            const viewTab = document.getElementById('view-tab');
+            if (viewTab) {
+                viewTab.addEventListener('shown.bs.tab', function() {
+                    loadAllQuestions();
+                });
+            }
+            
+            // Refresh the card display when modal is closed
+            modal._element.addEventListener('hidden.bs.modal', function() {
+                console.log('🔄 Practice modal closed, refreshing card display...');
+                loadPracticeQuestions();
+            });
+        }
+
+        function viewAllPracticeQuestions() {
+            // Open modal and switch to view all questions tab
+            openPracticeQuestionModal();
+            // Switch to view tab after modal opens
+            setTimeout(() => {
+                const viewTab = document.getElementById('view-tab');
+                if (viewTab) {
+                    viewTab.click();
+                    loadAllQuestions();
+                }
+            }, 100);
+        }
+
+        function loadAllQuestions() {
+            const questionsData = localStorage.getItem('physics_practice_questions');
+            const questions = questionsData ? JSON.parse(questionsData) : [];
+            const container = document.getElementById('allQuestionsList');
+            
+            console.log('🔍 Loading all practice questions:', questions.length, 'questions');
+            console.log('🔍 Raw localStorage data:', questionsData);
+            console.log('🔍 Parsed questions:', questions);
+            console.log('🔍 Available folders:', practiceFolders.length);
+            
+            // Check if container exists
+            if (!container) {
+                console.log('📭 All questions list container not found');
+                return;
+            }
+            
+            // If no questions and no folders, show empty state
+            if (questions.length === 0 && practiceFolders.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4">
+                        <iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; color: #6c757d;"></iconify-icon>
+                        <p class="text-muted mt-3 mb-0">No practice questions found</p>
+                        <small class="text-muted">Create some questions to see them here</small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Group questions by folder
+            const questionsByFolder = {};
+            questions.forEach(question => {
+                const folderId = question.folderId || 'unorganized';
+                if (!questionsByFolder[folderId]) {
+                    questionsByFolder[folderId] = [];
+                }
+                questionsByFolder[folderId].push(question);
+            });
+            
+            let html = '';
+            
+            // First, show all created folders (even if empty)
+            practiceFolders.forEach(folder => {
+                const folderQuestions = questionsByFolder[folder.id] || [];
+                
+                // Create folder header
+                html += `
+                    <div class="folder-header mb-3">
+                        <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                            <div class="d-flex align-items-center">
+                                <iconify-icon icon="material-symbols:folder" class="me-2"></iconify-icon>
+                                <h6 class="mb-0">${folder.name}</h6>
+                                <span class="badge bg-secondary ms-2">${folderQuestions.length} questions</span>
+                            </div>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-primary" onclick="renameFolder('${folder.id}')" title="Rename Folder">
+                                    <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                </button>
+                                <button class="btn btn-outline-danger" onclick="deleteFolder('${folder.id}')" title="Delete Folder">
+                                    <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add questions in this folder
+                if (folderQuestions.length > 0) {
+                    folderQuestions.forEach((question, index) => {
+                        const questionText = question.question || question.questionText || question.title || 'No question text';
+                        const questionType = question.type || 'unknown';
+                        const difficulty = question.difficulty || 'unknown';
+                        const points = question.points || 0;
+                        const topic = question.topic || 'No topic';
+                        const createdAt = question.createdAt ? new Date(question.createdAt).toLocaleDateString() : 'Unknown date';
+                        
+                        html += `
+                            <div class="question-item p-3 border rounded mb-2 ms-4" data-id="${question.id}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-2">${questionText}</h6>
+                                        <div class="d-flex gap-2 mb-2">
+                                            <span class="badge bg-primary">${questionType}</span>
+                                            <span class="badge bg-secondary">${difficulty}</span>
+                                            <span class="badge bg-info">${points} pts</span>
+                                            <span class="badge bg-success">${topic}</span>
+                                        </div>
+                                        <small class="text-muted">Created: ${createdAt}</small>
+                                    </div>
+                                    <div class="d-flex gap-1">
+                                        <button class="btn btn-sm btn-outline-primary" onclick="editAllQuestion('${question.id}')" title="Edit">
+                                            <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                        </button>
+                                        <button class="btn btn-sm btn-outline-danger" onclick="deleteAllQuestion('${question.id}')" title="Delete">
+                                            <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    // Show empty folder message
+                    html += `
+                        <div class="text-center text-muted py-3 ms-4">
+                            <iconify-icon icon="material-symbols:quiz" class="fs-4"></iconify-icon>
+                            <p class="mb-0 mt-2">No questions in this folder yet</p>
+                            <small>Create questions and assign them to this folder</small>
+                        </div>
+                    `;
+                }
+            });
+            
+            // Then show unorganized questions (if any)
+            const unorganizedQuestions = questionsByFolder['unorganized'] || [];
+            if (unorganizedQuestions.length > 0) {
+                html += `
+                    <div class="folder-header mb-3">
+                        <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded">
+                            <div class="d-flex align-items-center">
+                                <iconify-icon icon="material-symbols:folder-open" class="me-2"></iconify-icon>
+                                <h6 class="mb-0">Unorganized</h6>
+                                <span class="badge bg-warning ms-2">${unorganizedQuestions.length} questions</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                unorganizedQuestions.forEach((question, index) => {
+                    const questionText = question.question || question.questionText || question.title || 'No question text';
+                    const questionType = question.type || 'unknown';
+                    const difficulty = question.difficulty || 'unknown';
+                    const points = question.points || 0;
+                    const topic = question.topic || 'No topic';
+                    const createdAt = question.createdAt ? new Date(question.createdAt).toLocaleDateString() : 'Unknown date';
+                    
+                    html += `
+                        <div class="question-item p-3 border rounded mb-2 ms-4" data-id="${question.id}">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-2">${questionText}</h6>
+                                    <div class="d-flex gap-2 mb-2">
+                                        <span class="badge bg-primary">${questionType}</span>
+                                        <span class="badge bg-secondary">${difficulty}</span>
+                                        <span class="badge bg-info">${points} pts</span>
+                                        <span class="badge bg-success">${topic}</span>
+                                    </div>
+                                    <small class="text-muted">Created: ${createdAt}</small>
+                                </div>
+                                <div class="d-flex gap-1">
+                                    <button class="btn btn-sm btn-outline-primary" onclick="editAllQuestion('${question.id}')" title="Edit">
+                                        <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-danger" onclick="deleteAllQuestion('${question.id}')" title="Delete">
+                                        <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            container.innerHTML = html;
+        }
+
+        function refreshAllQuestions() {
+            console.log('🔄 Manual refresh triggered for View All Questions');
+            console.log('🔄 Current localStorage content:', localStorage.getItem('physics_practice_questions'));
+            loadAllQuestions();
+            showToast('Questions refreshed!', 'success');
+        }
+
+        function forceRefreshAllQuestions() {
+            console.log('🔄 Force refresh triggered for View All Questions');
+            console.log('🔄 Current practiceQuestions array:', practiceQuestions);
+            console.log('🔄 Current localStorage content:', localStorage.getItem('physics_practice_questions'));
+            
+            // Force reload from localStorage
+            const questionsData = localStorage.getItem('physics_practice_questions');
+            const questions = questionsData ? JSON.parse(questionsData) : [];
+            console.log('🔄 Parsed questions from localStorage:', questions);
+            
+            // Update the practiceQuestions array
+            practiceQuestions = questions;
+            console.log('🔄 Updated practiceQuestions array:', practiceQuestions);
+            
+            loadAllQuestions();
+            showToast('Force refresh completed!', 'success');
+        }
+
+        function syncToStudentDashboard() {
+            console.log('🔄 Syncing questions to student dashboard...');
+            
+            // Get questions from teacher localStorage
+            const questionsData = localStorage.getItem('physics_practice_questions');
+            const questions = questionsData ? JSON.parse(questionsData) : [];
+            
+            console.log('🔄 Questions to sync:', questions);
+            
+            // Save to student localStorage
+            localStorage.setItem('physics_daily_practice_questions_student', JSON.stringify(questions));
+            
+            // Verify the sync
+            const studentData = localStorage.getItem('physics_daily_practice_questions_student');
+            const studentQuestions = studentData ? JSON.parse(studentData) : [];
+            
+            console.log('🔄 Student localStorage after sync:', studentQuestions);
+            console.log('🔄 Sync verification - Teacher questions:', questions.length, 'Student questions:', studentQuestions.length);
+            
+            if (questions.length === studentQuestions.length) {
+                showToast(`Successfully synced ${questions.length} questions to student dashboard!`, 'success');
+            } else {
+                showToast('Sync completed but question counts do not match!', 'warning');
+            }
+        }
+
+        function addTestQuestion() {
+            console.log('🧪 Adding test question...');
+            
+            const testQuestion = {
+                id: 'test_' + Date.now(),
+                question: 'Test Question - What is 2+2?',
+                type: 'multiple-choice',
+                difficulty: 'Easy',
+                topic: 'Mathematics',
+                points: 5,
+                options: ['3', '4', '5', '6'],
+                correctAnswer: 'B',
+                createdAt: new Date().toISOString(),
+                subject: 'physics'
+            };
+            
+            console.log('🧪 Test question created:', testQuestion);
+            
+            // Add to practiceQuestions array
+            practiceQuestions.push(testQuestion);
+            console.log('🧪 practiceQuestions array after adding test:', practiceQuestions);
+            
+            // Add to DOM
+            addQuestionToList(testQuestion);
+            
+            // Save to localStorage
+            localStorage.setItem('physics_practice_questions', JSON.stringify(practiceQuestions));
+            localStorage.setItem('physics_daily_practice_questions_student', JSON.stringify(practiceQuestions));
+            
+            console.log('🧪 Test question saved to localStorage');
+            
+            // Refresh the view
+            loadAllQuestions();
+            
+            showToast('Test question added!', 'success');
+        }
+
+        function fillFormAndTest() {
+            console.log('🔧 Filling form and testing...');
+            
+            // Fill the form fields
+            const questionTextEl = document.getElementById('practiceQuestionText');
+            const topicEl = document.getElementById('practiceQuestionTopic');
+            const pointsEl = document.getElementById('practiceQuestionPoints');
+            const difficultyEl = document.getElementById('practiceQuestionDifficulty');
+            
+            if (questionTextEl) {
+                questionTextEl.value = 'Test Question - What is the speed of light?';
+                console.log('🔧 Set questionText to:', questionTextEl.value);
+            }
+            
+            if (topicEl) {
+                topicEl.value = 'Physics';
+                console.log('🔧 Set topic to:', topicEl.value);
+            }
+            
+            if (pointsEl) {
+                pointsEl.value = '15';
+                console.log('🔧 Set points to:', pointsEl.value);
+            }
+            
+            if (difficultyEl) {
+                difficultyEl.value = 'Hard';
+                console.log('🔧 Set difficulty to:', difficultyEl.value);
+            }
+            
+            // Wait a moment then try to read the values
+            setTimeout(() => {
+                console.log('🔧 After filling, reading values:');
+                console.log('🔧 questionText:', questionTextEl ? questionTextEl.value : 'NOT FOUND');
+                console.log('🔧 topic:', topicEl ? topicEl.value : 'NOT FOUND');
+                console.log('🔧 points:', pointsEl ? pointsEl.value : 'NOT FOUND');
+                console.log('🔧 difficulty:', difficultyEl ? difficultyEl.value : 'NOT FOUND');
+                
+                // Now try to add the question
+                addPracticeQuestion();
+            }, 500);
+        }
+
+        // Folder Management Functions
+        function loadFolders() {
+            const foldersData = localStorage.getItem('physics_practice_folders');
+            practiceFolders = foldersData ? JSON.parse(foldersData) : [];
+            console.log('📁 Loaded folders:', practiceFolders.length);
+            updateFolderDropdown();
+        }
+
+        function saveFolders() {
+            localStorage.setItem('physics_practice_folders', JSON.stringify(practiceFolders));
+            console.log('💾 Saved folders:', practiceFolders.length);
+        }
+
+        function updateFolderDropdown() {
+            const folderSelect = document.getElementById('practiceQuestionFolder');
+            if (!folderSelect) return;
+
+            // Clear existing options except the first one
+            folderSelect.innerHTML = '<option value="">Select a folder...</option>';
+            
+            // Add folder options
+            practiceFolders.forEach(folder => {
+                const option = document.createElement('option');
+                option.value = folder.id;
+                option.textContent = folder.name;
+                folderSelect.appendChild(option);
+            });
+        }
+
+        function createNewFolder() {
+            const folderName = prompt('Enter folder name:');
+            if (!folderName || folderName.trim() === '') {
+                showToast('Folder name cannot be empty', 'error');
+                return;
+            }
+
+            const newFolder = {
+                id: 'folder_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                name: folderName.trim(),
+                createdAt: new Date().toISOString(),
+                questionCount: 0
+            };
+
+            practiceFolders.push(newFolder);
+            saveFolders();
+            updateFolderDropdown();
+            
+            // Select the newly created folder
+            const folderSelect = document.getElementById('practiceQuestionFolder');
+            if (folderSelect) {
+                folderSelect.value = newFolder.id;
+            }
+
+            showToast(`Folder "${folderName}" created successfully!`, 'success');
+        }
+
+        function deleteFolder(folderId) {
+            if (!confirm('Are you sure you want to delete this folder? All questions in this folder will be moved to "Unorganized".')) {
+                return;
+            }
+
+            // Move questions from this folder to unorganized
+            practiceQuestions.forEach(question => {
+                if (question.folderId === folderId) {
+                    question.folderId = '';
+                }
+            });
+
+            // Remove the folder
+            practiceFolders = practiceFolders.filter(folder => folder.id !== folderId);
+            saveFolders();
+            updateFolderDropdown();
+            
+            // Save updated questions
+            localStorage.setItem('physics_practice_questions', JSON.stringify(practiceQuestions));
+            localStorage.setItem('physics_daily_practice_questions_student', JSON.stringify(practiceQuestions));
+            
+            showToast('Folder deleted successfully!', 'success');
+        }
+
+        function renameFolder(folderId) {
+            const folder = practiceFolders.find(f => f.id === folderId);
+            if (!folder) return;
+
+            const newName = prompt('Enter new folder name:', folder.name);
+            if (!newName || newName.trim() === '') {
+                showToast('Folder name cannot be empty', 'error');
+                return;
+            }
+
+            folder.name = newName.trim();
+            saveFolders();
+            updateFolderDropdown();
+            
+            showToast(`Folder renamed to "${newName}"`, 'success');
+        }
+
+        function clearAllPracticeQuestions() {
+            if (confirm('Are you sure you want to delete ALL practice questions? This action cannot be undone.')) {
+                localStorage.removeItem('physics_practice_questions');
+                localStorage.removeItem('physics_daily_practice_questions_student');
+                practiceQuestions = [];
+                loadAllQuestions();
+                showToast('All practice questions cleared!', 'success');
+            }
+        }
+
+        function editAllQuestion(questionId) {
+            // Find the question and switch to create tab to edit
+            const question = practiceQuestions.find(q => q.id === questionId);
+            if (question) {
+                // Switch to create tab
+                const createTab = document.getElementById('create-tab');
+                if (createTab) {
+                    createTab.click();
+                }
+                // TODO: Load question data into form for editing
+                showToast('Edit functionality coming soon!', 'info');
+            }
+        }
+
+        function deleteAllQuestion(questionId) {
+            if (confirm('Are you sure you want to delete this question?')) {
+                practiceQuestions = practiceQuestions.filter(q => q.id !== questionId);
+                localStorage.setItem('physics_practice_questions', JSON.stringify(practiceQuestions));
+                localStorage.setItem('physics_daily_practice_questions_student', JSON.stringify(practiceQuestions));
+                loadAllQuestions();
+                showToast('Question deleted successfully!', 'success');
+            }
+        }
+
+        function selectPracticeQuestionType(type) {
+            currentPracticeQuestionType = type;
+            document.querySelectorAll('.question-type').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.question-type').classList.add('active');
+            
+            // Show/hide appropriate answer options
+            document.querySelectorAll('.answer-options').forEach(option => option.style.display = 'none');
+            
+            switch(type) {
+                case 'multiple-choice':
+                    document.getElementById('practiceMultipleChoiceOptions').style.display = 'block';
+                    break;
+                case 'short-answer':
+                    document.getElementById('practiceShortAnswerOptions').style.display = 'block';
+                    break;
+                case 'file-based':
+                    document.getElementById('practiceFileBasedOptions').style.display = 'block';
+                    break;
+                case 'bullet-points':
+                    document.getElementById('practiceBulletPointsOptions').style.display = 'block';
+                    break;
+            }
+        }
+
+        function addPracticeOption() {
+            const container = document.getElementById('practiceMultipleChoiceList');
+            const optionCount = container.children.length;
+            const optionLetter = String.fromCharCode(65 + optionCount);
+            
+            const optionHtml = `
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Option ${optionLetter}">
+                    <input type="radio" name="practiceCorrectAnswer" value="${optionLetter}" class="me-2">
+                    <label class="form-label mb-0">Correct</label>
+                    <button type="button" class="btn btn-sm btn-outline-danger ms-2" onclick="removePracticeOption(this)">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', optionHtml);
+        }
+
+        function removePracticeOption(button) {
+            button.closest('.d-flex').remove();
+        }
+
+        function addPracticeBulletPoint() {
+            const container = document.getElementById('practiceBulletPointsList');
+            const pointCount = container.children.length + 1;
+            
+            const pointHtml = `
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Bullet point ${pointCount}">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePracticeBulletPoint(this)">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', pointHtml);
+        }
+
+        function removePracticeBulletPoint(button) {
+            button.closest('.d-flex').remove();
+        }
+
+        function addPracticeQuestion() {
+            console.log('🔍 addPracticeQuestion called');
+            
+            // Check if form elements exist
+            const questionTextEl = document.getElementById('practiceQuestionText');
+            const topicEl = document.getElementById('practiceQuestionTopic');
+            const pointsEl = document.getElementById('practiceQuestionPoints');
+            const difficultyEl = document.getElementById('practiceQuestionDifficulty');
+            const timeLimitEl = document.getElementById('practiceTimeLimit');
+            const explanationEl = document.getElementById('practiceQuestionExplanation');
+            
+            console.log('🔍 Form elements found:', {
+                questionTextEl: !!questionTextEl,
+                topicEl: !!topicEl,
+                pointsEl: !!pointsEl,
+                difficultyEl: !!difficultyEl,
+                timeLimitEl: !!timeLimitEl,
+                explanationEl: !!explanationEl
+            });
+            
+            // Check if elements are visible and accessible
+            if (questionTextEl) {
+                console.log('🔍 questionTextEl details:', {
+                    value: questionTextEl.value,
+                    visible: questionTextEl.offsetParent !== null,
+                    display: window.getComputedStyle(questionTextEl).display,
+                    parentVisible: questionTextEl.parentElement ? questionTextEl.parentElement.offsetParent !== null : 'no parent'
+                });
+            }
+            
+            if (topicEl) {
+                console.log('🔍 topicEl details:', {
+                    value: topicEl.value,
+                    visible: topicEl.offsetParent !== null,
+                    display: window.getComputedStyle(topicEl).display,
+                    parentVisible: topicEl.parentElement ? topicEl.parentElement.offsetParent !== null : 'no parent'
+                });
+            }
+            
+            const questionText = questionTextEl ? questionTextEl.value : '';
+            const points = pointsEl ? parseInt(pointsEl.value) : 10;
+            const difficulty = difficultyEl ? difficultyEl.value : 'Medium';
+            const topic = topicEl ? topicEl.value : '';
+            const timeLimit = timeLimitEl ? timeLimitEl.value : '';
+            const explanation = explanationEl ? explanationEl.value : '';
+            const folderId = document.getElementById('practiceQuestionFolder') ? document.getElementById('practiceQuestionFolder').value : '';
+            
+            console.log('🔍 Form data:', { questionText, points, difficulty, topic, timeLimit, explanation });
+            console.log('🔍 Raw values:', {
+                questionTextRaw: questionTextEl ? questionTextEl.value : 'ELEMENT NOT FOUND',
+                topicRaw: topicEl ? topicEl.value : 'ELEMENT NOT FOUND'
+            });
+            
+            // Add a small delay to check if values change
+            setTimeout(() => {
+                console.log('🔍 Form data after 100ms delay:', {
+                    questionText: questionTextEl ? questionTextEl.value : 'ELEMENT NOT FOUND',
+                    topic: topicEl ? topicEl.value : 'ELEMENT NOT FOUND'
+                });
+            }, 100);
+            
+            if (!questionText || !topic) {
+                showToast('Please fill in question content and topic', 'error');
+                return;
+            }
+            
+            const question = {
+                id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 9),
+                question: questionText,
+                type: currentPracticeQuestionType,
+                difficulty: difficulty,
+                topic: topic,
+                points: points,
+                timeLimit: timeLimit ? parseInt(timeLimit) : null,
+                explanation: explanation,
+                folderId: folderId,
+                createdAt: new Date().toISOString(),
+                subject: 'physics'
+            };
+            
+            console.log('🔍 Created question object:', question);
+            
+            // Add type-specific data
+            if (currentPracticeQuestionType === 'multiple-choice') {
+                const options = [];
+                const optionInputs = document.querySelectorAll('#practiceMultipleChoiceList input[type="text"]');
+                optionInputs.forEach(input => {
+                    if (input.value.trim()) {
+                        options.push(input.value.trim());
+                    }
+                });
+                
+                const correctAnswer = document.querySelector('input[name="practiceCorrectAnswer"]:checked');
+                if (!correctAnswer || options.length < 2) {
+                    showToast('Please provide at least 2 options and select the correct answer', 'error');
+                    return;
+                }
+                
+                question.options = options;
+                question.correctAnswer = correctAnswer.value;
+            } else if (currentPracticeQuestionType === 'short-answer') {
+                const expectedAnswer = document.getElementById('practiceExpectedAnswer').value;
+                if (!expectedAnswer.trim()) {
+                    showToast('Please provide an expected answer', 'error');
+                    return;
+                }
+                question.expectedAnswer = expectedAnswer;
+            } else if (currentPracticeQuestionType === 'file-based') {
+                const allowedTypes = Array.from(document.getElementById('practiceAllowedFileTypes').selectedOptions).map(option => option.value);
+                const maxSize = parseInt(document.getElementById('practiceMaxFileSize').value);
+                
+                question.fileUploadSettings = {
+                    allowedTypes: allowedTypes,
+                    maxSize: maxSize
+                };
+            } else if (currentPracticeQuestionType === 'bullet-points') {
+                const bulletPoints = [];
+                const bulletInputs = document.querySelectorAll('#practiceBulletPointsList input[type="text"]');
+                bulletInputs.forEach(input => {
+                    if (input.value.trim()) {
+                        bulletPoints.push(input.value.trim());
+                    }
+                });
+                
+                if (bulletPoints.length === 0) {
+                    showToast('Please provide at least one bullet point', 'error');
+                    return;
+                }
+                
+                question.bulletPoints = bulletPoints;
+            }
+            
+            // Add to questions list
+            console.log('🔍 Adding question to list:', question);
+            console.log('🔍 practiceQuestions array before adding:', practiceQuestions);
+            addQuestionToList(question);
+            console.log('🔍 practiceQuestions array after adding:', practiceQuestions);
+            
+            // Save to localStorage immediately after adding
+            localStorage.setItem('physics_practice_questions', JSON.stringify(practiceQuestions));
+            localStorage.setItem('physics_daily_practice_questions_student', JSON.stringify(practiceQuestions));
+            console.log('💾 Auto-saved to localStorage:', practiceQuestions.length, 'questions');
+            
+            // Clear form
+            clearPracticeQuestionForm();
+            
+            console.log('🔍 Current practiceQuestions array after adding:', practiceQuestions);
+            showToast('Question added successfully!', 'success');
+        }
+
+        function addQuestionToList(question) {
+            const container = document.getElementById('practiceQuestionsList');
+            const questionHtml = `
+                <div class="question-item p-3 border rounded mb-2" data-id="${question.id}">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${question.question}</h6>
+                            <div class="d-flex gap-2 mb-2">
+                                <span class="badge bg-primary">${question.type}</span>
+                                <span class="badge bg-secondary">${question.difficulty}</span>
+                                <span class="badge bg-info">${question.points} pts</span>
+                                <span class="badge bg-success">${question.topic}</span>
+                            </div>
+                            <small class="text-muted">Created: ${new Date(question.createdAt).toLocaleString()}</small>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editPracticeQuestionFromList('${question.id}')">
+                                <iconify-icon icon="material-symbols:edit"></iconify-icon>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="removePracticeQuestionFromList('${question.id}')">
+                                <iconify-icon icon="material-symbols:delete"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', questionHtml);
+            
+            // Also add to practiceQuestions array for saving
+            practiceQuestions.push(question);
+            console.log('🔍 Added question to practiceQuestions array. New length:', practiceQuestions.length);
+            console.log('🔍 practiceQuestions array contents:', practiceQuestions);
+            
+            // Refresh View All Questions tab if it's currently active
+            const viewTab = document.getElementById('view-tab');
+            const viewPane = document.getElementById('view-pane');
+            if (viewTab && viewPane && viewPane.classList.contains('active')) {
+                console.log('🔄 Refreshing View All Questions tab after adding question...');
+                loadAllQuestions();
+            }
+        }
+
+        function clearPracticeQuestionForm() {
+            document.getElementById('practiceQuestionForm').reset();
+            document.getElementById('practiceQuestionPoints').value = 10;
+            document.getElementById('practiceQuestionDifficulty').value = 'Medium';
+            
+            // Reset answer options
+            document.querySelectorAll('.answer-options').forEach(option => option.style.display = 'none');
+            document.getElementById('practiceMultipleChoiceOptions').style.display = 'block';
+            
+            // Reset multiple choice options
+            const container = document.getElementById('practiceMultipleChoiceList');
+            container.innerHTML = `
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Option A">
+                    <input type="radio" name="practiceCorrectAnswer" value="A" class="me-2">
+                    <label class="form-label mb-0">Correct</label>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Option B">
+                    <input type="radio" name="practiceCorrectAnswer" value="B" class="me-2">
+                    <label class="form-label mb-0">Correct</label>
+                </div>
+            `;
+            
+            // Reset bullet points
+            const bulletContainer = document.getElementById('practiceBulletPointsList');
+            bulletContainer.innerHTML = `
+                <div class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control me-2" placeholder="Bullet point 1">
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removePracticeBulletPoint(this)">
+                        <iconify-icon icon="material-symbols:close"></iconify-icon>
+                    </button>
+                </div>
+            `;
+        }
+
+        function savePracticeQuestion() {
+            addPracticeQuestion();
+        }
+
+        function saveAllPracticeQuestions() {
+            console.log('💾 Saving all practice questions...');
+            const questionElements = document.querySelectorAll('#practiceQuestionsList .question-item');
+            console.log('🔍 Found question elements:', questionElements.length);
+            if (questionElements.length === 0) {
+                showToast('No questions to save', 'warning');
+                return;
+            }
+            
+            // Get all questions from the list by extracting data from DOM elements
+            const questions = [];
+            questionElements.forEach((element, index) => {
+                const questionId = element.dataset.id;
+                console.log('🔍 Processing question element:', questionId);
+                
+                // Extract question data from the DOM element
+                const questionText = element.querySelector('h6').textContent;
+                const badges = element.querySelectorAll('.badge');
+                const type = badges[0]?.textContent || 'unknown';
+                const difficulty = badges[1]?.textContent || 'unknown';
+                const points = parseInt(badges[2]?.textContent?.replace(' pts', '') || '0');
+                const topic = badges[3]?.textContent || 'unknown';
+                const createdAt = element.querySelector('small')?.textContent?.replace('Created: ', '') || new Date().toISOString();
+                
+                // Try to find the original question data from practiceQuestions array
+                let question = practiceQuestions.find(q => q.id === questionId);
+                
+                // If not found, create a basic question object
+                if (!question) {
+                    console.log('⚠️ Question not found in practiceQuestions array, creating from DOM data:', questionId);
+                    question = {
+                        id: questionId,
+                        question: questionText,
+                        type: type,
+                        difficulty: difficulty,
+                        topic: topic,
+                        points: points,
+                        createdAt: createdAt,
+                        subject: 'physics'
+                    };
+                }
+                
+                console.log('✅ Question to save:', question);
+                questions.push(question);
+            });
+            
+            console.log('💾 Questions to save:', questions.length);
+            console.log('💾 Questions data:', questions);
+            
+            // Save to localStorage
+            localStorage.setItem('physics_practice_questions', JSON.stringify(questions));
+            practiceQuestions = questions;
+            
+            // Also save to student-facing localStorage for the student dashboard
+            localStorage.setItem('physics_daily_practice_questions_student', JSON.stringify(questions));
+            
+            console.log('💾 Saved to localStorage:', JSON.stringify(questions));
+            console.log('💾 Saved to student localStorage:', JSON.stringify(questions));
+            console.log('💾 Verification - reading back from localStorage:', localStorage.getItem('physics_practice_questions'));
+            console.log('💾 Verification - reading back from student localStorage:', localStorage.getItem('physics_daily_practice_questions_student'));
+            
+            showToast(`Successfully saved ${questions.length} practice questions!`, 'success');
+            
+            // Refresh card display
+            loadPracticeQuestions();
+            
+            // Also refresh the View All Questions tab if it's currently active
+            const viewTab = document.getElementById('view-tab');
+            const viewPane = document.getElementById('view-pane');
+            if (viewTab && viewPane && viewPane.classList.contains('active')) {
+                console.log('🔄 Refreshing View All Questions tab...');
+                loadAllQuestions();
+            }
+            
+            console.log('✅ Save completed successfully');
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('practiceQuestionModal'));
+            modal.hide();
+        }
+
+        function editPracticeQuestion(index) {
+            openPracticeQuestionModal();
+            // TODO: Load question data for editing
+        }
+
+        function deletePracticeQuestion(index) {
+            if (confirm('Are you sure you want to delete this practice question?')) {
+                practiceQuestions.splice(index, 1);
+                localStorage.setItem('physics_practice_questions', JSON.stringify(practiceQuestions));
+                displayPracticeQuestions();
+                showToast('Practice question deleted successfully', 'success');
+            }
+        }
+
+        function editPracticeQuestionFromList(questionId) {
+            // TODO: Load question data for editing
+            showToast('Edit functionality coming soon', 'info');
+        }
+
+        function removePracticeQuestionFromList(questionId) {
+            if (confirm('Are you sure you want to remove this question?')) {
+                document.querySelector(`[data-id="${questionId}"]`).remove();
+                
+                // Also remove from practiceQuestions array
+                practiceQuestions = practiceQuestions.filter(q => q.id !== questionId);
+                
+                // Refresh View All Questions tab if it's currently active
+                const viewTab = document.getElementById('view-tab');
+                const viewPane = document.getElementById('view-pane');
+                if (viewTab && viewPane && viewPane.classList.contains('active')) {
+                    console.log('🔄 Refreshing View All Questions tab after removing question...');
+                    loadAllQuestions();
+                }
+                
+                showToast('Question removed from list', 'success');
+            }
+        }
+
+        // Live Sessions Functions
+        function loadLiveSessions() {
+            const sessionsData = localStorage.getItem('physicsLiveSessions');
+            const liveSessions = sessionsData ? JSON.parse(sessionsData) : [];
+            console.log('🔍 Loading live sessions for card:', liveSessions.length, 'sessions');
+            displayLiveSessions(liveSessions);
+        }
+
+        function displayLiveSessions(sessions) {
+            const container = document.getElementById('liveSessionsPreview');
+            console.log('🔍 Displaying live sessions:', sessions.length, 'sessions');
+            
+            // Check if container exists (card was removed from dashboard)
+            if (!container) {
+                console.log('📭 Live sessions card container not found (card removed from dashboard)');
+                return;
+            }
+            
+            if (sessions.length === 0) {
+                console.log('📭 No live sessions found, showing empty state');
+                container.innerHTML = `
+                    <div class="text-center py-3">
+                        <iconify-icon icon="material-symbols:video-call" style="font-size: 2rem; color: #6c757d;"></iconify-icon>
+                        <p class="text-muted mt-2 mb-0">No live sessions yet</p>
+                        <small class="text-muted">Click "Start Session" to get started</small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show preview of recent sessions (max 3)
+            const recentSessions = sessions.slice(-3);
+            container.innerHTML = recentSessions.map((session, index) => {
+                const actualIndex = sessions.length - recentSessions.length + index;
+                
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1" style="font-size: 0.9rem;">${session.title}</h6>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary" style="font-size: 0.7rem;">${session.topic}</span>
+                                <span class="badge bg-secondary" style="font-size: 0.7rem;">${session.duration}min</span>
+                                <span class="badge bg-info" style="font-size: 0.7rem;">${session.status}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="joinLiveSession('${session.meetingId}')" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:video-call" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteLiveSession(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `
+                ${sessions.length > 3 ? `
+                    <div class="text-center mt-2">
+                        <small class="text-muted">+${sessions.length - 3} more sessions</small>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        function viewAllLiveSessions() {
+            // Open modal and show all sessions
+            openLiveSessionModal();
+        }
+
+        function joinLiveSession(meetingId) {
+            showToast(`Joining session ${meetingId}...`, 'info');
+            // TODO: Implement actual join functionality
+        }
+
+        function deleteLiveSession(index) {
+            if (confirm('Are you sure you want to delete this live session?')) {
+                let sessions = JSON.parse(localStorage.getItem('physicsLiveSessions') || '[]');
+                sessions.splice(index, 1);
+                localStorage.setItem('physicsLiveSessions', JSON.stringify(sessions));
+                displayLiveSessions(sessions);
+                showToast('Live session deleted successfully', 'success');
+            }
+        }
+
         // Open Live Session Modal
         function openLiveSessionModal() {
             const modal = new bootstrap.Modal(document.getElementById('liveSessionModal'));
@@ -4349,19 +5885,114 @@
 
         // Open Add Assistant Modal
         function openAddAssistantModal() {
-            const modal = new bootstrap.Modal(document.getElementById('addAssistantModal'));
+            const modalElement = document.getElementById('addAssistantModal');
+            // Ensure this modal appears on top of any other modals
+            modalElement.style.zIndex = '1070';
+            const modal = new bootstrap.Modal(modalElement);
             modal.show();
         }
 
         // Daily Practice Questions Management
         let dailyPracticeQuestionCounter = 0;
         let currentDailyPracticeQuestionType = 'multiple-choice';
+        let physicsDailyQuestions = [];
+
+        // Daily Practice Questions Card Functions
+        function loadDailyQuestions() {
+            // Use consistent storage key with underscores
+            const questionsData = localStorage.getItem('physics_daily_practice_questions');
+            physicsDailyQuestions = questionsData ? JSON.parse(questionsData) : [];
+            console.log('🔍 Loading daily questions for card:', physicsDailyQuestions.length, 'questions');
+            console.log('🔍 Questions data:', physicsDailyQuestions);
+            displayDailyQuestions();
+        }
+
+        function displayDailyQuestions() {
+            const container = document.getElementById('dailyQuestionsPreview');
+            console.log('🔍 Displaying daily questions:', physicsDailyQuestions.length, 'questions');
+            
+            // Check if container exists (card was removed from dashboard)
+            if (!container) {
+                console.log('📭 Daily questions card container not found (card removed from dashboard)');
+                return;
+            }
+            
+            if (physicsDailyQuestions.length === 0) {
+                console.log('📭 No questions found, showing empty state');
+                container.innerHTML = `
+                    <div class="text-center py-3">
+                        <iconify-icon icon="material-symbols:quiz" style="font-size: 2rem; color: #6c757d;"></iconify-icon>
+                        <p class="text-muted mt-2 mb-0">No daily questions yet</p>
+                        <small class="text-muted">Click "Add Question" to get started</small>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show preview of recent questions (max 3)
+            const recentQuestions = physicsDailyQuestions.slice(-3);
+            container.innerHTML = recentQuestions.map((question, index) => {
+                // Handle different question data structures
+                const questionText = question.question || question.questionText || question.title || 'No question text';
+                const questionType = question.type || 'unknown';
+                const difficulty = question.difficulty || 'unknown';
+                const actualIndex = physicsDailyQuestions.length - recentQuestions.length + index;
+                
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1" style="font-size: 0.9rem;">${questionText.substring(0, 50)}${questionText.length > 50 ? '...' : ''}</h6>
+                            <div class="d-flex gap-2">
+                                <span class="badge bg-primary" style="font-size: 0.7rem;">${questionType}</span>
+                                <span class="badge bg-secondary" style="font-size: 0.7rem;">${difficulty}</span>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-1">
+                            <button class="btn btn-sm btn-outline-primary" onclick="editDailyQuestion(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:edit" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" onclick="deleteDailyQuestion(${actualIndex})" style="padding: 0.25rem 0.5rem;">
+                                <iconify-icon icon="material-symbols:delete" style="font-size: 0.8rem;"></iconify-icon>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('') + `
+                ${physicsDailyQuestions.length > 3 ? `
+                    <div class="text-center mt-2">
+                        <small class="text-muted">+${physicsDailyQuestions.length - 3} more questions</small>
+                    </div>
+                ` : ''}
+            `;
+        }
+
+        function editDailyQuestion(index) {
+            openDailyPracticeModal(index);
+        }
+
+        function deleteDailyQuestion(index) {
+            if (confirm('Are you sure you want to delete this daily question?')) {
+                physicsDailyQuestions.splice(index, 1);
+                localStorage.setItem('physics_daily_practice_questions', JSON.stringify(physicsDailyQuestions));
+                displayDailyQuestions();
+                showToast('Daily question deleted successfully', 'success');
+            }
+        }
 
         // Open Daily Practice Modal
         function openDailyPracticeModal() {
             loadDailyPracticeQuestions();
             const modal = new bootstrap.Modal(document.getElementById('dailyPracticeModal'));
             modal.show();
+            
+            // Refresh the card display when modal is closed
+            modal._element.addEventListener('hidden.bs.modal', function() {
+                console.log('🔄 Modal closed, refreshing card display...');
+                loadDailyQuestions();
+                
+                // Also refresh the Practice Questions card to show today's questions
+                loadPracticeQuestions();
+            });
         }
 
         // Show questions by type/difficulty
@@ -4890,6 +6521,8 @@
             }
 
             localStorage.setItem('physics_daily_practice_questions', JSON.stringify(questions));
+            console.log('💾 Saved questions to localStorage:', questions.length, 'questions');
+            console.log('💾 Questions data:', questions);
             showToast(`Successfully saved ${questions.length} daily practice questions!`, 'success');
             
             // Reset button state
@@ -4897,6 +6530,13 @@
             saveBtn.disabled = false;
             
             loadDailyPracticeQuestions();
+            
+            // Also refresh the card display
+            console.log('🔄 Refreshing card display after save...');
+            loadDailyQuestions();
+            
+            // Also refresh the Practice Questions card to show today's questions
+            loadPracticeQuestions();
         }
 
         // Publish daily practice questions to student dashboard
@@ -5041,6 +6681,8 @@
             // Also save to student-facing storage for the student dashboard
             localStorage.setItem('physics_daily_practice_questions_student', JSON.stringify(questions));
             
+            console.log('📤 Published questions to localStorage:', questions.length, 'questions');
+            console.log('📤 Questions data:', questions);
             showToast(`Successfully published ${questions.length} daily practice questions to course!`, 'success');
             
             // Reset button state
@@ -5048,6 +6690,13 @@
             publishBtn.disabled = false;
             
             loadDailyPracticeQuestions();
+            
+            // Also refresh the card display
+            console.log('🔄 Refreshing card display after publish...');
+            loadDailyQuestions();
+            
+            // Also refresh the Practice Questions card to show today's questions
+            loadPracticeQuestions();
         }
 
         // Save currently creating questions to localStorage
@@ -5450,6 +7099,7 @@
             if (confirm('Are you sure you want to delete ALL daily practice questions? This action cannot be undone.')) {
                 localStorage.removeItem('physics_daily_practice_questions');
                 loadDailyPracticeQuestions();
+                loadDailyQuestions(); // Also refresh the card display
                 showToast('All daily practice questions have been deleted', 'success');
             }
         }
@@ -5579,6 +7229,7 @@
             }
         }
 
+
         // Preview questions
         function previewQuestions() {
             const questions = document.querySelectorAll('.question-item');
@@ -5658,10 +7309,7 @@
             const name = document.getElementById('assistantName').value;
             const email = document.getElementById('assistantEmail').value;
             const phone = document.getElementById('assistantPhone').value;
-            const qualifications = document.getElementById('assistantQualifications').value;
-            const specializations = document.getElementById('assistantSpecializations').value;
             const availability = document.getElementById('assistantAvailability').value;
-            const roleDescription = document.getElementById('assistantRoleDescription').value;
 
             if (!name || !email || !availability) {
                 showToast('Please fill in all required fields', 'error');
@@ -5672,10 +7320,7 @@
                 name: name,
                 email: email,
                 phone: phone,
-                qualifications: qualifications,
-                specializations: specializations,
                 availability: availability,
-                roleDescription: roleDescription,
                 subject: 'physics',
                 status: 'pending',
                 createdBy: 'teacher',
@@ -5683,8 +7328,8 @@
             };
 
             try {
-                // Send to backend API
-                const response = await fetch('/api/admin/add-assistant', {
+                // Always try to add as new assistant first, since we're working with the database
+                let response = await fetch('/api/teacher/add-assistant', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -5693,13 +7338,54 @@
                     body: JSON.stringify(assistantData)
                 });
 
+                // If the assistant already exists (email conflict), try to update instead
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    if (errorData.error && errorData.error.includes('already exists')) {
+                        // Try to find the existing assistant and update it
+                        const getResponse = await fetch('/api/teacher/assistants?subject=physics', {
+                            headers: {
+                                'Authorization': `Bearer ${localStorage.getItem('token') || 'demo-token'}`
+                            }
+                        });
+                        
+                        if (getResponse.ok) {
+                            const assistants = await getResponse.json();
+                            const existingAssistant = assistants.find(a => a.email === email);
+                            
+                            if (existingAssistant) {
+                                response = await fetch(`/api/teacher/assistants/${existingAssistant.id}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${localStorage.getItem('token') || 'demo-token'}`
+                                    },
+                                    body: JSON.stringify(assistantData)
+                                });
+                            }
+                        }
+                    }
+                }
+
                 if (response.ok) {
-                    // Also save to localStorage for immediate display
+                    const responseData = await response.json();
+                    
+                    // Update localStorage with the database ID
                     let assistants = JSON.parse(localStorage.getItem('physicsAssistants')) || [];
-                    assistants.push({ ...assistantData, id: Date.now() });
+                    
+                    // Check if this is an update or new addition
+                    const existingIndex = assistants.findIndex(a => a.email === email);
+                    if (existingIndex !== -1) {
+                        // Update existing assistant
+                        assistants[existingIndex] = { ...assistantData, id: responseData.id || Date.now() };
+                    } else {
+                        // Add new assistant
+                        assistants.push({ ...assistantData, id: responseData.id || Date.now() });
+                    }
+                    
                     localStorage.setItem('physicsAssistants', JSON.stringify(assistants));
 
-                    showToast('Assistant request submitted successfully!', 'success');
+                    showToast(responseData.id ? 'Assistant updated successfully!' : 'Assistant request submitted successfully!', 'success');
                     
                     // Reset form
                     document.getElementById('addAssistantForm').reset();

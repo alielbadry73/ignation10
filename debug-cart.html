@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Debug - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        body { padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 20px; border: 1px solid #ddd; border-radius: 8px; }
+        .cart-badge { background: #007bff; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Cart Debug Tool</h1>
+        
+        <!-- Current Cart Status -->
+        <div class="debug-section">
+            <h3>Current Cart Status</h3>
+            <p>Cart Count: <span class="cart-badge" id="cartCount">0</span></p>
+            <p>Cart Items: <span id="cartItems">0</span></p>
+            <p>Cart Total: $<span id="cartTotal">0.00</span></p>
+        </div>
+        
+        <!-- LocalStorage Debug -->
+        <div class="debug-section">
+            <h3>LocalStorage Debug</h3>
+            <p><strong>cart:</strong> <span id="localStorageCart">Loading...</span></p>
+            <p><strong>favorites:</strong> <span id="localStorageFavorites">Loading...</span></p>
+            <p><strong>bookCart:</strong> <span id="localStorageBookCart">Loading...</span></p>
+        </div>
+        
+        <!-- Cart Contents -->
+        <div class="debug-section">
+            <h3>Cart Contents (Raw)</h3>
+            <pre id="cartContents">Loading...</pre>
+        </div>
+        
+        <!-- Debug Actions -->
+        <div class="debug-section">
+            <h3>Debug Actions</h3>
+            <button class="btn btn-primary me-2" onclick="debugCart()">Debug Cart</button>
+            <button class="btn btn-warning me-2" onclick="clearAllCartData()">Clear All Cart Data</button>
+            <button class="btn btn-info me-2" onclick="refreshDebug()">Refresh Debug</button>
+            <button class="btn btn-success me-2" onclick="testAddItem()">Add Test Item</button>
+        </div>
+        
+        <!-- Debug Results -->
+        <div class="debug-section">
+            <h3>Debug Results</h3>
+            <div id="debugResults">Click "Debug Cart" to see results</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/cart.js"></script>
+    
+    <script>
+        function debugCart() {
+            const results = [];
+            
+            // Check localStorage
+            const cartData = localStorage.getItem('cart');
+            const favoritesData = localStorage.getItem('favorites');
+            const bookCartData = localStorage.getItem('bookCart');
+            
+            results.push('<h5>LocalStorage Analysis:</h5>');
+            results.push(`<p><strong>cart:</strong> ${cartData || 'null'}</p>`);
+            results.push(`<p><strong>favorites:</strong> ${favoritesData || 'null'}</p>`);
+            results.push(`<p><strong>bookCart:</strong> ${bookCartData || 'null'}</p>`);
+            
+            // Parse cart data
+            let cart = [];
+            try {
+                cart = cartData ? JSON.parse(cartData) : [];
+                results.push(`<p class="success">✅ Cart parsed successfully: ${cart.length} items</p>`);
+            } catch (e) {
+                results.push(`<p class="error">❌ Error parsing cart: ${e.message}</p>`);
+            }
+            
+            // Analyze cart items
+            if (cart.length > 0) {
+                results.push('<h5>Cart Items Analysis:</h5>');
+                cart.forEach((item, index) => {
+                    results.push(`<p><strong>Item ${index + 1}:</strong></p>`);
+                    results.push(`<ul>`);
+                    results.push(`<li>ID: ${item.id || item.courseId || 'undefined'}</li>`);
+                    results.push(`<li>Title: ${item.title || 'undefined'}</li>`);
+                    results.push(`<li>Quantity: ${item.quantity || 1}</li>`);
+                    results.push(`<li>Price: ${item.price || 'undefined'}</li>`);
+                    results.push(`<li>Type: ${item.type || 'undefined'}</li>`);
+                    results.push(`</ul>`);
+                });
+            } else {
+                results.push('<p class="success">✅ Cart is empty</p>');
+            }
+            
+            // Check cart manager
+            if (window.cartManager) {
+                results.push('<h5>Cart Manager Analysis:</h5>');
+                results.push(`<p class="success">✅ Cart manager is available</p>`);
+                results.push(`<p>Cart manager cart length: ${window.cartManager.cart.length}</p>`);
+                results.push(`<p>Cart manager count: ${window.cartManager.getCartCount()}</p>`);
+                results.push(`<p>Cart manager total: $${window.cartManager.getCartTotal().toFixed(2)}</p>`);
+            } else {
+                results.push('<h5>Cart Manager Analysis:</h5>');
+                results.push('<p class="error">❌ Cart manager not available</p>');
+            }
+            
+            // Check for duplicate cart keys
+            const allKeys = Object.keys(localStorage);
+            const cartKeys = allKeys.filter(key => key.toLowerCase().includes('cart'));
+            results.push('<h5>All Cart-related Keys:</h5>');
+            cartKeys.forEach(key => {
+                results.push(`<p><strong>${key}:</strong> ${localStorage.getItem(key)}</p>`);
+            });
+            
+            document.getElementById('debugResults').innerHTML = results.join('');
+        }
+        
+        function clearAllCartData() {
+            // Clear all cart-related data
+            localStorage.removeItem('cart');
+            localStorage.removeItem('favorites');
+            localStorage.removeItem('bookCart');
+            localStorage.removeItem('enrollCourse');
+            localStorage.removeItem('pendingCartAction');
+            
+            // Clear cart manager if available
+            if (window.cartManager) {
+                window.cartManager.clearCart();
+            }
+            
+            alert('All cart data cleared!');
+            refreshDebug();
+        }
+        
+        function refreshDebug() {
+            // Update localStorage display
+            document.getElementById('localStorageCart').textContent = localStorage.getItem('cart') || 'null';
+            document.getElementById('localStorageFavorites').textContent = localStorage.getItem('favorites') || 'null';
+            document.getElementById('localStorageBookCart').textContent = localStorage.getItem('bookCart') || 'null';
+            
+            // Update cart contents
+            try {
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                document.getElementById('cartContents').textContent = JSON.stringify(cart, null, 2);
+            } catch (e) {
+                document.getElementById('cartContents').textContent = 'Error parsing cart: ' + e.message;
+            }
+            
+            // Update cart count
+            if (window.cartManager) {
+                document.getElementById('cartCount').textContent = window.cartManager.getCartCount();
+                document.getElementById('cartItems').textContent = window.cartManager.cart.length;
+                document.getElementById('cartTotal').textContent = window.cartManager.getCartTotal().toFixed(2);
+            } else {
+                // Fallback calculation
+                try {
+                    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                    const count = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+                    const total = cart.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+                    
+                    document.getElementById('cartCount').textContent = count;
+                    document.getElementById('cartItems').textContent = cart.length;
+                    document.getElementById('cartTotal').textContent = total.toFixed(2);
+                } catch (e) {
+                    document.getElementById('cartCount').textContent = 'Error';
+                    document.getElementById('cartItems').textContent = 'Error';
+                    document.getElementById('cartTotal').textContent = 'Error';
+                }
+            }
+        }
+        
+        function testAddItem() {
+            const item = {
+                courseId: 'debug-test',
+                id: 'debug-test',
+                title: 'Debug Test Course',
+                price: 99.99,
+                instructor: 'Debug Instructor',
+                board: 'IGCSE',
+                image: 'images/placeholder.jpg',
+                description: 'This is a debug test course',
+                quantity: 1
+            };
+            
+            if (window.cartManager) {
+                window.cartManager.addToCart(item);
+            } else {
+                // Fallback
+                const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+            
+            refreshDebug();
+        }
+        
+        // Initialize debug display
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                refreshDebug();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+

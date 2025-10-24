@@ -4392,8 +4392,11 @@
 
         // Daily Practice Questions Functions
         function loadDailyQuestions() {
-            const questionsData = localStorage.getItem('mathematicsDailyQuestions');
+            // Use consistent storage key with underscores
+            const questionsData = localStorage.getItem('mathematics_daily_practice_questions');
             mathematicsDailyQuestions = questionsData ? JSON.parse(questionsData) : [];
+            console.log('🔍 Loading daily questions for card:', mathematicsDailyQuestions.length, 'questions');
+            console.log('🔍 Questions data:', mathematicsDailyQuestions);
             displayDailyQuestions();
         }
 

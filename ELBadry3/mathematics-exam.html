@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Exam - IG Nation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F8F8F8;
+            min-height: 100vh;
+        }
+        
+        .exam-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem 2rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .exam-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .exam-logo img {
+            height: 35px;
+            width: auto;
+            margin-right: 0.75rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+            transition: all 0.3s ease;
+        }
+        
+        .exam-logo:hover img {
+            transform: scale(1.05);
+        }
+        
+        .subject-badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+        
+        .exam-nav {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        
+        .nav-btn {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem;
+        }
+        
+        .exam-hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .exam-hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+        }
+        
+        .exam-hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+        
+        .hero-left {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-left h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: white;
+            margin: 0 0 0.35rem 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .hero-left p {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        .exam-stats {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1rem 1.75rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .exam-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .exam-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #667eea;
+        }
+        
+        .exam-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        /* Question Modal Styles */
+        .question-card { background:white; border-radius:12px; padding:2rem; margin-bottom:1rem; box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+        .question-text { font-size:1.1rem; font-weight:600; margin-bottom:1.5rem; color:#333; }
+        .question-options { margin-bottom:1.5rem; }
+        .option-item { display:flex; align-items:center; margin-bottom:1rem; padding:1rem; border:2px solid #e9ecef; border-radius:8px; cursor:pointer; transition:.3s; }
+        .option-item:hover { border-color:#667eea; background:#f8f9ff; }
+        .option-item.selected { border-color:#667eea; background:#f0f4ff; }
+        .option-radio { margin-right:1rem; }
+        .option-text { flex:1; font-size:1rem; }
+        .question-navigation { display:flex; justify-content:space-between; align-items:center; }
+        .progress-bar { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
+        .timer { font-weight:600; color:#667eea; }
+        
+        .exam-card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .exam-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .exam-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .exam-card-description {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .exam-details {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .detail-value {
+            color: #666;
+        }
+        
+        .exam-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 0.75rem 1.5rem;
+            color: #667eea;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .status-available {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-upcoming {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .exam-filters {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tab.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .filter-tab:hover {
+            background: #f8f9fa;
+        }
+        
+        .filter-tab.active:hover {
+            background: #5a6fd8;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- Exam Header -->
+    <div class="exam-header">
+        <a href="mathematics-dashboard.html" class="exam-logo">
+            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
+            <span style="font-weight: 700; font-size: 1.25rem;">Mathematics Exam</span>
+            <span class="subject-badge">Mathematics IGCSE</span>
+        </a>
+        
+        <div class="exam-nav">
+            <a href="course-mathematics.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                Back to Course
+            </a>
+            <a href="mathematics-quiz.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                Quizzes
+            </a>
+            <a href="mathematics-homework.html" class="nav-btn">
+                <iconify-icon icon="material-symbols:assignment"></iconify-icon>
+                Homework
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Exam Hero Section -->
+        <div class="exam-hero">
+            <div class="hero-left">
+                <h2>Mathematics Exams</h2>
+                <p>Comprehensive assessments and final exams</p>
+            </div>
+            <div class="exam-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalExams">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="pendingExams">0</div>
+                    <div class="stat-label">Pending</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Exam Filters -->
+        <div class="exam-filters">
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterExams('all')">All Exams</button>
+                <button class="filter-tab" onclick="filterExams('midterm')">Midterm</button>
+                <button class="filter-tab" onclick="filterExams('final')">Final</button>
+                <button class="filter-tab" onclick="filterExams('practice')">Practice</button>
+            </div>
+            
+            <div class="search-box">
+                <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
+                <input type="text" class="search-input" placeholder="Search exams..." id="examSearch">
+            </div>
+        </div>
+        
+        <!-- Exam Grid -->
+        <div class="exam-grid" id="examGrid">
+            <!-- Exam cards will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Question Viewing Modal -->
+    <div class="modal fade" id="questionModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="questionModalTitle">Exam Questions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="question-progress mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">0</span></span>
+                            <div class="timer-container">
+                                <span class="text-muted">Time: <span id="timer" class="timer">00:00</span></span>
+                                <span id="timeLimitInfo" class="text-muted ms-2" style="display: none;">/ <span id="timeLimit">60</span> min</span>
+                            </div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                        </div>
+                        <div id="timeProgress" class="mt-2" style="display: none;">
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-warning" id="timeProgressBar" style="width: 100%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="questionContainer">
+                        <!-- Questions will be loaded here -->
+                    </div>
+                    
+                    <div class="question-navigation mt-4">
+                        <button class="btn btn-outline-secondary" id="prevBtn" onclick="previousQuestion()" disabled>
+                            <iconify-icon icon="material-symbols:arrow-back"></iconify-icon>
+                            Previous
+                        </button>
+                        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">
+                            Next
+                            <iconify-icon icon="material-symbols:arrow-forward"></iconify-icon>
+                        </button>
+                        <button class="btn btn-success" id="submitBtn" onclick="submitExam()" style="display: none;">
+                            <iconify-icon icon="material-symbols:check"></iconify-icon>
+                            Submit Exam
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="js/notifications.js"></script>
+    <script>
+        // Load exams from localStorage (published by teachers)
+        let exams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+
+        let currentFilter = 'all';
+        let filteredExams = [...exams];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            loadExams();
+            updateStats();
+            
+            // Check if we should auto-start a specific exam
+            const urlParams = new URLSearchParams(window.location.search);
+            const startExamId = urlParams.get('start');
+            if (startExamId) {
+                console.log('Auto-starting exam with ID:', startExamId);
+                // Wait a moment for exams to load, then start
+                setTimeout(() => {
+                    startExam(startExamId);
+                }, 500);
+            }
+        });
+
+        function loadExams() {
+            // Load Mathematics exams from localStorage (published by teachers)
+            let mathematicsExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+            
+            // Sample data for demonstration (only used if no published exams exist)
+            const sampleExams = [
+                {
+                    id: 1,
+                    title: "Algebra Fundamentals Exam",
+                    description: "Comprehensive exam covering algebraic expressions, equations, and inequalities.",
+                    dueDate: "2025-01-25",
+                    points: 100,
+                    status: "upcoming",
+                    difficulty: "Medium",
+                    estimatedTime: "2 hours",
+                    questions: [],
+                    published: true,
+                    subject: "mathematics",
+                    category: "exam"
+                },
+                {
+                    id: 2,
+                    title: "Calculus Midterm",
+                    description: "Midterm exam covering derivatives, integrals, and limits.",
+                    dueDate: "2025-02-15",
+                    points: 150,
+                    status: "upcoming",
+                    difficulty: "Hard",
+                    estimatedTime: "3 hours",
+                    questions: [],
+                    published: true,
+                    subject: "mathematics",
+                    category: "exam"
+                }
+            ];
+
+            // Use sample data if no published exams exist
+            if (mathematicsExams.length === 0) {
+                mathematicsExams = sampleExams;
+            }
+            
+            console.log('=== DEBUGGING EXAMS ===');
+            console.log('Raw mathematicsExams from localStorage:', localStorage.getItem('mathematicsExams'));
+            console.log('Loaded exams array:', mathematicsExams);
+            
+            const examGrid = document.getElementById('examGrid');
+            
+            // Convert published exams to the format expected by the page
+            exams = mathematicsExams.map(exam => {
+                // Handle both standard and published exam formats
+                const title = exam.title || exam.name || 'Untitled Exam';
+                const description = exam.description || exam.desc || 'No description available';
+                const dueDate = exam.dueDate || exam.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                const duration = exam.timeLimit || exam.duration || 120;
+                const status = exam.status || 'upcoming';
+                const difficulty = exam.difficulty || 'Medium';
+                const maxScore = exam.points || exam.totalPoints || 100;
+                const questions = exam.questions || [];
+                const type = exam.type || 'Exam';
+                const topics = exam.topics || ['General'];
+                
+                return {
+                    id: exam.id,
+                    title: title,
+                    type: type,
+                    description: description,
+                    date: dueDate,
+                    duration: duration,
+                    questions: questions,
+                    maxScore: maxScore,
+                    status: status,
+                    difficulty: difficulty,
+                    topics: topics,
+                    published: true,
+                    subject: 'mathematics',
+                    category: 'exam',
+                    // Check if it's a file-based exam
+                    assessmentType: exam.assessmentType,
+                    fileBased: exam.fileBased
+                };
+            });
+            
+            // Filter for published Mathematics exams (all exams are now published)
+            const publishedExams = exams.filter(exam => 
+                exam.published && (exam.subject === 'mathematics' || exam.category === 'exam' || exam.type === 'exam')
+            );
+            
+            console.log('Published mathematics exams:', publishedExams);
+            
+            if (publishedExams.length === 0) {
+                examGrid.innerHTML = '<div class="col-12 text-center py-5"><h4>No exams found</h4><p class="text-muted">Try adjusting your filters or search terms.</p></div>';
+                return;
+            }
+            
+            // Apply current filter
+            if (currentFilter === 'all') {
+                filteredExams = [...publishedExams];
+            } else {
+                filteredExams = publishedExams.filter(exam => exam.type === currentFilter);
+            }
+            
+            if (filteredExams.length === 0) {
+                examGrid.innerHTML = '<div class="col-12 text-center py-5"><h4>No exams found</h4><p class="text-muted">Try adjusting your filters or search terms.</p></div>';
+                return;
+            }
+            
+            const examsHtml = filteredExams.map(exam => `
+                <div class="exam-card">
+                    <div class="exam-card-header">
+                        <div class="exam-icon">
+                            <iconify-icon icon="material-symbols:quiz"></iconify-icon>
+                        </div>
+                        <div>
+                            <div class="exam-card-title">${exam.title}</div>
+                            <span class="status-badge status-${(exam.published === true || exam.status === 'available') ? 'available' : (exam.status || 'pending')}">${(exam.published === true || exam.status === 'available') ? 'AVAILABLE' : (exam.status || 'pending').toUpperCase()}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="exam-card-description">
+                        ${exam.description || 'No description provided'}
+                    </div>
+                    
+                    <div class="exam-details">
+                        <div class="detail-row">
+                            <span class="detail-label">Duration:</span>
+                            <span class="detail-value">${exam.duration || exam.timeLimit || 60} minutes</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Questions:</span>
+                            <span class="detail-value">${exam.questions ? exam.questions.length : 0}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Max Score:</span>
+                            <span class="detail-value">${exam.maxScore || (exam.questions ? exam.questions.reduce((sum, q) => sum + (q.points || 1), 0) : 0)} points</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date:</span>
+                            <span class="detail-value">${exam.date ? new Date(exam.date).toLocaleDateString() : new Date(exam.publishedDate || exam.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        ${exam.topics && exam.topics.length > 0 ? `
+                        <div class="detail-row">
+                            <span class="detail-label">Topics:</span>
+                            <span class="detail-value">${exam.topics.join(', ')}</span>
+                        </div>
+                        ` : ''}
+                        ${exam.status === 'completed' ? `
+                        <div class="detail-row">
+                            <span class="detail-label">Your Score:</span>
+                            <span class="detail-value" style="color: #28a745; font-weight: 600;">${exam.score}%</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="exam-actions">
+                        ${exam.status === 'pending' && exam.gradingStatus === 'pending' ? `
+                            <div class="alert alert-info mb-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
+                                <iconify-icon icon="material-symbols:pending" class="me-1"></iconify-icon>
+                                <strong>Status:</strong> Waiting for assistant correction
+                            </div>
+                            <button class="btn btn-outline" onclick="reviewExam('${exam.id}')">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                View Submission
+                            </button>
+                        ` : exam.status === 'completed' ? `
+                            <button class="btn btn-outline" onclick="reviewExam('${exam.id}')">
+                                <iconify-icon icon="material-symbols:visibility"></iconify-icon>
+                                Review Results
+                            </button>
+                            <button class="btn btn-primary" onclick="retakeExam('${exam.id}')">
+                                <iconify-icon icon="material-symbols:refresh"></iconify-icon>
+                                Retake Exam
+                            </button>
+                        ` : (exam.status === 'available' || exam.published === true) ? `
+                            <button class="btn btn-primary" onclick="startExam('${exam.id}')">
+                                <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+                                Start Exam
+                            </button>
+                        ` : `
+                            <button class="btn btn-outline" disabled>
+                                <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                                Not Available Yet
+                            </button>
+                        `}
+                    </div>
+                </div>
+            `).join('');
+            
+            examGrid.innerHTML = examsHtml;
+        }
+
+        function filterExams(type) {
+            currentFilter = type;
+            
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            loadExams();
+        }
+
+        function updateStats() {
+            // Reload exams from localStorage to get latest data
+            const mathematicsExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+            exams = mathematicsExams;
+            
+            console.log('=== DEBUGGING EXAM STATS ===');
+            console.log('All exams:', exams);
+            console.log('Exam details:', exams.map(e => ({ 
+                id: e.id, 
+                title: e.title, 
+                published: e.published, 
+                status: e.status, 
+                subject: e.subject, 
+                category: e.category, 
+                type: e.type 
+            })));
+            
+            const publishedExams = exams.filter(exam => {
+                const isPublished = exam.published === true || exam.status === 'published' || exam.status === 'pending';
+                const isMathSubject = exam.subject === 'mathematics' || exam.category === 'exam' || exam.type === 'exam';
+                console.log(`Exam "${exam.title}": published=${isPublished}, mathSubject=${isMathSubject}`);
+                return isPublished && isMathSubject;
+            });
+            const totalExams = publishedExams.length;
+            const completedExams = publishedExams.filter(e => e.status === 'completed').length;
+            const pendingExams = totalExams - completedExams;
+            
+            const totalExamsEl = document.getElementById('totalExams');
+            const pendingExamsEl = document.getElementById('pendingExams');
+            
+            if (totalExamsEl) totalExamsEl.textContent = totalExams;
+            if (pendingExamsEl) pendingExamsEl.textContent = pendingExams;
+        }
+
+        let currentExam = null;
+        let currentQuestionIndex = 0;
+        let userAnswers = {};
+        let startTime = null;
+        let timerInterval = null;
+        let timeLimit = null; // in minutes
+        let timeRemaining = null; // in seconds
+
+        function startExam(examId) {
+            const exam = exams.find(e => e.id === examId);
+            if (!exam) {
+                alert('Exam not found!');
+                return;
+            }
+
+            if (confirm(`Start "${exam.title}"?\n\nDuration: ${exam.duration} minutes\nQuestions: ${exam.questions ? exam.questions.length : 0}\nMax Score: ${exam.maxScore} points\n\nYou cannot pause once started.`)) {
+                currentExam = exam;
+                currentQuestionIndex = 0;
+                userAnswers = {};
+                startTime = new Date();
+                timeLimit = exam.timeLimit; // in minutes
+
+                // Set modal title
+                document.getElementById('questionModalTitle').textContent = exam.title;
+
+                // Setup timer display
+                if (timeLimit) {
+                    timeRemaining = timeLimit * 60; // convert to seconds
+                    document.getElementById('timeLimitInfo').style.display = 'inline';
+                    document.getElementById('timeLimit').textContent = timeLimit;
+                    document.getElementById('timeProgress').style.display = 'block';
+                    updateTimeProgress();
+                } else {
+                    document.getElementById('timeLimitInfo').style.display = 'none';
+                    document.getElementById('timeProgress').style.display = 'none';
+                }
+
+                // Load questions
+                loadQuestions();
+
+                // Start timer
+                startTimer();
+
+                // Show modal
+                const modal = new bootstrap.Modal(document.getElementById('questionModal'));
+                modal.show();
+            }
+        }
+
+        function reviewExam(examId) {
+            const exam = exams.find(e => e.id === examId);
+            if (exam) {
+                alert(`Reviewing exam: ${exam.title}\n\nYour Score: ${exam.score}%\nDuration: ${exam.duration} minutes\nQuestions: ${exam.questions}\n\nReview functionality will be implemented soon!`);
+            }
+        }
+
+        function loadQuestions() {
+            if (!currentExam || !currentExam.questions || currentExam.questions.length === 0) {
+                document.getElementById('questionContainer').innerHTML = `
+                    <div class="question-card">
+                        <div class="question-text">This exam doesn't have any questions yet.</div>
+                        <p class="text-muted">Please contact your teacher to add questions to this exam.</p>
+                    </div>
+                `;
+                document.getElementById('totalQuestions').textContent = '0';
+                document.getElementById('currentQuestionNum').textContent = '0';
+                return;
+            }
+
+            const questions = currentExam.questions;
+            document.getElementById('totalQuestions').textContent = questions.length;
+            displayCurrentQuestion();
+        }
+
+        function displayCurrentQuestion() {
+            if (!currentExam || !currentExam.questions) return;
+
+            const questions = currentExam.questions;
+            const question = questions[currentQuestionIndex];
+            
+            if (!question) return;
+
+            let questionHtml = `
+                <div class="question-card">
+                    <div class="question-text">${question.text}</div>
+                    <div class="question-options">
+            `;
+
+            if (question.type === 'multiple-choice' && question.options) {
+                question.options.forEach((option, index) => {
+                    const isSelected = userAnswers[currentQuestionIndex] === index ? 'selected' : '';
+                    questionHtml += `
+                        <div class="option-item ${isSelected}" onclick="selectOption(${index})">
+                            <input type="radio" class="option-radio" name="question_${currentQuestionIndex}" value="${index}" ${userAnswers[currentQuestionIndex] === index ? 'checked' : ''}>
+                            <span class="option-text">${option}</span>
+                        </div>
+                    `;
+                });
+            } else if (question.type === 'text') {
+                questionHtml += `
+                    <div class="form-group">
+                        <textarea class="form-control" rows="4" placeholder="Enter your answer here..." id="textAnswer_${currentQuestionIndex}">${userAnswers[currentQuestionIndex] || ''}</textarea>
+                    </div>
+                `;
+            } else if (question.type === 'file') {
+                questionHtml += `
+                    <div class="form-group">
+                        <input type="file" class="form-control" id="fileAnswer_${currentQuestionIndex}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        <small class="text-muted">${question.fileRequirements || 'Upload your file here'}</small>
+                    </div>
+                `;
+            }
+
+            questionHtml += `
+                    </div>
+                    <div class="question-meta">
+                        <small class="text-muted">Points: ${question.points || 1}</small>
+                    </div>
+                    <div class="question-actions" style="margin-top: 1rem; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <div class="action-buttons" style="display: flex; gap: 10px; justify-content: center;">
+                            <button class="btn btn-outline-primary btn-sm" onclick="askAssistant()">
+                                <iconify-icon icon="material-symbols:smart-toy"></iconify-icon>
+                                Ask Assistant
+                            </button>
+                            <button class="btn btn-outline-info btn-sm" onclick="askCommunity()">
+                                <iconify-icon icon="material-symbols:groups"></iconify-icon>
+                                Ask Community
+                            </button>
+                        </div>
+                    </div>
+            `;
+
+            document.getElementById('questionContainer').innerHTML = questionHtml;
+            document.getElementById('currentQuestionNum').textContent = currentQuestionIndex + 1;
+            
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            updateNavigationButtons();
+        }
+
+        function selectOption(optionIndex) {
+            document.querySelectorAll('.option-item').forEach(item => item.classList.remove('selected'));
+            event.currentTarget.classList.add('selected');
+            const radio = event.currentTarget.querySelector('input[type="radio"]');
+            radio.checked = true;
+            userAnswers[currentQuestionIndex] = optionIndex;
+        }
+
+        function nextQuestion() {
+            saveCurrentAnswer();
+            if (currentQuestionIndex < currentExam.questions.length - 1) {
+                currentQuestionIndex++;
+                displayCurrentQuestion();
+            } else {
+                document.getElementById('submitBtn').style.display = 'inline-block';
+                document.getElementById('nextBtn').style.display = 'none';
+            }
+        }
+
+        function previousQuestion() {
+            saveCurrentAnswer();
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayCurrentQuestion();
+                document.getElementById('submitBtn').style.display = 'none';
+                document.getElementById('nextBtn').style.display = 'inline-block';
+            }
+        }
+
+        function saveCurrentAnswer() {
+            const question = currentExam.questions[currentQuestionIndex];
+            if (question.type === 'text') {
+                const textAnswer = document.getElementById(`textAnswer_${currentQuestionIndex}`);
+                if (textAnswer) {
+                    userAnswers[currentQuestionIndex] = textAnswer.value;
+                }
+            } else if (question.type === 'file') {
+                const fileAnswer = document.getElementById(`fileAnswer_${currentQuestionIndex}`);
+                if (fileAnswer && fileAnswer.files.length > 0) {
+                    userAnswers[currentQuestionIndex] = fileAnswer.files[0].name;
+                }
+            }
+        }
+
+        function updateNavigationButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            prevBtn.disabled = currentQuestionIndex === 0;
+            
+            if (currentQuestionIndex === currentExam.questions.length - 1) {
+                nextBtn.style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'inline-block';
+            } else {
+                nextBtn.style.display = 'inline-block';
+                document.getElementById('submitBtn').style.display = 'none';
+            }
+        }
+
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            if (!startTime) return;
+            
+            if (timeLimit && timeRemaining !== null) {
+                timeRemaining--;
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    alert('Time\'s up! Your exam will be submitted automatically.');
+                    submitExam();
+                    return;
+                }
+                
+                const minutes = Math.floor(timeRemaining / 60);
+                const seconds = timeRemaining % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                updateTimeProgress();
+                
+                const timerElement = document.getElementById('timer');
+                if (timeRemaining <= 300) {
+                    timerElement.style.color = '#dc3545';
+                    timerElement.style.fontWeight = 'bold';
+                } else if (timeRemaining <= 600) {
+                    timerElement.style.color = '#ffc107';
+                    timerElement.style.fontWeight = 'bold';
+                } else {
+                    timerElement.style.color = '#667eea';
+                    timerElement.style.fontWeight = 'normal';
+                }
+            } else {
+                const now = new Date();
+                const elapsed = Math.floor((now - startTime) / 1000);
+                const minutes = Math.floor(elapsed / 60);
+                const seconds = elapsed % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+        }
+
+        function updateTimeProgress() {
+            if (!timeLimit || timeRemaining === null) return;
+            
+            const progress = (timeRemaining / (timeLimit * 60)) * 100;
+            document.getElementById('timeProgressBar').style.width = progress + '%';
+            
+            const progressBar = document.getElementById('timeProgressBar');
+            if (progress <= 20) {
+                progressBar.className = 'progress-bar bg-danger';
+            } else if (progress <= 40) {
+                progressBar.className = 'progress-bar bg-warning';
+            } else {
+                progressBar.className = 'progress-bar bg-success';
+            }
+        }
+
+        function askAssistant() {
+            // Redirect to course assistants chat page
+            window.location.href = 'course-assistants-chat.html?course=mathematics';
+        }
+
+        function askCommunity() {
+            if (!currentExam || !currentExam.questions) return;
+            
+            const question = currentExam.questions[currentQuestionIndex];
+            const questionText = question.text;
+            const examTitle = currentExam.title;
+            
+            // Build comprehensive question content for community message
+            let messageContent = `Question from ${examTitle}:\n\n${questionText}`;
+            
+            // Add choices for multiple choice questions
+            if (question.type === 'multiple-choice' && question.options && question.options.length > 0) {
+                messageContent += '\n\nChoices:';
+                question.options.forEach((option, index) => {
+                    messageContent += `\n${String.fromCharCode(65 + index)}. ${option}`;
+                });
+            }
+            
+            // Add image if present
+            if (question.image) {
+                messageContent += `\n\n[Image: ${question.image}]`;
+            }
+            
+            // Add question type and points info
+            messageContent += `\n\nQuestion Type: ${question.type}`;
+            if (question.points) {
+                messageContent += `\nPoints: ${question.points}`;
+            }
+            
+            // Redirect to community page with comprehensive question context
+            const communityUrl = `community.html?message=${encodeURIComponent(messageContent)}&assignment=${encodeURIComponent(examTitle)}&subject=mathematics`;
+            window.open(communityUrl, '_blank');
+        }
+
+        function submitExam() {
+            saveCurrentAnswer();
+            
+            let score = 0;
+            let totalPoints = 0;
+            let hasManualGradingQuestions = false;
+            
+            currentExam.questions.forEach((question, index) => {
+                totalPoints += question.points || 1;
+                if (question.type === 'multiple-choice') {
+                    if (userAnswers[index] === question.correctAnswer) {
+                        score += question.points || 1;
+                    } else {
+                        // Student answered incorrectly - create wrong question entry
+                        createWrongQuestionEntry(question, index, 'exam');
+                    }
+                } else if (question.type === 'text' || question.type === 'file') {
+                    // For text and file questions, no automatic scoring - manual grading required
+                    hasManualGradingQuestions = true;
+                }
+            });
+            
+            const percentage = Math.round((score / totalPoints) * 100);
+            const timeSpent = Math.floor((new Date() - startTime) / 60000);
+            
+            const examIndex = exams.findIndex(e => e.id === currentExam.id);
+            if (examIndex !== -1) {
+                // Set status based on whether manual grading is needed
+                if (hasManualGradingQuestions) {
+                    exams[examIndex].status = 'pending';
+                    exams[examIndex].gradingStatus = 'pending';
+                    exams[examIndex].score = null; // No score yet
+                    
+                    // Push to pending grading
+                    pushToPendingGrading('exam');
+                } else {
+                    exams[examIndex].status = 'completed';
+                    exams[examIndex].gradingStatus = 'graded';
+                    exams[examIndex].score = percentage;
+                }
+                
+                exams[examIndex].timeSpent = timeSpent;
+                exams[examIndex].completedAt = new Date().toISOString();
+                exams[examIndex].answers = userAnswers;
+                // Save to localStorage - update the full exams array, not just the filtered exams
+                const allExams = JSON.parse(localStorage.getItem('mathematicsExams') || '[]');
+                const globalExamIndex = allExams.findIndex(e => e.id === currentExam.id);
+                if (globalExamIndex !== -1) {
+                  allExams[globalExamIndex] = exams[examIndex];
+                  localStorage.setItem('mathematicsExams', JSON.stringify(allExams));
+                }
+            }
+            
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            
+            bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
+            
+            if (hasManualGradingQuestions) {
+                alert(`Exam submitted!\nYour answers are being reviewed.\nStatus: Waiting for assistant correction\nTime spent: ${timeSpent} minutes`);
+            } else {
+                alert(`Exam completed!\nScore: ${percentage}%\nTime spent: ${timeSpent} minutes`);
+            }
+            loadExams();
+        }
+
+        // Function to automatically create wrong question entries
+        function createWrongQuestionEntry(question, questionIndex, activityType) {
+            const wrongQuestion = {
+                id: 'wrong_' + Date.now() + '_' + questionIndex,
+                questionId: question.id,
+                questionText: question.text, // This is the key field
+                studentAnswer: question.options && question.options[userAnswers[questionIndex]] ? 
+                              question.options[userAnswers[questionIndex]] : 
+                              userAnswers[questionIndex] || 'No answer provided',
+                correctAnswer: question.options && question.options[question.correctAnswer] ? 
+                              question.options[question.correctAnswer] : 
+                              question.correctAnswer || 'Correct answer not provided',
+                course: 'mathematics', // Get from exam context
+                subject: 'mathematics',
+                activityType: activityType + 's', // exams
+                source: 'exam',
+                difficulty: question.difficulty || 'Medium',
+                points: question.points || 1,
+                topic: question.topic || 'General',
+                chapter: question.chapter || 'General',
+                createdAt: new Date().toISOString(),
+                // Ensure proper categorization
+                inActivityFolder: true
+            };
+
+            // Save to wrong questions collection
+            const wrongQuestions = JSON.parse(localStorage.getItem('mathematicsWrongQuestions') || '[]');
+            wrongQuestions.push(wrongQuestion);
+            localStorage.setItem('mathematicsWrongQuestions', JSON.stringify(wrongQuestions));
+            
+            console.log('Created wrong question entry:', wrongQuestion);
+        }
+
+        function pushToPendingGrading(type) {
+            // Create submission object for pending grading
+            const submission = {
+                id: 'submission_' + Date.now(),
+                [type + 'Id']: currentExam.id,
+                [type + 'Title']: currentExam.title,
+                studentName: 'Student', // In a real app, this would come from user authentication
+                studentId: 'student_001', // In a real app, this would come from user authentication
+                submittedAt: new Date().toISOString(),
+                status: 'pending',
+                subject: 'mathematics',
+                questions: currentExam.questions.map((question, index) => {
+                    const submissionQuestion = {
+                        id: question.id,
+                        text: question.text,
+                        type: question.type,
+                        points: question.points || 1,
+                        userAnswer: userAnswers[index] || '',
+                        correctAnswer: question.correctAnswer,
+                        sampleAnswer: question.sampleAnswer,
+                        gradingNotes: question.gradingNotes,
+                        expectedContent: question.expectedContent,
+                        gradingCriteria: question.gradingCriteria
+                    };
+                    
+                    // For file questions, include file information
+                    if (question.type === 'file') {
+                        const fileInput = document.getElementById(`fileAnswer_${index}`);
+                        if (fileInput && fileInput.files.length > 0) {
+                            submissionQuestion.fileName = fileInput.files[0].name;
+                            submissionQuestion.fileSize = fileInput.files[0].size;
+                            submissionQuestion.fileType = fileInput.files[0].type;
+                        }
+                    }
+                    
+                    return submissionQuestion;
+                }),
+                totalPoints: currentExam.questions.reduce((sum, q) => sum + (q.points || 1), 0),
+                timeSpent: Math.floor((new Date() - startTime) / 60000)
+            };
+
+            // Save to pending grading
+            let pendingSubmissions = JSON.parse(localStorage.getItem(type + 'Submissions')) || [];
+            pendingSubmissions.push(submission);
+            localStorage.setItem(type + 'Submissions', JSON.stringify(pendingSubmissions));
+
+            console.log(`${type} submitted for manual grading:`, submission);
+        }
+
+        document.getElementById('questionModal').addEventListener('hidden.bs.modal', function() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            document.getElementById('timer').style.color = '#667eea';
+            document.getElementById('timer').style.fontWeight = 'normal';
+        });
+
+        function retakeExam(examId) {
+            const exam = exams.find(e => e.id === examId);
+            if (exam) {
+                if (confirm(`Are you sure you want to retake "${exam.title}"? Your previous score will be replaced.`)) {
+                    startExam(examId);
+                }
+            }
+        }
+
+        // Search functionality
+        document.getElementById('examSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const publishedExams = exams.filter(exam => 
+                exam.published && (exam.subject === 'mathematics' || exam.category === 'exam' || exam.type === 'exam')
+            );
+            
+            filteredExams = publishedExams.filter(exam => 
+                (exam.title || '').toLowerCase().includes(searchTerm) ||
+                (exam.description || '').toLowerCase().includes(searchTerm) ||
+                (exam.type || '').toLowerCase().includes(searchTerm) ||
+                (exam.topics || []).some(topic => topic.toLowerCase().includes(searchTerm))
+            );
+            
+            loadExams();
+        });
+        
+        function createTestExams() {
+            console.log('Creating test exams...');
+            
+            const testExams = [
+                {
+                    id: Date.now(),
+                    title: "Mathematics Midterm Exam",
+                    description: "Comprehensive midterm examination covering algebra, geometry, and basic calculus concepts.",
+                    type: "midterm",
+                    duration: 120,
+                    questions: 50,
+                    maxScore: 100,
+                    status: "upcoming",
+                    score: 0,
+                    date: "2024-12-31",
+                    topics: ["Algebra", "Geometry", "Trigonometry"],
+                    subject: "mathematics",
+                    published: true
+                },
+                {
+                    id: Date.now() + 1,
+                    title: "Advanced Calculus Final",
+                    description: "Final examination focusing on advanced calculus topics including derivatives, integrals, and applications.",
+                    type: "final",
+                    duration: 180,
+                    questions: 60,
+                    maxScore: 100,
+                    status: "upcoming",
+                    score: 0,
+                    date: "2024-12-31",
+                    topics: ["Calculus", "Differential Equations", "Applications"],
+                    subject: "mathematics",
+                    published: true
+                },
+                {
+                    id: Date.now() + 2,
+                    title: "Algebra Practice Test",
+                    description: "Practice test for algebraic concepts including linear equations, quadratic equations, and polynomials.",
+                    type: "practice",
+                    duration: 90,
+                    questions: 30,
+                    maxScore: 100,
+                    status: "upcoming",
+                    score: 0,
+                    date: "2024-12-31",
+                    topics: ["Linear Algebra", "Quadratic Equations", "Polynomials"],
+                    subject: "mathematics",
+                    published: true
+                }
+            ];
+            
+            // Get existing exams
+            let studentExams = JSON.parse(localStorage.getItem('studentExams')) || [];
+            
+            // Add test exams
+            studentExams.push(...testExams);
+            
+            // Save to localStorage
+            localStorage.setItem('studentExams', JSON.stringify(studentExams));
+            
+            console.log('Test exams created:', testExams);
+            console.log('All studentExams:', studentExams);
+            
+            // Reload the page
+            loadExams();
+            updateStats();
+            
+            alert('Test exams created! Check if they appear now.');
+        }
+        
+        function clearAllExams() {
+            if (confirm('Are you sure you want to delete ALL exams? This action cannot be undone.')) {
+                // Clear studentExams from localStorage
+                localStorage.removeItem('studentExams');
+                
+                // Clear the page display
+                exams = [];
+                document.getElementById('examGrid').innerHTML = '<div class="col-12 text-center py-5"><h4>No exams found</h4><p class="text-muted">Try adjusting your filters or search terms.</p></div>';
+                
+                // Update stats
+                updateStats();
+                
+                console.log('All exams cleared');
+                alert('All exams have been deleted!');
+            }
+        }
+    </script>
+</body>
+</html>

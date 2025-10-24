@@ -1750,17 +1750,21 @@
                 <div class="modal-body">
                     <div id="registerForm">
                         <!-- USER TYPE SELECTION - FIRST -->
-                        <div class="mb-3" style="background: #f0f9ff; padding: 1rem; border-radius: 8px; border: 2px solid #667eea;">
-                            <label for="userType" class="form-label" style="font-weight: 600; color: #667eea;">
+                        <div class="mb-3" style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); padding: 1.5rem; border-radius: 12px; border: 2px solid #667eea; box-shadow: 0 4px 6px rgba(102, 126, 234, 0.1);">
+                            <label for="userType" class="form-label" style="font-weight: 700; color: #667eea; font-size: 1.1rem;">
                                 <iconify-icon icon="material-symbols:person" class="me-2"></iconify-icon>
                                 I am registering as a: *
                             </label>
-                            <select class="form-select form-select-lg" id="userType" required style="border: 2px solid #667eea;">
+                            <select class="form-select form-select-lg" id="userType" required style="border: 2px solid #667eea; font-size: 1.1rem; padding: 0.75rem;">
                                 <option value="">Please select your role</option>
                                 <option value="student">🎓 Student</option>
                                 <option value="parent">👨‍👩‍👧‍👦 Parent/Guardian</option>
                                 <option value="teacher">👨‍🏫 Teacher</option>
                             </select>
+                            <div class="form-text mt-2" style="color: #667eea; font-weight: 500;">
+                                <iconify-icon icon="material-symbols:info" class="me-1"></iconify-icon>
+                                Choose your role to customize the registration form
+                            </div>
                         </div>
                         
                         <div class="row">
@@ -1777,7 +1781,7 @@
                             <label for="email" class="form-label">Email Address *</label>
                             <input type="email" id="email" class="form-control" autocapitalize="off" autocorrect="off" spellcheck="false" required style="text-transform: lowercase;" oninput="this.value = this.value.toLowerCase()" onkeyup="this.value = this.value.toLowerCase()" onblur="this.value = this.value.toLowerCase()">
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3" id="studentPhoneSection">
                             <label for="phone" class="form-label">Student Phone Number</label>
                             <div class="row">
                                 <div class="col-4">
@@ -1871,7 +1875,7 @@
                             <div id="phoneError" class="text-danger" style="display: none; font-size: 0.875rem; margin-top: 0.25rem;">Not a valid phone number</div>
                         </div>
                         <div class="mb-3" id="parentPhoneSection">
-                            <label for="parentPhone" class="form-label">Parent/Guardian Phone Number *</label>
+                            <label for="parentPhone" class="form-label" id="parentPhoneLabel">Parent/Guardian Phone Number *</label>
                             <div class="row">
                                 <div class="col-4">
                                     <div class="custom-dropdown">
@@ -1961,7 +1965,7 @@
                                     <input type="tel" id="parentPhone" class="form-control" required placeholder="01xxxxxxxxx" onblur="validateMiddleEastPhone('parentPhone')">
                                 </div>
                             </div>
-                            <div class="form-text">Required for student registration and communication</div>
+                            <div class="form-text" id="parentPhoneText">Required for student registration and communication</div>
                             <div id="parentPhoneError" class="text-danger" style="display: none; font-size: 0.875rem; margin-top: 0.25rem;">Not a valid phone number</div>
                         </div>
                         <div class="mb-3">
@@ -2133,6 +2137,7 @@
     <script src="js/plugins.js"></script>
     <script src="js/script.js?v=4"></script>
     <script src="js/api.js"></script>
+    <script src="js/cart.js"></script>
     
     <!-- Scroll Animation Script -->
     <script>
@@ -2426,7 +2431,7 @@
     </style>
     
     <script>
-        // Global variables
+        // Global variables - cart and favorites are now managed by cart.js
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -3306,28 +3311,46 @@
             }
         });
 
-        // Cart functions
+        // Cart functions - now using unified cart system
         function addToCart(courseId) {
             console.log('Adding to cart:', courseId);
             
-            // Check if already in cart
-            const existingItem = cart.find(item => item.courseId === courseId);
-            if (existingItem) {
-                showToast('This course is already in your cart!', 'warning');
+            const course = courses[courseId];
+            if (!course) {
+                showToast('Course not found!', 'error');
                 return;
             }
             
-            // Add to cart
-            cart.push({
+            const courseData = {
                 courseId: courseId,
-                quantity: 1,
-                addedAt: new Date().toISOString()
-            });
+                id: courseId,
+                title: course.title,
+                price: parseFloat(course.price.replace('£', '')),
+                instructor: course.instructor,
+                board: course.board,
+                image: course.image,
+                description: course.description,
+                quantity: 1
+            };
             
-            localStorage.setItem('cart', JSON.stringify(cart));
-            updateCartCount();
-            updateCartModal();
-            showToast('Course added to cart!', 'success');
+            // Use unified cart system
+            if (window.cartManager) {
+                window.cartManager.addToCart(courseData);
+            } else {
+                // Fallback for when cart system isn't loaded yet
+                console.warn('Cart manager not available, using fallback');
+                const existingItem = cart.find(item => item.courseId === courseId);
+                if (existingItem) {
+                    showToast('This course is already in your cart!', 'warning');
+                    return;
+                }
+                
+                cart.push(courseData);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                updateCartModal();
+                showToast('Course added to cart!', 'success');
+            }
         }
 
         // Enroll in course function - redirects to checkout
@@ -3394,12 +3417,18 @@
         }
 
         function updateCartCount() {
-            const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-            const cartBadge = document.getElementById('cartCount');
-            const cartModalCount = document.getElementById('cartModalCount');
-            
-            if (cartBadge) cartBadge.textContent = cartCount;
-            if (cartModalCount) cartModalCount.textContent = cartCount;
+            // Use unified cart system if available
+            if (window.cartManager) {
+                window.cartManager.updateCartCount();
+            } else {
+                // Fallback for when cart system isn't loaded yet
+                const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+                const cartBadge = document.getElementById('cartCount');
+                const cartModalCount = document.getElementById('cartModalCount');
+                
+                if (cartBadge) cartBadge.textContent = cartCount;
+                if (cartModalCount) cartModalCount.textContent = cartCount;
+            }
         }
 
         // Function to get course by ID (handles both string and numeric IDs)
@@ -3866,6 +3895,13 @@
                 // Update UI
                 checkLoginState();
                 
+                // Check if user is a parent - redirect to parent dashboard
+                if (data.user.userType === 'parent') {
+                    console.log('✅ Parent logged in, redirecting to parent dashboard');
+                    window.location.href = 'parent-dashboard.html';
+                    return;
+                }
+                
                 // Check for pending orders first
                 try {
                     console.log('🔍 Step 1: Checking order status for user ID:', data.user.id);
@@ -4046,9 +4082,12 @@
                 return;
             }
             
-            // For parents and teachers, parent phone is optional
-            if (userType === 'parent' || userType === 'teacher') {
-                // Parent phone not required
+            // For parents, the phone field becomes their own phone (optional)
+            // For teachers, parent phone is not required
+            if (userType === 'parent') {
+                // Parent phone field is optional for parents (it's their own phone)
+            } else if (userType === 'teacher') {
+                // Parent phone not required for teachers
             }
             
             if (password !== confirmPassword) {
@@ -4072,9 +4111,14 @@
                 return;
             }
             
-            // Only validate parent phone for students
+            // Validate parent phone for students, or own phone for parents
             if (userType === 'student' && parentPhone && !validateMiddleEastPhone('parentPhone')) {
                 showToast('Please enter a valid phone number for parent/guardian phone', 'warning');
+                return;
+            }
+            
+            if (userType === 'parent' && parentPhone && !validateMiddleEastPhone('parentPhone')) {
+                showToast('Please enter a valid phone number', 'warning');
                 return;
             }
             
@@ -4097,8 +4141,8 @@
                         password,
                         phone,
                         phone_country: phoneCountry,
-                        parent_phone: userType === 'student' ? parentPhone : null,
-                        parent_phone_country: userType === 'student' ? parentPhoneCountry : null,
+                        parent_phone: userType === 'student' ? parentPhone : (userType === 'parent' ? parentPhone : null),
+                        parent_phone_country: userType === 'student' ? parentPhoneCountry : (userType === 'parent' ? parentPhoneCountry : null),
                         role: userType,
                         userType: userType
                     })
@@ -4591,15 +4635,39 @@
         $(document).ready(function() {
             initCourseFiltering();
             
-            // Add event listener for userType change to show/hide parent phone field
+            // Add event listener for userType change to show/hide phone fields
             const userTypeSelect = document.getElementById('userType');
             if (userTypeSelect) {
                 userTypeSelect.addEventListener('change', function() {
+                    const studentPhoneSection = document.getElementById('studentPhoneSection');
                     const parentPhoneSection = document.getElementById('parentPhoneSection');
+                    const parentPhoneLabel = document.getElementById('parentPhoneLabel');
+                    const parentPhoneText = document.getElementById('parentPhoneText');
+                    
+                    // Handle student phone section visibility
+                    if (studentPhoneSection) {
+                        if (this.value === 'parent') {
+                            studentPhoneSection.style.display = 'none';
+                        } else {
+                            studentPhoneSection.style.display = 'block';
+                        }
+                    }
+                    
+                    // Handle parent phone section visibility and labels
                     if (parentPhoneSection) {
                         if (this.value === 'student') {
                             parentPhoneSection.style.display = 'block';
                             document.getElementById('parentPhone').required = true;
+                            if (parentPhoneLabel) parentPhoneLabel.textContent = 'Parent/Guardian Phone Number *';
+                            if (parentPhoneText) parentPhoneText.textContent = 'Required for student registration and communication';
+                        } else if (this.value === 'parent') {
+                            parentPhoneSection.style.display = 'block';
+                            document.getElementById('parentPhone').required = false;
+                            if (parentPhoneLabel) parentPhoneLabel.textContent = 'Your Phone Number';
+                            if (parentPhoneText) parentPhoneText.textContent = 'Optional - for account verification and communication';
+                            
+                            // Show a welcome message for parents
+                            showToast('Welcome! As a parent, you can monitor your child\'s progress and receive updates.', 'info');
                         } else {
                             parentPhoneSection.style.display = 'none';
                             document.getElementById('parentPhone').required = false;

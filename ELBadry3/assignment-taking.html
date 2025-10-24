@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment Taking - IG Way IGCSE Tutoring</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <style>
+        .assignment-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+        }
+        
+        .timer-warning {
+            background-color: #ff9800;
+            color: white;
+        }
+        
+        .timer-danger {
+            background-color: #f44336;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .question-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .question-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .answer-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        
+        .answer-input::placeholder {
+            color: #999;
+            opacity: 1;
+        }
+        
+        .expected-points {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .expected-points-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 0.75rem;
+        }
+        
+        .expected-points-list {
+            margin: 0;
+            padding-left: 1.25rem;
+        }
+        
+        .expected-points-list li {
+            color: #6c757d;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .file-upload-area {
+            border: 2px dashed #e9ecef;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: #f8f9fa;
+            margin-bottom: 1rem;
+        }
+        
+        .file-upload-area:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        
+        .upload-hint {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        .uploaded-files {
+            margin-top: 1rem;
+        }
+        
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: #e9ecef;
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .uploaded-file-icon {
+            color: #667eea;
+        }
+        
+        .uploaded-file-name {
+            flex: 1;
+            font-weight: 500;
+        }
+        
+        .remove-file {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+        }
+        
+        .submit-section {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 1rem;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .time-expired-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+        }
+        
+        .time-expired-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            margin: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Assignment Header -->
+    <div class="assignment-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h4 class="mb-0" id="assignmentTitle">Assignment Title</h4>
+                    <small id="assignmentDescription">Assignment Description</small>
+                </div>
+                <div class="col-md-6 text-end">
+                    <div class="timer-display" id="timerDisplay">
+                        <iconify-icon icon="material-symbols:timer"></iconify-icon>
+                        <span id="timeRemaining">00:00:00</span>
+                    </div>
+                    <small>Time Remaining</small>
+                    <div class="mt-1">
+                        <small class="text-muted">
+                            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+                            Spent: <span id="timeSpentDisplay">0:00:00</span>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assignment Content -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Questions Section -->
+                <div id="questionsContainer">
+                    <!-- Questions will be loaded here -->
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <!-- Assignment Info Sidebar -->
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0">Assignment Details</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <strong>Total Points:</strong> <span id="totalPoints">0</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Time Required:</strong> <span id="timeRequired">0 minutes</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Questions:</strong> <span id="questionCount">0</span>
+                        </div>
+                        <div class="mb-2">
+                            <strong>Status:</strong> <span id="assignmentStatus" class="badge bg-warning">In Progress</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Card -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6 class="mb-0">Progress</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress mb-2">
+                            <div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%"></div>
+                        </div>
+                        <small class="text-muted">Questions answered: <span id="answeredCount">0</span>/<span id="totalQuestions">0</span></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="submit-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <button class="btn btn-success btn-lg me-3" id="submitBtn" onclick="submitAssignment()">
+                        <iconify-icon icon="material-symbols:send"></iconify-icon>
+                        Submit Assignment
+                    </button>
+                    <button class="btn btn-outline-secondary" onclick="saveProgress()">
+                        <iconify-icon icon="material-symbols:save"></iconify-icon>
+                        Save Progress
+                    </button>
+                    <button class="btn btn-outline-info" onclick="testTimeCalculation()">
+                        <iconify-icon icon="material-symbols:bug-report"></iconify-icon>
+                        Test Time
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Time Expired Modal -->
+    <div class="time-expired-modal" id="timeExpiredModal" style="display: none;">
+        <div class="time-expired-content">
+            <iconify-icon icon="material-symbols:timer-off" style="font-size: 4rem; color: #f44336;"></iconify-icon>
+            <h3 class="mt-3">Time's Up!</h3>
+            <p class="text-muted">The assignment time has expired. Your answers have been automatically submitted.</p>
+            <div class="mt-3">
+                <strong>Your Score:</strong> <span id="finalScore" class="text-primary">0</span> points
+            </div>
+            <div class="mt-2">
+                <strong>Time Spent:</strong> <span id="finalTimeSpent" class="text-info">0:00:00</span>
+            </div>
+            <button class="btn btn-primary mt-3" onclick="closeAssignment()">
+                Close Assignment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentAssignment = null;
+        let timeRemaining = 0; // in seconds
+        let timerInterval = null;
+        let startTime = null;
+        let answers = {};
+
+        // Utility function to format time in hours:minutes:seconds
+        function formatTimeSpent(timeSpentInSeconds) {
+            if (!timeSpentInSeconds || timeSpentInSeconds <= 0) return '0:00:00';
+            
+            const hours = Math.floor(timeSpentInSeconds / 3600);
+            const minutes = Math.floor((timeSpentInSeconds % 3600) / 60);
+            const seconds = timeSpentInSeconds % 60;
+            
+            return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Initialize assignment
+        function initializeAssignment() {
+            // Get assignment data from URL parameters or localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            const assignmentId = urlParams.get('assignment') || urlParams.get('id') || 'assign1';
+            const course = urlParams.get('course') || 'physics';
+            const title = urlParams.get('title') || 'Assignment';
+            
+            // Try to load from teacher panel questions first
+            const teacherQuestions = JSON.parse(localStorage.getItem(course + 'Questions')) || [];
+            const assignmentQuestions = teacherQuestions.filter(q => 
+                q.activityType === 'assignment' && 
+                (q.activityTitle === decodeURIComponent(title) || q.id === assignmentId)
+            );
+            
+            if (assignmentQuestions.length > 0) {
+                // Create assignment from teacher panel questions
+                currentAssignment = {
+                    id: assignmentId,
+                    title: decodeURIComponent(title),
+                    description: `Assignment created from teacher panel questions`,
+                    points: assignmentQuestions.reduce((sum, q) => sum + (q.points || 1), 0),
+                    timeLimit: 60, // Default 1 hour
+                    questions: assignmentQuestions.map(q => ({
+                        id: q.id,
+                        text: q.text || q.questionText,
+                        type: q.questionType || q.type || 'text',
+                        points: q.points || 1,
+                        options: q.options || null,
+                        correctAnswer: q.correctAnswer || null,
+                        difficulty: q.difficulty || 'medium'
+                    }))
+                };
+            } else {
+                // Fallback to student assignments
+                const assignments = JSON.parse(localStorage.getItem('studentAssignments')) || [];
+                currentAssignment = assignments.find(a => a.id === assignmentId);
+                
+                if (!currentAssignment) {
+                    alert('Assignment not found!');
+                    window.location.href = 'dashboard.html';
+                    return;
+                }
+            }
+
+            // Set up assignment
+            document.getElementById('assignmentTitle').textContent = currentAssignment.title;
+            document.getElementById('assignmentDescription').textContent = currentAssignment.description || '';
+            document.getElementById('totalPoints').textContent = currentAssignment.points;
+            document.getElementById('timeRequired').textContent = currentAssignment.timeLimit ? `${currentAssignment.timeLimit} minutes` : 'No limit';
+            document.getElementById('questionCount').textContent = currentAssignment.questions ? currentAssignment.questions.length : 0;
+            document.getElementById('totalQuestions').textContent = currentAssignment.questions ? currentAssignment.questions.length : 0;
+
+            // Load saved progress first
+            loadProgress();
+
+            // Initialize timer
+            if (currentAssignment.timeLimit) {
+                timeRemaining = currentAssignment.timeLimit * 60; // Convert to seconds
+                startTimer();
+            }
+
+            // Load questions
+            loadQuestions();
+        }
+
+        function loadQuestions() {
+            const container = document.getElementById('questionsContainer');
+            if (!currentAssignment.questions) {
+                container.innerHTML = '<p class="text-muted">No questions available.</p>';
+                return;
+            }
+
+            container.innerHTML = currentAssignment.questions.map((question, index) => {
+                let answerInput = '';
+                
+                if (question.type === 'multiple-choice' && question.options) {
+                    // Multiple choice question
+                    answerInput = `
+                        <div class="answer-options">
+                            ${question.options.map((option, optionIndex) => `
+                                <div class="form-check mb-2">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="radio" 
+                                        name="answer_${index}" 
+                                        id="answer_${index}_${optionIndex}"
+                                        value="${option}"
+                                        ${answers[index] === option && answers[index] !== 'Not answered' ? 'checked' : ''}
+                                        onchange="updateAnswer(${index}, this.value)"
+                                    >
+                                    <label class="form-check-label" for="answer_${index}_${optionIndex}">
+                                        ${option}
+                                    </label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else if (question.type === 'file' || question.type === 'file-based') {
+                    // File upload question
+                    answerInput = `
+                        ${question.bulletPoints && question.bulletPoints.length > 0 ? `
+                            <div class="expected-points">
+                                <h6 class="expected-points-title">
+                                    <iconify-icon icon="material-symbols:format-list-bulleted"></iconify-icon>
+                                    Key Points to Include:
+                                </h6>
+                                <ul class="expected-points-list">
+                                    ${question.bulletPoints.map(point => `<li>${point}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        <div class="file-upload-area" onclick="document.getElementById('file_${index}').click()">
+                            <iconify-icon icon="material-symbols:cloud-upload" class="upload-icon"></iconify-icon>
+                            <div class="upload-text">Click to upload or drag files here</div>
+                            <div class="upload-hint">Supports images, PDFs, and documents</div>
+                        </div>
+                        <input type="file" id="file_${index}" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" style="display: none;" onchange="handleFileUpload(${index}, this.files)">
+                        <div class="uploaded-files" id="uploaded_files_${index}"></div>
+                    `;
+                } else {
+                    // Text/essay question
+                    answerInput = `
+                        <textarea 
+                            class="answer-input" 
+                            id="answer_${index}"
+                            placeholder="Enter your answer here..."
+                            onchange="updateAnswer(${index}, this.value)"
+                        >${answers[index] || ''}</textarea>
+                    `;
+                }
+                
+                return `
+                    <div class="question-card">
+                        <div class="d-flex align-items-start justify-content-between mb-3">
+                            <div class="d-flex align-items-start flex-grow-1">
+                                <div class="question-number">${index + 1}</div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-2">${question.text}</h6>
+                                    <small class="text-muted">${question.points} points</small>
+                                    ${question.type === 'multiple-choice' ? '<span class="badge bg-info ms-2">Multiple Choice</span>' : ''}
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button 
+                                    class="btn btn-sm btn-outline-warning" 
+                                    onclick="addToTrickyQuestions(${index})" 
+                                    title="Add to Tricky Questions"
+                                    style="white-space: nowrap;">
+                                    <iconify-icon icon="material-symbols:lightbulb" style="font-size: 1.1rem;"></iconify-icon>
+                                    Tricky
+                                </button>
+                                <button 
+                                    class="btn btn-sm btn-outline-primary" 
+                                    onclick="askCommunity(${index})" 
+                                    title="Ask Community"
+                                    style="white-space: nowrap;">
+                                    <iconify-icon icon="material-symbols:forum" style="font-size: 1.1rem;"></iconify-icon>
+                                    Ask Community
+                                </button>
+                            </div>
+                        </div>
+                        <div class="answer-section">
+                            ${answerInput}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            updateProgress();
+        }
+
+        function startTimer() {
+            startTime = new Date();
+            console.log('Timer started - startTime:', startTime, 'timeRemaining:', timeRemaining);
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                updateTimerDisplay();
+                
+                if (timeRemaining <= 0) {
+                    timeExpired();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const hours = Math.floor(timeRemaining / 3600);
+            const minutes = Math.floor((timeRemaining % 3600) / 60);
+            const seconds = timeRemaining % 60;
+            
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            document.getElementById('timeRemaining').textContent = timeString;
+            
+            // Update time spent display
+            if (startTime) {
+                const timeSpent = Math.floor((new Date() - startTime) / 1000);
+                document.getElementById('timeSpentDisplay').textContent = formatTimeSpent(timeSpent);
+            }
+            
+            // Change color based on remaining time
+            const timerDisplay = document.getElementById('timerDisplay');
+            if (timeRemaining <= 300) { // 5 minutes
+                timerDisplay.className = 'timer-display timer-danger';
+            } else if (timeRemaining <= 600) { // 10 minutes
+                timerDisplay.className = 'timer-display timer-warning';
+            } else {
+                timerDisplay.className = 'timer-display';
+            }
+        }
+
+        function timeExpired() {
+            clearInterval(timerInterval);
+            
+            // Mark unanswered questions as "Not answered"
+            if (currentAssignment.questions) {
+                currentAssignment.questions.forEach((question, index) => {
+                    if (!answers[index] || answers[index].trim() === '') {
+                        answers[index] = 'Not answered';
+                    }
+                });
+            }
+            
+            // Auto-submit assignment
+            submitAssignment(true);
+            
+            // Show time expired modal
+            document.getElementById('timeExpiredModal').style.display = 'flex';
+            document.getElementById('assignmentStatus').textContent = 'Time Expired';
+            document.getElementById('assignmentStatus').className = 'badge bg-danger';
+            
+            // Display time spent in hours:minutes:seconds format
+            let timeSpent = 0;
+            if (startTime) {
+                timeSpent = Math.floor((new Date() - startTime) / 1000);
+            } else if (currentAssignment && currentAssignment.timeLimit) {
+                // Fallback: calculate from time limit and remaining time
+                timeSpent = (currentAssignment.timeLimit * 60) - timeRemaining;
+            }
+            console.log('Time expired - startTime:', startTime, 'timeSpent:', timeSpent, 'timeLimit:', currentAssignment?.timeLimit);
+            document.getElementById('finalTimeSpent').textContent = formatTimeSpent(timeSpent);
+        }
+
+        function updateAnswer(questionIndex, answer) {
+            answers[questionIndex] = answer;
+            updateProgress();
+            saveProgress();
+        }
+
+        function handleFileUpload(questionIndex, files) {
+            if (!answers[questionIndex]) {
+                answers[questionIndex] = {};
+            }
+            if (!answers[questionIndex].files) {
+                answers[questionIndex].files = [];
+            }
+            
+            Array.from(files).forEach(file => {
+                const fileData = {
+                    id: Date.now() + Math.random(),
+                    name: file.name,
+                    size: file.size,
+                    type: file.type,
+                    lastModified: file.lastModified
+                };
+                answers[questionIndex].files.push(fileData);
+            });
+            
+            displayUploadedFiles(questionIndex);
+            updateProgress();
+            saveProgress();
+        }
+
+        function displayUploadedFiles(questionIndex) {
+            const container = document.getElementById(`uploaded_files_${questionIndex}`);
+            if (!container) return;
+            
+            const files = answers[questionIndex]?.files || [];
+            container.innerHTML = '';
+            
+            files.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'uploaded-file';
+                fileItem.innerHTML = `
+                    <iconify-icon icon="material-symbols:description" class="uploaded-file-icon"></iconify-icon>
+                    <span class="uploaded-file-name">${file.name}</span>
+                    <button type="button" class="remove-file" onclick="removeFile(${questionIndex}, '${file.id}')">×</button>
+                `;
+                container.appendChild(fileItem);
+            });
+        }
+
+        function removeFile(questionIndex, fileId) {
+            if (answers[questionIndex] && answers[questionIndex].files) {
+                answers[questionIndex].files = answers[questionIndex].files.filter(file => file.id != fileId);
+                displayUploadedFiles(questionIndex);
+                updateProgress();
+                saveProgress();
+            }
+        }
+
+        function updateProgress() {
+            const totalQuestions = currentAssignment.questions ? currentAssignment.questions.length : 0;
+            const answeredQuestions = Object.keys(answers).filter(key => {
+                const answer = answers[key];
+                if (typeof answer === 'string') {
+                    return answer && answer.trim() !== '';
+                } else if (typeof answer === 'object' && answer.files) {
+                    return answer.files && answer.files.length > 0;
+                }
+                return false;
+            }).length;
+            
+            document.getElementById('answeredCount').textContent = answeredQuestions;
+            
+            const progressPercentage = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
+            document.getElementById('progressBar').style.width = `${progressPercentage}%`;
+        }
+
+        function saveProgress() {
+            if (currentAssignment) {
+                const progress = {
+                    assignmentId: currentAssignment.id,
+                    answers: answers,
+                    timeSpent: startTime ? Math.floor((new Date() - startTime) / 1000) : 0,
+                    lastSaved: new Date().toISOString()
+                };
+                
+                localStorage.setItem(`assignment_progress_${currentAssignment.id}`, JSON.stringify(progress));
+            }
+        }
+
+        function loadProgress() {
+            if (currentAssignment) {
+                const savedProgress = localStorage.getItem(`assignment_progress_${currentAssignment.id}`);
+                if (savedProgress) {
+                    const progress = JSON.parse(savedProgress);
+                    answers = progress.answers || {};
+                    
+                    // Update time spent and set startTime only if not already set
+                    if (progress.timeSpent && currentAssignment.timeLimit && !startTime) {
+                        const timeSpent = progress.timeSpent;
+                        const timeLimit = currentAssignment.timeLimit * 60;
+                        timeRemaining = Math.max(0, timeLimit - timeSpent);
+                        
+                        // Set startTime to account for already spent time
+                        if (timeSpent > 0) {
+                            startTime = new Date(Date.now() - (timeSpent * 1000));
+                        }
+                        
+                        if (timeRemaining <= 0) {
+                            timeExpired();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        function submitAssignment(isTimeExpired = false) {
+            if (!isTimeExpired && !confirm('Are you sure you want to submit this assignment?')) {
+                return;
+            }
+
+            // Calculate score - only give points for answered questions
+            let totalScore = 0;
+            const grading = [];
+            
+            if (currentAssignment.questions) {
+                currentAssignment.questions.forEach((question, index) => {
+                    const answer = answers[index] || '';
+                    const isAnswered = answer.trim() !== '';
+                    let points = 0;
+                    
+                    // Check if answer is correct for automatic grading
+                    if (question.type === 'multiple-choice' && question.options && question.correctAnswer !== undefined) {
+                        if (answer === question.correctAnswer.toString()) {
+                            points = question.points || 1;
+                        } else if (isAnswered) {
+                            // Student answered incorrectly - create wrong question entry
+                            createWrongQuestionEntry(question, index, 'assignment');
+                        }
+                    } else {
+                        // For text/file questions, give points if answered (manual grading needed)
+                        points = isAnswered ? question.points : 0;
+                    }
+                    
+                    totalScore += points;
+                    
+                    grading.push({
+                        questionIndex: index,
+                        pointsAwarded: points,
+                        answer: isAnswered ? answer : 'Not answered',
+                        isAnswered: isAnswered
+                    });
+                });
+            }
+
+            // Create submission
+            const submission = {
+                id: Date.now().toString(),
+                assignmentId: currentAssignment.id,
+                assignmentTitle: currentAssignment.title,
+                studentName: 'Current Student', // This would come from user session
+                submittedAt: new Date().toISOString(),
+                timeSpent: startTime ? Math.floor((new Date() - startTime) / 1000) : 0,
+                questions: currentAssignment.questions ? currentAssignment.questions.map((q, i) => ({
+                    ...q,
+                    userAnswer: answers[i] || ''
+                })) : [],
+                totalPoints: totalScore,
+                status: 'pending',
+                grading: grading,
+                isTimeExpired: isTimeExpired
+            };
+
+            // Save submission
+            const submissions = JSON.parse(localStorage.getItem('assignmentSubmissions')) || [];
+            submissions.push(submission);
+            localStorage.setItem('assignmentSubmissions', JSON.stringify(submissions));
+
+            // Clear progress
+            localStorage.removeItem(`assignment_progress_${currentAssignment.id}`);
+
+            // Show final score
+            if (isTimeExpired) {
+                document.getElementById('finalScore').textContent = totalScore;
+                // Switch to results view
+                showResultsView(submission);
+            } else {
+                let timeSpent = 0;
+                if (startTime) {
+                    timeSpent = Math.floor((new Date() - startTime) / 1000);
+                } else if (currentAssignment && currentAssignment.timeLimit) {
+                    // Fallback: calculate from time limit and remaining time
+                    timeSpent = (currentAssignment.timeLimit * 60) - timeRemaining;
+                }
+                console.log('Regular submission - startTime:', startTime, 'timeSpent:', timeSpent, 'timeLimit:', currentAssignment?.timeLimit);
+                const timeSpentFormatted = formatTimeSpent(timeSpent);
+                alert(`Assignment submitted successfully!\nYour score: ${totalScore} points\nTime spent: ${timeSpentFormatted}`);
+                closeAssignment();
+            }
+        }
+
+        function closeAssignment() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Function to automatically create wrong question entries for assignments
+        function createWrongQuestionEntry(question, questionIndex, activityType) {
+            // Ensure we have the full assignment title without truncation
+            const fullAssignmentTitle = currentAssignment.title || currentAssignment.assignmentTitle || 'Unknown Assignment';
+            
+            // Get the student's answer (could be index for multiple choice or text)
+            const studentAnswerValue = answers[questionIndex] || '';
+            
+            // Determine correct answer display
+            let correctAnswerDisplay = 'Correct answer not provided';
+            let studentAnswerDisplay = 'No answer provided';
+            
+            if (question.type === 'multiple-choice' && question.options) {
+                // For multiple choice questions
+                const correctIndex = question.correctAnswer;
+                const studentIndex = parseInt(studentAnswerValue);
+                
+                if (correctIndex !== undefined && question.options[correctIndex]) {
+                    correctAnswerDisplay = question.options[correctIndex];
+                }
+                
+                if (studentIndex !== undefined && question.options[studentIndex]) {
+                    studentAnswerDisplay = question.options[studentIndex];
+                }
+            } else {
+                // For text questions
+                if (question.correctAnswer) {
+                    correctAnswerDisplay = question.correctAnswer;
+                }
+                if (studentAnswerValue) {
+                    studentAnswerDisplay = studentAnswerValue;
+                }
+            }
+            
+            const wrongQuestion = {
+                id: 'wrong_' + Date.now() + '_' + questionIndex,
+                questionId: question.id,
+                questionText: question.text || question.questionText || question.question || 'Question text not available',
+                studentAnswer: studentAnswerDisplay,
+                correctAnswer: correctAnswerDisplay,
+                course: getCourseFromAssignment(), // Detect course from assignment
+                activityType: activityType + 's', // assignments, quizzes, exams
+                activityTitle: fullAssignmentTitle, // Use full assignment title
+                assignmentTitle: fullAssignmentTitle, // Backup field for assignment title
+                questionType: question.type || question.questionType || 'text',
+                studentName: 'Student',
+                studentId: 'student_001',
+                difficulty: question.difficulty || 'medium',
+                notes: 'Automatically created from incorrect assignment answer',
+                attempts: 1,
+                createdAt: new Date().toISOString(),
+                source: activityType,
+                subject: getCourseFromAssignment(),
+                // Multiple choice specific fields
+                options: question.options || null,
+                userAnswer: studentAnswerValue,
+                correctAnswerIndex: question.correctAnswer || null,
+                // Ensure proper categorization
+                inActivityFolder: true
+            };
+
+            // Save to wrong questions collection
+            const course = getCourseFromAssignment();
+            const wrongQuestions = JSON.parse(localStorage.getItem(course + 'WrongQuestions') || '[]');
+            wrongQuestions.push(wrongQuestion);
+            localStorage.setItem(course + 'WrongQuestions', JSON.stringify(wrongQuestions));
+            
+            console.log('Created wrong question entry from assignment:', wrongQuestion);
+        }
+
+        // Helper function to get course name from assignment
+        function getCourseFromAssignment() {
+            // Try to detect course from assignment title or current page context
+            const title = currentAssignment?.title?.toLowerCase() || '';
+            const url = window.location.pathname.toLowerCase();
+            
+            if (url.includes('physics') || title.includes('physics')) return 'physics';
+            if (url.includes('mathematics') || title.includes('mathematics') || title.includes('math')) return 'mathematics';
+            if (url.includes('chemistry') || title.includes('chemistry')) return 'chemistry';
+            
+            // Default to physics if we can't determine
+            return 'physics';
+        }
+
+        function testTimeCalculation() {
+            const currentTime = new Date();
+            const timeSpent = startTime ? Math.floor((currentTime - startTime) / 1000) : 0;
+            const timeSpentFormatted = formatTimeSpent(timeSpent);
+            
+            alert(`Time Calculation Test:\n\nStart Time: ${startTime}\nCurrent Time: ${currentTime}\nTime Spent: ${timeSpent} seconds\nFormatted: ${timeSpentFormatted}\n\nTime Remaining: ${timeRemaining} seconds\nAssignment Time Limit: ${currentAssignment?.timeLimit} minutes`);
+        }
+
+        function showResultsView(submission) {
+            // Hide the timer and submit button
+            document.querySelector('.timer-display').style.display = 'none';
+            document.getElementById('submitBtn').style.display = 'none';
+            document.querySelector('.btn-outline-secondary').style.display = 'none';
+            document.querySelector('.btn-outline-info').style.display = 'none';
+            
+            // Update header to show completion status
+            const header = document.querySelector('.assignment-header .container');
+            header.innerHTML = `
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <h4 class="mb-0">${currentAssignment.title}</h4>
+                        <small class="opacity-75">Assignment Completed</small>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <span class="badge bg-warning me-2">Completed</span>
+                        <span class="badge bg-primary">Score: ${submission.totalPoints}/${currentAssignment.questions ? currentAssignment.questions.reduce((sum, q) => sum + q.points, 0) : 0}</span>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-6">
+                        <small><strong>Time Spent:</strong> ${formatTimeSpent(submission.timeSpent)}</small>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <small><strong>Completed:</strong> ${new Date(submission.submittedAt).toLocaleString()}</small>
+                    </div>
+                </div>
+            `;
+            
+            // Show questions in results mode
+            loadQuestionsResults(submission);
+        }
+
+        function loadQuestionsResults(submission) {
+            const container = document.getElementById('questionsContainer');
+            if (!currentAssignment.questions) {
+                container.innerHTML = '<p class="text-muted">No questions available.</p>';
+                return;
+            }
+
+            container.innerHTML = currentAssignment.questions.map((question, index) => {
+                const userAnswer = submission.questions[index]?.userAnswer || '';
+                const isAnswered = userAnswer && userAnswer !== 'Not answered' && userAnswer.trim() !== '';
+                const isCorrect = question.type === 'multiple-choice' && question.correctAnswer === userAnswer;
+                
+                let answerDisplay = '';
+                
+                if (question.type === 'multiple-choice' && question.options) {
+                    // Multiple choice results
+                    if (isAnswered) {
+                        answerDisplay = `
+                            <div class="answer-options">
+                                ${question.options.map((option, optionIndex) => {
+                                    const isSelected = userAnswer === option;
+                                    const isCorrectOption = question.correctAnswer === option;
+                                    
+                                    let optionClass = 'form-check mb-2 p-2 rounded border';
+                                    let textClass = '';
+                                    
+                                    if (isSelected) {
+                                        optionClass += isCorrectOption ? ' bg-success bg-opacity-25 border-success' : ' bg-danger bg-opacity-25 border-danger';
+                                        textClass = isCorrectOption ? 'text-success fw-bold' : 'text-danger fw-bold';
+                                    } else if (isCorrectOption) {
+                                        optionClass += ' bg-success bg-opacity-10 border-success';
+                                        textClass = 'text-success';
+                                    } else {
+                                        optionClass += ' bg-light border-secondary';
+                                        textClass = 'text-muted';
+                                    }
+                                    
+                                    return `
+                                        <div class="${optionClass}">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" ${isSelected ? 'checked' : ''} disabled>
+                                                <label class="form-check-label ${textClass}">
+                                                    ${option}
+                                                    ${isCorrectOption ? ' <span class="badge bg-success ms-2">Correct</span>' : ''}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        `;
+                    } else {
+                        // Not answered
+                        answerDisplay = `
+                            <div class="not-answered-display p-3 bg-warning bg-opacity-25 border border-warning rounded">
+                                <div class="d-flex align-items-center">
+                                    <iconify-icon icon="material-symbols:warning" class="text-warning me-2"></iconify-icon>
+                                    <span class="text-warning fw-bold">Question not answered - Time expired</span>
+                                </div>
+                                <div class="mt-2">
+                                    <small class="text-muted">Available options were:</small>
+                                    <ul class="list-unstyled mt-1">
+                                        ${question.options.map(option => `<li class="text-muted">• ${option}</li>`).join('')}
+                                    </ul>
+                                    <small class="text-success">
+                                        <strong>Correct answer:</strong> ${question.correctAnswer}
+                                    </small>
+                                </div>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // Text question results
+                    if (isAnswered) {
+                        answerDisplay = `
+                            <div class="answer-content p-2 bg-light rounded">
+                                <p class="mb-0">${userAnswer}</p>
+                            </div>
+                        `;
+                    } else {
+                        answerDisplay = `
+                            <div class="not-answered-display p-3 bg-warning bg-opacity-25 border border-warning rounded">
+                                <div class="d-flex align-items-center">
+                                    <iconify-icon icon="material-symbols:warning" class="text-warning me-2"></iconify-icon>
+                                    <span class="text-warning fw-bold">Question not answered - Time expired</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                }
+                
+                return `
+                    <div class="question-card">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="question-number">${index + 1}</div>
+                            <div class="flex-grow-1">
+                                <h6 class="mb-2">${question.text}</h6>
+                                <div class="d-flex align-items-center gap-2">
+                                    <small class="text-muted">${question.points} points</small>
+                                    ${question.type === 'multiple-choice' ? '<span class="badge bg-info">Multiple Choice</span>' : ''}
+                                    ${isAnswered ? (isCorrect ? '<span class="badge bg-success">Correct</span>' : '<span class="badge bg-danger">Incorrect</span>') : '<span class="badge bg-warning">Not Answered</span>'}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="answer-section">
+                            <strong>Your Answer:</strong>
+                            ${answerDisplay}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Add question to tricky questions folder
+        function addToTrickyQuestions(questionIndex) {
+            if (!currentAssignment || !currentAssignment.questions) {
+                alert('Error: Question not found');
+                return;
+            }
+            
+            const question = currentAssignment.questions[questionIndex];
+            
+            // Get existing tricky questions
+            const trickyQuestions = JSON.parse(localStorage.getItem('trickyQuestions') || '[]');
+            
+            // Create tricky question object
+            const trickyQuestion = {
+                id: Date.now().toString(),
+                text: question.text,
+                type: question.type || 'text',
+                subject: currentAssignment.subject || 'mathematics',
+                source: `Assignment: ${currentAssignment.title}`,
+                points: question.points,
+                addedAt: new Date().toISOString(),
+                options: question.options || null,
+                correctAnswer: question.correctAnswer || null
+            };
+            
+            // Add to array
+            trickyQuestions.push(trickyQuestion);
+            
+            // Save back to localStorage
+            localStorage.setItem('trickyQuestions', JSON.stringify(trickyQuestions));
+            
+            // Show success message
+            const btn = event.target.closest('button');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<iconify-icon icon="material-symbols:check"></iconify-icon> Added!';
+            btn.classList.remove('btn-outline-warning');
+            btn.classList.add('btn-success');
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('btn-success');
+                btn.classList.add('btn-outline-warning');
+                btn.disabled = false;
+            }, 2000);
+            
+            console.log('✅ Question added to tricky questions:', trickyQuestion);
+        }
+
+        // Ask community about question
+        function askCommunity(questionIndex) {
+            if (!currentAssignment || !currentAssignment.questions) {
+                alert('Error: Question not found');
+                return;
+            }
+            
+            const question = currentAssignment.questions[questionIndex];
+            const subject = currentAssignment.subject || 'mathematics';
+            
+            // Create question object to pass to community
+            const communityQuestion = {
+                text: question.text,
+                type: question.type || 'text',
+                points: question.points,
+                options: question.options || null,
+                source: currentAssignment.title,
+                askedAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage temporarily
+            localStorage.setItem('communityQuestionDraft', JSON.stringify(communityQuestion));
+            
+            // Redirect to subject-specific community page
+            window.location.href = `${subject}-community.html`;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeAssignment();
+        });
+
+        // Prevent page refresh/close without warning
+        window.addEventListener('beforeunload', function(e) {
+            if (timeRemaining > 0) {
+                e.preventDefault();
+                e.returnValue = 'Are you sure you want to leave? Your progress will be saved.';
+            }
+        });
+    </script>
+</body>
+</html>
