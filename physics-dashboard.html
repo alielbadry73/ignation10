@@ -1027,6 +1027,16 @@
             opacity: 0.4;
         }
 
+        /* Course Switcher Styles */
+        .course-item:hover {
+            background: #f8f9fa !important;
+            transform: translateX(5px);
+        }
+        
+        .course-item.active:hover {
+            background: #f0f4ff !important;
+        }
+
         /* Responsive Design for Icon Buttons */
         @media (max-width: 1200px) {
             .nav-icon-btn {
@@ -1238,6 +1248,63 @@
                                 <div class="badge-sample" style="width: 24px; height: 24px; background: linear-gradient(135deg, #cd7f32, #daa520); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: white; font-weight: bold;">3</div>
                             </div>
                         </div>
+                        
+                        <!-- Course Switcher Dropdown (only shown if user has more than one course) -->
+                        <div class="course-switcher" id="courseSwitcherContainer" style="margin-left: 1rem; position: relative; display: flex;">
+                            <button class="course-switcher-btn" onclick="toggleCourseDropdown()" style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.9); border: 1px solid #e9ecef; border-radius: 25px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.1)'">
+                                <iconify-icon icon="material-symbols:school" style="font-size: 1.2rem; color: #667eea;"></iconify-icon>
+                                <span style="font-weight: 600; color: #333; font-size: 0.9rem;">Physics</span>
+                                <iconify-icon icon="material-symbols:keyboard-arrow-down" style="font-size: 1rem; color: #666; transition: transform 0.3s ease;" id="courseDropdownArrow"></iconify-icon>
+                            </button>
+                            
+                            <!-- Course Dropdown Menu -->
+                            <div class="course-dropdown" id="courseDropdown" style="position: absolute; top: 100%; left: 0; background: white; border: 1px solid #e9ecef; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); min-width: 200px; z-index: 1000; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease;">
+                                <div class="dropdown-header" style="padding: 1rem; border-bottom: 1px solid #f1f3f4;">
+                                    <h6 style="margin: 0; color: #333; font-weight: 600;">My Courses</h6>
+                                    <small style="color: #666;">Switch between your purchased courses</small>
+                                </div>
+                                <div class="dropdown-content" style="padding: 0.5rem;">
+                                    <div class="course-item active" onclick="switchCourse('physics')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; background: #f8f9ff;">
+                                        <div class="course-icon" style="width: 32px; height: 32px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <iconify-icon icon="material-symbols:science" style="color: white; font-size: 1.1rem;"></iconify-icon>
+                                        </div>
+                                        <div class="course-info">
+                                            <div style="font-weight: 600; color: #333; font-size: 0.9rem;">Physics IGCSE</div>
+                                            <div style="font-size: 0.8rem; color: #666;">Current Course</div>
+                                        </div>
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; font-size: 1.2rem;"></iconify-icon>
+                                    </div>
+                                    <div class="course-item" onclick="switchCourse('mathematics')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+                                        <div class="course-icon" style="width: 32px; height: 32px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <iconify-icon icon="material-symbols:calculate" style="color: white; font-size: 1.1rem;"></iconify-icon>
+                                        </div>
+                                        <div class="course-info">
+                                            <div style="font-weight: 600; color: #333; font-size: 0.9rem;">Mathematics IGCSE</div>
+                                            <div style="font-size: 0.8rem; color: #666;">Available</div>
+                                        </div>
+                                    </div>
+                                    <div class="course-item" onclick="switchCourse('chemistry')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+                                        <div class="course-icon" style="width: 32px; height: 32px; background: linear-gradient(135deg, #4facfe, #00f2fe); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <iconify-icon icon="material-symbols:biotech" style="color: white; font-size: 1.1rem;"></iconify-icon>
+                                        </div>
+                                        <div class="course-info">
+                                            <div style="font-weight: 600; color: #333; font-size: 0.9rem;">Chemistry IGCSE</div>
+                                            <div style="font-size: 0.8rem; color: #666;">Available</div>
+                                        </div>
+                                    </div>
+                                    <div class="course-item" onclick="switchCourse('english')" style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+                                        <div class="course-icon" style="width: 32px; height: 32px; background: linear-gradient(135deg, #43e97b, #38f9d7); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                                            <iconify-icon icon="material-symbols:menu-book" style="color: white; font-size: 1.1rem;"></iconify-icon>
+                                        </div>
+                                        <div class="course-info">
+                                            <div style="font-weight: 600; color: #333; font-size: 0.9rem;">English IGCSE</div>
+                                            <div style="font-size: 0.8rem; color: #666;">Available</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="col-6">
@@ -1246,6 +1313,15 @@
                         <a href="student-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
                             <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
                         </a>
+                        
+                        <!-- Purchase Course Button -->
+                        <button class="nav-icon-btn" onclick="showPurchaseModal()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'; this.style.borderColor='#10b981'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'; this.style.borderColor='#e9ecef'" data-tooltip="Purchase Course">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 18C5.9 18 5.01 18.9 5.01 20S5.9 22 7 22 8.9 21.1 8.9 20 8 18 7 18ZM1 2V4H3L6.6 11.59L5.25 14.04C5.09 14.32 5 14.65 5 15C5 16.1 5.9 17 7 17H19V15H7.42C7.28 15 7.17 14.89 7.17 14.75L7.2 14.63L8.1 13H16.55C17.3 13 17.96 12.59 18.3 11.97L21.88 5H5.21L4.27 3H1V2ZM17 18C15.9 18 15.01 18.9 15.01 20S15.9 22 17 22 18.9 21.1 18.9 20 18 18 17 18Z" fill="#10b981"/>
+                                <circle cx="7" cy="20" r="1" fill="#10b981"/>
+                                <circle cx="17" cy="20" r="1" fill="#10b981"/>
+                            </svg>
+                        </button>
                         
                         <!-- Focus Mode Button -->
                         <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
@@ -3220,7 +3296,40 @@
             currentQuestionIndex = 0;
             
             if (questions.length > 0) {
-                displayCurrentQuestion();
+                // Check if all questions are solved
+                const answeredQuestions = JSON.parse(localStorage.getItem('physicsAnsweredQuestions') || '[]');
+                const allSolved = questions.every(question => {
+                    const questionId = question.id || `question_${questions.indexOf(question)}_${Date.now()}`;
+                    return answeredQuestions.some(q => q.questionId === questionId);
+                });
+                
+                if (allSolved) {
+                    // Show completion message
+                    container.style.display = 'flex';
+                    noQuestionsMessage.style.display = 'none';
+                    
+                    questionText.innerHTML = `
+                        <div style="text-align: center; padding: 2rem;">
+                            <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1)); width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem auto;">
+                                <iconify-icon icon="material-symbols:celebration" style="font-size: 3rem; color: #10b981;"></iconify-icon>
+                            </div>
+                            <h3 style="color: #1e293b; margin-bottom: 1rem; font-weight: 700; font-size: 1.8rem;">🎉 All Questions Solved!</h3>
+                            <p style="margin: 0; font-size: 1.1rem; color: #64748b;">Today's practice questions are completed.</p>
+                            <p style="margin-top: 0.5rem; font-size: 1rem; color: #10b981; font-weight: 600;">
+                                <iconify-icon icon="material-symbols:check-circle" style="vertical-align: middle; font-size: 1.2rem; margin-right: 0.5rem;"></iconify-icon>
+                                Great job!
+                            </p>
+                        </div>
+                    `;
+                    
+                    // Hide answer input section
+                    const mtAutoDiv = document.querySelector('.question-card .mt-auto');
+                    if (mtAutoDiv) {
+                        mtAutoDiv.style.display = 'none';
+                    }
+                } else {
+                    displayCurrentQuestion();
+                }
             } else {
                 container.style.display = 'none';
                 noQuestionsMessage.style.display = 'flex';
@@ -3342,14 +3451,38 @@
             container.style.display = 'flex';
             noQuestionsMessage.style.display = 'none';
             
-            // If this question was previously answered, show the answer
+            // If this question was previously answered, show the answer and hide submit buttons
             if (previousAnswer) {
                 showInlineAnswer(previousAnswer.userAnswer, previousAnswer.isCorrect);
+                
+                // Hide submit/answer buttons for already answered questions
+                const submitBtn = document.querySelector('.mt-auto .row .col-md-4');
+                if (submitBtn) {
+                    submitBtn.innerHTML = '';
+                }
             } else {
                 // Hide any previous answer display
                 const answerDisplay = document.getElementById('inlineAnswerDisplay');
                 if (answerDisplay) {
                     answerDisplay.style.display = 'none';
+                }
+                
+                // Show submit/answer buttons only if not already there
+                const submitBtnContainer = document.querySelector('.mt-auto .row .col-md-4');
+                if (submitBtnContainer) {
+                    const existingBtns = submitBtnContainer.querySelector('button');
+                    if (!existingBtns) {
+                        submitBtnContainer.innerHTML = `
+                            <button onclick="submitInlineAnswer()" class="btn btn-primary w-100 mb-2" style="font-weight: 600; border-radius: 10px; padding: 0.75rem; transition: all 0.3s ease;">
+                                <iconify-icon icon="material-symbols:check" class="me-1"></iconify-icon>
+                                Submit
+                            </button>
+                            <button onclick="showInlineAnswer()" class="btn btn-outline-primary w-100" style="font-weight: 600; border-radius: 10px; padding: 0.75rem; transition: all 0.3s ease;">
+                                <iconify-icon icon="material-symbols:visibility" class="me-1"></iconify-icon>
+                                Show Answer
+                            </button>
+                        `;
+                    }
                 }
             }
         }
@@ -3493,20 +3626,8 @@
             if (isCorrect) {
                 correct++;
                 streak++;
-                
-                // Check if there are more questions
-                if (currentQuestionIndex < allTodaysQuestions.length - 1) {
-                    alert('✅ Correct! Well done! Moving to next question...');
-                    // Auto-navigate to next question after a short delay
-                    setTimeout(() => {
-                        nextQuestion();
-                    }, 1500);
-                } else {
-                    alert('✅ Correct! Well done! You\'ve completed all questions for today!');
-                }
             } else {
                 streak = Math.max(0, streak - 1);
-                alert('❌ Not quite right. Check the answer below.');
             }
 
             localStorage.setItem('physicsQuestionsSolved', solved.toString());
@@ -3519,7 +3640,8 @@
                 userAnswer: answer,
                 isCorrect: isCorrect,
                 timestamp: new Date().toISOString(),
-                questionIndex: currentQuestionIndex
+                questionIndex: currentQuestionIndex,
+                question: window.currentInlineQuestion // Store the full question data
             };
             
             // Remove any existing answer for this question
@@ -3530,12 +3652,43 @@
             
             // Save back to localStorage
             localStorage.setItem('physicsAnsweredQuestions', JSON.stringify(filteredAnswers));
+            
+            // Trigger custom event for localStorage update
+            const event = new Event('localStorageUpdated');
+            document.dispatchEvent(event);
 
             // Update statistics display
             updateDailyPracticeStats();
 
-            // Show answer with user's choice preserved
-            showInlineAnswer(answer, isCorrect);
+            // Check if all questions are now solved
+            const allSolved = allTodaysQuestions.every(q => {
+                const qId = q.id || `question_${allTodaysQuestions.indexOf(q)}_${Date.now()}`;
+                return filteredAnswers.some(a => a.questionId === qId);
+            });
+            
+            if (allSolved) {
+                // Show alert and reload to show completion message
+                setTimeout(() => {
+                    alert('🎉 Congratulations! You\'ve completed all questions for today!');
+                    loadInlineQuestion(allTodaysQuestions);
+                }, 1500); // Wait 1.5 seconds to show feedback
+            } else {
+                // Show answer with user's choice preserved
+                showInlineAnswer(answer, isCorrect);
+                
+                if (isCorrect) {
+                    // Show congratulations message
+                    alert('✅ Correct! Well done!');
+                    
+                    // For correct answers, move to next question after showing congratulations
+                    setTimeout(() => {
+                        nextQuestion();
+                    }, 2500); // Give time to see the congratulations message
+                } else {
+                    // For incorrect answers, show answer feedback
+                    alert('❌ Not quite right. Check the answer below.');
+                }
+            }
         }
 
         // Show inline answer
@@ -3571,20 +3724,40 @@
             
             // Show both user's answer and correct answer
             if (userAnswer) {
-                correctAnswer.innerHTML = `
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">Your Answer:</div>
-                        <div style="padding: 0.75rem; border-radius: 8px; background: ${isCorrect ? '#dcfce7' : '#fef2f2'}; border: 2px solid ${isCorrect ? '#16a34a' : '#dc2626'}; color: ${isCorrect ? '#166534' : '#991b1b'}; font-weight: 600;">
-                            ${userAnswer}
+                if (isCorrect) {
+                    // If correct, only show their correct answer with congratulations
+                    correctAnswer.innerHTML = `
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-weight: 600; color: #16a34a; margin-bottom: 0.5rem;">
+                                <iconify-icon icon="material-symbols:check-circle" style="font-size: 1.2rem; vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>
+                                Congratulations! Your Answer:
+                            </div>
+                            <div style="padding: 0.75rem; border-radius: 8px; background: #dcfce7; border: 2px solid #16a34a; color: #166534; font-weight: 600;">
+                                ${userAnswer}
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">Correct Answer:</div>
-                        <div style="padding: 0.75rem; border-radius: 8px; background: #dcfce7; border: 2px solid #16a34a; color: #166534; font-weight: 600;">
-                            ${correctAnswerText}
+                        <div style="margin-top: 1rem; padding: 0.75rem; background: #f0fdf4; border-radius: 8px; color: #15803d; font-size: 0.9rem;">
+                            <iconify-icon icon="material-symbols:celebration" style="font-size: 1.2rem; vertical-align: middle; margin-right: 0.5rem;"></iconify-icon>
+                            You got it right! Keep up the great work!
                         </div>
-                    </div>
-                `;
+                    `;
+                } else {
+                    // If wrong, show both user's answer and correct answer
+                    correctAnswer.innerHTML = `
+                        <div style="margin-bottom: 1rem;">
+                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">Your Answer:</div>
+                            <div style="padding: 0.75rem; border-radius: 8px; background: #fef2f2; border: 2px solid #dc2626; color: #991b1b; font-weight: 600;">
+                                ${userAnswer}
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #1e293b; margin-bottom: 0.5rem;">Correct Answer:</div>
+                            <div style="padding: 0.75rem; border-radius: 8px; background: #dcfce7; border: 2px solid #16a34a; color: #166534; font-weight: 600;">
+                                ${correctAnswerText}
+                            </div>
+                        </div>
+                    `;
+                }
             } else {
                 correctAnswer.textContent = correctAnswerText;
             }
@@ -3592,6 +3765,12 @@
             explanation.textContent = window.currentInlineQuestion.explanation || 'No explanation provided.';
             
             answerDisplay.style.display = 'block';
+            
+            // Hide submit buttons after showing the answer
+            const submitBtn = document.querySelector('.mt-auto .row .col-md-4');
+            if (submitBtn) {
+                submitBtn.innerHTML = '';
+            }
         }
         
         // Initialize page when DOM is loaded
@@ -3911,6 +4090,56 @@
             // Implementation for navigation
         }
         
+        // Open cart functionality
+        function openCart() {
+            // Get cart items from localStorage
+            const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+            
+            if (cartItems.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            // Redirect to cart page or open cart modal
+            console.log('Opening cart with items:', cartItems.length);
+            // window.location.href = 'cart.html'; // Uncomment if you have a cart page
+            alert(`Cart has ${cartItems.length} item(s)`);
+        }
+        
+        // Update cart badge count
+        function updateCartBadge() {
+            const cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cartBadge = document.getElementById('cartBadge');
+            
+            if (cartBadge) {
+                if (cartItems.length > 0) {
+                    cartBadge.textContent = cartItems.length > 99 ? '99+' : cartItems.length;
+                    cartBadge.style.display = 'flex';
+                } else {
+                    cartBadge.style.display = 'none';
+                }
+            }
+        }
+        
+        // Check and show/hide course switcher based on purchased courses
+        function checkCourseSwitcherVisibility() {
+            const courseSwitcherContainer = document.getElementById('courseSwitcherContainer');
+            
+            // Check enrolled courses from localStorage
+            const enrolledCourses = JSON.parse(localStorage.getItem('enrolledCourses') || '[]');
+            const purchasedCourses = ['physics', 'mathematics', 'chemistry', 'english'].filter(course => 
+                enrolledCourses.includes(course) || localStorage.getItem(`hasPurchased_${course}`) === 'true'
+            );
+            
+            console.log('Purchased courses:', purchasedCourses);
+            
+            // Always show course switcher
+            if (courseSwitcherContainer) {
+                courseSwitcherContainer.style.display = 'flex';
+                console.log('✅ Showing course switcher');
+            }
+        }
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Set current course for todolists page detection
             localStorage.setItem('lastViewedCourse', 'physics');
@@ -3943,17 +4172,31 @@
             // Update tricky questions count
             updateTrickyQuestionsCount();
             
+            // Check and show/hide course switcher based on purchased courses
+            checkCourseSwitcherVisibility();
+            
+            // Update cart badge
+            updateCartBadge();
+            
             // Listen for localStorage changes (when assignments/quizzes/exams are completed)
             window.addEventListener('storage', function(e) {
-                if (e.key === 'mathematicsAssignments' || e.key === 'mathematicsQuizzes' || e.key === 'mathematicsExams') {
+                if (e.key === 'mathematicsAssignments' || e.key === 'mathematicsQuizzes' || e.key === 'mathematicsExams' ||
+                    e.key === 'physicsAssignments' || e.key === 'physicsQuizzes' || e.key === 'physicsExams') {
                     console.log('Detected change in', e.key, '- updating points');
                     updateAlexProfile();
                     renderLeaderboard();
                 }
             });
             
-            // Update Alex profile once on load (removed interval to prevent infinite loop)
+            // Also listen for custom localStorageUpdated event (dispatched when items are saved on the same page)
+            document.addEventListener('localStorageUpdated', function(e) {
+                console.log('Detected localStorageUpdated event - updating points');
                 updateAlexProfile();
+                renderLeaderboard();
+            });
+            
+            // Update Alex profile once on load (removed interval to prevent infinite loop)
+            updateAlexProfile();
             
             // Generate schedule widget (at the end to ensure DOM is ready)
             setTimeout(() => {
@@ -4079,10 +4322,27 @@
             console.log('Calculating points - All quizzes:', [...studentQuizzes, ...teacherQuizzes, ...mathematicsQuizzes]);
             
             [...studentQuizzes, ...teacherQuizzes, ...mathematicsQuizzes].forEach(quiz => {
-                // Check if quiz is completed by current student
-                if (quiz.completed === true && quiz.score !== undefined) {
-                    const points = Math.round((quiz.score / 100) * (quiz.points || (quiz.questions ? quiz.questions.length * 10 : 50)));
-                    console.log(`Quiz "${quiz.title}" earned ${points} points`);
+                // Check if quiz is completed by current student (support both old and new completion status)
+                const isCompleted = (quiz.completed === true || quiz.status === 'completed');
+                const hasScore = (quiz.score !== undefined && quiz.score !== null);
+                
+                if (isCompleted && hasScore) {
+                    // Calculate points based on score percentage
+                    let points = 0;
+                    
+                    if (quiz.totalPoints && quiz.score !== undefined) {
+                        // Calculate percentage and multiply by total points
+                        const percentage = quiz.score / quiz.totalPoints;
+                        points = Math.round(percentage * (quiz.totalPoints || quiz.points || (quiz.questions ? quiz.questions.length * 10 : 50)));
+                    } else if (quiz.score && quiz.score <= 100) {
+                        // If score is a percentage (0-100)
+                        points = Math.round((quiz.score / 100) * (quiz.points || (quiz.questions ? quiz.questions.length * 10 : 50)));
+                    } else if (quiz.score) {
+                        // Use score directly if it's already in points
+                        points = quiz.score;
+                    }
+                    
+                    console.log(`Quiz "${quiz.title}" earned ${points} points (score: ${quiz.score}, totalPoints: ${quiz.totalPoints})`);
                     quizPoints += points;
                     totalPoints += points;
                     completedQuizzes++;
@@ -4097,29 +4357,43 @@
             console.log('Calculating points - All assignments:', [...studentAssignments, ...teacherAssignments, ...mathematicsAssignments]);
             
             [...studentAssignments, ...teacherAssignments, ...mathematicsAssignments].forEach(assignment => {
-                console.log(`Checking assignment: "${assignment.title}" - status: ${assignment.status}, completed: ${assignment.completed}, score: ${assignment.score}, totalScore: ${assignment.totalScore}, points: ${assignment.points}`);
-                // Check if assignment is completed
-                if ((assignment.status === 'completed' || assignment.completed === true) && assignment.score !== undefined) {
+                console.log(`Checking assignment: "${assignment.title}" - status: ${assignment.status}, completed: ${assignment.completed}, score: ${assignment.score}, totalScore: ${assignment.totalScore}, finalScore: ${assignment.finalScore}, points: ${assignment.points}`);
+                
+                // Check if assignment is completed (support both old and new completion status)
+                const isCompleted = (assignment.status === 'completed' || assignment.completed === true || assignment.gradingStatus === 'graded');
+                const hasScore = (assignment.score !== undefined && assignment.score !== null) || 
+                               (assignment.finalScore !== undefined && assignment.finalScore !== null);
+                
+                if (isCompleted && hasScore) {
                     // Calculate points based on the assignment's point value
                     let points = 0;
                     
-                    if (assignment.points) {
-                        // If assignment has a points field, use it directly
-                        points = assignment.points;
-                    } else if (assignment.totalScore && assignment.score !== undefined) {
-                        // Calculate percentage and multiply by default points
-                        const percentage = assignment.score / assignment.totalScore;
+                    // Use finalScore if available, otherwise use score
+                    const actualScore = assignment.finalScore !== undefined ? assignment.finalScore : assignment.score;
+                    const maxPoints = assignment.totalPoints || assignment.points || 100;
+                    
+                    if (assignment.totalPoints && actualScore !== undefined) {
+                        // Calculate percentage and multiply by total points
+                        const percentage = actualScore / assignment.totalPoints;
+                        points = Math.round(percentage * maxPoints);
+                    } else if (assignment.points && actualScore !== undefined) {
+                        // If assignment has a points field but no totalPoints, calculate percentage from score/points
+                        const percentage = actualScore / assignment.points;
+                        points = Math.round(percentage * assignment.points);
+                    } else if (actualScore && actualScore <= 100) {
+                        // If score is a percentage (0-100), use it directly
+                        const percentage = actualScore / 100;
                         points = Math.round(percentage * 75); // Default 75 points for assignments
-                    } else if (assignment.questions) {
+                    } else if (assignment.questions && actualScore !== undefined) {
                         // Calculate based on number of questions
-                        const percentage = assignment.score / 100;
+                        const percentage = actualScore / (assignment.questions.length * 100);
                         points = Math.round(percentage * assignment.questions.length * 15);
-                    } else {
-                        // Fallback: use score as points directly
-                        points = assignment.score || 0;
+                    } else if (actualScore) {
+                        // Use score directly if it's already in points
+                        points = actualScore;
                     }
                     
-                    console.log(`Assignment "${assignment.title}" earned ${points} points (score: ${assignment.score}/${assignment.totalScore || 100})`);
+                    console.log(`Assignment "${assignment.title}" earned ${points} points (score: ${actualScore}/${assignment.totalPoints || maxPoints})`);
                     assignmentPoints += points;
                     totalPoints += points;
                     completedAssignments++;
@@ -4134,10 +4408,31 @@
             console.log('Calculating points - All exams:', [...studentExams, ...teacherExams, ...mathematicsExams]);
             
             [...studentExams, ...teacherExams, ...mathematicsExams].forEach(exam => {
-                // Check if exam is completed
-                if ((exam.status === 'completed' || exam.completed === true) && exam.score !== undefined) {
-                    const points = Math.round((exam.score / 100) * (exam.points || (exam.questions ? exam.questions.length * 20 : 100)));
-                    console.log(`Exam "${exam.title}" earned ${points} points`);
+                // Check if exam is completed (support both old and new completion status)
+                const isCompleted = (exam.completed === true || exam.status === 'completed');
+                const hasScore = (exam.score !== undefined && exam.score !== null);
+                
+                if (isCompleted && hasScore) {
+                    // Calculate points based on score percentage
+                    let points = 0;
+                    
+                    // Check if we have a percentage field
+                    if (exam.percentage !== undefined) {
+                        // Use percentage directly
+                        points = Math.round((exam.percentage / 100) * (exam.points || exam.totalPoints || (exam.questions ? exam.questions.length * 20 : 100)));
+                    } else if (exam.totalPoints && exam.score !== undefined) {
+                        // Calculate percentage from score and totalPoints
+                        const percentage = exam.score / exam.totalPoints;
+                        points = Math.round(percentage * (exam.totalPoints || exam.points || (exam.questions ? exam.questions.length * 20 : 100)));
+                    } else if (exam.score && exam.score <= 100) {
+                        // If score is a percentage (0-100)
+                        points = Math.round((exam.score / 100) * (exam.points || (exam.questions ? exam.questions.length * 20 : 100)));
+                    } else if (exam.score) {
+                        // Use score directly if it's already in points
+                        points = exam.score;
+                    }
+                    
+                    console.log(`Exam "${exam.title}" earned ${points} points (score: ${exam.score}, totalPoints: ${exam.totalPoints}, percentage: ${exam.percentage})`);
                     examPoints += points;
                     totalPoints += points;
                     completedExams++;
@@ -4553,6 +4848,146 @@
             }
         });
 
+        // Course Switcher Functions
+        function toggleCourseDropdown() {
+            const dropdown = document.getElementById('courseDropdown');
+            const arrow = document.getElementById('courseDropdownArrow');
+            
+            if (dropdown.style.opacity === '1') {
+                // Close dropdown
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                // Open dropdown
+                dropdown.style.opacity = '1';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.transform = 'translateY(0)';
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function switchCourse(course) {
+            // Close dropdown
+            const dropdown = document.getElementById('courseDropdown');
+            const arrow = document.getElementById('courseDropdownArrow');
+            dropdown.style.opacity = '0';
+            dropdown.style.visibility = 'hidden';
+            dropdown.style.transform = 'translateY(-10px)';
+            arrow.style.transform = 'rotate(0deg)';
+            
+            // Update active course item
+            document.querySelectorAll('.course-item').forEach(item => {
+                item.classList.remove('active');
+                item.style.background = '';
+            });
+            event.currentTarget.classList.add('active');
+            event.currentTarget.style.background = '#f8f9ff';
+            
+            // Navigate to selected course dashboard
+            const courseUrls = {
+                'physics': 'physics-dashboard.html',
+                'mathematics': 'mathematics-dashboard.html',
+                'chemistry': 'chemistry-dashboard.html',
+                'english': 'english-dashboard.html'
+            };
+            
+            if (courseUrls[course]) {
+                // Show loading state
+                const button = document.querySelector('.course-switcher-btn span');
+                const originalText = button.textContent;
+                button.textContent = 'Switching...';
+                
+                setTimeout(() => {
+                    window.location.href = courseUrls[course];
+                }, 500);
+            }
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const courseSwitcher = document.querySelector('.course-switcher');
+            const dropdown = document.getElementById('courseDropdown');
+            
+            if (!courseSwitcher.contains(event.target)) {
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+                document.getElementById('courseDropdownArrow').style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // Purchase Course Functions
+        let selectedCourse = null;
+
+        function showPurchaseModal() {
+            const modal = new bootstrap.Modal(document.getElementById('purchaseModal'));
+            modal.show();
+        }
+
+        function selectCourse(course) {
+            // Remove previous selection
+            document.querySelectorAll('.course-card').forEach(card => {
+                card.style.borderColor = '#e9ecef';
+                card.style.background = '';
+            });
+            
+            // Highlight selected course
+            event.currentTarget.style.borderColor = '#10b981';
+            event.currentTarget.style.background = '#f0fdf4';
+            
+            // Set selected course data
+            const courseData = {
+                'mathematics': { name: 'Mathematics IGCSE', price: '$49.99' },
+                'chemistry': { name: 'Chemistry IGCSE', price: '$49.99' },
+                'english': { name: 'English IGCSE', price: '$39.99' },
+                'bundle': { name: 'All Courses Bundle', price: '$149.99' }
+            };
+            
+            selectedCourse = courseData[course];
+            
+            // Update selected course info
+            document.getElementById('selectedCourseName').textContent = selectedCourse.name;
+            document.getElementById('selectedCoursePrice').textContent = selectedCourse.price;
+            document.getElementById('selectedCourseInfo').style.display = 'block';
+            
+            // Enable purchase button
+            document.getElementById('purchaseBtn').disabled = false;
+        }
+
+        function proceedToPurchase() {
+            if (!selectedCourse) {
+                alert('Please select a course first.');
+                return;
+            }
+            
+            // Show loading state
+            const purchaseBtn = document.getElementById('purchaseBtn');
+            const originalText = purchaseBtn.innerHTML;
+            purchaseBtn.innerHTML = '<iconify-icon icon="material-symbols:hourglass-empty" class="me-1"></iconify-icon>Processing...';
+            purchaseBtn.disabled = true;
+            
+            // Simulate purchase process
+            setTimeout(() => {
+                // Show success message
+                alert(`Successfully purchased ${selectedCourse.name} for ${selectedCourse.price}! You will be redirected to the course dashboard.`);
+                
+                // Reset button
+                purchaseBtn.innerHTML = originalText;
+                purchaseBtn.disabled = false;
+                
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('purchaseModal'));
+                modal.hide();
+                
+                // In a real application, you would redirect to payment processing
+                // For demo purposes, we'll just show a success message
+                console.log(`Purchase completed: ${selectedCourse.name} - ${selectedCourse.price}`);
+                
+            }, 2000);
+        }
+
         // Navigation function for progress cards
         function navigateToSection(section) {
             // Map section types to specific Physics pages
@@ -4687,13 +5122,204 @@
         </div>
     </div>
 
+    <!-- Purchase Course Modal -->
+    <div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" style="border: none; border-radius: 20px; box-shadow: 0 20px 60px rgba(0,0,0,0.15);">
+                <div class="modal-header" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 20px 20px 0 0; padding: 2rem;">
+                    <h5 class="modal-title" id="purchaseModalLabel" style="font-weight: 700; font-size: 1.5rem;">
+                        <iconify-icon icon="material-symbols:school" class="me-2"></iconify-icon>
+                        Purchase Additional Courses
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="padding: 2rem;">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="course-card" style="border: 2px solid #e9ecef; border-radius: 15px; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='#667eea'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='#e9ecef'; this.style.transform='translateY(0)'" onclick="selectCourse('mathematics')">
+                                <div class="course-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                    <iconify-icon icon="material-symbols:calculate" style="color: white; font-size: 2rem;"></iconify-icon>
+                                </div>
+                                <h6 style="font-weight: 700; color: #333; margin-bottom: 0.5rem;">Mathematics IGCSE</h6>
+                                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Complete mathematics curriculum with interactive lessons, quizzes, and exams.</p>
+                                <div class="course-features" style="margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">200+ Practice Questions</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Interactive Lessons</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Progress Tracking</span>
+                                    </div>
+                                </div>
+                                <div class="course-price" style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 1.5rem; font-weight: 700; color: #10b981;">$49.99</span>
+                                    <span style="font-size: 0.9rem; color: #666; text-decoration: line-through;">$99.99</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="course-card" style="border: 2px solid #e9ecef; border-radius: 15px; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='#4facfe'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='#e9ecef'; this.style.transform='translateY(0)'" onclick="selectCourse('chemistry')">
+                                <div class="course-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #4facfe, #00f2fe); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                    <iconify-icon icon="material-symbols:biotech" style="color: white; font-size: 2rem;"></iconify-icon>
+                                </div>
+                                <h6 style="font-weight: 700; color: #333; margin-bottom: 0.5rem;">Chemistry IGCSE</h6>
+                                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Master chemistry concepts with hands-on experiments and detailed explanations.</p>
+                                <div class="course-features" style="margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">150+ Lab Simulations</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Video Explanations</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Periodic Table Tools</span>
+                                    </div>
+                                </div>
+                                <div class="course-price" style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 1.5rem; font-weight: 700; color: #10b981;">$49.99</span>
+                                    <span style="font-size: 0.9rem; color: #666; text-decoration: line-through;">$99.99</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="course-card" style="border: 2px solid #e9ecef; border-radius: 15px; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='#43e97b'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='#e9ecef'; this.style.transform='translateY(0)'" onclick="selectCourse('english')">
+                                <div class="course-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #43e97b, #38f9d7); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                    <iconify-icon icon="material-symbols:menu-book" style="color: white; font-size: 2rem;"></iconify-icon>
+                                </div>
+                                <h6 style="font-weight: 700; color: #333; margin-bottom: 0.5rem;">English IGCSE</h6>
+                                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Improve your English skills with comprehensive reading, writing, and grammar exercises.</p>
+                                <div class="course-features" style="margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Writing Workshops</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Literature Analysis</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Grammar Mastery</span>
+                                    </div>
+                                </div>
+                                <div class="course-price" style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 1.5rem; font-weight: 700; color: #10b981;">$39.99</span>
+                                    <span style="font-size: 0.9rem; color: #666; text-decoration: line-through;">$79.99</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="course-card" style="border: 2px solid #e9ecef; border-radius: 15px; padding: 1.5rem; transition: all 0.3s ease; cursor: pointer; background: linear-gradient(135deg, #f8f9ff, #e8f2ff);" onmouseover="this.style.borderColor='#f093fb'; this.style.transform='translateY(-5px)'" onmouseout="this.style.borderColor='#e9ecef'; this.style.transform='translateY(0)'" onclick="selectCourse('bundle')">
+                                <div class="course-icon" style="width: 60px; height: 60px; background: linear-gradient(135deg, #f093fb, #f5576c); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                                    <iconify-icon icon="material-symbols:star" style="color: white; font-size: 2rem;"></iconify-icon>
+                                </div>
+                                <h6 style="font-weight: 700; color: #333; margin-bottom: 0.5rem;">All Courses Bundle</h6>
+                                <p style="color: #666; font-size: 0.9rem; margin-bottom: 1rem;">Get access to all IGCSE courses with maximum savings and premium features.</p>
+                                <div class="course-features" style="margin-bottom: 1rem;">
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">All 4 Courses Included</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Priority Support</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center;">
+                                        <iconify-icon icon="material-symbols:check-circle" style="color: #10b981; margin-right: 0.5rem;"></iconify-icon>
+                                        <span style="font-size: 0.85rem; color: #666;">Lifetime Access</span>
+                                    </div>
+                                </div>
+                                <div class="course-price" style="display: flex; align-items: center; justify-content: space-between;">
+                                    <span style="font-size: 1.5rem; font-weight: 700; color: #10b981;">$149.99</span>
+                                    <span style="font-size: 0.9rem; color: #666; text-decoration: line-through;">$299.99</span>
+                                </div>
+                                <div style="background: #10b981; color: white; padding: 0.25rem 0.5rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-align: center; margin-top: 0.5rem;">
+                                    BEST VALUE
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: none; padding: 1.5rem 2rem; background: #f8f9fa; border-radius: 0 0 20px 20px;">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <div class="selected-course-info" id="selectedCourseInfo" style="display: none;">
+                            <span style="font-weight: 600; color: #333;">Selected: </span>
+                            <span id="selectedCourseName" style="color: #667eea; font-weight: 600;"></span>
+                            <span id="selectedCoursePrice" style="color: #10b981; font-weight: 700; margin-left: 1rem;"></span>
+                        </div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal" style="border-radius: 25px; padding: 0.5rem 1.5rem;">Cancel</button>
+                            <button type="button" class="btn btn-success" onclick="proceedToPurchase()" id="purchaseBtn" disabled style="border-radius: 25px; padding: 0.5rem 1.5rem; background: linear-gradient(135deg, #10b981, #059669); border: none;">
+                                <iconify-icon icon="material-symbols:shopping-cart" class="me-1"></iconify-icon>
+                                Purchase Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="js/progress-tracking.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Only clear data on first visit (if flag doesn't exist)
+            if (!localStorage.getItem('physicsAcademicDataCleared')) {
+                clearPhysicsAcademicData();
+                localStorage.setItem('physicsAcademicDataCleared', 'true');
+            }
+            
             loadCourseProgressData('physics');
             loadDailyPracticeStats('physics');
+            
+            // Auto-refresh dashboard every 3 seconds
+            setInterval(function() {
+                loadCourseProgressData('physics');
+                loadDailyPracticeStats('physics');
+                
+                // Update notification badge if the function exists
+                if (typeof updateNotificationBadge === 'function') {
+                    updateNotificationBadge();
+                }
+                
+                // Update student points to reflect completed quizzes and exams
+                if (typeof updateAlexProfile === 'function') {
+                    updateAlexProfile();
+                }
+            }, 3000);
         });
+        
+        // Function to clear all quizzes, assignments, and exams
+        function clearPhysicsAcademicData() {
+            // Clear quizzes
+            localStorage.removeItem('physicsQuizzes');
+            localStorage.removeItem('physicsTeacherQuizzes');
+            localStorage.removeItem('physicsQuizzesList');
+            
+            // Clear assignments (homeworks)
+            localStorage.removeItem('physicsAssignments');
+            localStorage.removeItem('physicsTeacherAssignments');
+            localStorage.removeItem('physicsAssignmentsList');
+            
+            // Clear exams
+            localStorage.removeItem('physicsExams');
+            localStorage.removeItem('physicsTeacherExams');
+            localStorage.removeItem('physicsExamsList');
+            
+            // Clear assessments (used by the new system)
+            localStorage.removeItem('physicsAssessments');
+            
+            console.log('✅ Cleared all physics quizzes, assignments, and exams from localStorage');
+        }
         
         function showAllQuizGrades() {
             window.showAllQuizGrades('physics');

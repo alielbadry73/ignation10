@@ -139,54 +139,273 @@ function loadRecentGrades(courseName) {
 
     // Recent Quizzes
     const quizzes = JSON.parse(localStorage.getItem(`${courseName}Quizzes`) || '[]');
-    const allQuizzes = quizzes.filter(q => q.subject === courseName.toLowerCase());
+    const teacherQuizzes = JSON.parse(localStorage.getItem(`${courseName}TeacherQuizzes`) || '[]');
+    
+    // Combine student and teacher quizzes, removing duplicates by ID
+    const allQuizzes = [...quizzes];
+    teacherQuizzes.forEach(tq => {
+        if (!allQuizzes.find(q => q.id === tq.id)) {
+            allQuizzes.push(tq);
+        }
+    });
     
     const recentQuizzes = allQuizzes.filter(q => {
+        // Include if completed with a score
+        if (q.completed && q.score !== undefined) {
+            // If there's a completion date, check if it's within 30 days
         if (q.completedAt || q.submittedAt) {
             const completedDate = new Date(q.completedAt || q.submittedAt);
-            return completedDate >= thirtyDaysAgo && q.score !== undefined;
+                return completedDate >= thirtyDaysAgo;
+            }
+            // If no date but has score, include it as a recent completion
+            return true;
         }
         return false;
-    }).sort((a, b) => new Date(b.completedAt || b.submittedAt) - new Date(a.completedAt || a.submittedAt)).slice(0, 5);
+    }).sort((a, b) => {
+        // Sort by completion date if available, otherwise keep order
+        const dateA = a.completedAt || a.submittedAt || 0;
+        const dateB = b.completedAt || b.submittedAt || 0;
+        return new Date(dateB) - new Date(dateA);
+    }).slice(0, 1);
 
     const recentQuizGradesEl = document.getElementById('recentQuizGrades');
     if (recentQuizGradesEl) {
         if (recentQuizzes.length > 0) {
             recentQuizGradesEl.innerHTML = recentQuizzes.map(q => {
             const score = q.score || 0;
-            const color = score >= 80 ? '#10b981' : score >= 60 ? '#f59e0b' : '#ef4444';
+            const maxScore = q.maxScore || 100;
+            const gradient = score >= 80 ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)' : score >= 60 ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+            const icon = score >= 80 ? 'material-symbols:check-circle' : score >= 60 ? 'material-symbols:trending-up' : 'material-symbols:trending-down';
+            const iconColor = score >= 80 ? '#10b981' : score >= 60 ? '#f59e0b' : '#ef4444';
+            const date = q.completedAt || q.submittedAt || q.createdAt || '';
+            const formattedDate = date ? new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+            
             return `
-                <div style="padding: 0.5rem 1rem; background: ${color}; color: white; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">
+                <div class="recent-quiz-card" style="
+                    background: linear-gradient(to bottom, white 0%, #fafbfc 100%);
+                    border-radius: 16px;
+                    padding: 1.5rem;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                    border: 1px solid #e5e7eb;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    min-width: 220px;
+                    flex: 1;
+                    max-width: 280px;
+                    position: relative;
+                    overflow: hidden;
+                " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.15)'; this.style.borderColor='${iconColor}'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)'; this.style.borderColor='#e5e7eb'" onclick="window.location.href='physics-quiz.html'">
+                    <!-- Decorative background element -->
+                    <div style="
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 80px;
+                        height: 80px;
+                        background: ${gradient};
+                        opacity: 0.1;
+                        border-radius: 0 0 0 50px;
+                        pointer-events: none;
+                    "></div>
+                    
+                    <!-- Score Badge -->
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; position: relative; z-index: 1;">
+                        <div style="
+                            background: ${gradient};
+                            color: white;
+                            padding: 0.5rem 1rem;
+                            border-radius: 25px;
+                            font-weight: 700;
+                            font-size: 1rem;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            box-shadow: 0 4px 12px ${iconColor}40;
+                        ">
+                            <iconify-icon icon="${icon}" style="font-size: 1.2rem;"></iconify-icon>
                     ${score}%
+                        </div>
+                        ${formattedDate ? `<span style="color: #94a3b8; font-size: 0.8rem; font-weight: 500;">${formattedDate}</span>` : ''}
+                    </div>
+                    
+                    <!-- Quiz Title -->
+                    <div style="
+                        font-weight: 700;
+                        color: #1e293b;
+                        font-size: 1rem;
+                        margin-bottom: 0.75rem;
+                        line-height: 1.4;
+                        min-height: 2.8rem;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        position: relative;
+                        z-index: 1;
+                    " title="${q.title || 'Quiz'}">${q.title || 'Untitled Quiz'}</div>
+                    
+                    <!-- Quiz Details -->
+                    <div style="
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        color: #64748b;
+                        font-size: 0.85rem;
+                        margin-bottom: 1rem;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                        <iconify-icon icon="material-symbols:quiz" style="font-size: 1rem; color: ${iconColor};"></iconify-icon>
+                        <span>${q.questions ? q.questions.length + ' questions' : 'Multiple choice'}</span>
+                    </div>
+                    
+                    <!-- Progress Bar -->
+                    <div style="
+                        margin-top: 1rem;
+                        height: 6px;
+                        background: #e5e7eb;
+                        border-radius: 3px;
+                        overflow: hidden;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                        <div style="
+                            height: 100%;
+                            background: ${gradient};
+                            width: ${score}%;
+                            transition: width 0.6s ease;
+                            box-shadow: 0 0 8px ${iconColor}50;
+                        "></div>
+                    </div>
+                    
+                    <!-- View Details Link -->
+                    <div style="
+                        margin-top: 0.75rem;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.25rem;
+                        color: ${iconColor};
+                        font-size: 0.85rem;
+                        font-weight: 600;
+                        position: relative;
+                        z-index: 1;
+                    ">
+                        <span>View Details</span>
+                        <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 1rem;"></iconify-icon>
+                    </div>
                 </div>
             `;
             }).join('');
         } else {
-            recentQuizGradesEl.innerHTML = '<span style="color: #94a3b8; font-style: italic;">No quizzes completed in the last month</span>';
+            recentQuizGradesEl.innerHTML = '<div style="text-align: center; padding: 3rem; color: #94a3b8; font-style: italic; background: white; border-radius: 12px; border: 2px dashed #e5e7eb;"><iconify-icon icon="material-symbols:quiz" style="font-size: 3rem; opacity: 0.3; margin-bottom: 1rem;"></iconify-icon><p>No quizzes completed in the last month</p></div>';
         }
     }
 
     // Recent Exams
     const exams = JSON.parse(localStorage.getItem(`${courseName}Exams`) || '[]');
-    const allExams = exams.filter(e => e.subject === courseName.toLowerCase());
+    const teacherExams = JSON.parse(localStorage.getItem(`${courseName}TeacherExams`) || '[]');
+    
+    // Combine student and teacher exams, removing duplicates by ID
+    const allExams = [...exams];
+    teacherExams.forEach(te => {
+        if (!allExams.find(e => e.id === te.id)) {
+            allExams.push(te);
+        }
+    });
     
     const recentExams = allExams.filter(e => {
-        if (e.completedAt || e.submittedAt) {
-            const completedDate = new Date(e.completedAt || e.submittedAt);
-            return completedDate >= thirtyDaysAgo && e.score !== undefined;
+        // Include if completed with a score
+        if (e.completed && e.score !== undefined) {
+            // If there's a completion date, check if it's within 30 days
+            if (e.completedAt || e.submittedAt) {
+                const completedDate = new Date(e.completedAt || e.submittedAt);
+                return completedDate >= thirtyDaysAgo;
+            }
+            // If no date but has score, include it as a recent completion
+            return true;
         }
         return false;
-    }).sort((a, b) => new Date(b.completedAt || b.submittedAt) - new Date(a.completedAt || a.submittedAt)).slice(0, 5);
+    }).sort((a, b) => {
+        // Sort by completion date if available, otherwise keep order
+        const dateA = a.completedAt || a.submittedAt || 0;
+        const dateB = b.completedAt || b.submittedAt || 0;
+        return new Date(dateB) - new Date(dateA);
+    }).slice(0, 1);
 
     const recentExamGradesEl = document.getElementById('recentExamGrades');
     if (recentExamGradesEl) {
         if (recentExams.length > 0) {
             recentExamGradesEl.innerHTML = recentExams.map(e => {
             const score = e.score || 0;
-            const color = score >= 80 ? '#10b981' : score >= 60 ? '#f59e0b' : '#ef4444';
+            const maxScore = e.maxScore || 100;
+            const gradient = score >= 80 ? 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)' : score >= 60 ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)' : 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+            const icon = score >= 80 ? 'material-symbols:star' : score >= 60 ? 'material-symbols:trending-up' : 'material-symbols:trending-down';
+            const date = e.completedAt || e.submittedAt || e.createdAt || '';
+            const formattedDate = date ? new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+            
             return `
-                <div style="padding: 0.5rem 1rem; background: ${color}; color: white; border-radius: 8px; font-weight: 700; font-size: 0.9rem;">
+                <div class="recent-exam-card" style="
+                    background: white;
+                    border-radius: 12px;
+                    padding: 1rem;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                    border: 1px solid #e5e7eb;
+                    transition: all 0.3s ease;
+                    cursor: pointer;
+                    min-width: 180px;
+                    flex: 1;
+                    max-width: 220px;
+                " onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.12)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0,0,0,0.08)'">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                        <div style="
+                            background: ${gradient};
+                            color: white;
+                            padding: 0.35rem 0.7rem;
+                            border-radius: 20px;
+                            font-weight: 700;
+                            font-size: 0.85rem;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.25rem;
+                        ">
+                            <iconify-icon icon="${icon}" style="font-size: 1rem;"></iconify-icon>
                     ${score}%
+                        </div>
+                        ${formattedDate ? `<span style="color: #94a3b8; font-size: 0.75rem; font-weight: 500;">${formattedDate}</span>` : ''}
+                    </div>
+                    <div style="
+                        font-weight: 600;
+                        color: #1e293b;
+                        font-size: 0.9rem;
+                        margin-bottom: 0.5rem;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    " title="${e.title || 'Exam'}">${e.title || 'Untitled Exam'}</div>
+                    <div style="
+                        display: flex;
+                        align-items: center;
+                        gap: 0.25rem;
+                        color: #64748b;
+                        font-size: 0.8rem;
+                    ">
+                        <iconify-icon icon="material-symbols:assignment" style="font-size: 0.9rem;"></iconify-icon>
+                        ${e.questions ? e.questions.length + ' questions' : 'Comprehensive'}
+                    </div>
+                    <div style="
+                        margin-top: 0.75rem;
+                        height: 4px;
+                        background: #e5e7eb;
+                        border-radius: 2px;
+                        overflow: hidden;
+                    ">
+                        <div style="
+                            height: 100%;
+                            background: ${gradient};
+                            width: ${score}%;
+                            transition: width 0.3s ease;
+                        "></div>
+                    </div>
                 </div>
             `;
             }).join('');

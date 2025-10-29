@@ -14,8 +14,445 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
+        /* Menu Toggle Button - Exact same as test-dashboard */
+        .menu-toggle {
+            position: absolute;
+            right: -50px;
+            top: 20px;
+            width: 40px;
+            height: 40px;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,123,255,0.3);
+            transition: all 0.3s ease;
+            z-index: 1031;
+            pointer-events: auto;
+            border: none;
+        }
+        
+        .menu-toggle:hover {
+            background: #0056b3;
+            transform: scale(1.1);
+        }
+
+        /* Left Menu Bar Styling - Exact same as test-dashboard */
+        .left-menu {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 300px;
+            height: 100vh;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            z-index: 1030;
+            transition: left 0.3s ease;
+            overflow-y: auto;
+        }
+        
+        .left-menu.open {
+            left: 0;
+        }
+        
+        .menu-content {
+            padding: 2rem 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        .menu-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .menu-header h6 {
+            margin: 0;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .menu-courses {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .menu-course-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .menu-course-item:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .course-icon-small {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .course-icon-small.math {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .course-icon-small.physics {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+        
+        .course-icon-small.chemistry {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+        }
+        
+        .course-icon-small.english {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: white;
+        }
+        
+        .course-info-small {
+            flex: 1;
+        }
+        
+        .course-name-small {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+        }
+        
+        .tutor-name {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
         .main-container {
             padding: 2rem 0;
+        }
+
+        /* Enhanced Features CSS */
+        .progress-circle {
+            position: relative;
+            display: inline-block;
+        }
+
+        .achievement-card {
+            transition: all 0.3s ease;
+        }
+
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .quick-action-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .quick-action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            border-color: currentColor;
+        }
+
+        .study-recommendation-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .analytics-card {
+            transition: all 0.3s ease;
+        }
+
+        .analytics-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .trends-chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        .badge-earned {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .streak-fire {
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+
+        /* Notifications Styles */
+        .notifications-container {
+            position: relative;
+        }
+
+        .notification-item {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .notification-item:hover {
+            background-color: #f8f9fa !important;
+        }
+
+        .notification-item.unread {
+            background-color: #f0f4ff;
+            border-left: 3px solid #3b82f6;
+        }
+
+        .notification-item.unread:hover {
+            background-color: #e8f2ff !important;
+        }
+
+        .notification-icon {
+            transition: all 0.3s ease;
+        }
+
+        .notification-item:hover .notification-icon {
+            transform: scale(1.1);
+        }
+
+        .notification-badge {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Dashboard Header CSS - Copied from physics-dashboard.html */
+        .dashboard-header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            color: #333;
+            padding: 1rem 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin: 0;
+            position: relative;
+            top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 999;
+        }
+
+        .dashboard-header .container-fluid {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .dashboard-header .row {
+            margin: 0 !important;
+        }
+
+        /* Navigation - Same styling as course-mathematics */
+        .dashboard-nav {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        .dashboard-nav .nav-link {
+            color: #333;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-nav .nav-link:hover,
+        .dashboard-nav .nav-link.active {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .dashboard-nav .nav-link {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .dashboard-nav .nav-link:active {
+            transform: scale(0.95) translateY(-1px);
+        }
+
+        .welcome-section {
+            padding-left: 0;
+            margin-left: 0;
+        }
+
+        .welcome-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-subtext {
+            font-size: 1rem;
+            color: #666;
+            margin: 0;
+        }
+
+        /* Navigation Icon Buttons */
+        .nav-icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Course Switcher Styles */
+        .course-item:hover {
+            background: #f8f9fa !important;
+            transform: translateX(5px);
+        }
+        
+        .course-item.active:hover {
+            background: #f0f4ff !important;
+        }
+
+        /* Responsive Design for Icon Buttons */
+        @media (max-width: 1200px) {
+            .nav-icon-btn {
+                width: 40px !important;
+                height: 40px !important;
+            }
+            
+            .nav-icon-btn iconify-icon {
+                font-size: 1.1rem !important;
+            }
+            
+            .nav-icon-btn img {
+                width: 18px !important;
+                height: 18px !important;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-icon-btn {
+                width: 38px !important;
+                height: 38px !important;
+            }
+            
+            .nav-icon-btn iconify-icon {
+                font-size: 1rem !important;
+            }
+            
+            .nav-icon-btn img {
+                width: 16px !important;
+                height: 16px !important;
+            }
+            
+            .personalized-greeting {
+                padding: 0.4rem 0.8rem !important;
+            }
+            
+            .personalized-greeting .greeting-text {
+                font-size: 0.8rem !important;
+            }
+            
+            .personalized-greeting .ranking-info {
+                font-size: 0.7rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-icon-btn {
+                width: 36px !important;
+                height: 36px !important;
+            }
+            
+            .nav-icon-btn iconify-icon {
+                font-size: 0.9rem !important;
+            }
+            
+            .nav-icon-btn img {
+                width: 14px !important;
+                height: 14px !important;
+            }
+            
+            .personalized-greeting {
+                padding: 0.3rem 0.6rem !important;
+            }
+            
+            .personalized-greeting .greeting-text {
+                font-size: 0.75rem !important;
+            }
+            
+            .personalized-greeting .ranking-info {
+                font-size: 0.65rem !important;
+            }
+            
+            .personalized-greeting .sample-badges {
+                display: none !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .nav-icon-btn {
+                width: 34px !important;
+                height: 34px !important;
+            }
+            
+            .nav-icon-btn iconify-icon {
+                font-size: 0.8rem !important;
+            }
+            
+            .nav-icon-btn img {
+                width: 12px !important;
+                height: 12px !important;
+            }
+            
+            .personalized-greeting {
+                padding: 0.25rem 0.5rem !important;
+            }
+            
+            .personalized-greeting .greeting-text {
+                font-size: 0.7rem !important;
+            }
+            
+            .personalized-greeting .ranking-info {
+                font-size: 0.6rem !important;
+            }
         }
         
         .course-content {
@@ -251,95 +688,104 @@
     </style>
 </head>
 <body>
-    <!-- Header (Same as course-Physics.html) -->
-    <header class="dashboard-header" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); padding: 1rem 0; box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000;">
+
+    <!-- Dashboard Header - Exact same as physics-dashboard.html -->
+    <header class="dashboard-header">
         <div class="container-fluid">
-            <div class="row align-items-center">
-                <!-- Left Section: Menu Toggle and Welcome -->
-                <div class="col-md-6">
+            <!-- Top Header with Hamburger Menu and Navigation Buttons -->
+            <div class="row align-items-center" style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                <div class="col-6">
                     <div class="d-flex align-items-center">
-                        <!-- Hamburger Menu Toggle -->
-                        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" style="margin-right: 1rem;">
-                            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
+                        <!-- Hamburger Menu Button -->
+                        <button class="hamburger-menu-btn" onclick="toggleSidebar()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-right: 1rem;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <iconify-icon icon="material-symbols:menu" style="font-size: 1.5rem; color: #333;"></iconify-icon>
                         </button>
-                        
-                        <div class="welcome-section">
-                            <h4 class="welcome-text mb-0" id="welcomeMessage">Welcome back, Alex!</h4>
-                            <small class="text-muted" id="welcomeSubtext">Physics Progress • Track Your Learning</small>
-                        </div>
                     </div>
                 </div>
-                
-                <!-- Right Section: Logo and Actions -->
-                <div class="col-md-6">
-                    <div class="d-flex align-items-center justify-content-end gap-3">
-                        <!-- Logo -->
-                        <a href="test-dashboard.html" class="d-flex align-items-center text-decoration-none">
-                            <img src="images/ig-nation-logo-graduation.PNG" alt="IG Nation" class="logo-image" style="height: 50px; width: auto; background: transparent; border: none; padding: 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); transition: all 0.3s ease;">
+                <div class="col-6">
+                    <div class="d-flex justify-content-end align-items-center gap-2">
+                        <!-- IG Nation Logo -->
+                        <a href="student-dashboard.html" style="margin-right: 2rem; display: flex; align-items: center; text-decoration: none;">
+                            <img src="images/ig-nation-logo-graduation.png" alt="IG Nation" style="height: 45px; width: auto;">
                         </a>
                         
                         <!-- Focus Mode Button -->
-                        <button class="btn btn-outline-primary btn-sm" onclick="toggleFocusMode()" style="border-radius: 12px; padding: 0.75rem; font-weight: 500; background: white; color: #667eea; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); border: none; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; position: relative; min-width: 48px; min-height: 48px;" data-tooltip="Focus Mode">
-                            <iconify-icon icon="material-symbols:focus-mode" style="font-size: 1.2rem;"></iconify-icon>
+                        <button class="nav-icon-btn" onclick="navigateToFocusMode()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/7898418_focus_business_finance_office_marketing_icon.png" alt="Focus" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
                         </button>
                         
                         <!-- Notifications Button -->
-                        <button class="btn btn-outline-primary btn-sm notification-btn" onclick="openNotifications()" data-tooltip="Notifications" style="border-radius: 12px; padding: 0.75rem; font-weight: 500; background: white; color: #667eea; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); border: none; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; position: relative; min-width: 48px; min-height: 48px;">
-                            <img src="images/4737445_alarm_alert_bell_notification_ring_icon.png" alt="Notifications" style="width: 20px; height: 20px;">
-                            <span class="notification-badge" id="notificationBadge" style="display: none;">0</span>
-                        </button>
+                        <div class="notifications-container" style="position: relative;">
+                            <button class="nav-icon-btn" onclick="openNotifications()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative;" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                                <iconify-icon icon="material-symbols:notifications" style="font-size: 1.2rem; color: #333;"></iconify-icon>
+                                <span id="notificationBadge" class="notification-badge" style="position: absolute; top: -5px; right: -5px; background: #ef4444; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.7rem; display: none; align-items: center; justify-content: center; font-weight: 700;">0</span>
+                            </button>
+                        </div>
                         
                         <!-- Community Button -->
-                        <button class="btn btn-primary btn-sm community-btn" onclick="openCommunity()" data-tooltip="Community" style="border-radius: 12px; padding: 0.75rem; font-weight: 500; background: white; color: #667eea; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); border: none; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; position: relative; min-width: 48px; min-height: 48px;">
-                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px;">
+                        <button class="nav-icon-btn" onclick="navigateToCommunity()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4213440_community_group_leader_people_team_icon.png" alt="Community" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
                         </button>
                         
-                        <!-- Profile Avatar -->
-                        <div class="profile-avatar" id="headerProfileAvatar" data-tooltip="Profile" style="width: 48px; height: 48px; border-radius: 12px; background: white; color: #667eea; display: flex; align-items: center; justify-content: center; border: none; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); position: relative; cursor: pointer;">
-                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 24px; height: 24px;">
+                        <!-- Profile Button -->
+                        <button class="nav-icon-btn" onclick="navigateToProfile()" style="width: 45px; height: 45px; background: white; border: 1px solid #e9ecef; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" onmouseover="this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)'" onmouseout="this.style.boxShadow='0 2px 4px rgba(0,0,0,0.1)'">
+                            <img src="images/4092564_profile_about_mobile ui_user_icon.png" alt="Profile" style="width: 20px; height: 20px; filter: brightness(0) invert(0);">
+                        </button>
                         </div>
-                    </div>
                 </div>
             </div>
+            
         </div>
     </header>
 
-    <!-- Left Sidebar Menu -->
-    <div class="left-menu" id="leftMenu" style="position: fixed; top: 0; left: -300px; width: 300px; height: 100vh; background: white; box-shadow: 2px 0 10px rgba(0,0,0,0.1); z-index: 1001; transition: left 0.3s ease; overflow-y: auto;">
-        <div class="menu-header" style="padding: 2rem 1.5rem; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white;">
-            <h4 style="margin: 0; font-weight: 700;">Course Menu</h4>
-            <p style="margin: 0.5rem 0 0 0; opacity: 0.9;">Navigate to your courses</p>
+    <!-- Left Menu Bar - Exact same as test-dashboard -->
+    <div class="left-menu" id="leftMenu">
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <iconify-icon icon="material-symbols:menu" class="menu-icon"></iconify-icon>
         </div>
-        <div class="menu-content" style="padding: 1.5rem;">
-            <div class="menu-item" onclick="openCourse('Physics')" style="padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; cursor: pointer; transition: background 0.3s ease; background: #f8f9fa;">
-                <div style="display: flex; align-items: center;">
-                    <iconify-icon icon="material-symbols:calculate" style="font-size: 1.5rem; color: #4facfe; margin-right: 1rem;"></iconify-icon>
-                    <div>
-                        <h6 style="margin: 0; color: #333; font-weight: 600;">Physics</h6>
-                        <small style="color: #666;">Algebra, Calculus, Geometry</small>
+        <div class="menu-content">
+            <div class="menu-header">
+                <h6>My Courses</h6>
                     </div>
+            <div class="menu-courses">
+                <div class="menu-course-item" onclick="openCourse('mathematics')">
+                    <div class="course-icon-small math">
+                        <iconify-icon icon="material-symbols:calculate"></iconify-icon>
                 </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Mathematics IGCSE</div>
+                        <div class="tutor-name">Mr. Johnson</div>
             </div>
-            <div class="menu-item" onclick="openCourse('physics')" style="padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; cursor: pointer; transition: background 0.3s ease;">
-                <div style="display: flex; align-items: center;">
-                    <iconify-icon icon="material-symbols:science" style="font-size: 1.5rem; color: #4facfe; margin-right: 1rem;"></iconify-icon>
-                    <div>
-                        <h6 style="margin: 0; color: #333; font-weight: 600;">Physics</h6>
-                        <small style="color: #666;">Mechanics, Thermodynamics, Waves</small>
                     </div>
+                <div class="menu-course-item" onclick="openCourse('physics')">
+                    <div class="course-icon-small physics">
+                        <iconify-icon icon="material-symbols:science"></iconify-icon>
                 </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Physics IGCSE</div>
+                        <div class="tutor-name">Dr. Smith</div>
             </div>
-            <div class="menu-item" onclick="openCourse('chemistry')" style="padding: 1rem; margin-bottom: 0.5rem; border-radius: 8px; cursor: pointer; transition: background 0.3s ease;">
-                <div style="display: flex; align-items: center;">
-                    <iconify-icon icon="material-symbols:biotech" style="font-size: 1.5rem; color: #4facfe; margin-right: 1rem;"></iconify-icon>
-                    <div>
-                        <h6 style="margin: 0; color: #333; font-weight: 600;">Chemistry</h6>
-                        <small style="color: #666;">Organic, Inorganic, Physical</small>
+                    </div>
+                <div class="menu-course-item" onclick="openCourse('chemistry')">
+                    <div class="course-icon-small chemistry">
+                        <iconify-icon icon="material-symbols:biotech"></iconify-icon>
+                </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">Chemistry IGCSE</div>
+                        <div class="tutor-name">Dr. Brown</div>
+            </div>
+        </div>
+                <div class="menu-course-item" onclick="openCourse('english')">
+                    <div class="course-icon-small english">
+                        <iconify-icon icon="material-symbols:menu-book"></iconify-icon>
+                    </div>
+                    <div class="course-info-small">
+                        <div class="course-name-small">English IGCSE</div>
+                        <div class="tutor-name">Ms. Davis</div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Main Content -->
@@ -357,14 +803,14 @@
                     <div class="row">
                         <!-- Homework Tracking -->
                         <div class="col-md-4 mb-4">
-                            <div style="border-left: 4px solid #f59e0b; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="border: 1px solid #e2e8f0; border-left: 4px solid #f59e0b; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(245,158,11,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.05)'">
                                 <div class="d-flex align-items-center mb-3">
-                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                                        <iconify-icon icon="material-symbols:assignment" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                                    <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; box-shadow: 0 4px 12px rgba(245,158,11,0.3);">
+                                        <iconify-icon icon="material-symbols:assignment" style="font-size: 1.8rem; color: white;"></iconify-icon>
                                     </div>
                                     <div>
-                                        <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Homeworks</h5>
-                                        <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Track your assignments</p>
+                                        <h5 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 1.1rem;">Homeworks</h5>
+                                        <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Track your assignments</p>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -395,14 +841,14 @@
                         
                         <!-- Quiz Tracking -->
                         <div class="col-md-4 mb-4">
-                            <div style="border-left: 4px solid #3b82f6; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="border: 1px solid #e2e8f0; border-left: 4px solid #3b82f6; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(59,130,246,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.05)'">
                                 <div class="d-flex align-items-center mb-3">
-                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                                        <iconify-icon icon="material-symbols:quiz" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                                    <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #3b82f6, #2563eb); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; box-shadow: 0 4px 12px rgba(59,130,246,0.3);">
+                                        <iconify-icon icon="material-symbols:quiz" style="font-size: 1.8rem; color: white;"></iconify-icon>
                                     </div>
                                     <div>
-                                        <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Quizzes</h5>
-                                        <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Test your knowledge</p>
+                                        <h5 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 1.1rem;">Quizzes</h5>
+                                        <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Test your knowledge</p>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -433,14 +879,14 @@
                         
                         <!-- Exam Tracking -->
                         <div class="col-md-4 mb-4">
-                            <div style="border-left: 4px solid #8b5cf6; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+                            <div style="border: 1px solid #e2e8f0; border-left: 4px solid #8b5cf6; padding: 2rem; background: white; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(139,92,246,0.15)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 12px rgba(0,0,0,0.05)'">
                                 <div class="d-flex align-items-center mb-3">
-                                    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
-                                        <iconify-icon icon="material-symbols:school" style="font-size: 1.5rem; color: white;"></iconify-icon>
+                                    <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-right: 1rem; box-shadow: 0 4px 12px rgba(139,92,246,0.3);">
+                                        <iconify-icon icon="material-symbols:school" style="font-size: 1.8rem; color: white;"></iconify-icon>
                                     </div>
                                     <div>
-                                        <h5 style="margin: 0; color: #1e293b; font-weight: 700;">Exams</h5>
-                                        <p style="margin: 0; font-size: 0.9rem; color: #64748b;">Major assessments</p>
+                                        <h5 style="margin: 0; color: #1e293b; font-weight: 700; font-size: 1.1rem;">Exams</h5>
+                                        <p style="margin: 0; font-size: 0.85rem; color: #64748b;">Major assessments</p>
                                     </div>
                                 </div>
                                 <div class="mb-3">
@@ -471,11 +917,15 @@
                     </div>
                 </div>
 
-                <!-- Performance Analytics -->
+                <!-- Enhanced Performance Analytics -->
                 <div class="progress-section">
                     <h3 style="color: #1e293b; font-weight: 700; margin-bottom: 1.5rem;">
                         <iconify-icon icon="material-symbols:bar-chart" class="me-2" style="color: #667eea;"></iconify-icon>
                         Performance Analytics
+                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="toggleAdvancedAnalytics()" id="toggleAnalyticsBtn">
+                            <iconify-icon icon="material-symbols:expand-more" id="analyticsIcon"></iconify-icon>
+                            Advanced
+                        </button>
                     </h3>
                     
                     <!-- Average Grades -->
@@ -497,33 +947,108 @@
                     </div>
                     
                     <!-- Recent Month Performance -->
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span style="color: #64748b; font-weight: 600;">Recent Quizzes</span>
-                            <div>
-                                <button class="btn btn-sm btn-outline-secondary me-2" onclick="loadProgressData(); loadRecentGrades(); updateQuizAndExamAverages(); updatePerformanceBarChart();" title="Refresh Progress">
-                                    <iconify-icon icon="material-symbols:refresh"></iconify-icon>
-                                </button>
-                                <button class="btn btn-sm btn-outline-warning me-2" onclick="resetProgressData()" title="Reset to Sample Data">
-                                    <iconify-icon icon="material-symbols:restart-alt"></iconify-icon>
-                                </button>
-                                <button class="btn btn-sm btn-outline-info me-2" onclick="testProgressUpdate()" title="Test Progress Update">
-                                    <iconify-icon icon="material-symbols:bug-report"></iconify-icon>
-                                </button>
-                                <button class="btn btn-sm btn-outline-primary" onclick="showAllQuizGrades()">View All</button>
-                            </div>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 style="color: #1e293b; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                <iconify-icon icon="material-symbols:quiz" style="color: #667eea; font-size: 1.25rem;"></iconify-icon>
+                                Recent Quizzes
+                            </h5>
+                            <a href="#" onclick="showAllQuizGrades(); return false;" style="
+                                color: #667eea;
+                                text-decoration: none;
+                                font-weight: 600;
+                                font-size: 0.875rem;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.25rem;
+                            " onmouseover="this.style.color='#764ba2'; this.querySelector('iconify-icon').style.transform='translateX(3px)'" onmouseout="this.style.color='#667eea'; this.querySelector('iconify-icon').style.transform='translateX(0)'">
+                                <span>View All</span>
+                                <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 1rem; transition: transform 0.3s ease;"></iconify-icon>
+                            </a>
                         </div>
-                        <div id="recentQuizGrades" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <div id="recentQuizGrades" style="display: flex; gap: 1rem; flex-wrap: nowrap; margin-top: 1rem; overflow-x: auto; padding-bottom: 0.5rem;">
                             <!-- Recent quiz grades will be loaded here -->
                         </div>
                     </div>
-                    <div>
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span style="color: #64748b; font-weight: 600;">Recent Exams</span>
-                            <button class="btn btn-sm btn-outline-primary" onclick="showAllExamGrades()">View All</button>
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 style="color: #1e293b; font-weight: 700; margin: 0; display: flex; align-items: center; gap: 0.5rem;">
+                                <iconify-icon icon="material-symbols:assignment" style="color: #8b5cf6; font-size: 1.25rem;"></iconify-icon>
+                                Recent Exams
+                            </h5>
+                            <a href="#" onclick="showAllExamGrades(); return false;" style="
+                                color: #8b5cf6;
+                                text-decoration: none;
+                                font-weight: 600;
+                                font-size: 0.875rem;
+                                cursor: pointer;
+                                transition: all 0.3s ease;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.25rem;
+                            " onmouseover="this.style.color='#a855f7'; this.querySelector('iconify-icon').style.transform='translateX(3px)'" onmouseout="this.style.color='#8b5cf6'; this.querySelector('iconify-icon').style.transform='translateX(0)'">
+                                <span>View All</span>
+                                <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 1rem; transition: transform 0.3s ease;"></iconify-icon>
+                            </a>
                         </div>
-                        <div id="recentExamGrades" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <div id="recentExamGrades" style="display: flex; gap: 1rem; flex-wrap: nowrap; margin-top: 1rem; overflow-x: auto; padding-bottom: 0.5rem;">
                             <!-- Recent exam grades will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Advanced Analytics (Hidden by default) -->
+                    <div id="advancedAnalytics" style="display: none; margin-top: 2rem;">
+                        <div class="row">
+                            <!-- Study Streak -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 analytics-card" style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; border: none;">
+                                    <div class="card-body text-center">
+                                        <iconify-icon icon="material-symbols:local-fire-department" class="streak-fire" style="font-size: 2rem; margin-bottom: 1rem;"></iconify-icon>
+                                        <h5 class="card-title">Study Streak</h5>
+                                        <h2 id="studyStreak" style="font-weight: 700;">0 days</h2>
+                                        <small>Keep it up!</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Total Study Time -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 analytics-card" style="background: linear-gradient(135deg, #4ecdc4, #44a08d); color: white; border: none;">
+                                    <div class="card-body text-center">
+                                        <iconify-icon icon="material-symbols:schedule" style="font-size: 2rem; margin-bottom: 1rem;"></iconify-icon>
+                                        <h5 class="card-title">Total Study Time</h5>
+                                        <h2 id="totalStudyTime" style="font-weight: 700;">0h 0m</h2>
+                                        <small>This month</small>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Accuracy Rate -->
+                            <div class="col-md-4 mb-3">
+                                <div class="card h-100 analytics-card" style="background: linear-gradient(135deg, #a8edea, #fed6e3); color: #333; border: none;">
+                                    <div class="card-body text-center">
+                                        <iconify-icon icon="material-symbols:target" style="font-size: 2rem; margin-bottom: 1rem;"></iconify-icon>
+                                        <h5 class="card-title">Accuracy Rate</h5>
+                                        <h2 id="accuracyRate" style="font-weight: 700;">0%</h2>
+                                        <small>Overall performance</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Performance Trends Chart -->
+                        <div class="card mt-3" style="background: white; border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <div class="card-header" style="background: #f8f9fa; border-bottom: 1px solid #e9ecef;">
+                                <h6 class="mb-0">
+                                    <iconify-icon icon="material-symbols:trending-up" class="me-2"></iconify-icon>
+                                    Performance Trends (Last 7 Days)
+                                </h6>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="performanceTrendsChart" style="max-height: 300px;"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -750,6 +1275,313 @@
             }
         }
         
+        // Dashboard Header Functions - Copied from physics-dashboard.html
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar && overlay) {
+                if (sidebar.style.left === '-350px' || sidebar.style.left === '') {
+                    // Open sidebar
+                    sidebar.style.left = '0';
+                    overlay.style.display = 'block';
+                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                } else {
+                    // Close sidebar
+                    sidebar.style.left = '-350px';
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = 'auto'; // Restore scrolling
+                }
+            } else {
+                // Fallback to left menu if sidebar doesn't exist
+                toggleMenu();
+            }
+        }
+
+        function toggleBadgesBar() {
+            alert('Badges feature coming soon!');
+        }
+
+        function toggleCourseDropdown() {
+            const dropdown = document.getElementById('courseDropdown');
+            const arrow = document.getElementById('courseDropdownArrow');
+            
+            if (dropdown && arrow) {
+                if (dropdown.style.opacity === '1') {
+                    // Close dropdown
+                    dropdown.style.opacity = '0';
+                    dropdown.style.visibility = 'hidden';
+                    dropdown.style.transform = 'translateY(-10px)';
+                    arrow.style.transform = 'rotate(0deg)';
+                } else {
+                    // Open dropdown
+                    dropdown.style.opacity = '1';
+                    dropdown.style.visibility = 'visible';
+                    dropdown.style.transform = 'translateY(0)';
+                    arrow.style.transform = 'rotate(180deg)';
+                }
+            }
+        }
+
+        function switchCourse(course) {
+            // Close dropdown
+            const dropdown = document.getElementById('courseDropdown');
+            const arrow = document.getElementById('courseDropdownArrow');
+            if (dropdown && arrow) {
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+                arrow.style.transform = 'rotate(0deg)';
+            }
+            
+            // Update active course item
+            document.querySelectorAll('.course-item').forEach(item => {
+                item.classList.remove('active');
+                item.style.background = '';
+            });
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+                event.currentTarget.style.background = '#f8f9ff';
+            }
+            
+            // Navigate to selected course dashboard
+            const courseUrls = {
+                'physics': 'physics-dashboard.html',
+                'mathematics': 'mathematics-dashboard.html',
+                'chemistry': 'chemistry-dashboard.html',
+                'english': 'english-dashboard.html'
+            };
+            
+            if (courseUrls[course]) {
+                // Show loading state
+                const button = document.querySelector('.course-switcher-btn span');
+                if (button) {
+                    const originalText = button.textContent;
+                    button.textContent = 'Switching...';
+                    
+                    setTimeout(() => {
+                        window.location.href = courseUrls[course];
+                    }, 500);
+                }
+            }
+        }
+
+        function navigateToFocusMode() {
+            console.log('Focus Mode button clicked');
+            alert('Focus Mode feature coming soon!');
+        }
+
+        // Notifications System
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notificationsDropdown');
+            const isVisible = dropdown.style.opacity === '1';
+            
+            if (isVisible) {
+                // Close dropdown
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(-10px)';
+            } else {
+                // Open dropdown
+                dropdown.style.opacity = '1';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.transform = 'translateY(0)';
+                loadNotifications();
+            }
+        }
+        
+        function loadNotifications() {
+            const notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+            const container = document.getElementById('notificationsList');
+            
+            if (notifications.length === 0) {
+                container.innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: #64748b;">
+                        <iconify-icon icon="material-symbols:notifications-off" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></iconify-icon>
+                        <p style="margin: 0; font-size: 0.9rem;">No notifications yet</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Sort notifications by date (newest first)
+            const sortedNotifications = notifications.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            container.innerHTML = sortedNotifications.map(notification => `
+                <div class="notification-item ${notification.read ? '' : 'unread'}" style="padding: 1rem; border-bottom: 1px solid #f1f3f4; cursor: pointer; transition: all 0.3s ease;" onclick="markAsRead('${notification.id}')" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='transparent'">
+                    <div class="d-flex align-items-start">
+                        <div class="notification-icon me-3" style="width: 40px; height: 40px; background: ${notification.type === 'achievement' ? '#f59e0b' : notification.type === 'assignment' ? '#3b82f6' : notification.type === 'quiz' ? '#10b981' : '#8b5cf6'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <iconify-icon icon="${notification.icon}" style="color: white; font-size: 1.2rem;"></iconify-icon>
+                        </div>
+                        <div class="notification-content" style="flex: 1;">
+                            <div class="d-flex justify-content-between align-items-start mb-1">
+                                <h6 style="margin: 0; font-size: 0.9rem; color: #333; font-weight: 600;">${notification.title}</h6>
+                                <small style="color: #64748b; font-size: 0.75rem;">${formatNotificationDate(notification.date)}</small>
+                            </div>
+                            <p style="margin: 0; font-size: 0.8rem; color: #64748b; line-height: 1.4;">${notification.message}</p>
+                            ${!notification.read ? '<div style="width: 8px; height: 8px; background: #ef4444; border-radius: 50%; position: absolute; right: 1rem; top: 50%; transform: translateY(-50%);"></div>' : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            updateNotificationBadge();
+        }
+        
+        function formatNotificationDate(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diffInHours = (now - date) / (1000 * 60 * 60);
+            
+            if (diffInHours < 1) {
+                return 'Just now';
+            } else if (diffInHours < 24) {
+                return `${Math.floor(diffInHours)}h ago`;
+            } else if (diffInHours < 48) {
+                return 'Yesterday';
+            } else {
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            }
+        }
+        
+        function markAsRead(notificationId) {
+            const notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+            const notification = notifications.find(n => n.id === notificationId);
+            
+            if (notification && !notification.read) {
+                notification.read = true;
+                localStorage.setItem('notifications', JSON.stringify(notifications));
+                loadNotifications(); // Refresh the display
+            }
+        }
+        
+        function markAllAsRead() {
+            const notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+            notifications.forEach(notification => {
+                notification.read = true;
+            });
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+            loadNotifications(); // Refresh the display
+        }
+        
+        function viewAllNotifications() {
+            alert('Opening all notifications page... This would redirect to a full notifications page.');
+        }
+        
+        function updateNotificationBadge() {
+            const notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+            const unreadCount = notifications.filter(n => !n.read).length;
+            const badge = document.getElementById('notificationBadge');
+            
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+        
+        function addNotification(title, message, type = 'info', icon = 'material-symbols:info') {
+            const notifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+            const newNotification = {
+                id: Date.now().toString(),
+                title: title,
+                message: message,
+                type: type,
+                icon: icon,
+                date: new Date().toISOString(),
+                read: false
+            };
+            
+            notifications.unshift(newNotification);
+            
+            // Keep only last 50 notifications
+            if (notifications.length > 50) {
+                notifications.splice(50);
+            }
+            
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+            updateNotificationBadge();
+        }
+        
+        // Initialize notifications with sample data
+        function initializeNotifications() {
+            const existingNotifications = JSON.parse(localStorage.getItem('notifications') || '[]');
+            
+            if (existingNotifications.length === 0) {
+                // Add sample notifications
+                addNotification(
+                    'Welcome to Physics Progress!',
+                    'Start tracking your learning journey and unlock achievements.',
+                    'welcome',
+                    'material-symbols:celebration'
+                );
+                
+                addNotification(
+                    'New Quiz Available',
+                    'Physics Quiz 1 is now available. Test your knowledge!',
+                    'quiz',
+                    'material-symbols:quiz'
+                );
+                
+                addNotification(
+                    'Achievement Unlocked!',
+                    'You earned the "First Quiz" badge. Keep up the great work!',
+                    'achievement',
+                    'material-symbols:emoji-events'
+                );
+                
+                addNotification(
+                    'Assignment Due Soon',
+                    'Physics Assignment 2 is due in 2 days. Don\'t forget to submit!',
+                    'assignment',
+                    'material-symbols:assignment'
+                );
+            }
+            
+            updateNotificationBadge();
+        }
+
+        function navigateToCommunity() {
+            console.log('Community button clicked');
+            window.open('physics-community.html', '_blank');
+        }
+
+        function navigateToProfile() {
+            console.log('Profile button clicked');
+            window.location.href = 'profile.html';
+        }
+
+        function showPurchaseModal() {
+            alert('Purchase Course feature coming soon!');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const courseSwitcher = document.querySelector('.course-switcher');
+            const courseDropdown = document.getElementById('courseDropdown');
+            const notificationsContainer = document.querySelector('.notifications-container');
+            const notificationsDropdown = document.getElementById('notificationsDropdown');
+            
+            // Close course dropdown
+            if (courseSwitcher && courseDropdown && !courseSwitcher.contains(event.target)) {
+                courseDropdown.style.opacity = '0';
+                courseDropdown.style.visibility = 'hidden';
+                courseDropdown.style.transform = 'translateY(-10px)';
+                const arrow = document.getElementById('courseDropdownArrow');
+                if (arrow) {
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            }
+            
+            // Close notifications dropdown
+            if (notificationsContainer && notificationsDropdown && !notificationsContainer.contains(event.target)) {
+                notificationsDropdown.style.opacity = '0';
+                notificationsDropdown.style.visibility = 'hidden';
+                notificationsDropdown.style.transform = 'translateY(-10px)';
+            }
+        });
+        
         function openCourse(course) {
             if (course === 'Physics') {
                 window.location.href = 'course-Physics.html';
@@ -760,70 +1592,27 @@
             }
         }
         
-        function openNotifications() {
-            window.location.href = 'notifications.html';
-        }
-        
-        function openCommunity() {
-            window.open('community.html', '_blank');
-        }
-        
-        function openHowToModal() {
-            window.location.href = 'platform-guide.html';
-        }
-        
-        function logout() {
-            if (confirm('Are you sure you want to logout?')) {
-                window.location.href = 'index.html';
-            }
-        }
-        
-        function toggleFocusMode() {
-            alert('Focus Mode feature coming soon!');
-        }
 
         // Load and update progress data
         function loadProgressData() {
             console.log('Loading progress data...');
             
-            // Load assignments data
+            // Load assignments data - no sample data
             let assignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
             console.log('Current assignments in localStorage:', assignments);
-            if (assignments.length === 0) {
-                console.log('No assignments found, creating sample data...');
-                assignments = createSampleAssignments();
-                localStorage.setItem('physicsAssignments', JSON.stringify(assignments));
-                console.log('Sample assignments created:', assignments);
-            }
             updateAssignmentProgress(assignments);
             
-            // Load quizzes data
+            // Load quizzes data - no sample data
             let quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
             console.log('Current quizzes in localStorage:', quizzes);
-            if (quizzes.length === 0) {
-                console.log('No quizzes found, creating sample data...');
-                quizzes = createSampleQuizzes();
-                localStorage.setItem('physicsQuizzes', JSON.stringify(quizzes));
-                console.log('Sample quizzes created:', quizzes);
-            }
             updateQuizProgress(quizzes);
             
-            // Load exams data
+            // Load exams data - no sample data
             let exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
             console.log('Current exams in localStorage:', exams);
-            if (exams.length === 0) {
-                console.log('No exams found, creating sample data...');
-                exams = createSampleExams();
-                localStorage.setItem('physicsExams', JSON.stringify(exams));
-                console.log('Sample exams created:', exams);
-            }
             updateExamProgress(exams);
             
-            // Show alert if no data was found initially
-            const totalItems = assignments.length + quizzes.length + exams.length;
-            if (totalItems === 0) {
-                alert('No progress data found! Sample data has been created. Please refresh the page.');
-            }
+            console.log('✅ Progress data loaded. Total items:', assignments.length + quizzes.length + exams.length);
         }
 
         // Create sample data for demonstration
@@ -991,72 +1780,443 @@
         }
 
         // Load recent quiz and exam grades
-        function loadRecentGrades() {
+        function loadRecentGradesProgress() {
             console.log('Loading recent grades...');
             
-            // Load recent quiz grades - get the most recent completed quiz
+            // Load recent quiz grades - get the most recent completed quizzes (up to 3)
             const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
-            const completedQuizzes = quizzes.filter(q => q.status === 'completed' || q.status === 'submitted')
-                .sort((a, b) => new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0))
-                .slice(0, 1); // Get only the most recent one
-            updateRecentQuizGrades(completedQuizzes);
+            console.log('Raw quiz data:', quizzes);
             
-            // Load recent exam grades - get the most recent completed exam
+            // Process quiz data to extract completed quizzes with proper scores
+            const completedQuizzes = quizzes.filter(q => {
+                // Check if quiz is completed and has a score
+                const hasScore = q.score !== undefined || q.points !== undefined || q.grade !== undefined || q.finalScore !== undefined;
+                const isCompleted = q.status === 'completed' || q.status === 'submitted' || q.status === 'graded' || hasScore;
+                
+                console.log(`Quiz "${q.title || q.id}" - Status: ${q.status}, Has Score: ${hasScore}, Score: ${q.score || q.points || q.grade || q.finalScore}`);
+                return isCompleted && hasScore;
+            }).map(q => {
+                // Normalize the quiz data structure
+                const score = q.score || q.points || q.grade || q.finalScore || 0;
+                const maxScore = q.maxScore || q.maxPoints || q.totalPoints || q.totalScore || 1;
+                const title = q.title || q.name || `Quiz ${q.id}` || 'Physics Quiz';
+                const date = q.date || q.createdAt || q.submittedAt || new Date().toISOString();
+                
+                return {
+                    title: title,
+                    score: score,
+                    maxScore: maxScore,
+                    date: date,
+                    status: 'completed'
+                };
+            }).sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA;
+            }).slice(0, 3); // Get the 3 most recent ones
+            
+            console.log('Processed completed quizzes:', completedQuizzes);
+            
+            // If no quizzes found, create some sample data for demonstration
+            if (completedQuizzes.length === 0) {
+                const sampleQuizzes = [
+                    {
+                        title: 'Physics Quiz 1',
+                        score: 8,
+                        maxScore: 10,
+                        date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
+                        status: 'completed'
+                    },
+                    {
+                        title: 'Physics Quiz 2', 
+                        score: 7,
+                        maxScore: 10,
+                        date: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days ago
+                        status: 'completed'
+                    },
+                    {
+                        title: 'Physics Quiz 3',
+                        score: 9,
+                        maxScore: 10,
+                        date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // 1 week ago
+                        status: 'completed'
+                    }
+                ];
+                updateRecentQuizGrades(sampleQuizzes);
+            } else {
+                updateRecentQuizGrades(completedQuizzes);
+            }
+            
+            // Load recent exam grades - get the most recent completed exams (up to 3)
             const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
-            const completedExams = exams.filter(e => e.status === 'completed' || e.status === 'submitted')
-                .sort((a, b) => new Date(b.date || b.createdAt || 0) - new Date(a.date || a.createdAt || 0))
-                .slice(0, 1); // Get only the most recent one
-            updateRecentExamGrades(completedExams);
+            console.log('Raw exam data:', exams);
+            
+            // Process exam data to extract completed exams with proper scores
+            const completedExams = exams.filter(e => {
+                // Check if exam is completed and has a score
+                const hasScore = e.score !== undefined || e.points !== undefined || e.grade !== undefined || e.finalScore !== undefined;
+                const isCompleted = e.status === 'completed' || e.status === 'submitted' || e.status === 'graded' || hasScore;
+                
+                console.log(`Exam "${e.title || e.id}" - Status: ${e.status}, Has Score: ${hasScore}, Score: ${e.score || e.points || e.grade || e.finalScore}`);
+                return isCompleted && hasScore;
+            }).map(e => {
+                // Normalize the exam data structure
+                const score = e.score || e.points || e.grade || e.finalScore || 0;
+                const maxScore = e.maxScore || e.maxPoints || e.totalPoints || e.totalScore || 100;
+                const title = e.title || e.name || `Exam ${e.id}` || 'Physics Exam';
+                const date = e.date || e.createdAt || e.submittedAt || new Date().toISOString();
+                
+                return {
+                    title: title,
+                    score: score,
+                    maxScore: maxScore,
+                    date: date,
+                    status: 'completed'
+                };
+            }).sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA;
+            }).slice(0, 3); // Get the 3 most recent ones
+            
+            console.log('Processed completed exams:', completedExams);
+            
+            // If no exams found, create some sample data for demonstration
+            if (completedExams.length === 0) {
+                const sampleExams = [
+                    {
+                        title: 'Physics Midterm Exam',
+                        score: 85,
+                        maxScore: 100,
+                        date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days ago
+                        status: 'completed'
+                    },
+                    {
+                        title: 'Physics Final Exam',
+                        score: 92,
+                        maxScore: 100,
+                        date: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(), // 10 days ago
+                        status: 'completed'
+                    }
+                ];
+                updateRecentExamGrades(sampleExams);
+            } else {
+                updateRecentExamGrades(completedExams);
+            }
         }
 
         function updateRecentQuizGrades(quizzes) {
             const container = document.getElementById('recentQuizGrades');
             if (quizzes.length === 0) {
-                container.innerHTML = '<span style="color: #64748b; font-style: italic;">No completed quizzes yet</span>';
+                container.innerHTML = '<div style="background: white; padding: 2rem; border-radius: 12px; text-align: center; color: #64748b; font-style: italic; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">No completed quizzes yet</div>';
                 return;
             }
             
-            const quiz = quizzes[0]; // Get the most recent quiz
-            const score = quiz.score || quiz.points || quiz.grade || 0;
-            const maxScore = quiz.maxScore || quiz.maxPoints || quiz.totalPoints || 1;
-            const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
-            const gradeColor = percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444';
+            let html = '';
+            quizzes.forEach((quiz, index) => {
+                const score = quiz.score || quiz.points || quiz.grade || 0;
+                const maxScore = quiz.maxScore || quiz.maxPoints || quiz.totalPoints || 1;
+                const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+                
+                // Define colors based on score
+                let gradient, iconColor, icon;
+                if (percentage >= 80) {
+                    gradient = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                    iconColor = '#10b981';
+                    icon = 'material-symbols:check-circle';
+                } else if (percentage >= 60) {
+                    gradient = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+                    iconColor = '#f59e0b';
+                    icon = 'material-symbols:help';
+                } else {
+                    gradient = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+                    iconColor = '#ef4444';
+                    icon = 'material-symbols:error';
+                }
+                
+                const quizDate = quiz.date ? new Date(quiz.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Recent';
+                const isLatest = index === 0;
+                
+                html += `
+                    <div class="recent-quiz-card" style="
+                        background: linear-gradient(to bottom, white 0%, #fafbfc 100%);
+                        border-radius: 16px;
+                        padding: 1.5rem;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                        border: 1px solid #e5e7eb;
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+                        flex: 1;
+                        min-width: 0;
+                        position: relative;
+                        overflow: hidden;
+                    " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.15)'; this.style.borderColor='${iconColor}'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)'; this.style.borderColor='#e5e7eb'" onclick="window.location.href='physics-quiz.html'">
+                        <!-- Decorative background element -->
+                        <div style="
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            width: 80px;
+                            height: 80px;
+                            background: ${gradient};
+                            opacity: 0.1;
+                            border-radius: 0 0 0 50px;
+                            pointer-events: none;
+                        "></div>
+                        
+                        <!-- Latest badge -->
+                        ${isLatest ? `
+                        <div style="position: absolute; top: 10px; right: 10px; background: #667eea; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.7rem; font-weight: 600; z-index: 2;">
+                            Latest
+                        </div>` : ''}
+                        
+                        <!-- Score Badge -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; position: relative; z-index: 1;">
+                            <div style="
+                                background: ${gradient};
+                                color: white;
+                                padding: 0.5rem 1rem;
+                                border-radius: 25px;
+                                font-weight: 700;
+                                font-size: 1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                                box-shadow: 0 4px 12px ${iconColor}40;
+                            ">
+                                <iconify-icon icon="${icon}" style="font-size: 1.2rem;"></iconify-icon>
+                                ${percentage}%
+                            </div>
+                            <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 500;">${quizDate}</span>
+                        </div>
+                        
+                        <!-- Quiz Title -->
+                        <div style="
+                            font-weight: 700;
+                            color: #1e293b;
+                            font-size: 1rem;
+                            margin-bottom: 0.75rem;
+                            line-height: 1.4;
+                            min-height: 2.8rem;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            position: relative;
+                            z-index: 1;
+                        " title="${quiz.title || 'Quiz'}">${quiz.title || 'Untitled Quiz'}</div>
+                        
+                        <!-- Quiz Details -->
+                        <div style="
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            color: #64748b;
+                            font-size: 0.85rem;
+                            margin-bottom: 1rem;
+                            position: relative;
+                            z-index: 1;
+                        ">
+                            <iconify-icon icon="material-symbols:quiz" style="font-size: 1rem; color: ${iconColor};"></iconify-icon>
+                            <span>${quiz.questions ? quiz.questions.length + ' questions' : 'Multiple choice'}</span>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div style="
+                            margin-top: 1rem;
+                            height: 6px;
+                            background: #e5e7eb;
+                            border-radius: 3px;
+                            overflow: hidden;
+                            position: relative;
+                            z-index: 1;
+                        ">
+                            <div style="
+                                height: 100%;
+                                background: ${gradient};
+                                width: ${percentage}%;
+                                transition: width 0.6s ease;
+                                box-shadow: 0 0 8px ${iconColor}50;
+                            "></div>
+                        </div>
+                        
+                        <!-- View Details Link -->
+                        <div style="
+                            margin-top: 0.75rem;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.25rem;
+                            color: ${iconColor};
+                            font-size: 0.85rem;
+                            font-weight: 600;
+                            position: relative;
+                            z-index: 1;
+                        ">
+                            <span>View Details</span>
+                            <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 1rem;"></iconify-icon>
+                        </div>
+                    </div>
+                `;
+            });
             
-            const quizDate = quiz.date ? new Date(quiz.date).toLocaleDateString() : 'Recent';
-            
-            container.innerHTML = `
-                <div style="background: ${gradeColor}; color: white; padding: 1rem; border-radius: 12px; text-align: center;">
-                    <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">${quiz.title || 'Quiz'}</div>
-                    <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">${score}/${maxScore}</div>
-                    <div style="font-size: 1rem; font-weight: 600;">${percentage}%</div>
-                    <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem;">${quizDate}</div>
-                </div>
-            `;
+            container.innerHTML = html;
         }
 
         function updateRecentExamGrades(exams) {
             const container = document.getElementById('recentExamGrades');
             if (exams.length === 0) {
-                container.innerHTML = '<span style="color: #64748b; font-style: italic;">No completed exams yet</span>';
+                container.innerHTML = '<div style="background: white; padding: 2rem; border-radius: 12px; text-align: center; color: #64748b; font-style: italic; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">No completed exams yet</div>';
                 return;
             }
             
-            const exam = exams[0]; // Get the most recent exam
-            const score = exam.score || exam.points || exam.grade || 0;
-            const maxScore = exam.maxScore || exam.maxPoints || exam.totalPoints || 100;
-            const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
-            const gradeColor = percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444';
+            let html = '';
+            exams.forEach((exam, index) => {
+                const score = exam.score || exam.points || exam.grade || 0;
+                const maxScore = exam.maxScore || exam.maxPoints || exam.totalPoints || 100;
+                const percentage = maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
+                
+                // Define colors based on score
+                let gradient, iconColor, icon;
+                if (percentage >= 80) {
+                    gradient = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                    iconColor = '#10b981';
+                    icon = 'material-symbols:check-circle';
+                } else if (percentage >= 60) {
+                    gradient = 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)';
+                    iconColor = '#f59e0b';
+                    icon = 'material-symbols:help';
+                } else {
+                    gradient = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)';
+                    iconColor = '#ef4444';
+                    icon = 'material-symbols:error';
+                }
+                
+                const examDate = exam.date ? new Date(exam.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Recent';
+                const isLatest = index === 0;
+                
+                html += `
+                    <div class="recent-exam-card" style="
+                        background: linear-gradient(to bottom, white 0%, #fafbfc 100%);
+                        border-radius: 16px;
+                        padding: 1.5rem;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+                        border: 1px solid #e5e7eb;
+                        transition: all 0.3s ease;
+                        cursor: pointer;
+                        flex: 1;
+                        min-width: 0;
+                        position: relative;
+                        overflow: hidden;
+                    " onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 12px 28px rgba(0,0,0,0.15)'; this.style.borderColor='${iconColor}'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)'; this.style.borderColor='#e5e7eb'" onclick="window.location.href='physics-exam.html'">
+                        <!-- Decorative background element -->
+                        <div style="
+                            position: absolute;
+                            top: 0;
+                            right: 0;
+                            width: 80px;
+                            height: 80px;
+                            background: ${gradient};
+                            opacity: 0.1;
+                            border-radius: 0 0 0 50px;
+                            pointer-events: none;
+                        "></div>
+                        
+                        <!-- Latest badge -->
+                        ${isLatest ? `
+                        <div style="position: absolute; top: 10px; right: 10px; background: #667eea; color: white; padding: 0.25rem 0.5rem; border-radius: 12px; font-size: 0.7rem; font-weight: 600; z-index: 2;">
+                            Latest
+                        </div>` : ''}
+                        
+                        <!-- Score Badge -->
+                        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; position: relative; z-index: 1;">
+                            <div style="
+                                background: ${gradient};
+                                color: white;
+                                padding: 0.5rem 1rem;
+                                border-radius: 25px;
+                                font-weight: 700;
+                                font-size: 1rem;
+                                display: flex;
+                                align-items: center;
+                                gap: 0.5rem;
+                                box-shadow: 0 4px 12px ${iconColor}40;
+                            ">
+                                <iconify-icon icon="${icon}" style="font-size: 1.2rem;"></iconify-icon>
+                                ${percentage}%
+                            </div>
+                            <span style="color: #94a3b8; font-size: 0.8rem; font-weight: 500;">${examDate}</span>
+                        </div>
+                        
+                        <!-- Exam Title -->
+                        <div style="
+                            font-weight: 700;
+                            color: #1e293b;
+                            font-size: 1rem;
+                            margin-bottom: 0.75rem;
+                            line-height: 1.4;
+                            min-height: 2.8rem;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            position: relative;
+                            z-index: 1;
+                        " title="${exam.title || 'Exam'}">${exam.title || 'Untitled Exam'}</div>
+                        
+                        <!-- Exam Details -->
+                        <div style="
+                            display: flex;
+                            align-items: center;
+                            gap: 0.5rem;
+                            color: #64748b;
+                            font-size: 0.85rem;
+                            margin-bottom: 1rem;
+                            position: relative;
+                            z-index: 1;
+                        ">
+                            <iconify-icon icon="material-symbols:article" style="font-size: 1rem; color: ${iconColor};"></iconify-icon>
+                            <span>${exam.questions ? exam.questions.length + ' questions' : 'Examination'}</span>
+                        </div>
+                        
+                        <!-- Progress Bar -->
+                        <div style="
+                            margin-top: 1rem;
+                            height: 6px;
+                            background: #e5e7eb;
+                            border-radius: 3px;
+                            overflow: hidden;
+                            position: relative;
+                            z-index: 1;
+                        ">
+                            <div style="
+                                height: 100%;
+                                background: ${gradient};
+                                width: ${percentage}%;
+                                transition: width 0.6s ease;
+                                box-shadow: 0 0 8px ${iconColor}50;
+                            "></div>
+                        </div>
+                        
+                        <!-- View Details Link -->
+                        <div style="
+                            margin-top: 0.75rem;
+                            display: flex;
+                            align-items: center;
+                            gap: 0.25rem;
+                            color: ${iconColor};
+                            font-size: 0.85rem;
+                            font-weight: 600;
+                            position: relative;
+                            z-index: 1;
+                        ">
+                            <span>View Details</span>
+                            <iconify-icon icon="material-symbols:arrow-forward" style="font-size: 1rem;"></iconify-icon>
+                        </div>
+                    </div>
+                `;
+            });
             
-            const examDate = exam.date ? new Date(exam.date).toLocaleDateString() : 'Recent';
-            
-            container.innerHTML = `
-                <div style="background: ${gradeColor}; color: white; padding: 1rem; border-radius: 12px; text-align: center;">
-                    <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 0.5rem;">${exam.title || 'Exam'}</div>
-                    <div style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.25rem;">${score}/${maxScore}</div>
-                    <div style="font-size: 1rem; font-weight: 600;">${percentage}%</div>
-                    <div style="font-size: 0.75rem; opacity: 0.8; margin-top: 0.5rem;">${examDate}</div>
-                </div>
-            `;
+            container.innerHTML = html;
         }
 
         // Reset progress data to sample data
@@ -1071,7 +2231,7 @@
                 
                 // Force reload with sample data
                 loadProgressData();
-                loadRecentGrades();
+                loadRecentGradesProgress();
                 updateQuizAndExamAverages();
                 updatePerformanceBarChart();
                 
@@ -1082,6 +2242,14 @@
         // Calculate and update quiz and exam averages
         function updateQuizAndExamAverages() {
             console.log('Updating quiz and exam averages...');
+            
+            // Clear sample data first
+            console.log('🧹 Checking for sample data to clear...');
+            const assignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            
+            console.log(`Current data counts - Assignments: ${assignments.length}, Quizzes: ${quizzes.length}, Exams: ${exams.length}`);
             
             // Check all localStorage keys to find quiz scores
             console.log('All localStorage keys:', Object.keys(localStorage));
@@ -1115,7 +2283,12 @@
                         const parsed = JSON.parse(data);
                         console.log(`Found data in ${key}:`, parsed);
                         if (Array.isArray(parsed)) {
-                            quizScores = quizScores.concat(parsed);
+                            // Filter out submissions from quiz data
+                            const filteredQuizzes = parsed.filter(item => 
+                                !item.assignmentId && !item.submittedAt && !item.submissionId &&
+                                (!item.id || !item.id.toString().startsWith('submission_'))
+                            );
+                            quizScores = quizScores.concat(filteredQuizzes);
                         }
                     } catch (e) {
                         console.log(`Could not parse ${key}:`, e);
@@ -1123,7 +2296,7 @@
                 }
             });
             
-            console.log('Found quiz scores:', quizScores);
+            console.log('Found quiz scores (filtered):', quizScores);
             
             // Let's also check if there are any quiz scores stored in the quiz objects themselves
             // Maybe the scores are stored as properties in the quiz definitions
@@ -1162,14 +2335,20 @@
                             console.log(`First item in ${key}:`, firstItem);
                             console.log(`First item keys:`, Object.keys(firstItem));
                             
-                            // Check if this is assignment data (has assignmentId) vs quiz data
-                            if (firstItem && firstItem.assignmentId) {
-                                console.log(`This is assignment data in ${key}, skipping for quiz/exam calculation`);
+                            // Check if this is assignment/submission data (has assignmentId or submission-specific fields) vs quiz data
+                            if (firstItem && (firstItem.assignmentId || firstItem.submittedAt || firstItem.submissionId || 
+                                firstItem.id && firstItem.id.toString().startsWith('submission_'))) {
+                                console.log(`This is assignment/submission data in ${key}, skipping for quiz/exam calculation`);
                             } else if (firstItem && (firstItem.score !== undefined || firstItem.grade !== undefined || firstItem.points !== undefined)) {
                                 console.log(`This looks like quiz/exam data: ${key}`);
-                                if (key.toLowerCase().includes('quiz')) {
-                                    quizScores = quizScores.concat(parsed);
-                                } else if (key.toLowerCase().includes('exam')) {
+                                if (key.toLowerCase().includes('quiz') && !key.toLowerCase().includes('submission')) {
+                                    // Only add to quizScores if we're sure it's not submission data
+                                    const filteredQuizzes = parsed.filter(item => 
+                                        !item.assignmentId && !item.submittedAt && !item.submissionId &&
+                                        (!item.id || !item.id.toString().startsWith('submission_'))
+                                    );
+                                    quizScores = quizScores.concat(filteredQuizzes);
+                                } else if (key.toLowerCase().includes('exam') && !key.toLowerCase().includes('submission')) {
                                     // examScores will be declared later, so we'll handle this differently
                                     console.log(`Found exam data in ${key}, will process later`);
                                 }
@@ -1181,9 +2360,17 @@
                 }
             });
             
-            // Load quizzes data
-            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
-            const completedQuizzes = quizzes.filter(q => q.status === 'completed' || q.status === 'submitted');
+            // Use quizzes data already loaded above (line 2119)
+            // Filter for completed quizzes - be more lenient with the filter
+            const completedQuizzes = quizzes.filter(q => {
+                const isCompleted = q.status === 'completed' || q.status === 'submitted' || q.completed === true;
+                const hasScoreData = q.score !== undefined || q.grade !== undefined || q.points !== undefined || 
+                                  q.totalScore !== undefined || q.finalScore !== undefined || 
+                                  q.percentage !== undefined || q.bestScore !== undefined;
+                return isCompleted && hasScoreData;
+            });
+            
+            console.log('Filtered completed quizzes:', completedQuizzes);
             
             // Look for exam results/scores in different localStorage keys
             const possibleExamKeys = [
@@ -1214,7 +2401,12 @@
                         const parsed = JSON.parse(data);
                         console.log(`Found data in ${key}:`, parsed);
                         if (Array.isArray(parsed)) {
-                            examScores = examScores.concat(parsed);
+                            // Filter out submissions from exam data
+                            const filteredExams = parsed.filter(item => 
+                                !item.assignmentId && !item.submittedAt && !item.submissionId &&
+                                (!item.id || !item.id.toString().startsWith('submission_'))
+                            );
+                            examScores = examScores.concat(filteredExams);
                         }
                     } catch (e) {
                         console.log(`Could not parse ${key}:`, e);
@@ -1226,10 +2418,11 @@
             
             // Let's also check if there are any exam scores stored in the exam objects themselves
             // Maybe the scores are stored as properties in the exam definitions
+            let completedExamsWithScores = [];
             if (examScores.length === 0) {
                 console.log('No separate exam scores found, checking exam definitions for scores...');
                 const examDefinitions = JSON.parse(localStorage.getItem('physicsExams') || '[]');
-                const completedExamsWithScores = examDefinitions.filter(e => 
+                completedExamsWithScores = examDefinitions.filter(e => 
                     e.status === 'completed' && 
                     (e.score !== undefined || e.grade !== undefined || e.points !== undefined || e.finalScore !== undefined)
                 );
@@ -1240,32 +2433,99 @@
                 }
             }
             
-            // Load exams data
-            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
-            const completedExams = exams.filter(e => e.status === 'completed' || e.status === 'submitted');
+            // Use exams data already loaded above (line 2120)
+            // Filter for completed exams - be more lenient with the filter
+            const completedExams = exams.filter(e => {
+                const isCompleted = e.status === 'completed' || e.status === 'submitted' || e.completed === true;
+                const hasScoreData = e.score !== undefined || e.grade !== undefined || e.points !== undefined || 
+                                  e.totalScore !== undefined || e.finalScore !== undefined || 
+                                  e.percentage !== undefined;
+                return isCompleted && hasScoreData;
+            });
+            
+            console.log('Filtered completed exams:', completedExams);
             
             // Calculate quiz total points
             if (completedQuizzes.length > 0 || quizScores.length > 0) {
                 console.log('Completed quizzes data:', completedQuizzes);
-                console.log('Found quiz scores data:', quizScores);
+                console.log('Found quiz scores data (after filtering):', quizScores);
+                
+                // Filter out submissions from dataToUse as an extra safety measure
+                const filterSubmissions = (items) => {
+                    return items.filter(item => 
+                        !item.assignmentId && !item.submittedAt && !item.submissionId &&
+                        (!item.id || !item.id.toString().startsWith('submission_'))
+                    );
+                };
+                
+                // Deduplicate quizScores by ID to prevent counting the same quiz twice
+                const deduplicateById = (items) => {
+                    const seen = new Set();
+                    return items.filter(item => {
+                        const id = item.id;
+                        if (seen.has(id)) {
+                            console.log(`Skipping duplicate quiz with id: ${id}`);
+                            return false;
+                        }
+                        seen.add(id);
+                        return true;
+                    });
+                };
                 
                 // Use quiz scores if available, otherwise use completed quizzes
-                const dataToUse = quizScores.length > 0 ? quizScores : completedQuizzes;
-                console.log('Using data:', dataToUse);
+                const filteredQuizScores = filterSubmissions(quizScores.length > 0 ? deduplicateById(quizScores) : []);
+                const dataToUse = filteredQuizScores.length > 0 ? filteredQuizScores : completedQuizzes;
+                console.log('Using quiz data (final filtered and deduplicated):', dataToUse);
                 
                 const totalQuizPoints = dataToUse.reduce((sum, quiz) => {
                     // Try multiple possible score properties
-                    const score = quiz.score || quiz.points || quiz.grade || quiz.userScore || quiz.earnedPoints || quiz.result || quiz.finalScore || 0;
-                    console.log(`Quiz "${quiz.title || quiz.name || quiz.id || quiz.quizTitle}" - All properties:`, quiz);
-                    console.log(`Quiz "${quiz.title || quiz.name || quiz.id || quiz.quizTitle}" - Score found: ${score}`);
-                    return sum + (parseInt(score) || 0);
+                    let score = quiz.score || quiz.points || quiz.grade || quiz.userScore || quiz.earnedPoints || quiz.result || quiz.finalScore || 0;
+                    const totalPoints = quiz.totalPoints || quiz.maxScore || quiz.maxPoints || 1;
+                    
+                    // If we have a percentage field, use that
+                    if (quiz.percentage !== undefined && totalPoints) {
+                        score = (quiz.percentage / 100) * totalPoints;
+                    } 
+                    // If bestScore exists and is 0-100, and score matches totalPoints closely, treat score as already in points
+                    else if (quiz.bestScore !== undefined && quiz.bestScore >= 0 && quiz.bestScore <= 100 && score <= totalPoints) {
+                        // Score is already in points (e.g., score=1, totalPoints=1 means 1/1)
+                        score = score;
+                    }
+                    // If score is much larger than totalPoints, it's already in points
+                    else if (score > totalPoints * 1.1) {
+                        // Score might already be in points
+                        score = score;
+                    }
+                    // If score and totalPoints are both small and score equals totalPoints, treat as points
+                    else if (score === totalPoints && score <= 10) {
+                        // Likely already in points (e.g., 1/1)
+                        score = score;
+                    }
+                    // If score <= 100 but totalPoints is large, score might be a percentage
+                    else if (score <= 100 && totalPoints > 100) {
+                        // Score is likely a percentage
+                        score = (score / 100) * totalPoints;
+                    }
+                    // Default: assume score is already in points
+                    else {
+                        score = score;
+                    }
+                    
+                    console.log(`Quiz "${quiz.title || quiz.name || quiz.id || quiz.quizTitle}" - Score: ${quiz.score}, TotalPoints: ${totalPoints}, BestScore: ${quiz.bestScore}, Calculated score: ${score}`);
+                    return sum + (parseFloat(score) || 0);
                 }, 0);
                 
                 const totalQuizMaxPoints = dataToUse.reduce((sum, quiz) => {
                     // Try multiple possible max score properties
-                    const maxScore = quiz.maxScore || quiz.maxPoints || quiz.totalPoints || quiz.total || quiz.maximumScore || quiz.totalPossible || quiz.totalScore || 1;
-                    console.log(`Quiz "${quiz.title || quiz.name || quiz.id || quiz.quizTitle}" - Max Score found: ${maxScore}`);
-                    return sum + (parseInt(maxScore) || 1);
+                    let maxScore = quiz.maxScore || quiz.maxPoints || quiz.totalPoints || quiz.total || quiz.maximumScore || quiz.totalPossible || quiz.totalScore || 0;
+                    
+                    // If we don't have maxScore but have questions, estimate
+                    if (!maxScore && quiz.questions && quiz.questions.length > 0) {
+                        maxScore = quiz.questions.length * (quiz.pointsPerQuestion || 1);
+                    }
+                    
+                    console.log(`Quiz "${quiz.title || quiz.name || quiz.id || quiz.quizTitle}" - Max Score calculated: ${maxScore}`);
+                    return sum + (parseFloat(maxScore) || 0);
                 }, 0);
                 
                 const quizPercentage = totalQuizMaxPoints > 0 ? Math.round((totalQuizPoints / totalQuizMaxPoints) * 100) : 0;
@@ -1281,25 +2541,79 @@
             // Calculate exam total points
             if (completedExams.length > 0 || examScores.length > 0) {
                 console.log('Completed exams data:', completedExams);
-                console.log('Found exam scores data:', examScores);
+                console.log('Found exam scores data (after filtering):', examScores);
+                
+                // Filter out submissions from dataToUse as an extra safety measure
+                const filterSubmissions = (items) => {
+                    return items.filter(item => 
+                        !item.assignmentId && !item.submittedAt && !item.submissionId &&
+                        (!item.id || !item.id.toString().startsWith('submission_'))
+                    );
+                };
+                
+                // Deduplicate examScores by ID to prevent counting the same exam twice
+                const deduplicateById = (items) => {
+                    const seen = new Set();
+                    return items.filter(item => {
+                        const id = item.id;
+                        if (seen.has(id)) {
+                            console.log(`Skipping duplicate exam with id: ${id}`);
+                            return false;
+                        }
+                        seen.add(id);
+                        return true;
+                    });
+                };
                 
                 // Use exam scores if available, otherwise use completed exams
-                const dataToUse = examScores.length > 0 ? examScores : completedExams;
-                console.log('Using exam data:', dataToUse);
+                const filteredExamScores = filterSubmissions(examScores.length > 0 ? deduplicateById(examScores) : []);
+                const dataToUse = filteredExamScores.length > 0 ? filteredExamScores : completedExams;
+                console.log('Using exam data (final filtered and deduplicated):', dataToUse);
                 
                 const totalExamPoints = dataToUse.reduce((sum, exam) => {
                     // Try multiple possible score properties
-                    const score = exam.score || exam.points || exam.grade || exam.userScore || exam.earnedPoints || exam.result || exam.finalScore || 0;
-                    console.log(`Exam "${exam.title || exam.name || exam.id || exam.examTitle}" - All properties:`, exam);
-                    console.log(`Exam "${exam.title || exam.name || exam.id || exam.examTitle}" - Score found: ${score}`);
-                    return sum + (parseInt(score) || 0);
+                    let score = exam.score || exam.points || exam.grade || exam.userScore || exam.earnedPoints || exam.result || exam.finalScore || 0;
+                    const totalPoints = exam.totalPoints || exam.maxScore || exam.maxPoints || 1;
+                    
+                    // If we have a percentage field, use that
+                    if (exam.percentage !== undefined && totalPoints) {
+                        score = (exam.percentage / 100) * totalPoints;
+                    } 
+                    // If score matches totalPoints exactly and both are small, treat as points
+                    else if (score === totalPoints && score <= 10) {
+                        // Likely already in points (e.g., 1/1)
+                        score = score;
+                    }
+                    // If score is much larger than totalPoints, it's already in points
+                    else if (score > totalPoints * 1.1) {
+                        // Score might already be in points
+                        score = score;
+                    }
+                    // If score <= 100 but totalPoints is large, score might be a percentage
+                    else if (score <= 100 && totalPoints > 100) {
+                        // Score is likely a percentage
+                        score = (score / 100) * totalPoints;
+                    }
+                    // Default: assume score is already in points
+                    else {
+                        score = score;
+                    }
+                    
+                    console.log(`Exam "${exam.title || exam.name || exam.id || exam.examTitle}" - Score: ${exam.score}, TotalPoints: ${totalPoints}, Calculated score: ${score}`);
+                    return sum + (parseFloat(score) || 0);
                 }, 0);
                 
                 const totalExamMaxPoints = dataToUse.reduce((sum, exam) => {
                     // Try multiple possible max score properties
-                    const maxScore = exam.maxScore || exam.maxPoints || exam.totalPoints || exam.total || exam.maximumScore || exam.totalPossible || exam.totalScore || 10;
-                    console.log(`Exam "${exam.title || exam.name || exam.id || exam.examTitle}" - Max Score found: ${maxScore}`);
-                    return sum + (parseInt(maxScore) || 10);
+                    let maxScore = exam.maxScore || exam.maxPoints || exam.totalPoints || exam.total || exam.maximumScore || exam.totalPossible || exam.totalScore || 0;
+                    
+                    // If we don't have maxScore but have questions, estimate
+                    if (!maxScore && exam.questions && exam.questions.length > 0) {
+                        maxScore = exam.questions.length * (exam.pointsPerQuestion || 1);
+                    }
+                    
+                    console.log(`Exam "${exam.title || exam.name || exam.id || exam.examTitle}" - Max Score calculated: ${maxScore}`);
+                    return sum + (parseFloat(maxScore) || 0);
                 }, 0);
                 
                 const examPercentage = totalExamMaxPoints > 0 ? Math.round((totalExamPoints / totalExamMaxPoints) * 100) : 0;
@@ -1325,11 +2639,25 @@
             const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
             const actualExams = exams.filter(exam => !exam.assignmentId); // Filter out assignment submissions
             
+            // Sort quizzes by completion date (oldest to newest, left to right)
+            const sortedQuizzes = actualQuizzes.sort((a, b) => {
+                const dateA = a.completedAt || a.submittedAt || a.date || a.createdAt || '';
+                const dateB = b.completedAt || b.submittedAt || b.date || b.createdAt || '';
+                return new Date(dateA) - new Date(dateB); // Sort ascending (oldest first)
+            });
+            
+            // Sort exams by completion date (oldest to newest, left to right)
+            const sortedExams = actualExams.sort((a, b) => {
+                const dateA = a.completedAt || a.submittedAt || a.date || a.createdAt || '';
+                const dateB = b.completedAt || b.submittedAt || b.date || b.createdAt || '';
+                return new Date(dateA) - new Date(dateB); // Sort ascending (oldest first)
+            });
+            
             // Create individual quiz bars
-            updateIndividualQuizBars(actualQuizzes);
+            updateIndividualQuizBars(sortedQuizzes);
             
             // Create individual exam bars
-            updateIndividualExamBars(actualExams);
+            updateIndividualExamBars(sortedExams);
         }
 
         // Update individual quiz bars as a single bar chart
@@ -1347,7 +2675,27 @@
             
             let html = `
                 <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    <div style="display: flex; align-items: end; justify-content: space-between; height: ${maxHeight}px; border-bottom: 2px solid #e5e7eb; border-left: 2px solid #e5e7eb; padding: 1rem 0 0 1rem; margin-bottom: 1rem;">
+                    <!-- Chart Container -->
+                    <div style="display: flex; align-items: flex-end; gap: 1rem;">
+                        <!-- Y-axis labels -->
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: ${maxHeight}px; font-size: 0.8rem; color: #6b7280; min-width: 40px; text-align: right; padding-bottom: 1.5rem;">
+                            <span style="font-weight: 600;">100%</span>
+                            <span>75%</span>
+                            <span>50%</span>
+                            <span>25%</span>
+                            <span style="font-weight: 600;">0%</span>
+                        </div>
+                        
+                        <!-- Chart with bars and x-axis -->
+                        <div style="flex: 1; position: relative;">
+                            <div style="display: flex; align-items: end; justify-content: space-between; height: ${maxHeight}px; border-bottom: 2px solid #e5e7eb; padding-bottom: 2rem; position: relative;">
+                                <!-- Grid lines -->
+                                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;">
+                                    ${[0, 25, 50, 75, 100].map(pct => {
+                                        const top = maxHeight - ((pct / 100) * maxHeight);
+                                        return `<div style="position: absolute; top: ${top}px; left: 0; right: 0; height: 1px; background: #e5e7eb; opacity: 0.5;"></div>`;
+                                    }).join('')}
+                                </div>
             `;
             
             // Calculate percentages and create bars
@@ -1362,49 +2710,154 @@
                     (percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444') : '#e5e7eb';
                 
                 // Calculate bar height based on percentage
-                const barHeight = (percentage / 100) * (maxHeight - 40); // 40px for padding
+                const barHeight = (percentage / 100) * maxHeight;
                 
-                // Truncate quiz title if too long
+                // Quiz title
                 const quizTitle = quiz.title || `Quiz ${index + 1}`;
-                const displayTitle = quizTitle.length > 8 ? quizTitle.substring(0, 8) + '...' : quizTitle;
                 
                 html += `
-                    <div style="display: flex; flex-direction: column; align-items: center; margin: 0 2px; flex: 1;">
-                        <div style="display: flex; align-items: end; height: ${maxHeight - 40}px;">
-                            <div style="
-                                background: ${barColor}; 
-                                width: 30px; 
-                                height: ${Math.max(barHeight, 4)}px; 
-                                border-radius: 4px 4px 0 0; 
-                                transition: height 0.8s ease;
-                                position: relative;
-                            " title="${quizTitle}: ${percentage}%">
+                    <div class="quiz-bar-wrapper" style="display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; height: 100%;">
+                        <div style="flex: 1; display: flex; align-items: flex-end; width: 100%; justify-content: center;">
+                            <div class="quiz-bar" 
+                                 style="
+                                    background: ${barColor}; 
+                                    width: 60%; 
+                                    max-width: 50px;
+                                    height: ${Math.max(barHeight, 4)}px; 
+                                    border-radius: 4px 4px 0 0; 
+                                    transition: height 0.8s ease, all 0.3s ease;
+                                    position: relative;
+                                    cursor: pointer;
+                                    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                                 "
+                                 onmouseover="this.style.transform='scale(1.1)'; this.style.filter='brightness(1.15)'; showQuizTooltip(event, '${quizTitle.replace(/'/g, "\\'")}', ${score}, ${maxScore}, ${percentage})"
+                                 onmouseout="this.style.transform='scale(1)'; this.style.filter='brightness(1)'; hideQuizTooltip()">
                             </div>
                         </div>
-                        <div style="margin-top: 0.5rem; font-size: 0.75rem; color: #6b7280; text-align: center; transform: rotate(-45deg); white-space: nowrap;">
-                            ${displayTitle}
-                        </div>
-                        <div style="margin-top: 1.5rem; font-size: 0.7rem; color: #374151; font-weight: 600;">
-                            ${percentage}%
+                        <!-- X-axis labels (quiz names) -->
+                        <div style="width: 100%; padding-top: 0.5rem;">
+                            <div style="font-size: 0.7rem; color: #6b7280; text-align: center; word-wrap: break-word; line-height: 1.3;">
+                                ${quizTitle.length > 15 ? quizTitle.substring(0, 15) + '...' : quizTitle}
+                            </div>
                         </div>
                     </div>
                 `;
             });
             
             html += `
-                    </div>
-                    <!-- Y-axis labels -->
-                    <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: #6b7280;">
-                        <span>0%</span>
-                        <span>25%</span>
-                        <span>50%</span>
-                        <span>75%</span>
-                        <span>100%</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `;
             
             container.innerHTML = html;
+        }
+
+        // Quiz tooltip functions
+        let tooltip = null;
+
+        function showQuizTooltip(event, quizTitle, score, maxScore, percentage) {
+            // Remove existing tooltip if any
+            if (tooltip) {
+                tooltip.remove();
+            }
+
+            // Create tooltip element
+            tooltip = document.createElement('div');
+            tooltip.style.cssText = `
+                position: absolute;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                color: white;
+                padding: 1rem 1.25rem;
+                border-radius: 12px;
+                font-size: 0.875rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+                z-index: 1000;
+                pointer-events: none;
+                white-space: normal;
+                min-width: 200px;
+                animation: fadeInTooltip 0.2s ease;
+            `;
+            
+            // Determine grade letter
+            let gradeLetter = '';
+            if (percentage >= 90) gradeLetter = 'A+';
+            else if (percentage >= 80) gradeLetter = 'A';
+            else if (percentage >= 70) gradeLetter = 'B';
+            else if (percentage >= 60) gradeLetter = 'C';
+            else if (percentage >= 50) gradeLetter = 'D';
+            else gradeLetter = 'F';
+            
+            tooltip.innerHTML = `
+                <div style="font-weight: 700; margin-bottom: 0.75rem; color: #f1f5f9; font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.5rem;">${quizTitle}</div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 0.4rem; border-radius: 8px;">
+                            <iconify-icon icon="material-symbols:percent" style="font-size: 1.2rem;"></iconify-icon>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.75rem; opacity: 0.8; margin-bottom: 0.15rem;">Grade</div>
+                            <div style="font-size: 1.1rem; font-weight: 700;">${percentage}% (${gradeLetter})</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 0.4rem; border-radius: 8px;">
+                            <iconify-icon icon="material-symbols:trophy" style="font-size: 1.2rem;"></iconify-icon>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.75rem; opacity: 0.8; margin-bottom: 0.15rem;">Score</div>
+                            <div style="font-size: 1.1rem; font-weight: 700;">${score} / ${maxScore} points</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add animation keyframes if not already added
+            if (!document.getElementById('tooltipAnimationStyles')) {
+                const style = document.createElement('style');
+                style.id = 'tooltipAnimationStyles';
+                style.textContent = `
+                    @keyframes fadeInTooltip {
+                        from {
+                            opacity: 0;
+                            transform: translateY(5px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+            
+            document.body.appendChild(tooltip);
+            
+            // Position tooltip
+            const rect = event.target.getBoundingClientRect();
+            tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+            tooltip.style.top = (rect.top - tooltip.offsetHeight - 10) + 'px';
+            
+            // Adjust if tooltip goes off screen
+            if (parseInt(tooltip.style.left) < 10) {
+                tooltip.style.left = '10px';
+            }
+            if (parseInt(tooltip.style.left) + tooltip.offsetWidth > window.innerWidth - 10) {
+                tooltip.style.left = (window.innerWidth - tooltip.offsetWidth - 10) + 'px';
+            }
+        }
+
+        function hideQuizTooltip() {
+            if (tooltip) {
+                tooltip.style.animation = 'fadeOutTooltip 0.2s ease';
+                setTimeout(() => {
+                    if (tooltip) {
+                        tooltip.remove();
+                        tooltip = null;
+                    }
+                }, 200);
+            }
         }
 
         // Update individual exam bars
@@ -1417,47 +2870,219 @@
                 return;
             }
             
-            let html = '';
+            // Create a single bar chart with exam names on x-axis and percentages on y-axis
+            const maxHeight = 200; // Maximum height for the chart
+            
+            let html = `
+                <div style="background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                    <!-- Chart Container -->
+                    <div style="display: flex; align-items: flex-end; gap: 1rem;">
+                        <!-- Y-axis labels -->
+                        <div style="display: flex; flex-direction: column; justify-content: space-between; height: ${maxHeight}px; font-size: 0.8rem; color: #6b7280; min-width: 40px; text-align: right; padding-bottom: 1.5rem;">
+                            <span style="font-weight: 600;">100%</span>
+                            <span>75%</span>
+                            <span>50%</span>
+                            <span>25%</span>
+                            <span style="font-weight: 600;">0%</span>
+                        </div>
+                        
+                        <!-- Chart with bars and x-axis -->
+                        <div style="flex: 1; position: relative;">
+                            <div style="display: flex; align-items: end; justify-content: space-between; height: ${maxHeight}px; border-bottom: 2px solid #e5e7eb; padding-bottom: 2rem; position: relative;">
+                                <!-- Grid lines -->
+                                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none;">
+                                    ${[0, 25, 50, 75, 100].map(pct => {
+                                        const top = maxHeight - ((pct / 100) * maxHeight);
+                                        return `<div style="position: absolute; top: ${top}px; left: 0; right: 0; height: 1px; background: #e5e7eb; opacity: 0.5;"></div>`;
+                                    }).join('')}
+                                </div>
+            `;
+            
+            // Calculate percentages and create bars
             exams.forEach((exam, index) => {
                 const isCompleted = exam.status === 'completed' || exam.status === 'submitted';
                 const score = exam.score || exam.points || exam.grade || 0;
                 const maxScore = exam.maxScore || exam.maxPoints || exam.totalPoints || 100;
                 const percentage = isCompleted ? Math.round((score / maxScore) * 100) : 0;
+                
+                // Color coding based on percentage
                 const barColor = isCompleted ? 
                     (percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444') : '#e5e7eb';
                 
+                // Calculate bar height based on percentage
+                const barHeight = (percentage / 100) * maxHeight;
+                
+                // Exam title
+                const examTitle = exam.title || `Exam ${index + 1}`;
+                
                 html += `
-                    <div style="margin-bottom: 1rem; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                            <span style="font-weight: 600; color: #374151;">${exam.title || `Exam ${index + 1}`}</span>
-                            <span style="font-weight: 700; color: ${barColor};">
-                                ${isCompleted ? `${score}/${maxScore} (${percentage}%)` : 'Not Completed'}
-                            </span>
+                    <div class="exam-bar-wrapper" style="display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; height: 100%;">
+                        <div style="flex: 1; display: flex; align-items: flex-end; width: 100%; justify-content: center;">
+                            <div class="exam-bar" 
+                                 style="
+                                    background: ${barColor}; 
+                                    width: 60%; 
+                                    max-width: 50px;
+                                    height: ${Math.max(barHeight, 4)}px; 
+                                    border-radius: 4px 4px 0 0; 
+                                    transition: height 0.8s ease, all 0.3s ease;
+                                    position: relative;
+                                    cursor: pointer;
+                                    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+                                 "
+                                 onmouseover="this.style.transform='scale(1.1)'; this.style.filter='brightness(1.15)'; showExamTooltip(event, '${examTitle.replace(/'/g, "\\'")}', ${score}, ${maxScore}, ${percentage})"
+                                 onmouseout="this.style.transform='scale(1)'; this.style.filter='brightness(1)'; hideExamTooltip()">
+                            </div>
                         </div>
-                        <div style="background: #e5e7eb; border-radius: 6px; height: 12px; overflow: hidden;">
-                            <div style="background: ${barColor}; height: 100%; width: ${percentage}%; transition: width 0.8s ease; border-radius: 6px;"></div>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-top: 0.5rem; font-size: 0.8rem; color: #6b7280;">
-                            <span>${isCompleted ? 'Completed' : 'Pending'}</span>
-                            <span>${exam.date ? new Date(exam.date).toLocaleDateString() : 'No date'}</span>
+                        <!-- X-axis labels (exam names) -->
+                        <div style="width: 100%; padding-top: 0.5rem;">
+                            <div style="font-size: 0.7rem; color: #6b7280; text-align: center; word-wrap: break-word; line-height: 1.3;">
+                                ${examTitle.length > 15 ? examTitle.substring(0, 15) + '...' : examTitle}
+                            </div>
                         </div>
                     </div>
                 `;
             });
             
+            html += `
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
             container.innerHTML = html;
+        }
+
+        // Exam tooltip functions
+        let examTooltip = null;
+
+        function showExamTooltip(event, examTitle, score, maxScore, percentage) {
+            // Remove existing tooltip if any
+            if (examTooltip) {
+                examTooltip.remove();
+            }
+
+            // Create tooltip element
+            examTooltip = document.createElement('div');
+            examTooltip.style.cssText = `
+                position: absolute;
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                color: white;
+                padding: 1rem 1.25rem;
+                border-radius: 12px;
+                font-size: 0.875rem;
+                box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+                z-index: 1000;
+                pointer-events: none;
+                white-space: normal;
+                min-width: 200px;
+                animation: fadeInTooltip 0.2s ease;
+            `;
+            
+            // Determine grade letter
+            let gradeLetter = '';
+            if (percentage >= 90) gradeLetter = 'A+';
+            else if (percentage >= 80) gradeLetter = 'A';
+            else if (percentage >= 70) gradeLetter = 'B';
+            else if (percentage >= 60) gradeLetter = 'C';
+            else if (percentage >= 50) gradeLetter = 'D';
+            else gradeLetter = 'F';
+            
+            examTooltip.innerHTML = `
+                <div style="font-weight: 700; margin-bottom: 0.75rem; color: #f1f5f9; font-size: 0.95rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.5rem;">${examTitle}</div>
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 0.4rem; border-radius: 8px;">
+                            <iconify-icon icon="material-symbols:percent" style="font-size: 1.2rem;"></iconify-icon>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.75rem; opacity: 0.8; margin-bottom: 0.15rem;">Grade</div>
+                            <div style="font-size: 1.1rem; font-weight: 700;">${percentage}% (${gradeLetter})</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="background: rgba(255,255,255,0.2); padding: 0.4rem; border-radius: 8px;">
+                            <iconify-icon icon="material-symbols:trophy" style="font-size: 1.2rem;"></iconify-icon>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.75rem; opacity: 0.8; margin-bottom: 0.15rem;">Score</div>
+                            <div style="font-size: 1.1rem; font-weight: 700;">${score} / ${maxScore} points</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(examTooltip);
+            
+            // Position tooltip
+            const rect = event.target.getBoundingClientRect();
+            examTooltip.style.left = (rect.left + rect.width / 2 - examTooltip.offsetWidth / 2) + 'px';
+            examTooltip.style.top = (rect.top - examTooltip.offsetHeight - 10) + 'px';
+            
+            // Adjust if tooltip goes off screen
+            if (parseInt(examTooltip.style.left) < 10) {
+                examTooltip.style.left = '10px';
+            }
+            if (parseInt(examTooltip.style.left) + examTooltip.offsetWidth > window.innerWidth - 10) {
+                examTooltip.style.left = (window.innerWidth - examTooltip.offsetWidth - 10) + 'px';
+            }
+        }
+
+        function hideExamTooltip() {
+            if (examTooltip) {
+                examTooltip.style.animation = 'fadeOutTooltip 0.2s ease';
+                setTimeout(() => {
+                    if (examTooltip) {
+                        examTooltip.remove();
+                        examTooltip = null;
+                    }
+                }, 200);
+            }
         }
 
         // Load progress data when page loads
         document.addEventListener('DOMContentLoaded', function() {
             console.log('DOM Content Loaded - Initializing progress data...');
+            
+            // Only clear data on first visit (if flag doesn't exist)
+            if (!localStorage.getItem('physicsAcademicDataCleared')) {
+                clearPhysicsAcademicData();
+                localStorage.setItem('physicsAcademicDataCleared', 'true');
+            }
+            
             setTimeout(function() {
                 loadProgressData();
-                loadRecentGrades();
+                loadRecentGradesProgress();
                 updateQuizAndExamAverages();
                 updatePerformanceBarChart();
             }, 100); // Small delay to ensure all elements are ready
         });
+        
+        // Function to clear all quizzes, assignments, and exams
+        function clearPhysicsAcademicData() {
+            console.log('🧹 Starting to clear physics academic data...');
+            
+            // Clear quizzes
+            localStorage.removeItem('physicsQuizzes');
+            localStorage.removeItem('physicsTeacherQuizzes');
+            localStorage.removeItem('physicsQuizzesList');
+            
+            // Clear assignments (homeworks)
+            localStorage.removeItem('physicsAssignments');
+            localStorage.removeItem('physicsTeacherAssignments');
+            localStorage.removeItem('physicsAssignmentsList');
+            
+            // Clear exams
+            localStorage.removeItem('physicsExams');
+            localStorage.removeItem('physicsTeacherExams');
+            localStorage.removeItem('physicsExamsList');
+            
+            // Clear assessments (used by the new system)
+            localStorage.removeItem('physicsAssessments');
+            
+            console.log('✅ Cleared all physics quizzes, assignments, and exams from localStorage');
+        }
 
         // Also try to load immediately if DOM is already ready
         if (document.readyState === 'loading') {
@@ -1466,7 +3091,7 @@
             console.log('Document already loaded - loading progress data immediately...');
             setTimeout(function() {
                 loadProgressData();
-                loadRecentGrades();
+                loadRecentGradesProgress();
             }, 100);
         }
 
@@ -1489,12 +3114,189 @@
             // Force update with sample data
             console.log('Forcing update with sample data...');
             loadProgressData();
-            loadRecentGrades();
+            loadRecentGradesProgress();
             updateQuizAndExamAverages();
         }
 
         // Make test function available globally
         window.testProgressUpdate = testProgressUpdate;
+
+        // Enhanced Functionality Functions
+        
+        // Toggle Advanced Analytics
+        function toggleAdvancedAnalytics() {
+            const advancedSection = document.getElementById('advancedAnalytics');
+            const toggleBtn = document.getElementById('toggleAnalyticsBtn');
+            const icon = document.getElementById('analyticsIcon');
+            
+            if (advancedSection.style.display === 'none') {
+                advancedSection.style.display = 'block';
+                toggleBtn.innerHTML = '<iconify-icon icon="material-symbols:expand-less" id="analyticsIcon"></iconify-icon> Basic';
+                loadAdvancedAnalytics();
+            } else {
+                advancedSection.style.display = 'none';
+                toggleBtn.innerHTML = '<iconify-icon icon="material-symbols:expand-more" id="analyticsIcon"></iconify-icon> Advanced';
+            }
+        }
+        
+        // Load Advanced Analytics Data
+        function loadAdvancedAnalytics() {
+            // Calculate study streak
+            const streak = calculateStudyStreak();
+            document.getElementById('studyStreak').textContent = `${streak} days`;
+            
+            // Calculate total study time
+            const studyTime = calculateTotalStudyTime();
+            document.getElementById('totalStudyTime').textContent = studyTime;
+            
+            // Calculate accuracy rate
+            const accuracy = calculateAccuracyRate();
+            document.getElementById('accuracyRate').textContent = `${accuracy}%`;
+            
+            // Load performance trends chart
+            loadPerformanceTrendsChart();
+        }
+        
+        // Calculate Study Streak
+        function calculateStudyStreak() {
+            const studyData = JSON.parse(localStorage.getItem('studyStreak') || '[]');
+            let streak = 0;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            for (let i = 0; i < 365; i++) {
+                const checkDate = new Date(today);
+                checkDate.setDate(today.getDate() - i);
+                const dateStr = checkDate.toISOString().split('T')[0];
+                
+                if (studyData.includes(dateStr)) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            
+            return streak;
+        }
+        
+        // Calculate Total Study Time
+        function calculateTotalStudyTime() {
+            const studySessions = JSON.parse(localStorage.getItem('studySessions') || '[]');
+            const thisMonth = new Date();
+            thisMonth.setDate(1);
+            
+            const monthlySessions = studySessions.filter(session => 
+                new Date(session.date) >= thisMonth
+            );
+            
+            const totalMinutes = monthlySessions.reduce((total, session) => 
+                total + (session.duration || 0), 0
+            );
+            
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = totalMinutes % 60;
+            
+            return `${hours}h ${minutes}m`;
+        }
+        
+        // Calculate Accuracy Rate
+        function calculateAccuracyRate() {
+            const quizzes = JSON.parse(localStorage.getItem('physicsQuizzes') || '[]');
+            const exams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
+            
+            const allAssessments = [...quizzes, ...exams];
+            const completedAssessments = allAssessments.filter(a => 
+                a.score !== undefined && a.maxScore !== undefined
+            );
+            
+            if (completedAssessments.length === 0) return 0;
+            
+            const totalScore = completedAssessments.reduce((sum, a) => sum + (a.score || 0), 0);
+            const totalMaxScore = completedAssessments.reduce((sum, a) => sum + (a.maxScore || 1), 0);
+            
+            return Math.round((totalScore / totalMaxScore) * 100);
+        }
+        
+        // Load Performance Trends Chart
+        function loadPerformanceTrendsChart() {
+            const ctx = document.getElementById('performanceTrendsChart');
+            if (!ctx) return;
+            
+            // Generate sample data for the last 7 days
+            const labels = [];
+            const quizData = [];
+            const examData = [];
+            
+            for (let i = 6; i >= 0; i--) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                labels.push(date.toLocaleDateString('en-US', { weekday: 'short' }));
+                
+                // Generate sample performance data
+                quizData.push(Math.floor(Math.random() * 40) + 60); // 60-100
+                examData.push(Math.floor(Math.random() * 30) + 70); // 70-100
+            }
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Quiz Performance',
+                        data: quizData,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        tension: 0.4
+                    }, {
+                        label: 'Exam Performance',
+                        data: examData,
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    }
+                }
+            });
+        }
+        
+        
+        // Study Recommendations Functions
+        function generateStudyPlan() {
+            const recommendations = [
+                'Focus on quantum mechanics and wave-particle duality concepts.',
+                'Review thermodynamics laws and heat transfer mechanisms.',
+                'Practice problem-solving in electromagnetism and circuits.',
+                'Strengthen your understanding of motion and forces.',
+                'Work on energy conservation and momentum problems.'
+            ];
+            
+            const randomRecommendation = recommendations[Math.floor(Math.random() * recommendations.length)];
+            document.getElementById('studyRecommendation').textContent = 
+                `Based on your performance, we recommend: ${randomRecommendation}`;
+        }
+        
+        function viewDetailedRecommendations() {
+            alert('Opening detailed study recommendations... This would show a comprehensive study plan.');
+        }
+        
+        // Initialize enhanced features
+        function initializeEnhancedFeatures() {
+            loadAdvancedAnalytics();
+        }
     </script>
 
     <!-- Modals for Grade Charts -->
@@ -1535,12 +3337,36 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="js/notifications.js"></script>
     <script src="js/progress-tracking.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             loadCourseProgressData('physics');
-            loadGoals('physics');
-            generateCalendar();
+            
+            // Load goals if function exists
+            if (typeof loadGoals === 'function') {
+                loadGoals('physics');
+            }
+            
+            // Generate calendar if function exists
+            if (typeof generateCalendar === 'function') {
+                generateCalendar();
+            }
+            
+            // Load our custom recent grades after progress-tracking.js
+            setTimeout(function() {
+                if (typeof loadRecentGradesProgress === 'function') {
+                    loadRecentGradesProgress();
+                }
+                // Initialize enhanced features
+                if (typeof initializeEnhancedFeatures === 'function') {
+                    initializeEnhancedFeatures();
+                }
+                // Initialize notifications
+                if (typeof initializeNotifications === 'function') {
+                    initializeNotifications();
+                }
+            }, 200);
         });
         
         // Removed problematic recursive functions that were causing infinite loops

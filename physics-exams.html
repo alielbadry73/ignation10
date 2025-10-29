@@ -11,8 +11,8 @@
     * { box-sizing: border-box; }
     html, body { margin:0!important; padding:0!important; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#F8F8F8; min-height:100vh; }
     .homework-header { background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); box-shadow:0 8px 32px rgba(0,0,0,0.1); border-bottom:1px solid rgba(255,255,255,0.2); padding:1rem 2rem; position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; justify-content:space-between; align-items:center; }
-    .homework-logo { display:flex; align-items:center; text-decoration:none; color:#333; }
-    .homework-logo img { height:35px; margin-right:.75rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,.1)); transition:.3s; }
+    .homework-logo { display:flex; align-items:center; text-decoration:none; color:#333; margin-left: 70px; }
+    .homework-logo img { height:40px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.1)); transition:.3s; }
     .homework-logo:hover img { transform:scale(1.05); }
     .subject-badge { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; padding:.25rem .75rem; border-radius:20px; font-size:.8rem; font-weight:600; margin-left:1rem; }
     .homework-nav { display:flex; gap:1rem; align-items:center; }
@@ -157,102 +157,250 @@
         color: #10b981;
     }
     .homework-filters { 
-      background: white; 
-      border-radius: 16px; 
-      padding: 2rem; 
-      margin-bottom: 2rem; 
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06); 
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-radius: 12px; 
+      padding: 1rem; 
+      margin-bottom: 1.5rem; 
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06); 
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      position: relative;
+      overflow: hidden;
     }
-    .filters-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    
+    .homework-filters::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    }
+    
+    /* Header Section */
+    .filters-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-bottom: 1rem;
-      flex-wrap: nowrap;
-      gap: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #f1f3f4;
     }
     
-    .filter-badge {
-      background: #e3f2fd;
-      color: #1976d2;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-            display: flex;
-            align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
-    }
-    
-    .filter-count {
-      font-weight: 600;
-      color: #1565c0;
-    }
-    
-    .filter-label {
-            color: #333;
-    }
-    
-    .sort-display {
+    .filters-title {
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
     
+    .filters-title h3 {
+      margin: 0;
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .filters-icon {
+      font-size: 1.2rem;
+      color: #667eea;
+    }
+    
+    .filter-stats {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    /* Controls Section */
+    .filters-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .search-section {
+      min-width: 200px;
+      max-width: 300px;
+    }
+    
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    
+    .search-box:focus-within {
+      border-color: #667eea;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+    }
+    
+    .search-icon {
+      color: #6c757d;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+    
+    .search-input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 0.9rem;
+      color: #2c3e50;
+    }
+    
+    .search-input::placeholder {
+      color: #adb5bd;
+    }
+    
+    .search-clear {
+      background: none;
+      border: none;
+      color: #6c757d;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    
+    .search-clear:hover {
+      background: #f8f9fa;
+      color: #495057;
+    }
+    
+    .sort-section {
+      min-width: 160px;
+    }
+    
+    .sort-dropdown {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    
+    .sort-dropdown:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+    }
+    
+    .sort-icon {
+      color: #6c757d;
+      font-size: 1rem;
+    }
+    
     .sort-label {
-      color: #333;
+      color: #6c757d;
       font-weight: 500;
+      font-size: 0.8rem;
+    }
+    
+    .sort-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+      flex: 1;
     }
     
     .sort-value {
-      color: #1976d2;
+      color: #2c3e50;
       font-weight: 600;
-      cursor: pointer;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      transition: background-color 0.2s ease;
+      font-size: 0.85rem;
     }
     
-    .sort-value:hover {
-      background-color: rgba(25, 118, 210, 0.1);
+    .sort-arrow {
+      color: #6c757d;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .sort-selector:hover .sort-arrow {
+      transform: rotate(180deg);
     }
     
     .sort-clear {
       background: none;
       border: none;
-      color: #1976d2;
+      color: #6c757d;
       cursor: pointer;
       padding: 0.25rem;
       border-radius: 4px;
-            display: flex;
-            align-items: center;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      transition: background-color 0.2s ease;
+      transition: all 0.2s ease;
     }
     
     .sort-clear:hover {
-      background-color: rgba(25, 118, 210, 0.1);
+      background: #f8f9fa;
+      color: #495057;
+    }
+    
+    /* Category Filters */
+    .category-filters {
+      margin-bottom: 1rem;
+    }
+    
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      gap: 1rem;
+    }
+    
+    .category-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    
+    .category-icon {
+      color: #667eea;
+      font-size: 1.1rem;
     }
     
     .filter-tabs { 
       display: flex; 
       gap: 0.5rem; 
-      margin-bottom: 0; 
       flex-wrap: wrap;
-      justify-content: center;
     }
+    
     .filter-tab { 
-      padding: 0.75rem 1.5rem; 
-      border: 2px solid #e9ecef; 
-      background: transparent; 
+      padding: 0.5rem 1rem; 
+      border: 1px solid #e9ecef; 
+      background: white; 
       color: #6c757d; 
       font-weight: 500; 
-      border-radius: 12px; 
+      border-radius: 8px; 
       cursor: pointer; 
-            transition: all 0.3s ease;
-      font-size: 0.9rem;
-            position: relative;
+      transition: all 0.3s ease;
+      font-size: 0.8rem;
+      position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .filter-tab::before {
       content: '';
@@ -261,63 +409,54 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      transition: left 0.3s ease;
-      z-index: -1;
-    }
-    .filter-tab.active { 
-            color: white;
-      border-color: #667eea;
-    }
-    .filter-tab.active::before {
-      left: 0;
-    }
-    .filter-tab:hover { 
-      border-color: #667eea; 
-      color: #667eea;
-      transform: translateY(-1px);
-    }
-    .filter-tab.active:hover { 
-      color: white;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
     }
     
-    .search-box { 
-      position: relative; 
-      max-width: 300px;
-      flex: 0 0 300px;
-      min-width: 250px;
+    .filter-tab:hover::before {
+      left: 100%;
     }
-    .search-input { 
-      width: 100%; 
-      padding: 0.875rem 1rem 0.875rem 3rem; 
-      border: 2px solid #e9ecef; 
-      border-radius: 12px; 
-      font-size: 0.95rem;
-      background: #f8f9fa;
-      transition: all 0.3s ease;
-      font-weight: 400;
-    }
-    .search-input:focus {
-      outline: none;
+    
+    .filter-tab:hover {
       border-color: #667eea;
-      background: white;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-    }
-    .search-input::placeholder {
-      color: #adb5bd;
-      font-weight: 400;
-    }
-    .search-icon { 
-            position: absolute;
-      left: 1rem; 
-      top: 50%; 
-      transform: translateY(-50%); 
-      color: #6c757d; 
-      font-size: 1.1rem;
-      transition: color 0.3s ease;
-    }
-    .search-input:focus + .search-icon {
       color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+    }
+    
+    .filter-tab.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-color: #667eea;
+      color: white;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    }
+    
+    .filter-tab.active::before {
+      display: none;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .filters-controls {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .sort-section {
+        min-width: auto;
+        width: 100%;
+      }
+      
+      .category-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+      
+      .search-section {
+        min-width: auto;
+        width: 100%;
+      }
     }
     
     /* Question Modal Styles */
@@ -689,35 +828,21 @@
     </style>
 </head>
 <body>
+    <!-- Back Button - Fixed Position -->
+    <button class="back-button" onclick="history.back()" title="Back" style="position: fixed !important; top: 19px !important; left: 20px !important; z-index: 1001 !important; background: rgba(255, 255, 255, 0.95); border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 1)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.95)'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'">
+      <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1.5rem; color: #667eea;"></iconify-icon>
+    </button>
+
     <!-- Header -->
   <div class="homework-header">
     <a href="physics-dashboard.html" class="homework-logo">
       <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
-      <span style="font-weight:700;font-size:1.25rem;">Physics Exams</span>
-      <span class="subject-badge">Physics IGCSE</span>
     </a>
     <div class="homework-nav">
-      <a href="mathcourse.html" class="nav-btn"><iconify-icon icon="material-symbols:arrow-back"></iconify-icon>Back to Course</a>
       <a href="physics-homework.html" class="nav-btn"><iconify-icon icon="material-symbols:assignment"></iconify-icon>Assignments</a>
       <a href="physics-quizzes.html" class="nav-btn"><iconify-icon icon="material-symbols:quiz"></iconify-icon>Quizzes</a>
-      <a href="course-assistants-chat.html?course=physics" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;"><iconify-icon icon="material-symbols:chat"></iconify-icon>Ask Assistant</a>
+      <a href="course-assistants-chat.html?course=physics" class="assistant-btn" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'"><iconify-icon icon="material-symbols:chat"></iconify-icon>Ask Assistant</a>
             </div>
-        </div>
-
-  <!-- Real-time Timer (hidden by default) -->
-  <div id="pageTimer" class="page-timer" style="display: none;">
-    <div class="timer-clock">
-      <div class="timer-icon">
-        <iconify-icon icon="material-symbols:schedule"></iconify-icon>
-      </div>
-      <div class="timer-content">
-        <div class="timer-label">Exam Timer</div>
-        <div class="timer-display" id="pageTimerDisplay">00:00</div>
-      </div>
-      <div class="timer-progress">
-        <div class="timer-progress-bar" id="pageTimerProgress"></div>
-      </div>
-    </div>
         </div>
 
   <!-- Main -->
@@ -741,45 +866,82 @@
 
     <!-- Filters -->
     <div class="homework-filters">
-      <div class="filters-row">
-        <div class="filter-badge">
-          <span class="filter-count" id="filterCount">0</span>
-          <span class="filter-label">Filtering</span>
+      <!-- Header Section -->
+      <div class="filters-header">
+        <div class="filters-title">
+          <iconify-icon icon="material-symbols:tune" class="filters-icon"></iconify-icon>
+          <h3>Exam Filters</h3>
         </div>
-        
-        <div class="sort-display">
-          <span class="sort-label">Sorted By:</span>
-          <span class="sort-value" id="currentSort" onclick="showSortOptions()">Date</span>
-          <button class="sort-clear" onclick="clearSort()" id="sortClearBtn" style="display: none;">
-            <iconify-icon icon="material-symbols:close"></iconify-icon>
+        <div class="filter-stats">
+        </div>
+      </div>
+
+      <!-- Sort Section -->
+      <div class="filters-controls">
+        <div class="sort-section">
+          <div class="sort-dropdown">
+            <iconify-icon icon="material-symbols:sort" class="sort-icon"></iconify-icon>
+            <span class="sort-label">Sort by:</span>
+            <div class="sort-selector" onclick="showSortOptions()">
+              <span class="sort-value" id="currentSort">Date</span>
+              <iconify-icon icon="material-symbols:keyboard-arrow-down" class="sort-arrow"></iconify-icon>
+            </div>
+            <button class="sort-clear" onclick="clearSort()" id="sortClearBtn" style="display: none;">
+              <iconify-icon icon="material-symbols:close"></iconify-icon>
+            </button>
+          </div>
+        </div>
+        <div class="search-section">
+          <div class="search-box">
+            <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
+            <input type="text" class="search-input" placeholder="Search exams..." id="examSearch">
+            <button class="search-clear" onclick="clearSearch()" id="searchClearBtn" style="display: none;">
+              <iconify-icon icon="material-symbols:close"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Category Filters -->
+      <div class="category-filters">
+        <div class="category-header">
+          <div class="category-title">
+            <iconify-icon icon="material-symbols:category" class="category-icon"></iconify-icon>
+            <span>Categories</span>
+          </div>
+        </div>
+        <div class="filter-tabs" id="filterTabs">
+          <button class="filter-tab active" onclick="filterExams('all',event)">
+            <iconify-icon icon="material-symbols:apps"></iconify-icon>
+            All Exams
+          </button>
+          <button class="filter-tab" onclick="filterExams('pending',event)">
+            <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+            Pending
+          </button>
+          <button class="filter-tab" onclick="filterExams('completed',event)">
+            <iconify-icon icon="material-symbols:check-circle"></iconify-icon>
+            Completed
+          </button>
+          <button class="filter-tab" onclick="filterExams('locked',event)">
+            <iconify-icon icon="material-symbols:lock"></iconify-icon>
+            Locked
           </button>
         </div>
-        
-        <!-- Hidden sort select for functionality -->
-        <select id="sortSelect" style="display: none;" onchange="sortExams()">
-          <option value="date-asc">Date (Earliest First)</option>
-          <option value="date-desc">Date (Latest First)</option>
-          <option value="title-asc">Title (A-Z)</option>
-          <option value="title-desc">Title (Z-A)</option>
-          <option value="duration-asc">Duration (Short to Long)</option>
-          <option value="duration-desc">Duration (Long to Short)</option>
-          <option value="questions-asc">Questions (Few to Many)</option>
-          <option value="questions-desc">Questions (Many to Few)</option>
-        </select>
-        
-        <div class="search-box">
-          <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
-          <input type="text" class="search-input" placeholder="Search exams..." id="examSearch">
-        </div>
-                    </div>
-                    
-      <div class="filter-tabs" id="filterTabs">
-        <button class="filter-tab active" onclick="filterExams('all',event)">All Exams</button>
-        <button class="filter-tab" onclick="filterExams('pending',event)">Pending</button>
-        <button class="filter-tab" onclick="filterExams('completed',event)">Completed</button>
-        <button class="filter-tab" onclick="filterExams('locked',event)">Locked</button>
       </div>
-                    </div>
+      
+      <!-- Hidden sort select for functionality -->
+      <select id="sortSelect" style="display: none;" onchange="sortExams()">
+        <option value="date-asc">Date (Earliest First)</option>
+        <option value="date-desc">Date (Latest First)</option>
+        <option value="title-asc">Title (A-Z)</option>
+        <option value="title-desc">Title (Z-A)</option>
+        <option value="duration-asc">Duration (Short to Long)</option>
+        <option value="duration-desc">Duration (Long to Short)</option>
+        <option value="questions-asc">Questions (Few to Many)</option>
+        <option value="questions-desc">Questions (Many to Few)</option>
+      </select>
+    </div>
                     
     <div class="homework-grid" id="examGrid"></div>
                     </div>
@@ -989,17 +1151,65 @@
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Page loaded, starting exam loading...');
       
+      // Only clear data on first visit (if flag doesn't exist)
+      if (!localStorage.getItem('physicsAcademicDataCleared')) {
+        clearPhysicsAcademicData();
+        localStorage.setItem('physicsAcademicDataCleared', 'true');
+      }
+      
       loadExams();
       updateStats();
       document.getElementById('examSearch').addEventListener('input', searchExams);
     });
+    
+    // Function to clear all quizzes, assignments, and exams
+    function clearPhysicsAcademicData() {
+        console.log('🧹 Starting to clear physics academic data...');
+        
+        // Clear quizzes
+        localStorage.removeItem('physicsQuizzes');
+        localStorage.removeItem('physicsTeacherQuizzes');
+        localStorage.removeItem('physicsQuizzesList');
+        
+        // Clear assignments (homeworks)
+        localStorage.removeItem('physicsAssignments');
+        localStorage.removeItem('physicsTeacherAssignments');
+        localStorage.removeItem('physicsAssignmentsList');
+        
+        // Clear exams
+        localStorage.removeItem('physicsExams');
+        localStorage.removeItem('physicsTeacherExams');
+        localStorage.removeItem('physicsExamsList');
+        
+        // Clear assessments (used by the new system)
+        localStorage.removeItem('physicsAssessments');
+        
+        console.log('✅ Cleared all physics quizzes, assignments, and exams from localStorage');
+    }
 
     function loadExams() {
       // Reload exams from localStorage to get latest published exams
       physicsExams = JSON.parse(localStorage.getItem('physicsExams') || '[]');
       
-      // If no teacher-created exams, use sample data
-      const examsToUse = physicsExams.length > 0 ? physicsExams : sampleExams;
+      console.log('Loaded physicsExams from localStorage:', physicsExams);
+      console.log('Number of exams found:', physicsExams.length);
+      
+      // Log details of each exam
+      physicsExams.forEach((exam, index) => {
+        console.log(`Exam ${index + 1} details:`, {
+          id: exam.id,
+          title: exam.title,
+          status: exam.status,
+          score: exam.score,
+          totalPoints: exam.totalPoints,
+          points: exam.points,
+          percentage: exam.percentage,
+          completed: exam.completed
+        });
+      });
+      
+      // Don't use sample data - only show real exams
+      const examsToUse = physicsExams;
 
       // Convert published exams to the format expected by the page
       exams = examsToUse.map(exam => {
@@ -1009,7 +1219,8 @@
         const dueDate = exam.dueDate || exam.date || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
         const time = exam.time || '09:00';
         const duration = exam.timeLimit || exam.duration || 120;
-        const status = (exam.status === 'published' || exam.status === 'pending') ? 'pending' : (exam.status || 'pending');
+        // Only keep 'completed' status, otherwise default to 'pending' for available exams
+        const status = (exam.status === 'completed') ? 'completed' : 'pending';
         const difficulty = exam.difficulty || 'Medium';
         const points = exam.points || exam.totalPoints || 100;
         const questions = exam.questions || [];
@@ -1027,7 +1238,12 @@
           questions: questions,
           // Check if it's a file-based exam
           assessmentType: exam.assessmentType,
-          fileBased: exam.fileBased
+          fileBased: exam.fileBased,
+          // Preserve completed exam data
+          score: exam.score,
+          totalPoints: exam.totalPoints,
+          percentage: exam.percentage,
+          completedAt: exam.completedAt || exam.submittedAt
         };
       });
 
@@ -1065,8 +1281,10 @@
           break;
       }
 
+      console.log('Filtered and sorted exams:', list);
+      console.log('Number of exams to display:', list.length);
+      
       updateExamDisplay(list);
-      updateFilterCount();
       updateSortDisplay();
     }
 
@@ -1080,7 +1298,10 @@
     
     function updateFilterCount() {
       const filtered = currentFilter === 'all' ? exams : exams.filter(e => e.status === currentFilter);
-      document.getElementById('filterCount').textContent = filtered.length;
+      const filterCountEl = document.getElementById('filterCount');
+      if (filterCountEl) {
+        filterCountEl.textContent = filtered.length;
+      }
     }
     
     function updateSortDisplay() {
@@ -1206,15 +1427,42 @@
           </div>
           <div class="homework-card-description">${e.description}</div>
           <div class="homework-details">
-            <div class="detail-row"><span class="detail-label">Date:</span><span class="detail-value">${new Date(e.date).toLocaleDateString()}</span></div>
-            <div class="detail-row"><span class="detail-label">Duration:</span><span class="detail-value">${e.duration} minutes</span></div>
-            ${!isFileBased ? `<div class="detail-row"><span class="detail-label">Questions:</span><span class="detail-value">${questionsCount}</span></div>` : ''}
-            <div class="detail-row"><span class="detail-label">Max Score:</span><span class="detail-value">${e.points}</span></div>
-            <div class="detail-row"><span class="detail-label">Difficulty:</span><span class="detail-value">${e.difficulty}</span></div>
             ${e.status === 'completed' ? `
-              <div class="detail-row"><span class="detail-label">Your Score:</span><span class="detail-value" style="color: #28a745; font-weight: 600;">${e.score || 0}/${e.totalPoints || e.points} (${e.percentage || 0}%)</span></div>
-              <div class="detail-row"><span class="detail-label">Completed:</span><span class="detail-value">${e.completedAt ? new Date(e.completedAt).toLocaleDateString() : 'Unknown'}</span></div>
-            ` : ''}
+            ${(() => {
+              const score = e.finalScore || e.score || 0;
+              const totalPoints = e.points || e.totalPoints || 100;
+              let pointsEarned, percentage, gradeLetter;
+              
+              // If score is a percentage (0-100), convert to points
+              if (score <= 100 && score > 0 && totalPoints > 10) {
+                pointsEarned = Math.round((score / 100) * totalPoints);
+                percentage = Math.round(score);
+              } else {
+                // If score is already in points, calculate percentage
+                pointsEarned = score;
+                percentage = Math.round((score / totalPoints) * 100);
+              }
+              
+              // Determine grade letter
+              if (percentage >= 90) gradeLetter = 'A+';
+              else if (percentage >= 80) gradeLetter = 'A';
+              else if (percentage >= 70) gradeLetter = 'B';
+              else if (percentage >= 60) gradeLetter = 'C';
+              else if (percentage >= 50) gradeLetter = 'D';
+              else gradeLetter = 'F';
+              
+              return `
+              <div class="detail-row"><span class="detail-label">Points Scored:</span><span class="detail-value" style="color:#28a745;font-weight:600;">${pointsEarned} / ${totalPoints}</span></div>
+              <div class="detail-row"><span class="detail-label">Grade:</span><span class="detail-value" style="color:#28a745;font-weight:600;">${gradeLetter} (${percentage}%)</span></div>
+              <div class="detail-row"><span class="detail-label">Time Spent:</span><span class="detail-value">${e.timeSpent || 0} minutes</span></div>
+              `;
+            })()}
+            ` : `
+            <div class="detail-row"><span class="detail-label">Points:</span><span class="detail-value">${e.points || e.totalPoints || 100}</span></div>
+            <div class="detail-row"><span class="detail-label">Published on:</span><span class="detail-value">${(e.publishedOn || e.createdAt) ? new Date(e.publishedOn || e.createdAt).toLocaleDateString() : 'N/A'}</span></div>
+            <div class="detail-row"><span class="detail-label">Time:</span><span class="detail-value">${e.timeLimit || e.duration ? `${e.timeLimit || e.duration} minutes` : 'No time limit'}</span></div>
+            <div class="detail-row"><span class="detail-label">Due Date:</span><span class="detail-value">${e.dueDate ? new Date(e.dueDate).toLocaleDateString() : (e.date ? new Date(e.date).toLocaleDateString() : 'N/A')}</span></div>
+            `}
           </div>
           ${isFileBased && e.fileBased ? `
           <div class="exam-file-info">
@@ -1230,7 +1478,6 @@
               </button>
             ` : e.status === 'completed' ? `
               <button class="btn btn-outline" onclick="reviewExam('${e.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>Review</button>
-              <button class="btn btn-primary" onclick="retakeExam('${e.id}')"><iconify-icon icon="material-symbols:refresh"></iconify-icon>Retake</button>
             ` : `
               <button class="btn btn-outline" disabled><iconify-icon icon="material-symbols:lock"></iconify-icon>Locked</button>
             `}
@@ -1248,8 +1495,15 @@
       const totalEl = document.getElementById('totalExams');
       const upcomingEl = document.getElementById('upcomingExams');
       
-      if (totalEl) totalEl.textContent = total;
-      if (upcomingEl) upcomingEl.textContent = upcoming;
+      if (totalEl) {
+        totalEl.textContent = total;
+      }
+      if (upcomingEl) {
+        upcomingEl.textContent = upcoming;
+      }
+      
+      // Update filter count safely
+      updateFilterCount();
     }
 
     let currentExam = null;
@@ -1293,10 +1547,6 @@
 
       // Start timer
       startTimer();
-
-      // Show page timer
-      document.getElementById('pageTimer').style.display = 'block';
-      updatePageTimer();
       
       // Show modal
       const modal = new bootstrap.Modal(document.getElementById('questionModal'));
@@ -1499,11 +1749,9 @@
         
         const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         document.getElementById('timer').textContent = timeString;
-        document.getElementById('pageTimerDisplay').textContent = timeString;
         
         // Update time progress bar
         updateTimeProgress();
-        updatePageTimer();
         
         // Change color when time is running low
         const timerElement = document.getElementById('timer');
@@ -1526,7 +1774,6 @@
         
         const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         document.getElementById('timer').textContent = timeString;
-        document.getElementById('pageTimerDisplay').textContent = timeString;
       }
     }
 
@@ -1547,26 +1794,6 @@
       }
     }
     
-    function updatePageTimer() {
-      if (!timeLimit || timeRemaining === null) return;
-      
-      const progress = (timeRemaining / (timeLimit * 60)) * 100;
-      const progressBar = document.getElementById('pageTimerProgress');
-      
-      progressBar.style.width = `${progress}%`;
-      
-      // Change color based on remaining time
-      if (progress <= 20) {
-        progressBar.className = 'timer-progress-bar danger';
-        document.getElementById('pageTimer').classList.add('timer-warning');
-      } else if (progress <= 40) {
-        progressBar.className = 'timer-progress-bar warning';
-        document.getElementById('pageTimer').classList.remove('timer-warning');
-      } else {
-        progressBar.className = 'timer-progress-bar';
-        document.getElementById('pageTimer').classList.remove('timer-warning');
-      }
-    }
 
     function submitExam() {
       // Calculate score
@@ -1600,12 +1827,22 @@
         exams[examIndex].score = score;
         exams[examIndex].percentage = percentage;
         
+        // Preserve the published status to ensure exam remains visible
+        if (!exams[examIndex].published && !exams[examIndex].hasOwnProperty('published')) {
+          exams[examIndex].published = true;
+        }
+        
         // Save updated exam to localStorage if it's a teacher-created exam
         if (physicsExams.length > 0) {
           const teacherExamIndex = physicsExams.findIndex(e => e.id === currentExam.id);
           if (teacherExamIndex !== -1) {
             physicsExams[teacherExamIndex] = exams[examIndex];
             localStorage.setItem('physicsExams', JSON.stringify(physicsExams));
+            
+            // Dispatch event to update dashboard points
+            document.dispatchEvent(new CustomEvent('localStorageUpdated', { 
+              detail: { key: 'physicsExams', type: 'exam' } 
+            }));
           }
         }
       }
@@ -1615,9 +1852,6 @@
         clearInterval(timerInterval);
         timerInterval = null;
       }
-      
-      // Hide page timer
-      document.getElementById('pageTimer').style.display = 'none';
       
       // Close modal
       bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
@@ -1673,37 +1907,6 @@
       alert(`Exam Review: ${exam.title}\nScore: ${exam.score}/${exam.totalPoints} (${exam.percentage}%)\nStatus: ${exam.status}`);
     }
 
-    function retakeExam(id) {
-      const exam = exams.find(e => e.id == id);
-      if (!exam) {
-        alert('Exam not found!');
-        return;
-      }
-      
-      if (confirm(`Retake "${exam.title}"? This will reset your previous attempt.`)) {
-        // Reset exam status to pending
-        const examIndex = exams.findIndex(e => e.id === id);
-        if (examIndex !== -1) {
-          exams[examIndex].status = 'pending';
-          delete exams[examIndex].completedAt;
-          delete exams[examIndex].answers;
-          delete exams[examIndex].score;
-          delete exams[examIndex].percentage;
-          
-          // Save updated exam to localStorage if it's a teacher-created exam
-          if (physicsExams.length > 0) {
-            const teacherExamIndex = physicsExams.findIndex(e => e.id === id);
-            if (teacherExamIndex !== -1) {
-              physicsExams[teacherExamIndex] = exams[examIndex];
-              localStorage.setItem('physicsExams', JSON.stringify(physicsExams));
-            }
-          }
-          
-          // Reload exams to show updated status
-          loadExams();
-        }
-      }
-    }
 
     function searchExams(e) {
       const term = e.target.value.toLowerCase();
@@ -1721,6 +1924,13 @@
       }
       
       updateExamDisplay(filtered);
+    }
+
+    // Clear search function
+    function clearSearch() {
+      document.getElementById('examSearch').value = '';
+      document.getElementById('searchClearBtn').style.display = 'none';
+      loadExams();
     }
 
     // Cleanup when modal is closed

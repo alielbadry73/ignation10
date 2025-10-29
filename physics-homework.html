@@ -11,8 +11,8 @@
     * { box-sizing: border-box; }
     html, body { margin:0!important; padding:0!important; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#F8F8F8; min-height:100vh; }
     .homework-header { background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); box-shadow:0 8px 32px rgba(0,0,0,0.1); border-bottom:1px solid rgba(255,255,255,0.2); padding:1rem 2rem; position:fixed; top:0; left:0; right:0; z-index:1000; display:flex; justify-content:space-between; align-items:center; }
-    .homework-logo { display:flex; align-items:center; text-decoration:none; color:#333; }
-    .homework-logo img { height:35px; margin-right:.75rem; filter:drop-shadow(0 2px 4px rgba(0,0,0,.1)); transition:.3s; }
+    .homework-logo { display:flex; align-items:center; text-decoration:none; color:#333; margin-left: 70px; }
+    .homework-logo img { height:40px; filter:drop-shadow(0 2px 4px rgba(0,0,0,.1)); transition:.3s; }
     .homework-logo:hover img { transform:scale(1.05); }
     .subject-badge { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; padding:.25rem .75rem; border-radius:20px; font-size:.8rem; font-weight:600; margin-left:1rem; }
     .homework-nav { display:flex; gap:1rem; align-items:center; }
@@ -125,108 +125,309 @@
     .status-completed { background:#d4edda; color:#155724; }
     .status-overdue { background:#f8d7da; color:#721c24; }
     .homework-filters { 
-      background: white; 
-      border-radius: 16px; 
-      padding: 2rem; 
-      margin-bottom: 2rem; 
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06); 
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      border-radius: 12px; 
+      padding: 1rem; 
+      margin-bottom: 1.5rem; 
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06); 
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      position: relative;
+      overflow: hidden;
     }
-    .filters-row {
+    
+    .homework-filters::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    }
+    
+    /* Header Section */
+    .filters-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1rem;
-      flex-wrap: nowrap;
-      gap: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid #f1f3f4;
     }
     
-    .filter-badge {
-      background: #e3f2fd;
-      color: #1976d2;
-      padding: 0.5rem 1rem;
+    .filters-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .filters-title h3 {
+      margin: 0;
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+    
+    .filters-icon {
+      font-size: 1.2rem;
+      color: #667eea;
+    }
+    
+    .filter-stats {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    /* Controls Section */
+    .filters-controls {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .search-section {
+      min-width: 200px;
+      max-width: 300px;
+    }
+    
+    .search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1px solid #e9ecef;
       border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     
-    .filter-count {
-      font-weight: 600;
-      color: #1565c0;
+    .search-box:focus-within {
+      border-color: #667eea;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
     }
     
-    .filter-label {
-      color: #333;
+    .search-icon {
+      color: #6c757d;
+      font-size: 1rem;
+      margin-right: 0.5rem;
     }
     
-    .sort-display {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+    .search-input {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 0.9rem;
+      color: #2c3e50;
     }
     
-    .sort-label {
-      color: #333;
-      font-weight: 500;
+    .search-input::placeholder {
+      color: #adb5bd;
     }
     
-    .sort-value {
-      color: #1976d2;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      transition: background-color 0.2s ease;
-    }
-    
-    .sort-value:hover {
-      background-color: rgba(25, 118, 210, 0.1);
-    }
-    
-    .sort-clear {
+    .search-clear {
       background: none;
       border: none;
-      color: #1976d2;
+      color: #6c757d;
       cursor: pointer;
       padding: 0.25rem;
       border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.2s ease;
+      transition: all 0.2s ease;
+    }
+    
+    .search-clear:hover {
+      background: #f8f9fa;
+      color: #495057;
+    }
+    
+    .sort-section {
+      min-width: 160px;
+    }
+    
+    .sort-dropdown {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    
+    .sort-dropdown:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+    }
+    
+    .sort-icon {
+      color: #6c757d;
+      font-size: 1rem;
+    }
+    
+    .sort-label {
+      color: #6c757d;
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+    
+    .sort-selector {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      cursor: pointer;
+      flex: 1;
+    }
+    
+    .sort-value {
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    
+    .sort-arrow {
+      color: #6c757d;
+      font-size: 0.9rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .sort-selector:hover .sort-arrow {
+      transform: rotate(180deg);
+    }
+    
+    .sort-clear {
+      background: none;
+      border: none;
+      color: #6c757d;
+      cursor: pointer;
+      padding: 0.25rem;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
     }
     
     .sort-clear:hover {
-      background-color: rgba(25, 118, 210, 0.1);
+      background: #f8f9fa;
+      color: #495057;
     }
+    
+    /* Category Filters */
+    .category-filters {
+      margin-bottom: 1rem;
+    }
+    
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      gap: 1rem;
+    }
+    
+    .category-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #2c3e50;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    
+    .category-icon {
+      color: #667eea;
+      font-size: 1.1rem;
+    }
+    
     
     .filter-tabs { 
       display: flex; 
       gap: 0.5rem; 
-      margin-bottom: 0; 
       flex-wrap: wrap;
-      justify-content: center;
     }
+    
     .filter-tab { 
-      padding: 0.75rem 1.5rem; 
-      border: 2px solid #e9ecef; 
-      background: transparent; 
+      padding: 0.5rem 1rem; 
+      border: 1px solid #e9ecef; 
+      background: white; 
       color: #6c757d; 
       font-weight: 500; 
-      border-radius: 12px; 
+      border-radius: 8px; 
       cursor: pointer; 
       transition: all 0.3s ease;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       position: relative;
       overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .filter-tab::before {
       content: '';
       position: absolute;
       top: 0;
       left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s;
+    }
+    
+    .filter-tab:hover::before {
+      left: 100%;
+    }
+    
+    .filter-tab:hover {
+      border-color: #667eea;
+      color: #667eea;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.15);
+    }
+    
+    .filter-tab.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-color: #667eea;
+      color: white;
+      box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+    }
+    
+    .filter-tab.active::before {
+      display: none;
+    }
+    
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .filters-controls {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .sort-section {
+        min-width: auto;
+        width: 100%;
+      }
+      
+      .category-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+      
+      .search-section {
+        min-width: auto;
+        width: 100%;
+      }
+    }
       width: 100%;
       height: 100%;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -302,79 +503,83 @@
     .progress-bar { background:linear-gradient(135deg,#667eea 0%,#764ba2 100%); }
     .timer { font-weight:600; color:#667eea; }
     
-    /* Page Timer Styles */
-    .page-timer {
+    /* Assignment Stopwatch Styles */
+    .assignment-stopwatch {
       position: fixed;
       top: 20px;
-      right: 20px;
-      z-index: 1000;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1050;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       color: white;
-      border-radius: 12px;
-      padding: 15px 20px;
-      box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
-      min-width: 200px;
-      animation: slideInRight 0.3s ease-out;
+      padding: 16px 24px;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(16, 185, 129, 0.3);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-width: 280px;
+      animation: slideInDown 0.5s ease-out;
     }
     
-    .timer-clock {
+    .stopwatch-container {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
     
-    .timer-icon {
-      font-size: 24px;
+    .stopwatch-icon {
+      font-size: 28px;
       opacity: 0.9;
     }
     
-    .timer-content {
+    .stopwatch-content {
       flex: 1;
+      text-align: center;
     }
     
-    .timer-label {
+    .stopwatch-label {
       font-size: 12px;
       opacity: 0.8;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
+      font-weight: 500;
     }
     
-    .timer-display {
-      font-size: 18px;
+    .stopwatch-display {
+      font-size: 24px;
       font-weight: 700;
       font-family: 'Courier New', monospace;
+      letter-spacing: 1px;
     }
     
-    .timer-progress {
-      width: 100%;
-      height: 4px;
+    .stopwatch-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .stopwatch-actions .btn {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .stopwatch-actions .btn:hover {
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 2px;
-      margin-top: 8px;
-      overflow: hidden;
+      transform: scale(1.1);
     }
     
-    .timer-progress-bar {
-      height: 100%;
-      background: #fff;
-      border-radius: 2px;
-      transition: width 0.3s ease;
-      width: 100%;
-    }
-    
-    .timer-progress-bar.warning { background: #ffc107; }
-    .timer-progress-bar.danger { background: #dc3545; }
-    
-    @keyframes slideInRight {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+    @keyframes slideInDown {
+      from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
     }
     
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.05); }
     }
-    
-    .timer-warning { animation: pulse 1s infinite; }
     
     /* Autocorrect Styles */
     .correct-answer {
@@ -443,6 +648,72 @@
     .action-buttons .btn-outline-warning:hover {
       background: #ffc107;
       color: #212529;
+    }
+    
+    /* Enhanced styling for the remaining three action buttons */
+    .enhanced-action-btn {
+      border-radius: 25px !important;
+      padding: 10px 16px !important;
+      font-weight: 600 !important;
+      font-size: 0.85rem !important;
+      border: 2px solid transparent !important;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      position: relative !important;
+      overflow: hidden !important;
+      width: 140px !important;
+      height: 40px !important;
+      text-align: center !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      white-space: nowrap !important;
+    }
+    
+    .enhanced-action-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .enhanced-action-btn:hover::before {
+      left: 100%;
+    }
+    
+    .enhanced-action-btn:hover {
+      transform: translateY(-3px) scale(1.05) !important;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2) !important;
+    }
+    
+    .enhanced-action-btn:active {
+      transform: translateY(-1px) scale(1.02) !important;
+    }
+    
+    /* Specific styling for each button */
+    .enhanced-action-btn.btn-primary {
+      background: linear-gradient(135deg, #007bff, #0056b3) !important;
+      border-color: #007bff !important;
+    }
+    
+    .enhanced-action-btn.btn-info {
+      background: linear-gradient(135deg, #17a2b8, #138496) !important;
+      border-color: #17a2b8 !important;
+    }
+    
+    .enhanced-action-btn.btn-warning {
+      background: linear-gradient(135deg, #ffc107, #e0a800) !important;
+      border-color: #ffc107 !important;
+      color: #212529 !important;
+    }
+    
+    .enhanced-action-btn iconify-icon {
+      font-size: 1.1rem !important;
+      margin-right: 6px !important;
     }
     
     /* Review Modal Styles */
@@ -679,33 +950,40 @@
   </style>
 </head>
 <body>
+  <!-- Back Button - Fixed Position -->
+  <button class="back-button" onclick="history.back()" title="Back" style="position: fixed !important; top: 19px !important; left: 20px !important; z-index: 1001 !important; background: rgba(255, 255, 255, 0.95); border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255, 255, 255, 1)'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.15)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.95)'; this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.1)'">
+    <iconify-icon icon="material-symbols:arrow-back" style="font-size: 1.5rem; color: #667eea;"></iconify-icon>
+  </button>
+
   <!-- Header -->
   <div class="homework-header">
     <a href="physics-dashboard.html" class="homework-logo">
       <img src="images/ig-nation-logo-graduation.png" alt="IG Nation">
-      <span style="font-weight:700;font-size:1.25rem;">Physics Homework</span>
-      <span class="subject-badge">Physics IGCSE</span>
     </a>
     <div class="homework-nav">
-      <a href="mathcourse.html" class="nav-btn"><iconify-icon icon="material-symbols:arrow-back"></iconify-icon>Back to Course</a>
       <a href="physics-quizzes.html" class="nav-btn"><iconify-icon icon="material-symbols:quiz"></iconify-icon>Quizzes</a>
       <a href="physics-exams.html" class="nav-btn"><iconify-icon icon="material-symbols:quiz"></iconify-icon>Exams</a>
-      <a href="course-assistants-chat.html?course=physics" class="nav-btn" style="background: linear-gradient(135deg, #10b981, #059669); color: white; border: none;"><iconify-icon icon="material-symbols:chat"></iconify-icon>Ask Assistant</a>
+      <a href="course-assistants-chat.html?course=physics" class="assistant-btn" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 25px; font-weight: 600; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3); display: flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.3)'"><iconify-icon icon="material-symbols:chat"></iconify-icon>Ask Assistant</a>
     </div>
   </div>
 
-  <!-- Real-time Timer (hidden by default) -->
-  <div id="pageTimer" class="page-timer" style="display: none;">
-    <div class="timer-clock">
-      <div class="timer-icon">
-        <iconify-icon icon="material-symbols:schedule"></iconify-icon>
+  <!-- Assignment Stopwatch (positioned above modal) -->
+  <div id="assignmentStopwatch" class="assignment-stopwatch" style="display: none;">
+    <div class="stopwatch-container">
+      <div class="stopwatch-icon">
+        <iconify-icon icon="material-symbols:timer"></iconify-icon>
       </div>
-      <div class="timer-content">
-        <div class="timer-label">Assignment Timer</div>
-        <div class="timer-display" id="pageTimerDisplay">00:00</div>
+      <div class="stopwatch-content">
+        <div class="stopwatch-label">Assignment Time</div>
+        <div class="stopwatch-display" id="stopwatchDisplay">00:00:00</div>
       </div>
-      <div class="timer-progress">
-        <div class="timer-progress-bar" id="pageTimerProgress"></div>
+      <div class="stopwatch-actions">
+        <button class="btn btn-sm btn-outline-light" onclick="pauseStopwatch()" id="pauseBtn">
+          <iconify-icon icon="material-symbols:pause"></iconify-icon>
+        </button>
+        <button class="btn btn-sm btn-outline-light" onclick="resumeStopwatch()" id="resumeBtn" style="display: none;">
+          <iconify-icon icon="material-symbols:play-arrow"></iconify-icon>
+        </button>
       </div>
     </div>
   </div>
@@ -729,20 +1007,74 @@
       </div>
     </div>
 
-    <!-- Filters -->
+    <!-- Enhanced Filters -->
     <div class="homework-filters">
-      <div class="filters-row">
-        <div class="filter-badge">
-          <span class="filter-count" id="filterCount">0</span>
-          <span class="filter-label">Filtering</span>
+      <!-- Header Section -->
+      <div class="filters-header">
+        <div class="filters-title">
+          <iconify-icon icon="material-symbols:tune" class="filters-icon"></iconify-icon>
+          <h3>Assignment Filters</h3>
+        </div>
+        <div class="filter-stats">
+        </div>
         </div>
         
-        <div class="sort-display">
-          <span class="sort-label">Sorted By:</span>
-          <span class="sort-value" id="currentSort" onclick="showSortOptions()">Deadline</span>
+      <!-- Sort Section -->
+      <div class="filters-controls">
+        <div class="sort-section">
+          <div class="sort-dropdown">
+            <iconify-icon icon="material-symbols:sort" class="sort-icon"></iconify-icon>
+            <span class="sort-label">Sort by:</span>
+            <div class="sort-selector" onclick="showSortOptions()">
+              <span class="sort-value" id="currentSort">Deadline</span>
+              <iconify-icon icon="material-symbols:keyboard-arrow-down" class="sort-arrow"></iconify-icon>
+            </div>
           <button class="sort-clear" onclick="clearSort()" id="sortClearBtn" style="display: none;">
             <iconify-icon icon="material-symbols:close"></iconify-icon>
           </button>
+          </div>
+        </div>
+        <div class="search-section">
+          <div class="search-box">
+            <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
+            <input type="text" class="search-input" placeholder="Search assignments..." id="homeworkSearch">
+            <button class="search-clear" onclick="clearSearch()" id="searchClearBtn" style="display: none;">
+              <iconify-icon icon="material-symbols:close"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Category Filters and Search -->
+      <div class="category-filters">
+        <div class="category-header">
+          <div class="category-title">
+            <iconify-icon icon="material-symbols:category" class="category-icon"></iconify-icon>
+            <span>Categories</span>
+          </div>
+        </div>
+        <div class="filter-tabs" id="filterTabs">
+          <button class="filter-tab active" onclick="filterHomework('all',event)">
+            <iconify-icon icon="material-symbols:apps"></iconify-icon>
+            All Assignments
+          </button>
+          <button class="filter-tab" onclick="filterHomework('algebra',event)">
+            <iconify-icon icon="material-symbols:functions"></iconify-icon>
+            Algebra
+          </button>
+          <button class="filter-tab" onclick="filterHomework('geometry',event)">
+            <iconify-icon icon="material-symbols:straighten"></iconify-icon>
+            Geometry
+          </button>
+          <button class="filter-tab" onclick="filterHomework('calculus',event)">
+            <iconify-icon icon="material-symbols:calculate"></iconify-icon>
+            Calculus
+          </button>
+          <button class="filter-tab" onclick="filterHomework('statistics',event)">
+            <iconify-icon icon="material-symbols:bar-chart"></iconify-icon>
+            Statistics
+          </button>
+        </div>
         </div>
         
         <!-- Hidden sort select for functionality -->
@@ -755,24 +1087,6 @@
           <option value="points-asc">Points (Low to High)</option>
           <option value="points-desc">Points (High to Low)</option>
         </select>
-        
-        <div class="search-box">
-          <iconify-icon icon="material-symbols:search" class="search-icon"></iconify-icon>
-          <input type="text" class="search-input" placeholder="Search..." id="homeworkSearch">
-        </div>
-      </div>
-      
-      <div class="filter-tabs" id="filterTabs">
-        <button class="filter-tab active" onclick="filterHomework('all',event)">All Assignments</button>
-        <button class="filter-tab" onclick="filterHomework('algebra',event)">Algebra</button>
-        <button class="filter-tab" onclick="filterHomework('geometry',event)">Geometry</button>
-        <button class="filter-tab" onclick="filterHomework('calculus',event)">Calculus</button>
-        <button class="filter-tab" onclick="filterHomework('statistics',event)">Statistics</button>
-        <button class="filter-tab" style="background: linear-gradient(135deg, #ef4444, #dc2626); color: white; margin-left: auto;" onclick="deleteAllAssignments()">
-          <iconify-icon icon="material-symbols:delete" style="margin-right: 0.3rem;"></iconify-icon>
-          Delete All
-        </button>
-      </div>
     </div>
 
     <div class="homework-grid" id="homeworkGrid"></div>
@@ -790,9 +1104,8 @@
           <div class="question-progress mb-4">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <span class="text-muted">Question <span id="currentQuestionNum">1</span> of <span id="totalQuestions">0</span></span>
-              <div class="timer-container">
-                <span class="text-muted">Time: <span id="timer" class="timer">00:00</span></span>
-                <span id="timeLimitInfo" class="text-muted ms-2" style="display: none;">/ <span id="timeLimit">60</span> min</span>
+              <div class="question-progress-info">
+                <span class="text-muted">Assignment in Progress</span>
               </div>
             </div>
             <div class="progress">
@@ -834,9 +1147,38 @@
   <script>
     let homework = [];
     let currentFilter = 'all';
+    
+    // Function to clear all quizzes, assignments, and exams
+    function clearPhysicsAcademicData() {
+        // Clear quizzes
+        localStorage.removeItem('physicsQuizzes');
+        localStorage.removeItem('physicsTeacherQuizzes');
+        localStorage.removeItem('physicsQuizzesList');
+        
+        // Clear assignments (homeworks)
+        localStorage.removeItem('physicsAssignments');
+        localStorage.removeItem('physicsTeacherAssignments');
+        localStorage.removeItem('physicsAssignmentsList');
+        
+        // Clear exams
+        localStorage.removeItem('physicsExams');
+        localStorage.removeItem('physicsTeacherExams');
+        localStorage.removeItem('physicsExamsList');
+        
+        // Clear assessments (used by the new system)
+        localStorage.removeItem('physicsAssessments');
+        
+        console.log('✅ Cleared all physics quizzes, assignments, and exams from localStorage');
+    }
 
     document.addEventListener('DOMContentLoaded', () => {
       console.log('Page loaded, starting homework loading...');
+      
+      // Only clear data on first visit (if flag doesn't exist)
+      if (!localStorage.getItem('physicsAcademicDataCleared')) {
+        clearPhysicsAcademicData();
+        localStorage.setItem('physicsAcademicDataCleared', 'true');
+      }
       
       // Debug: Check what's in localStorage
       console.log('=== DEBUGGING HOMEWORK PAGE ===');
@@ -855,7 +1197,7 @@
           id: 'test-assignment-1',
           title: 'Test Assignment',
           description: 'This is a test assignment to verify the system works.',
-          points: 10,
+          points: 20,
           difficulty: 'medium',
           status: 'pending',
           dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
@@ -877,6 +1219,27 @@
               points: 5,
               sampleAnswer: '4',
               gradingNotes: 'Show your work step by step'
+            },
+            {
+              id: 'q3',
+              text: 'List the main components of a simple electric circuit:',
+              type: 'bullet-points',
+              points: 10,
+              correctBulletPoints: [
+                'Power source (battery)',
+                'Conducting wires',
+                'Load (resistor/bulb)',
+                'Switch'
+              ],
+              allowPartialCredit: true,
+              bulletPoints: [
+                'Power source (battery)',
+                'Conducting wires', 
+                'Load (resistor/bulb)',
+                'Switch',
+                'Voltmeter',
+                'Ammeter'
+              ]
             }
           ]
         };
@@ -893,7 +1256,7 @@
         console.log('Auto-starting assignment with ID:', startAssignmentId);
         // Wait a moment for assignments to load, then start
         setTimeout(() => {
-          startAssignment(startAssignmentId);
+          startHomework(startAssignmentId);
         }, 500);
       }
       
@@ -920,11 +1283,12 @@
                                 assessment.difficulty !== undefined;
             // Only show physics assignments (or assignments without subject specified)
             const isPhysicsAssignment = !assessment.subject || assessment.subject === 'physics';
+            // Include published, pending, and completed assignments
             const isPublished = assessment.status === 'published' || 
-                               assessment.status === 'completed' || 
                                assessment.status === 'pending' || 
-                               assessment.status === 'graded' ||
-                               assessment.published === true;
+                               assessment.status === 'completed' ||
+                               assessment.published === true ||
+                               assessment.published === undefined; // Include if published property doesn't exist
             console.log(`Assessment "${assessment.title}": published=${isPublished}, subject=${assessment.subject}, isAssignment=${isAssignment}, isPhysicsAssignment=${isPhysicsAssignment}, status=${assessment.status}, category=${assessment.category}`);
             return isAssignment && isPublished && isPhysicsAssignment;
           });
@@ -949,6 +1313,8 @@
             totalPoints: assessment.points, // Use 'points' for totalPoints too
             dueDate: assessment.dueDate,
             timeLimit: assessment.timeLimit,
+            createdAt: assessment.createdAt,
+            publishedOn: assessment.publishedOn || assessment.createdAt,
             questions: assessment.questions || [],
             category: 'assignment'
           }));
@@ -965,9 +1331,14 @@
       console.log('Parsed assignments:', allAssignments);
       
       const publishedPhysics = allAssignments.filter(a => {
-        const isPublished = a.published === true || a.status === 'published' || a.status === 'pending' || a.status === 'graded';
+        // Include published, pending, and completed assignments
+        const isPublished = a.published === true || 
+                           a.published === undefined || // Include if published property doesn't exist
+                           a.status === 'published' || 
+                           a.status === 'pending' ||
+                           a.status === 'completed';
         const isPhysics = a.subject === 'physics' || !a.subject; // Default to physics if no subject
-        console.log(`Assignment "${a.title}": published=${isPublished}, subject=${a.subject}, isPhysics=${isPhysics}`);
+        console.log(`Assignment "${a.title}": published=${isPublished}, subject=${a.subject}, isPhysics=${isPhysics}, status=${a.status}`);
         return isPublished && isPhysics;
       });
       
@@ -1011,7 +1382,6 @@
       }
 
       updateHomeworkDisplay(list);
-      updateFilterCount();
       updateSortDisplay();
     }
 
@@ -1026,7 +1396,10 @@
     function updateFilterCount() {
       const published = getPublishedHomework();
       const filtered = currentFilter === 'all' ? published : published.filter(a => a.category === currentFilter);
-      document.getElementById('filterCount').textContent = filtered.length;
+      const filterCountEl = document.getElementById('filterCount');
+      if (filterCountEl) {
+        filterCountEl.textContent = filtered.length;
+      }
     }
     
     function updateSortDisplay() {
@@ -1140,28 +1513,70 @@
             <div>
               <div class="homework-card-title">${a.title}</div>
               <span class="status-badge status-${a.status || 'pending'}">${(a.status || 'pending').toUpperCase()}</span>
+              ${('finalScore' in a || 'score' in a) ? `
+                <div class="grade-display" style="margin-top: 8px; padding: 6px 12px; background: linear-gradient(135deg, #28a745, #20c997); color: white; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: inline-block; box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);">
+                  <iconify-icon icon="material-symbols:grade" style="margin-right: 4px;"></iconify-icon>
+                  Grade: ${(() => {
+                    const score = a.finalScore !== undefined ? a.finalScore : (a.score !== undefined ? a.score : 0);
+                    const totalPoints = a.points || a.totalPoints || 10;
+                    
+                    // If score is a percentage (0-100), convert to points
+                    if (score <= 100 && score > 0 && totalPoints > 10) {
+                      const pointsEarned = Math.round((score / 100) * totalPoints);
+                      const percentage = Math.round(score);
+                      return `${pointsEarned}/${totalPoints} (${percentage}%)`;
+                    }
+                    
+                    // If score is already in points, calculate percentage
+                    const percentage = Math.round((score / totalPoints) * 100);
+                    return `${score}/${totalPoints} (${percentage}%)`;
+                  })()}
+                </div>
+              ` : ''}
             </div>
           </div>
           <div class="homework-card-description">${a.description}</div>
           <div class="homework-details">
-            <div class="detail-row"><span class="detail-label">Points:</span><span class="detail-value">${a.points || 'N/A'}</span></div>
-            ${(a.status === 'pending' || a.status === 'pending-grading') && a.gradingStatus === 'pending' ? `
-            <div class="detail-row"><span class="detail-label">Score:</span><span class="detail-value" style="color:#0d6efd;font-weight:600;font-style:italic;">Waiting for assistant correction</span></div>
-            <div class="detail-row"><span class="detail-label">Time Spent:</span><span class="detail-value">${a.timeSpent || 0} minutes</span></div>
-            ` : a.status !== 'completed' && a.status !== 'graded' ? `
-            <div class="detail-row"><span class="detail-label">Due Date:</span><span class="detail-value">${new Date(a.dueDate || new Date()).toLocaleDateString()}</span></div>` : ''}
             ${a.status === 'completed' || a.status === 'graded' ? `
-            <div class="detail-row"><span class="detail-label">Your Score:</span><span class="detail-value" style="color:#28a745;font-weight:600;">${(() => {
+            ${(() => {
               const score = a.finalScore || a.score || 0;
               const totalPoints = a.points || a.totalPoints || 10;
-              return score > totalPoints ? Math.round(score * totalPoints / 100) : score;
-            })()}/${a.points || a.totalPoints || 10}</span></div>
-            <div class="detail-row"><span class="detail-label">Time Spent:</span><span class="detail-value">${a.timeSpent || 0} minutes</span></div>` : ''}
+              let pointsEarned, percentage, gradeLetter;
+              
+              // If score is a percentage (0-100), convert to points
+              if (score <= 100 && score > 0 && totalPoints > 10) {
+                pointsEarned = Math.round((score / 100) * totalPoints);
+                percentage = Math.round(score);
+              } else {
+                // If score is already in points, calculate percentage
+                pointsEarned = score;
+                percentage = Math.round((score / totalPoints) * 100);
+              }
+              
+              // Determine grade letter
+              if (percentage >= 90) gradeLetter = 'A+';
+              else if (percentage >= 80) gradeLetter = 'A';
+              else if (percentage >= 70) gradeLetter = 'B';
+              else if (percentage >= 60) gradeLetter = 'C';
+              else if (percentage >= 50) gradeLetter = 'D';
+              else gradeLetter = 'F';
+              
+              return `
+              <div class="detail-row"><span class="detail-label">Points Scored:</span><span class="detail-value" style="color:#28a745;font-weight:600;">${pointsEarned} / ${totalPoints}</span></div>
+              <div class="detail-row"><span class="detail-label">Grade:</span><span class="detail-value" style="color:#28a745;font-weight:600;">${gradeLetter} (${percentage}%)</span></div>
+              <div class="detail-row"><span class="detail-label">Time Spent:</span><span class="detail-value">${a.timeSpent || 0} minutes</span></div>
+              `;
+            })()}
+            ` : `
+            <div class="detail-row"><span class="detail-label">Points:</span><span class="detail-value">${a.points || a.totalPoints || 'N/A'}</span></div>
+            <div class="detail-row"><span class="detail-label">Published on:</span><span class="detail-value">${(a.publishedOn || a.createdAt) ? new Date(a.publishedOn || a.createdAt).toLocaleDateString() : 'N/A'}</span></div>
+            <div class="detail-row"><span class="detail-label">Time:</span><span class="detail-value">${a.timeLimit ? `${a.timeLimit} minutes` : 'No time limit'}</span></div>
+            <div class="detail-row"><span class="detail-label">Due Date:</span><span class="detail-value">${a.dueDate ? new Date(a.dueDate).toLocaleDateString() : 'N/A'}</span></div>
+            `}
           </div>
           <div class="homework-actions">
             ${a.status === 'completed' || a.status === 'graded' ? `
               <button class="btn btn-outline" onclick="reviewHomework('${a.id}')"><iconify-icon icon="material-symbols:visibility"></iconify-icon>Review</button>
-              <button class="btn btn-primary" onclick="retakeHomework('${a.id}')"><iconify-icon icon="material-symbols:refresh"></iconify-icon>Retake</button>
             ` : (a.status === 'pending' && a.gradingStatus === 'pending') || (a.status === 'pending-grading') ? `
               <div class="alert alert-info mb-2" style="font-size: 0.9rem; padding: 0.5rem 1rem;">
                 <iconify-icon icon="material-symbols:pending" class="me-1"></iconify-icon>
@@ -1194,25 +1609,45 @@
       
       if (totalEl) totalEl.textContent = total;
       if (pendingEl) pendingEl.textContent = pending;
+      
+      // Update filter count safely
+      updateFilterCount();
     }
 
     let currentAssignment = null;
     let currentQuestionIndex = 0;
     let userAnswers = {};
     let startTime = null;
-    let timerInterval = null;
-    let timeLimit = null; // in minutes
-    let timeRemaining = null; // in seconds
+    let stopwatchInterval = null;
+    let isPaused = false;
+    let pausedTime = 0; // time when paused
+    let totalPausedTime = 0; // total time spent paused
 
     function startHomework(id) {
       // Reload homework data to ensure we have the latest
       homework = getPublishedHomework();
-      const assignment = homework.find(h => h.id === id);
+      let assignment = homework.find(h => h.id === id);
+      
+      // If not found in published list, check the full assignments list
+      if (!assignment) {
+        console.log('Assignment not found in published list! Looking in full assignments...');
+        const allAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+        assignment = allAssignments.find(a => a.id === id);
+        
       if (!assignment) {
         console.log('Assignment not found! Looking for ID:', id);
-        console.log('Available assignments:', homework);
+          console.log('Available published assignments:', homework);
+          console.log('Available all assignments:', allAssignments);
         alert('Assignment not found!');
         return;
+        }
+        
+        // If assignment is completed, show a message and redirect to review
+        if (assignment.status === 'completed' || assignment.status === 'graded') {
+          alert('This assignment has already been completed. Redirecting to review...');
+          reviewHomework(id);
+          return;
+        }
       }
 
       currentAssignment = assignment;
@@ -1224,27 +1659,14 @@
       // Set modal title
       document.getElementById('questionModalTitle').textContent = assignment.title;
 
-      // Setup timer display
-      if (timeLimit) {
-        timeRemaining = timeLimit * 60; // convert to seconds
-        document.getElementById('timeLimitInfo').style.display = 'inline';
-        document.getElementById('timeLimit').textContent = timeLimit;
-        document.getElementById('timeProgress').style.display = 'block';
-        updateTimeProgress();
-      } else {
-        document.getElementById('timeLimitInfo').style.display = 'none';
-        document.getElementById('timeProgress').style.display = 'none';
-      }
-
       // Load questions
       loadQuestions();
 
-      // Start timer
-      startTimer();
+      // Start stopwatch
+      startStopwatch();
 
-      // Show page timer
-      document.getElementById('pageTimer').style.display = 'block';
-      updatePageTimer();
+      // Show assignment stopwatch
+      document.getElementById('assignmentStopwatch').style.display = 'block';
       
       // Show modal
       const modal = new bootstrap.Modal(document.getElementById('questionModal'));
@@ -1460,10 +1882,6 @@
       }
       
       // Always add action buttons (already added in displayCurrentQuestion)
-      // Add to wrong questions folder if incorrect
-      if (!isCorrect) {
-        addToWrongQuestions();
-      }
       
       // Disable further selection
       optionItems.forEach(item => {
@@ -1483,19 +1901,15 @@
       actionsDiv.className = 'question-actions';
       actionsDiv.innerHTML = `
         <div class="action-buttons">
-          <button class="btn btn-outline-primary btn-sm" onclick="askAssistant()">
+          <button class="btn btn-primary btn-sm enhanced-action-btn" onclick="askAssistant()">
             <iconify-icon icon="material-symbols:smart-toy"></iconify-icon>
-            Ask Assistant
+            Assistant
           </button>
-          <button class="btn btn-outline-info btn-sm" onclick="askCommunity()">
+          <button class="btn btn-info btn-sm enhanced-action-btn" onclick="askCommunity()">
             <iconify-icon icon="material-symbols:groups"></iconify-icon>
             Ask Community
           </button>
-          <button class="btn btn-outline-warning btn-sm" onclick="addToWrongQuestions()">
-            <iconify-icon icon="material-symbols:folder"></iconify-icon>
-            Add to Wrong Questions
-          </button>
-          <button class="btn btn-outline-warning btn-sm" onclick="markAsTricky()">
+          <button class="btn btn-warning btn-sm enhanced-action-btn" onclick="markAsTricky()">
             <iconify-icon icon="material-symbols:star"></iconify-icon>
             Mark as Tricky
           </button>
@@ -1505,47 +1919,6 @@
       questionCard.appendChild(actionsDiv);
     }
     
-    function addToWrongQuestions() {
-      if (!currentAssignment || !currentAssignment.questions) return;
-      
-      const question = currentAssignment.questions[currentQuestionIndex];
-      const wrongQuestions = JSON.parse(localStorage.getItem('physicsWrongQuestions')) || [];
-      
-      // Check if question already exists
-      const existingIndex = wrongQuestions.findIndex(q => q.id === question.id);
-      
-      const wrongQuestion = {
-        id: question.id,
-        text: question.text,
-        type: question.type,
-        options: question.options || [],
-        correctAnswer: question.correctAnswer,
-        alternativeAnswers: question.alternativeAnswers || [],
-        userAnswer: userAnswers[currentQuestionIndex],
-        subject: 'physics',
-        assignmentId: currentAssignment.id,
-        assignmentTitle: currentAssignment.title,
-        chapter: currentAssignment.chapter || null, // Include chapter information
-        chapterId: currentAssignment.chapterId || null, // Include chapter ID for folder categorization
-        folderId: question.autoFolder || null, // Auto-assign to folder if specified by teacher
-        addedAt: new Date().toISOString(),
-        attempts: existingIndex >= 0 ? wrongQuestions[existingIndex].attempts + 1 : 1,
-        points: question.points || 1,
-        difficulty: currentAssignment.difficulty || 'medium'
-      };
-      
-      if (existingIndex >= 0) {
-        wrongQuestions[existingIndex] = wrongQuestion;
-        const folderMessage = question.autoFolder ? ` in folder ${question.autoFolder.toUpperCase()}` : '';
-        showNotification(`Question updated in Wrong Questions${folderMessage}!`, 'info');
-      } else {
-        wrongQuestions.push(wrongQuestion);
-        const folderMessage = question.autoFolder ? ` to folder ${question.autoFolder.toUpperCase()}` : '';
-        showNotification(`❌ Wrong answer! Question added${folderMessage} in Wrong Questions for review.`, 'success');
-      }
-      
-      localStorage.setItem('physicsWrongQuestions', JSON.stringify(wrongQuestions));
-    }
     
     function markAsTricky() {
       if (!currentAssignment || !currentAssignment.questions) return;
@@ -1553,15 +1926,109 @@
       const question = currentAssignment.questions[currentQuestionIndex];
       const trickyQuestions = JSON.parse(localStorage.getItem('physicsTrickyQuestions')) || [];
       
-      const existingIndex = trickyQuestions.findIndex(q => q.id === question.id);
+      // Create unique question identifier combining assignment ID and question ID
+      const uniqueQuestionId = `${currentAssignment.id}_${question.id}`;
+      
+      const existingIndex = trickyQuestions.findIndex(q => q.id === uniqueQuestionId);
       
       if (existingIndex >= 0) {
         showNotification('Question already in Tricky Questions!', 'info');
         return;
       }
       
+      // Show folder selection modal
+      showFolderSelectionModal(question);
+    }
+    
+    function showFolderSelectionModal(question) {
+      const customFolders = JSON.parse(localStorage.getItem('physicsTrickyFolders')) || [];
+      
+      if (customFolders.length === 0) {
+        // No folders available, add directly to tricky questions
+        addToTrickyQuestions(question, null);
+        return;
+      }
+      
+      // Create modal HTML
+      const modalHtml = `
+        <div class="modal fade" id="folderSelectionModal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Choose Folder for Tricky Question</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <p>Select a folder to organize this tricky question:</p>
+                <div class="list-group">
+                  <button type="button" class="list-group-item list-group-item-action" onclick="selectFolder(null, 'No Folder')">
+                    <div class="d-flex w-100 justify-content-between">
+                      <h6 class="mb-1">No Folder</h6>
+                      <small>Add to general tricky questions</small>
+                    </div>
+                  </button>
+                  ${customFolders.map(folder => `
+                    <button type="button" class="list-group-item list-group-item-action" onclick="selectFolder('${folder.id}', '${folder.name.replace(/'/g, "\\'")}')">
+                      <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${folder.name}</h6>
+                        <small>${folder.description || 'Custom folder'}</small>
+                      </div>
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      // Remove existing modal if any
+      const existingModal = document.getElementById('folderSelectionModal');
+      if (existingModal) {
+        existingModal.remove();
+      }
+      
+      // Add modal to body
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      
+      // Show modal
+      const modal = new bootstrap.Modal(document.getElementById('folderSelectionModal'));
+      modal.show();
+      
+      // Store question data for later use
+      window.currentTrickyQuestion = question;
+    }
+    
+    function selectFolder(folderId, folderName) {
+      const question = window.currentTrickyQuestion;
+      if (!question) return;
+      
+      // Close modal
+      const modal = bootstrap.Modal.getInstance(document.getElementById('folderSelectionModal'));
+      modal.hide();
+      
+      // Add to tricky questions with selected folder
+      addToTrickyQuestions(question, folderId);
+      
+      // Clean up
+      setTimeout(() => {
+        const modalElement = document.getElementById('folderSelectionModal');
+        if (modalElement) {
+          modalElement.remove();
+        }
+        delete window.currentTrickyQuestion;
+      }, 300);
+    }
+    
+    function addToTrickyQuestions(question, folderId) {
+      const trickyQuestions = JSON.parse(localStorage.getItem('physicsTrickyQuestions')) || [];
+      
       const trickyQuestion = {
-        id: question.id,
+        id: `${currentAssignment.id}_${question.id}`, // Unique ID combining assignment and question
+        originalQuestionId: question.id, // Keep original question ID for reference
         text: question.text,
         type: question.type,
         options: question.options || [],
@@ -1573,11 +2040,14 @@
         chapterId: currentAssignment.chapterId || null,
         addedAt: new Date().toISOString(),
         points: question.points || 1,
-        difficulty: currentAssignment.difficulty || 'medium'
+        difficulty: currentAssignment.difficulty || 'medium',
+        folderId: folderId
       };
       
       trickyQuestions.push(trickyQuestion);
-      showNotification('⭐ Question marked as tricky and added to Tricky Questions!', 'success');
+      
+      const folderMessage = folderId ? ` in folder` : '';
+      showNotification(`⭐ Question marked as tricky and added to Tricky Questions${folderMessage}!`, 'success');
       
       localStorage.setItem('physicsTrickyQuestions', JSON.stringify(trickyQuestions));
     }
@@ -1784,10 +2254,10 @@
 
     
     function checkTextAnswer(userAnswer, question) {
-      if (!userAnswer.trim()) return;
+      if (!userAnswer || (typeof userAnswer === 'string' && !userAnswer.trim())) return;
       
       const correctAnswer = question.correctAnswer.toLowerCase().trim();
-      const userAnswerLower = userAnswer.toLowerCase().trim();
+      const userAnswerLower = String(userAnswer).toLowerCase().trim();
       
       let isCorrect = false;
       
@@ -1827,98 +2297,98 @@
       }
     }
 
-    function startTimer() {
+    function startStopwatch() {
       startTime = new Date();
-      timerInterval = setInterval(updateTimer, 1000);
+      isPaused = false;
+      totalPausedTime = 0;
+      stopwatchInterval = setInterval(updateStopwatch, 100);
     }
 
-    function updateTimer() {
-      if (!startTime) return;
+    function updateStopwatch() {
+      if (!startTime || isPaused) return;
       
-      if (timeLimit && timeRemaining !== null) {
-        // Countdown timer
-        timeRemaining--;
-        
-        if (timeRemaining <= 0) {
-          // Time's up!
-          clearInterval(timerInterval);
-          alert('Time\'s up! Your assignment will be submitted automatically.');
-          submitAssignment();
-          return;
-        }
-        
-        const minutes = Math.floor(timeRemaining / 60);
-        const seconds = timeRemaining % 60;
-        
-        const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        document.getElementById('timer').textContent = timeString;
-        document.getElementById('pageTimerDisplay').textContent = timeString;
-        
-        // Update time progress bar
-        updateTimeProgress();
-        updatePageTimer();
-        
-        // Change color when time is running low
-        const timerElement = document.getElementById('timer');
-        if (timeRemaining <= 300) { // 5 minutes or less
-          timerElement.style.color = '#dc3545';
-          timerElement.style.fontWeight = 'bold';
-        } else if (timeRemaining <= 600) { // 10 minutes or less
-          timerElement.style.color = '#ffc107';
-          timerElement.style.fontWeight = 'bold';
-        } else {
-          timerElement.style.color = '#667eea';
-          timerElement.style.fontWeight = 'normal';
-        }
-      } else {
-        // Regular elapsed time timer
+      const now = new Date();
+      const elapsed = Math.floor((now - startTime - totalPausedTime) / 1000);
+      
+      const hours = Math.floor(elapsed / 3600);
+      const minutes = Math.floor((elapsed % 3600) / 60);
+      const seconds = elapsed % 60;
+      
+      const timeString = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      document.getElementById('stopwatchDisplay').textContent = timeString;
+    }
+
+    function pauseStopwatch() {
+      if (isPaused) return;
+      
+      isPaused = true;
+      pausedTime = new Date();
+      clearInterval(stopwatchInterval);
+      
+      document.getElementById('pauseBtn').style.display = 'none';
+      document.getElementById('resumeBtn').style.display = 'inline-block';
+    }
+
+    function resumeStopwatch() {
+      if (!isPaused) return;
+      
         const now = new Date();
-        const elapsed = Math.floor((now - startTime) / 1000);
-        const minutes = Math.floor(elapsed / 60);
-        const seconds = elapsed % 60;
-        
-        const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        document.getElementById('timer').textContent = timeString;
-        document.getElementById('pageTimerDisplay').textContent = timeString;
-      }
+      totalPausedTime += (now - pausedTime);
+      isPaused = false;
+      
+      stopwatchInterval = setInterval(updateStopwatch, 100);
+      
+      document.getElementById('pauseBtn').style.display = 'inline-block';
+      document.getElementById('resumeBtn').style.display = 'none';
     }
 
-    function updateTimeProgress() {
-      if (!timeLimit || timeRemaining === null) return;
-      
-      const progress = (timeRemaining / (timeLimit * 60)) * 100;
-      document.getElementById('timeProgressBar').style.width = progress + '%';
-      
-      // Change color based on remaining time
-      const progressBar = document.getElementById('timeProgressBar');
-      if (progress <= 20) {
-        progressBar.className = 'progress-bar bg-danger';
-      } else if (progress <= 40) {
-        progressBar.className = 'progress-bar bg-warning';
-      } else {
-        progressBar.className = 'progress-bar bg-success';
+
+    // Function to grade bullet point questions
+    function gradeBulletPointQuestion(question, userAnswer) {
+      if (!question.correctBulletPoints || !userAnswer) {
+        return 0; // No correct answers defined or no user answer
       }
-    }
-    
-    function updatePageTimer() {
-      if (!timeLimit || timeRemaining === null) return;
       
-      const progress = (timeRemaining / (timeLimit * 60)) * 100;
-      const progressBar = document.getElementById('pageTimerProgress');
+      const correctPoints = question.correctBulletPoints;
+      const userPoints = Array.isArray(userAnswer) ? userAnswer : [userAnswer];
       
-      progressBar.style.width = `${progress}%`;
+      // Convert to lowercase for comparison
+      const correctPointsLower = correctPoints.map(point => point.toLowerCase().trim());
+      const userPointsLower = userPoints.map(point => String(point).toLowerCase().trim());
       
-      // Change color based on remaining time
-      if (progress <= 20) {
-        progressBar.className = 'timer-progress-bar danger';
-        document.getElementById('pageTimer').classList.add('timer-warning');
-      } else if (progress <= 40) {
-        progressBar.className = 'timer-progress-bar warning';
-        document.getElementById('pageTimer').classList.remove('timer-warning');
-      } else {
-        progressBar.className = 'timer-progress-bar';
-        document.getElementById('pageTimer').classList.remove('timer-warning');
+      let score = 0;
+      const pointsPerCorrectAnswer = (question.points || 1) / correctPoints.length;
+      
+      // Check each user point against correct points
+      userPointsLower.forEach(userPoint => {
+        if (userPoint && correctPointsLower.includes(userPoint)) {
+          score += pointsPerCorrectAnswer;
+        }
+      });
+      
+      // Also check for partial matches (keywords)
+      if (question.allowPartialCredit) {
+        userPointsLower.forEach(userPoint => {
+          if (userPoint) {
+            correctPointsLower.forEach(correctPoint => {
+              // Check if user point contains key words from correct point
+              const correctWords = correctPoint.split(' ').filter(word => word.length > 3);
+              const userWords = userPoint.split(' ').filter(word => word.length > 3);
+              
+              const matchingWords = correctWords.filter(word => 
+                userWords.some(userWord => userWord.includes(word) || word.includes(userWord))
+              );
+              
+              if (matchingWords.length > 0) {
+                const partialScore = (matchingWords.length / correctWords.length) * pointsPerCorrectAnswer * 0.5;
+                score += partialScore;
+              }
+            });
+          }
+        });
       }
+      
+      return Math.min(score, question.points || 1); // Cap at maximum points
     }
 
     function submitAssignment() {
@@ -1945,14 +2415,23 @@
           if (userAnswers[index] === question.correctAnswer) {
             score += question.points || 1;
           }
-        } else if (question.type === 'text' || question.type === 'essay' || question.type === 'file' || question.type === 'bullet-points' || question.type === 'file-upload' || question.type === 'file-based') {
-          // For text, essay, file, bullet-points, file-upload, and file-based questions, no automatic scoring - manual grading required
+        } else if (question.type === 'bullet-points') {
+          // Grade bullet point questions automatically if correctBulletPoints are defined
+          if (question.correctBulletPoints && question.correctBulletPoints.length > 0) {
+            const bulletScore = gradeBulletPointQuestion(question, userAnswers[index]);
+            score += bulletScore;
+          } else {
+            // No correct answers defined - manual grading required
+            hasManualGradingQuestions = true;
+          }
+        } else if (question.type === 'text' || question.type === 'essay' || question.type === 'file' || question.type === 'file-upload' || question.type === 'file-based') {
+          // For text, essay, file, file-upload, and file-based questions, no automatic scoring - manual grading required
           hasManualGradingQuestions = true;
         }
       });
       
       const percentage = Math.round((score / totalPoints) * 100);
-      const timeSpent = Math.floor((new Date() - startTime) / 60000); // in minutes
+      const timeSpent = Math.floor((new Date() - startTime - totalPausedTime) / 60000); // in minutes
       
       // Update assignment status
       const assignmentIndex = homework.findIndex(h => h.id === currentAssignment.id);
@@ -1973,6 +2452,11 @@
           homework[assignmentIndex].finalScore = score; // Store actual points earned
         }
         
+        // Preserve the published status to ensure assignment remains visible
+        if (!homework[assignmentIndex].published && !homework[assignmentIndex].hasOwnProperty('published')) {
+          homework[assignmentIndex].published = true;
+        }
+        
         homework[assignmentIndex].timeSpent = timeSpent;
         homework[assignmentIndex].completedAt = new Date().toISOString();
         homework[assignmentIndex].answers = userAnswers;
@@ -1984,20 +2468,25 @@
         if (globalAssignmentIndex !== -1) {
           allAssignments[globalAssignmentIndex] = homework[assignmentIndex];
           localStorage.setItem('physicsAssignments', JSON.stringify(allAssignments));
+          
+          // Dispatch event to update dashboard points
+          document.dispatchEvent(new CustomEvent('localStorageUpdated', { 
+            detail: { key: 'physicsAssignments', type: 'assignment' } 
+          }));
         }
         
         // Also update the physicsAssessments data for consistency
         updatePhysicsAssessments(currentAssignment.id, homework[assignmentIndex]);
       }
       
-      // Clear timer
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
+      // Clear stopwatch
+      if (stopwatchInterval) {
+        clearInterval(stopwatchInterval);
+        stopwatchInterval = null;
       }
       
-      // Hide page timer
-      document.getElementById('pageTimer').style.display = 'none';
+      // Hide assignment stopwatch
+      document.getElementById('assignmentStopwatch').style.display = 'none';
       
       // Close modal
       bootstrap.Modal.getInstance(document.getElementById('questionModal')).hide();
@@ -2102,7 +2591,7 @@
         }),
         answers: userAnswers, // Store user answers for grading
         totalPoints: totalPoints,
-        timeSpent: Math.floor((new Date() - startTime) / 60000),
+        timeSpent: Math.floor((new Date() - startTime - totalPausedTime) / 60000),
         score: score // Store actual points earned
       };
 
@@ -2119,13 +2608,12 @@
 
     // Cleanup when modal is closed
     document.getElementById('questionModal').addEventListener('hidden.bs.modal', function() {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
+      if (stopwatchInterval) {
+        clearInterval(stopwatchInterval);
+        stopwatchInterval = null;
       }
-      // Reset timer display
-      document.getElementById('timer').style.color = '#667eea';
-      document.getElementById('timer').style.fontWeight = 'normal';
+      // Hide assignment stopwatch
+      document.getElementById('assignmentStopwatch').style.display = 'none';
     });
     function reviewHomework(id){ 
       console.log('Review button clicked for ID:', id);
@@ -2134,8 +2622,16 @@
       homework = getPublishedHomework();
       console.log('Current homework array:', homework);
       
-      const a = homework.find(h => h.id === id); 
-      console.log('Found assignment:', a);
+      let a = homework.find(h => h.id === id); 
+      console.log('Found assignment in published list:', a);
+      
+      // If not found in published list, check the full assignments list
+      if (!a) {
+        console.log('Assignment not found in published list! Looking in full assignments...');
+        const allAssignments = JSON.parse(localStorage.getItem('physicsAssignments') || '[]');
+        a = allAssignments.find(assignment => assignment.id === id);
+        console.log('Found assignment in full list:', a);
+      }
       
       if (a) { 
         openReviewModal(a);
@@ -2255,7 +2751,7 @@
               <p class="question-text">${question.text || (question.questionContent && question.questionContent.content) || 'Question text not available'}</p>
               
               ${question.type === 'multiple-choice' && question.options ? `
-                ${!userAnswer || userAnswer === 'Not answered' || userAnswer.trim() === '' ? `
+                ${!userAnswer || userAnswer === 'Not answered' || (typeof userAnswer === 'string' && userAnswer.trim() === '') ? `
                   <div class="not-answered-display p-3 bg-warning bg-opacity-25 border border-warning rounded">
                     <div class="d-flex align-items-center">
                       <iconify-icon icon="material-symbols:warning" class="text-warning me-2"></iconify-icon>
@@ -2308,7 +2804,7 @@
               ` : `
                 <div class="answer-section mb-3">
                   <strong>Your Answer:</strong>
-                  ${!userAnswer || userAnswer === 'Not answered' || userAnswer.trim() === '' ? `
+                  ${!userAnswer || userAnswer === 'Not answered' || (typeof userAnswer === 'string' && userAnswer.trim() === '') ? `
                     <div class="not-answered-display p-3 bg-warning bg-opacity-25 border border-warning rounded mt-1">
                       <div class="d-flex align-items-center">
                         <iconify-icon icon="material-symbols:warning" class="text-warning me-2"></iconify-icon>
@@ -2366,14 +2862,6 @@
       container.innerHTML = reviewHtml;
       console.log('Review content loaded successfully');
     }
-    function retakeHomework(id){ 
-      // Reload homework data to ensure we have the latest
-      homework = getPublishedHomework();
-      const a = homework.find(h => h.id === id); 
-      if (a && confirm(`Retake "${a.title}"?`)) { 
-        startHomework(id);
-      } 
-    }
 
     function searchHomework(e) {
       const term = e.target.value.toLowerCase();
@@ -2391,6 +2879,33 @@
           <div><div class="homework-card-title">${a.title}</div><span class="status-badge status-${a.status || 'pending'}">${(a.status || 'pending').toUpperCase()}</span></div></div>
           <div class="homework-card-description">${a.description}</div>
         </div>`).join('');
+    }
+    
+    function clearSearch() {
+      document.getElementById('homeworkSearch').value = '';
+      document.getElementById('searchClearBtn').style.display = 'none';
+      loadHomework();
+    }
+    
+    function clearAllFilters() {
+      // Reset search
+      document.getElementById('homeworkSearch').value = '';
+      document.getElementById('searchClearBtn').style.display = 'none';
+      
+      // Reset category filter
+      currentFilter = 'all';
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector('.filter-tab[onclick*="all"]').classList.add('active');
+      
+      // Reset sort
+      document.getElementById('sortSelect').value = 'deadline-asc';
+      document.getElementById('currentSort').textContent = 'Deadline';
+      document.getElementById('sortClearBtn').style.display = 'none';
+      
+      // Reload homework
+      loadHomework();
     }
     
     function clearAllHomework() {

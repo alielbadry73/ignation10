@@ -1580,8 +1580,17 @@
                                     <div class="col-md-4">
                                         <div class="mb-3">
                                             <label class="form-label">Time Limit (minutes)</label>
-                                            <input type="number" class="form-control" id="timeLimit" placeholder="Optional" min="1" max="180">
+                                            <input type="number" class="form-control" id="timeLimit" placeholder="Optional" min="1" max="180" onchange="updateCountdownDisplay()">
                                             <small class="form-text text-muted">Leave empty for no time limit. Max 180 minutes (3 hours).</small>
+                                            <div id="countdownDisplay" class="mt-2" style="display: none;">
+                                                <div class="alert alert-info d-flex align-items-center">
+                                                    <iconify-icon icon="material-symbols:timer" class="me-2"></iconify-icon>
+                                                    <div>
+                                                        <strong id="durationLabel">Duration:</strong>
+                                                        <span id="countdownText">0 minutes</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
@@ -2001,7 +2010,7 @@
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h6 class="mb-0">Created Questions</h6>
                                 <div class="d-flex gap-2">
-                                    <button type="button" class="btn btn-sm btn-success" onclick="savePracticeQuestion()">
+                                    <button type="button" class="btn btn-sm btn-success" id="savePracticeQuestionBtn" onclick="savePracticeQuestion()">
                                         <iconify-icon icon="material-symbols:save"></iconify-icon>
                                         Save Question
                                     </button>
@@ -2611,6 +2620,31 @@
                 console.log('Publish button clicked via event listener!');
                 publishAssessment();
             });
+            
+            // Debug: Ensure savePracticeQuestion is accessible
+            console.log('📝 Checking if savePracticeQuestion is accessible:', typeof savePracticeQuestion);
+            
+            // Add error handler for uncaught errors related to practice questions
+            window.addEventListener('error', function(e) {
+                if (e.message && (e.message.includes('practiceQuestion') || e.message.includes('Practice Question') || e.message.includes('savePracticeQuestion'))) {
+                    console.error('❌ Error in Practice Questions:', e.message, e);
+                    showToast('An error occurred. Please check the console for details.', 'error');
+                }
+            });
+            
+            // Add event listener to Save Question button as backup
+            const saveBtn = document.getElementById('savePracticeQuestionBtn');
+            if (saveBtn) {
+                console.log('✅ Found save button, adding event listener');
+                saveBtn.addEventListener('click', function(e) {
+                    console.log('🔔 Save button clicked via event listener');
+                    e.preventDefault();
+                    e.stopPropagation();
+                    savePracticeQuestion();
+                });
+            } else {
+                console.log('⚠️ Save button not found on page load');
+            }
         });
 
         // Refresh data when page becomes visible (user navigates back)
@@ -3020,7 +3054,9 @@
             
             // Generate questions based on assessment type and subject
             const assessmentType = currentAssessmentType;
-            const subject = 'mathematics';
+            const subject = 'physics';
+            
+            console.log(`Generating ${numberOfQuestions} questions of type: ${assessmentType}`);
             
             for (let i = 1; i <= numberOfQuestions; i++) {
                 questionCounter++;
@@ -3028,6 +3064,8 @@
                 
                 // Generate question content based on type and subject
                 const questionContent = generateQuestionContent(assessmentType, subject, i);
+                
+                console.log(`Generating question ${i}:`, questionContent);
                 
                 const questionHtml = `
                     <div class="question-item mb-4 p-3 border rounded" id="question-${questionCounter}">
@@ -3052,7 +3090,12 @@
                 `;
                 
                 container.insertAdjacentHTML('beforeend', questionHtml);
+                console.log(`Added question ${i} to container`);
             }
+            
+            // Verify all questions were added
+            const addedQuestions = document.querySelectorAll('.question-item');
+            console.log(`Total questions in DOM after generation: ${addedQuestions.length}`);
             
             showToast(`Generated ${numberOfQuestions} questions automatically!`, 'success');
         }
@@ -3185,11 +3228,13 @@
                 description: document.getElementById('assessmentDescription').value,
                 totalPoints: parseInt(document.getElementById('totalPoints').value),
                 timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
+                timeLimitSeconds: getTimeLimitInSeconds(), // Add seconds for countdown
                 dueDate: document.getElementById('dueDate').value,
                 difficulty: document.getElementById('difficulty').value,
                 questions: collectQuestions(),
                 createdAt: new Date().toISOString(),
-                status: 'draft'
+                status: 'draft',
+                hasCountdownTimer: !!document.getElementById('timeLimit').value // Flag to indicate countdown timer
             };
 
             // File-based assessment logic removed since we only use standard assessments now
@@ -3202,13 +3247,19 @@
             const modal = bootstrap.Modal.getInstance(document.getElementById('createModal'));
             modal.hide();
             
-            showToast('Assessment saved as draft!', 'success');
+            showToast('Assessment saved as draft with countdown timer!', 'success');
         }
 
         // Publish assessment to course page
         function publishAssessment() {
+            console.log('=== PUBLISHING ASSESSMENT ===');
+            
             // Default to standard assessment type since we removed the selection
             const assessmentType = 'standard';
+            
+            const collectedQuestions = collectQuestions();
+            console.log('Collected questions:', collectedQuestions);
+            console.log('Number of questions collected:', collectedQuestions.length);
             
             const formData = {
                 id: Date.now().toString(),
@@ -3218,13 +3269,17 @@
                 description: document.getElementById('assessmentDescription').value,
                 totalPoints: parseInt(document.getElementById('totalPoints').value),
                 timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
+                timeLimitSeconds: getTimeLimitInSeconds(), // Add seconds for countdown
                 dueDate: document.getElementById('dueDate').value,
                 difficulty: document.getElementById('difficulty').value,
-                questions: collectQuestions(),
+                questions: collectedQuestions,
                 status: 'published',
                 createdAt: new Date().toISOString(),
-                subject: 'physics'
+                subject: 'physics',
+                hasCountdownTimer: !!document.getElementById('timeLimit').value // Flag to indicate countdown timer
             };
+            
+            console.log('Form data to publish:', formData);
 
             // File-based assessment logic removed since we only use standard assessments now
 
@@ -3241,7 +3296,7 @@
             const modal = bootstrap.Modal.getInstance(document.getElementById('createModal'));
             modal.hide();
             
-            showToast('Assessment published to course page!', 'success');
+            showToast('Assessment published with countdown timer!', 'success');
         }
 
         // Publish assessment to the appropriate course page
@@ -3254,11 +3309,15 @@
                 dueDate: assessment.dueDate,
                 difficulty: assessment.difficulty.charAt(0).toUpperCase() + assessment.difficulty.slice(1),
                 estimatedTime: assessment.timeLimit ? `${assessment.timeLimit} minutes` : 'No time limit',
+                timeLimit: assessment.timeLimit, // Add timeLimit as a number
+                timeLimitSeconds: assessment.timeLimitSeconds, // Include countdown timer data
                 questions: assessment.questions,
                 status: 'published',
                 type: assessment.type, // Add the type field
                 subject: 'physics', // Add the subject field for fallback compatibility
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                publishedOn: new Date().toISOString(), // Add publishedOn field
+                hasCountdownTimer: assessment.hasCountdownTimer // Include countdown flag
             };
 
             // Determine the localStorage key based on assessment type
@@ -3291,6 +3350,8 @@
             const questions = [];
             const questionElements = document.querySelectorAll('.question-item');
             
+            console.log('Collecting questions. Total question elements found:', questionElements.length);
+            
             questionElements.forEach((element, index) => {
                 const questionTextElement = element.querySelector('[name="questionText"]');
                 const questionPointsElement = element.querySelector('[name="questionPoints"]');
@@ -3300,9 +3361,29 @@
                     return;
                 }
                 
+                // Determine question type by checking the DOM structure
+                let questionType = 'short-answer'; // default
+                
+                // Check if it has multiple choice options
+                if (element.querySelector('.input-group input[type="text"]')) {
+                    questionType = 'multiple-choice';
+                }
+                // Check if it's true/false
+                else if (element.querySelector('input[type="radio"][value="true"]')) {
+                    questionType = 'true-false';
+                }
+                // Check if it's file upload
+                else if (element.querySelector('input[type="file"]')) {
+                    questionType = 'file-upload';
+                }
+                // Check if it's essay (has sampleAnswer field)
+                else if (element.querySelector('[name="sampleAnswer"]')) {
+                    questionType = 'essay';
+                }
+                
                 const questionData = {
                     id: `q${index + 1}`,
-                    type: currentQuestionType,
+                    type: questionType,
                     text: questionTextElement.value,
                     points: parseInt(questionPointsElement.value) || 1,
                     options: [],
@@ -3310,8 +3391,10 @@
                     sampleAnswer: element.querySelector('[name="sampleAnswer"]')?.value || null
                 };
 
+                console.log(`Question ${index + 1}: type=${questionType}, text="${questionTextElement.value.substring(0, 30)}..."`);
+
                 // Collect options for multiple choice questions
-                if (currentQuestionType === 'multiple-choice' || currentQuestionType === 'multiple-select') {
+                if (questionType === 'multiple-choice' || questionType === 'multiple-select') {
                     const optionInputs = element.querySelectorAll('.input-group input[type="text"]');
                     optionInputs.forEach((input, optionIndex) => {
                         if (input.value.trim()) {
@@ -3324,7 +3407,7 @@
                     if (correctRadio) {
                         questionData.correctAnswer = parseInt(correctRadio.value);
                     }
-                } else if (currentQuestionType === 'true-false') {
+                } else if (questionType === 'true-false') {
                     const correctRadio = element.querySelector('input[type="radio"]:checked');
                     if (correctRadio) {
                         questionData.correctAnswer = correctRadio.value;
@@ -3334,6 +3417,7 @@
                 questions.push(questionData);
             });
 
+            console.log(`Total questions collected: ${questions.length}`);
             return questions;
         }
 
@@ -4669,6 +4753,9 @@
         let currentPracticeQuestionType = 'multiple-choice';
         let practiceFolders = [];
 
+        // Debug: Log when the script loads
+        console.log('📝 Practice Questions script loaded successfully');
+
         function loadPracticeQuestions() {
             const questionsData = localStorage.getItem('physics_practice_questions');
             practiceQuestions = questionsData ? JSON.parse(questionsData) : [];
@@ -5493,8 +5580,45 @@
         }
 
         function savePracticeQuestion() {
-            addPracticeQuestion();
+            console.log('💾 Save Question button clicked - savePracticeQuestion function called');
+            
+            // Check if there's any question data to save
+            const questionTextEl = document.getElementById('practiceQuestionText');
+            const topicEl = document.getElementById('practiceQuestionTopic');
+            
+            console.log('🔍 Form validation check:');
+            console.log('  - questionTextEl exists:', !!questionTextEl);
+            console.log('  - questionTextEl value:', questionTextEl ? questionTextEl.value : 'N/A');
+            console.log('  - topicEl exists:', !!topicEl);
+            console.log('  - topicEl value:', topicEl ? topicEl.value : 'N/A');
+            
+            if (!questionTextEl || !questionTextEl.value.trim()) {
+                console.warn('⚠️ Validation failed: No question text');
+                showToast('Please fill in the question content before saving', 'warning');
+                return;
+            }
+            
+            if (!topicEl || !topicEl.value.trim()) {
+                console.warn('⚠️ Validation failed: No topic');
+                showToast('Please fill in the topic before saving', 'warning');
+                return;
+            }
+            
+            console.log('✅ Validation passed, calling addPracticeQuestion()');
+            
+            // Add the question using the addPracticeQuestion function
+            try {
+                addPracticeQuestion();
+                console.log('✅ Question saved successfully - addPracticeQuestion completed');
+            } catch (error) {
+                console.error('❌ Error saving question:', error);
+                console.error('❌ Error stack:', error.stack);
+                showToast('Error saving question: ' + error.message, 'error');
+            }
         }
+        
+        // Make function globally accessible
+        window.savePracticeQuestion = savePracticeQuestion;
 
         function saveAllPracticeQuestions() {
             console.log('💾 Saving all practice questions...');
@@ -7651,6 +7775,174 @@
                 });
             }
         });
+
+        // Countdown timer functionality for Time Limit
+        function updateCountdownDisplay() {
+            const timeLimitInput = document.getElementById('timeLimit');
+            const countdownDisplay = document.getElementById('countdownDisplay');
+            const countdownText = document.getElementById('countdownText');
+            const durationLabel = document.getElementById('durationLabel');
+            
+            if (!timeLimitInput || !countdownDisplay || !countdownText || !durationLabel) return;
+            
+            const timeLimit = parseInt(timeLimitInput.value);
+            
+            if (timeLimit && timeLimit > 0) {
+                // Show countdown display
+                countdownDisplay.style.display = 'block';
+                
+                // Set label based on assessment type
+                const typeLabels = {
+                    'assignment': 'Assignment Duration:',
+                    'quiz': 'Quiz Duration:',
+                    'exam': 'Exam Duration:'
+                };
+                const labelText = typeLabels[currentAssessmentType] || 'Duration:';
+                durationLabel.textContent = labelText;
+                
+                // Format time display
+                const hours = Math.floor(timeLimit / 60);
+                const minutes = timeLimit % 60;
+                
+                let timeString = '';
+                if (hours > 0) {
+                    timeString = `${hours} hour${hours > 1 ? 's' : ''}`;
+                    if (minutes > 0) {
+                        timeString += ` and ${minutes} minute${minutes > 1 ? 's' : ''}`;
+                    }
+                } else {
+                    timeString = `${minutes} minute${minutes > 1 ? 's' : ''}`;
+                }
+                
+                countdownText.textContent = timeString;
+                
+                // Add visual indicator based on time limit
+                const alertElement = countdownDisplay.querySelector('.alert');
+                if (timeLimit <= 30) {
+                    alertElement.className = 'alert alert-warning d-flex align-items-center';
+                } else if (timeLimit <= 60) {
+                    alertElement.className = 'alert alert-info d-flex align-items-center';
+                } else {
+                    alertElement.className = 'alert alert-success d-flex align-items-center';
+                }
+            } else {
+                // Hide countdown display
+                countdownDisplay.style.display = 'none';
+            }
+        }
+
+        // Enhanced time limit handling for assignments
+        function getTimeLimitInSeconds() {
+            const timeLimitInput = document.getElementById('timeLimit');
+            const timeLimit = timeLimitInput ? parseInt(timeLimitInput.value) : null;
+            return timeLimit ? timeLimit * 60 : null; // Convert minutes to seconds
+        }
+
+        // Update the saveAssessment function to include countdown timer data
+        function saveAssessmentWithTimer() {
+            const assessmentType = document.querySelector('input[name="assessmentType"]:checked').value;
+            
+            const formData = {
+                id: Date.now().toString(),
+                type: currentAssessmentType,
+                assessmentType: assessmentType,
+                title: document.getElementById('assessmentTitle').value,
+                description: document.getElementById('assessmentDescription').value,
+                totalPoints: parseInt(document.getElementById('totalPoints').value),
+                timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
+                timeLimitSeconds: getTimeLimitInSeconds(), // Add seconds for countdown
+                dueDate: document.getElementById('dueDate').value,
+                difficulty: document.getElementById('difficulty').value,
+                questions: collectQuestions(),
+                createdAt: new Date().toISOString(),
+                status: 'draft',
+                hasCountdownTimer: !!document.getElementById('timeLimit').value // Flag to indicate countdown timer
+            };
+
+            assessments.push(formData);
+            saveToLocalStorage();
+            loadAssessments();
+            updateStats();
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('createModal'));
+            modal.hide();
+            
+            showToast('Assessment saved as draft with countdown timer!', 'success');
+        }
+
+        // Update the publishAssessment function to include countdown timer data
+        function publishAssessmentWithTimer() {
+            const assessmentType = 'standard';
+            
+            const formData = {
+                id: Date.now().toString(),
+                type: currentAssessmentType,
+                assessmentType: assessmentType,
+                title: document.getElementById('assessmentTitle').value,
+                description: document.getElementById('assessmentDescription').value,
+                totalPoints: parseInt(document.getElementById('totalPoints').value),
+                timeLimit: document.getElementById('timeLimit').value ? parseInt(document.getElementById('timeLimit').value) : null,
+                timeLimitSeconds: getTimeLimitInSeconds(), // Add seconds for countdown
+                dueDate: document.getElementById('dueDate').value,
+                difficulty: document.getElementById('difficulty').value,
+                questions: collectQuestions(),
+                status: 'published',
+                createdAt: new Date().toISOString(),
+                subject: 'physics',
+                hasCountdownTimer: !!document.getElementById('timeLimit').value // Flag to indicate countdown timer
+            };
+
+            // Save to assessments (for teacher dashboard)
+            assessments.push(formData);
+            saveToLocalStorage();
+
+            // Save to course page (for students)
+            const courseData = {
+                id: formData.id,
+                title: formData.title,
+                description: formData.description,
+                points: formData.totalPoints,
+                dueDate: formData.dueDate,
+                difficulty: formData.difficulty.charAt(0).toUpperCase() + formData.difficulty.slice(1),
+                estimatedTime: formData.timeLimit ? `${formData.timeLimit} minutes` : 'No time limit',
+                timeLimitSeconds: formData.timeLimitSeconds, // Include countdown timer data
+                questions: formData.questions,
+                status: 'published',
+                type: formData.type,
+                subject: 'physics',
+                createdAt: formData.createdAt,
+                hasCountdownTimer: formData.hasCountdownTimer // Include countdown flag
+            };
+
+            // Determine the localStorage key based on assessment type
+            let storageKey;
+            switch(formData.type) {
+                case 'assignment':
+                    storageKey = 'physicsAssignments';
+                    break;
+                case 'quiz':
+                    storageKey = 'physicsQuizzes';
+                    break;
+                case 'exam':
+                    storageKey = 'physicsExams';
+                    break;
+                default:
+                    storageKey = 'physicsAssignments';
+            }
+
+            // Save to course page
+            const courseAssessments = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            courseAssessments.push(courseData);
+            localStorage.setItem(storageKey, JSON.stringify(courseAssessments));
+
+            loadAssessments();
+            updateStats();
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('createModal'));
+            modal.hide();
+            
+            showToast('Assessment published with countdown timer!', 'success');
+        }
     </script>
 </body>
 </html>

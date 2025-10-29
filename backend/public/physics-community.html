@@ -795,17 +795,8 @@
                     </div>
                 </div>
                 <div class="chat-actions">
-                    <button class="chat-btn" onclick="showMembers()" title="View Members">
-                        <iconify-icon icon="material-symbols:group"></iconify-icon>
-                    </button>
                     <button class="chat-btn" onclick="openSearch()" title="Search Messages">
                         <iconify-icon icon="material-symbols:search"></iconify-icon>
-                    </button>
-                    <button class="chat-btn" onclick="openFileUpload()" title="Upload File">
-                        <iconify-icon icon="material-symbols:attach-file"></iconify-icon>
-                    </button>
-                    <button class="chat-btn" onclick="openMenu()" title="More Options">
-                        <iconify-icon icon="material-symbols:more-vert"></iconify-icon>
                     </button>
                 </div>
             </div>
@@ -885,71 +876,7 @@
         ];
 
         // Sample messages data
-        const sampleMessages = [
-            {
-                id: 1,
-                sender: "Dr. Sarah Ahmed",
-                avatar: "SA",
-                text: "Good morning everyone! Today we'll be covering Newton's Laws of Motion. Make sure you have your physics notebooks ready.",
-                time: "09:15 AM",
-                type: "received",
-                timestamp: Date.now() - 3600000
-            },
-            {
-                id: 2,
-                sender: "You",
-                avatar: "ME",
-                text: "Good morning Dr. Sarah! I have a question about yesterday's homework on forces.",
-                time: "09:17 AM",
-                type: "sent",
-                timestamp: Date.now() - 3580000
-            },
-            {
-                id: 3,
-                sender: "Ahmed Hassan",
-                avatar: "AH",
-                text: "Can we review the free body diagrams again? I'm still confused about the normal force.",
-                time: "09:18 AM",
-                type: "received",
-                timestamp: Date.now() - 3570000
-            },
-            {
-                id: 4,
-                sender: "Dr. Sarah Ahmed",
-                avatar: "SA",
-                text: "Of course! Let me share a detailed explanation in the resources section. I'll also post some practice problems with solutions.",
-                time: "09:20 AM",
-                type: "received",
-                timestamp: Date.now() - 3550000
-            },
-            {
-                id: 5,
-                sender: "Layla Mohammed",
-                avatar: "LM",
-                text: "Thank you Dr. Sarah! The explanations are very helpful 🙏 Can we have a study session this weekend?",
-                time: "09:22 AM",
-                type: "received",
-                timestamp: Date.now() - 3530000
-            },
-            {
-                id: 6,
-                sender: "You",
-                avatar: "ME",
-                text: "I finished the assignment on momentum. Where should I submit it?",
-                time: "09:25 AM",
-                type: "sent",
-                timestamp: Date.now() - 3500000
-            },
-            {
-                id: 7,
-                sender: "Dr. Sarah Ahmed",
-                avatar: "SA",
-                text: "Great! You can submit it through the assignments section in your dashboard. The deadline is tomorrow at 11:59 PM.",
-                time: "09:27 AM",
-                type: "received",
-                timestamp: Date.now() - 3480000
-            }
-        ];
+        const sampleMessages = [];
 
         // Initialize
         function initializePhysicsCommunity() {
@@ -1134,7 +1061,6 @@
         function startTyping() {
             if (!isTyping) {
                 isTyping = true;
-                console.log('User started typing...');
             }
             clearTimeout(typingTimer);
             typingTimer = setTimeout(stopTyping, 1000);
@@ -1143,7 +1069,6 @@
         function stopTyping() {
             if (isTyping) {
                 isTyping = false;
-                console.log('User stopped typing...');
             }
         }
 
@@ -1200,7 +1125,6 @@
                 ];
                 
                 const activity = activities[Math.floor(Math.random() * activities.length)];
-                console.log(`${randomMember.name} ${activity}`);
             }
         }
 
@@ -1402,8 +1326,6 @@
                     
                     // Clear the draft
                     localStorage.removeItem('communityQuestionDraft');
-                    
-                    console.log('✅ Physics question loaded from assignment/quiz/exam');
                 } catch (e) {
                     console.error('Error loading question draft:', e);
                     localStorage.removeItem('communityQuestionDraft');
@@ -1414,7 +1336,6 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             initializePhysicsCommunity();
-            console.log('Physics Community loaded successfully with professional design!');
         });
     </script>
 </body>
